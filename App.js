@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, Image, ScrollView, TextInput, Button} from 'react-native';
+import MemoryCreator from './components/MemoryCreator.js';
+import Home from './components/Home.js'
 
-export default function App() {
+const App = () => {
+  const [currentPage, setCurrentPage] = useState('Home');
+  const Page = () => {
+    if (currentPage == 'MemoryCreator') {
+      return <MemoryCreator setCurrentPage={setCurrentPage} />
+    }
+    if (currentPage == "Home") {
+      return <Home setCurrentPage={setCurrentPage} />
+    }
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Page/>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
