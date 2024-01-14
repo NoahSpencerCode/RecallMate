@@ -1,63 +1,111 @@
 import React, {useState} from 'react';
-import {View, Text, Image, ScrollView, TextInput, Button} from 'react-native';
+import {View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet} from 'react-native';
 
 const MemoryCreator = ({ setCurrentPage }) => {
   const [isComplete, setIsComplete] = useState(false);
   return (
-    <View style={{padding:40}}>
-      <View style={{height:60}}/>
+    <View style={styles.container}>
       <ScrollView>
-        <Text>New Memory</Text>
-        <View>
-          <Image
-            source={require('../assets/ReScaleIcon.png')}
-            style={{width: 200, height: 200}}
-          />
-          <Text>Choose a Title</Text>
-          
-        </View>
+        <Text style={styles.title}>New Memory</Text>
         <TextInput
-          style={{ 
-            height: 40,
-            borderColor: 'gray',
-            borderWidth: 1,
-          }}
-          placeholder="Memory Title"
+          style={styles.titleInput}
+          placeholder="Title"
+          placeholderTextColor={'#818282'}
+          color={'white'}
+          keyboardAppearance={'dark'}
         />
-        <Text style={{paddingTop:30}}>
-          Information
-        </Text>
         <TextInput
-          style={{
-            height: 40,
-            borderColor: 'gray',
-            borderWidth: 1,
-          }}
-          placeholder="Add facts, content, or questions"
+          style={styles.textInput}
+          placeholder="Text"
+          placeholderTextColor={'#818282'}
+          color={'white'}
+          keyboardAppearance={'dark'}
+          multiline={true}
         />
-        <Text style={{paddingTop:30}}>
-          Completion Input (Optional)
-        </Text>
         <TextInput
-          style={{
-            height: 40,
-            borderColor: 'gray',
-            borderWidth: 1,
-          }}
-          placeholder="The Answer to the required question"
+          style={styles.answerInput}
+          placeholder="Answer Input (Optional)"
+          placeholderTextColor={'#818282'}
+          color={'white'}
+          keyboardAppearance={'dark'}
         />
+        
       </ScrollView>
-      <Button
-        onPress={() => {
-          setIsComplete(true);
-          setCurrentPage('Home')
-        }}
-        disabled={isComplete}
-        title={isComplete ? 'Saving...' : 'Complete'}
-      />
+      <View style={styles.buttonFrame}>
+        <Pressable style={styles.completeButton} onPress={() => {
+            setIsComplete(true);
+            setCurrentPage('Home')
+          }}>
+          <Text style={styles.completeText}>Complete</Text>
+        </Pressable>
+      </View>
     </View>
     
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop:80,
+    backgroundColor: '#05202a',
+    flex: 1,  
+  },
+  title: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 30,
+    textAlign: 'center',
+  },
+  buttonFrame: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 40,
+    alignItems: 'center'
+  },
+  completeButton: {
+    height: 60,
+    width: 180,
+    backgroundColor: '#4dcbf7',
+    borderRadius: '100%',
+    shadowColor: 'black',
+    shadowOpacity: .5,
+    shadowOffset: {
+        width: 1,
+        height: 2,
+    },
+    shadowRadius: 10,
+  },
+  completeText: {
+    textAlign: 'center',
+    color: 'white',
+    height: '100%',
+    lineHeight: 60,
+    fontSize: 20,
+    shadowColor: 'black',
+    shadowOpacity: .5,
+    shadowOffset: {
+        width: 1,
+        height: 2, 
+    }
+  },
+  titleInput: {
+    backgroundColor: '#1e2b36',
+    margin: 20,
+    height: 40,
+    padding: 10,
+  },
+  textInput: {
+    backgroundColor: '#1e2b36',
+    margin: 20,
+    padding: 10,
+    height: 100,
+  },
+  answerInput: {
+    backgroundColor: '#1e2b36',
+    margin: 20,
+    padding: 10,
+  },
+});
 
 export default MemoryCreator;
