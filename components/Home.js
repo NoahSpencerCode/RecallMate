@@ -136,7 +136,7 @@ const MemoryCreator = ({ setCurrentPage }) => {
         {memories.map((memory, index) => {
             return (
                 <View>
-                    <Memory title={memory.title}/>
+                    <Memory key={index} title={memory.title}/>
                     <Dash/>
                     {(index == memories.length-1) ? <DateSeperator/> : null}
                 </View>       
@@ -145,7 +145,7 @@ const MemoryCreator = ({ setCurrentPage }) => {
         {tomorrowMemories.map((memory, index) => {
             return (
                 <View>
-                    <NextMemory title={memory.title}/>
+                    <NextMemory key={index} title={memory.title}/>
                     {(index == tomorrowMemories.length-1) ? null : <Dash/>}
                 </View>       
             )
