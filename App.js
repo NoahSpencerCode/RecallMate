@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {View, Text, Image, ScrollView, TextInput, Button} from 'react-native';
 import MemoryCreator from './components/MemoryCreator.js';
-import Home from './components/Home.js'
+import Home from './components/Home.js';
+import store from './redux/store.js';
+import { Provider } from 'react-redux';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('Home');
@@ -14,7 +16,9 @@ const App = () => {
     }
   }
   return (
-    <Page/>
+    <Provider store={store}>
+      <Page/>
+    </Provider>
   );
 };
 

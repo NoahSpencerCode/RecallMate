@@ -1,8 +1,16 @@
 import React, {useState} from 'react';
 import {View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet} from 'react-native';
+import { useDispatch } from 'react-redux';
+import { newMemory } from '../redux/memoriesSlice';
 
 const MemoryCreator = ({ setCurrentPage }) => {
   const [isComplete, setIsComplete] = useState(false);
+
+  const [title, setTitle] = useState('');
+  const [text, setText] = useState('');
+  const [answer, setAnswer] = useState('');
+
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -13,6 +21,7 @@ const MemoryCreator = ({ setCurrentPage }) => {
           placeholderTextColor={'#818282'}
           color={'white'}
           keyboardAppearance={'dark'}
+          onChangeText={newText => setTitle(newText)}
         />
         <TextInput
           style={styles.textInput}
@@ -21,6 +30,7 @@ const MemoryCreator = ({ setCurrentPage }) => {
           color={'white'}
           keyboardAppearance={'dark'}
           multiline={true}
+          onChangeText={newText => setText(newText)}
         />
         <TextInput
           style={styles.answerInput}
@@ -28,12 +38,14 @@ const MemoryCreator = ({ setCurrentPage }) => {
           placeholderTextColor={'#818282'}
           color={'white'}
           keyboardAppearance={'dark'}
+          onChangeText={newText => setAnswer(newText)}
         />
         
       </ScrollView>
       <View style={styles.buttonFrame}>
         <Pressable style={styles.completeButton} onPress={() => {
             setIsComplete(true);
+            dispatch(newMemory({ title, text, answer }))
             setCurrentPage('Home')
           }}>
           <Text style={styles.completeText}>Complete</Text>
