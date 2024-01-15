@@ -1,5 +1,10 @@
-import React, {useState} from 'react';
-import {View, Text, Image, ScrollView, TextInput, Button, StyleSheet, Pressable} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, ScrollView, TextInput, Button, StyleSheet, Pressable } from 'react-native';
+import { useSelector } from 'react-redux';
+
+var fib = function(n) {
+    return (n === 0 || n === 1) ? n : (fib(n - 1) + fib (n - 2));
+};
 
 const NextMemory = ({ title }) => {
 
@@ -44,11 +49,11 @@ const DateSeperator = () => {
     date.setDate(date.getDate() + 1);
     return (
         <View>
-            <Text style={{ color: 'grey', textAlign: 'center'}}>Tomorrow</Text>
-            <Text style={{ color: 'grey', textAlign: 'center'}}>
+            <Text style={{ color: 'grey', textAlign: 'center' }}>Tomorrow</Text>
+            <Text style={{ color: 'grey', textAlign: 'center' }}>
                 {date.toLocaleString('default', { month: 'long' })} {date.getDate()}
             </Text>
-            <Dash/>
+            <Dash />
         </View>
     )
 }
@@ -92,84 +97,97 @@ const memoryStyles = StyleSheet.create({
         shadowOpacity: .5,
         shadowOffset: {
             width: 1,
-            height: 2, 
+            height: 2,
         }
     }
-}); 
+});
 
 const MemoryCreator = ({ setCurrentPage }) => {
-  const [isComplete, setIsComplete] = useState(false);
-  const [numOfReviews, setNumOfReview] = useState(4);
-  const [numOfMemories, setNumOfMemories] = useState(10);
-  const [memories, setMemories] = useState([
-    { title: 'React Hooks' },
-    { title: 'Git Rebase' },
-    { title: 'Git branches' },
-    { title: 'Linoleate Define' },
-  ])
-  const [tomorrowMemories, setTomorrowMemories] = useState([
-    { title: 'C Acne metabolics' },
-    { title: 'HA to HylA' },
-    { title: 'Organoids' },
-    { title: 'Saturated facts' },
-  ])
-  const date = new Date()
-  return (
-    <View style={styles.container}>
-        <View style={styles.dateBox}>
-            <Text style={styles.month}>{date.toLocaleString('default', { month: 'long' })}</Text>
-            <Text style={styles.day}>{date.getDate()}</Text>
-        </View>
-        <View style={styles.stats}>
-            <View style={styles.review}>
-                <Text style={styles.reviewText}> Review </Text>
-                <Text style={styles.reviewNumber}>{numOfReviews}</Text>
+
+    const date = new Date()
+
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    let defaultTodayMemories = [];
+
+    let defaultTomorrowMemories = [];
+
+    const reduxMemories = useSelector(state => state.memories)
+
+    for (let i = 0; i < reduxMemories.length; i++) {
+        const nextReviewDate = new Date(reduxMemories[i].lastReviewDate);
+        nextReviewDate.setDate(nextReviewDate.getDate()+fib(reduxMemories[i].timesReviewed+1))
+        const diffDays = Math.round((nextReviewDate - date) / oneDay)
+        if (diffDays < 0) {
+            defaultTodayMemories.push(reduxMemories[i])
+        } else if (diffDays < 1.5) {
+            defaultTomorrowMemories.push(reduxMemories[i])
+        };
+    } 
+
+    console.log("ReRendered page", new Date());
+
+    const [isComplete, setIsComplete] = useState(false);
+    const [numOfReviews, setNumOfReview] = useState(defaultTodayMemories.length);
+    const [numOfMemories, setNumOfMemories] = useState(10);
+    const [memories, setMemories] = useState(defaultTodayMemories)
+    const [tomorrowMemories, setTomorrowMemories] = useState(defaultTomorrowMemories)
+    return (
+        <View style={styles.container}>
+            <View style={styles.dateBox}>
+                <Text style={styles.month}>{date.toLocaleString('default', { month: 'long' })}</Text>
+                <Text style={styles.day}>{date.getDate()}</Text>
             </View>
-            <View style={styles.total}>
-                <Text style={styles.totalText}> Memories </Text>
-                <Text style={styles.totalNumber}>{numOfMemories}</Text>
+            <View style={styles.stats}>
+                <View style={styles.review}>
+                    <Text style={styles.reviewText}> Review </Text>
+                    <Text style={styles.reviewNumber}>{numOfReviews}</Text>
+                </View>
+                <View style={styles.total}>
+                    <Text style={styles.totalText}> Memories </Text>
+                    <Text style={styles.totalNumber}>{numOfMemories}</Text>
+                </View>
             </View>
+
+            <ScrollView style={styles.scroller}>
+
+                {memories.map((memory, index) => {
+                    return (
+                        <View>
+                            <Memory key={index} title={memory.title} />
+                            <Dash />
+                            {(index == memories.length - 1) ? <DateSeperator /> : null}
+                        </View>
+                    )
+                })}
+                {tomorrowMemories.map((memory, index) => {
+                    return (
+                        <View>
+                            <NextMemory key={index} title={memory.title} />
+                            {(index == tomorrowMemories.length - 1) ? null : <Dash />}
+                        </View>
+                    )
+                })}
+
+                <View style={{ height: 60 }} />
+
+            </ScrollView>
+            <Pressable style={styles.new} onPress={() => {
+                setCurrentPage('MemoryCreator')
+            }}>
+                <Text style={styles.newText}>+</Text>
+            </Pressable>
         </View>
 
-      <ScrollView style={styles.scroller}>
-
-        {memories.map((memory, index) => {
-            return (
-                <View>
-                    <Memory key={index} title={memory.title}/>
-                    <Dash/>
-                    {(index == memories.length-1) ? <DateSeperator/> : null}
-                </View>       
-            )
-        })}
-        {tomorrowMemories.map((memory, index) => {
-            return (
-                <View>
-                    <NextMemory key={index} title={memory.title}/>
-                    {(index == tomorrowMemories.length-1) ? null : <Dash/>}
-                </View>       
-            )
-        })}
-
-        <View style={{height: 60}}/>
-        
-      </ScrollView>
-      <Pressable style={styles.new} onPress={() => {
-          setCurrentPage('MemoryCreator')
-        }}>
-        <Text style={styles.newText}>+</Text>
-      </Pressable>
-    </View>
-    
-  );
+    );
 };
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop:80,
+        paddingTop: 80,
         backgroundColor: '#05202a',
         flex: 1,
-        
+
     },
     month: {
         color: 'white',
@@ -201,7 +219,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     reviewNumber: {
-        color: '#4dcbf7', 
+        color: '#4dcbf7',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 20
@@ -244,6 +262,6 @@ const styles = StyleSheet.create({
             height: 2,
         }
     }
-  });
+});
 
 export default MemoryCreator;
