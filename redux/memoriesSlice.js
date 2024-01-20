@@ -51,7 +51,9 @@ export const memoriesSlice = createSlice({
             state.value -= 1
         },
         reviewMemory: (state, action) => {
-            state.value += action.payload
+            const memory = state.find(obj => obj.id == action.payload.currentMemory)
+            memory.lastReviewDate = new Date().toString();
+            memory.timesReviewed += 1
         }
     }
 })

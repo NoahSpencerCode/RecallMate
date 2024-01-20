@@ -65,10 +65,13 @@ const Dash = () => {
     )
 }
 
-const Memory = ({ title }) => {
+const Memory = ({ key, id, title, setCurrentPage, setCurrentMemory }) => {
 
     return (
-        <Pressable style={memoryStyles.frame}>
+        <Pressable style={memoryStyles.frame} onPress={() => {
+            setCurrentMemory(id)
+            setCurrentPage('MemoryViewer')
+        }}>
             <Text style={memoryStyles.text}>{title}</Text>
         </Pressable>
     );
@@ -102,7 +105,7 @@ const memoryStyles = StyleSheet.create({
     }
 });
 
-const MemoryCreator = ({ setCurrentPage }) => {
+const MemoryCreator = ({ setCurrentPage, setCurrentMemory }) => {
 
     const date = new Date()
 
@@ -154,7 +157,13 @@ const MemoryCreator = ({ setCurrentPage }) => {
                 {memories.map((memory, index) => {
                     return (
                         <View>
-                            <Memory key={index} title={memory.title} />
+                            <Memory
+                                key={index}
+                                id={memory.id}
+                                title={memory.title}
+                                setCurrentPage={setCurrentPage}
+                                setCurrentMemory={setCurrentMemory} 
+                            />
                             <Dash />
                             {(index == memories.length - 1) ? <DateSeperator /> : null}
                         </View>
