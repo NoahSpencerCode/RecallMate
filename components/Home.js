@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TextInput, Button, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Image, ScrollView, TextInput, Button, StyleSheet, Pressable, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 
 var fib = function(n) {
@@ -18,7 +18,7 @@ const NextMemory = ({ title }) => {
 const nextStyles = StyleSheet.create({
     frame: {
         backgroundColor: '#39444f',
-        borderRadius: '30%',
+        borderRadius: '30px',
         height: 60,
         shadowColor: 'black',
         shadowOpacity: .5,
@@ -80,7 +80,7 @@ const Memory = ({ key, id, title, setCurrentPage, setCurrentMemory }) => {
 const memoryStyles = StyleSheet.create({
     frame: {
         backgroundColor: '#00a8f9',
-        borderRadius: '30%',
+        borderRadius: '30px',
         height: 60,
         shadowColor: 'black',
         shadowOpacity: .5,
@@ -96,16 +96,16 @@ const memoryStyles = StyleSheet.create({
         height: '100%',
         lineHeight: 60,
         fontSize: 20,
-        shadowColor: 'black',
-        shadowOpacity: .5,
-        shadowOffset: {
+        textShadowColor: 'rgba(0, 0, 0, 0.6)',
+        textShadowRadius: 10,
+        textShadowOffset: {
             width: 1,
             height: 2,
         }
     }
 });
 
-const MemoryCreator = ({ setCurrentPage, setCurrentMemory }) => {
+const Home = ({ setCurrentPage, setCurrentMemory, isWeb }) => {
 
     const date = new Date()
 
@@ -126,9 +126,9 @@ const MemoryCreator = ({ setCurrentPage, setCurrentMemory }) => {
         } else if (diffDays < 1.5) {
             defaultTomorrowMemories.push(reduxMemories[i])
         };
-    } 
+    }
 
-    console.log("ReRendered page", new Date());
+    console.log("Rendered Home");
 
     const [isComplete, setIsComplete] = useState(false);
     const [numOfReviews, setNumOfReview] = useState(defaultTodayMemories.length);
@@ -181,11 +181,15 @@ const MemoryCreator = ({ setCurrentPage, setCurrentMemory }) => {
                 <View style={{ height: 60 }} />
 
             </ScrollView>
-            <Pressable style={styles.new} onPress={() => {
-                setCurrentPage('MemoryCreator')
-            }}>
-                <Text style={styles.newText}>+</Text>
-            </Pressable>
+            { !isWeb ?
+                <Pressable style={styles.new} onPress={() => {
+                    setCurrentPage('MemoryCreator')
+                }}>
+                    <Text style={styles.newText}>+</Text>
+                </Pressable>
+            :
+                null
+            }
         </View>
 
     );
@@ -193,10 +197,19 @@ const MemoryCreator = ({ setCurrentPage, setCurrentMemory }) => {
 
 const styles = StyleSheet.create({
     container: {
+        margin: 0,
         paddingTop: 80,
         backgroundColor: '#05202a',
         flex: 1,
-
+        ...Platform.select({
+            web: {
+                width: '50%',
+                height: '100%',
+                shadowColor: 'black',
+                shadowRadius: 20,
+                paddingTop: 25,
+            }
+        })
     },
     month: {
         color: 'white',
@@ -241,7 +254,8 @@ const styles = StyleSheet.create({
     },
     scroller: {
         backgroundColor: '#1b3139',
-        borderRadius: '25px',
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
         padding: 20,
     },
     new: {
@@ -264,13 +278,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'white',
         fontSize: 60,
-        shadowColor: 'black',
-        shadowOpacity: .5,
-        shadowOffset: {
+        textShadowColor: 'rgba(0, 0, 0, 0.4)',
+        textShadowRadius: 10,
+        textShadowOffset: {
             width: 1,
             height: 2,
         }
     }
 });
 
-export default MemoryCreator;
+export default Home;

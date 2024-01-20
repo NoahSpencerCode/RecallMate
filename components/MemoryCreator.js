@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet} from 'react-native';
+import {View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet, Platform} from 'react-native';
 import { useDispatch } from 'react-redux';
 import { newMemory } from '../redux/memoriesSlice';
 
@@ -61,6 +61,12 @@ const styles = StyleSheet.create({
     paddingTop:80,
     backgroundColor: '#05202a',
     flex: 1,  
+    ...Platform.select({
+      web: {
+          shadowColor: 'black',
+          shadowRadius: 20,
+      }
+    })
   },
   title: {
     color: 'white',
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
     height: 60,
     width: 180,
     backgroundColor: '#4dcbf7',
-    borderRadius: '100%',
+    borderRadius: '30px',
     shadowColor: 'black',
     shadowOpacity: .5,
     shadowOffset: {
@@ -94,11 +100,11 @@ const styles = StyleSheet.create({
     height: '100%',
     lineHeight: 60,
     fontSize: 20,
-    shadowColor: 'black',
-    shadowOpacity: .5,
-    shadowOffset: {
+    textShadowColor: 'rgba(0, 0, 0, 0.6)',
+    textShadowRadius: 10,
+    textShadowOffset: {
         width: 1,
-        height: 2, 
+        height: 2,
     }
   },
   titleInput: {
