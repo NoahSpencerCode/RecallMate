@@ -6,16 +6,19 @@ import Home from './components/Home.js';
 import store from './redux/store.js';
 import { Provider } from 'react-redux';
 import WebViewer from './components/WebViewer.js';
+import LoginPage from './components/LoginPage.js';
+import SignupPage from './components/SignupPage.js';
+
 
 const App = () => {
   console.log("Render App");
-  const [currentPage, setCurrentPage] = useState('Home');
+  const [currentPage, setCurrentPage] = useState('Login');
   const [currentMemory, setCurrentMemory] = useState('');
-  let check;
+  const [loggedIn, setLoggedIn] = useState(false);
   const Page = () => {
     if (Platform.OS == 'web') {
       if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        return <WebViewer currentPage={currentPage} setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} currentMemory={currentMemory} />
+        return <WebViewer currentPage={currentPage} setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} currentMemory={currentMemory} setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
       }
     }
     
@@ -27,6 +30,12 @@ const App = () => {
     }
     if (currentPage == "MemoryViewer") {
       return <MemoryViewer setCurrentPage={setCurrentPage} currentMemory={currentMemory} />
+    }
+    if (currentPage == "Login") {
+      return <LoginPage setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} />
+    }
+    if (currentPage == "Signup") {
+      return <SignupPage setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} />
     }
   }
   return (
