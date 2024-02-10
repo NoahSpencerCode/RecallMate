@@ -3,9 +3,9 @@ import {View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet, Platfor
 import { useSelector, useDispatch } from 'react-redux';
 import { reviewMemory } from '../redux/memoriesSlice';
 
-const MemoryViewer = ({ setCurrentPage, currentMemory }) => {
+const MemoryViewer = ({ setCurrentPage, currentMemory, myUID }) => {
   const [isComplete, setIsComplete] = useState(false);
-  const memory = useSelector((state) => state.memories.find(obj => obj.id === currentMemory));
+  const memory = useSelector((state) => state.memories.documents.find(obj => obj.id === currentMemory));
 
   const dispatch = useDispatch();
 
@@ -31,8 +31,7 @@ const MemoryViewer = ({ setCurrentPage, currentMemory }) => {
       </ScrollView>
       <View style={styles.buttonFrame}>
         <Pressable style={styles.completeButton} onPress={() => {
-            setIsComplete(true);
-            dispatch(reviewMemory({ currentMemory }))
+            dispatch(reviewMemory({ memory, myUID }))
             setCurrentPage('Home')
           }}>
           <Text style={styles.completeText}>Complete</Text>

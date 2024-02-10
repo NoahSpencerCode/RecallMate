@@ -15,27 +15,28 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState('Login');
   const [currentMemory, setCurrentMemory] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
+  const [myUID, setMyUID] = useState('');
   const Page = () => {
     if (Platform.OS == 'web') {
       if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        return <WebViewer currentPage={currentPage} setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} currentMemory={currentMemory} setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
+        return <WebViewer myUID={myUID} setMyUID={setMyUID} currentPage={currentPage} setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} currentMemory={currentMemory} setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
       }
     }
     
     if (currentPage == 'MemoryCreator') {
-      return <MemoryCreator setCurrentPage={setCurrentPage} />
+      return <MemoryCreator myUID={myUID} setMyUID={setMyUID} setCurrentPage={setCurrentPage} />
     }
     if (currentPage == "Home") {
-      return <Home setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} />
+      return <Home myUID={myUID} setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} />
     }
     if (currentPage == "MemoryViewer") {
-      return <MemoryViewer setCurrentPage={setCurrentPage} currentMemory={currentMemory} />
+      return <MemoryViewer myUID={myUID} setCurrentPage={setCurrentPage} currentMemory={currentMemory} />
     }
     if (currentPage == "Login") {
-      return <LoginPage setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} />
+      return <LoginPage setMyUID={setMyUID} setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} />
     }
     if (currentPage == "Signup") {
-      return <SignupPage setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} />
+      return <SignupPage setMyUID={setMyUID} setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} />
     }
   }
   return (

@@ -1,6 +1,10 @@
+import { collection } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { View, Text, Image, ScrollView, TextInput, Button, StyleSheet, Pressable, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
+import { FIREBASE_DB } from '../firebaseConfig';
+import { useDispatch } from 'react-redux';
+
 
 var fib = function(n) {
     return (n === 0 || n === 1) ? n : (fib(n - 1) + fib (n - 2));
@@ -65,7 +69,7 @@ const Dash = () => {
     )
 }
 
-const Memory = ({ key, id, title, setCurrentPage, setCurrentMemory }) => {
+const Memory = ({ id, title, setCurrentPage, setCurrentMemory }) => {
 
     return (
         <Pressable style={memoryStyles.frame} onPress={() => {
@@ -105,36 +109,34 @@ const memoryStyles = StyleSheet.create({
     }
 });
 
-const Home = ({ setCurrentPage, setCurrentMemory, isWeb }) => {
-
+const Home = ({ setCurrentPage, setCurrentMemory, isWeb, myUID }) => {
+    
     const date = new Date()
 
     const oneDay = 24 * 60 * 60 * 1000;
 
-    let defaultTodayMemories = [];
+    let memories = [];
 
-    let defaultTomorrowMemories = [];
+    let tomorrowMemories = [];
+ 
+    const reduxMemories = useSelector(state => state.memories.documents)
 
-    const reduxMemories = useSelector(state => state.memories)
+    const numOfMemories = useSelector(state => state.memories.totalMemories);
 
     for (let i = 0; i < reduxMemories.length; i++) {
         const nextReviewDate = new Date(reduxMemories[i].lastReviewDate);
         nextReviewDate.setDate(nextReviewDate.getDate()+fib(reduxMemories[i].timesReviewed+1))
         const diffDays = Math.round((nextReviewDate - date) / oneDay)
+        console.log("for ", diffDays);
         if (diffDays < 0) {
-            defaultTodayMemories.push(reduxMemories[i])
+            memories.push(reduxMemories[i])
         } else if (diffDays < 1.5) {
-            defaultTomorrowMemories.push(reduxMemories[i])
+            tomorrowMemories.push(reduxMemories[i])
         };
     }
 
     console.log("Rendered Home");
 
-    const [isComplete, setIsComplete] = useState(false);
-    const [numOfReviews, setNumOfReview] = useState(defaultTodayMemories.length);
-    const [numOfMemories, setNumOfMemories] = useState(10);
-    const [memories, setMemories] = useState(defaultTodayMemories)
-    const [tomorrowMemories, setTomorrowMemories] = useState(defaultTomorrowMemories)
     return (
         <View style={styles.container}>
             <View style={styles.dateBox}>
@@ -144,7 +146,7 @@ const Home = ({ setCurrentPage, setCurrentMemory, isWeb }) => {
             <View style={styles.stats}>
                 <View style={styles.review}>
                     <Text style={styles.reviewText}> Review </Text>
-                    <Text style={styles.reviewNumber}>{numOfReviews}</Text>
+                    <Text style={styles.reviewNumber}>{memories.length}</Text>
                 </View>
                 <View style={styles.total}>
                     <Text style={styles.totalText}> Memories </Text>
@@ -156,7 +158,7 @@ const Home = ({ setCurrentPage, setCurrentMemory, isWeb }) => {
 
                 {memories.map((memory, index) => {
                     return (
-                        <View>
+                        <View key={index} >
                             <Memory
                                 key={index}
                                 id={memory.id}
@@ -171,7 +173,7 @@ const Home = ({ setCurrentPage, setCurrentMemory, isWeb }) => {
                 })}
                 {tomorrowMemories.map((memory, index) => {
                     return (
-                        <View>
+                        <View key={index} >
                             <NextMemory key={index} title={memory.title} />
                             {(index == tomorrowMemories.length - 1) ? null : <Dash />}
                         </View>
