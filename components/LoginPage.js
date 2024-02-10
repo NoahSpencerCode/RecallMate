@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet, Platform } from 'react-native';
+import { FIREBASE_AUTH } from '../firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { getAllMemories } from '../redux/memoriesSlice';
 import { useDispatch } from 'react-redux';
 
-const LoginPage = ({ setCurrentPage, isWeb }) => {
+
+const LoginPage = ({ setCurrentPage, isWeb, setMyUID }) => {
     const [isComplete, setIsComplete] = useState(false);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const [valid, setValid] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const dispatch = useDispatch();
 
     return (
         <View style={styles.container}>
@@ -28,10 +37,26 @@ const LoginPage = ({ setCurrentPage, isWeb }) => {
                 keyboardAppearance={'dark'}
                 onChangeText={newText => setPassword(newText)}
             />
+            <Text style={styles.error}>{errorMessage}</Text>
             <View style={styles.buttonFrame}>
-                <Pressable style={styles.completeButton} onPress={() => {
-                    setIsComplete(true);
-                    setCurrentPage('Home')
+                <Pressable style={[styles.completeButton, valid ? null : styles.invalid ]} onPress={() => {
+
+                    signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
+                        .then((userCredential) => {
+                            const user = userCredential.user;
+                            console.log("set uid", user.uid)
+                            setMyUID(user.uid)
+                            dispatch(getAllMemories({ myUID: user.uid }))
+                            setIsComplete(true);
+                            setCurrentPage('Home')
+                        })
+                        .catch((error) => {
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            console.warn(errorCode,errorMessage);
+                            setValid(false);
+                            setErrorMessage(errorCode);
+                        })
                 }}>
                     <Text style={styles.completeText}>Login</Text>
                 </Pressable>
@@ -68,6 +93,12 @@ const styles = StyleSheet.create({
         fontSize: 30,
         textAlign: 'center',
     },
+    error: {
+        color: 'red',
+        fontWeight: 'bold',
+        fontSize: 15,
+        textAlign: 'center',
+    },
     buttonFrame: {
         alignItems: 'center',
         padding: 60,
@@ -84,6 +115,9 @@ const styles = StyleSheet.create({
             height: 2,
         },
         shadowRadius: 10,
+    },
+    invalid: {
+        backgroundColor: '#FC100D'
     },
     completeText: {
         textAlign: 'center',

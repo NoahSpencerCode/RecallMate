@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import {View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet, Platform} from 'react-native';
 import { useDispatch } from 'react-redux';
 import { newMemory } from '../redux/memoriesSlice';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { FIREBASE_DB } from '../firebaseConfig';
 
-const MemoryCreator = ({ setCurrentPage }) => {
+const MemoryCreator = ({ setCurrentPage, myUID }) => {
   const [isComplete, setIsComplete] = useState(false);
 
   const [title, setTitle] = useState('');
@@ -45,7 +47,7 @@ const MemoryCreator = ({ setCurrentPage }) => {
       <View style={styles.buttonFrame}>
         <Pressable style={styles.completeButton} onPress={() => {
             setIsComplete(true);
-            dispatch(newMemory({ title, text, answer }))
+            dispatch(newMemory({ title, text, answer, myUID }))
             setCurrentPage('Home')
           }}>
           <Text style={styles.completeText}>Complete</Text>

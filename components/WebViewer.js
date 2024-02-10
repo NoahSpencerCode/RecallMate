@@ -7,13 +7,31 @@ import EmptyPage from './EmptyPage.js';
 import LoginPage from './LoginPage.js';
 import SignupPage from './SignupPage.js';
 
-const WebViewer = ({ currentPage, setCurrentPage, currentMemory, setCurrentMemory, setLoggedIn }) => {
+const WebViewer = ({ currentPage, setCurrentPage, currentMemory, setCurrentMemory, setLoggedIn, setMyUID, myUID, loggedIn }) => {
     const Page = () => {
         if (currentPage == 'MemoryCreator') {
-            return <MemoryCreator setCurrentPage={setCurrentPage} />
+            return <MemoryCreator
+                myUID={myUID}
+                setMyUID={setMyUID}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                setCurrentMemory={setCurrentMemory}
+                currentMemory={currentMemory}
+                setLoggedIn={setLoggedIn}
+                loggedIn={loggedIn}
+            />
         }
         if (currentPage == "MemoryViewer") {
-            return <MemoryViewer setCurrentPage={setCurrentPage} currentMemory={currentMemory} />
+            return <MemoryViewer
+                smyUID={myUID}
+                setMyUID={setMyUID}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                setCurrentMemory={setCurrentMemory}
+                currentMemory={currentMemory}
+                setLoggedIn={setLoggedIn}
+                loggedIn={loggedIn}
+            />
         }
         return <EmptyPage setCurrentPage={setCurrentPage} />
     }
@@ -30,7 +48,7 @@ const WebViewer = ({ currentPage, setCurrentPage, currentMemory, setCurrentMemor
                     height: '100vh',
                 }}
             >
-                <LoginPage setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} isWeb={true} />
+                <LoginPage myUID={myUID} setMyUID={setMyUID} setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} isWeb={true} />
             </View>
         );
 
@@ -47,7 +65,7 @@ const WebViewer = ({ currentPage, setCurrentPage, currentMemory, setCurrentMemor
                     height: '100vh',
                 }}
             >
-                <SignupPage setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} isWeb={true} />
+                <SignupPage myUID={myUID} setMyUID={setMyUID} setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} isWeb={true} />
             </View>
         );
     } else {
@@ -63,7 +81,7 @@ const WebViewer = ({ currentPage, setCurrentPage, currentMemory, setCurrentMemor
                     height: '100vh',
                 }}
             >
-                <Home setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} isWeb={true} />
+                <Home myUID={myUID} setMyUID={setMyUID} setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} isWeb={true} />
                 <View style={{ margin: 10 }} />
                 <Page />
             </View>

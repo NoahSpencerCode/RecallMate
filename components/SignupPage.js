@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet, Platform } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../firebaseConfig';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
-const SignupPage = ({ setCurrentPage, setLoggedIn }) => {
+const SignupPage = ({ setCurrentPage, setLoggedIn, setMyUID }) => {
     const [isComplete, setIsComplete] = useState(false);
 
     const [email, setEmail] = useState('');
@@ -30,18 +32,32 @@ const SignupPage = ({ setCurrentPage, setLoggedIn }) => {
             />
             <View style={styles.buttonFrame}>
                 <Pressable style={styles.completeButton} onPress={() => {
-                    setIsComplete(true);
-                    setCurrentPage('Home')
+
+                    createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
+                        .then((userCredential) => {
+                            const user = userCredential.user;
+                            doc(FIREBASE_DB, collection(FIREBASE_DB, 'users').path, user.uid)
+                            setMyUID(user.uid)
+                            setIsComplete(true);
+                            setCurrentPage('Home')
+                        })
+                        .catch((error) => {
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            console.warn(errorCode,errorMessage);
+                        })
+
                 }}>
                     <Text style={styles.completeText}>Sign up</Text>
                 </Pressable>
             </View>
             <Pressable style={styles.createAccount} onPress={() => {
+
                 setIsComplete(true);
                 setCurrentPage('Login')
             }}>
                 <Text style={styles.completeText}>Login</Text>
-            </Pressable>
+            </Pressable> 
         </View>
 
     );

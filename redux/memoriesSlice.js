@@ -1,63 +1,109 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { collection, getDocs, addDoc, doc, getCountFromServer, updateDoc } from 'firebase/firestore';
+import { FIREBASE_DB } from '../firebaseConfig';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
+export const reviewMemory = createAsyncThunk(
+    'memories/reviewMemories',
+    async (req) => {
+        console.log('req', req);
+        try {
+            const ref = doc(FIREBASE_DB, "users", req.myUID, "memories", req.memory.id)
+            await updateDoc(ref, {
+                lastReviewDate: new Date().toString(),
+                timesReviewed: req.memory.timesReviewed + 1,
+            })
+            return { memory: req.memory }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+)
+
+export const getAllMemories = createAsyncThunk(
+    'memories/getAllMemories',
+    async (req) => {
+        try {
+           
+            const usersRef = collection(FIREBASE_DB, "users", req.myUID, "memories");
+
+            const snap = await getDocs(usersRef);
+
+            let newMemories = []
+
+            snap.forEach((doc) => {
+                console.log(doc.id, " => ", doc.data());
+                const data = doc.data()
+                const newMemory = {
+                    id: doc.id,
+                    lastReviewDate: data.lastReviewDate,
+                    timesReviewed: data.timesReviewed,
+                    title: data.title,
+                    text: data.text,
+                    answer: data.answer,
+                }
+
+                newMemories.push(newMemory)
+            })
+
+            const count = await getCountFromServer(usersRef);
+
+
+            return {newMemories, count: count.data().count}
+        } catch (e) {
+            console.error(e)
+        }
+            
+    }
+)
+
+
 export const memoriesSlice = createSlice({
     name: 'memories',
-    initialState: [
-        {
-            id: uuidv4(),
-            lastReviewDate: new Date('2024', 0, 14).toString(),
-            timesReviewed: 0,
-            title: 'React Hooks',
-            text: "A list of react hooks",
-        },
-        {
-            id: uuidv4(),
-            lastReviewDate: new Date('2024', 0, 2).toString(),
-            timesReviewed: 1,
-            title: 'Git Rebase',
-            text: "This is how you git rebase",
-        },
-        {
-            id: uuidv4(),
-            lastReviewDate: new Date('2024', 0, 3).toString(),
-            timesReviewed: 3,
-            title: 'git Branches',
-            text: "commands for dealing with branches in git",
-        },
-        {
-            id: uuidv4(),
-            lastReviewDate: new Date('2024', 0, 4).toString(),
-            timesReviewed: 4,
-            title: 'Define Linoleate',
-            text: "Linoleat is a fatty acid",
-        },
-    ],
+    initialState: {
+        documents: [],
+        totalMemories: 0,
+    },
     reducers: {
         newMemory: (state, action) => {
-            console.log(action)
             const newMemory = {
-                id: uuidv4(),
+                id: uuidv4(), 
                 lastReviewDate: new Date().toString(),
                 timesReviewed: 0,
                 title: action.payload.title,
                 text: action.payload.text,
                 answer: action.payload.answer,
             }
-            state.push(newMemory)
+            state.documents.push(newMemory);
+            state.totalMemories += 1;
+            addDoc(collection(FIREBASE_DB, `users/${action.payload.myUID}/memories`), {
+                lastReviewDate: new Date().toString(),
+                timesReviewed: 0, 
+                title: action.payload.title,
+                text: action.payload.text,
+                answer: action.payload.answer,
+            })
         },
         removeMemory: state => {
             state.value -= 1
         },
-        reviewMemory: (state, action) => {
-            const memory = state.find(obj => obj.id == action.payload.currentMemory)
+    },
+    
+    extraReducers: (builder) => {
+        builder.addCase(getAllMemories.fulfilled, (state, action) => {
+            state.documents = action.payload.newMemories;
+            state.totalMemories = action.payload.count;
+        });
+        builder.addCase(reviewMemory.fulfilled, (state, action) => {
+            const memory = state.documents.find(obj => obj.id === action.payload.memory.id);
             memory.lastReviewDate = new Date().toString();
-            memory.timesReviewed += 1
-        }
+            memory.timesReviewed += 1;
+        });
     }
+
 })
 
-export const { newMemory, removeMemory, reviewMemory } = memoriesSlice.actions
+export const { newMemory, removeMemory } = memoriesSlice.actions
 
 export default memoriesSlice.reducer
