@@ -4,14 +4,23 @@ import { FIREBASE_AUTH, FIREBASE_DB } from '../firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
-const SignupPage = ({ setCurrentPage, setLoggedIn, setMyUID }) => {
+const SignupPage = ({ setCurrentPage, setLoggedIn, setMyUID, isWeb }) => {
     const [isComplete, setIsComplete] = useState(false);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    if (isWeb) {
+        containerStyle = {
+            ...styles.container,
+            ...desktopOnly.container
+        }
+    } else {
+        containerStyle = styles.container
+    }
+
     return (
-        <View style={styles.container}>
+        <View style={ containerStyle }>
             <Text style={styles.title}>New Account</Text>
             <TextInput
                 style={styles.titleInput}
@@ -63,6 +72,14 @@ const SignupPage = ({ setCurrentPage, setLoggedIn, setMyUID }) => {
     );
 };
 
+const desktopOnly = StyleSheet.create({
+    container: {
+        width: '40%',
+        marginLeft: '30%',
+        marginRight: '30%',
+    }
+});
+
 const styles = StyleSheet.create({
     container: {
         paddingTop: 80,
@@ -72,9 +89,6 @@ const styles = StyleSheet.create({
             web: {
                 shadowColor: 'black',
                 shadowRadius: 20,
-                width: '40%',
-                marginLeft: '30%',
-                marginRight: '30%',
             }
         })
     },

@@ -19,7 +19,7 @@ const App = () => {
   const Page = () => {
     if (Platform.OS == 'web') {
       if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        return <WebViewer myUID={myUID} setMyUID={setMyUID} currentPage={currentPage} setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} currentMemory={currentMemory} setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
+        return <WebViewer isWeb={true} myUID={myUID} setMyUID={setMyUID} currentPage={currentPage} setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} currentMemory={currentMemory} setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
       }
     }
     

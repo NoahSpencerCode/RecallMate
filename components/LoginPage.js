@@ -17,8 +17,19 @@ const LoginPage = ({ setCurrentPage, isWeb, setMyUID }) => {
 
     const dispatch = useDispatch();
 
+    let containerStyle
+
+    if (isWeb) {
+        containerStyle = {
+            ...styles.container,
+            ...desktopOnly.container
+        }
+    } else {
+        containerStyle = styles.container
+    }
+
     return (
-        <View style={styles.container}>
+        <View style={ containerStyle }>
             <Text style={styles.title}>Welcome</Text>
             <TextInput
                 style={styles.titleInput}
@@ -72,6 +83,14 @@ const LoginPage = ({ setCurrentPage, isWeb, setMyUID }) => {
     );
 };
 
+const desktopOnly = StyleSheet.create({
+    container: {
+        width: '40%',
+        marginLeft: '30%',
+        marginRight: '30%',
+    }
+});
+
 const styles = StyleSheet.create({
     container: {
         paddingTop: 80,
@@ -81,9 +100,6 @@ const styles = StyleSheet.create({
             web: {
                 shadowColor: 'black',
                 shadowRadius: 20,
-                width: '40%',
-                marginLeft: '30%',
-                marginRight: '30%',
             }
         })
     },
