@@ -52,7 +52,7 @@ export const getAllMemories = createAsyncThunk(
 
             return {newMemories, count: count.data().count}
         } catch (e) {
-            console.error(e)
+            console.error("ERROR FROM CATCH GETALLMEMPRIES ",e);
         }
             
     }

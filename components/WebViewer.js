@@ -7,7 +7,7 @@ import EmptyPage from './EmptyPage.js';
 import LoginPage from './LoginPage.js';
 import SignupPage from './SignupPage.js';
 
-const WebViewer = ({ currentPage, setCurrentPage, currentMemory, setCurrentMemory, setLoggedIn, setMyUID, myUID, loggedIn }) => {
+const WebViewer = ({ isWeb, currentPage, setCurrentPage, currentMemory, setCurrentMemory, setLoggedIn, setMyUID, myUID, loggedIn }) => {
     const Page = () => {
         if (currentPage == 'MemoryCreator') {
             return <MemoryCreator
@@ -23,7 +23,7 @@ const WebViewer = ({ currentPage, setCurrentPage, currentMemory, setCurrentMemor
         }
         if (currentPage == "MemoryViewer") {
             return <MemoryViewer
-                smyUID={myUID}
+                myUID={myUID}
                 setMyUID={setMyUID}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
