@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet, Platform } from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet, Platform } from 'react-native';
 import { FIREBASE_AUTH, FIREBASE_DB } from '../firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { collection, doc } from 'firebase/firestore';
 
-const SignupPage = ({ setCurrentPage, setLoggedIn, setMyUID, isWeb }) => {
-    const [isComplete, setIsComplete] = useState(false);
+const SignupPage = ({ setCurrentPage, setMyUID, isDesktop }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    if (isWeb) {
+    const [valid, setValid] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    if (isDesktop) {
         containerStyle = {
             ...styles.container,
             ...desktopOnly.container
@@ -39,21 +41,23 @@ const SignupPage = ({ setCurrentPage, setLoggedIn, setMyUID, isWeb }) => {
                 keyboardAppearance={'dark'}
                 onChangeText={newText => setPassword(newText)}
             />
+            <Text style={styles.error}>{errorMessage}</Text>
             <View style={styles.buttonFrame}>
-                <Pressable style={styles.completeButton} onPress={() => {
+                <Pressable style={[styles.completeButton, valid ? null : styles.invalid ]} onPress={() => {
 
                     createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
                         .then((userCredential) => {
                             const user = userCredential.user;
                             doc(FIREBASE_DB, collection(FIREBASE_DB, 'users').path, user.uid)
                             setMyUID(user.uid)
-                            setIsComplete(true);
                             setCurrentPage('Home')
                         })
                         .catch((error) => {
                             const errorCode = error.code;
                             const errorMessage = error.message;
                             console.warn(errorCode,errorMessage);
+                            setValid(false);
+                            setErrorMessage(errorCode);
                         })
 
                 }}>
@@ -61,8 +65,6 @@ const SignupPage = ({ setCurrentPage, setLoggedIn, setMyUID, isWeb }) => {
                 </Pressable>
             </View>
             <Pressable style={styles.createAccount} onPress={() => {
-
-                setIsComplete(true);
                 setCurrentPage('Login')
             }}>
                 <Text style={styles.completeText}>Login</Text>
@@ -98,6 +100,12 @@ const styles = StyleSheet.create({
         fontSize: 30,
         textAlign: 'center',
     },
+    error: {
+        color: 'red',
+        fontWeight: 'bold',
+        fontSize: 15,
+        textAlign: 'center',
+    },
     buttonFrame: {
         alignItems: 'center',
         padding: 60,
@@ -114,6 +122,9 @@ const styles = StyleSheet.create({
             height: 2,
         },
         shadowRadius: 10,
+    },
+    invalid: {
+        backgroundColor: '#FC100D'
     },
     completeText: {
         textAlign: 'center',

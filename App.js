@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, Image, ScrollView, TextInput, Button, Platform} from 'react-native';
+import React, { useState } from 'react';
+import { Platform } from 'react-native';
 import MemoryCreator from './components/MemoryCreator.js';
 import MemoryViewer from './components/MemoryViewer.js';
 import Home from './components/Home.js';
@@ -19,7 +19,7 @@ const App = () => {
   const Page = () => {
     if (Platform.OS == 'web') {
       if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        return <WebViewer isWeb={true} myUID={myUID} setMyUID={setMyUID} currentPage={currentPage} setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} currentMemory={currentMemory} setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
+        return <WebViewer myUID={myUID} setMyUID={setMyUID} currentPage={currentPage} setCurrentPage={setCurrentPage} setCurrentMemory={setCurrentMemory} currentMemory={currentMemory} setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
       }
     }
     

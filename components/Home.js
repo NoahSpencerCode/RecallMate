@@ -1,113 +1,14 @@
-import { collection } from 'firebase/firestore';
-import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TextInput, Button, StyleSheet, Pressable, Platform } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView, StyleSheet, Pressable, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
-import { FIREBASE_DB } from '../firebaseConfig';
-import { useDispatch } from 'react-redux';
-
+import NextMemory from './NextMemory';
+import DateSeperator from './DateSeperator';
+import Dash from './Dash';
+import Memory from './Memory';
 
 var fib = function(n) {
     return (n === 0 || n === 1) ? n : (fib(n - 1) + fib (n - 2));
 };
-
-const NextMemory = ({ title }) => {
-
-    return (
-        <Pressable style={nextStyles.frame}>
-            <Text style={nextStyles.text}>{title}</Text>
-        </Pressable>
-    );
-}
-
-const nextStyles = StyleSheet.create({
-    frame: {
-        backgroundColor: '#39444f',
-        borderRadius: '30px',
-        height: 60,
-        shadowColor: 'black',
-        shadowOpacity: .5,
-        shadowOffset: {
-            width: 1,
-            height: 2,
-        },
-        shadowRadius: 10,
-    },
-    text: {
-        textAlign: 'center',
-        color: 'grey',
-        height: '100%',
-        lineHeight: 60,
-        fontSize: 20,
-        shadowColor: 'black',
-        shadowOpacity: .5,
-        shadowOffset: {
-            width: 1,
-            height: 2,
-        }
-    }
-});
-
-
-const DateSeperator = () => {
-    const date = new Date()
-    date.setDate(date.getDate() + 1);
-    return (
-        <View>
-            <Text style={{ color: 'grey', textAlign: 'center' }}>Tomorrow</Text>
-            <Text style={{ color: 'grey', textAlign: 'center' }}>
-                {date.toLocaleString('default', { month: 'long' })} {date.getDate()}
-            </Text>
-            <Dash />
-        </View>
-    )
-}
-
-
-const Dash = () => {
-    return (
-        <Text style={{ color: 'grey', textAlign: 'center', margin: 10 }}>|</Text>
-    )
-}
-
-const Memory = ({ id, title, setCurrentPage, setCurrentMemory }) => {
-
-    return (
-        <Pressable style={memoryStyles.frame} onPress={() => {
-            setCurrentMemory(id)
-            setCurrentPage('MemoryViewer')
-        }}>
-            <Text style={memoryStyles.text}>{title}</Text>
-        </Pressable>
-    );
-}
-
-const memoryStyles = StyleSheet.create({
-    frame: {
-        backgroundColor: '#00a8f9',
-        borderRadius: '30px',
-        height: 60,
-        shadowColor: 'black',
-        shadowOpacity: .5,
-        shadowOffset: {
-            width: 1,
-            height: 2,
-        },
-        shadowRadius: 10,
-    },
-    text: {
-        textAlign: 'center',
-        color: 'white',
-        height: '100%',
-        lineHeight: 60,
-        fontSize: 20,
-        textShadowColor: 'rgba(0, 0, 0, 0.6)',
-        textShadowRadius: 10,
-        textShadowOffset: {
-            width: 1,
-            height: 2,
-        }
-    }
-});
 
 const Home = ({ setCurrentPage, setCurrentMemory, isWeb, myUID }) => {
     
@@ -127,7 +28,6 @@ const Home = ({ setCurrentPage, setCurrentMemory, isWeb, myUID }) => {
         const nextReviewDate = new Date(reduxMemories[i].lastReviewDate);
         nextReviewDate.setDate(nextReviewDate.getDate()+fib(reduxMemories[i].timesReviewed+1))
         const diffDays = Math.round((nextReviewDate - date) / oneDay)
-        console.log("for ", diffDays);
         if (diffDays < 0) {
             memories.push(reduxMemories[i])
         } else if (diffDays < 1.5) {
