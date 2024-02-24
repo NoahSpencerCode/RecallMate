@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TextInput, Button, Platform } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import MemoryCreator from './MemoryCreator.js';
 import MemoryViewer from './MemoryViewer.js';
 import Home from './Home.js';
@@ -7,7 +7,7 @@ import EmptyPage from './EmptyPage.js';
 import LoginPage from './LoginPage.js';
 import SignupPage from './SignupPage.js';
 
-const WebViewer = ({ isWeb, currentPage, setCurrentPage, currentMemory, setCurrentMemory, setLoggedIn, setMyUID, myUID, loggedIn }) => {
+const WebViewer = ({ currentPage, setCurrentPage, currentMemory, setCurrentMemory, setLoggedIn, setMyUID, myUID, loggedIn }) => {
     const Page = () => {
         if (currentPage == 'MemoryCreator') {
             return <MemoryCreator
@@ -48,7 +48,7 @@ const WebViewer = ({ isWeb, currentPage, setCurrentPage, currentMemory, setCurre
                     height: '100vh',
                 }}
             >
-                <LoginPage myUID={myUID} setMyUID={setMyUID} setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} isWeb={true} />
+                <LoginPage myUID={myUID} setMyUID={setMyUID} setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} isDesktop={true} />
             </View>
         );
 
@@ -65,7 +65,7 @@ const WebViewer = ({ isWeb, currentPage, setCurrentPage, currentMemory, setCurre
                     height: '100vh',
                 }}
             >
-                <SignupPage myUID={myUID} setMyUID={setMyUID} setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} isWeb={true} />
+                <SignupPage myUID={myUID} setMyUID={setMyUID} setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} isDesktop={true} />
             </View>
         );
     } else {

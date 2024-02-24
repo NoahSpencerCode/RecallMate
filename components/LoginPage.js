@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet, Platform } from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet, Platform } from 'react-native';
 import { FIREBASE_AUTH } from '../firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { getAllMemories } from '../redux/memoriesSlice';
 import { useDispatch } from 'react-redux';
 
 
-const LoginPage = ({ setCurrentPage, isWeb, setMyUID }) => {
-    const [isComplete, setIsComplete] = useState(false);
+const LoginPage = ({ setCurrentPage, isDesktop, setMyUID }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,7 +18,7 @@ const LoginPage = ({ setCurrentPage, isWeb, setMyUID }) => {
 
     let containerStyle
 
-    if (isWeb) {
+    if (isDesktop) {
         containerStyle = {
             ...styles.container,
             ...desktopOnly.container
@@ -58,7 +57,6 @@ const LoginPage = ({ setCurrentPage, isWeb, setMyUID }) => {
                             console.log("set uid", user.uid)
                             setMyUID(user.uid)
                             dispatch(getAllMemories({ myUID: user.uid }))
-                            setIsComplete(true);
                             setCurrentPage('Home')
                         })
                         .catch((error) => {
@@ -73,7 +71,6 @@ const LoginPage = ({ setCurrentPage, isWeb, setMyUID }) => {
                 </Pressable>
             </View>
             <Pressable style={styles.createAccount} onPress={() => {
-                setIsComplete(true);
                 setCurrentPage('Signup')
             }}>
                 <Text style={styles.completeText}>Create Account</Text>
