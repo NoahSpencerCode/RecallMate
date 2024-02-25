@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet, Platform} from 'react-native';
 import { useDispatch } from 'react-redux';
 import { newMemory } from '../redux/memoriesSlice';
+import Back from './Back';
 
 const MemoryCreator = ({ setCurrentPage, myUID }) => {
 
@@ -12,6 +13,10 @@ const MemoryCreator = ({ setCurrentPage, myUID }) => {
   const dispatch = useDispatch();
   return (
     <View style={styles.container}>
+      <Back onPress={() => {
+        setCurrentPage('Home')
+      }}
+      />
       <ScrollView>
         <Text style={styles.title}>New Memory</Text>
         <TextInput

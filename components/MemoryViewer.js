@@ -2,15 +2,19 @@ import React, {useState} from 'react';
 import {View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet, Platform} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { reviewMemory } from '../redux/memoriesSlice';
+import Back from './Back';
 
-const MemoryViewer = ({ setCurrentPage, currentMemory, myUID }) => {
-  const [isComplete, setIsComplete] = useState(false);
+const MemoryViewer = ({ setCurrentPage, currentMemory, myUID, isPreview }) => {
   const memory = useSelector((state) => state.memories.documents.find(obj => obj.id === currentMemory));
 
   const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
+      <Back onPress={() => {
+        setCurrentPage('Home')
+      }}
+      />
       <ScrollView>
         <Text style={styles.title}>{memory.title}</Text>
         <Text style={styles.text}>{memory.text}</Text>
@@ -29,6 +33,7 @@ const MemoryViewer = ({ setCurrentPage, currentMemory, myUID }) => {
         
         
       </ScrollView>
+      { !isPreview ? 
       <View style={styles.buttonFrame}>
         <Pressable style={styles.completeButton} onPress={() => {
             dispatch(reviewMemory({ memory, myUID }))
@@ -36,7 +41,8 @@ const MemoryViewer = ({ setCurrentPage, currentMemory, myUID }) => {
           }}>
           <Text style={styles.completeText}>Complete</Text>
         </Pressable>
-      </View>
+      </View> 
+      : null}
     </View>
     
   );

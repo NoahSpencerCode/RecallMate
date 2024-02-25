@@ -1,10 +1,13 @@
 import React from 'react';
 import { Text, Pressable, StyleSheet } from 'react-native';
 
-export default NextMemory = ({ title }) => {
+export default NextMemory = ({ id, title, setCurrentMemory, setCurrentPage }) => {
 
     return (
-        <Pressable style={nextStyles.frame}>
+        <Pressable style={nextStyles.frame} onPress={() => {
+            setCurrentMemory(id)
+            setCurrentPage('MemoryPreview')
+        }}>
             <Text style={nextStyles.text}>{title}</Text>
         </Pressable>
     );
