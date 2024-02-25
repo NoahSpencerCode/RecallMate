@@ -5,6 +5,7 @@ import NextMemory from './NextMemory';
 import DateSeperator from './DateSeperator';
 import Dash from './Dash';
 import Memory from './Memory';
+import Back from './Back';
 
 var fib = function(n) {
     return (n === 0 || n === 1) ? n : (fib(n - 1) + fib (n - 2));
@@ -39,6 +40,9 @@ const Home = ({ setCurrentPage, setCurrentMemory, isWeb, myUID }) => {
 
     return (
         <View style={styles.container}>
+            <Back text="Logout" onPress={() => {
+                setCurrentPage("Login")
+            }} />
             <View style={styles.dateBox}>
                 <Text style={styles.month}>{date.toLocaleString('default', { month: 'long' })}</Text>
                 <Text style={styles.day}>{date.getDate()}</Text>
@@ -74,7 +78,13 @@ const Home = ({ setCurrentPage, setCurrentMemory, isWeb, myUID }) => {
                 {tomorrowMemories.map((memory, index) => {
                     return (
                         <View key={index} >
-                            <NextMemory key={index} title={memory.title} />
+                            <NextMemory 
+                                key={index} 
+                                title={memory.title} 
+                                id={memory.id} 
+                                setCurrentPage={setCurrentPage}
+                                setCurrentMemory={setCurrentMemory}  
+                            />
                             {(index == tomorrowMemories.length - 1) ? null : <Dash />}
                         </View>
                     )

@@ -33,6 +33,19 @@ const WebViewer = ({ currentPage, setCurrentPage, currentMemory, setCurrentMemor
                 loggedIn={loggedIn}
             />
         }
+        if (currentPage == "MemoryPreview") {
+            return <MemoryViewer
+                myUID={myUID}
+                setMyUID={setMyUID}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                setCurrentMemory={setCurrentMemory}
+                currentMemory={currentMemory}
+                setLoggedIn={setLoggedIn}
+                loggedIn={loggedIn}
+                isPreview={true}
+            />
+        }
         return <EmptyPage setCurrentPage={setCurrentPage} />
     }
     if (currentPage == 'Login') {

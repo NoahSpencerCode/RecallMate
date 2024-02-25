@@ -32,6 +32,9 @@ const App = () => {
     if (currentPage == "MemoryViewer") {
       return <MemoryViewer myUID={myUID} setCurrentPage={setCurrentPage} currentMemory={currentMemory} />
     }
+    if (currentPage == "MemoryPreview") {
+      return <MemoryViewer myUID={myUID} setCurrentPage={setCurrentPage} currentMemory={currentMemory} isPreview={true} />
+    }
     if (currentPage == "Login") {
       return <LoginPage setMyUID={setMyUID} setCurrentPage={setCurrentPage} setLoggedIn={setLoggedIn} />
     }
