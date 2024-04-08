@@ -1,17 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { collection, getDocs, addDoc, doc, getCountFromServer, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, get, addDoc, doc, getCountFromServer, updateDoc, query, where } from 'firebase/firestore';
 import { FIREBASE_DB } from '../firebaseConfig';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import Fib from '../Utils/Fib';
+import VersionCheck from '../Utils/VersionCheck';
 
 export const reviewMemory = createAsyncThunk(
     'memories/reviewMemories',
     async (req) => {
-        console.log('req', req);
         try {
             const ref = doc(FIREBASE_DB, "users", req.myUID, "memories", req.memory.id)
+
+            let nextDate = new Date();
+            nextDate.setDate(nextDate.getDate() + Fib(req.memory.timesReviewed+1))
             await updateDoc(ref, {
-                lastReviewDate: new Date().toString(),
+                version: "2.0",
+                nextReviewDate: nextDate,
                 timesReviewed: req.memory.timesReviewed + 1,
             })
             return { memory: req.memory }
@@ -26,18 +31,24 @@ export const getAllMemories = createAsyncThunk(
     async (req) => {
         try {
            
+            let tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 2);
+
             const usersRef = collection(FIREBASE_DB, "users", req.myUID, "memories");
 
-            const snap = await getDocs(usersRef);
+            const q = query(usersRef, where("nextReviewDate", "<", tomorrow));
+
+            const snap = await getDocs(q);
 
             let newMemories = []
 
             snap.forEach((doc) => {
-                console.log(doc.id, " => ", doc.data());
-                const data = doc.data()
+                let data = doc.data()
+                VersionCheck(data);
                 const newMemory = {
                     id: doc.id,
-                    lastReviewDate: data.lastReviewDate,
+                    version: data.version,
+                    nextReviewDate: data.nextReviewDate.toDate().toString(),
                     timesReviewed: data.timesReviewed,
                     title: data.title,
                     text: data.text,
@@ -67,9 +78,12 @@ export const memoriesSlice = createSlice({
     },
     reducers: {
         newMemory: (state, action) => {
+            let tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
             const newMemory = {
+                version: "2.0",
                 id: uuidv4(), 
-                lastReviewDate: new Date().toString(),
+                nextReviewDate: tomorrow.toString(),
                 timesReviewed: 0,
                 title: action.payload.title,
                 text: action.payload.text,
@@ -78,7 +92,8 @@ export const memoriesSlice = createSlice({
             state.documents.push(newMemory);
             state.totalMemories += 1;
             addDoc(collection(FIREBASE_DB, `users/${action.payload.myUID}/memories`), {
-                lastReviewDate: new Date().toString(),
+                version: "2.0",
+                nextReviewDate: tomorrow,
                 timesReviewed: 0, 
                 title: action.payload.title,
                 text: action.payload.text,
@@ -97,7 +112,9 @@ export const memoriesSlice = createSlice({
         });
         builder.addCase(reviewMemory.fulfilled, (state, action) => {
             const memory = state.documents.find(obj => obj.id === action.payload.memory.id);
-            memory.lastReviewDate = new Date().toString();
+            let nextDate = new Date();
+            nextDate.setDate(nextDate.getDate() + Fib(memory.timesReviewed+1))
+            memory.nextReviewDate = nextDate.toString();
             memory.timesReviewed += 1;
         });
     }
