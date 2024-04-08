@@ -54,7 +54,6 @@ const LoginPage = ({ setCurrentPage, isDesktop, setMyUID }) => {
                     signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
                         .then((userCredential) => {
                             const user = userCredential.user;
-                            console.log("set uid", user.uid)
                             setMyUID(user.uid)
                             dispatch(getAllMemories({ myUID: user.uid }))
                             setCurrentPage('Home')

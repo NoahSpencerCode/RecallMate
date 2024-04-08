@@ -26,8 +26,7 @@ const Home = ({ setCurrentPage, setCurrentMemory, isWeb, myUID }) => {
     const numOfMemories = useSelector(state => state.memories.totalMemories);
 
     for (let i = 0; i < reduxMemories.length; i++) {
-        const nextReviewDate = new Date(reduxMemories[i].lastReviewDate);
-        nextReviewDate.setDate(nextReviewDate.getDate()+fib(reduxMemories[i].timesReviewed+1))
+        const nextReviewDate = new Date(reduxMemories[i].nextReviewDate);
         const diffDays = Math.round((nextReviewDate - date) / oneDay)
         if (diffDays < 0) {
             memories.push(reduxMemories[i])
