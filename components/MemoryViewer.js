@@ -1,13 +1,26 @@
 import React, {useState} from 'react';
 import {View, Text, Image, ScrollView, TextInput, Pressable, StyleSheet, Platform} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { reviewMemory } from '../redux/memoriesSlice';
+import { reviewMemory, removeMemory } from '../redux/memoriesSlice';
 import Back from './Back';
+import Delete from './Delete';
+import Confirmation from './Confirmation';
 
 const MemoryViewer = ({ setCurrentPage, currentMemory, myUID, isPreview }) => {
   const memory = useSelector((state) => state.memories.documents.find(obj => obj.id === currentMemory));
 
   const dispatch = useDispatch();
+
+  const onNoPress = () => {
+
+  }
+
+  const onYesPress = () => {
+    dispatch(removeMemory({ memory, myUID }))
+    setCurrentPage('Home')
+  }
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -18,7 +31,8 @@ const MemoryViewer = ({ setCurrentPage, currentMemory, myUID, isPreview }) => {
       <ScrollView>
         <Text style={styles.title}>{memory.title}</Text>
         <Text style={styles.text}>{memory.text}</Text>
-        {memory.answer != '' && memory.answer != null ? 
+        {memory.answer != '' && memory.answer != null && 
+          <>
             <TextInput
                 style={styles.answerInput}
                 placeholder="Answer"
@@ -27,12 +41,21 @@ const MemoryViewer = ({ setCurrentPage, currentMemory, myUID, isPreview }) => {
                 keyboardAppearance={'dark'}
                 onChangeText={newText => setAnswer(newText)}
             />
-        : 
-            null
+            <Pressable style={styles.checkButton} onPress={() => {
+              
+            }}>
+              <Text style={styles.completeText}>Check</Text>
+            </Pressable>
+          </>
         }
         
         
       </ScrollView>
+      <Delete onPress={() => {
+        setModalVisible(true);
+      }}
+      />
+      <Confirmation text="Delete Memory?" setModalVisible={setModalVisible} modalVisible={modalVisible} onNoPress={onNoPress} onYesPress={onYesPress} />
       { !isPreview ? 
       <View style={styles.buttonFrame}>
         <Pressable style={styles.completeButton} onPress={() => {
@@ -86,11 +109,26 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 10,
   },
+  checkButton: {
+    margin: 'auto',
+    height: 30,
+    width: 90,
+    backgroundColor: '#4dcbf7',
+    borderRadius: '30px',
+    shadowColor: 'black',
+    shadowOpacity: .5,
+    shadowOffset: {
+        width: 1,
+        height: 2,
+    },
+    shadowRadius: 10,
+  },
   completeText: {
     textAlign: 'center',
     color: 'white',
-    height: '100%',
-    lineHeight: 60,
+    height: 'fit-content',
+    //lineHeight: 60,
+    margin: 'auto',
     fontSize: 20,
     textShadowColor: 'rgba(0, 0, 0, 0.6)',
     textShadowRadius: 10,

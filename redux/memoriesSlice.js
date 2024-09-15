@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { collection, getDocs, get, addDoc, doc, getCountFromServer, updateDoc, query, where } from 'firebase/firestore';
+import { collection, getDocs, get, addDoc, doc, getCountFromServer, updateDoc, query, where, deleteDoc } from 'firebase/firestore';
 import { FIREBASE_DB } from '../firebaseConfig';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
@@ -100,8 +100,15 @@ export const memoriesSlice = createSlice({
                 answer: action.payload.answer,
             })
         },
-        removeMemory: state => {
-            state.value -= 1
+        removeMemory: (state, action) => {
+            console.log(action.payload.memory.id);
+            const deleteIndex = state.documents.findIndex((element) => {
+                return element.id === action.payload.memory.id
+            });
+            if (deleteIndex === -1) {return};
+            state.documents.splice(deleteIndex,1);
+            state.totalMemories -= 1;
+            deleteDoc(doc(FIREBASE_DB, `users/${action.payload.myUID}/memories`, action.payload.memory.id ));
         },
     },
     
