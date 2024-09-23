@@ -13,13 +13,24 @@ export const reviewMemory = createAsyncThunk(
             const ref = doc(FIREBASE_DB, "users", req.myUID, "memories", req.memory.id)
 
             let nextDate = new Date();
-            nextDate.setDate(nextDate.getDate() + Fib(req.memory.timesReviewed+1))
-            await updateDoc(ref, {
-                version: "2.0",
-                nextReviewDate: nextDate,
-                timesReviewed: req.memory.timesReviewed + 1,
-            })
-            return { memory: req.memory }
+
+            if (req.isFailed) {
+                nextDate.setDate(nextDate.getDate() + 1)
+                await updateDoc(ref, {
+                    version: "2.0",
+                    nextReviewDate: nextDate,
+                    timesReviewed: 0,
+                })
+            } else {
+                nextDate.setDate(nextDate.getDate() + Fib(req.memory.timesReviewed+1))
+                await updateDoc(ref, {
+                    version: "2.0",
+                    nextReviewDate: nextDate,
+                    timesReviewed: req.memory.timesReviewed + 1,
+                })
+            }
+
+            return { memory: req.memory, isFailed: req.isFailed }
         } catch (e) {
             console.error(e);
         }
@@ -120,9 +131,18 @@ export const memoriesSlice = createSlice({
         builder.addCase(reviewMemory.fulfilled, (state, action) => {
             const memory = state.documents.find(obj => obj.id === action.payload.memory.id);
             let nextDate = new Date();
-            nextDate.setDate(nextDate.getDate() + Fib(memory.timesReviewed+1))
-            memory.nextReviewDate = nextDate.toString();
-            memory.timesReviewed += 1;
+
+            if (action.payload.isFailed) {
+                nextDate.setDate(nextDate.getDate() + 1)
+                memory.nextReviewDate = nextDate.toString();
+                memory.timesReviewed = 0;
+            } else {
+                nextDate.setDate(nextDate.getDate() + Fib(memory.timesReviewed+1))
+                memory.nextReviewDate = nextDate.toString();
+                memory.timesReviewed += 1;
+            }
+
+            
         });
     }
 
