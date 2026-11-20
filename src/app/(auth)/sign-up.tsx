@@ -7,14 +7,20 @@ import { EmptyState } from '@/components/EmptyState';
 import { Text } from '@/components/Text';
 import { TextField } from '@/components/TextField';
 import { AuthShell } from '@/features/auth/AuthShell';
+import { rememberEmail } from '@/features/auth/emailHandoff';
 import { FormError } from '@/features/auth/FormError';
 import { PasswordStrength } from '@/features/auth/PasswordStrength';
+import { authRedirectUrl } from '@/features/auth/redirects';
+import { ResendConfirmation } from '@/features/auth/ResendConfirmation';
 import { neural } from '@/features/neural/neuralBus';
 import { friendlyError } from '@/lib/errors';
 import { supabase } from '@/lib/supabase';
 import { fonts, palette, spacing, useTheme } from '@/theme';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** form → (inbox: confirmation email sent | exists: already signed up, no email sent) */
+type Stage = 'form' | 'inbox' | 'exists';
 
 export default function SignUp() {
   const { colors } = useTheme();
@@ -23,35 +29,79 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [checkInbox, setCheckInbox] = useState(false);
+  const [stage, setStage] = useState<Stage>('form');
+  const emailRef = useRef<ComponentRef<typeof TextInput>>(null);
   const passwordRef = useRef<ComponentRef<typeof TextInput>>(null);
+  const address = email.trim();
 
   async function submit() {
-    if (!EMAIL.test(email.trim())) return setError('Enter a valid email address.');
+    if (busy) return;
+    if (!EMAIL.test(address)) return setError('Enter a valid email address.');
     if (password.length < 8) return setError('Use at least 8 characters for your password.');
     setError(null);
     setBusy(true);
+    rememberEmail(address);
     const { data, error: signUpError } = await supabase.auth.signUp({
-      email: email.trim(),
+      email: address,
       password,
-      options: { data: name.trim() ? { name: name.trim() } : {} },
+      options: {
+        data: name.trim() ? { name: name.trim() } : {},
+        emailRedirectTo: authRedirectUrl('/'),
+      },
     });
     setBusy(false);
+    // An existing, confirmed account: Supabase either says so (when email or
+    // phone confirmation is off) or, to hide which addresses are registered,
+    // returns a stand-in user with no identities and sends no email.
+    if (signUpError?.code === 'user_already_exists' || signUpError?.code === 'email_exists') return setStage('exists');
     if (signUpError) return setError(friendlyError(signUpError));
+    if (!data.session && data.user?.identities?.length === 0) return setStage('exists');
     neural.burst({ strength: 1.4 });
-    // With email confirmation on, there's no session until they click the link.
-    if (!data.session) setCheckInbox(true);
+    // With a session they're signed in and the auth listener swaps to the app.
+    // Without one, email confirmation is on and the link activates the account.
+    if (!data.session) setStage('inbox');
   }
 
-  if (checkInbox) {
+  if (stage === 'inbox') {
     return (
-      <AuthShell title="Check your inbox" subtitle={`We sent a confirmation link to ${email.trim()}.`}>
+      <AuthShell title="Check your inbox" subtitle={`We sent a confirmation link to ${address}.`}>
         <EmptyState
           icon="email-fast-outline"
           color={palette.violet}
           title="One tap to go"
-          message="Open the email and tap the link to activate your account, then come back and sign in.">
-          <Button title="Back to sign in" variant="secondary" onPress={() => router.replace('/sign-in')} />
+          message="Tap the link in the email to activate your account and sign in. Nothing after a minute? Check your spam folder, or send it again.">
+          <ResendConfirmation email={address} />
+          <Button
+            title="Back to sign in"
+            variant="secondary"
+            onPress={() => router.replace('/sign-in')}
+          />
+        </EmptyState>
+      </AuthShell>
+    );
+  }
+
+  if (stage === 'exists') {
+    return (
+      <AuthShell
+        title="You already have an account"
+        subtitle={`${address} is already signed up, so we didn’t send another email.`}>
+        <EmptyState
+          icon="account-check-outline"
+          color={palette.violet}
+          title="Welcome back"
+          message="Sign in with your password. Forgot it? We’ll email you a link to set a new one.">
+          <Button
+            title="Sign in"
+            icon="login"
+            onPress={() => router.replace('/sign-in')}
+          />
+          <Button
+            title="Reset password"
+            variant="secondary"
+            icon="lock-reset"
+            onPress={() => router.replace('/forgot-password')}
+          />
         </EmptyState>
       </AuthShell>
     );
@@ -69,9 +119,12 @@ export default function SignUp() {
           autoComplete="given-name"
           textContentType="givenName"
           returnKeyType="next"
+          blurOnSubmit={false}
+          onSubmitEditing={() => emailRef.current?.focus()}
           maxLength={40}
         />
         <TextField
+          inputRef={emailRef}
           label="Email"
           icon="email-outline"
           placeholder="you@school.edu"

@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useAuth } from '@/features/auth/AuthProvider';
-import type { ISODate } from '@/lib/dates';
 import { queryKeys } from '@/lib/queryClient';
 
 import { addPack, fetchCatalog, fetchPack, fetchPackProgress, removePack, type PackSummary } from './api';
@@ -45,8 +44,7 @@ function useRefreshAfterPackChange() {
 export function useAddPack() {
   const refresh = useRefreshAfterPackChange();
   return useMutation({
-    mutationFn: ({ packId, perDay, today }: { packId: string; perDay: number; today: ISODate }) =>
-      addPack(packId, perDay, today),
+    mutationFn: ({ packId, perDay }: { packId: string; perDay: number }) => addPack(packId, perDay),
     onSuccess: refresh,
   });
 }

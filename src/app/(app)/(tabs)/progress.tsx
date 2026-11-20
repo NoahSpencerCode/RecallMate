@@ -12,12 +12,13 @@ import { ForecastBars } from '@/components/ForecastBars';
 import { Heatmap } from '@/components/Heatmap';
 import { Icon } from '@/components/Icon';
 import { Screen } from '@/components/Screen';
+import { LoadError } from '@/components/LoadError';
 import { Skeleton } from '@/components/Skeleton';
 import { StatTile } from '@/components/StatTile';
 import { Flame } from '@/components/StreakFlame';
 import { Text } from '@/components/Text';
 import { useToast } from '@/components/Toast';
-import { useAuth } from '@/features/auth/AuthProvider';
+import { signOut as signOutOfThisDevice, useAuth } from '@/features/auth/AuthProvider';
 import { useProgress } from '@/features/progress/hooks';
 import { friendlyError } from '@/lib/errors';
 import { supabase } from '@/lib/supabase';
@@ -47,9 +48,9 @@ export default function ProgressScreen() {
 
   async function signOut() {
     setSigningOut(true);
-    const { error } = await supabase.auth.signOut();
+    // Just this device, and it works offline (say, on a library computer).
+    await signOutOfThisDevice();
     setSigningOut(false);
-    if (error) toast({ tone: 'error', message: friendlyError(error) });
   }
 
   async function deleteAccount() {
@@ -61,7 +62,8 @@ export default function ProgressScreen() {
       toast({ tone: 'error', message: friendlyError(error) });
       return;
     }
-    await supabase.auth.signOut({ scope: 'local' });
+    toast({ tone: 'info', icon: 'account-remove-outline', message: 'Your account and all its cards have been deleted.' });
+    await signOutOfThisDevice();
   }
 
   return (
@@ -74,7 +76,9 @@ export default function ProgressScreen() {
         <Text variant="title">Progress</Text>
       </Animated.View>
 
-      {!p ? (
+      {!p && query.isError ? (
+        <LoadError title="Couldn’t load your progress" onRetry={() => void query.refetch()} retrying={query.isFetching} />
+      ) : !p ? (
         <>
           <Skeleton height={150} radius={radii.xl} />
           <Skeleton height={110} radius={radii.xl} />

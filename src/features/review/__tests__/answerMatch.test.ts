@@ -51,4 +51,28 @@ describe('checkAnswer', () => {
   it('does not treat short words as close', () => {
     expect(checkAnswer('axon', 'exon')).toBe('wrong');
   });
+
+  it('keeps a leading "a" that is part of a formula', () => {
+    expect(normalizeAnswer('A = πr²')).toBe('a=pir^2');
+    expect(checkAnswer('A=πr²', 'A = πr²')).toBe('correct');
+    expect(checkAnswer('a+bi', 'a + bi')).toBe('correct');
+    expect(checkAnswer('the 1st law', '1st law')).toBe('correct');
+    expect(checkAnswer('an enzyme', 'enzyme')).toBe('correct');
+  });
+
+  it('accepts the same number written differently', () => {
+    expect(checkAnswer('1,5', '1.5')).toBe('correct');
+    expect(checkAnswer('.5', '0.5')).toBe('correct');
+    expect(checkAnswer('0.50', '0.5')).toBe('correct');
+    expect(checkAnswer('2.0', '2')).toBe('correct');
+    expect(checkAnswer('1,000 J', '1000 J')).toBe('correct');
+    expect(checkAnswer('x = 2.50', 'x=2.5')).toBe('correct');
+  });
+
+  it('leaves lists and dotted numbers alone', () => {
+    expect(normalizeAnswer('1, 1, 2, 3, 5')).toBe('1,1,2,3,5');
+    expect(normalizeAnswer('192.168.0.10')).toBe('192.168.0.10');
+    expect(checkAnswer('1.5', '15')).toBe('wrong');
+    expect(checkAnswer('0.05', '0.5')).toBe('wrong');
+  });
 });

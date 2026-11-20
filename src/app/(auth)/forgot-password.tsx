@@ -1,38 +1,33 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { router } from 'expo-router';
 import { useState } from 'react';
-import { Platform } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { EmptyState } from '@/components/EmptyState';
 import { TextField } from '@/components/TextField';
 import { AuthShell } from '@/features/auth/AuthShell';
+import { rememberEmail, rememberedEmail } from '@/features/auth/emailHandoff';
 import { FormError } from '@/features/auth/FormError';
-import { env } from '@/lib/env';
+import { authRedirectUrl } from '@/features/auth/redirects';
 import { friendlyError } from '@/lib/errors';
 import { supabase } from '@/lib/supabase';
 import { palette } from '@/theme';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** Reset links open the web app, which can set a new password on any device. */
-function resetRedirectUrl(): string | undefined {
-  const origin = Platform.OS === 'web' && typeof window !== 'undefined' ? window.location.origin : env.siteUrl;
-  return origin ? `${origin.replace(/\/$/, '')}/reset-password` : undefined;
-}
-
 export default function ForgotPassword() {
-  const params = useLocalSearchParams<{ email?: string }>();
-  const [email, setEmail] = useState(params.email ?? '');
+  const [email, setEmail] = useState(rememberedEmail);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
 
   async function submit() {
+    if (busy) return;
     if (!EMAIL.test(email.trim())) return setError('Enter the email you signed up with.');
+    rememberEmail(email);
     setError(null);
     setBusy(true);
     const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: resetRedirectUrl(),
+      redirectTo: authRedirectUrl('/reset-password'),
     });
     setBusy(false);
     if (resetError) return setError(friendlyError(resetError));

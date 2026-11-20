@@ -1,4 +1,4 @@
-import type { ISODate } from '@/lib/dates';
+import { localToday } from '@/lib/dates';
 import { supabase } from '@/lib/supabase';
 
 export type PackSummary = {
@@ -86,11 +86,12 @@ export async function fetchPackProgress(): Promise<PackProgress[]> {
 }
 
 /** Copies the pack's cards into the user's memories; returns how many were added. */
-export async function addPack(packId: string, perDay: number, today: ISODate): Promise<number> {
+/** Adds the pack's cards, the first batch due today (the local date when it saves). */
+export async function addPack(packId: string, perDay: number): Promise<number> {
   const { data, error } = await supabase.rpc('add_pack', {
     p_pack_id: packId,
     p_per_day: perDay,
-    p_today: today,
+    p_today: localToday(),
   });
   if (error) throw error;
   return data;

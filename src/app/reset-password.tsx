@@ -35,6 +35,7 @@ export default function ResetPassword() {
   }
 
   async function submit() {
+    if (busy) return;
     if (password.length < 8) return setError('Use at least 8 characters.');
     setError(null);
     setBusy(true);
@@ -66,6 +67,16 @@ export default function ResetPassword() {
       <PasswordStrength password={password} />
       <FormError message={error} />
       <Button title="Save password" icon="check" fullWidth loading={busy} onPress={submit} />
+      {/* A way out: e.g. a second tab that also jumped here, or they're already signed in and changed their mind. */}
+      <Button
+        title="Not now"
+        variant="ghost"
+        size="sm"
+        onPress={() => {
+          finishRecovery();
+          router.replace('/');
+        }}
+      />
     </AuthShell>
   );
 }

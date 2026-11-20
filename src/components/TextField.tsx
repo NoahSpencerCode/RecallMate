@@ -84,7 +84,8 @@ export function TextField({
             onPress={() => setHidden((value) => !value)}
             accessibilityRole="button"
             accessibilityLabel={hidden ? 'Show password' : 'Hide password'}
-            hitSlop={10}>
+            // A 44px target around the 20px icon (react-native-web ignores hitSlop).
+            style={styles.toggle}>
             <Icon name={hidden ? 'eye-outline' : 'eye-off-outline'} size={20} color={colors.textSubtle} />
           </Pressable>
         ) : null}
@@ -126,4 +127,5 @@ const styles = StyleSheet.create({
     outlineWidth: 0,
   },
   below: { marginLeft: 4 },
+  toggle: { padding: 12, margin: -12 },
 });

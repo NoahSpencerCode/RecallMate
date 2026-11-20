@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
@@ -11,6 +11,7 @@ import { EmptyState } from '@/components/EmptyState';
 import { GradientBlobs } from '@/components/GradientBlobs';
 import { Icon } from '@/components/Icon';
 import { IconButton } from '@/components/IconButton';
+import { LoadError } from '@/components/LoadError';
 import { Text } from '@/components/Text';
 import { TextField } from '@/components/TextField';
 import { useToast } from '@/components/Toast';
@@ -24,7 +25,7 @@ import { prettyMath } from '@/features/review/prettyMath';
 import { FlipCard } from '@/features/review/FlipCard';
 import { SessionComplete } from '@/features/review/SessionComplete';
 import { describeGap } from '@/lib/dates';
-import { friendlyError } from '@/lib/errors';
+import { friendlyError, isGoneError, isNotDueError } from '@/lib/errors';
 import { haptics } from '@/lib/haptics';
 import { nextGapDays } from '@/lib/schedule';
 import { useToday } from '@/lib/useToday';
@@ -34,7 +35,22 @@ const MAX_TRIES = 3;
 
 type Outcome = null | 'correct' | 'failed' | 'revealed';
 
+// Keyboard tips only help with a mouse and keyboard, not on touch phones.
+const showKeyboardTips =
+  Platform.OS === 'web' &&
+  typeof window !== 'undefined' &&
+  Boolean(window.matchMedia?.('(hover: hover) and (pointer: fine)').matches);
+
+function withoutLast<T extends { id: string }>(list: T[], id: string): T[] {
+  for (let i = list.length - 1; i >= 0; i--) {
+    if (list[i].id === id) return [...list.slice(0, i), ...list.slice(i + 1)];
+  }
+  return list;
+}
+
 export default function Review() {
+  // Opened from a pack page: only that pack's due cards.
+  const { pack: packFilter } = useLocalSearchParams<{ pack?: string }>();
   const { colors } = useTheme();
   const screenBackground = useScreenBackground();
   const insets = useSafeAreaInsets();
@@ -42,18 +58,20 @@ export default function Review() {
   const toast = useToast();
   const memoriesQuery = useMemories();
   const packIndex = usePackIndex();
-  const saveReview = useReviewMemory();
 
   // Snapshot the due cards once so the order doesn't shift as reviews save.
   const [queue, setQueue] = useState<Memory[] | null>(null);
   if (queue === null && memoriesQuery.data) {
-    setQueue(memoriesQuery.data.filter((m) => m.due_on <= today));
+    setQueue(memoriesQuery.data.filter((m) => m.due_on <= today && (!packFilter || m.pack_id === packFilter)));
   }
 
   const [index, setIndex] = useState(0);
-  const [results, setResults] = useState<boolean[]>([]);
+  // Counted as soon as they're graded; a review that fails to save is taken back out.
+  const [results, setResults] = useState<{ id: string; passed: boolean }[]>([]);
   const [input, setInput] = useState('');
+  const [lastTry, setLastTry] = useState('');
   const [misses, setMisses] = useState(0);
+  const [overridden, setOverridden] = useState(false);
   const [closeUsed, setCloseUsed] = useState(false);
   const [feedback, setFeedback] = useState<{ tone: 'close' | 'wrong' | 'empty'; text: string } | null>(null);
   const [outcome, setOutcome] = useState<Outcome>(null);
@@ -61,7 +79,27 @@ export default function Review() {
   const [popKey, setPopKey] = useState(0);
   const [burst, setBurst] = useState(0);
 
-  const card = queue?.[index];
+  const saveReview = useReviewMemory({
+    onFailed: (failed, error) => {
+      setResults((list) => withoutLast(list, failed.id));
+      if (isGoneError(error)) {
+        toast({ tone: 'info', icon: 'card-remove-outline', message: 'A card was deleted on another device, so it was skipped.' });
+      } else if (isNotDueError(error)) {
+        toast({ tone: 'info', message: 'A card was already reviewed on another device, so it wasn’t counted twice.' });
+      } else {
+        // Put the card back at the end so the review isn't lost.
+        setQueue((list) => {
+          const original = list?.find((m) => m.id === failed.id);
+          return list && original ? [...list, original] : list;
+        });
+        toast({ tone: 'error', message: `A review didn’t save, so that card is back in your queue. ${friendlyError(error)}` });
+      }
+    },
+  });
+
+  const snapshot = queue?.[index];
+  // The latest version, so an answer fixed on another device applies here too.
+  const card = (snapshot && memoriesQuery.data?.find((m) => m.id === snapshot.id)) || snapshot;
   const typed = Boolean(card?.answer);
   const total = queue?.length ?? 0;
   const pack = card?.pack_id ? packIndex.get(card.pack_id) : undefined;
@@ -95,6 +133,7 @@ export default function Review() {
       return;
     }
     setShakeKey((k) => k + 1);
+    setLastTry(input.trim());
     if (verdict === 'close' && !closeUsed) {
       haptics.tap();
       setCloseUsed(true);
@@ -115,14 +154,15 @@ export default function Review() {
 
   function finishCard(passed: boolean) {
     if (!card) return;
-    saveReview.mutate(
-      { id: card.id, passed, today, attempts: typed ? misses + (passed ? 1 : 0) : 1 },
-      { onError: (error) => toast({ tone: 'error', message: `A review didn’t save: ${friendlyError(error)}` }) },
-    );
-    setResults((r) => [...r, passed]);
+    // Tries: every miss, plus the one that got it (an "I was right" adds none).
+    const attempts = typed ? Math.max(1, misses + (passed && !overridden ? 1 : 0)) : 1;
+    saveReview.mutate({ id: card.id, passed, attempts });
+    setResults((r) => [...r, { id: card.id, passed }]);
     setIndex((i) => i + 1);
     setInput('');
+    setLastTry('');
     setMisses(0);
+    setOverridden(false);
     setCloseUsed(false);
     setFeedback(null);
     setOutcome(null);
@@ -157,7 +197,11 @@ export default function Review() {
   if (!queue) {
     content = (
       <View style={styles.center}>
-        <ActivityIndicator color={colors.primary} size="large" />
+        {memoriesQuery.isError ? (
+          <LoadError onRetry={() => void memoriesQuery.refetch()} retrying={memoriesQuery.isFetching} />
+        ) : (
+          <ActivityIndicator color={colors.primary} size="large" />
+        )}
       </View>
     );
   } else if (total === 0) {
@@ -167,13 +211,17 @@ export default function Review() {
           icon="check-decagram"
           color={palette.mint}
           title="Nothing due right now"
-          message="You’re all caught up. New reviews unlock as cards come due.">
+          message={
+            packFilter
+              ? 'Nothing from this pack is due. New reviews unlock as cards come due.'
+              : 'You’re all caught up. New reviews unlock as cards come due.'
+          }>
           <Button title="Back to Today" onPress={close} />
         </EmptyState>
       </View>
     );
   } else if (!card) {
-    content = <SessionComplete reviewed={results.length} correct={results.filter(Boolean).length} />;
+    content = <SessionComplete reviewed={results.length} correct={results.filter((r) => r.passed).length} />;
   } else {
     const passedPreview = outcome === 'correct';
     const front = (
@@ -224,6 +272,11 @@ export default function Review() {
             {prettyMath(card.answer ?? '')}
           </Text>
         ) : null}
+        {typed && lastTry && (outcome === 'failed' || overridden) ? (
+          <Text variant="small" tone="muted">
+            You typed: {lastTry}
+          </Text>
+        ) : null}
         {card.body ? (
           <Text variant="body" style={styles.body}>
             {card.body}
@@ -271,6 +324,8 @@ export default function Review() {
                 spellCheck={false}
                 returnKeyType="done"
                 submitBehavior="submit"
+                // react-native-web ignores submitBehavior and would drop the keyboard after every try.
+                blurOnSubmit={false}
                 onSubmitEditing={check}
                 accessibilityLabel="Your answer"
               />
@@ -325,13 +380,27 @@ export default function Review() {
                 fullWidth
                 onPress={() => finishCard(outcome === 'correct')}
               />
+              {outcome === 'failed' && lastTry ? (
+                <Button
+                  title="I was right, count it"
+                  variant="ghost"
+                  size="sm"
+                  icon="check-circle-outline"
+                  onPress={() => {
+                    haptics.success();
+                    setOverridden(true);
+                    setOutcome('correct');
+                  }}
+                  style={styles.override}
+                />
+              ) : null}
             </Animated.View>
           ) : null}
 
           {!typed && !outcome ? (
             <Animated.View key={`flip-${card.id}`} entering={FadeInDown.springify().damping(16)}>
               <Button title="Show answer" icon="rotate-3d-variant" fullWidth onPress={() => setOutcome('revealed')} />
-              {Platform.OS === 'web' ? (
+              {showKeyboardTips ? (
                 <Text variant="caption" tone="subtle" align="center" style={styles.hint}>
                   Tip: press Space to flip, then 1 or 2
                 </Text>
@@ -440,4 +509,5 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', gap: spacing.md },
   gradeArea: { gap: spacing.sm },
   hint: { marginTop: spacing.sm },
+  override: { alignSelf: 'center', marginTop: spacing.xs },
 });

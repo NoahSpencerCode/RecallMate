@@ -1,4 +1,4 @@
-import { addDays, type ISODate } from '@/lib/dates';
+import { addDays, localToday } from '@/lib/dates';
 import type { Database } from '@/lib/database.types';
 import { supabase } from '@/lib/supabase';
 
@@ -40,11 +40,11 @@ function clean(input: MemoryInput) {
   };
 }
 
-/** New memories are first due tomorrow. */
-export async function createMemory(input: MemoryInput, today: ISODate): Promise<Memory> {
+/** New memories are first due tomorrow (the local date when it saves). */
+export async function createMemory(input: MemoryInput): Promise<Memory> {
   const { data, error } = await supabase
     .from('memories')
-    .insert({ ...clean(input), due_on: addDays(today, 1) })
+    .insert({ ...clean(input), due_on: addDays(localToday(), 1) })
     .select()
     .single();
   if (error) throw error;
@@ -62,14 +62,14 @@ export async function deleteMemory(id: string): Promise<void> {
   if (error) throw error;
 }
 
-export type ReviewInput = { id: string; passed: boolean; attempts: number; today: ISODate };
+export type ReviewInput = { id: string; passed: boolean; attempts: number };
 
-/** Records the review and returns the memory with its new schedule. */
-export async function reviewMemory({ id, passed, attempts, today }: ReviewInput): Promise<Memory> {
+/** Records the review (dated when it saves) and returns the memory with its new schedule. */
+export async function reviewMemory({ id, passed, attempts }: ReviewInput): Promise<Memory> {
   const { data, error } = await supabase.rpc('review_memory', {
     p_memory_id: id,
     p_passed: passed,
-    p_today: today,
+    p_today: localToday(),
     p_attempts: attempts,
   });
   if (error) throw error;
