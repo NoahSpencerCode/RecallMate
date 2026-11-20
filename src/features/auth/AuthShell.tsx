@@ -9,7 +9,7 @@ import { GradientBlobs } from '@/components/GradientBlobs';
 import { IconButton } from '@/components/IconButton';
 import { Logo } from '@/components/Logo';
 import { Text } from '@/components/Text';
-import { gradients, radii, spacing, useIsWide, useTheme } from '@/theme';
+import { gradients, radii, spacing, useIsWide, useScreenBackground } from '@/theme';
 
 import { FloatingCards } from './FloatingCards';
 
@@ -22,7 +22,7 @@ type AuthShellProps = {
 
 /** Layout for sign-in/up screens: hero art beside the form on wide screens. */
 export function AuthShell({ title, subtitle, children, showBack = true }: AuthShellProps) {
-  const { colors } = useTheme();
+  const screenBackground = useScreenBackground();
   const insets = useSafeAreaInsets();
   const isWide = useIsWide();
 
@@ -40,7 +40,7 @@ export function AuthShell({ title, subtitle, children, showBack = true }: AuthSh
   );
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background }]}>
+    <View style={[styles.root, { backgroundColor: screenBackground }]}>
       {isWide ? (
         <LinearGradient colors={gradients.brand} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.hero}>
           <Logo size={44} color="#FFFFFF" />

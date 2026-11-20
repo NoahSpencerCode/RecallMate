@@ -18,11 +18,12 @@ import { Text } from '@/components/Text';
 import { useToast } from '@/components/Toast';
 import { useMemories } from '@/features/memories/hooks';
 import { categoryLook } from '@/features/packs/categories';
+import { neural } from '@/features/neural/neuralBus';
 import { useAddPack, usePack, usePackProgress, useRemovePack } from '@/features/packs/hooks';
 import { friendlyError } from '@/lib/errors';
 import { haptics } from '@/lib/haptics';
 import { useToday } from '@/lib/useToday';
-import { enterItem, fonts, layout, palette, radii, spacing, useIsWide, useTheme } from '@/theme';
+import { enterItem, fonts, layout, palette, radii, spacing, useIsWide, useScreenBackground, useTheme } from '@/theme';
 
 const PACES = [
   { perDay: 5, label: '5 a day', hint: 'Steady' },
@@ -33,6 +34,7 @@ const PACES = [
 export default function PackDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { colors } = useTheme();
+  const screenBackground = useScreenBackground();
   const insets = useSafeAreaInsets();
   const isWide = useIsWide();
   const toast = useToast();
@@ -58,6 +60,7 @@ export default function PackDetail() {
       {
         onSuccess: (count) => {
           haptics.success();
+          neural.burst({ strength: 1.4 });
           setCelebrate((n) => n + 1);
           const firstBatch = pace === 0 ? count : Math.min(pace, count);
           toast({
@@ -87,7 +90,7 @@ export default function PackDetail() {
 
   if (pack.isError) {
     return (
-      <View style={[styles.root, { backgroundColor: colors.background, paddingTop: insets.top }]}>
+      <View style={[styles.root, { backgroundColor: screenBackground, paddingTop: insets.top }]}>
         <EmptyState icon="layers-off-outline" color={palette.pink} title="Pack not found" message="It may have been retired.">
           <Button title="Back to packs" variant="secondary" onPress={() => router.replace('/packs')} />
         </EmptyState>
@@ -96,7 +99,7 @@ export default function PackDetail() {
   }
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background }]}>
+    <View style={[styles.root, { backgroundColor: screenBackground }]}>
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + spacing.huge }} showsVerticalScrollIndicator={false}>
         <LinearGradient
           colors={look.gradient}

@@ -1,5 +1,5 @@
 import { useEffect, useId } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -58,6 +58,8 @@ function Blob({ color, opacity, size, top, left, drift, duration }: BlobProps) {
 /** Soft, slowly drifting color pools behind a screen. */
 export function GradientBlobs() {
   const { colors } = useTheme();
+  // On web the root-level neuron field provides the backdrop.
+  if (Platform.OS === 'web') return null;
   const [a, b, c] = colors.blobs;
   return (
     <View pointerEvents="none" style={[StyleSheet.absoluteFill, styles.clip]}>

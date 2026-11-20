@@ -19,7 +19,7 @@ import { categoryLook, personalLook } from '@/features/packs/categories';
 import { useCatalog, usePackIndex } from '@/features/packs/hooks';
 import { memoryStatus, type MemoryStatus } from '@/lib/schedule';
 import { useToday } from '@/lib/useToday';
-import { layout, palette, radii, spacing, useIsWide, useTheme } from '@/theme';
+import { layout, palette, radii, spacing, useIsWide, useScreenBackground, useTheme } from '@/theme';
 
 type StatusFilter = 'all' | 'due' | MemoryStatus;
 
@@ -35,6 +35,7 @@ const MINE = 'mine';
 
 export default function Library() {
   const { colors } = useTheme();
+  const screenBackground = useScreenBackground();
   const insets = useSafeAreaInsets();
   const isWide = useIsWide();
   const today = useToday();
@@ -160,7 +161,7 @@ export default function Library() {
   }
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background }]}>
+    <View style={[styles.root, { backgroundColor: screenBackground }]}>
       <GradientBlobs />
       <Animated.FlatList
         data={visible}

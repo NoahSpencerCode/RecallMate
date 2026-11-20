@@ -9,7 +9,7 @@ import { Icon, type IconName } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
 import { Text } from '@/components/Text';
 import { FloatingCards } from '@/features/auth/FloatingCards';
-import { gradients, radii, spacing, useIsWide, useTheme } from '@/theme';
+import { gradients, radii, spacing, useIsWide, useScreenBackground, useTheme } from '@/theme';
 
 const PERKS: { icon: IconName; text: string }[] = [
   { icon: 'calendar-sync-outline', text: 'Reviews spaced on a Fibonacci schedule: 1, 1, 2, 3, 5, 8 days…' },
@@ -19,6 +19,7 @@ const PERKS: { icon: IconName; text: string }[] = [
 
 export default function Welcome() {
   const { colors } = useTheme();
+  const screenBackground = useScreenBackground();
   const insets = useSafeAreaInsets();
   const isWide = useIsWide();
 
@@ -38,7 +39,7 @@ export default function Welcome() {
   );
 
   return (
-    <View style={[styles.root, isWide && styles.row, { backgroundColor: colors.background }]}>
+    <View style={[styles.root, isWide && styles.row, { backgroundColor: screenBackground }]}>
       <LinearGradient
         colors={gradients.brand}
         start={{ x: 0, y: 0 }}

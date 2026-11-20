@@ -15,7 +15,9 @@ import { DarkTheme, DefaultTheme, Stack, ThemeProvider, router } from 'expo-rout
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { Platform, View } from 'react-native';
 
+import { NeuralBackground } from '@/components/neural/NeuralBackground';
 import { SetupScreen } from '@/components/SetupScreen';
 import { ToastProvider } from '@/components/Toast';
 import { AuthProvider, useAuth } from '@/features/auth/AuthProvider';
@@ -64,12 +66,13 @@ function RootNavigator({ fontsReady }: { fontsReady: boolean }) {
   if (!ready) return null;
 
   const base = theme.scheme === 'dark' ? DarkTheme : DefaultTheme;
+  const screenBackground = Platform.OS === 'web' ? 'transparent' : theme.colors.background;
   const navigationTheme = {
     ...base,
     colors: {
       ...base.colors,
       primary: theme.colors.primary,
-      background: theme.colors.background,
+      background: screenBackground,
       card: theme.colors.surface,
       text: theme.colors.text,
       border: theme.colors.border,
@@ -79,6 +82,8 @@ function RootNavigator({ fontsReady }: { fontsReady: boolean }) {
   return (
     <ThemeProvider value={navigationTheme}>
       <StatusBar style={theme.scheme === 'dark' ? 'light' : 'dark'} />
+      <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <NeuralBackground />
       {missingEnv.length > 0 ? (
         <SetupScreen missing={missingEnv} />
       ) : (
@@ -86,7 +91,7 @@ function RootNavigator({ fontsReady }: { fontsReady: boolean }) {
           screenOptions={{
             headerShown: false,
             animation: 'fade',
-            contentStyle: { backgroundColor: theme.colors.background },
+            contentStyle: { backgroundColor: screenBackground },
           }}>
           <Stack.Protected guard={Boolean(session)} redirectTo="/welcome">
             <Stack.Screen name="(app)" />
@@ -98,6 +103,7 @@ function RootNavigator({ fontsReady }: { fontsReady: boolean }) {
           <Stack.Screen name="about" options={{ animation: 'slide_from_right' }} />
         </Stack>
       )}
+      </View>
     </ThemeProvider>
   );
 }

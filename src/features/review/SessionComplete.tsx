@@ -17,6 +17,7 @@ import { Button } from '@/components/Button';
 import { Confetti } from '@/components/Confetti';
 import { Icon } from '@/components/Icon';
 import { Text } from '@/components/Text';
+import { neural } from '@/features/neural/neuralBus';
 import { useProgress } from '@/features/progress/hooks';
 import { haptics } from '@/lib/haptics';
 import { useToday } from '@/lib/useToday';
@@ -37,6 +38,7 @@ export function SessionComplete({ reviewed, correct }: SessionCompleteProps) {
 
   useEffect(() => {
     haptics.success();
+    neural.burst({ strength: 1.6 });
     if (reduceMotion) return;
     wobble.set(
       withRepeat(withSequence(withTiming(1, { duration: 700 }), withTiming(-1, { duration: 700 })), -1, true),

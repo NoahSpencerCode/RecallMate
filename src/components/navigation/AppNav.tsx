@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import type { TabListProps, TabTriggerSlotProps } from 'expo-router/ui';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, type ReactNode } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -139,7 +139,13 @@ export function Sidebar({ children, style: _style, ...rest }: TabListProps & { c
   const initial = (user?.email ?? '?').charAt(0).toUpperCase();
 
   return (
-    <View {...rest} style={[styles.sidebar, { backgroundColor: colors.backgroundAlt, borderRightColor: colors.border }]}>
+    <View
+      {...rest}
+      style={[
+        styles.sidebar,
+        // Slightly see-through on web so the neuron field glows behind it.
+        { backgroundColor: Platform.OS === 'web' ? `${colors.backgroundAlt}CC` : colors.backgroundAlt, borderRightColor: colors.border },
+      ]}>
       <View style={styles.sideLogo}>
         <Logo size={38} />
       </View>

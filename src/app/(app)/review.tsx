@@ -16,6 +16,7 @@ import { TextField } from '@/components/TextField';
 import { useToast } from '@/components/Toast';
 import type { Memory } from '@/features/memories/api';
 import { useMemories, useReviewMemory } from '@/features/memories/hooks';
+import { neural } from '@/features/neural/neuralBus';
 import { categoryLook } from '@/features/packs/categories';
 import { usePackIndex } from '@/features/packs/hooks';
 import { checkAnswer } from '@/features/review/answerMatch';
@@ -27,7 +28,7 @@ import { friendlyError } from '@/lib/errors';
 import { haptics } from '@/lib/haptics';
 import { nextGapDays } from '@/lib/schedule';
 import { useToday } from '@/lib/useToday';
-import { fonts, layout, palette, radii, spacing, springs, useTheme } from '@/theme';
+import { fonts, layout, palette, radii, spacing, springs, useScreenBackground, useTheme } from '@/theme';
 
 const MAX_TRIES = 3;
 
@@ -35,6 +36,7 @@ type Outcome = null | 'correct' | 'failed' | 'revealed';
 
 export default function Review() {
   const { colors } = useTheme();
+  const screenBackground = useScreenBackground();
   const insets = useSafeAreaInsets();
   const today = useToday();
   const toast = useToast();
@@ -85,6 +87,7 @@ export default function Review() {
     const verdict = checkAnswer(input, card.answer, card.accepted_answers);
     if (verdict === 'correct') {
       haptics.success();
+      neural.burst({ strength: 1 });
       setFeedback(null);
       setOutcome('correct');
       setPopKey((k) => k + 1);
@@ -356,6 +359,7 @@ export default function Review() {
                 icon="check-bold"
                 onPress={() => {
                   haptics.success();
+                  neural.burst({ strength: 0.7 });
                   setBurst((b) => b + 1);
                   finishCard(true);
                 }}
@@ -376,7 +380,7 @@ export default function Review() {
   const inSession = Boolean(card);
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background, paddingTop: insets.top + spacing.sm }]}>
+    <View style={[styles.root, { backgroundColor: screenBackground, paddingTop: insets.top + spacing.sm }]}>
       <GradientBlobs />
       <View style={styles.topBar}>
         <IconButton icon="close" accessibilityLabel="End review" onPress={close} />
