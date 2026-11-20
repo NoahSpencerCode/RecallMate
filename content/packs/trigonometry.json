@@ -1,0 +1,544 @@
+{
+  "category": {
+    "id": "trigonometry",
+    "name": "Trigonometry",
+    "tagline": "Exact unit-circle values, core identities, triangle laws, and sinusoid graphs"
+  },
+  "packs": [
+    {
+      "id": "trig-unit-circle",
+      "title": "Unit Circle & Radians",
+      "course": "Precalculus",
+      "description": "Degree-radian conversion, arc length and sector area, exact values at special angles, ASTC signs, and reference and coterminal angles.",
+      "cards": [
+        {
+          "id": "radian-definition",
+          "title": "What is one radian, and about how many degrees is it?",
+          "body": "The central angle whose intercepted arc is exactly one radius long.\nThe circumference 2πr is 2π radii, so 360° = 2π rad and 1 rad = 180°/π ≈ 57.3°."
+        },
+        {
+          "id": "degrees-to-radians",
+          "title": "Convert 210° to radians (exact form).",
+          "body": "7π/6.\nMultiply degrees by π/180: 210 · π/180 = 7π/6. Check: 30° = π/6, and 210° = 7 · 30°.",
+          "answer": "7pi/6",
+          "acceptedAnswers": [
+            "(7pi)/6",
+            "7/6pi",
+            "(7/6)pi"
+          ]
+        },
+        {
+          "id": "radians-to-degrees",
+          "title": "Convert 5π/3 radians to degrees.",
+          "body": "300°.\nMultiply radians by 180/π: (5π/3)(180/π) = 5 · 60 = 300°. Shortcut: π/3 = 60°, so 5π/3 = 5 · 60°.",
+          "answer": "300",
+          "acceptedAnswers": [
+            "300 degrees",
+            "300 degree",
+            "300°",
+            "300 deg"
+          ]
+        },
+        {
+          "id": "arc-length",
+          "title": "Exact length of the arc cut off by a central angle of 2π/3 on a circle of radius 6 cm?",
+          "body": "4π cm (≈ 12.57 cm).\ns = rθ with θ in radians: 6 · 2π/3 = 4π. Trap: plugging in degrees (120) gives 720, which is nonsense; convert to radians first.",
+          "answer": "4pi",
+          "acceptedAnswers": [
+            "4pi cm",
+            "4pi centimeters"
+          ]
+        },
+        {
+          "id": "sector-area",
+          "title": "Exact area of a sector with radius 4 and central angle π/4?",
+          "body": "2π square units.\nA = ½r²θ with θ in radians: ½ · 16 · π/4 = 2π. Check: π/4 is 1/8 of a full turn, and 1/8 of πr² = 16π/8 = 2π.",
+          "answer": "2pi",
+          "acceptedAnswers": [
+            "2pi square units"
+          ]
+        },
+        {
+          "id": "unit-circle-coordinates",
+          "title": "If the terminal side of θ meets the unit circle at (x, y), what are cos θ, sin θ, and tan θ?",
+          "body": "cos θ = x, sin θ = y, tan θ = y/x (when x ≠ 0).\nSo every point on the unit circle is (cos θ, sin θ). Example: θ = π lands at (−1, 0), so cos π = −1, sin π = 0, tan π = 0."
+        },
+        {
+          "id": "special-angle-pattern",
+          "title": "What pattern gives sin θ at θ = 0, π/6, π/4, π/3, π/2, and how do the cosines relate?",
+          "body": "sin θ = √0/2, √1/2, √2/2, √3/2, √4/2, i.e. 0, 1/2, √2/2, √3/2, 1.\nCosine runs the same list backward, from cos 0 = 1 down to cos(π/2) = 0. So cos(π/6) = √3/2 and cos(π/3) = 1/2."
+        },
+        {
+          "id": "tan-pi-over-3",
+          "title": "Exact value of tan(π/3)?",
+          "body": "√3.\ntan = sin/cos = (√3/2)/(1/2) = √3. Don't swap it with tan(π/6) = 1/√3 = √3/3: tan θ is the slope of the terminal side, and the 60° line is the steeper one.",
+          "answer": "sqrt(3)",
+          "acceptedAnswers": [
+            "sqrt3"
+          ]
+        },
+        {
+          "id": "tan-undefined",
+          "title": "For which angles θ is tan θ undefined? Give the general form and the angles in [0, 2π).",
+          "body": "θ = π/2 + kπ for any integer k; in [0, 2π) that's π/2 and 3π/2.\ntan θ = sin θ/cos θ, and cos θ = 0 there (x = 0 on the unit circle). sec θ is undefined at the same angles."
+        },
+        {
+          "id": "astc-quadrant-signs",
+          "title": "Which trig functions are positive in each of the four quadrants?",
+          "body": "QI: all six. QII: sin and csc. QIII: tan and cot. QIV: cos and sec.\nMnemonic ASTC, 'All Students Take Calculus', counterclockwise from QI. It follows from x = cos θ, y = sin θ, and tan θ = y/x."
+        },
+        {
+          "id": "coterminal-angle",
+          "title": "Which angle in [0, 2π) is coterminal with −7π/6?",
+          "body": "5π/6.\nCoterminal angles differ by multiples of 2π. Add 2π = 12π/6: −7π/6 + 12π/6 = 5π/6. For a large angle like 17π/4, subtract 2π until it lands in [0, 2π): 17π/4 − 4π = π/4.",
+          "answer": "5pi/6",
+          "acceptedAnswers": [
+            "(5pi)/6",
+            "5/6pi",
+            "(5/6)pi"
+          ]
+        },
+        {
+          "id": "reference-angle",
+          "title": "What is the reference angle of θ = 7π/5, in radians?",
+          "body": "2π/5.\nThe reference angle is the acute angle between the terminal side and the x-axis. 7π/5 (252°) lies between π and 3π/2, so it's in QIII: subtract π to get 7π/5 − π = 2π/5 (72°). In QII use π − θ; in QIV use 2π − θ.",
+          "answer": "2pi/5",
+          "acceptedAnswers": [
+            "(2pi)/5",
+            "2/5pi",
+            "(2/5)pi"
+          ]
+        },
+        {
+          "id": "point-at-2pi-over-3",
+          "title": "At what exact point does the terminal side of θ = 2π/3 meet the unit circle?",
+          "body": "(−1/2, √3/2).\n2π/3 is in QII with reference angle π/3. Cosine (x) is negative there and sine (y) is positive: (−cos(π/3), sin(π/3)) = (−1/2, √3/2)."
+        },
+        {
+          "id": "cos-5pi-over-4",
+          "title": "Exact value of cos(5π/4)?",
+          "body": "−√2/2.\n5π/4 = π + π/4 is in QIII with reference angle π/4. Cosine (the x-coordinate) is negative in QIII, so cos(5π/4) = −cos(π/4) = −√2/2.",
+          "answer": "-sqrt(2)/2",
+          "acceptedAnswers": [
+            "-sqrt2/2",
+            "-1/sqrt(2)",
+            "-1/sqrt2",
+            "-(sqrt(2)/2)",
+            "-(sqrt2)/2"
+          ]
+        },
+        {
+          "id": "sin-7pi-over-6",
+          "title": "Exact value of sin(7π/6)?",
+          "body": "−1/2.\n7π/6 = π + π/6 is in QIII with reference angle π/6. Sine (the y-coordinate) is negative in QIII, so sin(7π/6) = −sin(π/6) = −1/2.",
+          "answer": "-1/2",
+          "acceptedAnswers": [
+            "-0.5",
+            "-.5"
+          ]
+        },
+        {
+          "id": "tan-11pi-over-6",
+          "title": "Exact value of tan(11π/6)?",
+          "body": "−√3/3, equivalently −1/√3.\n11π/6 = 2π − π/6 is in QIV with reference angle π/6. tan = y/x is negative in QIV, so tan(11π/6) = −tan(π/6) = −√3/3.",
+          "answer": "-sqrt(3)/3",
+          "acceptedAnswers": [
+            "-sqrt3/3",
+            "-1/sqrt(3)",
+            "-1/sqrt3",
+            "-(sqrt(3)/3)",
+            "-(sqrt3)/3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trig-identities",
+      "title": "Trig Identities",
+      "course": "Precalculus",
+      "description": "Reciprocal, Pythagorean, even/odd and cofunction identities; sum, difference, double- and half-angle formulas; product-to-sum; proof strategy.",
+      "cards": [
+        {
+          "id": "reciprocal-secant",
+          "title": "sec θ is the reciprocal of which trig function?",
+          "body": "Cosine: sec θ = 1/cos θ.\nLikewise csc θ = 1/sin θ and cot θ = 1/tan θ = cos θ/sin θ. Trap: sec is not 1/sin. Each reciprocal pair has exactly one 'co': cos–sec, sin–csc, tan–cot.",
+          "answer": "cosine",
+          "acceptedAnswers": [
+            "cos",
+            "cos theta",
+            "cos(theta)",
+            "cos x",
+            "cosine function"
+          ]
+        },
+        {
+          "id": "pythagorean-cot-csc",
+          "title": "Complete the Pythagorean identity: 1 + cot²θ = ?",
+          "body": "csc²θ.\nDivide sin²θ + cos²θ = 1 through by sin²θ to get 1 + cot²θ = csc²θ. Dividing by cos²θ instead gives tan²θ + 1 = sec²θ. Pairs: tan goes with sec, cot goes with csc.",
+          "answer": "csc^2 theta",
+          "acceptedAnswers": [
+            "csc^2(theta)",
+            "csc^2",
+            "(csc theta)^2",
+            "(csc(theta))^2",
+            "1/sin^2 theta",
+            "1/sin^2(theta)"
+          ]
+        },
+        {
+          "id": "pythagorean-find-cosine",
+          "title": "If sin θ = 3/5 and θ is in Quadrant II, what is cos θ?",
+          "body": "−4/5.\ncos²θ = 1 − sin²θ = 1 − 9/25 = 16/25, so cos θ = ±4/5. Cosine is negative in QII, so cos θ = −4/5. The identity gives the size; the quadrant picks the sign.",
+          "answer": "-4/5",
+          "acceptedAnswers": [
+            "-0.8",
+            "-.8"
+          ]
+        },
+        {
+          "id": "even-odd-simplify",
+          "title": "Use even/odd identities to simplify sin(−θ) · sec(−θ).",
+          "body": "−tan θ.\nsin is odd, so sin(−θ) = −sin θ; sec is even, so sec(−θ) = sec θ. The product is −sin θ · (1/cos θ) = −tan θ. Only cos and sec are even; sin, csc, tan, and cot are odd, since −θ flips the y-coordinate.",
+          "answer": "-tan theta",
+          "acceptedAnswers": [
+            "-tan(theta)",
+            "-tan",
+            "-(tan theta)",
+            "-sin theta/cos theta",
+            "-sin(theta)/cos(theta)"
+          ]
+        },
+        {
+          "id": "cofunction-tangent",
+          "title": "Cofunction identity: tan(π/2 − θ) = ?",
+          "body": "cot θ.\nCofunctions of complementary angles are equal: sin(π/2 − θ) = cos θ, tan(π/2 − θ) = cot θ, sec(π/2 − θ) = csc θ. In a right triangle, the leg opposite one acute angle is adjacent to the other.",
+          "answer": "cot theta",
+          "acceptedAnswers": [
+            "cot(theta)",
+            "cot",
+            "cotangent",
+            "1/tan theta",
+            "1/tan(theta)"
+          ]
+        },
+        {
+          "id": "proving-identities-strategy",
+          "title": "What is the standard strategy for proving a trig identity?",
+          "body": "Transform one side, usually the more complicated one, step by step until it matches the other (or simplify each side separately to a common form).\nGo-to moves: rewrite in sin and cos, combine fractions, factor, use Pythagorean identities, multiply by a conjugate such as 1 + sin θ. Never apply an operation across the equals sign; that assumes what you're proving."
+        },
+        {
+          "id": "sum-difference-sin-cos",
+          "title": "State the sum and difference formulas for sin(A ± B) and cos(A ± B).",
+          "body": "sin(A ± B) = sin A cos B ± cos A sin B\ncos(A ± B) = cos A cos B ∓ sin A sin B\nTraps: cosine takes the opposite sign (∓), and sin(A + B) ≠ sin A + sin B."
+        },
+        {
+          "id": "cos-15-degrees",
+          "title": "Use a difference formula to find the exact value of cos 15°.",
+          "body": "(√6 + √2)/4 ≈ 0.966.\ncos(45° − 30°) = cos 45° cos 30° + sin 45° sin 30° = (√2/2)(√3/2) + (√2/2)(1/2) = (√6 + √2)/4. Note the + sign: cos(A − B) adds the sine product.",
+          "answer": "(sqrt(6)+sqrt(2))/4",
+          "acceptedAnswers": [
+            "(sqrt6+sqrt2)/4",
+            "(sqrt(2)+sqrt(6))/4",
+            "(sqrt2+sqrt6)/4",
+            "sqrt(6)/4+sqrt(2)/4",
+            "sqrt(2+sqrt(3))/2",
+            "sqrt(2+sqrt3)/2"
+          ]
+        },
+        {
+          "id": "tan-sum-difference",
+          "title": "State the sum and difference formulas for tan(A ± B).",
+          "body": "tan(A ± B) = (tan A ± tan B)/(1 ∓ tan A tan B).\nThe numerator sign matches the operation; the denominator sign is the opposite. Example: tan 75° = tan(45° + 30°) = (1 + √3/3)/(1 − √3/3) = 2 + √3."
+        },
+        {
+          "id": "sin-double-angle-value",
+          "title": "cos θ = −5/13 with θ in Quadrant III. Find the exact value of sin 2θ.",
+          "body": "120/169.\nsin θ < 0 in QIII, so sin θ = −√(1 − 25/169) = −12/13. Then sin 2θ = 2 sin θ cos θ = 2(−12/13)(−5/13) = 120/169. Positive makes sense: 2θ lies between 2π and 3π.",
+          "answer": "120/169"
+        },
+        {
+          "id": "cos-double-angle-forms",
+          "title": "Give all three forms of the double-angle formula for cos 2θ.",
+          "body": "cos 2θ = cos²θ − sin²θ = 2cos²θ − 1 = 1 − 2sin²θ.\nThe last two come from substituting sin²θ + cos²θ = 1. Pick the form that uses what you know: only cos θ → 2cos²θ − 1; only sin θ → 1 − 2sin²θ."
+        },
+        {
+          "id": "cos-double-angle-value",
+          "title": "If sin θ = 1/4, what is cos 2θ?",
+          "body": "7/8.\nUse the sine-only form: cos 2θ = 1 − 2sin²θ = 1 − 2(1/16) = 1 − 1/8 = 7/8. No quadrant information is needed, because only sin²θ appears.",
+          "answer": "7/8",
+          "acceptedAnswers": [
+            "0.875",
+            ".875"
+          ]
+        },
+        {
+          "id": "tan-double-angle",
+          "title": "State the double-angle formula for tan 2θ in terms of tan θ.",
+          "body": "tan 2θ = 2 tan θ/(1 − tan²θ).\nIt's the tan(A + B) formula with A = B = θ. Example: tan θ = 1/2 gives tan 2θ = 1/(1 − 1/4) = 4/3."
+        },
+        {
+          "id": "power-reducing",
+          "title": "Power-reducing formulas: write sin²θ and cos²θ in terms of cos 2θ.",
+          "body": "sin²θ = (1 − cos 2θ)/2\ncos²θ = (1 + cos 2θ)/2\nThey're the cos 2θ formulas solved for sin²θ and cos²θ. Hook: sine gets the minus. Replacing θ with θ/2 gives the half-angle formulas."
+        },
+        {
+          "id": "half-angle-sign",
+          "title": "In sin(θ/2) = ±√((1 − cos θ)/2), what decides the ± sign?",
+          "body": "The quadrant of θ/2, not the quadrant of θ.\nExample: θ = 300° (QIV) gives θ/2 = 150° (QII), where sine is positive: sin 150° = +√((1 − 1/2)/2) = 1/2. Same rule for cos(θ/2) = ±√((1 + cos θ)/2)."
+        },
+        {
+          "id": "product-to-sum",
+          "title": "Product-to-sum: rewrite sin A cos B as a sum of sines.",
+          "body": "sin A cos B = ½[sin(A + B) + sin(A − B)].\nCheck: add the expansions of sin(A + B) and sin(A − B); the cos A sin B terms cancel, leaving 2 sin A cos B."
+        }
+      ]
+    },
+    {
+      "id": "trig-triangles",
+      "title": "Triangles & Inverse Trig",
+      "course": "Precalculus",
+      "description": "SOH-CAH-TOA, special right triangles, laws of sines and cosines, the SSA ambiguous case, area and Heron's formula, inverse trig ranges.",
+      "cards": [
+        {
+          "id": "sohcahtoa-sine",
+          "title": "A right triangle has legs 5 and 12. What is sin θ for the angle θ opposite the leg of length 5?",
+          "body": "5/13.\nHypotenuse = √(5² + 12²) = √169 = 13. SOH-CAH-TOA: sin = opposite/hypotenuse = 5/13, cos = adjacent/hypotenuse = 12/13, tan = opposite/adjacent = 5/12.",
+          "answer": "5/13"
+        },
+        {
+          "id": "special-right-triangles",
+          "title": "What are the side ratios of a 45-45-90 triangle and a 30-60-90 triangle?",
+          "body": "45-45-90: 1 : 1 : √2, so hypotenuse = leg · √2.\n30-60-90: 1 : √3 : 2, opposite the 30°, 60°, and 90° angles. The short leg is half the hypotenuse; the long leg is √3 times the short leg."
+        },
+        {
+          "id": "thirty-sixty-ninety-leg",
+          "title": "A 30-60-90 triangle has hypotenuse 10. How long is the leg opposite the 60° angle?",
+          "body": "5√3 ≈ 8.66.\nThe short leg (opposite 30°) is half the hypotenuse, 5. The long leg (opposite 60°) is √3 times that: 5√3. Check: sin 60° = 5√3/10 = √3/2.",
+          "answer": "5sqrt(3)",
+          "acceptedAnswers": [
+            "5sqrt3",
+            "sqrt(75)",
+            "sqrt75"
+          ]
+        },
+        {
+          "id": "angle-of-elevation",
+          "title": "On level ground 50 m from a tower's base, the angle of elevation to its top is 60°. Exact height of the tower?",
+          "body": "50√3 m ≈ 86.6 m.\ntan 60° = height/50, so height = 50 tan 60° = 50√3. Elevation and depression angles are measured from the horizontal, never the vertical; looking down from the top, the angle of depression is also 60°.",
+          "answer": "50sqrt(3)",
+          "acceptedAnswers": [
+            "50sqrt3",
+            "50sqrt(3) m",
+            "50sqrt3 m",
+            "50sqrt(3) meters",
+            "50sqrt3 meters"
+          ]
+        },
+        {
+          "id": "law-of-sines",
+          "title": "State the law of sines and the given-part cases it solves.",
+          "body": "a/sin A = b/sin B = c/sin C: each side over the sine of its opposite angle.\nUse it for AAS, ASA, and SSA, since you need an angle paired with its opposite side (for ASA, get the third angle from A + B + C = 180° first). SSA can be ambiguous."
+        },
+        {
+          "id": "law-of-cosines",
+          "title": "State the law of cosines and the given-part cases it solves.",
+          "body": "c² = a² + b² − 2ab cos C, where C is the angle between sides a and b.\nUse it for SAS (find the third side) and SSS (find an angle: cos C = (a² + b² − c²)/(2ab)). With C = 90°, cos C = 0 and it becomes the Pythagorean theorem."
+        },
+        {
+          "id": "law-of-cosines-angle",
+          "title": "A triangle has sides 5, 7, and 8. Find the angle opposite the side of length 7, in degrees.",
+          "body": "60°.\nPut the side opposite the unknown angle alone on the left: 7² = 5² + 8² − 2(5)(8) cos θ, so 49 = 89 − 80 cos θ, cos θ = 40/80 = 1/2, and θ = 60°.",
+          "answer": "60",
+          "acceptedAnswers": [
+            "60 degrees",
+            "60 degree",
+            "60°",
+            "60 deg"
+          ]
+        },
+        {
+          "id": "ssa-ambiguous-case",
+          "title": "SSA with acute angle A, opposite side a, and adjacent side b: when do you get 0, 1, or 2 triangles?",
+          "body": "Compare a with the height h = b sin A.\na < h: none. a = h: one right triangle. h < a < b: two triangles (the ambiguous case). a ≥ b: exactly one.\nIf A is obtuse: one triangle if a > b, otherwise none."
+        },
+        {
+          "id": "ssa-triangle-count",
+          "title": "Given A = 30°, a = 6, and b = 10, how many triangles are possible?",
+          "body": "2.\nh = b sin A = 10 · ½ = 5, and h < a < b (5 < 6 < 10). Law of sines: sin B = 10 sin 30°/6 = 5/6, so B ≈ 56.4° or B ≈ 123.6°. Both work, because 30° + 123.6° < 180°.",
+          "answer": "2",
+          "acceptedAnswers": [
+            "two",
+            "2 triangles",
+            "two triangles"
+          ]
+        },
+        {
+          "id": "area-sas",
+          "title": "Area of a triangle with sides 8 and 5 and an included angle of 30°?",
+          "body": "10 square units.\nArea = ½ab sin C, where C is the angle between sides a and b: ½ · 8 · 5 · sin 30° = 20 · ½ = 10. The angle must be the included one; if it isn't, find the included angle first.",
+          "answer": "10",
+          "acceptedAnswers": [
+            "10 square units"
+          ]
+        },
+        {
+          "id": "herons-formula",
+          "title": "Use Heron's formula: what is the area of a triangle with sides 5, 5, and 6?",
+          "body": "12.\nArea = √(s(s − a)(s − b)(s − c)) with semiperimeter s = (a + b + c)/2 = 8: √(8 · 3 · 3 · 2) = √144 = 12. Check: the height to the base 6 is √(5² − 3²) = 4, and ½ · 6 · 4 = 12.",
+          "answer": "12",
+          "acceptedAnswers": [
+            "12 square units"
+          ]
+        },
+        {
+          "id": "inverse-trig-domains",
+          "title": "Why is arcsin(2) undefined, while arctan(2) exists?",
+          "body": "arcsin and arccos accept only inputs in [−1, 1], because sine and cosine never output anything outside [−1, 1].\nTangent takes every real value, so arctan is defined for all real x (arctan 2 ≈ 1.107)."
+        },
+        {
+          "id": "inverse-trig-ranges",
+          "title": "What are the principal ranges of arcsin, arccos, and arctan?",
+          "body": "arcsin: [−π/2, π/2]. arccos: [0, π]. arctan: (−π/2, π/2).\nEach is an interval where the function is one-to-one and hits all its values. arctan's endpoints are open because tan has vertical asymptotes at ±π/2."
+        },
+        {
+          "id": "arccos-negative-input",
+          "title": "Exact value of arccos(−1/2), in radians?",
+          "body": "2π/3.\narccos returns angles in [0, π], so a negative input lands in QII: π − π/3 = 2π/3. Traps: 4π/3 has cosine −1/2 but lies outside [0, π], and −π/3 is wrong because arccos(−x) = π − arccos x, not −arccos x.",
+          "answer": "2pi/3",
+          "acceptedAnswers": [
+            "(2pi)/3",
+            "2/3pi",
+            "(2/3)pi"
+          ]
+        },
+        {
+          "id": "arcsin-of-sin-trap",
+          "title": "Exact value of arcsin(sin(5π/6))?",
+          "body": "π/6.\nsin(5π/6) = 1/2, and arcsin must return an angle in [−π/2, π/2], so arcsin(1/2) = π/6, not 5π/6. arcsin(sin x) = x only when x is already in [−π/2, π/2].",
+          "answer": "pi/6"
+        },
+        {
+          "id": "tan-of-arcsin",
+          "title": "Exact value of tan(arcsin(−3/5))?",
+          "body": "−3/4.\nLet θ = arcsin(−3/5), so sin θ = −3/5 with θ between −π/2 and 0 (QIV). Cosine is positive there, cos θ = 4/5 (3-4-5 triangle), so tan θ = (−3/5)/(4/5) = −3/4.",
+          "answer": "-3/4",
+          "acceptedAnswers": [
+            "-0.75",
+            "-.75"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trig-graphs",
+      "title": "Trig Graphs & Equations",
+      "course": "Precalculus",
+      "description": "Amplitude, period, phase shift and midline of y = A sin(Bx − C) + D, tangent asymptotes, csc range, symmetry, and solving trig equations.",
+      "cards": [
+        {
+          "id": "sinusoid-parameters",
+          "title": "For y = A sin(Bx − C) + D with B > 0, what are the amplitude, period, phase shift, and midline?",
+          "body": "Amplitude |A|, period 2π/B, phase shift C/B (to the right if positive), midline y = D.\nFactor out B to see the shift: A sin(B(x − C/B)) + D. Same rules for cosine. Trap: the shift is C/B, not C."
+        },
+        {
+          "id": "amplitude-negative-a",
+          "title": "What is the amplitude of y = −3 sin(2x) + 1?",
+          "body": "3.\nAmplitude = |A| = |−3| = 3. It's a distance, so it's never negative; the minus sign only reflects the graph across its midline, y = 1.",
+          "answer": "3"
+        },
+        {
+          "id": "period-cosine",
+          "title": "What is the period of y = 4 cos(πx/3)?",
+          "body": "6.\nPeriod = 2π/B with B = π/3: 2π ÷ (π/3) = 6. The 4 changes the amplitude, not the period.",
+          "answer": "6"
+        },
+        {
+          "id": "phase-shift",
+          "title": "y = sin(2x − π/3) is the graph of y = sin(2x) shifted right by how much?",
+          "body": "π/6.\nFactor out B: sin(2x − π/3) = sin(2(x − π/6)). The phase shift is C/B = (π/3)/2 = π/6. Trap: answering π/3 forgets to divide by B.",
+          "answer": "pi/6",
+          "acceptedAnswers": [
+            "pi/6 to the right",
+            "pi/6 right"
+          ]
+        },
+        {
+          "id": "range-shifted-sine",
+          "title": "What is the range of y = 2 sin x + 3?",
+          "body": "[1, 5].\nsin x has range [−1, 1] (its domain is all reals), so 2 sin x runs over [−2, 2], and adding 3 gives [1, 5]. Equivalently: midline y = 3, amplitude 2, so 3 ± 2.",
+          "answer": "[1, 5]",
+          "acceptedAnswers": [
+            "1<=y<=5",
+            "1≤y≤5",
+            "1 to 5"
+          ]
+        },
+        {
+          "id": "midline-from-max-min",
+          "title": "A sinusoid has maximum value 9 and minimum value −1. What is its midline?",
+          "body": "y = 4.\nMidline = (max + min)/2 = (9 + (−1))/2 = 4. Amplitude = (max − min)/2 = 5, so the graph swings 5 units above and below y = 4.",
+          "answer": "y = 4",
+          "acceptedAnswers": [
+            "4"
+          ]
+        },
+        {
+          "id": "period-tangent",
+          "title": "What is the period of y = tan(3x)?",
+          "body": "π/3.\ntan and cot have period π, not 2π, so y = tan(Bx) has period π/B = π/3. Only sin, cos, sec, and csc use 2π/B.",
+          "answer": "pi/3"
+        },
+        {
+          "id": "tangent-asymptotes",
+          "title": "Where are the vertical asymptotes of y = tan(2x)?",
+          "body": "x = π/4 + kπ/2, k any integer.\ntan u is undefined at u = π/2 + kπ, so solve 2x = π/2 + kπ. Consecutive asymptotes are one period (π/2) apart, and the graph rises from −∞ to ∞ between them."
+        },
+        {
+          "id": "cosecant-domain-range",
+          "title": "What are the domain and range of y = csc x?",
+          "body": "Domain: all real x except x = kπ (where sin x = 0). Range: (−∞, −1] ∪ [1, ∞).\nSince |sin x| ≤ 1, |csc x| = 1/|sin x| ≥ 1. sec x has the same range; its domain excludes x = π/2 + kπ instead."
+        },
+        {
+          "id": "cosecant-symmetry",
+          "title": "Is the graph of y = csc x symmetric about the y-axis or about the origin?",
+          "body": "The origin.\ncsc is odd: csc(−x) = 1/sin(−x) = −csc x. Odd functions (sin, tan, cot, csc) have origin symmetry; the even ones (cos, sec) are symmetric about the y-axis.",
+          "answer": "origin",
+          "acceptedAnswers": [
+            "about the origin",
+            "symmetric about the origin",
+            "origin symmetry"
+          ]
+        },
+        {
+          "id": "general-solution-sine",
+          "title": "What is the general solution of sin x = 1/2?",
+          "body": "x = π/6 + 2kπ or x = 5π/6 + 2kπ, k any integer.\nSine is positive in QI and QII, so each period has two solutions with reference angle π/6. Trap: π/6 + kπ is wrong; it includes 7π/6, where sin = −1/2."
+        },
+        {
+          "id": "general-solution-tangent",
+          "title": "What is the general solution of tan x = √3?",
+          "body": "x = π/3 + kπ, k any integer.\ntan has period π, so one family covers both solutions in each 2π: π/3 (QI) and 4π/3 (QIII). Writing π/3 + 2kπ would miss 4π/3."
+        },
+        {
+          "id": "solve-cosine-equation",
+          "title": "Solve 2 cos x + √3 = 0 on [0, 2π).",
+          "body": "x = 5π/6 and x = 7π/6.\ncos x = −√3/2, so the reference angle is π/6. Cosine is negative in QII and QIII: π − π/6 = 5π/6 and π + π/6 = 7π/6."
+        },
+        {
+          "id": "count-solutions-sin-2x",
+          "title": "How many solutions does sin(2x) = 1/2 have on [0, 2π)?",
+          "body": "4.\nAs x runs over [0, 2π), 2x runs over [0, 4π): two full periods, each with two solutions. 2x = π/6, 5π/6, 13π/6, 17π/6, so x = π/12, 5π/12, 13π/12, 17π/12.",
+          "answer": "4",
+          "acceptedAnswers": [
+            "four"
+          ]
+        },
+        {
+          "id": "quadratic-trig-equation",
+          "title": "Solve 2 sin²x − sin x − 1 = 0 on [0, 2π).",
+          "body": "x = π/2, 7π/6, 11π/6.\nFactor as a quadratic in sin x: (2 sin x + 1)(sin x − 1) = 0. sin x = 1 gives π/2; sin x = −1/2 gives 7π/6 and 11π/6 (QIII and QIV)."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# Netlify builds the Expo web app from the repo.
+# Set EXPO_PUBLIC_SUPABASE_URL, EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY and
+# EXPO_PUBLIC_SITE_URL in Site settings → Environment variables.
+[build]
+  command = "npx expo export --platform web"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Single-page app: let Expo Router handle every path (e.g. /reset-password).
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/_expo/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

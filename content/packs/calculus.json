@@ -1,0 +1,624 @@
+{
+  "category": {
+    "id": "calculus",
+    "name": "Calculus",
+    "tagline": "From limits to Stokes' theorem: the formulas, tests and traps calc exams love"
+  },
+  "packs": [
+    {
+      "id": "calc-limits",
+      "title": "Limits & Continuity",
+      "course": "Calculus I",
+      "description": "One-sided, infinite and at-infinity limits, trig limits, squeeze theorem, indeterminate forms, L'Hôpital, continuity, discontinuities, IVT and ε-δ.",
+      "cards": [
+        {
+          "id": "two-sided-limit-exists",
+          "title": "When does the two-sided limit lim(x→a) f(x) exist?",
+          "body": "Exactly when both one-sided limits exist and are equal: lim(x→a⁻) f(x) = lim(x→a⁺) f(x) = L.\nThe value f(a) is irrelevant: it can be undefined or different from L without changing the limit."
+        },
+        {
+          "id": "one-sided-infinite-limit",
+          "title": "lim(x→3⁻) 1/(x − 3) = ?",
+          "body": "−∞.\nJust left of 3, x − 3 is a tiny negative number, so 1/(x − 3) is hugely negative. From the right it's +∞, so the two-sided limit does not exist and x = 3 is a vertical asymptote.",
+          "answer": "-inf",
+          "acceptedAnswers": ["negative infinity"]
+        },
+        {
+          "id": "rationalize-zero-over-zero",
+          "title": "Evaluate lim(h→0) (√(9 + h) − 3)/h.",
+          "body": "1/6.\nSubstitution gives 0/0, so multiply top and bottom by the conjugate √(9 + h) + 3: the numerator becomes h, leaving 1/(√(9 + h) + 3) → 1/6. It's also the derivative of √x at x = 9.",
+          "answer": "1/6"
+        },
+        {
+          "id": "squeeze-theorem",
+          "title": "Use the squeeze theorem: lim(x→0) x² sin(1/x) = ?",
+          "body": "0.\n−1 ≤ sin(1/x) ≤ 1, so −x² ≤ x² sin(1/x) ≤ x², and both bounds → 0. Theorem: if g ≤ f ≤ h near a and lim g = lim h = L, then lim f = L. The product law fails here because lim sin(1/x) doesn't exist.",
+          "answer": "0"
+        },
+        {
+          "id": "sin-x-over-x",
+          "title": "lim(x→0) (sin x)/x = ?",
+          "body": "1 (x in radians).\nIt follows from the squeeze cos x ≤ (sin x)/x ≤ 1 near 0. Rescale for variants: lim(x→0) sin(5x)/x = 5·lim sin(5x)/(5x) = 5.",
+          "answer": "1"
+        },
+        {
+          "id": "one-minus-cos-over-x",
+          "title": "lim(x→0) (1 − cos x)/x = ?",
+          "body": "0.\nMultiply by (1 + cos x)/(1 + cos x) to get (sin x/x)·(sin x/(1 + cos x)) → 1·0 = 0. Don't confuse it with lim(x→0) (1 − cos x)/x² = 1/2.",
+          "answer": "0"
+        },
+        {
+          "id": "rational-limit-at-infinity",
+          "title": "lim(x→∞) (3x² − x + 1)/(5x² + 4) = ?",
+          "body": "3/5.\nEqual degrees: the ratio of leading coefficients (divide every term by x²). Top degree lower: the limit is 0. Top degree higher: ±∞, so no horizontal asymptote.",
+          "answer": "3/5",
+          "acceptedAnswers": ["0.6", ".6"]
+        },
+        {
+          "id": "continuity-three-conditions",
+          "title": "f is continuous at x = a when which three conditions all hold?",
+          "body": "1) f(a) is defined. 2) lim(x→a) f(x) exists. 3) lim(x→a) f(x) = f(a).\nIf any one fails, f is discontinuous at a. Condition 3 is the one people skip: the limit must exist and also equal the function value."
+        },
+        {
+          "id": "removable-discontinuity",
+          "title": "What type of discontinuity does f(x) = (x² − x − 2)/(x − 2) have at x = 2?",
+          "body": "Removable.\nIt factors to (x − 2)(x + 1)/(x − 2), so the limit is 3 but f(2) is undefined; defining f(2) = 3 repairs it. Jump: one-sided limits exist but differ. Infinite: f → ±∞ (vertical asymptote).",
+          "answer": "removable",
+          "acceptedAnswers": ["removable discontinuity", "hole"]
+        },
+        {
+          "id": "ivt-hypothesis",
+          "title": "The Intermediate Value Theorem needs f to be ___ on the closed interval [a, b].",
+          "body": "Continuous.\nThen f takes every value N between f(a) and f(b) at some c in (a, b). Classic use: x³ + x − 1 is −1 at x = 0 and 1 at x = 1, so it has a root in (0, 1). It proves a root exists, not exactly where or how many.",
+          "answer": "continuous"
+        },
+        {
+          "id": "indeterminate-forms",
+          "title": "List the seven indeterminate forms.",
+          "body": "0/0, ∞/∞, 0·∞, ∞ − ∞, 1^∞, 0⁰, ∞⁰.\nNot indeterminate: 0^∞ → 0, ∞ + ∞ → ∞, ∞·∞ → ∞. Before L'Hôpital, rewrite products and differences as quotients, and handle powers by taking ln."
+        },
+        {
+          "id": "lhopital-conditions",
+          "title": "L'Hôpital's rule: what must be true before you replace lim f(x)/g(x) with lim f′(x)/g′(x)?",
+          "body": "The limit must be type 0/0 or ±∞/±∞; f and g differentiable near a with g′(x) ≠ 0 (except possibly at a); and lim f′/g′ must exist or be ±∞.\nIt's f′/g′, not the quotient rule. Trap: lim(x→1) (x + 1)/x = 2 is not indeterminate, yet the rule would give 1."
+        },
+        {
+          "id": "limit-x-to-the-x",
+          "title": "lim(x→0⁺) xˣ = ?",
+          "body": "1.\n0⁰ form: let y = xˣ, so ln y = x ln x = (ln x)/(1/x), type −∞/∞. L'Hôpital: (1/x)/(−1/x²) = −x → 0. So ln y → 0 and y → e⁰ = 1.",
+          "answer": "1"
+        },
+        {
+          "id": "limit-definition-of-e",
+          "title": "lim(n→∞) (1 + 1/n)ⁿ = ?",
+          "body": "e ≈ 2.71828.\nIt's a 1^∞ form, not 1: its ln is n ln(1 + 1/n) → 1, so the limit is e¹. More generally, lim(n→∞) (1 + a/n)ⁿ = eᵃ.",
+          "answer": "e"
+        },
+        {
+          "id": "epsilon-delta-definition",
+          "title": "Precise definition: lim(x→a) f(x) = L means for every ε > 0 there is a δ > 0 such that ___.",
+          "body": "If 0 < |x − a| < δ, then |f(x) − L| < ε.\nε comes first and δ may depend on it; 0 < |x − a| excludes x = a itself. Example: for lim(x→2) (4x − 1) = 7, |(4x − 1) − 7| = 4|x − 2|, so δ = ε/4 works."
+        }
+      ]
+    },
+    {
+      "id": "calc-derivatives",
+      "title": "Derivative Rules",
+      "course": "Calculus I",
+      "description": "Limit definition, power/product/quotient/chain rules, trig, exponential, log and inverse trig derivatives, implicit and logarithmic differentiation.",
+      "cards": [
+        {
+          "id": "limit-definition-of-derivative",
+          "title": "Write the limit definition of the derivative f′(x).",
+          "body": "f′(x) = lim(h→0) [f(x + h) − f(x)]/h, if the limit exists.\nIt's the limit of secant slopes, i.e. the slope of the tangent line. Equivalent form at a point: f′(a) = lim(x→a) [f(x) − f(a)]/(x − a)."
+        },
+        {
+          "id": "differentiable-vs-continuous",
+          "title": "Differentiable at a implies continuous at a. Is the converse true?",
+          "body": "No. f(x) = |x| is continuous at 0 but has a corner there: slope −1 from the left, +1 from the right, so f′(0) does not exist.\nf can also fail to be differentiable at a vertical tangent (∛x at 0) or at a discontinuity."
+        },
+        {
+          "id": "derivative-of-sqrt-x",
+          "title": "d/dx [√x] = ?",
+          "body": "1/(2√x).\nRewrite √x = x^(1/2) and use the power rule d/dx [xⁿ] = nxⁿ⁻¹ (valid for any real n): ½x^(−1/2). Same trick: d/dx [1/x] = d/dx [x⁻¹] = −1/x².",
+          "answer": "1/(2sqrt(x))",
+          "acceptedAnswers": ["1/(2sqrt x)", "(1/2)x^(-1/2)", "1/2x^(-1/2)", "0.5x^(-0.5)", "0.5x^-0.5", "x^(-1/2)/2", "1/(2x^(1/2))", "1/(2x^0.5)"]
+        },
+        {
+          "id": "product-rule",
+          "title": "Product rule: d/dx [f(x)g(x)] = ?",
+          "body": "f′(x)g(x) + f(x)g′(x).\nExample: d/dx [x² sin x] = 2x sin x + x² cos x. Trap: the derivative of a product is not the product of the derivatives, f′(x)g′(x)."
+        },
+        {
+          "id": "quotient-rule",
+          "title": "Quotient rule: d/dx [f(x)/g(x)] = ?",
+          "body": "[g(x)f′(x) − f(x)g′(x)]/[g(x)]².\nMnemonic: low d-high minus high d-low, over the square of what's below. Order matters because of the minus. Check: d/dx [1/x] = (x·0 − 1·1)/x² = −1/x²."
+        },
+        {
+          "id": "derivative-of-tan",
+          "title": "d/dx [tan x] = ?",
+          "body": "sec²x.\nQuotient rule on sin x/cos x: [cos x·cos x − sin x·(−sin x)]/cos²x = 1/cos²x, since sin²x + cos²x = 1.",
+          "answer": "sec^2 x",
+          "acceptedAnswers": ["sec^2(x)", "sec(x)^2", "(sec x)^2", "1/cos^2 x", "1/cos^2(x)", "1/(cos x)^2"]
+        },
+        {
+          "id": "derivative-of-sec",
+          "title": "d/dx [sec x] = ?",
+          "body": "sec x tan x.\nQuotient rule on 1/cos x: [cos x·0 − 1·(−sin x)]/cos²x = sin x/cos²x = (1/cos x)(sin x/cos x).",
+          "answer": "sec x tan x",
+          "acceptedAnswers": ["sec(x)tan(x)", "tan x sec x", "tan(x)sec(x)"]
+        },
+        {
+          "id": "co-function-derivative-signs",
+          "title": "Which three of the six trig functions have derivatives that carry a minus sign?",
+          "body": "cos, cot and csc (the co- functions): d/dx [cos x] = −sin x, d/dx [cot x] = −csc²x, d/dx [csc x] = −csc x cot x.\nPattern: take the partner's derivative, swap in co-functions, add a minus. tan → sec² becomes cot → −csc²; sec → sec tan becomes csc → −csc cot."
+        },
+        {
+          "id": "chain-rule",
+          "title": "Chain rule: d/dx [f(g(x))] = ?",
+          "body": "f′(g(x))·g′(x): the derivative of the outside, evaluated at the inside, times the derivative of the inside.\nExample: d/dx [sin(x²)] = cos(x²)·2x. Trap: forgetting the inner factor 2x."
+        },
+        {
+          "id": "derivative-of-a-to-the-x",
+          "title": "d/dx [aˣ] = ? (constant a > 0)",
+          "body": "aˣ ln a.\nWrite aˣ = e^(x ln a) and apply the chain rule. Example: d/dx [2ˣ] = 2ˣ ln 2. Trap: x·aˣ⁻¹ is the power rule, which needs a variable base and a constant exponent.",
+          "answer": "a^x ln a",
+          "acceptedAnswers": ["a^x ln(a)", "a^x(ln a)", "ln(a) a^x", "(ln a)a^x", "ln a * a^x"]
+        },
+        {
+          "id": "implicit-differentiation-circle",
+          "title": "Find dy/dx by implicit differentiation: x² + y² = 25.",
+          "body": "dy/dx = −x/y.\n2x + 2y·(dy/dx) = 0, so dy/dx = −x/y; at (3, 4) the tangent slope is −3/4. Trap: dropping the dy/dx that the chain rule attaches to y terms: d/dx [y²] = 2y·dy/dx, not 2y.",
+          "answer": "-x/y",
+          "acceptedAnswers": ["-(x/y)", "dy/dx=-x/y", "y'=-x/y"]
+        },
+        {
+          "id": "derivative-of-arcsin",
+          "title": "d/dx [arcsin x] = ?",
+          "body": "1/√(1 − x²), for −1 < x < 1.\nsin y = x ⇒ cos y·y′ = 1 ⇒ y′ = 1/cos y = 1/√(1 − x²), since cos y ≥ 0 for y in [−π/2, π/2]. arccos x has the same derivative with a minus sign.",
+          "answer": "1/sqrt(1-x^2)",
+          "acceptedAnswers": ["(1-x^2)^(-1/2)", "1/(sqrt(1-x^2))", "1/sqrt(-x^2+1)"]
+        },
+        {
+          "id": "derivative-of-arctan",
+          "title": "d/dx [arctan x] = ?",
+          "body": "1/(1 + x²), for all real x.\ntan y = x ⇒ sec²y·y′ = 1 ⇒ y′ = 1/(1 + tan²y) = 1/(1 + x²). Read in reverse: ∫ dx/(1 + x²) = arctan x + C.",
+          "answer": "1/(1+x^2)",
+          "acceptedAnswers": ["1/(x^2+1)", "(1+x^2)^(-1)", "(x^2+1)^(-1)"]
+        },
+        {
+          "id": "derivative-of-inverse-function",
+          "title": "f(x) = x³ + x, so f(1) = 2. Find (f⁻¹)′(2).",
+          "body": "1/4.\n(f⁻¹)′(b) = 1/f′(f⁻¹(b)). Here f⁻¹(2) = 1 and f′(x) = 3x² + 1, so f′(1) = 4. Trap: evaluating f′ at 2 instead of at f⁻¹(2) = 1 gives 1/13.",
+          "answer": "1/4",
+          "acceptedAnswers": ["0.25", ".25"]
+        },
+        {
+          "id": "derivative-of-log-base-a",
+          "title": "d/dx [logₐx] = ? (a > 0, a ≠ 1)",
+          "body": "1/(x ln a).\nChange of base: logₐx = (ln x)/(ln a), and 1/ln a is just a constant factor. With a = e this is d/dx [ln x] = 1/x. Example: d/dx [log₁₀x] = 1/(x ln 10).",
+          "answer": "1/(x ln a)",
+          "acceptedAnswers": ["1/(x ln(a))", "1/(ln(a) x)", "1/(ln a * x)", "(1/ln a)(1/x)"]
+        },
+        {
+          "id": "logarithmic-differentiation",
+          "title": "Use logarithmic differentiation: d/dx [xˣ] = ? (x > 0)",
+          "body": "xˣ(ln x + 1).\nln y = x ln x ⇒ y′/y = ln x + 1 ⇒ y′ = xˣ(ln x + 1). Neither the power rule (x·xˣ⁻¹) nor the exponential rule (xˣ ln x) applies: base and exponent both vary.",
+          "answer": "x^x(ln x + 1)",
+          "acceptedAnswers": ["x^x(1 + ln x)", "x^x(ln(x)+1)", "x^x(1+ln(x))", "(ln x + 1)x^x", "(1 + ln x)x^x", "x^x ln x + x^x", "x^x + x^x ln x"]
+        }
+      ]
+    },
+    {
+      "id": "calc-derivative-apps",
+      "title": "Applications of Derivatives",
+      "course": "Calculus I",
+      "description": "Critical numbers, EVT and the Closed Interval Method, Rolle and MVT, derivative tests, concavity, linearization, related rates, optimization, Newton's method.",
+      "cards": [
+        {
+          "id": "critical-numbers",
+          "title": "What makes c a critical number of f?",
+          "body": "c is in the domain of f, and either f′(c) = 0 or f′(c) does not exist.\nExample: x^(2/3) has a critical number at 0, where f′ is undefined. Fermat: local extrema occur only at critical numbers, but not every critical number is one (x³ at 0)."
+        },
+        {
+          "id": "extreme-value-theorem",
+          "title": "Extreme Value Theorem: what hypotheses guarantee f attains an absolute max and an absolute min?",
+          "body": "f is continuous on a closed interval [a, b].\nThen f(c) is the absolute max and f(d) the absolute min for some c, d in [a, b]. Drop either condition and it can fail: x on (0, 1) has neither (not closed); 1/x on [−1, 1] with f(0) = 0 has neither (not continuous)."
+        },
+        {
+          "id": "closed-interval-method",
+          "title": "What is the absolute maximum value of f(x) = x³ − 3x on [0, 3]?",
+          "body": "18, at the endpoint x = 3.\nClosed Interval Method: f′ = 3x² − 3 = 0 at x = ±1, and only x = 1 lies in [0, 3]. Compare f(0) = 0, f(1) = −2, f(3) = 18: the largest is the absolute max, the smallest (−2) the absolute min. Skip the endpoints and you miss the max.",
+          "answer": "18"
+        },
+        {
+          "id": "rolles-theorem",
+          "title": "Rolle's Theorem: f is continuous on [a, b] and differentiable on (a, b). What third hypothesis is needed?",
+          "body": "f(a) = f(b).\nThen f′(c) = 0 for some c in (a, b): a horizontal tangent. Differentiability matters: |x| on [−1, 1] has equal endpoint values but no horizontal tangent.",
+          "answer": "f(a)=f(b)",
+          "acceptedAnswers": ["f(b)=f(a)"]
+        },
+        {
+          "id": "mean-value-theorem",
+          "title": "Mean Value Theorem: f is continuous on [a, b] and differentiable on (a, b). What does it guarantee?",
+          "body": "Some c in (a, b) has f′(c) = [f(b) − f(a)]/(b − a): instantaneous rate = average rate, so some tangent is parallel to the secant.\nExample: f(x) = x² on [0, 2] has average slope 2, and f′(c) = 2c = 2 at c = 1. Rolle's Theorem is the case f(a) = f(b)."
+        },
+        {
+          "id": "mvt-bound",
+          "title": "f(0) = −3 and f′(x) ≤ 5 for all x. What is the largest possible value of f(2)?",
+          "body": "7.\nMVT on [0, 2]: f(2) − f(0) = 2f′(c) ≤ 10, so f(2) ≤ −3 + 10 = 7. The bound is reached by f(x) = 5x − 3.",
+          "answer": "7"
+        },
+        {
+          "id": "first-derivative-test",
+          "title": "First Derivative Test: f′ changes from positive to negative at a critical number c. What does f have at c?",
+          "body": "A local maximum (rising, then falling).\nNegative to positive gives a local min; no sign change (x³ at 0) gives neither. It needs only the sign of f′ near c, so it also works at corners where f′(c) doesn't exist.",
+          "answer": "local max",
+          "acceptedAnswers": ["local maximum", "relative max", "relative maximum"]
+        },
+        {
+          "id": "second-derivative-test",
+          "title": "Second Derivative Test: f′(c) = 0. What do f″(c) > 0, f″(c) < 0 and f″(c) = 0 each tell you?",
+          "body": "f″(c) > 0: local min (concave up). f″(c) < 0: local max (concave down). f″(c) = 0: inconclusive.\nx⁴, −x⁴ and x³ all have f′(0) = f″(0) = 0, yet give a min, a max and neither. When it's inconclusive, fall back on the First Derivative Test."
+        },
+        {
+          "id": "inflection-point-check",
+          "title": "f(x) = x⁴ has f″(0) = 0. Does f have an inflection point at x = 0?",
+          "body": "No. f″(x) = 12x² is positive on both sides of 0, so the graph is concave up throughout.\nAn inflection point needs a change in concavity (f″ changes sign). f″ = 0 only flags a candidate.",
+          "answer": "no"
+        },
+        {
+          "id": "linearization",
+          "title": "Linearization of f at x = a: L(x) = ?",
+          "body": "L(x) = f(a) + f′(a)(x − a), the tangent line at a.\nExample: √x at a = 4 gives L(x) = 2 + (x − 4)/4, so √4.1 ≈ 2.025 (true value ≈ 2.0248). Accurate only near a.",
+          "answer": "f(a)+f'(a)(x-a)",
+          "acceptedAnswers": ["f'(a)(x-a)+f(a)", "f(a)+(x-a)f'(a)", "L(x)=f(a)+f'(a)(x-a)"]
+        },
+        {
+          "id": "differentials",
+          "title": "For y = f(x), what is the differential dy, and how does it relate to Δy?",
+          "body": "dy = f′(x) dx, the change along the tangent line. Δy = f(x + Δx) − f(x) is the actual change, and Δy ≈ dy when dx = Δx is small.\nUse: error estimates. For a sphere, V = (4/3)πr³ gives dV = 4πr² dr."
+        },
+        {
+          "id": "related-rates-circle",
+          "title": "A circle's radius grows at 2 cm/s. How fast is its area growing when r = 5 cm?",
+          "body": "20π cm²/s (about 62.8).\nA = πr², so dA/dt = 2πr·dr/dt = 2π(5)(2). Strategy: write an equation linking the quantities, differentiate with respect to t, and only then plug in the values at that instant.",
+          "answer": "20pi",
+          "acceptedAnswers": ["20pi cm^2/s", "20pi cm^2/sec"]
+        },
+        {
+          "id": "optimization-rectangle",
+          "title": "Of all rectangles with perimeter 40, what is the largest possible area?",
+          "body": "100, from a 10 by 10 square.\nA = x(20 − x) on [0, 20]; A′ = 20 − 2x = 0 at x = 10, and the endpoints give A = 0. Strategy: write the objective in one variable, find its domain, then compare critical points and endpoints.",
+          "answer": "100"
+        },
+        {
+          "id": "newtons-method",
+          "title": "Newton's method on f(x) = x² − 2 with x₁ = 1: what is x₂?",
+          "body": "1.5.\nxₙ₊₁ = xₙ − f(xₙ)/f′(xₙ) = 1 − (−1)/2 = 1.5. Next, x₃ ≈ 1.4167, closing in on √2 ≈ 1.4142. It can fail if f′(xₙ) = 0 or the first guess is poor.",
+          "answer": "1.5",
+          "acceptedAnswers": ["3/2"]
+        },
+        {
+          "id": "antiderivative-initial-value",
+          "title": "Find f(x) if f′(x) = 6x² and f(1) = 5.",
+          "body": "f(x) = 2x³ + 3.\nThe general antiderivative is 2x³ + C (on an interval, antiderivatives differ only by a constant). Then f(1) = 2 + C = 5 gives C = 3. Forget the + C and the initial condition can't be met.",
+          "answer": "2x^3+3",
+          "acceptedAnswers": ["f(x)=2x^3+3", "y=2x^3+3", "3+2x^3"]
+        }
+      ]
+    },
+    {
+      "id": "calc-integration",
+      "title": "Integration Techniques",
+      "course": "Calculus II",
+      "description": "FTC parts 1 and 2, key antiderivatives, u-substitution, by parts, trig integrals and substitution, partial fractions, improper integrals, area and volume.",
+      "cards": [
+        {
+          "id": "ftc-part-2",
+          "title": "FTC Part 2 (net change): ∫ₐᵇ F′(x) dx = ?",
+          "body": "F(b) − F(a).\nExample: ∫₀¹ x² dx = F(1) − F(0) with F(x) = x³/3, so 1/3. It needs F′ continuous on [a, b]: ∫₋₁¹ dx/x² is not −2; it's improper and diverges.",
+          "answer": "F(b)-F(a)",
+          "acceptedAnswers": ["-F(a)+F(b)"]
+        },
+        {
+          "id": "ftc-part-1-chain-rule",
+          "title": "d/dx ∫₁^(x²) cos t dt = ?",
+          "body": "2x cos(x²).\nFTC Part 1: d/dx ∫ₐˣ f(t) dt = f(x). With upper limit g(x), the chain rule gives f(g(x))·g′(x). A constant lower limit doesn't matter.",
+          "answer": "2x cos(x^2)",
+          "acceptedAnswers": ["cos(x^2)*2x", "cos(x^2)(2x)", "2x cos x^2"]
+        },
+        {
+          "id": "integral-of-one-over-x",
+          "title": "∫ (1/x) dx = ?",
+          "body": "ln|x| + C.\nThe absolute value makes it valid for x < 0 too: d/dx [ln|x|] = 1/x on both sides of 0. It's the one power the rule ∫ xⁿ dx = xⁿ⁺¹/(n + 1) + C can't handle (n = −1).",
+          "answer": "ln|x| + C",
+          "acceptedAnswers": ["ln|x|", "ln(|x|) + C", "ln(|x|)"]
+        },
+        {
+          "id": "arctan-integral-form",
+          "title": "∫ dx/(x² + a²) = ? (a > 0)",
+          "body": "(1/a) arctan(x/a) + C.\nCheck: d/dx [(1/a) arctan(x/a)] = (1/a²)/(1 + x²/a²) = 1/(x² + a²). Example: ∫ dx/(x² + 9) = (1/3) arctan(x/3) + C. Companion: ∫ dx/√(a² − x²) = arcsin(x/a) + C."
+        },
+        {
+          "id": "integral-of-tan",
+          "title": "∫ tan x dx = ?",
+          "body": "ln|sec x| + C, equivalently −ln|cos x| + C.\nWrite tan x = sin x/cos x and let u = cos x, du = −sin x dx: −∫ du/u = −ln|cos x| + C. The forms agree since ln|sec x| = −ln|cos x|.",
+          "answer": "ln|sec x| + C",
+          "acceptedAnswers": ["-ln|cos x| + C", "ln|sec(x)| + C", "-ln|cos(x)| + C", "ln|sec x|", "-ln|cos x|", "ln|sec(x)|", "-ln|cos(x)|"]
+        },
+        {
+          "id": "u-sub-changing-bounds",
+          "title": "Evaluate ∫₀² 2x(x² + 1)³ dx.",
+          "body": "156.\nu = x² + 1, du = 2x dx, and the bounds become u = 1 to u = 5: ∫₁⁵ u³ du = (5⁴ − 1⁴)/4 = 624/4 = 156. Trap: switching to u but keeping the old bounds 0 and 2 gives 4.",
+          "answer": "156"
+        },
+        {
+          "id": "area-between-curves",
+          "title": "Area of the region between y = x and y = x² for 0 ≤ x ≤ 1?",
+          "body": "1/6.\nOn [0, 1], x ≥ x², so A = ∫₀¹ (x − x²) dx = 1/2 − 1/3 = 1/6. Always integrate top minus bottom; if the curves cross, split at the crossing (or integrate |f − g|).",
+          "answer": "1/6"
+        },
+        {
+          "id": "disk-method",
+          "title": "Volume when the region under y = √x, 0 ≤ x ≤ 1, is revolved about the x-axis?",
+          "body": "π/2.\nDisks: V = ∫₀¹ π(√x)² dx = π∫₀¹ x dx = π/2. If the region leaves a hole, use washers: V = ∫ π(R² − r²) dx, not π(R − r)².",
+          "answer": "pi/2",
+          "acceptedAnswers": ["(1/2)pi", "0.5pi"]
+        },
+        {
+          "id": "shell-method",
+          "title": "Shell method: volume when the region under y = f(x), a ≤ x ≤ b (a ≥ 0), is revolved about the y-axis?",
+          "body": "V = ∫ₐᵇ 2πx f(x) dx: circumference 2πx times height f(x) times thickness dx.\nShells parallel to the axis of rotation avoid solving y = f(x) for x, which washers about the y-axis would require."
+        },
+        {
+          "id": "average-value",
+          "title": "Average value of f(x) = x² on [0, 3]?",
+          "body": "3.\nf_avg = (1/(b − a)) ∫ₐᵇ f(x) dx = (1/3)·9 = 3. Mean Value Theorem for Integrals: f(c) = f_avg for some c in [a, b]; here c = √3.",
+          "answer": "3"
+        },
+        {
+          "id": "integration-by-parts",
+          "title": "Integration by parts: ∫ u dv = ?",
+          "body": "uv − ∫ v du (the product rule, integrated).\nExample: ∫ x eˣ dx with u = x, dv = eˣ dx gives x eˣ − ∫ eˣ dx = x eˣ − eˣ + C. Choose u to get simpler when differentiated, and dv easy to integrate."
+        },
+        {
+          "id": "liate-choice-of-u",
+          "title": "In ∫ x² ln x dx, which factor should be u for integration by parts?",
+          "body": "u = ln x, dv = x² dx. LIATE (Log, Inverse trig, Algebraic, Trig, Exponential) ranks u choices; ln x is easy to differentiate but awkward to integrate.\nResult: (x³/3) ln x − ∫ (x³/3)(1/x) dx = (x³/3) ln x − x³/9 + C.",
+          "answer": "u = ln x",
+          "acceptedAnswers": ["ln x", "ln(x)", "u=ln(x)"]
+        },
+        {
+          "id": "odd-power-of-sine",
+          "title": "∫ sin³x cos²x dx: which substitution turns it into the integral of a polynomial?",
+          "body": "u = cos x.\nsin has the odd power: save one sin x for du = −sin x dx and convert sin²x = 1 − cos²x. If cos has the odd power, save a cos x and let u = sin x. Both powers even: use half-angle identities.",
+          "answer": "u = cos x",
+          "acceptedAnswers": ["u=cos(x)", "cos x", "cos(x)"]
+        },
+        {
+          "id": "trig-substitution-table",
+          "title": "Which trig substitution matches √(a² − x²), √(a² + x²) and √(x² − a²)?",
+          "body": "√(a² − x²): x = a sin θ (1 − sin²θ = cos²θ).\n√(a² + x²): x = a tan θ (1 + tan²θ = sec²θ).\n√(x² − a²): x = a sec θ (sec²θ − 1 = tan²θ).\nEach identity collapses the radical into a single trig function."
+        },
+        {
+          "id": "partial-fractions-form",
+          "title": "Write the partial fraction form of 1/[(x − 1)²(x² + 4)].",
+          "body": "A/(x − 1) + B/(x − 1)² + (Cx + D)/(x² + 4).\nA repeated linear factor gets one term per power; an irreducible quadratic gets a linear numerator. First make sure deg(top) < deg(bottom); if not, long divide."
+        },
+        {
+          "id": "improper-integral-p-test",
+          "title": "For which p does ∫₁^∞ dx/xᵖ converge?",
+          "body": "p > 1, and then it equals 1/(p − 1).\nAt p = 1 it's ln x → ∞, so it diverges. Near 0 the rule flips: ∫₀¹ dx/xᵖ converges only for p < 1.",
+          "answer": "p > 1",
+          "acceptedAnswers": ["1<p"]
+        }
+      ]
+    },
+    {
+      "id": "calc-series",
+      "title": "Sequences & Series",
+      "course": "Calculus II",
+      "description": "Geometric and p-series, divergence, integral, comparison, alternating and ratio tests, intervals of convergence, Taylor and Maclaurin series, remainders.",
+      "cards": [
+        {
+          "id": "geometric-series-sum",
+          "title": "∑ₙ₌₁^∞ (2/3)ⁿ = ?",
+          "body": "2.\nGeometric with r = 2/3: sum = first term/(1 − r) = (2/3)/(1/3) = 2. Converges only when |r| < 1. Trap: the first term is 2/3, not 1; starting at n = 0 would give 3.",
+          "answer": "2"
+        },
+        {
+          "id": "divergence-test",
+          "title": "Test for Divergence: what does lim aₙ ≠ 0 tell you about ∑ aₙ? What does lim aₙ = 0 tell you?",
+          "body": "lim aₙ ≠ 0 (or doesn't exist): ∑ aₙ diverges. lim aₙ = 0: nothing; the series may or may not converge.\nThe harmonic series ∑ 1/n has terms → 0 yet diverges. The test can prove divergence, never convergence."
+        },
+        {
+          "id": "p-series",
+          "title": "Does ∑ₙ₌₁^∞ 1/√n converge or diverge?",
+          "body": "Diverges: it's a p-series with p = 1/2.\n∑ 1/nᵖ converges if p > 1 and diverges if p ≤ 1. p = 1 is the harmonic series; ∑ 1/n² (p = 2) converges.",
+          "answer": "diverges",
+          "acceptedAnswers": ["diverge", "divergent", "it diverges"]
+        },
+        {
+          "id": "integral-test-conditions",
+          "title": "Integral Test: what must f satisfy for ∑ f(n) and ∫₁^∞ f(x) dx to converge or diverge together?",
+          "body": "f must be continuous, positive and decreasing on [1, ∞) (eventually decreasing is enough).\nThe integral's value is not the sum: ∫₁^∞ dx/x² = 1, but ∑ 1/n² = π²/6 ≈ 1.645."
+        },
+        {
+          "id": "direct-comparison-test",
+          "title": "Direct Comparison: 0 ≤ aₙ ≤ bₙ for all n and ∑ bₙ is convergent. What can you conclude about ∑ aₙ?",
+          "body": "∑ aₙ converges (smaller than a convergent series).\nIf ∑ aₙ diverges, ∑ bₙ diverges too. Smaller than divergent, or bigger than convergent, proves nothing. Example: 1/(n² + 1) < 1/n², so ∑ 1/(n² + 1) converges.",
+          "answer": "converges",
+          "acceptedAnswers": ["converge", "convergent", "it converges"]
+        },
+        {
+          "id": "limit-comparison-test",
+          "title": "Limit Comparison Test: aₙ, bₙ > 0 and lim aₙ/bₙ = c. For which c do ∑ aₙ and ∑ bₙ share the same fate?",
+          "body": "Any finite c > 0 (0 < c < ∞): both converge or both diverge.\nIt rescues cases where direct comparison points the wrong way: 1/(2ⁿ − 1) > 1/2ⁿ, but the ratio → 1 and ∑ 1/2ⁿ converges, so ∑ 1/(2ⁿ − 1) converges."
+        },
+        {
+          "id": "alternating-series-test",
+          "title": "Alternating Series Test: ∑ (−1)ⁿ⁻¹bₙ with bₙ > 0 converges if which two conditions hold?",
+          "body": "bₙ₊₁ ≤ bₙ (decreasing, at least eventually) and lim bₙ = 0.\nExample: ∑ (−1)ⁿ⁻¹/√n converges because 1/√n decreases to 0, even though ∑ 1/√n diverges."
+        },
+        {
+          "id": "alternating-series-error",
+          "title": "Using S₄ to approximate ∑ₙ₌₁^∞ (−1)ⁿ⁻¹/n², what error bound does the Alternating Series Estimation Theorem give?",
+          "body": "1/25.\n|S − Sₙ| ≤ bₙ₊₁, the size of the first omitted term; here b₅ = 1/5² = 1/25. It applies when the AST conditions hold (bₙ decreasing to 0).",
+          "answer": "1/25",
+          "acceptedAnswers": ["0.04", ".04"]
+        },
+        {
+          "id": "absolute-vs-conditional",
+          "title": "The alternating harmonic series ∑ (−1)ⁿ⁻¹/n converges. What kind of convergence is it?",
+          "body": "Conditional.\nAbsolute convergence means ∑ |aₙ| converges, and it implies ∑ aₙ converges. Here ∑ |aₙ| = ∑ 1/n diverges, so the convergence is conditional. By contrast, ∑ (−1)ⁿ/n² converges absolutely.",
+          "answer": "conditional",
+          "acceptedAnswers": ["conditionally", "conditionally convergent", "conditional convergence", "converges conditionally"]
+        },
+        {
+          "id": "ratio-test",
+          "title": "Ratio Test on ∑ 2ⁿ/n!: what is L = lim |aₙ₊₁/aₙ|?",
+          "body": "L = 0, so the series converges absolutely.\naₙ₊₁/aₙ = 2/(n + 1) → 0. L < 1: absolute convergence. L > 1 or ∞: divergence. L = 1: inconclusive (∑ 1/n and ∑ 1/n² both give 1). The Root Test, L = lim ⁿ√|aₙ|, has the same verdicts.",
+          "answer": "0",
+          "acceptedAnswers": ["L = 0"]
+        },
+        {
+          "id": "interval-of-convergence",
+          "title": "Interval of convergence of ∑ₙ₌₁^∞ (x − 3)ⁿ/(n·2ⁿ)?",
+          "body": "[1, 5).\nRatio Test: |x − 3|/2 < 1, so center 3 and radius R = 2. Endpoints need separate checks: x = 5 gives ∑ 1/n (diverges), x = 1 gives ∑ (−1)ⁿ/n (converges by the AST).",
+          "answer": "[1,5)",
+          "acceptedAnswers": ["1<=x<5", "1≤x<5"]
+        },
+        {
+          "id": "taylor-coefficient",
+          "title": "Taylor series of f centered at a: what is the coefficient cₙ of (x − a)ⁿ?",
+          "body": "cₙ = f⁽ⁿ⁾(a)/n!, so f(x) = ∑ f⁽ⁿ⁾(a)(x − a)ⁿ/n!. With a = 0 it's a Maclaurin series.\nCheck: f(x) = 1/(1 − x) has f⁽ⁿ⁾(0) = n!, so every cₙ = 1, the geometric series ∑ xⁿ (|x| < 1). Trap: forgetting the n!.",
+          "answer": "f^(n)(a)/n!",
+          "acceptedAnswers": ["f^n(a)/n!", "f^(n)(a)/(n!)", "(f^(n)(a))/n!", "f(n)(a)/n!", "c_n = f^(n)(a)/n!"]
+        },
+        {
+          "id": "maclaurin-exp",
+          "title": "Maclaurin series: eˣ = ∑ₙ₌₀^∞ ___",
+          "body": "xⁿ/n! = 1 + x + x²/2! + x³/3! + ..., valid for all x (R = ∞).\nAt x = 1: e = ∑ 1/n!. Substitute to build others: e^(−x²) = ∑ (−1)ⁿx²ⁿ/n!.",
+          "answer": "x^n/n!",
+          "acceptedAnswers": ["x^n/(n!)", "(x^n)/n!", "(1/n!)x^n"]
+        },
+        {
+          "id": "maclaurin-sin-cos",
+          "title": "Maclaurin series for sin x and cos x?",
+          "body": "sin x = x − x³/3! + x⁵/5! − ... = ∑ (−1)ⁿx²ⁿ⁺¹/(2n + 1)!\ncos x = 1 − x²/2! + x⁴/4! − ... = ∑ (−1)ⁿx²ⁿ/(2n)!\nBoth hold for all x. sin is odd (odd powers), cos is even (even powers), and differentiating sin's series gives cos's."
+        },
+        {
+          "id": "maclaurin-ln",
+          "title": "Maclaurin series for ln(1 + x), and for which x does it converge?",
+          "body": "ln(1 + x) = x − x²/2 + x³/3 − ... = ∑ₙ₌₁^∞ (−1)ⁿ⁻¹xⁿ/n, for −1 < x ≤ 1.\nIt comes from integrating 1/(1 + x) = ∑ (−1)ⁿxⁿ term by term. At x = 1 it gives ln 2 = 1 − 1/2 + 1/3 − ..."
+        },
+        {
+          "id": "taylor-inequality",
+          "title": "Taylor's Inequality: if |f⁽ⁿ⁺¹⁾(x)| ≤ M for |x − a| ≤ d, how large can the remainder |Rₙ(x)| be there?",
+          "body": "|Rₙ(x)| ≤ M|x − a|ⁿ⁺¹/(n + 1)!\nIt looks like the next Taylor term. Lagrange form: Rₙ(x) = f⁽ⁿ⁺¹⁾(z)(x − a)ⁿ⁺¹/(n + 1)! for some z between a and x. Since |x|ⁿ⁺¹/(n + 1)! → 0, eˣ, sin x and cos x equal their series."
+        }
+      ]
+    },
+    {
+      "id": "calc-multivariable",
+      "title": "Multivariable & Vector Calculus",
+      "course": "Calculus III",
+      "description": "Cross products, partials, gradients, tangent planes, 2D extrema, Lagrange multipliers, polar/spherical integrals, Jacobians, Green, Stokes, divergence.",
+      "cards": [
+        {
+          "id": "cross-product-magnitude",
+          "title": "θ is the angle between vectors a and b. |a × b| = ?",
+          "body": "|a||b| sin θ, the area of the parallelogram spanned by a and b.\na × b is a vector orthogonal to both (right-hand rule); a × b = 0 ⇔ a ∥ b, and b × a = −(a × b). Compare a·b = |a||b| cos θ, a scalar: a·b = 0 ⇔ a ⊥ b.",
+          "answer": "|a||b|sin theta",
+          "acceptedAnswers": ["|a||b|sin(theta)", "||a|| ||b|| sin theta", "||a|| ||b|| sin(theta)"]
+        },
+        {
+          "id": "mixed-partials-clairaut",
+          "title": "For f(x, y) = x²y³, find f_xy.",
+          "body": "6xy².\nf_x = 2xy³, then differentiate in y: f_xy = 6xy². Clairaut's Theorem: f_yx = (3x²y²)_x = 6xy² as well; mixed partials agree whenever they are continuous.",
+          "answer": "6xy^2",
+          "acceptedAnswers": ["6y^2x"]
+        },
+        {
+          "id": "tangent-plane",
+          "title": "Equation of the tangent plane to z = x² + y² at (1, 2, 5)?",
+          "body": "z = 2x + 4y − 5.\nFormula: z − z₀ = f_x(a, b)(x − a) + f_y(a, b)(y − b). Here f_x = 2x = 2 and f_y = 2y = 4 at (1, 2), so z − 5 = 2(x − 1) + 4(y − 2).",
+          "answer": "z=2x+4y-5",
+          "acceptedAnswers": ["z-5=2(x-1)+4(y-2)", "2x+4y-z=5", "2x+4y-z-5=0", "z=2(x-1)+4(y-2)+5"]
+        },
+        {
+          "id": "directional-derivative",
+          "title": "f(x, y) = x²y. Find the directional derivative at (1, 3) in the direction of v = ⟨3, 4⟩.",
+          "body": "22/5.\n∇f = ⟨2xy, x²⟩ = ⟨6, 1⟩ at (1, 3). Use the unit vector u = ⟨3, 4⟩/5: D_u f = ∇f·u = (18 + 4)/5 = 22/5. Trap: dotting with v itself gives 22.",
+          "answer": "22/5",
+          "acceptedAnswers": ["4.4"]
+        },
+        {
+          "id": "gradient-steepest-ascent",
+          "title": "At a given point, in which direction does f increase fastest, and what is that fastest rate?",
+          "body": "Direction ∇f, at rate |∇f|.\nD_u f = ∇f·u = |∇f| cos θ, largest at θ = 0. f decreases fastest along −∇f, and D_u f = 0 for u ⊥ ∇f (along the level curve, since ∇f is normal to level curves)."
+        },
+        {
+          "id": "second-derivative-test-2d",
+          "title": "At a critical point of f(x, y), D = f_xx f_yy − (f_xy)² < 0. What kind of point is it?",
+          "body": "A saddle point.\nD > 0 and f_xx > 0: local min. D > 0 and f_xx < 0: local max. D = 0: inconclusive. Example: f = x² − y² at (0, 0) has D = (2)(−2) − 0² = −4.",
+          "answer": "saddle point",
+          "acceptedAnswers": ["saddle"]
+        },
+        {
+          "id": "lagrange-multipliers",
+          "title": "Lagrange multipliers: to find extrema of f(x, y) subject to g(x, y) = k, which equations do you solve?",
+          "body": "∇f = λ∇g together with g(x, y) = k (where ∇g ≠ 0).\nAt a constrained extremum the level curve of f is tangent to the constraint curve, so the gradients are parallel. Evaluate f at every solution: if the extremes exist, the largest value is the max and the smallest the min."
+        },
+        {
+          "id": "polar-area-element",
+          "title": "Converting a double integral to polar coordinates: dA = ?",
+          "body": "dA = r dr dθ.\nA small polar 'rectangle' is about r Δθ wide and Δr deep. Check: the unit disk's area is ∫₀^(2π) ∫₀¹ r dr dθ = π. Trap: dropping the r gives 2π.",
+          "answer": "r dr dtheta",
+          "acceptedAnswers": ["r dtheta dr"]
+        },
+        {
+          "id": "spherical-volume-element",
+          "title": "Spherical coordinates (ρ, θ, φ): dV = ___ dρ dθ dφ",
+          "body": "ρ² sin φ.\nφ is measured down from the positive z-axis (0 ≤ φ ≤ π). Check: a ball of radius R gives (R³/3)(2π)(2) = (4/3)πR³. Cylindrical for comparison: dV = r dz dr dθ.",
+          "answer": "rho^2 sin phi",
+          "acceptedAnswers": ["rho^2 sin(phi)", "ρ^2 sin φ", "ρ^2 sin(φ)", "p^2 sin phi", "p^2 sin(phi)"]
+        },
+        {
+          "id": "jacobian-change-of-variables",
+          "title": "Change of variables x = g(u, v), y = h(u, v) in a double integral: dA = ?",
+          "body": "dA = |∂(x, y)/∂(u, v)| du dv, where the Jacobian ∂(x, y)/∂(u, v) = x_u y_v − x_v y_u.\nExample: x = 2u + v, y = u − 3v gives (2)(−3) − (1)(1) = −7, so dA = 7 du dv (take the absolute value). For polar coordinates the Jacobian is r."
+        },
+        {
+          "id": "conservative-field-test",
+          "title": "How do you test whether F = ⟨P, Q⟩ is conservative, and what does that buy you?",
+          "body": "Check ∂P/∂y = ∂Q/∂x (continuous partials on an open, simply connected region); in 3D, check curl F = 0.\nThen F = ∇f, so ∫_C F·dr = f(end) − f(start): path-independent, and 0 around closed curves. Example: ⟨2xy, x²⟩ = ∇(x²y)."
+        },
+        {
+          "id": "greens-theorem",
+          "title": "Green's Theorem: ∮_C P dx + Q dy = ∬_D (___) dA for positively oriented C. What goes in the blank?",
+          "body": "∂Q/∂x − ∂P/∂y.\nC is a counterclockwise, piecewise-smooth, simple closed curve bounding D. Area shortcut: A = ∮ x dy = ½∮ (x dy − y dx). Trap: P_y − Q_x flips the sign.",
+          "answer": "Q_x - P_y",
+          "acceptedAnswers": ["Qx-Py", "dQ/dx-dP/dy", "∂Q/∂x-∂P/∂y", "-P_y+Q_x"]
+        },
+        {
+          "id": "div-and-curl",
+          "title": "For F = ⟨P, Q, R⟩, what are div F and curl F?",
+          "body": "div F = ∇·F = P_x + Q_y + R_z, a scalar. curl F = ∇ × F = ⟨R_y − Q_z, P_z − R_x, Q_x − P_y⟩, a vector.\nIdentities (continuous second partials): curl(∇f) = 0 and div(curl F) = 0."
+        },
+        {
+          "id": "stokes-theorem",
+          "title": "Stokes' Theorem: ∮_C F·dr equals what surface integral, and how are C and S oriented?",
+          "body": "∬_S curl F·dS, where C is the boundary of the oriented surface S.\nRight-hand rule: thumb along S's normal, fingers curl in C's direction (walk along C with your head along the normal and S stays on your left). Green's Theorem is the flat special case."
+        },
+        {
+          "id": "divergence-theorem",
+          "title": "Outward flux of F = ⟨x, y, z⟩ through the unit sphere?",
+          "body": "4π.\nDivergence Theorem: ∬_S F·dS = ∭_E div F dV for a closed surface S oriented outward around solid E. Here div F = 3, so the flux is 3·(4/3)π = 4π.",
+          "answer": "4pi"
+        }
+      ]
+    }
+  ]
+}
