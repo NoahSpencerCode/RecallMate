@@ -9,6 +9,7 @@ import { TextField } from '@/components/TextField';
 import { AuthShell } from '@/features/auth/AuthShell';
 import { FormError } from '@/features/auth/FormError';
 import { PasswordStrength } from '@/features/auth/PasswordStrength';
+import { neural } from '@/features/neural/neuralBus';
 import { friendlyError } from '@/lib/errors';
 import { supabase } from '@/lib/supabase';
 import { fonts, palette, spacing, useTheme } from '@/theme';
@@ -37,6 +38,7 @@ export default function SignUp() {
     });
     setBusy(false);
     if (signUpError) return setError(friendlyError(signUpError));
+    neural.burst({ strength: 1.4 });
     // With email confirmation on, there's no session until they click the link.
     if (!data.session) setCheckInbox(true);
   }

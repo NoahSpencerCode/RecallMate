@@ -11,6 +11,7 @@ import { Text } from '@/components/Text';
 import { useToast } from '@/components/Toast';
 import { useDeleteMemory, useMemory, useUpdateMemory } from '@/features/memories/hooks';
 import { MemoryForm } from '@/features/memories/MemoryForm';
+import { neural } from '@/features/neural/neuralBus';
 import { usePackIndex } from '@/features/packs/hooks';
 import { describeDue, formatDay } from '@/lib/dates';
 import { friendlyError } from '@/lib/errors';
@@ -73,6 +74,7 @@ export default function EditMemory() {
           { id: memory.id, input },
           {
             onSuccess: () => {
+              neural.burst({ strength: 0.8 });
               toast({ tone: 'success', message: 'Card updated.' });
               if (router.canGoBack()) router.back();
             },

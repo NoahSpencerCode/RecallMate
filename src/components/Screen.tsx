@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { layout, spacing, useIsWide, useTheme } from '@/theme';
+import { layout, spacing, useIsWide, useScreenBackground } from '@/theme';
 
 import { GradientBlobs } from './GradientBlobs';
 
@@ -39,7 +39,7 @@ export function Screen({
   refreshControl,
   footer,
 }: ScreenProps) {
-  const { colors } = useTheme();
+  const background = useScreenBackground();
   const insets = useSafeAreaInsets();
   const isWide = useIsWide();
   const bottom = tabBar && !isWide ? layout.tabBarHeight + insets.bottom + 40 : insets.bottom + spacing.xxl;
@@ -56,7 +56,7 @@ export function Screen({
   ];
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background }]}>
+    <View style={[styles.root, { backgroundColor: background }]}>
       {blobs ? <GradientBlobs /> : null}
       <KeyboardAvoidingView
         style={styles.root}

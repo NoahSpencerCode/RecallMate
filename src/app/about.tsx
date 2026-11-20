@@ -24,7 +24,7 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { FibonacciChips, LAST_REVIEW_DAY, REVIEWS_BEFORE_FINALS, SemesterTimeline } from '@/features/about/FibonacciTimeline';
 import { MemoryCurveChart } from '@/features/about/MemoryCurveChart';
 import { Reveal } from '@/features/about/Reveal';
-import { gradients, palette, radii, spacing, useIsWide, useTheme } from '@/theme';
+import { gradients, palette, radii, spacing, useIsWide, useScreenBackground, useTheme } from '@/theme';
 
 const PLAYBOOK: { icon: IconName; color: string; title: string; text: string }[] = [
   {
@@ -71,6 +71,7 @@ function Panel({ children }: { children: ReactNode }) {
 
 export default function About() {
   const { colors } = useTheme();
+  const screenBackground = useScreenBackground();
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
   const isWide = useIsWide();
@@ -95,7 +96,7 @@ export default function About() {
   const reveal = { scrollY, viewportHeight: height };
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background }]}>
+    <View style={[styles.root, { backgroundColor: screenBackground }]}>
       <GradientBlobs />
       <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         <LinearGradient

@@ -1,16 +1,16 @@
 import { Stack } from 'expo-router';
 
-import { useTheme } from '@/theme';
+import { useScreenBackground } from '@/theme';
 
 export const unstable_settings = { anchor: '(tabs)' };
 
 export default function AppLayout() {
-  const { colors } = useTheme();
+  const background = useScreenBackground();
   return (
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: colors.background },
+        contentStyle: { backgroundColor: background },
       }}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen
