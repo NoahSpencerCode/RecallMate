@@ -1,0 +1,517 @@
+{
+  "category": {
+    "id": "statistics",
+    "name": "Statistics",
+    "tagline": "From z-scores and Bayes to the CLT, p-values, and least-squares regression"
+  },
+  "packs": [
+    {
+      "id": "stats-descriptive",
+      "title": "Descriptive Statistics",
+      "course": "Intro Statistics",
+      "description": "Mean vs median under skew, n − 1 variance, IQR and the 1.5×IQR outlier rule, z-scores, the 68-95-99.7 rule, and linear transformations.",
+      "cards": [
+        {
+          "id": "median-even-count",
+          "title": "What is the median of 3, 8, 1, 10, 6, 4?",
+          "body": "5.\nSort first: 1, 3, 4, 6, 8, 10. With an even count, the median is the mean of the two middle values: (4 + 6)/2 = 5. Skipping the sort would average 1 and 10 and give 5.5.",
+          "answer": "5"
+        },
+        {
+          "id": "skew-mean-vs-median",
+          "title": "In a strongly right-skewed distribution, which is usually larger: the mean or the median?",
+          "body": "The mean.\nA few very large values in the right tail pull the mean up, while the median stays with the bulk of the data (incomes are the classic case). Left skew usually gives mean < median; symmetric data give mean ≈ median.",
+          "answer": "mean",
+          "acceptedAnswers": [
+            "average",
+            "mean is larger"
+          ]
+        },
+        {
+          "id": "resistant-measures",
+          "title": "Which common summary statistics are resistant to outliers, and which are not?",
+          "body": "Resistant: median and IQR. Not resistant: mean, standard deviation, and range.\nOne extreme value drags the mean and inflates the SD and range but barely moves the middle of the sorted data. For skewed data or outliers, report the median and IQR."
+        },
+        {
+          "id": "five-number-summary",
+          "title": "What is the five-number summary, and which plot is built from it?",
+          "body": "Minimum, Q1, median, Q3, maximum.\nA boxplot draws a box from Q1 to Q3 with a line at the median. In the usual (modified) boxplot, whiskers reach the most extreme points within the 1.5×IQR fences, and points beyond them are plotted as separate dots (outliers)."
+        },
+        {
+          "id": "outlier-fence",
+          "title": "A data set has Q1 = 20 and Q3 = 35. Above what value is a point flagged as an outlier by the 1.5×IQR rule?",
+          "body": "57.5.\nIQR = Q3 − Q1 = 15, so the fences are Q1 − 1.5·IQR = −2.5 and Q3 + 1.5·IQR = 35 + 22.5 = 57.5. Points beyond either fence are flagged as potential outliers; it's a rule of thumb, not proof.",
+          "answer": "57.5"
+        },
+        {
+          "id": "variance-n-minus-1",
+          "title": "In the sample variance s², what is the sum of squared deviations divided by?",
+          "body": "n − 1.\ns² = ∑(xᵢ − x̄)²/(n − 1). The deviations from x̄ always sum to 0, so only n − 1 of them are free (the degrees of freedom). Dividing by n would systematically underestimate σ².",
+          "answer": "n-1",
+          "acceptedAnswers": [
+            "(n-1)",
+            "n minus 1",
+            "n minus one",
+            "degrees of freedom"
+          ]
+        },
+        {
+          "id": "sample-sd-by-hand",
+          "title": "What is the sample standard deviation of the data 1, 3, 5?",
+          "body": "2.\nx̄ = 3; the squared deviations 4, 0, 4 sum to 8; s² = 8/(3 − 1) = 4; s = √4 = 2. Dividing by n instead would give √(8/3) ≈ 1.63.",
+          "answer": "2"
+        },
+        {
+          "id": "sd-vs-variance-units",
+          "title": "Lengths are measured in cm. Why is the standard deviation easier to interpret than the variance?",
+          "body": "The SD is in cm, the same units as the data; the variance is in cm².\nVariance averages squared deviations, so its units are squared. Taking the square root returns to the original scale, so the SD reads as a typical distance from the mean."
+        },
+        {
+          "id": "compare-with-z-scores",
+          "title": "Maya scored 85 on a test with mean 75, SD 5. Leo scored 90 on a test with mean 80, SD 10. Who did better relative to their class?",
+          "body": "Maya.\nz = (x − mean)/SD puts both on one scale: Maya's z = (85 − 75)/5 = 2.0, Leo's z = (90 − 80)/10 = 1.0. Maya is 2 SDs above her class mean, Leo only 1.",
+          "answer": "Maya",
+          "acceptedAnswers": [
+            "Maya did better"
+          ]
+        },
+        {
+          "id": "value-from-z-score",
+          "title": "Scores have mean 70 and SD 8. What score has a z-score of −1.5?",
+          "body": "58.\nSolve z = (x − μ)/σ for x: x = μ + zσ = 70 + (−1.5)(8) = 70 − 12 = 58. A negative z-score means below the mean.",
+          "answer": "58"
+        },
+        {
+          "id": "z-score-distribution",
+          "title": "After converting every value in a data set to a z-score, what are the new mean and standard deviation?",
+          "body": "Mean 0, SD 1.\nSubtracting the mean shifts the center to 0, and dividing by the SD rescales the spread to 1. The shape doesn't change: z-scores of skewed data are still skewed, not normal."
+        },
+        {
+          "id": "empirical-rule",
+          "title": "What does the empirical rule say, and what kind of data does it apply to?",
+          "body": "About 68% of values lie within 1 SD of the mean, 95% within 2 SD, and 99.7% within 3 SD.\nIt applies only to roughly normal (unimodal, symmetric) data; for skewed data these percentages can be far off."
+        },
+        {
+          "id": "empirical-rule-tail",
+          "title": "Heights are roughly normal with mean 170 cm and SD 10 cm. By the empirical rule, about what percent are taller than 190 cm?",
+          "body": "About 2.5%.\n190 = mean + 2 SD. About 95% lie within ±2 SD, leaving 5% in the two tails; by symmetry half of that, 2.5%, is above 190.",
+          "answer": "2.5%",
+          "acceptedAnswers": [
+            "2.5",
+            "0.025",
+            ".025",
+            "2.5 percent",
+            "about 2.5%",
+            "approximately 2.5%"
+          ]
+        },
+        {
+          "id": "linear-transformation-sd",
+          "title": "Daily highs have mean 20 °C and SD 5 °C. After converting with F = 1.8C + 32, what is the SD in °F?",
+          "body": "9 °F.\nFor y = a + bx, the mean becomes a + b·x̄ but the SD becomes |b|·s. Adding 32 shifts the center, not the spread, so SD = 1.8 × 5 = 9. (The mean becomes 1.8 × 20 + 32 = 68 °F.)",
+          "answer": "9",
+          "acceptedAnswers": [
+            "9 F",
+            "9°F",
+            "9 degrees",
+            "9 degrees F",
+            "9 degrees Fahrenheit"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stats-probability",
+      "title": "Probability Rules",
+      "course": "Intro Statistics",
+      "description": "Addition and multiplication rules, disjoint vs independent, conditional and total probability, Bayes, counting, expected value, variance of sums.",
+      "cards": [
+        {
+          "id": "general-addition-rule",
+          "title": "P(A) = 0.5, P(B) = 0.4, and P(A and B) = 0.2. What is P(A or B)?",
+          "body": "0.7.\nGeneral addition rule: P(A or B) = P(A) + P(B) − P(A and B) = 0.5 + 0.4 − 0.2 = 0.7. Subtract the overlap so it isn't counted twice. Only for disjoint events is P(A or B) = P(A) + P(B).",
+          "answer": "0.7",
+          "acceptedAnswers": [
+            ".7",
+            "0.70",
+            "7/10",
+            "70%"
+          ]
+        },
+        {
+          "id": "disjoint-vs-independent",
+          "title": "Can two disjoint (mutually exclusive) events, each with positive probability, be independent?",
+          "body": "No: disjoint events with nonzero probabilities are always dependent.\nDisjoint means P(A and B) = 0, but independence would need P(A and B) = P(A)·P(B) > 0. If A happens you know B didn't, so P(B | A) = 0 ≠ P(B)."
+        },
+        {
+          "id": "checking-independence",
+          "title": "How do you check whether two events A and B are independent?",
+          "body": "Check whether P(A and B) = P(A)·P(B), or equivalently whether P(A | B) = P(A).\nExample: P(A) = 0.6, P(B) = 0.5, P(A and B) = 0.3. Since 0.6 × 0.5 = 0.3, A and B are independent. If the product doesn't match, they're dependent."
+        },
+        {
+          "id": "conditional-probability",
+          "title": "P(A and B) = 0.12 and P(B) = 0.4. What is P(A | B)?",
+          "body": "0.3.\nP(A | B) = P(A and B)/P(B) = 0.12/0.4 = 0.3. Divide by the probability of the condition (the event after the bar). Trap: P(A | B) and P(B | A) are usually different.",
+          "answer": "0.3",
+          "acceptedAnswers": [
+            ".3",
+            "0.30",
+            "3/10",
+            "30%"
+          ]
+        },
+        {
+          "id": "dependent-draws",
+          "title": "Two cards are drawn without replacement from a standard 52-card deck. What is P(both are aces)?",
+          "body": "1/221 ≈ 0.0045.\nThe draws are dependent, so use the general multiplication rule: P(A₁ and A₂) = P(A₁)·P(A₂ | A₁) = (4/52)(3/51) = 1/221. With replacement (independent draws) it would be (4/52)² = 1/169.",
+          "answer": "1/221",
+          "acceptedAnswers": [
+            "12/2652",
+            "0.0045",
+            "0.00452",
+            ".0045"
+          ]
+        },
+        {
+          "id": "at-least-one-complement",
+          "title": "A fair die is rolled 3 times. What is P(at least one 6)?",
+          "body": "91/216 ≈ 0.421.\nUse the complement: P(at least one 6) = 1 − P(no 6s) = 1 − (5/6)³ = 1 − 125/216 = 91/216. Trap: 3 × 1/6 = 1/2 overcounts rolls with two or more 6s.",
+          "answer": "91/216",
+          "acceptedAnswers": [
+            "0.421",
+            "0.42",
+            "0.4213",
+            ".421",
+            "42.1%"
+          ]
+        },
+        {
+          "id": "law-of-total-probability",
+          "title": "Machine A makes 60% of a plant's parts (2% defective); Machine B makes 40% (5% defective). P(a random part is defective)?",
+          "body": "0.032.\nLaw of total probability: P(D) = P(D | A)P(A) + P(D | B)P(B) = (0.02)(0.6) + (0.05)(0.4) = 0.012 + 0.020 = 0.032. Split by source, weight each defect rate by its share, and add.",
+          "answer": "0.032",
+          "acceptedAnswers": [
+            ".032",
+            "3.2%",
+            "4/125"
+          ]
+        },
+        {
+          "id": "bayes-theorem",
+          "title": "State Bayes' theorem for P(A | B).",
+          "body": "P(A | B) = P(B | A)·P(A) / P(B), where P(B) = P(B | A)P(A) + P(B | not A)P(not A).\nIt reverses a conditional: from P(B | A), which you usually know (like a test's accuracy), to P(A | B), which you want."
+        },
+        {
+          "id": "bayes-medical-test",
+          "title": "1% of people have a disease. A test detects 90% of cases but also flags 5% of healthy people. P(disease | positive test)?",
+          "body": "≈ 0.154 (exactly 2/13).\nP(D | +) = (0.90)(0.01) / [(0.90)(0.01) + (0.05)(0.99)] = 0.009/0.0585. Most positives are false positives, because healthy people vastly outnumber sick ones (low base rate).",
+          "answer": "0.154",
+          "acceptedAnswers": [
+            "0.15",
+            "0.1538",
+            ".154",
+            "15.4%",
+            "15%",
+            "2/13"
+          ]
+        },
+        {
+          "id": "permutations-vs-combinations",
+          "title": "When do you use nPr versus nCr, and what are their formulas?",
+          "body": "nPr = n!/(n − r)! when order matters (rankings, distinct roles); nCr = n!/(r!(n − r)!) when it doesn't (committees, hands).\nnCr = nPr/r!, since each group of r can be ordered r! ways. Example: 10P3 = 720 but 10C3 = 120."
+        },
+        {
+          "id": "committee-count",
+          "title": "How many different 4-person committees can be chosen from 9 people?",
+          "body": "126.\nOrder doesn't matter, so use a combination: 9C4 = 9!/(4!·5!) = (9 · 8 · 7 · 6)/(4 · 3 · 2 · 1) = 3024/24 = 126.",
+          "answer": "126"
+        },
+        {
+          "id": "expected-value",
+          "title": "A game pays 10 dollars with probability 0.2; otherwise you lose 2 dollars. What is the expected value per play, in dollars?",
+          "body": "0.40 dollars (a 40-cent average gain).\nE(X) = ∑ x·P(x) = 10(0.2) + (−2)(0.8) = 2 − 1.6 = 0.4. It's a long-run average per play; no single play actually pays 40 cents.",
+          "answer": "0.4",
+          "acceptedAnswers": [
+            "0.40",
+            ".4",
+            ".40",
+            "$0.40",
+            "$0.4",
+            "$.40",
+            "40 cents",
+            "0.40 dollars",
+            "0.4 dollars"
+          ]
+        },
+        {
+          "id": "sd-of-sum",
+          "title": "X and Y are independent, with SD(X) = 3 and SD(Y) = 4. What is SD(X + Y)?",
+          "body": "5.\nFor independent variables, variances add, SDs don't: Var(X + Y) = 3² + 4² = 25, so SD(X + Y) = √25 = 5. Trap: 3 + 4 = 7. (Means always add: E(X + Y) = E(X) + E(Y).)",
+          "answer": "5"
+        },
+        {
+          "id": "variance-of-difference",
+          "title": "For independent X and Y, what is Var(X − Y) in terms of Var(X) and Var(Y)?",
+          "body": "Var(X − Y) = Var(X) + Var(Y), the same as Var(X + Y).\nSubtracting still adds uncertainty: Var(X − Y) = Var(X) + (−1)²Var(Y). Var(X) − Var(Y) is wrong and could even be negative."
+        }
+      ]
+    },
+    {
+      "id": "stats-distributions",
+      "title": "Probability Distributions",
+      "course": "Intro Statistics",
+      "description": "Binomial, geometric, Poisson, uniform, exponential and normal facts, the success-failure condition, CLT, standard error, t and chi-square.",
+      "cards": [
+        {
+          "id": "binomial-conditions",
+          "title": "What four conditions must hold for a count X to be binomial?",
+          "body": "(1) A fixed number of trials n. (2) Each trial is a success or a failure. (3) Trials are independent. (4) The success probability p is the same on every trial.\nMnemonic BINS: Binary, Independent, Number fixed, Same p. Sampling without replacement from a small population breaks independence."
+        },
+        {
+          "id": "binomial-probability",
+          "title": "A fair coin is flipped 4 times. What is P(exactly 2 heads)?",
+          "body": "3/8 = 0.375.\nBinomial formula: P(X = k) = C(n, k)·pᵏ(1 − p)ⁿ⁻ᵏ = C(4, 2)(0.5)²(0.5)² = 6/16. C(4, 2) = 6 counts the orders, such as HHTT and HTHT.",
+          "answer": "3/8",
+          "acceptedAnswers": [
+            "0.375",
+            ".375",
+            "6/16",
+            "37.5%"
+          ]
+        },
+        {
+          "id": "binomial-sd",
+          "title": "X is binomial with n = 100 and p = 0.2. What is the standard deviation of X?",
+          "body": "4.\nσ = √(np(1 − p)) = √(100 · 0.2 · 0.8) = √16 = 4, and the mean is np = 20. Trap: forgetting the square root gives the variance, 16.",
+          "answer": "4"
+        },
+        {
+          "id": "geometric-mean",
+          "title": "Rolling a fair die repeatedly, what is the expected number of rolls needed to get the first 6?",
+          "body": "6.\nThe number of trials until the first success is geometric, with mean 1/p = 1/(1/6) = 6. It assumes independent trials with the same p; the SD is √(1 − p)/p ≈ 5.48.",
+          "answer": "6"
+        },
+        {
+          "id": "poisson-sd",
+          "title": "A Poisson random variable has mean λ = 9. What is its standard deviation?",
+          "body": "3.\nFor a Poisson distribution the mean and the variance both equal λ, so SD = √λ = √9 = 3. Poisson models counts of independent events in a fixed interval, such as calls per hour.",
+          "answer": "3"
+        },
+        {
+          "id": "continuous-point-probability",
+          "title": "X is a continuous random variable. What is P(X = 3)?",
+          "body": "0.\nFor a continuous variable, probability is area under the density curve, and a single point has zero width. That's why P(X ≤ 3) = P(X < 3).",
+          "answer": "0",
+          "acceptedAnswers": [
+            "zero"
+          ]
+        },
+        {
+          "id": "uniform-mean",
+          "title": "X is uniformly distributed on [4, 10]. What is the mean of X?",
+          "body": "7.\nA continuous uniform on [a, b] has mean (a + b)/2, the midpoint: (4 + 10)/2 = 7. Its SD is (b − a)/√12 = 6/√12 ≈ 1.73.",
+          "answer": "7"
+        },
+        {
+          "id": "exponential-memoryless",
+          "title": "An exponential waiting time has rate λ. What is its mean, and what does 'memoryless' mean?",
+          "body": "Mean = 1/λ (the SD is also 1/λ).\nMemoryless: P(X > s + t | X > s) = P(X > t). If a part's lifetime is exponential, having already lasted 100 hours doesn't change the chance it lasts 50 more."
+        },
+        {
+          "id": "normal-90th-percentile",
+          "title": "What z-score marks the 90th percentile of the standard normal distribution?",
+          "body": "≈ 1.28.\nFind the z with area 0.90 to its left (z-table, or invNorm(0.90) = 1.2816). For any normal, the 90th percentile is μ + 1.28σ, and by symmetry the 10th is μ − 1.28σ.",
+          "answer": "1.28",
+          "acceptedAnswers": [
+            "1.282",
+            "1.2816",
+            "z=1.28"
+          ]
+        },
+        {
+          "id": "success-failure-condition",
+          "title": "What is the success-failure condition, and what does it justify?",
+          "body": "At least 10 expected successes and 10 expected failures: np ≥ 10 and n(1 − p) ≥ 10 (OpenIntro's threshold; some texts use 5 or 15).\nWhen it holds, the binomial count, and the sample proportion p̂, are approximately normal."
+        },
+        {
+          "id": "central-limit-theorem",
+          "title": "What does the Central Limit Theorem say about the sampling distribution of x̄?",
+          "body": "With independent observations and a large enough n, x̄ is approximately normal with mean μ and SD σ/√n, whatever the population's shape.\nRule of thumb: n ≥ 30 is usually enough unless the population is strongly skewed or has extreme outliers. The data themselves don't become normal."
+        },
+        {
+          "id": "standard-error-of-mean",
+          "title": "A population has σ = 20. What is the standard error of x̄ for random samples of size n = 100?",
+          "body": "2.\nSE = σ/√n = 20/√100 = 2. Sample means vary less than individual values, but precision improves only with √n.",
+          "answer": "2"
+        },
+        {
+          "id": "t-degrees-of-freedom",
+          "title": "A one-sample t procedure uses a sample of size n = 25. How many degrees of freedom does it have?",
+          "body": "24.\ndf = n − 1 = 24. The t distribution is bell-shaped and centered at 0 like N(0, 1), but its heavier tails account for estimating σ with s. As df grows, t approaches the standard normal.",
+          "answer": "24",
+          "acceptedAnswers": [
+            "df=24",
+            "24 df"
+          ]
+        },
+        {
+          "id": "chi-square-shape",
+          "title": "What does a chi-square distribution look like, and how does it change as its degrees of freedom increase?",
+          "body": "It takes only nonnegative values and is right-skewed.\nAs df increases, the center shifts right, the spread grows, and the shape becomes more symmetric (closer to normal). Its mean equals its df."
+        }
+      ]
+    },
+    {
+      "id": "stats-inference",
+      "title": "Inference & Regression",
+      "course": "Intro Statistics",
+      "description": "Hypotheses, p-values, Type I/II errors and power, z-intervals and sample size, paired t, chi-square df, correlation, R², least-squares lines.",
+      "cards": [
+        {
+          "id": "null-vs-alternative",
+          "title": "What do H₀ and Hₐ represent, and which one contains the equals sign?",
+          "body": "H₀, the null, is the skeptical 'no effect, no difference' claim and holds the equality, e.g. H₀: μ = 50. Hₐ, the alternative, is what the study seeks evidence for: μ ≠ 50, μ < 50, or μ > 50.\nBoth are about parameters (μ, p), never sample statistics (x̄, p̂)."
+        },
+        {
+          "id": "p-value-definition",
+          "title": "What exactly is a p-value?",
+          "body": "The probability, computed assuming H₀ is true, of getting a test statistic at least as extreme as the one observed (in the direction of Hₐ).\nIt is not the probability that H₀ is true, and not the probability that the result is due to chance alone."
+        },
+        {
+          "id": "fail-to-reject",
+          "title": "A test at α = 0.05 gives p = 0.08. What is the correct conclusion?",
+          "body": "Fail to reject H₀: the data do not provide convincing evidence for Hₐ.\nNever write 'accept H₀' or 'H₀ is true'. A p-value above α means insufficient evidence against H₀, not proof of it."
+        },
+        {
+          "id": "type-i-error",
+          "title": "Rejecting H₀ when H₀ is actually true is which type of error?",
+          "body": "Type I error, a false positive.\nIts probability is α: at α = 0.05, a true H₀ is wrongly rejected 5% of the time. A Type II error is failing to reject a false H₀; its probability is β.",
+          "answer": "Type I",
+          "acceptedAnswers": [
+            "type 1",
+            "type-I",
+            "type-1",
+            "type one",
+            "I",
+            "1",
+            "type I error",
+            "type 1 error",
+            "type one error",
+            "false positive"
+          ]
+        },
+        {
+          "id": "power",
+          "title": "A test has P(Type II error) = β = 0.2. What is its power?",
+          "body": "0.8.\nPower = 1 − β = P(reject H₀ | H₀ is false), the chance of detecting a real effect. It increases with a larger n, a larger true effect, a larger α, or less variability.",
+          "answer": "0.8",
+          "acceptedAnswers": [
+            ".8",
+            "0.80",
+            "80%",
+            "4/5"
+          ]
+        },
+        {
+          "id": "margin-of-error-95",
+          "title": "With known σ = 12 and n = 36, what is the margin of error of a 95% confidence interval for μ?",
+          "body": "3.92.\nME = z*·σ/√n with z* = 1.96 for 95%: 1.96 × 12/√36 = 1.96 × 2 = 3.92, so the CI is x̄ ± 3.92. Other levels: 90% uses z* = 1.645, 99% uses 2.576.",
+          "answer": "3.92"
+        },
+        {
+          "id": "ci-interpretation",
+          "title": "What does the '95%' in a 95% confidence interval actually mean?",
+          "body": "It's the method's success rate: if we took many random samples and built a 95% CI from each, about 95% of those intervals would contain the true parameter.\nWrong: 'a 95% chance μ is in this interval' (μ is fixed; this interval either contains it or not) or '95% of the data fall in it'."
+        },
+        {
+          "id": "halve-margin-of-error",
+          "title": "To cut a confidence interval's margin of error in half (same confidence level), multiply the sample size by what?",
+          "body": "4.\nME = z*·σ/√n is proportional to 1/√n, so halving the ME means doubling √n, which takes 4 times as many observations (e.g. n = 100 → 400).",
+          "answer": "4",
+          "acceptedAnswers": [
+            "four",
+            "4 times",
+            "four times",
+            "4x",
+            "x4",
+            "times 4",
+            "quadruple"
+          ]
+        },
+        {
+          "id": "paired-vs-two-sample",
+          "title": "Blood pressure is measured on the same 20 patients before and after a drug. Which t-test fits: paired or two-sample?",
+          "body": "Paired.\nEach patient gives two linked measurements, so take the differences (after − before) and run a one-sample t-test on their mean, with df = 20 − 1 = 19. A two-sample t-test is for two independent groups.",
+          "answer": "paired",
+          "acceptedAnswers": [
+            "paired t-test",
+            "paired t test",
+            "paired t",
+            "paired test",
+            "matched pairs",
+            "matched pairs t-test",
+            "matched-pairs",
+            "matched pair",
+            "paired samples"
+          ]
+        },
+        {
+          "id": "chi-square-df",
+          "title": "A chi-square test of independence uses a table with 3 rows and 4 columns. How many degrees of freedom?",
+          "body": "6.\ndf = (r − 1)(c − 1) = (3 − 1)(4 − 1) = 6; don't count the totals row or column. Each expected count = (row total × column total)/table total, and every expected count should be at least 5.",
+          "answer": "6",
+          "acceptedAnswers": [
+            "df=6",
+            "6 df",
+            "six"
+          ]
+        },
+        {
+          "id": "correlation-range",
+          "title": "What values can the correlation coefficient r take, and what does r = −0.9 indicate?",
+          "body": "Any value from −1 to 1. r = −0.9 indicates a strong negative linear association.\nr has no units and doesn't change if you swap x and y or change units. It measures only linear association: r ≈ 0 can hide a strong curved pattern."
+        },
+        {
+          "id": "correlation-not-causation",
+          "title": "Ice cream sales and drowning deaths are strongly correlated. Why can't we conclude ice cream causes drowning?",
+          "body": "Correlation does not imply causation: a lurking (confounding) variable, hot weather, drives both.\nOnly a randomized experiment can establish cause and effect; observational data like these show association only."
+        },
+        {
+          "id": "least-squares-slope",
+          "title": "r = 0.8, s_x = 5, and s_y = 10. What is the least-squares slope b₁ for predicting y from x?",
+          "body": "1.6.\nb₁ = r · (s_y/s_x) = 0.8 × (10/5) = 1.6. The slope always has the same sign as r. Interpretation: each 1-unit increase in x predicts a 1.6-unit increase in y, on average.",
+          "answer": "1.6",
+          "acceptedAnswers": [
+            "8/5"
+          ]
+        },
+        {
+          "id": "least-squares-intercept",
+          "title": "A least-squares line has slope b₁ = 3, and the data have x̄ = 10 and ȳ = 50. What is the intercept b₀?",
+          "body": "20.\nThe least-squares line always passes through (x̄, ȳ), so b₀ = ȳ − b₁x̄ = 50 − 3(10) = 20, giving ŷ = 20 + 3x.",
+          "answer": "20",
+          "acceptedAnswers": [
+            "b0 = 20"
+          ]
+        },
+        {
+          "id": "residual",
+          "title": "Using ŷ = 20 + 3x, a data point has x = 10 and observed y = 47. What is its residual?",
+          "body": "−3.\nResidual = observed − predicted = y − ŷ = 47 − (20 + 30) = −3. Negative means the point lies below the line (the model overestimated). Least squares minimizes the sum of squared residuals.",
+          "answer": "-3"
+        },
+        {
+          "id": "r-squared",
+          "title": "A linear regression has r = 0.6. What fraction of the variation in y is explained by the model?",
+          "body": "0.36, i.e. 36%.\nR² = r² = 0.6² = 0.36: 36% of the variability in y is accounted for by the linear relationship with x. Trap: it doesn't mean 36% of the points fall on the line.",
+          "answer": "0.36",
+          "acceptedAnswers": [
+            ".36",
+            "36%",
+            "9/25"
+          ]
+        }
+      ]
+    }
+  ]
+}
