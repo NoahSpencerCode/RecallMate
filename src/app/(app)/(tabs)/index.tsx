@@ -12,6 +12,7 @@ import { BrainGlyph } from '@/components/Logo';
 import { ProgressRing } from '@/components/ProgressRing';
 import { Screen } from '@/components/Screen';
 import { SectionHeader } from '@/components/SectionHeader';
+import { LoadError } from '@/components/LoadError';
 import { Skeleton } from '@/components/Skeleton';
 import { StatTile } from '@/components/StatTile';
 import { StreakPill } from '@/components/StreakFlame';
@@ -59,6 +60,8 @@ export default function Today() {
     .slice(0, 6);
 
   const loading = memoriesQuery.isPending;
+  // A failed first load mustn't look like an empty account.
+  const loadFailed = memoriesQuery.isError && !memoriesQuery.data;
 
   return (
     <Screen
@@ -87,6 +90,14 @@ export default function Today() {
 
       {loading ? (
         <Skeleton height={210} radius={radii.xl} />
+      ) : loadFailed ? (
+        <LoadError
+          onRetry={() => {
+            void memoriesQuery.refetch();
+            void progressQuery.refetch();
+          }}
+          retrying={memoriesQuery.isFetching}
+        />
       ) : (
         <Animated.View entering={FadeInDown.delay(80).springify().damping(15)}>
           <LinearGradient colors={gradients.brand} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.hero}>
@@ -149,7 +160,7 @@ export default function Today() {
         </Animated.View>
       )}
 
-      <View style={styles.stats}>
+      <View style={[styles.stats, loadFailed && styles.hidden]}>
         <StatTile index={0} icon="fire" color={palette.orange} value={progress?.current_streak ?? 0} label="Day streak" />
         <StatTile index={1} icon="check-circle-outline" color={colors.success} value={reviewedToday} label="Done today" />
         <StatTile index={2} icon="trophy-outline" color={palette.yellow} value={progress?.memories.mastered ?? 0} label="Mastered" />
@@ -216,7 +227,8 @@ const styles = StyleSheet.create({
     borderRadius: radii.xl,
   },
   heroCopy: { flex: 1, minWidth: 190, gap: spacing.sm, alignItems: 'flex-start' },
-  stats: { flexDirection: 'row', gap: spacing.md },
+  stats: { flexDirection: 'row', gap: spacing.md, flexWrap: 'wrap' },
+  hidden: { display: 'none' },
   section: { gap: spacing.md },
   cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: spacing.lg },
   suggestions: { gap: spacing.md, paddingVertical: spacing.xs, paddingRight: spacing.xl },

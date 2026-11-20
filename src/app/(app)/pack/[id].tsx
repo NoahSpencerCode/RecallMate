@@ -10,6 +10,7 @@ import { Card } from '@/components/Card';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { Confetti } from '@/components/Confetti';
 import { EmptyState } from '@/components/EmptyState';
+import { LoadError } from '@/components/LoadError';
 import { Icon } from '@/components/Icon';
 import { IconButton } from '@/components/IconButton';
 import { PressableScale } from '@/components/PressableScale';
@@ -20,7 +21,7 @@ import { useMemories } from '@/features/memories/hooks';
 import { categoryLook } from '@/features/packs/categories';
 import { neural } from '@/features/neural/neuralBus';
 import { useAddPack, usePack, usePackProgress, useRemovePack } from '@/features/packs/hooks';
-import { friendlyError } from '@/lib/errors';
+import { friendlyError, isGoneError } from '@/lib/errors';
 import { haptics } from '@/lib/haptics';
 import { useToday } from '@/lib/useToday';
 import { enterItem, fonts, layout, palette, radii, spacing, useIsWide, useScreenBackground, useTheme } from '@/theme';
@@ -56,7 +57,7 @@ export default function PackDetail() {
 
   function add() {
     addPack.mutate(
-      { packId: id, perDay: pace, today },
+      { packId: id, perDay: pace },
       {
         onSuccess: (count) => {
           haptics.success();
@@ -88,12 +89,16 @@ export default function PackDetail() {
     });
   }
 
-  if (pack.isError) {
+  if (pack.isError && !pack.data) {
     return (
       <View style={[styles.root, { backgroundColor: screenBackground, paddingTop: insets.top }]}>
-        <EmptyState icon="layers-off-outline" color={palette.pink} title="Pack not found" message="It may have been retired.">
-          <Button title="Back to packs" variant="secondary" onPress={() => router.replace('/packs')} />
-        </EmptyState>
+        {isGoneError(pack.error) ? (
+          <EmptyState icon="layers-off-outline" color={palette.pink} title="Pack not found" message="It may have been retired.">
+            <Button title="Back to packs" variant="secondary" onPress={() => router.replace('/packs')} />
+          </EmptyState>
+        ) : (
+          <LoadError title="Couldn’t load this pack" onRetry={() => void pack.refetch()} retrying={pack.isFetching} />
+        )}
       </View>
     );
   }
@@ -180,7 +185,12 @@ export default function PackDetail() {
                   </View>
                   <View style={styles.actions}>
                     {dueFromPack > 0 ? (
-                      <Button title={`Review ${dueFromPack} due`} icon="play" size="md" onPress={() => router.push('/review')} />
+                      <Button
+                        title={`Review ${dueFromPack} due`}
+                        icon="play"
+                        size="md"
+                        onPress={() => router.push({ pathname: '/review', params: { pack: id } })}
+                      />
                     ) : null}
                     {mine.cardCount < pack.data.cardCount ? (
                       <Button title="Add missing cards" variant="secondary" size="md" icon="plus" loading={addPack.isPending} onPress={add} />

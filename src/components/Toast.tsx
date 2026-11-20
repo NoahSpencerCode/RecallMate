@@ -1,5 +1,5 @@
 import { createContext, use, useCallback, useRef, useState, type ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import Animated, { FadeOutUp, SlideInUp } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -80,5 +80,5 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderBottomWidth: 4,
   },
-  message: { flexShrink: 1 },
+  message: { flexShrink: 1, ...(Platform.OS === 'web' ? ({ wordBreak: 'break-word' } as object) : null) },
 });

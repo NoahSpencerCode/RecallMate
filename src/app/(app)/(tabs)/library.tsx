@@ -9,6 +9,7 @@ import { Chip } from '@/components/Chip';
 import { EmptyState } from '@/components/EmptyState';
 import { GradientBlobs } from '@/components/GradientBlobs';
 import { IconButton } from '@/components/IconButton';
+import { LoadError } from '@/components/LoadError';
 import { Skeleton } from '@/components/Skeleton';
 import { Text } from '@/components/Text';
 import { TextField } from '@/components/TextField';
@@ -128,6 +129,9 @@ export default function Library() {
         ))}
       </View>
     );
+  } else if (query.isError && !query.data) {
+    // Not "your library is empty": the cards just didn't load.
+    empty = <LoadError onRetry={() => void query.refetch()} retrying={query.isFetching} />;
   } else if (memories.length === 0) {
     empty = (
       <EmptyState

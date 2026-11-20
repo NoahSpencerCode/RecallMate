@@ -6,7 +6,9 @@ import { Button } from '@/components/Button';
 import { Text } from '@/components/Text';
 import { TextField } from '@/components/TextField';
 import { AuthShell } from '@/features/auth/AuthShell';
+import { rememberEmail, rememberedEmail } from '@/features/auth/emailHandoff';
 import { FormError } from '@/features/auth/FormError';
+import { ResendConfirmation } from '@/features/auth/ResendConfirmation';
 import { friendlyError } from '@/lib/errors';
 import { supabase } from '@/lib/supabase';
 import { fonts, spacing, useTheme } from '@/theme';
@@ -15,13 +17,15 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function SignIn() {
   const { colors } = useTheme();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(rememberedEmail);
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [unconfirmed, setUnconfirmed] = useState(false);
   const [busy, setBusy] = useState(false);
   const passwordRef = useRef<ComponentRef<typeof TextInput>>(null);
 
   async function submit() {
+    if (busy) return;
     if (!EMAIL.test(email.trim())) return setError('Enter the email you signed up with.');
     if (!password) return setError('Enter your password.');
     setError(null);
@@ -32,7 +36,10 @@ export default function SignIn() {
     });
     setBusy(false);
     // On success the auth listener swaps to the app automatically.
-    if (signInError) setError(friendlyError(signInError));
+    if (signInError) {
+      setError(friendlyError(signInError));
+      setUnconfirmed(signInError.code === 'email_not_confirmed');
+    }
   }
 
   return (
@@ -46,6 +53,7 @@ export default function SignIn() {
           onChangeText={(text) => {
             setEmail(text);
             setError(null);
+            setUnconfirmed(false);
           }}
           autoCapitalize="none"
           autoCorrect={false}
@@ -76,12 +84,16 @@ export default function SignIn() {
           title="Forgot password?"
           variant="ghost"
           size="sm"
-          onPress={() => router.push({ pathname: '/forgot-password', params: { email: email.trim() } })}
+          onPress={() => {
+            rememberEmail(email);
+            router.push('/forgot-password');
+          }}
           style={styles.forgot}
         />
       </View>
 
       <FormError message={error} />
+      {error && unconfirmed ? <ResendConfirmation email={email.trim()} /> : null}
 
       <Button title="Sign in" iconRight="arrow-right" fullWidth loading={busy} onPress={submit} />
 

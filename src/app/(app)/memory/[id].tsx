@@ -6,9 +6,11 @@ import { Button } from '@/components/Button';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { EmptyState } from '@/components/EmptyState';
 import { Icon, type IconName } from '@/components/Icon';
+import { LoadError } from '@/components/LoadError';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { useToast } from '@/components/Toast';
+import { clearDraft } from '@/features/memories/drafts';
 import { useDeleteMemory, useMemory, useUpdateMemory } from '@/features/memories/hooks';
 import { MemoryForm } from '@/features/memories/MemoryForm';
 import { neural } from '@/features/neural/neuralBus';
@@ -24,7 +26,7 @@ export default function EditMemory() {
   const { colors } = useTheme();
   const today = useToday();
   const toast = useToast();
-  const { memory, isPending } = useMemory(id);
+  const { memory, isPending, isError, isFetching, refetch } = useMemory(id);
   const packIndex = usePackIndex();
   const update = useUpdateMemory();
   const remove = useDeleteMemory();
@@ -34,6 +36,14 @@ export default function EditMemory() {
     return (
       <Screen scroll={false} contentStyle={styles.center}>
         <ActivityIndicator color={colors.primary} size="large" />
+      </Screen>
+    );
+  }
+
+  if (!memory && isError) {
+    return (
+      <Screen maxWidth={560}>
+        <LoadError title="Couldn’t load this card" onRetry={() => void refetch()} retrying={isFetching} />
       </Screen>
     );
   }
@@ -60,6 +70,7 @@ export default function EditMemory() {
   return (
     <MemoryForm
       key={memory.id}
+      draftKey={`edit:${memory.id}`}
       heading={status === 'mastered' ? 'Mastered card' : 'Edit card'}
       submitLabel="Save changes"
       saving={update.isPending}
@@ -74,6 +85,7 @@ export default function EditMemory() {
           { id: memory.id, input },
           {
             onSuccess: () => {
+              clearDraft(`edit:${memory.id}`);
               neural.burst({ strength: 0.8 });
               toast({ tone: 'success', message: 'Card updated.' });
               if (router.canGoBack()) router.back();
@@ -108,6 +120,7 @@ export default function EditMemory() {
         onConfirm={() =>
           remove.mutate(memory.id, {
             onSuccess: () => {
+              clearDraft(`edit:${memory.id}`);
               setConfirmDelete(false);
               toast({ tone: 'info', icon: 'delete-outline', message: 'Card deleted.' });
               if (router.canGoBack()) router.back();

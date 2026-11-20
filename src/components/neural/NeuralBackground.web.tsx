@@ -193,8 +193,8 @@ export function NeuralBackground() {
     let offsetY = -MARGIN;
 
     const setup = () => {
-      viewW = window.innerWidth;
-      viewH = window.innerHeight;
+      viewW = canvas.clientWidth || window.innerWidth;
+      viewH = canvas.clientHeight || window.innerHeight;
       dpr = Math.min(window.devicePixelRatio || 1, viewW < 700 ? 1.5 : 2);
       const target = viewW < 700 ? 750 : viewW * viewH > 2_000_000 ? 1200 : 1000;
       net = buildNetwork(viewW, viewH, target);
@@ -381,7 +381,7 @@ export function NeuralBackground() {
     <canvas
       ref={canvasRef}
       aria-hidden
-      style={{ position: 'fixed', inset: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 0 }}
+      style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }}
     />
   );
 }

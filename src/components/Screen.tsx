@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useKeyboardInset } from '@/lib/useKeyboardInset';
 import { layout, spacing, useIsWide, useScreenBackground } from '@/theme';
 
 import { GradientBlobs } from './GradientBlobs';
@@ -74,19 +75,26 @@ export function Screen({
           <View style={[styles.root, content]}>{children}</View>
         )}
         {footer ? (
-          <View
-            style={[
-              styles.footer,
-              {
-                paddingBottom: insets.bottom + spacing.lg,
-                paddingHorizontal: isWide ? spacing.xxxl : spacing.xl,
-                maxWidth,
-              },
-            ]}>
+          <Footer paddingHorizontal={isWide ? spacing.xxxl : spacing.xl} maxWidth={maxWidth}>
             {footer}
-          </View>
+          </Footer>
         ) : null}
       </KeyboardAvoidingView>
+    </View>
+  );
+}
+
+/** Pinned under the content; on phone browsers it rides above the on-screen keyboard. */
+function Footer({ children, paddingHorizontal, maxWidth }: { children: ReactNode; paddingHorizontal: number; maxWidth: number }) {
+  const insets = useSafeAreaInsets();
+  const keyboard = useKeyboardInset();
+  return (
+    <View
+      style={[
+        styles.footer,
+        { paddingBottom: keyboard ? keyboard + spacing.sm : insets.bottom + spacing.lg, paddingHorizontal, maxWidth },
+      ]}>
+      {children}
     </View>
   );
 }

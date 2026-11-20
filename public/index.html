@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="%LANG_ISO_CODE%">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!--
+      Phone browsers paint their status and tool bars (and any area the app
+      doesn't cover) from these colors and the page background below. Without
+      them Safari shows white strips above and below the app. Keep them in sync
+      with `background` in src/theme/tokens.ts.
+    -->
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFF6EC" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F0B1E" />
+    <title>%WEB_TITLE%</title>
+    <style id="expo-reset">
+      html,
+      body {
+        height: 100%;
+        background-color: #fff6ec;
+        /* Lists hitting their end shouldn't drag the whole page (and its background) around. */
+        overscroll-behavior: none;
+      }
+      @media (prefers-color-scheme: dark) {
+        html,
+        body {
+          background-color: #0f0b1e;
+        }
+      }
+      /* Scrolling happens inside the app's own scroll views. */
+      body {
+        overflow: hidden;
+      }
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <noscript>You need to enable JavaScript to use RecallMate.</noscript>
+    <div id="root"></div>
+  </body>
+</html>

@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import type { TabListProps, TabTriggerSlotProps } from 'expo-router/ui';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, type ReactNode } from 'react';
-import { Platform, Pressable, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -146,37 +146,40 @@ export function Sidebar({ children, style: _style, ...rest }: TabListProps & { c
         // Slightly see-through on web so the neuron field glows behind it.
         { backgroundColor: Platform.OS === 'web' ? `${colors.backgroundAlt}CC` : colors.backgroundAlt, borderRightColor: colors.border },
       ]}>
-      <View style={styles.sideLogo}>
-        <Logo size={38} />
-      </View>
-      <View style={styles.sideNav}>{children}</View>
-      <Button title="New card" icon="plus" fullWidth onPress={() => router.push('/memory/new')} />
-      <Button
-        title="How it works"
-        variant="ghost"
-        size="sm"
-        icon="lightbulb-question-outline"
-        onPress={() => router.push('/about')}
-        style={styles.sideAbout}
-      />
-      <View style={styles.sideSpacer} />
-      <View style={styles.sideFooter}>
-        <StreakPill days={progress?.current_streak ?? 0} />
-        <PressableScale
-          onPress={() => router.navigate('/progress')}
-          accessibilityRole="button"
-          accessibilityLabel="Account and progress"
-          style={[styles.account, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-          <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
-            <Text style={{ fontFamily: fonts.extrabold, fontSize: 14 }} color="#FFFFFF">
-              {initial}
+      {/* Scrolls when the window is short, e.g. a big phone in landscape. */}
+      <ScrollView contentContainerStyle={styles.sideScroll} showsVerticalScrollIndicator={false}>
+        <View style={styles.sideLogo}>
+          <Logo size={38} />
+        </View>
+        <View style={styles.sideNav}>{children}</View>
+        <Button title="New card" icon="plus" fullWidth onPress={() => router.push('/memory/new')} />
+        <Button
+          title="How it works"
+          variant="ghost"
+          size="sm"
+          icon="lightbulb-question-outline"
+          onPress={() => router.push('/about')}
+          style={styles.sideAbout}
+        />
+        <View style={styles.sideSpacer} />
+        <View style={styles.sideFooter}>
+          <StreakPill days={progress?.current_streak ?? 0} />
+          <PressableScale
+            onPress={() => router.navigate('/progress')}
+            accessibilityRole="button"
+            accessibilityLabel="Account and progress"
+            style={[styles.account, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+            <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
+              <Text style={{ fontFamily: fonts.extrabold, fontSize: 14 }} color="#FFFFFF">
+                {initial}
+              </Text>
+            </View>
+            <Text variant="caption" tone="muted" numberOfLines={1} style={styles.email}>
+              {user?.email}
             </Text>
-          </View>
-          <Text variant="caption" tone="muted" numberOfLines={1} style={styles.email}>
-            {user?.email}
-          </Text>
-        </PressableScale>
-      </View>
+          </PressableScale>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -211,12 +214,12 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderColor: 'rgba(255,255,255,0.9)',
   },
-  sidebar: {
-    width: 248,
+  sidebar: { width: 248, borderRightWidth: 1.5 },
+  sideScroll: {
+    flexGrow: 1,
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.xxl,
     paddingBottom: spacing.xl,
-    borderRightWidth: 1.5,
     gap: spacing.lg,
   },
   sideLogo: { paddingHorizontal: spacing.sm, marginBottom: spacing.md },

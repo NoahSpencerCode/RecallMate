@@ -2,13 +2,16 @@ import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
   Easing,
+  Extrapolation,
   FadeInDown,
+  interpolate,
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
   withDelay,
   withRepeat,
   withTiming,
+  type SharedValue,
 } from 'react-native-reanimated';
 
 import { CategoryIcon } from '@/components/CategoryIcon';
@@ -22,7 +25,9 @@ const SAMPLES = [
   { category: 'software', label: 'Git Essentials', prompt: 'Shelve uncommitted work for later?', answer: 'git stash', x: -14, y: 216, tilt: -3 },
 ] as const;
 
-function FloatingCard({ sample, index }: { sample: (typeof SAMPLES)[number]; index: number }) {
+type Collapse = SharedValue<number> | undefined;
+
+function FloatingCard({ sample, index, collapse }: { sample: (typeof SAMPLES)[number]; index: number; collapse: Collapse }) {
   const reduceMotion = useReducedMotion();
   const float = useSharedValue(0);
   const look = categoryLook(sample.category);
@@ -37,13 +42,18 @@ function FloatingCard({ sample, index }: { sample: (typeof SAMPLES)[number]; ind
     );
   }, [float, index, reduceMotion]);
 
-  const style = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: sample.x },
-      { translateY: sample.y - 10 * float.get() },
-      { rotate: `${sample.tilt + 2.5 * float.get()}deg` },
-    ],
-  }));
+  const style = useAnimatedStyle(() => {
+    // Tucking away gathers the fanned-out cards into a neat stack.
+    const spread = 1 - 0.7 * (collapse ? collapse.get() : 0);
+    const bob = float.get();
+    return {
+      transform: [
+        { translateX: sample.x * spread },
+        { translateY: sample.y * spread - 10 * bob },
+        { rotate: `${sample.tilt * spread + 2.5 * bob}deg` },
+      ],
+    };
+  });
 
   return (
     <Animated.View
@@ -69,21 +79,36 @@ function FloatingCard({ sample, index }: { sample: (typeof SAMPLES)[number]; ind
   );
 }
 
+/** Height of the card art at scale 1 (the last card's bottom edge). */
+export const FLOATING_CARDS_HEIGHT = 370;
+
+type FloatingCardsProps = {
+  scale?: number;
+  /** 0 = fanned out, 1 = tucked away. Drives the welcome screen's collapsing hero. */
+  collapse?: SharedValue<number>;
+};
+
 /** Three study cards bobbing in space: the welcome screen's hero art. */
-export function FloatingCards({ scale = 1 }: { scale?: number }) {
+export function FloatingCards({ scale = 1, collapse }: FloatingCardsProps) {
+  const stageStyle = useAnimatedStyle(() => {
+    const progress = collapse ? collapse.get() : 0;
+    return {
+      opacity: interpolate(progress, [0.35, 0.9], [1, 0], Extrapolation.CLAMP),
+      transform: [{ scale: scale * interpolate(progress, [0, 1], [1, 0.75], Extrapolation.CLAMP) }],
+    };
+  });
+
   return (
-    <View
-      style={[styles.stage, { height: STAGE_HEIGHT * scale, transform: [{ scale }] }]}
+    <Animated.View
+      style={[styles.stage, { height: FLOATING_CARDS_HEIGHT * scale }, stageStyle]}
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants">
       {SAMPLES.map((sample, index) => (
-        <FloatingCard key={sample.prompt} sample={sample} index={index} />
+        <FloatingCard key={sample.prompt} sample={sample} index={index} collapse={collapse} />
       ))}
-    </View>
+    </Animated.View>
   );
 }
-
-const STAGE_HEIGHT = 350;
 
 const styles = StyleSheet.create({
   stage: { width: 320, alignSelf: 'center', transformOrigin: 'top' },
