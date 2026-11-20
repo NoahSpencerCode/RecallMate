@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { RefreshControl, StyleSheet, View } from 'react-native';
@@ -9,6 +10,7 @@ import { Card } from '@/components/Card';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { ForecastBars } from '@/components/ForecastBars';
 import { Heatmap } from '@/components/Heatmap';
+import { Icon } from '@/components/Icon';
 import { Screen } from '@/components/Screen';
 import { Skeleton } from '@/components/Skeleton';
 import { StatTile } from '@/components/StatTile';
@@ -155,6 +157,21 @@ export default function ProgressScreen() {
         </>
       )}
 
+      <Card onPress={() => router.push('/about')} accessibilityLabel="How RecallMate works">
+        <View style={styles.aboutRow}>
+          <View style={[styles.aboutIcon, { backgroundColor: colors.primarySoft }]}>
+            <Icon name="lightbulb-question-outline" size={24} color={colors.primary} />
+          </View>
+          <View style={styles.aboutText}>
+            <Text variant="subheading">How RecallMate works</Text>
+            <Text variant="small" tone="muted">
+              The science behind the Fibonacci schedule, and how to ace your finals with it.
+            </Text>
+          </View>
+          <Icon name="chevron-right" size={24} color={colors.textSubtle} />
+        </View>
+      </Card>
+
       <Card>
         <Text variant="subheading">Account</Text>
         <Text variant="small" tone="muted" style={styles.email}>
@@ -211,5 +228,8 @@ const styles = StyleSheet.create({
   legendItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   dot: { width: 10, height: 10, borderRadius: 5 },
   email: { marginTop: 2, marginBottom: spacing.lg },
+  aboutRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+  aboutIcon: { width: 48, height: 48, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  aboutText: { flex: 1, gap: 2 },
   accountActions: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
 });

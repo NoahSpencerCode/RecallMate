@@ -145,6 +145,14 @@ export function Sidebar({ children, style: _style, ...rest }: TabListProps & { c
       </View>
       <View style={styles.sideNav}>{children}</View>
       <Button title="New card" icon="plus" fullWidth onPress={() => router.push('/memory/new')} />
+      <Button
+        title="How it works"
+        variant="ghost"
+        size="sm"
+        icon="lightbulb-question-outline"
+        onPress={() => router.push('/about')}
+        style={styles.sideAbout}
+      />
       <View style={styles.sideSpacer} />
       <View style={styles.sideFooter}>
         <StreakPill days={progress?.current_streak ?? 0} />
@@ -217,6 +225,7 @@ const styles = StyleSheet.create({
   },
   sidePill: { borderRadius: radii.md },
   sideSpacer: { flex: 1 },
+  sideAbout: { alignSelf: 'center', marginTop: -spacing.sm },
   sideFooter: { gap: spacing.md, alignItems: 'flex-start' },
   account: {
     flexDirection: 'row',

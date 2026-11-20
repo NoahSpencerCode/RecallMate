@@ -26,6 +26,14 @@ export default function Welcome() {
     <Animated.View entering={FadeInUp.delay(440).springify().damping(16)} style={styles.actions}>
       <Button title="Get started — it’s free" iconRight="arrow-right" fullWidth onPress={() => router.push('/sign-up')} />
       <Button title="I already have an account" variant="secondary" fullWidth onPress={() => router.push('/sign-in')} />
+      <Button
+        title="How RecallMate works"
+        variant="ghost"
+        size="sm"
+        icon="lightbulb-question-outline"
+        onPress={() => router.push('/about')}
+        style={styles.howItWorks}
+      />
     </Animated.View>
   );
 
@@ -114,5 +122,6 @@ const styles = StyleSheet.create({
   perkIcon: { width: 34, height: 34, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   perkText: { flex: 1 },
   actions: { gap: spacing.md, width: '100%', maxWidth: 520, alignSelf: 'center' },
+  howItWorks: { alignSelf: 'center', marginTop: -spacing.xs },
   dock: { paddingHorizontal: spacing.xl, paddingTop: spacing.lg, borderTopWidth: 1.5 },
 });
