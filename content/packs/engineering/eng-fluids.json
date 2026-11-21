@@ -1,0 +1,1026 @@
+{
+  "id": "eng-fluids",
+  "title": "Fluid Mechanics",
+  "course": "Fluid Mechanics",
+  "description": "Viscosity, hydrostatics, buoyancy, center of pressure, continuity, Bernoulli and Pitot tubes, Reynolds number, friction factor, head loss, drag scaling.",
+  "cards": [
+    {
+      "id": "specific-gravity",
+      "title": "A liquid has density $850\\,\\mathrm{kg/m^3}$. What is its specific gravity?",
+      "body": "$0.85$.\n\n**Specific gravity** is $\\mathrm{SG} = \\rho/\\rho_{\\text{water}}$, with $\\rho_{\\text{water}} = 1000\\,\\mathrm{kg/m^3}$ (at $4\\,^\\circ\\mathrm{C}$). It's dimensionless.\n\nExample: specific weight $\\gamma = \\rho g$ in $\\mathrm{N/m^3}$. Water has $\\gamma \\approx 9.81\\,\\mathrm{kN/m^3}$; this liquid has $850(9.81) \\approx 8.34\\,\\mathrm{kN/m^3}$.\nWatch out: SG has no units, but density and specific weight do.",
+      "searchQuery": "specific gravity of a liquid relative to water density",
+      "answer": "0.85"
+    },
+    {
+      "id": "no-slip-condition",
+      "title": "What does the no-slip condition say about a viscous fluid in contact with a solid surface?",
+      "body": "The fluid sticks to the surface: its velocity relative to the surface is zero.\n\nAt a stationary wall, $u = 0$. This creates a steep velocity gradient near walls (the **boundary layer**), which gives the wall shear stress $\\tau_w = \\mu\\,(du/dy)_{\\text{wall}}$, friction drag and pipe head loss.\n\nWatch out: inviscid (Bernoulli) analyses can't satisfy no-slip; they allow slip at walls.\nKey idea: viscosity plus no-slip is what makes real flows lose energy.",
+      "searchQuery": "no-slip condition fluid velocity at solid wall boundary layer"
+    },
+    {
+      "id": "newtonian-shear-stress",
+      "title": "Oil ($\\mu = 0.1\\,\\mathrm{Pa\\cdot s}$) fills a $2\\,\\mathrm{mm}$ gap between a fixed wall and a plate moving at $0.4\\,\\mathrm{m/s}$. Shear stress on the plate in Pa (linear velocity profile)?",
+      "body": "$20\\,\\mathrm{Pa}$.\n\n**Newton's law of viscosity:** $\\tau = \\mu\\,\\dfrac{du}{dy}$. No-slip makes the velocity go from $0$ to $0.4\\,\\mathrm{m/s}$ across the gap, so $\\dfrac{du}{dy} = \\dfrac{0.4}{0.002} = 200\\,\\mathrm{s^{-1}}$ and $\\tau = 0.1(200) = 20\\,\\mathrm{Pa}$.\n\nExample: $1\\,\\mathrm{Pa\\cdot s} = 1\\,\\mathrm{N\\cdot s/m^2} = 1\\,\\mathrm{kg/(m\\cdot s)}$.\nWatch out: convert the gap to meters before dividing.",
+      "searchQuery": "Newton law of viscosity shear stress plate moving gap oil",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 Pa",
+        "20 N/m^2",
+        "20 pascals"
+      ],
+      "answerDisplay": "$20\\,\\mathrm{Pa}$"
+    },
+    {
+      "id": "kinematic-viscosity",
+      "title": "Kinematic viscosity $\\nu$ equals the dynamic viscosity $\\mu$ divided by what?",
+      "body": "Density: $\\nu = \\mu/\\rho$, in $\\mathrm{m^2/s}$.\n\nAt $20\\,^\\circ\\mathrm{C}$: water $\\nu \\approx 1.0\\times10^{-6}\\,\\mathrm{m^2/s}$, air $\\nu \\approx 1.5\\times10^{-5}\\,\\mathrm{m^2/s}$. Air's $\\nu$ is about $15\\times$ water's even though its $\\mu$ is about $55\\times$ smaller, because air is about $830\\times$ less dense.\n\nTip: $1\\,\\mathrm{stoke} = 1\\,\\mathrm{cm^2/s} = 10^{-4}\\,\\mathrm{m^2/s}$.\nKey idea: $\\nu$ measures how fast momentum diffuses through the fluid.",
+      "searchQuery": "kinematic viscosity definition mu over rho units m2/s",
+      "answer": "density",
+      "acceptedAnswers": [
+        "rho",
+        "fluid density",
+        "mass density",
+        "density of the fluid"
+      ]
+    },
+    {
+      "id": "viscosity-vs-temperature",
+      "title": "As temperature rises, what happens to the viscosity of a liquid, and of a gas?",
+      "body": "Liquid: decreases. Gas: increases.\n\n**Liquid** viscosity comes mainly from cohesive forces between molecules, which weaken as the molecules move faster. **Gas** viscosity comes from molecular collisions carrying momentum between layers, which intensify with temperature.\n\nExample: motor oil thins out when hot, while air gets slightly more viscous.\nWatch out: pressure has little effect on the viscosity of either, except at extreme pressures.",
+      "searchQuery": "viscosity temperature dependence liquid decreases gas increases"
+    },
+    {
+      "id": "hydrostatic-gauge-pressure",
+      "title": "What is the gauge pressure at the bottom of a $10\\,\\mathrm{m}$ deep open tank of fresh water, in kPa to one decimal?",
+      "body": "$98.1\\,\\mathrm{kPa}$ (gauge).\n\n$P = P_{\\text{atm}} + \\rho g h$, so $P_{\\text{gauge}} = \\rho g h = (1000)(9.81)(10) = 98{,}100\\,\\mathrm{Pa}$. Absolute: $\\approx 101.3 + 98.1 = 199.4\\,\\mathrm{kPa}$ at sea level.\n\nKey idea: pressure depends only on depth, not on the container's shape.\nWatch out: $P_{\\text{abs}} = P_{\\text{atm}} + P_{\\text{gauge}}$; below atmospheric, $P_{\\text{abs}} = P_{\\text{atm}} - P_{\\text{vac}}$.",
+      "searchQuery": "hydrostatic gauge pressure rho g h depth of water tank",
+      "answer": "98.1",
+      "acceptedAnswers": [
+        "98.1 kPa",
+        "98",
+        "98 kPa",
+        "98100",
+        "98100 Pa",
+        "98.1 kPa gauge",
+        "98.1 kPa gage"
+      ],
+      "answerDisplay": "$98.1\\,\\mathrm{kPa}$"
+    },
+    {
+      "id": "buoyancy-floating-fraction",
+      "title": "A wooden block of density $600\\,\\mathrm{kg/m^3}$ floats in fresh water. What fraction of its volume is submerged?",
+      "body": "$0.6$ ($60\\%$).\n\n**Archimedes:** the buoyant force equals the weight of the displaced fluid, $F_B = \\rho_{\\text{fluid}}\\,g\\,V_{\\text{sub}}$, acting up through the centroid of the displaced volume. Floating means $F_B = W$, so $\\rho_w V_{\\text{sub}} = \\rho_b V$ and $V_{\\text{sub}}/V = \\rho_b/\\rho_w$.\n\nWatch out: $F_B$ uses the **fluid's** density and the submerged volume, not the body's.",
+      "searchQuery": "Archimedes principle floating block fraction submerged density ratio",
+      "answer": "0.6",
+      "acceptedAnswers": [
+        "60%",
+        "60 percent",
+        "3/5"
+      ],
+      "answerDisplay": "$0.6$"
+    },
+    {
+      "id": "center-of-pressure-gate",
+      "title": "A vertical rectangular gate $3\\,\\mathrm{m}$ tall has its top edge at the water's free surface. At what depth, in meters, does the resultant hydrostatic force act?",
+      "body": "$2\\,\\mathrm{m}$ deep ($\\tfrac{2}{3}$ of the height), below the centroid at $1.5\\,\\mathrm{m}$.\n\nThe magnitude uses the centroid depth: $F_R = \\rho g\\,h_C A$. The location (gauge pressure) is $y_P = y_C + \\dfrac{I_{xx,C}}{y_C A} = 1.5 + \\dfrac{b(3)^3/12}{1.5(3b)} = 2\\,\\mathrm{m}$.\n\nKey idea: on any non-horizontal plane surface the **center of pressure** lies below the centroid, approaching it as the surface goes deeper.",
+      "searchQuery": "center of pressure vertical rectangular gate hydrostatic force depth",
+      "answer": "2",
+      "acceptedAnswers": [
+        "2 m",
+        "2 meters",
+        "2 m deep",
+        "2 m below the surface"
+      ],
+      "answerDisplay": "$2\\,\\mathrm{m}$"
+    },
+    {
+      "id": "continuity-pipe-contraction",
+      "title": "Water flows at $2\\,\\mathrm{m/s}$ in a $10\\,\\mathrm{cm}$ diameter pipe that narrows to $5\\,\\mathrm{cm}$. What is the velocity in the narrow section, in m/s?",
+      "body": "$8\\,\\mathrm{m/s}$.\n\nIncompressible **continuity**: $Q = A_1V_1 = A_2V_2$, so $V_2 = V_1\\left(\\dfrac{D_1}{D_2}\\right)^2 = 2(2)^2 = 8\\,\\mathrm{m/s}$.\n\nWatch out: halving the diameter quarters the area, so the velocity rises $4\\times$, not $2\\times$.\nTip: for compressible flow, conserve the mass flow rate $\\dot{m} = \\rho A V$ instead.",
+      "searchQuery": "continuity equation pipe contraction velocity A1V1 = A2V2",
+      "answer": "8",
+      "acceptedAnswers": [
+        "8 m/s",
+        "8 m/sec"
+      ],
+      "answerDisplay": "$8\\,\\mathrm{m/s}$"
+    },
+    {
+      "id": "bernoulli-assumptions",
+      "title": "What four assumptions must hold to use the Bernoulli equation $\\dfrac{P}{\\rho} + \\dfrac{V^2}{2} + gz = \\text{constant}$?",
+      "body": "Steady, incompressible, frictionless flow, applied along a streamline.\n\n1. Steady flow\n2. Incompressible flow\n3. Negligible friction (viscous effects)\n4. Applied along a **streamline**\n\nThere must also be no pump, turbine or heat transfer between the two points.\n\nWatch out: it fails in boundary layers, in long pipes with friction and across a pump or fan; use the energy equation with head loss $h_L$ there.",
+      "searchQuery": "Bernoulli equation assumptions steady incompressible frictionless streamline"
+    },
+    {
+      "id": "pitot-static-velocity",
+      "title": "A Pitot-static tube in air ($\\rho = 1.2\\,\\mathrm{kg/m^3}$) reads stagnation minus static pressure $= 240\\,\\mathrm{Pa}$. What is the air speed, in m/s?",
+      "body": "$20\\,\\mathrm{m/s}$.\n\nApply Bernoulli from the free stream to the stagnation point ($V = 0$): $P_0 = P + \\tfrac{1}{2}\\rho V^2$, so $V = \\sqrt{\\dfrac{2(P_0 - P)}{\\rho}} = \\sqrt{\\dfrac{2(240)}{1.2}} = \\sqrt{400} = 20\\,\\mathrm{m/s}$.\n\nWatch out: use the density of the **flowing fluid** (air), not that of the manometer liquid.",
+      "searchQuery": "Pitot-static tube air speed stagnation pressure minus static pressure",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 m/s",
+        "20 m/sec"
+      ],
+      "answerDisplay": "$20\\,\\mathrm{m/s}$"
+    },
+    {
+      "id": "reynolds-number-pipe",
+      "title": "Water ($\\nu = 1.0\\times10^{-6}\\,\\mathrm{m^2/s}$) flows at $0.1\\,\\mathrm{m/s}$ in a $2\\,\\mathrm{cm}$ diameter pipe. What is the Reynolds number?",
+      "body": "$2000$, so laminar.\n\n$\\mathrm{Re} = \\dfrac{VD}{\\nu} = \\dfrac{\\rho V D}{\\mu} = \\dfrac{(0.1)(0.02)}{10^{-6}} = 2000$, the ratio of **inertial to viscous** forces.\n\nFor circular pipes: laminar for $\\mathrm{Re} \\lesssim 2300$, transitional from about $2300$ to $4000$, turbulent for $\\mathrm{Re} \\gtrsim 4000$.\nWatch out: these limits are approximate; transition depends on disturbances, wall roughness and vibration.",
+      "searchQuery": "Reynolds number pipe flow laminar turbulent VD over nu",
+      "answer": "2000",
+      "acceptedAnswers": [
+        "2e3",
+        "2x10^3"
+      ],
+      "answerDisplay": "$2000$"
+    },
+    {
+      "id": "laminar-friction-factor",
+      "title": "What is the Darcy friction factor $f$ for fully developed laminar flow in a circular pipe?",
+      "body": "$f = \\dfrac{64}{\\mathrm{Re}}$.\n\nIn laminar flow it doesn't depend on wall roughness. In turbulent flow, $f$ depends on $\\mathrm{Re}$ and the relative roughness $\\varepsilon/D$ (Colebrook equation or Moody chart).\n\nWatch out: the **Fanning** friction factor is $\\tfrac{1}{4}$ of Darcy's ($16/\\mathrm{Re}$), so check which one a chart or formula uses.",
+      "searchQuery": "Darcy friction factor laminar flow 64/Re circular pipe",
+      "answer": "64/Re",
+      "acceptedAnswers": [
+        "f = 64/Re"
+      ],
+      "answerDisplay": "$f = \\dfrac{64}{\\mathrm{Re}}$"
+    },
+    {
+      "id": "darcy-weisbach-head-loss",
+      "title": "Darcy–Weisbach equation: head loss $h_L$ in a pipe of length $L$, diameter $D$, mean velocity $V$ and friction factor $f$?",
+      "body": "$h_L = f\\,\\dfrac{L}{D}\\,\\dfrac{V^2}{2g}$, in meters of fluid.\n\nAs a pressure drop, $\\Delta P_L = \\rho g\\,h_L = f\\,\\dfrac{L}{D}\\,\\dfrac{\\rho V^2}{2}$. It's valid for laminar and turbulent flow.\n\nExample: laminar ($f = 64/\\mathrm{Re}$): $h_L \\propto V$. Fully rough turbulent ($f$ constant): $h_L \\propto V^2$.\nTip: at a fixed flow rate in fully rough flow, $h_L \\propto 1/D^5$, so a slightly bigger pipe cuts losses a lot.",
+      "searchQuery": "Darcy-Weisbach equation head loss f L/D V^2/2g pipe"
+    },
+    {
+      "id": "hydraulic-diameter",
+      "title": "What is the hydraulic diameter of a noncircular duct, and what does it reduce to for a circular pipe and for a square duct of side $a$?",
+      "body": "$D_h = \\dfrac{4A_c}{p}$, where $A_c$ is the flow area and $p$ the wetted perimeter.\n\nCircle: $\\dfrac{4(\\pi D^2/4)}{\\pi D} = D$. Square: $\\dfrac{4a^2}{4a} = a$.\n\nUse $D_h$ in place of $D$ in $\\mathrm{Re}$ and the Darcy–Weisbach equation.\nWatch out: laminar flow in noncircular ducts has its own $f\\,\\mathrm{Re}$ value (about $57$ for a square duct instead of $64$).",
+      "searchQuery": "hydraulic diameter noncircular duct 4A/p wetted perimeter"
+    },
+    {
+      "id": "drag-force-scaling",
+      "title": "Drag force $F_D = \\tfrac{1}{2}\\rho V^2 C_D A$. If the speed doubles with $C_D$ unchanged, by what factor does the drag force change?",
+      "body": "$4\\times$ (it quadruples).\n\n$F_D \\propto V^2$, and the power needed to overcome drag, $F_D V$, rises $8\\times$.\n\nWatch out: $A$ is the frontal area for blunt bodies (cars, spheres) but the planform area for wings and plates parallel to the flow.\nTip: $C_D$ itself varies with $\\mathrm{Re}$, so the $V^2$ scaling assumes $C_D$ stays roughly constant.",
+      "searchQuery": "drag force scaling with speed squared drag coefficient",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4x",
+        "x4",
+        "4 times",
+        "four",
+        "four times",
+        "quadruples",
+        "quadruple",
+        "quadrupled",
+        "factor of 4"
+      ]
+    },
+    {
+      "id": "fluid-vs-solid-shear",
+      "title": "How does a fluid differ from a solid in its response to a shear stress?",
+      "body": "A fluid deforms **continuously** under any applied shear stress, however small.\n\nA solid deforms a finite amount and then resists. A fluid at rest can't sustain any shear stress, which is why static fluid pressure acts equally in all directions.\n\nExample: water, air and oil are fluids; so are honey and toothpaste, which just flow slowly.\nKey idea: this is the definition, and it applies to both liquids and gases.",
+      "searchQuery": "fluid definition continuous deformation under shear stress"
+    },
+    {
+      "id": "water-density-20c",
+      "title": "What is the density of fresh water at $20\\,^\\circ\\mathrm{C}$, in $\\mathrm{kg/m^3}$ to the nearest whole number?",
+      "body": "$998\\,\\mathrm{kg/m^3}$.\n\nWater is densest near $4\\,^\\circ\\mathrm{C}$ ($\\approx 1000\\,\\mathrm{kg/m^3}$). Between $0$ and $30\\,^\\circ\\mathrm{C}$ its density changes by less than $0.5\\%$, so $1000\\,\\mathrm{kg/m^3}$ is fine for most problems.\n\nTip: use $\\rho = 1000\\,\\mathrm{kg/m^3}$ unless the problem gives a more precise value.\nWatch out: seawater is denser, about $1025\\,\\mathrm{kg/m^3}$.",
+      "searchQuery": "density of fresh water at 20 C kg/m3",
+      "answer": "998",
+      "acceptedAnswers": [
+        "998.2",
+        "998 kg/m^3"
+      ],
+      "answerDisplay": "$998\\,\\mathrm{kg/m^3}$"
+    },
+    {
+      "id": "water-specific-weight",
+      "title": "What is the specific weight $\\gamma$ of fresh water in kN/m³ to two decimals? Use $\\rho = 1000\\,\\mathrm{kg/m^3}$ and $g = 9.81\\,\\mathrm{m/s^2}$.",
+      "body": "$9.81\\,\\mathrm{kN/m^3}$.\n\n**Specific weight** is weight per unit volume: $\\gamma = \\rho g = (1000)(9.81) = 9810\\,\\mathrm{N/m^3}$.\n\nIn English units, water is about $62.4\\,\\mathrm{lbf/ft^3}$.\nWatch out: $\\gamma$ ($\\mathrm{N/m^3}$) is not the same as $\\rho$ ($\\mathrm{kg/m^3}$); mixing them up changes answers by a factor of $g$.",
+      "searchQuery": "specific weight of water gamma rho g kN/m3",
+      "answer": "9.81",
+      "acceptedAnswers": [
+        "9.81 kN/m^3"
+      ],
+      "answerDisplay": "$9.81\\,\\mathrm{kN/m^3}$"
+    },
+    {
+      "id": "dynamic-viscosity-units",
+      "title": "What is the SI unit of dynamic viscosity $\\mu$, written in terms of pascals?",
+      "body": "Pa·s (pascal-second).\n\n$1\\,\\mathrm{Pa\\cdot s} = 1\\,\\mathrm{N\\cdot s/m^2} = 1\\,\\mathrm{kg/(m\\cdot s)}$.\n\nIt comes from $\\mu = \\tau/(du/dy)$: $\\mathrm{Pa}$ divided by $\\mathrm{s^{-1}}$.\nTip: the older CGS unit, the poise, is $0.1\\,\\mathrm{Pa\\cdot s}$; water is about $1\\,\\mathrm{cP}$.",
+      "searchQuery": "dynamic viscosity SI unit Pa s newton second per square meter",
+      "answer": "Pa s",
+      "acceptedAnswers": [
+        "N s/m^2",
+        "kg/(m s)"
+      ],
+      "answerDisplay": "$\\mathrm{Pa\\cdot s}$"
+    },
+    {
+      "id": "water-viscosity-20c",
+      "title": "What is the dynamic viscosity of water at $20\\,^\\circ\\mathrm{C}$, in mPa·s to two decimals?",
+      "body": "$1.00\\,\\mathrm{mPa\\cdot s}$ ($1.002\\times10^{-3}\\,\\mathrm{Pa\\cdot s}$, about $1\\,\\mathrm{cP}$).\n\nAir at $20\\,^\\circ\\mathrm{C}$ is about $1.8\\times10^{-5}\\,\\mathrm{Pa\\cdot s}$, roughly $55$ times smaller.\n\nWhy: dividing by density gives the kinematic viscosity, $\\nu = \\mu/\\rho \\approx 1.0\\times10^{-6}\\,\\mathrm{m^2/s}$.\nTip: water's viscosity drops by more than half between $0$ and $50\\,^\\circ\\mathrm{C}$.",
+      "searchQuery": "viscosity of water at 20 C mPa s centipoise",
+      "answer": "1.00",
+      "acceptedAnswers": [
+        "1.002"
+      ],
+      "answerDisplay": "$1.00\\,\\mathrm{mPa\\cdot s}$"
+    },
+    {
+      "id": "shear-thinning-fluid",
+      "title": "What type of non-Newtonian fluid becomes less viscous as the shear rate increases, like ketchup or paint?",
+      "body": "A shear-thinning (pseudoplastic) fluid.\n\nIts apparent viscosity falls as the shear rate rises, so it flows more easily when stirred or squeezed.\n\nExample: **dilatant** (shear-thickening) fluids do the opposite, as with cornstarch in water.\nWatch out: a Newtonian fluid has a constant $\\mu$; in non-Newtonian fluids shear stress is not proportional to $du/dy$.",
+      "searchQuery": "shear thinning pseudoplastic fluid viscosity decreases with shear rate",
+      "answer": "shear thinning",
+      "acceptedAnswers": [
+        "shear-thinning",
+        "pseudoplastic",
+        "shear thinning fluid"
+      ]
+    },
+    {
+      "id": "capillary-rise-formula",
+      "title": "Capillary rise in a small vertical tube of radius $R$: what is the height $h$ in terms of surface tension $\\sigma$, contact angle $\\theta$, density $\\rho$ and $g$?",
+      "body": "$h = \\dfrac{2\\sigma\\cos\\theta}{\\rho g R}$.\n\nIt comes from balancing the vertical surface-tension force, $2\\pi R\\,\\sigma\\cos\\theta$, against the weight of the raised column, $\\rho g\\,\\pi R^2 h$.\n\nExample: water in clean glass has $\\theta \\approx 0$, so it rises. Mercury in glass has $\\theta > 90^\\circ$, so $h$ is negative: it's depressed.\nKey idea: the rise grows as the tube gets narrower, because $h \\propto 1/R$.",
+      "searchQuery": "capillary rise formula surface tension contact angle tube radius"
+    },
+    {
+      "id": "bulk-modulus-definition",
+      "title": "Define the bulk modulus of elasticity $E_v$ of a fluid.",
+      "body": "$E_v = -V\\,\\dfrac{dP}{dV} = \\rho\\,\\dfrac{dP}{d\\rho}$, in Pa.\n\nIt measures resistance to compression: the pressure increase needed per unit fractional decrease in volume.\n\nExample: water has $E_v \\approx 2.2\\,\\mathrm{GPa}$, so a $0.1\\%$ volume decrease needs about $2.2\\,\\mathrm{MPa}$.\nKey idea: a large $E_v$ means nearly incompressible, which is why liquids are usually treated as constant-density.",
+      "searchQuery": "bulk modulus of elasticity fluid compressibility definition water"
+    },
+    {
+      "id": "cavitation-definition",
+      "title": "What is cavitation, and why is it a problem?",
+      "body": "Vapor bubbles form where the local pressure drops to the liquid's **vapor pressure**.\n\nWhen the bubbles are carried to higher-pressure regions they collapse violently, causing noise, vibration and surface erosion (pitting) of pumps, propellers and valves.\n\nExample: it can start at a pump inlet or at a high-speed throat where Bernoulli says $P$ falls.\nTip: warmer liquids have higher vapor pressure, so they cavitate more easily.",
+      "searchQuery": "cavitation vapor pressure bubble collapse pump damage"
+    },
+    {
+      "id": "incompressible-mach-limit",
+      "title": "Below roughly what Mach number can gas flow be treated as incompressible (density change under about $5\\%$)?",
+      "body": "$\\mathrm{Ma} \\approx 0.3$.\n\nThe density change in a flow is about $\\tfrac{1}{2}\\mathrm{Ma}^2$, so at $\\mathrm{Ma} = 0.3$ it's about $4$ to $5\\%$.\n\nExample: air at $20\\,^\\circ\\mathrm{C}$ has a speed of sound near $343\\,\\mathrm{m/s}$, so $\\mathrm{Ma} = 0.3$ is about $100\\,\\mathrm{m/s}$.\nKey idea: below this, air flows like a liquid for most purposes; Bernoulli with constant $\\rho$ works.",
+      "searchQuery": "Mach number 0.3 incompressible flow limit density change",
+      "answer": "0.3",
+      "acceptedAnswers": [
+        "0.3 Mach"
+      ],
+      "answerDisplay": "$\\mathrm{Ma} \\approx 0.3$"
+    },
+    {
+      "id": "hydrostatic-pressure-gradient",
+      "title": "For a static fluid with $z$ measured upward, what is the hydrostatic pressure gradient $\\dfrac{dP}{dz}$?",
+      "body": "$\\dfrac{dP}{dz} = -\\rho g$.\n\nPressure increases as you go **down**. For constant density, $P_2 - P_1 = \\rho g\\,(z_1 - z_2) = \\rho g\\,\\Delta h$ for a depth change $\\Delta h$.\n\nWhy: a thin horizontal slab of fluid must be held up by the pressure difference across it, which balances its weight.\nWatch out: for gases over large height changes, $\\rho$ varies, so you can't use constant-density $\\rho g h$.",
+      "searchQuery": "hydrostatic pressure gradient dP/dz = -rho g fluid at rest"
+    },
+    {
+      "id": "pascals-law",
+      "title": "State Pascal's law for a fluid at rest.",
+      "body": "A pressure change applied to an enclosed static fluid is transmitted undiminished to every point in the fluid and to its walls.\n\nThe pressure at a point is the same in all directions, and points at the same depth in one connected fluid have equal pressure.\n\nExample: hydraulic jacks and brakes use it to multiply force.\nKey idea: pressure, unlike force, is the same everywhere the fluid is connected at a given depth.",
+      "searchQuery": "Pascal law pressure transmitted undiminished static fluid"
+    },
+    {
+      "id": "hydraulic-lift-force",
+      "title": "A hydraulic lift's pistons have areas $10\\,\\mathrm{cm^2}$ and $200\\,\\mathrm{cm^2}$. A $100\\,\\mathrm{N}$ force acts on the small piston. What load can the large piston support, in N?",
+      "body": "$2000\\,\\mathrm{N}$.\n\nBy Pascal's law the pressure is equal: $\\dfrac{F_1}{A_1} = \\dfrac{F_2}{A_2}$, so $F_2 = F_1\\dfrac{A_2}{A_1} = 100(20) = 2000\\,\\mathrm{N}$.\n\nWhy: work is conserved, so the small piston must move $20\\times$ farther than the large one.\nWatch out: the force multiplication isn't free energy; the distance moved shrinks by the same factor.",
+      "searchQuery": "hydraulic lift force multiplication piston area ratio Pascal",
+      "answer": "2000",
+      "acceptedAnswers": [
+        "2000 N",
+        "2 kN"
+      ],
+      "answerDisplay": "$2000\\,\\mathrm{N}$"
+    },
+    {
+      "id": "mercury-barometer-height",
+      "title": "A standard atmosphere ($101.325\\,\\mathrm{kPa}$) supports a mercury column of what height, in mm to the nearest 10 mm? Use $\\rho_{\\mathrm{Hg}} = 13{,}600\\,\\mathrm{kg/m^3}$.",
+      "body": "$760\\,\\mathrm{mm}$.\n\n$h = \\dfrac{P}{\\rho g} = \\dfrac{101{,}325}{(13{,}600)(9.81)} = 0.759\\,\\mathrm{m}$.\n\nMercury is used because its density is high, giving a manageable column; a water barometer would need about $10.3\\,\\mathrm{m}$.\nTip: $1\\,\\mathrm{atm} = 760\\,\\mathrm{mmHg} = 101.325\\,\\mathrm{kPa}$.",
+      "searchQuery": "mercury barometer height standard atmosphere 760 mm",
+      "answer": "760",
+      "acceptedAnswers": [
+        "760 mm",
+        "759"
+      ],
+      "answerDisplay": "$760\\,\\mathrm{mm}$"
+    },
+    {
+      "id": "mercury-manometer-gauge",
+      "title": "A mercury manometer ($13{,}600\\,\\mathrm{kg/m^3}$) shows a $0.2\\,\\mathrm{m}$ level difference between a gas tank and the atmosphere. Gauge pressure of the gas, in kPa to one decimal?",
+      "body": "$26.7\\,\\mathrm{kPa}$.\n\n$P_{\\text{gauge}} = \\rho g h = (13{,}600)(9.81)(0.2) = 26{,}683\\,\\mathrm{Pa}$.\n\nWhy: a manometer reads pressure as the weight of a liquid column; the gas column is so light it's neglected.\nWatch out: convert mmHg or cm of fluid to meters, and use the manometer fluid's density, not the density of the fluid in the pipe.",
+      "searchQuery": "U-tube mercury manometer gauge pressure rho g h kPa",
+      "answer": "26.7",
+      "acceptedAnswers": [
+        "26.7 kPa",
+        "26.68"
+      ],
+      "answerDisplay": "$26.7\\,\\mathrm{kPa}$"
+    },
+    {
+      "id": "force-on-tank-bottom",
+      "title": "A tank has a flat horizontal bottom of $2\\,\\mathrm{m} \\times 3\\,\\mathrm{m}$ under $4\\,\\mathrm{m}$ of fresh water. Hydrostatic (gauge) force on the bottom, in kN to the nearest whole number?",
+      "body": "$235\\,\\mathrm{kN}$.\n\nOn a horizontal surface the pressure is uniform, so $F = \\rho g h A = (1000)(9.81)(4)(6) = 235{,}440\\,\\mathrm{N}$.\n\nWhy: pressure depends only on depth, so the force on a flat bottom doesn't depend on the tank's shape above it.\nWatch out: this is the gauge force; the atmosphere pushes on both sides of the bottom.",
+      "searchQuery": "hydrostatic force on horizontal tank bottom rho g h A",
+      "answer": "235",
+      "acceptedAnswers": [
+        "235 kN",
+        "235.4",
+        "235.44"
+      ],
+      "answerDisplay": "$235\\,\\mathrm{kN}$"
+    },
+    {
+      "id": "force-on-vertical-gate",
+      "title": "A vertical rectangular gate, $2\\,\\mathrm{m}$ wide and $3\\,\\mathrm{m}$ tall, has its top edge at the water surface. Resultant hydrostatic force, in kN to one decimal?",
+      "body": "$88.3\\,\\mathrm{kN}$.\n\n$F_R = \\rho g\\,h_C A = (1000)(9.81)(1.5)(6) = 88{,}290\\,\\mathrm{N}$, where $h_C = 1.5\\,\\mathrm{m}$ is the centroid depth.\n\nKey idea: the force equals the **average** pressure (the pressure at the centroid) times the area.\nWatch out: using the bottom depth ($3\\,\\mathrm{m}$) instead of the centroid depth doubles the answer.",
+      "searchQuery": "hydrostatic force on submerged vertical rectangular plate centroid pressure",
+      "answer": "88.3",
+      "acceptedAnswers": [
+        "88.3 kN",
+        "88.29"
+      ],
+      "answerDisplay": "$88.3\\,\\mathrm{kN}$"
+    },
+    {
+      "id": "curved-surface-hydrostatic-force",
+      "title": "For a submerged curved surface, how do you find the horizontal and vertical components of the hydrostatic force?",
+      "body": "Horizontal: the force on the vertical projection of the surface. Vertical: the weight of the liquid directly above the surface.\n\nThe vertical component acts through the centroid of that liquid volume; the horizontal one acts at the center of pressure of the projection.\n\nWhy: the liquid column above (real or imagined) is in equilibrium, so it balances the surface's vertical force.\nTip: if the liquid is below the surface, use the weight of the imaginary liquid that would fill the volume above, and the vertical force points up.",
+      "searchQuery": "hydrostatic force curved surface horizontal vertical components projection"
+    },
+    {
+      "id": "submerged-block-apparent-weight",
+      "title": "A $0.002\\,\\mathrm{m^3}$ block of density $7800\\,\\mathrm{kg/m^3}$ is fully submerged in fresh water. Its apparent weight, in N to one decimal?",
+      "body": "$133.4\\,\\mathrm{N}$.\n\nWeight $W = \\rho_b g V = (7800)(9.81)(0.002) = 153.0\\,\\mathrm{N}$. Buoyant force $F_B = \\rho_w g V = (1000)(9.81)(0.002) = 19.6\\,\\mathrm{N}$.\n\nApparent weight $= W - F_B = 153.0 - 19.6 = 133.4\\,\\mathrm{N}$ (the scale reading if you hang it in the water).\nWatch out: use the full volume in $F_B$ since the block is totally submerged.",
+      "searchQuery": "apparent weight submerged block buoyant force Archimedes calculation",
+      "answer": "133.4",
+      "acceptedAnswers": [
+        "133.4 N"
+      ],
+      "answerDisplay": "$133.4\\,\\mathrm{N}$"
+    },
+    {
+      "id": "metacenter-stability",
+      "title": "For a floating body to be stable against small rotations, is its metacenter $M$ above or below its center of gravity $G$?",
+      "body": "Above.\n\nThe metacentric height $\\overline{GM} = \\overline{MB} - \\overline{BG}$ must be positive. Then a small tilt creates a **restoring** moment from the shifted center of buoyancy.\n\nIf $M$ is below $G$, the tilt creates an overturning moment and the body capsizes.\nKey idea: a wide hull raises $M$, which is why wide boats are stable but can roll quickly.",
+      "searchQuery": "metacenter metacentric height stability floating body above center of gravity",
+      "answer": "above",
+      "acceptedAnswers": [
+        "above G",
+        "above the center of gravity",
+        "higher"
+      ]
+    },
+    {
+      "id": "center-of-buoyancy",
+      "title": "The buoyant force acts through the centroid of the displaced volume. What is that point called?",
+      "body": "The center of buoyancy.\n\nIt lies at the centroid of the **displaced** fluid volume, not necessarily at the body's own center of gravity.\n\nExample: for a floating, partly submerged body it is the centroid of just the underwater part.\nTip: when a body tilts, the center of buoyancy moves because the underwater shape changes; this shift creates the restoring moment.",
+      "searchQuery": "center of buoyancy centroid of displaced volume",
+      "answer": "center of buoyancy",
+      "acceptedAnswers": [
+        "centre of buoyancy",
+        "buoyancy center"
+      ]
+    },
+    {
+      "id": "iceberg-fraction-submerged",
+      "title": "Ice ($917\\,\\mathrm{kg/m^3}$) floats in seawater ($1025\\,\\mathrm{kg/m^3}$). What fraction of the ice's volume is submerged, to two decimals?",
+      "body": "$0.89$ ($89\\%$).\n\nFloating: $\\dfrac{V_{\\text{sub}}}{V} = \\dfrac{\\rho_{\\text{ice}}}{\\rho_{\\text{sea}}} = \\dfrac{917}{1025} = 0.895$.\n\nIn fresh water the fraction is $917/1000 = 0.917$, so ice sits slightly lower there.\nKey idea: about nine-tenths of an iceberg is below the waterline.",
+      "searchQuery": "iceberg fraction submerged ice density seawater floating",
+      "answer": "0.89",
+      "acceptedAnswers": [
+        "89%",
+        "0.895"
+      ],
+      "answerDisplay": "$0.89$"
+    },
+    {
+      "id": "streamline-definition",
+      "title": "What is a streamline?",
+      "body": "A curve that's everywhere tangent to the local velocity vector at a given instant.\n\nNo fluid crosses a streamline. In **steady** flow, streamlines, pathlines and streaklines all coincide.\n\nExample: in a pipe, streamlines run parallel to the wall; around a cylinder they bend and crowd where the flow speeds up.\nTip: closer streamline spacing means higher speed, since the same flow passes through a smaller gap.",
+      "searchQuery": "streamline definition tangent to velocity vector fluid flow"
+    },
+    {
+      "id": "steady-vs-uniform-flow",
+      "title": "What is the difference between steady flow and uniform flow?",
+      "body": "Steady: nothing changes with **time** at a point. Uniform: nothing changes with **position** along the flow.\n\nWater flowing through a long constant-diameter pipe at a constant rate is both. A converging nozzle at constant flow rate is steady but not uniform.\n\nExample: a tank draining through a hole is unsteady, since the speed changes as the level drops.\nWatch out: \"steady\" and \"uniform\" are independent properties; a flow can be one without the other.",
+      "searchQuery": "steady flow versus uniform flow fluid mechanics difference"
+    },
+    {
+      "id": "eulerian-description",
+      "title": "Which description of fluid motion, Eulerian or Lagrangian, observes the flow at fixed points in space as fluid passes through?",
+      "body": "Eulerian.\n\nThe **Eulerian** approach defines fields like $\\vec{V}(x, y, z, t)$ and $P(x, y, z, t)$. The **Lagrangian** approach follows individual fluid particles along their paths.\n\nWhy: following every particle in a flow is impractical, so most fluid mechanics, including control-volume analysis, uses the Eulerian view.\nTip: a weather map is Eulerian; a drifting weather balloon is Lagrangian.",
+      "searchQuery": "Eulerian versus Lagrangian description fluid flow fixed point",
+      "answer": "Eulerian",
+      "acceptedAnswers": [
+        "Eulerian description",
+        "Euler"
+      ]
+    },
+    {
+      "id": "convective-acceleration",
+      "title": "Can a fluid particle accelerate in a steady flow? Explain.",
+      "body": "Yes, through convective acceleration: its velocity changes as it moves to a new position.\n\nFor 1-D flow, $a = \\dfrac{\\partial u}{\\partial t} + u\\,\\dfrac{\\partial u}{\\partial x}$. In steady flow the first term is $0$, but $u\\,\\partial u/\\partial x \\ne 0$ wherever the speed varies along the path.\n\nExample: water speeding up through a converging nozzle at constant flow rate has $u\\,\\partial u/\\partial x > 0$.\nKey idea: the full acceleration is the material derivative, $\\dfrac{D\\vec{V}}{Dt}$.",
+      "searchQuery": "convective acceleration steady flow nozzle material derivative"
+    },
+    {
+      "id": "pipe-flow-rate-liters",
+      "title": "Water flows at $3\\,\\mathrm{m/s}$ in a pipe of $5\\,\\mathrm{cm}$ inner diameter. Volume flow rate, in L/s to one decimal?",
+      "body": "$5.9\\,\\mathrm{L/s}$.\n\n$A = \\dfrac{\\pi D^2}{4} = \\dfrac{\\pi(0.05)^2}{4} = 1.963\\times10^{-3}\\,\\mathrm{m^2}$, so $Q = VA = (3)(1.963\\times10^{-3}) = 5.89\\times10^{-3}\\,\\mathrm{m^3/s}$.\n\nTip: $1\\,\\mathrm{m^3/s} = 1000\\,\\mathrm{L/s}$.\nWatch out: use the diameter in meters, and square it: $D = 5$ with $D$ in cm gives an answer $10^4$ times too large.",
+      "searchQuery": "volume flow rate Q = V A pipe diameter water liters per second",
+      "answer": "5.9",
+      "acceptedAnswers": [
+        "5.89",
+        "5.9 L/s"
+      ],
+      "answerDisplay": "$5.9\\,\\mathrm{L/s}$"
+    },
+    {
+      "id": "bernoulli-head-form",
+      "title": "Write the Bernoulli equation in head form, and name each term.",
+      "body": "$\\dfrac{P}{\\rho g} + \\dfrac{V^2}{2g} + z = H = \\text{constant}$\n\nThe terms are the **pressure head**, the **velocity head** and the **elevation head**, each in meters of fluid.\n\nWhy: dividing the energy-per-mass form $\\dfrac{P}{\\rho} + \\dfrac{V^2}{2} + gz$ by $g$ gives lengths.\nKey idea: the sum is the **total head**; along a streamline in frictionless flow it can't change.",
+      "searchQuery": "Bernoulli equation head form pressure head velocity head elevation head"
+    },
+    {
+      "id": "torricelli-speed",
+      "title": "A large open tank has a small hole $5\\,\\mathrm{m}$ below the water surface. What is the jet speed, in m/s to one decimal? (Neglect friction.)",
+      "body": "$9.9\\,\\mathrm{m/s}$.\n\n**Torricelli's law:** $V = \\sqrt{2gh} = \\sqrt{2(9.81)(5)} = \\sqrt{98.1} = 9.90\\,\\mathrm{m/s}$.\n\nWhy: Bernoulli between the surface (where $V \\approx 0$, gauge $P = 0$) and the jet (gauge $P = 0$) gives $gh = V^2/2$.\nKey idea: it's the speed of a body freely falling through the same height $h$.",
+      "searchQuery": "Torricelli law tank hole exit velocity sqrt(2gh) Bernoulli",
+      "answer": "9.9",
+      "acceptedAnswers": [
+        "9.9 m/s"
+      ],
+      "answerDisplay": "$9.9\\,\\mathrm{m/s}$"
+    },
+    {
+      "id": "venturi-pressure-drop",
+      "title": "Water in a horizontal Venturi meter speeds up from $2\\,\\mathrm{m/s}$ at the inlet to $6\\,\\mathrm{m/s}$ at the throat. Pressure drop from inlet to throat, in kPa?",
+      "body": "$16\\,\\mathrm{kPa}$.\n\nHorizontal Bernoulli: $P_1 - P_2 = \\tfrac{1}{2}\\rho\\,(V_2^2 - V_1^2) = \\tfrac{1}{2}(1000)(36 - 4) = 16{,}000\\,\\mathrm{Pa}$.\n\nWhy: the kinetic energy gained by the fluid comes from the pressure energy.\nTip: in a real Venturi meter, measuring $\\Delta P$ and using continuity to eliminate one velocity gives the flow rate.",
+      "searchQuery": "Venturi meter pressure drop Bernoulli velocity increase throat",
+      "answer": "16",
+      "acceptedAnswers": [
+        "16 kPa"
+      ],
+      "answerDisplay": "$16\\,\\mathrm{kPa}$"
+    },
+    {
+      "id": "dynamic-pressure-water",
+      "title": "What is the dynamic pressure $\\tfrac{1}{2}\\rho V^2$ of water moving at $5\\,\\mathrm{m/s}$, in kPa to one decimal?",
+      "body": "$12.5\\,\\mathrm{kPa}$.\n\n$\\tfrac{1}{2}\\rho V^2 = \\tfrac{1}{2}(1000)(5)^2 = 12{,}500\\,\\mathrm{Pa}$.\n\nThe **stagnation pressure** is static plus dynamic: $P_0 = P + \\tfrac{1}{2}\\rho V^2$, the pressure at the point where the flow is brought to rest.\nWatch out: dynamic pressure is not an actual pressure on a moving fluid's walls; it's the extra pressure you'd get by stopping the flow.",
+      "searchQuery": "dynamic pressure 1/2 rho V squared water stagnation pressure",
+      "answer": "12.5",
+      "acceptedAnswers": [
+        "12.5 kPa"
+      ],
+      "answerDisplay": "$12.5\\,\\mathrm{kPa}$"
+    },
+    {
+      "id": "egl-hgl-difference",
+      "title": "The energy grade line (EGL) lies above the hydraulic grade line (HGL) by how much?",
+      "body": "The velocity head, $\\dfrac{V^2}{2g}$.\n\n$\\mathrm{HGL} = \\dfrac{P}{\\rho g} + z$ and $\\mathrm{EGL} = \\dfrac{P}{\\rho g} + \\dfrac{V^2}{2g} + z$.\n\nWhy: the HGL is where a piezometer tube would stand; the EGL is where a Pitot tube would stand.\nTip: with friction, the EGL slopes **downward** along the flow, falling by $h_L$; it rises only across a pump.",
+      "searchQuery": "energy grade line hydraulic grade line difference velocity head",
+      "answer": "V^2/2g",
+      "acceptedAnswers": [
+        "V^2/(2g)",
+        "v2/2g"
+      ],
+      "answerDisplay": "$\\dfrac{V^2}{2g}$"
+    },
+    {
+      "id": "pump-shaft-power",
+      "title": "A pump moves $0.02\\,\\mathrm{m^3/s}$ of water through a head of $20\\,\\mathrm{m}$ with an overall efficiency of $80\\%$. Shaft power required, in kW to one decimal?",
+      "body": "$4.9\\,\\mathrm{kW}$.\n\nUseful (water) power: $\\rho g Q H = (1000)(9.81)(0.02)(20) = 3924\\,\\mathrm{W}$. Shaft power: $\\dfrac{3924}{0.80} = 4905\\,\\mathrm{W}$.\n\nKey idea: shaft power $= \\dfrac{\\rho g Q H}{\\eta_{\\text{pump}}}$; the pump needs more than the useful power.\nWatch out: multiplying by $\\eta$ instead of dividing gives the (smaller) useful power.",
+      "searchQuery": "pump shaft power rho g Q H over efficiency water head",
+      "answer": "4.9",
+      "acceptedAnswers": [
+        "4.9 kW",
+        "4.905"
+      ],
+      "answerDisplay": "$4.9\\,\\mathrm{kW}$"
+    },
+    {
+      "id": "jet-force-on-plate",
+      "title": "A water jet ($A = 10\\,\\mathrm{cm^2}$, $V = 10\\,\\mathrm{m/s}$) hits a stationary flat plate head-on and flows off sideways. Force on the plate, in N?",
+      "body": "$100\\,\\mathrm{N}$.\n\nMomentum balance: the jet loses all its momentum normal to the plate, so $F = \\dot{m}V = \\rho A V^2 = (1000)(0.001)(10)^2 = 100\\,\\mathrm{N}$.\n\nWhy: $\\dot{m} = \\rho A V = 10\\,\\mathrm{kg/s}$, and each kilogram loses $10\\,\\mathrm{m/s}$ of normal velocity.\nWatch out: if the plate moves with speed $V_p$, use the relative velocity $(V - V_p)$ in both the mass flow and the velocity change.",
+      "searchQuery": "water jet force on flat plate momentum equation rho A V squared",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 N"
+      ],
+      "answerDisplay": "$100\\,\\mathrm{N}$"
+    },
+    {
+      "id": "ke-correction-laminar",
+      "title": "What is the kinetic energy correction factor $\\alpha$ for fully developed laminar flow in a circular pipe?",
+      "body": "$\\alpha = 2$.\n\n$\\alpha$ corrects the kinetic energy flux computed from the mean velocity: $\\text{KE flux} = \\alpha\\,\\dot{m}\\,\\dfrac{V_{\\text{avg}}^2}{2}$.\n\nFor turbulent pipe flow the profile is flatter and $\\alpha \\approx 1.05$ (close to $1$), so it's usually set to $1$.\nWatch out: in laminar flow, ignoring $\\alpha$ underestimates the kinetic energy by half.",
+      "searchQuery": "kinetic energy correction factor alpha laminar pipe flow 2",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two",
+        "alpha = 2"
+      ]
+    },
+    {
+      "id": "pitot-water-speed",
+      "title": "A Pitot tube in water reads a stagnation pressure $10\\,\\mathrm{kPa}$ above the static pressure. What is the flow speed, in m/s to one decimal?",
+      "body": "$4.5\\,\\mathrm{m/s}$.\n\n$V = \\sqrt{\\dfrac{2(P_0 - P)}{\\rho}} = \\sqrt{\\dfrac{2(10{,}000)}{1000}} = \\sqrt{20} = 4.47\\,\\mathrm{m/s}$.\n\nKey idea: the Pitot reading is the dynamic pressure, $\\tfrac{1}{2}\\rho V^2$.\nWatch out: convert kPa to Pa first, or the speed comes out $\\sqrt{1000}$ too small.",
+      "searchQuery": "Pitot tube water flow speed stagnation pressure calculation",
+      "answer": "4.5",
+      "acceptedAnswers": [
+        "4.47",
+        "4.5 m/s"
+      ],
+      "answerDisplay": "$4.5\\,\\mathrm{m/s}$"
+    },
+    {
+      "id": "laminar-pipe-velocity-profile",
+      "title": "Fully developed laminar flow in a circular pipe of radius $R$: what is the shape of the velocity profile $u(r)$?",
+      "body": "Parabolic: $u(r) = u_{\\max}\\left(1 - \\dfrac{r^2}{R^2}\\right)$.\n\nThe speed is $u_{\\max}$ at the centerline and $0$ at the wall (no-slip). The shear stress varies linearly from $0$ at the center to $\\tau_w$ at the wall.\n\nWhy: it comes from balancing the pressure force on a fluid cylinder against the viscous shear on its surface.\nKey idea: the profile stays the same shape along the pipe once the flow is fully developed.",
+      "searchQuery": "laminar pipe flow parabolic velocity profile Hagen-Poiseuille"
+    },
+    {
+      "id": "laminar-max-to-mean-velocity",
+      "title": "In fully developed laminar flow in a circular pipe, what is the ratio of the centerline velocity to the mean velocity?",
+      "body": "$u_{\\max}/V_{\\text{avg}} = 2$.\n\nAveraging the parabolic profile over the cross-section gives $V_{\\text{avg}} = \\tfrac{1}{2}u_{\\max}$.\n\nExample: if the mean velocity is $0.5\\,\\mathrm{m/s}$, the centerline speed is $1.0\\,\\mathrm{m/s}$.\nWatch out: this holds for laminar flow only; turbulent profiles are flatter, with $u_{\\max}/V_{\\text{avg}}$ closer to $1.2$.",
+      "searchQuery": "laminar pipe flow centerline velocity twice average velocity",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two",
+        "2:1",
+        "twice",
+        "factor of 2"
+      ]
+    },
+    {
+      "id": "hagen-poiseuille-pressure-drop",
+      "title": "Hagen–Poiseuille law: pressure drop $\\Delta P$ for laminar flow rate $Q$ of a fluid of viscosity $\\mu$ in a pipe of length $L$ and diameter $D$?",
+      "body": "$\\Delta P = \\dfrac{128\\,\\mu L Q}{\\pi D^4} = \\dfrac{32\\,\\mu L V}{D^2}$.\n\nIt follows from integrating the parabolic velocity profile, and it's equivalent to $f = 64/\\mathrm{Re}$ in the Darcy–Weisbach equation.\n\nKey idea: $\\Delta P \\propto \\mu L Q$ and, strongly, $\\Delta P \\propto 1/D^4$.\nWatch out: use it only for laminar flow ($\\mathrm{Re} \\lesssim 2300$) and fully developed flow.",
+      "searchQuery": "Hagen-Poiseuille equation laminar pipe pressure drop 128 mu L Q"
+    },
+    {
+      "id": "laminar-diameter-scaling",
+      "title": "In laminar pipe flow at a fixed flow rate, by what factor does the pressure drop increase if the diameter is halved?",
+      "body": "$16\\times$.\n\nFrom Hagen–Poiseuille, $\\Delta P \\propto \\dfrac{1}{D^4}$, and $\\left(\\dfrac{1}{1/2}\\right)^4 = 16$.\n\nWhy: halving $D$ also quarters the area, so the velocity quadruples, and the friction term per unit length grows with $V/D^2$.\nTip: this strong dependence is why small tubes (needles, capillaries) resist flow so much more than larger ones.",
+      "searchQuery": "laminar flow pressure drop diameter halved factor 16 D^4",
+      "answer": "16",
+      "acceptedAnswers": [
+        "16x",
+        "16 times",
+        "sixteen",
+        "factor of 16"
+      ],
+      "answerDisplay": "$16\\times$"
+    },
+    {
+      "id": "laminar-entrance-length",
+      "title": "The laminar hydrodynamic entry length in a pipe is $L_h \\approx c\\,\\mathrm{Re}\\,D$. What is the approximate coefficient $c$?",
+      "body": "$c \\approx 0.05$.\n\nSo at $\\mathrm{Re} = 2000$, $L_h \\approx 0.05(2000)D = 100D$.\n\nThe entrance region is where the **boundary layer** grows to fill the pipe, after which the velocity profile stops changing.\nTip: for turbulent flow, the entry length is much shorter, roughly $10D$, and depends only weakly on $\\mathrm{Re}$.",
+      "searchQuery": "laminar hydrodynamic entry length 0.05 Re D pipe",
+      "answer": "0.05",
+      "acceptedAnswers": [
+        "1/20"
+      ]
+    },
+    {
+      "id": "colebrook-equation",
+      "title": "What is the Colebrook equation, and what is it used for?",
+      "body": "$\\dfrac{1}{\\sqrt{f}} = -2.0\\log_{10}\\!\\left(\\dfrac{\\varepsilon/D}{3.7} + \\dfrac{2.51}{\\mathrm{Re}\\sqrt{f}}\\right)$\n\nIt gives the Darcy friction factor $f$ for **turbulent** flow in pipes from the Reynolds number and the relative roughness $\\varepsilon/D$. The Moody chart is its graph.\n\nWatch out: it's implicit in $f$, so solve by iteration (or use an explicit approximation such as Haaland).\nTip: start with the fully rough value ($\\mathrm{Re} \\to \\infty$) as the first guess.",
+      "searchQuery": "Colebrook equation turbulent friction factor relative roughness Moody chart"
+    },
+    {
+      "id": "fully-rough-regime",
+      "title": "At very high Reynolds number in a rough pipe, the friction factor stops depending on $\\mathrm{Re}$ and depends only on $\\varepsilon/D$. What is this regime called?",
+      "body": "Fully rough turbulent flow.\n\nIn the Moody chart this is the flat, right-hand part of each curve. There the head loss varies as $V^2$ because $f$ is constant.\n\nWhy: the viscous sublayer becomes thinner than the roughness bumps, so the bumps, not viscosity, control the wall drag.\nWatch out: in a smooth pipe $f$ keeps decreasing slowly with $\\mathrm{Re}$ and never becomes constant.",
+      "searchQuery": "fully rough turbulent flow Moody chart friction factor independent of Reynolds",
+      "answer": "fully rough",
+      "acceptedAnswers": [
+        "fully rough turbulent",
+        "completely turbulent",
+        "fully rough flow"
+      ]
+    },
+    {
+      "id": "minor-loss-definition",
+      "title": "How is a minor (local) head loss from a fitting, bend or valve expressed using a loss coefficient $K_L$?",
+      "body": "$h_L = K_L\\,\\dfrac{V^2}{2g}$\n\n$K_L$ is a dimensionless, experimentally determined number for each fitting. The pressure drop is $\\Delta P_L = K_L\\,\\dfrac{\\rho V^2}{2}$.\n\nExample: a fully open globe valve has a large $K_L$ (about $10$); a smooth well-rounded entrance has a small one.\nTip: add all the minor losses to the pipe friction loss, $h_{L,\\text{total}} = \\left(f\\dfrac{L}{D} + \\sum K_L\\right)\\dfrac{V^2}{2g}$.",
+      "searchQuery": "minor loss coefficient K V^2/2g fitting valve bend head loss"
+    },
+    {
+      "id": "sudden-expansion-head-loss",
+      "title": "Water flows at $4\\,\\mathrm{m/s}$ in a $5\\,\\mathrm{cm}$ pipe that suddenly expands to $10\\,\\mathrm{cm}$. Head loss at the expansion, in m to two decimals?",
+      "body": "$0.46\\,\\mathrm{m}$.\n\n$V_2 = V_1(D_1/D_2)^2 = 4\\left(\\tfrac{1}{2}\\right)^2 = 1\\,\\mathrm{m/s}$, so $h_L = \\dfrac{(V_1 - V_2)^2}{2g} = \\dfrac{(3)^2}{2(9.81)} = 0.459\\,\\mathrm{m}$.\n\nEquivalently, $K_L = \\left(1 - \\dfrac{A_1}{A_2}\\right)^2 = 0.5625$ based on $V_1$, and $h_L = 0.5625\\,\\dfrac{16}{19.62}$.\nWatch out: this loss arises because the fast jet mixes turbulently with the slower fluid; a gradual diffuser reduces it.",
+      "searchQuery": "sudden expansion head loss (V1 - V2)^2/2g pipe calculation",
+      "answer": "0.46",
+      "acceptedAnswers": [
+        "0.459",
+        "0.46 m"
+      ],
+      "answerDisplay": "$0.46\\,\\mathrm{m}$"
+    },
+    {
+      "id": "pipe-entrance-loss-coefficient",
+      "title": "What is the loss coefficient $K_L$ for a sharp-edged pipe entrance from a large reservoir (approximately)?",
+      "body": "$K_L \\approx 0.5$.\n\nFor a well-rounded entrance it falls to about $0.03$ and for a re-entrant (inward-projecting) pipe it rises to about $0.8$.\n\nWhy: the flow separates at the sharp corner and contracts into a vena contracta, then re-expands, dissipating energy.\nKey idea: rounding the entrance is the cheapest way to cut this loss.",
+      "searchQuery": "sharp-edged pipe entrance loss coefficient K 0.5 reservoir",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "1/2"
+      ],
+      "answerDisplay": "$K_L \\approx 0.5$"
+    },
+    {
+      "id": "pipe-exit-loss-coefficient",
+      "title": "What is the loss coefficient $K_L$ for a pipe discharging into a large reservoir (approximately)?",
+      "body": "$K_L = 1$.\n\nAll of the pipe's kinetic energy, $V^2/2g$, is dissipated in the reservoir, so the loss is exactly one velocity head.\n\nWatch out: if the pipe discharges as a free jet into air, there's no exit loss term; instead the jet carries kinetic energy $V^2/2g$ away.\nTip: in an energy equation between two reservoir surfaces, include both the entrance loss and the exit loss.",
+      "searchQuery": "pipe exit loss coefficient K = 1 discharge into reservoir velocity head",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one",
+        "K = 1"
+      ],
+      "answerDisplay": "$K_L = 1$"
+    },
+    {
+      "id": "equivalent-length",
+      "title": "A fitting with $K_L = 2$ is in a $0.05\\,\\mathrm{m}$ diameter pipe with $f = 0.025$. What length of straight pipe, in m, gives the same head loss?",
+      "body": "$4\\,\\mathrm{m}$.\n\nEquate $K_L\\dfrac{V^2}{2g} = f\\dfrac{L_{\\text{eq}}}{D}\\dfrac{V^2}{2g}$, so $L_{\\text{eq}} = \\dfrac{K_L D}{f} = \\dfrac{(2)(0.05)}{0.025} = 4\\,\\mathrm{m}$.\n\nTip: this lets you treat fittings as extra pipe length when computing total losses.\nWatch out: $L_{\\text{eq}}$ depends on $f$ and $D$, so it isn't a universal constant for a fitting.",
+      "searchQuery": "equivalent length fitting K D over f straight pipe head loss",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 m"
+      ],
+      "answerDisplay": "$4\\,\\mathrm{m}$"
+    },
+    {
+      "id": "series-pipes-rule",
+      "title": "For pipes connected in series, which quantity is the same in every pipe, and which quantity adds up?",
+      "body": "The flow rate is the same; the head losses add.\n\n$Q_1 = Q_2 = \\cdots$ and $h_{L,\\text{total}} = h_{L,1} + h_{L,2} + \\cdots$\n\nWhy: there's one path, so mass conservation fixes $Q$, and energy loss accumulates along the way.\nKey idea: the velocity in each pipe differs when the diameters differ, since $V = Q/A$.",
+      "searchQuery": "pipes in series same flow rate head losses add",
+      "answer": "head loss",
+      "acceptedAnswers": [
+        "head losses",
+        "losses",
+        "h_L"
+      ]
+    },
+    {
+      "id": "parallel-pipes-rule",
+      "title": "For pipes connected in parallel between two junctions, which quantity adds up, and which is the same across all branches?",
+      "body": "The flow rates add; the head loss is the same across each branch.\n\n$Q_{\\text{total}} = Q_1 + Q_2 + \\cdots$ and $h_{L,1} = h_{L,2} = \\cdots$\n\nWhy: all branches connect the same two junctions, so they share the same pressure difference.\nTip: the branch with the lowest resistance (larger $D$, shorter $L$) carries the most flow.",
+      "searchQuery": "pipes in parallel flow rates add head loss equal branches",
+      "answer": "flow rate",
+      "acceptedAnswers": [
+        "flow rates",
+        "Q",
+        "discharge"
+      ]
+    },
+    {
+      "id": "darcy-head-loss-example",
+      "title": "Water flows at $2\\,\\mathrm{m/s}$ through a $0.1\\,\\mathrm{m}$ diameter, $100\\,\\mathrm{m}$ long pipe with $f = 0.02$. Head loss, in m to two decimals?",
+      "body": "$4.08\\,\\mathrm{m}$.\n\n$h_L = f\\,\\dfrac{L}{D}\\,\\dfrac{V^2}{2g} = (0.02)\\dfrac{100}{0.1}\\dfrac{(2)^2}{2(9.81)} = 20\\,(0.2039) = 4.08\\,\\mathrm{m}$.\n\nThe velocity head is $V^2/2g = 4/19.62 = 0.204\\,\\mathrm{m}$, and the pipe is $1000$ diameters long.\nWatch out: forgetting the $2$ in $2g$ doubles the answer.",
+      "searchQuery": "Darcy-Weisbach head loss calculation pipe water f L/D V^2/2g",
+      "answer": "4.08",
+      "acceptedAnswers": [
+        "4.077",
+        "4.08 m"
+      ],
+      "answerDisplay": "$4.08\\,\\mathrm{m}$"
+    },
+    {
+      "id": "pipe-pressure-drop-example",
+      "title": "Water ($1000\\,\\mathrm{kg/m^3}$) flows at $2\\,\\mathrm{m/s}$ through a horizontal $0.1\\,\\mathrm{m}$ diameter, $100\\,\\mathrm{m}$ long pipe with $f = 0.02$. Pressure drop, in kPa?",
+      "body": "$40\\,\\mathrm{kPa}$.\n\n$\\Delta P = f\\,\\dfrac{L}{D}\\,\\dfrac{\\rho V^2}{2} = (0.02)(1000)\\dfrac{(1000)(4)}{2} = 40{,}000\\,\\mathrm{Pa}$.\n\nCheck: $\\rho g\\,h_L = (1000)(9.81)(4.08) \\approx 40\\,\\mathrm{kPa}$.\nTip: for a horizontal, constant-diameter pipe, the pressure drop equals the friction pressure loss, since $\\Delta z = 0$ and $\\Delta V = 0$.",
+      "searchQuery": "pipe pressure drop Darcy-Weisbach horizontal pipe kPa calculation",
+      "answer": "40",
+      "acceptedAnswers": [
+        "40 kPa"
+      ],
+      "answerDisplay": "$40\\,\\mathrm{kPa}$"
+    },
+    {
+      "id": "pump-power-for-head-loss",
+      "title": "A pump must supply $0.01\\,\\mathrm{m^3/s}$ of water against a total head loss of $10\\,\\mathrm{m}$ (no elevation or pressure change). Hydraulic power delivered to the water, in W?",
+      "body": "$981\\,\\mathrm{W}$.\n\n$\\dot{W} = \\rho g Q h_L = (1000)(9.81)(0.01)(10) = 981\\,\\mathrm{W}$.\n\nWhy: the pump head must equal the head loss, $h_{\\text{pump}} = h_L$, so the water gains energy at that rate.\nTip: divide by the pump-motor efficiency to get the electrical power drawn.",
+      "searchQuery": "pump power to overcome head loss rho g Q h_L watts",
+      "answer": "981",
+      "acceptedAnswers": [
+        "981 W",
+        "0.981 kW"
+      ],
+      "answerDisplay": "$981\\,\\mathrm{W}$"
+    },
+    {
+      "id": "rectangular-duct-hydraulic-diameter",
+      "title": "A rectangular duct has a $4\\,\\mathrm{cm} \\times 6\\,\\mathrm{cm}$ cross-section. What is its hydraulic diameter, in cm to one decimal?",
+      "body": "$4.8\\,\\mathrm{cm}$.\n\n$D_h = \\dfrac{4A_c}{p} = \\dfrac{4(4)(6)}{2(4 + 6)} = \\dfrac{96}{20} = 4.8\\,\\mathrm{cm}$.\n\nUse $D_h$ in $\\mathrm{Re} = V D_h/\\nu$ and in the Darcy–Weisbach equation for turbulent flow.\nWatch out: the wetted perimeter is the full perimeter, $20\\,\\mathrm{cm}$, for a closed duct that's flowing full.",
+      "searchQuery": "hydraulic diameter rectangular duct 4A/p calculation",
+      "answer": "4.8",
+      "acceptedAnswers": [
+        "4.8 cm"
+      ],
+      "answerDisplay": "$4.8\\,\\mathrm{cm}$"
+    },
+    {
+      "id": "buckingham-pi-count",
+      "title": "In the Buckingham Pi theorem, a problem has $n$ variables expressed in $k$ primary dimensions. How many independent dimensionless groups $\\Pi$ are there (in terms of $n$ and $k$)?",
+      "body": "$n - k$.\n\nEach $\\Pi$ is a dimensionless product of the variables; the relationship among the variables can then be written as $\\Pi_1 = f(\\Pi_2, \\dots, \\Pi_{n-k})$.\n\nExample: drag on a sphere has $n = 5$ variables ($F_D$, $\\rho$, $V$, $D$, $\\mu$) and $k = 3$ dimensions (M, L, T), giving $2$ groups: $C_D$ and $\\mathrm{Re}$.\nTip: choose $k$ repeating variables that together include all the dimensions but can't form a dimensionless group.",
+      "searchQuery": "Buckingham Pi theorem number of dimensionless groups n minus k",
+      "answer": "n-k",
+      "acceptedAnswers": [
+        "n minus k"
+      ],
+      "answerDisplay": "$n - k$"
+    },
+    {
+      "id": "froude-number-meaning",
+      "title": "The Froude number $\\mathrm{Fr} = \\dfrac{V}{\\sqrt{gL}}$ is the ratio of inertial forces to which other force?",
+      "body": "Gravity.\n\nIt matters whenever gravity drives the flow or a free surface is present: ship waves, open channels, spillways.\n\nKey idea: for $\\mathrm{Fr} = 1$ in open channels (critical flow), the flow speed equals the speed of surface waves, $\\sqrt{gy}$.\nTip: in ship-model testing, equal $\\mathrm{Fr}$ (not equal $\\mathrm{Re}$) is usually matched.",
+      "searchQuery": "Froude number ratio inertial to gravity forces free surface",
+      "answer": "gravity",
+      "acceptedAnswers": [
+        "gravitational",
+        "gravity force",
+        "gravitational force"
+      ]
+    },
+    {
+      "id": "mach-number-meaning",
+      "title": "The Mach number $\\mathrm{Ma} = V/c$ is the flow speed divided by what?",
+      "body": "The local speed of sound, $c$.\n\nRegimes: subsonic $\\mathrm{Ma} < 1$, sonic $\\mathrm{Ma} = 1$, supersonic $\\mathrm{Ma} > 1$. Compressibility effects are important above about $\\mathrm{Ma} \\approx 0.3$.\n\nExample: in air at $20\\,^\\circ\\mathrm{C}$, $c \\approx 343\\,\\mathrm{m/s}$, so a jet at $686\\,\\mathrm{m/s}$ is at $\\mathrm{Ma} = 2$.\nWatch out: $c$ depends on temperature, so the same speed can be a different Mach number at altitude.",
+      "searchQuery": "Mach number flow speed divided by speed of sound",
+      "answer": "speed of sound",
+      "acceptedAnswers": [
+        "sonic speed",
+        "local speed of sound",
+        "sound speed"
+      ]
+    },
+    {
+      "id": "weber-number-meaning",
+      "title": "The Weber number $\\mathrm{We} = \\dfrac{\\rho V^2 L}{\\sigma}$ is the ratio of inertial forces to which other force?",
+      "body": "Surface tension.\n\nIt matters for droplets, bubbles, sprays, thin films and capillary waves, where surface tension competes with inertia.\n\nExample: a spray nozzle's droplet size is set by a balance between inertia and surface tension, i.e. by $\\mathrm{We}$.\nKey idea: large $\\mathrm{We}$ means inertia dominates; small $\\mathrm{We}$ means surface tension keeps the shape.",
+      "searchQuery": "Weber number inertial force to surface tension droplets",
+      "answer": "surface tension",
+      "acceptedAnswers": [
+        "surface-tension",
+        "sigma"
+      ]
+    },
+    {
+      "id": "dynamic-similarity-conditions",
+      "title": "What three kinds of similarity must a model test satisfy to predict prototype behavior?",
+      "body": "Geometric, kinematic and dynamic similarity.\n\n1. **Geometric:** the model has the same shape (all length ratios equal)\n2. **Kinematic:** velocities have the same direction and scaled magnitude at corresponding points\n3. **Dynamic:** forces have the same ratios, which means the relevant $\\Pi$ groups ($\\mathrm{Re}$, $\\mathrm{Fr}$, ...) are equal\n\nWatch out: matching all dimensionless numbers at once is often impossible, which is why model tests use the dominant one and correct for the rest.",
+      "searchQuery": "geometric kinematic dynamic similarity model testing fluid mechanics"
+    },
+    {
+      "id": "model-reynolds-speed-ratio",
+      "title": "A $1{:}10$ scale model is tested in the same fluid at the same temperature using Reynolds-number similarity. How many times faster than the prototype's speed must the model's flow be?",
+      "body": "$10\\times$.\n\nSame $\\nu$, so $\\mathrm{Re}_m = \\mathrm{Re}_p$ gives $V_m L_m = V_p L_p$, hence $\\dfrac{V_m}{V_p} = \\dfrac{L_p}{L_m} = 10$.\n\nWatch out: that speed can be impractical (and for air models may push $\\mathrm{Ma}$ near $0.3$ or above, where compressibility changes the physics).\nTip: use a different fluid (or a pressurized tunnel) to reduce the required speed.",
+      "searchQuery": "Reynolds number similarity scale model velocity ratio wind tunnel",
+      "answer": "10",
+      "acceptedAnswers": [
+        "10x",
+        "10 times",
+        "ten",
+        "factor of 10"
+      ],
+      "answerDisplay": "$10\\times$"
+    },
+    {
+      "id": "froude-model-speed",
+      "title": "A ship is $25$ times larger than its model. With Froude-number similarity, the full-size ship travels at $10\\,\\mathrm{m/s}$. At what speed, in m/s, should the model be towed?",
+      "body": "$2\\,\\mathrm{m/s}$.\n\n$\\mathrm{Fr}_m = \\mathrm{Fr}_p$ gives $\\dfrac{V_m}{V_p} = \\sqrt{\\dfrac{L_m}{L_p}} = \\sqrt{\\dfrac{1}{25}} = \\dfrac{1}{5}$, so $V_m = 10/5 = 2\\,\\mathrm{m/s}$.\n\nWhy: wave-making resistance depends on gravity, so $\\mathrm{Fr}$ is the governing number.\nWatch out: the model's $\\mathrm{Re}$ is far lower, so viscous (friction) drag must be corrected separately.",
+      "searchQuery": "Froude number similarity ship model speed scale 1:25",
+      "answer": "2",
+      "acceptedAnswers": [
+        "2 m/s"
+      ],
+      "answerDisplay": "$2\\,\\mathrm{m/s}$"
+    },
+    {
+      "id": "strouhal-cylinder",
+      "title": "Vortex shedding from a circular cylinder over a wide range of $\\mathrm{Re}$ has a Strouhal number $\\mathrm{St} = \\dfrac{fD}{V}$ of approximately what value?",
+      "body": "$\\mathrm{St} \\approx 0.2$.\n\nSo the shedding frequency is about $f \\approx 0.2\\,V/D$.\n\nExample: wind at $10\\,\\mathrm{m/s}$ past a $0.1\\,\\mathrm{m}$ pole sheds vortices at roughly $0.2(10)/0.1 = 20\\,\\mathrm{Hz}$.\nWatch out: if $f$ matches a structure's natural frequency, resonance can damage chimneys, cables and bridges.",
+      "searchQuery": "Strouhal number vortex shedding circular cylinder 0.2",
+      "answer": "0.2",
+      "answerDisplay": "$\\mathrm{St} \\approx 0.2$"
+    },
+    {
+      "id": "drag-coefficient-calculation",
+      "title": "A body has $A = 0.5\\,\\mathrm{m^2}$ in air ($\\rho = 1.2\\,\\mathrm{kg/m^3}$) at $20\\,\\mathrm{m/s}$ and experiences $50\\,\\mathrm{N}$ of drag. What is $C_D$, to two decimals?",
+      "body": "$C_D \\approx 0.42$.\n\n$C_D = \\dfrac{F_D}{\\tfrac{1}{2}\\rho V^2 A} = \\dfrac{50}{\\tfrac{1}{2}(1.2)(20)^2(0.5)} = \\dfrac{50}{120} = 0.417$.\n\nKey idea: $C_D$ is dimensionless and depends mainly on shape and $\\mathrm{Re}$.\nWatch out: $A$ must be the reference area the quoted $C_D$ is based on (frontal area for blunt bodies).",
+      "searchQuery": "drag coefficient calculation drag force dynamic pressure area",
+      "answer": "0.42",
+      "acceptedAnswers": [
+        "0.417"
+      ],
+      "answerDisplay": "$C_D \\approx 0.42$"
+    },
+    {
+      "id": "boundary-layer-thickness-definition",
+      "title": "How is the boundary-layer thickness $\\delta$ conventionally defined?",
+      "body": "The distance from the wall where the velocity reaches $99\\%$ of the free-stream velocity, $u = 0.99\\,U_\\infty$.\n\nOutside the layer the flow is nearly inviscid; inside it viscosity and no-slip matter.\n\nExample: for laminar flow over a flat plate, $\\delta \\approx \\dfrac{5x}{\\sqrt{\\mathrm{Re}_x}}$ and grows as $\\sqrt{x}$.\nKey idea: the layer is thin when $\\mathrm{Re}$ is large.",
+      "searchQuery": "boundary layer thickness definition 99 percent free stream velocity"
+    },
+    {
+      "id": "flat-plate-critical-reynolds",
+      "title": "For flow over a flat plate, at about what Reynolds number $\\mathrm{Re}_x = U_\\infty x/\\nu$ does the boundary layer transition from laminar to turbulent?",
+      "body": "$\\mathrm{Re}_{x,\\text{cr}} \\approx 5\\times10^5$.\n\nThis value depends on surface roughness, free-stream turbulence and pressure gradient. It can range from about $10^5$ to $3\\times10^6$.\n\nWhy: the turbulent layer has a fuller velocity profile, so the wall shear stress and friction drag are higher after transition.\nTip: pipe flow transitions near $\\mathrm{Re} \\approx 2300$; don't mix up the two numbers.",
+      "searchQuery": "flat plate boundary layer transition critical Reynolds number 5e5",
+      "answer": "500000",
+      "acceptedAnswers": [
+        "5e5",
+        "5x10^5",
+        "5*10^5"
+      ],
+      "answerDisplay": "$5\\times10^5$"
+    },
+    {
+      "id": "friction-vs-pressure-drag",
+      "title": "What is the difference between friction drag and pressure (form) drag, and which dominates for a streamlined versus a bluff body?",
+      "body": "Friction drag comes from wall shear stress; pressure drag comes from the pressure difference between the front and rear of the body.\n\n**Streamlined** bodies (airfoils, fish) have mostly friction drag. **Bluff** bodies (cylinders, spheres, trucks) have mostly pressure drag, because the flow separates and leaves a low-pressure wake.\n\nKey idea: total drag is the sum of friction drag and pressure drag.\nTip: a flat plate parallel to the flow is nearly all friction; turned perpendicular to the flow, it's nearly all pressure drag.",
+      "searchQuery": "friction drag versus pressure drag streamlined bluff body"
+    },
+    {
+      "id": "flow-separation-cause",
+      "title": "What causes boundary-layer separation on a body?",
+      "body": "An adverse pressure gradient: pressure increasing in the flow direction, $\\dfrac{dP}{dx} > 0$.\n\nThe fluid near the wall has little momentum, so it can't push against rising pressure and stops, then reverses, so the layer detaches (where the wall shear is zero).\n\nWhy: the result is a wide, low-pressure wake, which causes large pressure drag.\nTip: a turbulent boundary layer has more near-wall momentum, so it resists separation longer than a laminar one.",
+      "searchQuery": "boundary layer separation adverse pressure gradient cause wake"
+    },
+    {
+      "id": "stokes-drag-sphere",
+      "title": "State Stokes' drag law for a sphere of diameter $D$ moving at speed $V$ through a fluid of viscosity $\\mu$, and when it applies.",
+      "body": "$F_D = 3\\pi\\mu V D$, valid for creeping flow with $\\mathrm{Re} = \\dfrac{\\rho V D}{\\mu} < 1$.\n\nIn this regime inertia is negligible and the drag is purely viscous, so $F_D$ is **linear** in $V$ (not quadratic).\n\nExample: a fine dust particle or oil droplet settling in air or water is a Stokes-flow problem.\nWatch out: at higher $\\mathrm{Re}$ the drag grows faster than linearly and the $\\tfrac{1}{2}\\rho V^2 C_D A$ form is used instead.",
+      "searchQuery": "Stokes drag law sphere 3 pi mu V D creeping flow Reynolds number below 1"
+    },
+    {
+      "id": "terminal-velocity-parachutist",
+      "title": "A parachutist's total weight is $864\\,\\mathrm{N}$, with $\\rho = 1.2\\,\\mathrm{kg/m^3}$ and $C_D A = 1.6\\,\\mathrm{m^2}$. What is the terminal velocity, in m/s? (Neglect buoyancy.)",
+      "body": "$30\\,\\mathrm{m/s}$.\n\nAt terminal velocity, drag equals weight: $\\tfrac{1}{2}\\rho V^2 C_D A = W$, so $V = \\sqrt{\\dfrac{2W}{\\rho\\,C_D A}} = \\sqrt{\\dfrac{2(864)}{(1.2)(1.6)}} = \\sqrt{900} = 30\\,\\mathrm{m/s}$.\n\nWhy: net force is zero, so the acceleration stops.\nWatch out: for a body in a liquid (or any fluid dense enough), include the buoyant force in the balance.",
+      "searchQuery": "terminal velocity drag equals weight parachute calculation",
+      "answer": "30",
+      "acceptedAnswers": [
+        "30 m/s"
+      ],
+      "answerDisplay": "$30\\,\\mathrm{m/s}$"
+    },
+    {
+      "id": "wing-lift-calculation",
+      "title": "A wing has $C_L = 1.0$ and $A = 20\\,\\mathrm{m^2}$ in air ($\\rho = 1.2\\,\\mathrm{kg/m^3}$) at $50\\,\\mathrm{m/s}$. What is the lift, in kN?",
+      "body": "$30\\,\\mathrm{kN}$.\n\n$F_L = \\tfrac{1}{2}\\rho V^2 C_L A = \\tfrac{1}{2}(1.2)(50)^2(1.0)(20) = 30{,}000\\,\\mathrm{N}$.\n\nKey idea: lift grows as $V^2$, so a plane must be faster to keep the same lift when flying at lower density (higher altitude) or with a smaller $C_L$.\nTip: for wings, $A$ is the planform area.",
+      "searchQuery": "lift force equation wing C_L planform area calculation",
+      "answer": "30",
+      "acceptedAnswers": [
+        "30 kN"
+      ],
+      "answerDisplay": "$30\\,\\mathrm{kN}$"
+    },
+    {
+      "id": "airfoil-stall",
+      "title": "What is aerodynamic stall of a wing, and why does lift drop?",
+      "body": "At a large angle of attack the flow separates from the upper surface, and lift falls sharply while drag rises.\n\nLift grows with angle of attack until the **adverse pressure gradient** on the upper surface separates the boundary layer; past that, $C_L$ drops.\n\nWatch out: stall depends on angle of attack, not on airspeed; a plane can stall at any speed if the angle is large enough.\nTip: flaps and slats delay stall at low speeds by keeping the flow attached or raising $C_{L,\\max}$.",
+      "searchQuery": "aerodynamic stall angle of attack flow separation lift drop"
+    },
+    {
+      "id": "drag-crisis-sphere",
+      "title": "What is the drag crisis for a sphere, and why do golf balls have dimples?",
+      "body": "The sphere's $C_D$ drops sharply near $\\mathrm{Re} \\approx 2$ to $4\\times10^5$ because the boundary layer turns turbulent.\n\nThe turbulent layer separates **later**, making the wake narrower and cutting pressure drag. Dimples trip the layer to turbulence at lower speeds, so the ball flies in the low-drag regime.\n\nKey idea: roughness can reduce drag on bluff bodies, even though it raises friction drag.\nWatch out: for streamlined bodies, roughness only increases drag.",
+      "searchQuery": "drag crisis sphere turbulent boundary layer golf ball dimples"
+    },
+    {
+      "id": "pump-operating-point",
+      "title": "How is the operating point of a pump in a piping system found?",
+      "body": "At the intersection of the pump curve and the system curve.\n\nThe **pump curve** gives head $H$ versus flow rate $Q$ (falling with $Q$). The **system curve** is $H = H_{\\text{static}} + K Q^2$, the head needed to lift the water and overcome friction (rising with $Q$).\n\nWhy: only at the intersection do the head the pump supplies and the head the system requires match.\nTip: a throttling valve raises $K$, steepening the system curve and lowering the flow.",
+      "searchQuery": "pump curve system curve intersection operating point head flow rate"
+    },
+    {
+      "id": "npsh-requirement",
+      "title": "To avoid cavitation in a pump, must the available net positive suction head (NPSH) be greater or smaller than the required NPSH?",
+      "body": "Greater.\n\n$\\mathrm{NPSH_A}$ is the head of the liquid at the pump inlet above its vapor pressure head: $\\mathrm{NPSH_A} = \\dfrac{P_{\\text{inlet}}}{\\rho g} + \\dfrac{V^2}{2g} - \\dfrac{P_v}{\\rho g}$. $\\mathrm{NPSH_R}$ is the manufacturer's minimum.\n\nWhy: if $\\mathrm{NPSH_A} < \\mathrm{NPSH_R}$, the local pressure inside the pump falls below the vapor pressure and bubbles form.\nTip: lower the pump, shorten or enlarge the suction pipe, or cool the liquid to raise $\\mathrm{NPSH_A}$.",
+      "searchQuery": "NPSH available greater than required pump cavitation",
+      "answer": "greater",
+      "acceptedAnswers": [
+        "greater than",
+        "larger",
+        "more",
+        "higher",
+        "bigger"
+      ]
+    },
+    {
+      "id": "affinity-head-ratio",
+      "title": "A pump's speed rises from $1000$ to $1500\\,\\mathrm{rpm}$ (same impeller and a similar operating point). By what factor does the head change?",
+      "body": "$2.25\\times$.\n\nAffinity laws: $Q \\propto N$ and $H \\propto N^2$, so $H_2/H_1 = (1500/1000)^2 = 2.25$.\n\nExample: the flow rate rises by $1.5\\times$ at the same time.\nWatch out: the laws assume the same impeller diameter and fluid, and a similar operating point (same efficiency).",
+      "searchQuery": "pump affinity laws head proportional to speed squared",
+      "answer": "2.25",
+      "acceptedAnswers": [
+        "2.25x",
+        "2.25 times"
+      ],
+      "answerDisplay": "$2.25\\times$"
+    },
+    {
+      "id": "affinity-power-ratio",
+      "title": "A pump's speed rises from $1000$ to $1500\\,\\mathrm{rpm}$ (same impeller and a similar operating point). By what factor does the shaft power change?",
+      "body": "$3.375\\times$ (about $3.4$).\n\nAffinity laws: $\\dot{W} \\propto N^3$, so $\\dot{W}_2/\\dot{W}_1 = (1.5)^3 = 3.375$.\n\nWhy: power $\\propto \\rho g Q H \\propto N \\cdot N^2$.\nKey idea: a modest speed increase demands a large power increase, and a modest speed cut saves a lot of energy.",
+      "searchQuery": "pump affinity laws power proportional to speed cubed",
+      "answer": "3.375",
+      "acceptedAnswers": [
+        "3.38",
+        "3.4"
+      ],
+      "answerDisplay": "$3.375\\times$"
+    },
+    {
+      "id": "pump-efficiency-calculation",
+      "title": "A pump delivers $10\\,\\mathrm{L/s}$ of water at $30\\,\\mathrm{m}$ of head using $4.2\\,\\mathrm{kW}$ of shaft power. What is its efficiency, in percent?",
+      "body": "$70\\%$.\n\nWater power $= \\rho g Q H = (1000)(9.81)(0.01)(30) = 2943\\,\\mathrm{W}$, so $\\eta = \\dfrac{2943}{4200} = 0.70$.\n\nTip: $10\\,\\mathrm{L/s} = 0.01\\,\\mathrm{m^3/s}$.\nWatch out: efficiency is output (water power) divided by input (shaft power), never the reverse.",
+      "searchQuery": "pump efficiency water power divided by shaft power calculation",
+      "answer": "70",
+      "acceptedAnswers": [
+        "70%",
+        "0.7",
+        "70 percent"
+      ],
+      "answerDisplay": "$70\\%$"
+    },
+    {
+      "id": "hydro-turbine-power",
+      "title": "A hydroelectric turbine receives $2\\,\\mathrm{m^3/s}$ of water at a net head of $50\\,\\mathrm{m}$ with $90\\%$ efficiency. Power output, in kW to the nearest whole number?",
+      "body": "$883\\,\\mathrm{kW}$.\n\n$\\dot{W} = \\eta\\,\\rho g Q H = (0.90)(1000)(9.81)(2)(50) = 882{,}900\\,\\mathrm{W}$.\n\nKey idea: for turbines, shaft power is **less** than the water power, so $\\eta$ multiplies; for pumps it divides.\nWatch out: \"net head\" already excludes pipe losses; if given the gross head, subtract $h_L$ first.",
+      "searchQuery": "hydroelectric turbine power eta rho g Q H net head calculation",
+      "answer": "883",
+      "acceptedAnswers": [
+        "882.9",
+        "883 kW"
+      ],
+      "answerDisplay": "$883\\,\\mathrm{kW}$"
+    },
+    {
+      "id": "speed-of-sound-air",
+      "title": "Speed of sound in air at $300\\,\\mathrm{K}$ ($k = 1.4$, $R = 287\\,\\mathrm{J/(kg\\cdot K)}$), in m/s to the nearest whole number?",
+      "body": "$347\\,\\mathrm{m/s}$.\n\n$c = \\sqrt{kRT} = \\sqrt{(1.4)(287)(300)} = \\sqrt{120{,}540} = 347\\,\\mathrm{m/s}$.\n\nWhy: sound is a nearly isentropic pressure wave, so $c^2 = (\\partial P/\\partial\\rho)_s = kRT$ for an ideal gas.\nWatch out: $T$ must be in kelvins, and $R$ in $\\mathrm{J/(kg\\cdot K)}$ so that $c$ comes out in $\\mathrm{m/s}$.",
+      "searchQuery": "speed of sound ideal gas sqrt(kRT) air 300 K",
+      "answer": "347",
+      "acceptedAnswers": [
+        "347 m/s",
+        "347.2"
+      ],
+      "answerDisplay": "$347\\,\\mathrm{m/s}$"
+    },
+    {
+      "id": "mach-number-calculation",
+      "title": "An aircraft flies at $250\\,\\mathrm{m/s}$ where the speed of sound is $340\\,\\mathrm{m/s}$. What is its Mach number, to two decimals?",
+      "body": "$\\mathrm{Ma} \\approx 0.74$.\n\n$\\mathrm{Ma} = \\dfrac{V}{c} = \\dfrac{250}{340} = 0.735$.\n\nKey idea: at $\\mathrm{Ma} = 0.74$ the flow is subsonic but compressible (above $0.3$), and shock waves may start to form on parts of the wing, near the critical Mach number.\nTip: for gases, always compute $\\mathrm{Ma}$ with the local $T$.",
+      "searchQuery": "Mach number calculation flight speed divided by speed of sound",
+      "answer": "0.74",
+      "acceptedAnswers": [
+        "0.735"
+      ],
+      "answerDisplay": "$\\mathrm{Ma} \\approx 0.74$"
+    },
+    {
+      "id": "choked-flow-mach",
+      "title": "In a converging nozzle, what is the exit Mach number once the flow is choked?",
+      "body": "$\\mathrm{Ma} = 1$ (sonic) at the exit.\n\nChoked flow means the mass flow rate has reached its maximum: lowering the back pressure further doesn't increase it.\n\nWhy: information about downstream pressure travels at the speed of sound, so it can't travel upstream against a sonic exit.\nTip: a converging-diverging nozzle is needed to accelerate the flow beyond $\\mathrm{Ma} = 1$.",
+      "searchQuery": "choked flow converging nozzle exit Mach number 1 maximum mass flow",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one",
+        "Ma = 1",
+        "sonic"
+      ],
+      "answerDisplay": "$\\mathrm{Ma} = 1$"
+    },
+    {
+      "id": "open-channel-subcritical",
+      "title": "What is open-channel flow with Froude number $\\mathrm{Fr} < 1$ called?",
+      "body": "Subcritical flow.\n\nIt's deep and slow, and surface waves can travel upstream because they move faster than the flow.\n\nFor $\\mathrm{Fr} > 1$ the flow is **supercritical** (shallow and fast), and for $\\mathrm{Fr} = 1$ it is critical.\nKey idea: a hydraulic jump is the abrupt transition from supercritical to subcritical flow, with significant energy loss.",
+      "searchQuery": "open channel flow subcritical Froude number less than 1",
+      "answer": "subcritical",
+      "acceptedAnswers": [
+        "subcritical flow",
+        "tranquil"
+      ]
+    },
+    {
+      "id": "manning-equation",
+      "title": "State Manning's equation for the mean velocity in an open channel (SI units).",
+      "body": "$V = \\dfrac{1}{n}\\,R_h^{2/3}\\,S^{1/2}$\n\nHere $n$ is the Manning roughness coefficient, $R_h = A/P$ is the hydraulic radius ($A$ the flow area, $P$ the wetted perimeter) and $S$ is the channel slope.\n\nExample: $n \\approx 0.013$ for smooth concrete and about $0.035$ for a natural earth channel.\nWatch out: with US units the constant $1/n$ becomes $1.49/n$.",
+      "searchQuery": "Manning equation open channel velocity hydraulic radius slope roughness"
+    },
+    {
+      "id": "hydraulic-radius-channel",
+      "title": "A rectangular open channel is $2\\,\\mathrm{m}$ wide and carries water $1\\,\\mathrm{m}$ deep. What is the hydraulic radius $R_h$, in m?",
+      "body": "$0.5\\,\\mathrm{m}$.\n\n$A = 2(1) = 2\\,\\mathrm{m^2}$ and the wetted perimeter is the bottom plus two sides, $P = 2 + 1 + 1 = 4\\,\\mathrm{m}$, so $R_h = A/P = 0.5\\,\\mathrm{m}$.\n\nWatch out: the free surface is **not** part of the wetted perimeter.\nTip: for a very wide channel, $R_h \\to$ the depth $y$.",
+      "searchQuery": "hydraulic radius rectangular open channel A over P wetted perimeter",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "0.5 m",
+        "1/2"
+      ],
+      "answerDisplay": "$0.5\\,\\mathrm{m}$"
+    }
+  ]
+}

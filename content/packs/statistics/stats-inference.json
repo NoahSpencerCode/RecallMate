@@ -1,0 +1,839 @@
+{
+  "id": "stats-inference",
+  "title": "Inference & Regression",
+  "course": "Intro Statistics",
+  "description": "Confidence intervals and sample size; hypothesis tests, p-values, Type I/II errors and power; z, t and paired procedures; two-sample comparisons, ANOVA and chi-square tests; correlation, least-squares regression and inference for the slope.",
+  "cards": [
+    {
+      "id": "null-vs-alternative",
+      "title": "What do $H_0$ and $H_a$ represent, and which one contains the equals sign?",
+      "body": "$H_0$ is the null (it holds the equality); $H_a$ is the alternative.\n\nThe **null hypothesis** is the skeptical \"no effect, no difference\" claim, e.g. $H_0: \\mu = 50$. The **alternative hypothesis** is what the study seeks evidence for: $\\mu \\ne 50$, $\\mu < 50$ or $\\mu > 50$.\n\nWatch out: both are statements about parameters ($\\mu$, $p$), never sample statistics ($\\bar{x}$, $\\hat{p}$).\nTip: write $H_0$ and $H_a$ before looking at the data.",
+      "searchQuery": "null hypothesis alternative hypothesis equals sign"
+    },
+    {
+      "id": "p-value-definition",
+      "title": "What exactly is a p-value?",
+      "body": "The probability, assuming $H_0$ is true, of a test statistic at least as extreme as the one observed.\n\n\"Extreme\" means in the direction of $H_a$: one tail for a one-sided test, both tails for a two-sided test. A small **p-value** means the data would be surprising if $H_0$ were true.\n\nWatch out: it is not the probability that $H_0$ is true, and not the probability that the result is due to chance alone.\nKey idea: the p-value measures how well the data fit $H_0$, not how likely $H_0$ is.",
+      "searchQuery": "p-value definition probability assuming null true"
+    },
+    {
+      "id": "fail-to-reject",
+      "title": "A test at $\\alpha = 0.05$ gives $p = 0.08$. What is the correct conclusion?",
+      "body": "Fail to reject $H_0$: the data do not provide convincing evidence for $H_a$.\n\nSince $p = 0.08 > \\alpha = 0.05$, the result is not statistically significant at the $5\\%$ level, so we **fail to reject** $H_0$.\n\nWatch out: never write \"accept $H_0$\" or \"$H_0$ is true\". A large p-value means insufficient evidence against $H_0$, not proof of it.",
+      "searchQuery": "fail to reject null hypothesis p value greater than alpha"
+    },
+    {
+      "id": "type-i-error",
+      "title": "Rejecting $H_0$ when $H_0$ is actually true is which type of error?",
+      "body": "Type I error, a false positive.\n\nIts probability is $\\alpha$: at $\\alpha = 0.05$, a true $H_0$ is wrongly rejected $5\\%$ of the time. A **Type II error** is failing to reject a false $H_0$; its probability is $\\beta$.\n\nMnemonic: Type I is the false alarm, like convicting an innocent defendant.",
+      "answer": "Type I",
+      "acceptedAnswers": [
+        "type 1",
+        "type-I",
+        "type-1",
+        "type one",
+        "I",
+        "1",
+        "type I error",
+        "type 1 error",
+        "type one error",
+        "false positive"
+      ],
+      "searchQuery": "Type I error false positive reject true null"
+    },
+    {
+      "id": "power",
+      "title": "A test has $P(\\text{Type II error}) = \\beta = 0.2$. What is its power?",
+      "body": "$0.8$.\n\n**Power** $= 1 - \\beta = P(\\text{reject } H_0 \\mid H_0 \\text{ false})$: the chance of detecting a real effect.\n\nTip: power rises with a larger $n$, a larger true effect, a larger $\\alpha$ or less variability. Increasing $n$ is usually the practical lever.",
+      "answer": "0.8",
+      "acceptedAnswers": [
+        "80%",
+        "4/5"
+      ],
+      "searchQuery": "statistical power 1 minus beta Type II error"
+    },
+    {
+      "id": "margin-of-error-95",
+      "title": "With known $\\sigma = 12$ and $n = 36$, what is the margin of error of a $95\\%$ confidence interval for $\\mu$?",
+      "body": "$3.92$.\n\n$\\mathrm{ME} = z^*\\dfrac{\\sigma}{\\sqrt{n}} = 1.96 \\times \\dfrac{12}{\\sqrt{36}} = 1.96 \\times 2 = 3.92$, so the **confidence interval** is $\\bar{x} \\pm 3.92$.\n\nTip: other levels use $z^* = 1.645$ for $90\\%$ and $z^* = 2.576$ for $99\\%$.",
+      "answer": "3.92",
+      "searchQuery": "margin of error 95% confidence interval known sigma"
+    },
+    {
+      "id": "ci-interpretation",
+      "title": "What does the '$95\\%$' in a $95\\%$ confidence interval actually mean?",
+      "body": "The method's long-run **success rate**.\n\nIf we took many random samples and built a $95\\%$ CI from each, about $95\\%$ of those intervals would contain the true parameter.\n\nWatch out: it does not mean \"a $95\\%$ chance $\\mu$ is in this interval\" ($\\mu$ is fixed; this interval either contains it or not), nor that $95\\%$ of the data fall in it.",
+      "searchQuery": "interpret 95% confidence interval meaning"
+    },
+    {
+      "id": "halve-margin-of-error",
+      "title": "To cut a confidence interval's margin of error in half (same confidence level), multiply the sample size by what?",
+      "body": "$4$.\n\n$\\mathrm{ME} = z^*\\dfrac{\\sigma}{\\sqrt{n}}$ is proportional to $\\dfrac{1}{\\sqrt{n}}$, so halving it means doubling $\\sqrt{n}$, which takes **four times** as many observations.\n\nExample: going from $n = 100$ to $n = 400$ cuts the margin of error in half.\nWatch out: merely doubling $n$ shrinks the margin of error by a factor of only $\\sqrt{2}$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four",
+        "4 times",
+        "four times",
+        "4x",
+        "x4",
+        "times 4",
+        "quadruple"
+      ],
+      "searchQuery": "halve margin of error sample size four times"
+    },
+    {
+      "id": "paired-vs-two-sample",
+      "title": "Blood pressure is measured on the same $20$ patients before and after a drug. Which $t$-test fits: paired or two-sample?",
+      "body": "Paired.\n\nEach patient gives two linked measurements, so take the **differences** (after minus before) and run a one-sample $t$-test on their mean, with $\\mathrm{df} = 20 - 1 = 19$.\n\nWatch out: a two-sample $t$-test is for two independent groups. Using it on paired data ignores the pairing and throws away power.",
+      "answer": "paired",
+      "acceptedAnswers": [
+        "paired t-test",
+        "paired t test",
+        "paired t",
+        "paired test",
+        "matched pairs",
+        "matched pairs t-test",
+        "matched-pairs",
+        "matched pair",
+        "paired samples"
+      ],
+      "searchQuery": "paired t-test versus two-sample t-test before after"
+    },
+    {
+      "id": "chi-square-df",
+      "title": "A chi-square test of independence uses a table with $3$ rows and $4$ columns. How many degrees of freedom?",
+      "body": "$6$.\n\n$\\mathrm{df} = (r-1)(c-1) = (3-1)(4-1) = 6$.\n\nWatch out: do not count the totals row or column.\nTip: each expected count is $\\dfrac{\\text{row total} \\times \\text{column total}}{\\text{table total}}$, and every expected count should be at least $5$.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "df=6",
+        "6 df",
+        "six"
+      ],
+      "searchQuery": "chi-square test of independence degrees of freedom"
+    },
+    {
+      "id": "correlation-range",
+      "title": "What values can the correlation coefficient $r$ take, and what does $r = -0.9$ indicate?",
+      "body": "Any value from $-1$ to $1$; $r = -0.9$ is a strong negative linear association.\n\nThe sign gives the direction and the size gives the strength of the **linear** association. $r$ has no units and does not change if you swap $x$ and $y$ or change units.\n\nWatch out: $r \\approx 0$ can hide a strong curved pattern, because $r$ measures only linear association.",
+      "searchQuery": "correlation coefficient r range strength direction"
+    },
+    {
+      "id": "correlation-not-causation",
+      "title": "Ice cream sales and drowning deaths are strongly correlated. Why can't we conclude ice cream causes drowning?",
+      "body": "Correlation does not imply causation.\n\nA **lurking (confounding) variable**, hot weather, drives both ice cream sales and swimming, and so drowning risk.\n\nKey idea: only a randomized experiment can establish cause and effect; observational data like these show association only.",
+      "searchQuery": "correlation does not imply causation confounding variable"
+    },
+    {
+      "id": "least-squares-slope",
+      "title": "$r = 0.8$, $s_x = 5$, and $s_y = 10$. What is the least-squares slope $b_1$ for predicting $y$ from $x$?",
+      "body": "$1.6$.\n\n$b_1 = r\\dfrac{s_y}{s_x} = 0.8 \\times \\dfrac{10}{5} = 1.6$. Each $1$-unit increase in $x$ predicts a $1.6$-unit increase in $y$, on average.\n\nTip: the **slope** always has the same sign as $r$.",
+      "answer": "1.6",
+      "acceptedAnswers": [
+        "8/5"
+      ],
+      "searchQuery": "least squares slope r times sy over sx"
+    },
+    {
+      "id": "least-squares-intercept",
+      "title": "A least-squares line has slope $b_1 = 3$, and the data have $\\bar{x} = 10$ and $\\bar{y} = 50$. What is the intercept $b_0$?",
+      "body": "$20$.\n\nThe least-squares line always passes through $(\\bar{x}, \\bar{y})$, so $b_0 = \\bar{y} - b_1\\bar{x} = 50 - 3(10) = 20$, giving $\\hat{y} = 20 + 3x$.\n\nTip: if you know $b_1$, $\\bar{x}$ and $\\bar{y}$, the **intercept** takes one line of arithmetic.",
+      "answer": "20",
+      "acceptedAnswers": [
+        "b0 = 20"
+      ],
+      "searchQuery": "least squares intercept y bar minus slope x bar"
+    },
+    {
+      "id": "residual",
+      "title": "Using $\\hat{y} = 20 + 3x$, a data point has $x = 10$ and observed $y = 47$. What is its residual?",
+      "body": "$-3$.\n\n**Residual** $=$ observed $-$ predicted: $e = y - \\hat{y} = 47 - (20 + 30) = -3$.\n\nWatch out: a negative residual means the point lies below the line (the model overestimated it).\nKey idea: least squares minimizes the sum of the squared residuals.",
+      "answer": "-3",
+      "answerDisplay": "$-3$",
+      "searchQuery": "residual observed minus predicted regression"
+    },
+    {
+      "id": "r-squared",
+      "title": "A linear regression has $r = 0.6$. What fraction of the variation in $y$ is explained by the model?",
+      "body": "$0.36$, i.e. $36\\%$.\n\n$R^2 = r^2 = 0.6^2 = 0.36$: $36\\%$ of the variability in $y$ is accounted for by the linear relationship with $x$.\n\nWatch out: it does not mean that $36\\%$ of the points fall on the line.",
+      "answer": "0.36",
+      "acceptedAnswers": [
+        "36%",
+        "9/25"
+      ],
+      "searchQuery": "r squared coefficient of determination explained variation"
+    },
+    {
+      "id": "point-estimate-definition",
+      "title": "What is a point estimate, and how does it differ from an interval estimate?",
+      "body": "A point estimate is a single number computed from the sample (such as $\\bar{x}$ or $\\hat{p}$) that estimates a parameter.\n\nAn **interval estimate** adds a margin of error to say how precise that single number is: $\\text{estimate} \\pm \\text{margin of error}$.\n\nKey idea: a point estimate almost never equals the parameter exactly, which is why we report a confidence interval alongside it.",
+      "searchQuery": "point estimate versus interval estimate confidence interval"
+    },
+    {
+      "id": "ci-formula-z",
+      "title": "What is the formula for a confidence interval for $\\mu$ when $\\sigma$ is known?",
+      "body": "$\\bar{x} \\pm z^*\\dfrac{\\sigma}{\\sqrt{n}}$\n\nThe **critical value** $z^*$ sets the confidence level, and $\\dfrac{\\sigma}{\\sqrt{n}}$ is the standard error of $\\bar{x}$.\n\nTip: in practice $\\sigma$ is rarely known, so the $t$ interval $\\bar{x} \\pm t^*\\dfrac{s}{\\sqrt{n}}$ is used far more often.",
+      "searchQuery": "confidence interval mean known sigma formula z critical value"
+    },
+    {
+      "id": "ci-margin-of-error-factors",
+      "title": "What three things determine the margin of error of a confidence interval for a mean, and in which direction does each push it?",
+      "body": "A higher confidence level and a larger $\\sigma$ widen it; a larger $n$ narrows it.\n\nIn $\\mathrm{ME} = z^*\\dfrac{\\sigma}{\\sqrt{n}}$, a higher confidence level means a larger $z^*$, more variability means a larger $\\sigma$, and a larger sample size shrinks the **standard error**.\n\nWatch out: the margin of error accounts only for sampling variability, not for bias from a poorly designed sample.",
+      "searchQuery": "margin of error factors confidence level variability sample size"
+    },
+    {
+      "id": "se-proportion",
+      "title": "What is the standard deviation of $\\hat{p}$ when $p = 0.5$ and $n = 100$?",
+      "body": "$0.05$.\n\n$\\sqrt{\\dfrac{p(1-p)}{n}} = \\sqrt{\\dfrac{0.5 \\times 0.5}{100}} = \\sqrt{0.0025} = 0.05$.\n\nTip: for a confidence interval, use $\\hat{p}$ in place of $p$ to get the **standard error**; for a test of $H_0: p = p_0$, use $p_0$.",
+      "answer": "0.05",
+      "acceptedAnswers": [
+        "5/100",
+        "1/20"
+      ],
+      "searchQuery": "standard deviation of sample proportion p hat formula"
+    },
+    {
+      "id": "z-star-90",
+      "title": "What is the critical value $z^*$ for a $90\\%$ confidence interval? Use the standard table value.",
+      "body": "$1.645$.\n\nThe middle $90\\%$ of a standard normal lies between $-1.645$ and $1.645$, leaving $5\\%$ in each tail.\n\nTip: memorize $1.645$, $1.96$ and $2.576$ for $90\\%$, $95\\%$ and $99\\%$ confidence.",
+      "answer": "1.645",
+      "acceptedAnswers": [
+        "1.64",
+        "1.65"
+      ],
+      "searchQuery": "z critical value 90 percent confidence interval 1.645"
+    },
+    {
+      "id": "z-star-95",
+      "title": "What critical value $z^*$ gives a $95\\%$ confidence interval for a mean when $\\sigma$ is known?",
+      "body": "$1.96$.\n\nThe middle $95\\%$ of a standard normal lies between $-1.96$ and $1.96$, leaving $2.5\\%$ in each tail.\n\nTip: back-of-envelope intervals round $z^*$ to $2$, which is why \"estimate $\\pm$ two standard errors\" is a popular rule of thumb.",
+      "answer": "1.96",
+      "searchQuery": "z critical value 95 percent confidence interval 1.96"
+    },
+    {
+      "id": "z-star-99",
+      "title": "What is the critical value $z^*$ for a $99\\%$ confidence interval? Use the standard table value.",
+      "body": "$2.576$.\n\nThe middle $99\\%$ of a standard normal lies between $-2.576$ and $2.576$, leaving $0.5\\%$ in each tail.\n\nWatch out: a higher confidence level means a larger $z^*$ and a wider interval.",
+      "answer": "2.576",
+      "acceptedAnswers": [
+        "2.58",
+        "2.575"
+      ],
+      "searchQuery": "z critical value 99 percent confidence interval 2.576"
+    },
+    {
+      "id": "ci-compute-lower-endpoint",
+      "title": "A sample of $n = 25$ has $\\bar{x} = 50$ and known $\\sigma = 10$. What is the lower endpoint of the $95\\%$ confidence interval for $\\mu$? Use $z^* = 1.96$.",
+      "body": "$46.08$.\n\n$\\mathrm{SE} = \\dfrac{10}{\\sqrt{25}} = 2$, so $\\mathrm{ME} = 1.96 \\times 2 = 3.92$ and the interval is $50 \\pm 3.92 = (46.08,\\ 53.92)$.\n\nTip: compute the **standard error** first, then multiply by $z^*$, then add and subtract.",
+      "answer": "46.08",
+      "searchQuery": "confidence interval lower endpoint z interval worked example"
+    },
+    {
+      "id": "ci-width-vs-confidence",
+      "title": "With the sample size fixed, what happens to the width of a confidence interval when you raise the confidence level from $95\\%$ to $99\\%$?",
+      "body": "It gets wider.\n\nA larger critical value ($2.576$ instead of $1.96$) multiplies the same standard error. You buy more confidence by giving up **precision**.\n\nTip: to gain both confidence and precision, you need a larger sample.",
+      "answer": "wider",
+      "acceptedAnswers": [
+        "wide",
+        "larger",
+        "bigger",
+        "increases",
+        "it gets wider"
+      ],
+      "searchQuery": "confidence level width wider interval trade off precision"
+    },
+    {
+      "id": "sample-size-mean",
+      "title": "How large a sample is needed to estimate $\\mu$ within $\\pm 3$ at $95\\%$ confidence if $\\sigma = 15$? Round up to a whole number.",
+      "body": "$97$.\n\n$n = \\left(\\dfrac{z^*\\sigma}{E}\\right)^2 = \\left(\\dfrac{1.96 \\times 15}{3}\\right)^2 = 9.8^2 = 96.04$.\n\nWatch out: always round **up**. Rounding $96.04$ down to $96$ would miss the target margin of error.",
+      "answer": "97",
+      "searchQuery": "sample size for estimating mean margin of error formula"
+    },
+    {
+      "id": "sample-size-proportion",
+      "title": "Using the conservative value $\\hat{p} = 0.5$, how large must $n$ be for a $95\\%$ confidence interval for a proportion with a margin of error of $0.03$? Round up.",
+      "body": "$1068$.\n\n$n = \\left(\\dfrac{z^*}{E}\\right)^2 \\hat{p}(1-\\hat{p}) = \\left(\\dfrac{1.96}{0.03}\\right)^2 (0.25) \\approx 1067.1$.\n\nWhy: $\\hat{p}(1-\\hat{p})$ is largest at $\\hat{p} = 0.5$, so this choice guarantees the target margin of error whatever the true $p$ is.\nWatch out: round **up** to $1068$.",
+      "answer": "1068",
+      "searchQuery": "sample size proportion conservative p 0.5 margin of error"
+    },
+    {
+      "id": "ci-t-formula",
+      "title": "What is the formula for a $t$ confidence interval for a mean, and how many degrees of freedom does it use?",
+      "body": "$\\bar{x} \\pm t^*\\dfrac{s}{\\sqrt{n}}$, with $\\mathrm{df} = n - 1$.\n\nUse the sample standard deviation $s$ in the **standard error** $\\dfrac{s}{\\sqrt{n}}$ and find $t^*$ for the confidence level and $\\mathrm{df}$.\n\nTip: for the same confidence level, $t^*$ is larger than $z^*$, so a $t$ interval is slightly wider.",
+      "searchQuery": "t confidence interval mean formula degrees of freedom"
+    },
+    {
+      "id": "ci-t-margin-of-error",
+      "title": "$\\bar{x} = 20$, $s = 5$, $n = 16$. What is the margin of error of a $95\\%$ $t$ interval? Use $t^* = 2.131$ and round to 2 decimals.",
+      "body": "$2.66$.\n\n$\\mathrm{ME} = t^*\\dfrac{s}{\\sqrt{n}} = 2.131 \\times \\dfrac{5}{4} = 2.664$, so the CI is $20 \\pm 2.66 = (17.34,\\ 22.66)$.\n\nWatch out: $t^* = 2.131$ comes from $\\mathrm{df} = 16 - 1 = 15$, not from $n$.",
+      "answer": "2.66",
+      "acceptedAnswers": [
+        "2.664"
+      ],
+      "searchQuery": "t interval margin of error worked example sample standard deviation"
+    },
+    {
+      "id": "ci-conditions-mean",
+      "title": "What conditions should hold before you use a $t$ interval for a mean?",
+      "body": "The sample is random, the observations are independent, and the data are approximately normal (or $n$ is large).\n\n- **Random**: a random sample or randomized experiment.\n- **Independent**: when sampling without replacement, the sample is under $10\\%$ of the population.\n- **Normal**: the population is roughly normal, or $n \\ge 30$. For a small sample, check a plot for strong skew and outliers.\n\nWatch out: a large sample does not repair a biased sampling method.",
+      "searchQuery": "conditions for t interval random independent normal 10 percent"
+    },
+    {
+      "id": "ci-proportion-margin-of-error",
+      "title": "$\\hat{p} = 0.4$ from a sample of $n = 100$. What is the margin of error of a $95\\%$ confidence interval for $p$? Round to 3 decimals.",
+      "body": "$0.096$.\n\n$\\mathrm{SE} = \\sqrt{\\dfrac{0.4 \\times 0.6}{100}} \\approx 0.049$, so $\\mathrm{ME} = 1.96 \\times 0.049 \\approx 0.096$.\n\nTip: the interval is $0.4 \\pm 0.096 = (0.304,\\ 0.496)$.",
+      "answer": "0.096",
+      "searchQuery": "proportion confidence interval margin of error worked example"
+    },
+    {
+      "id": "ci-proportion-conditions",
+      "title": "What is the success-failure condition for a confidence interval for a proportion?",
+      "body": "$n\\hat{p} \\ge 10$ and $n(1-\\hat{p}) \\ge 10$.\n\nIt guarantees that the sampling distribution of $\\hat{p}$ is close enough to **normal** for $z$ methods to work. The sample must also be random, with the observations independent.\n\nWatch out: for a test of $H_0: p = p_0$, check $np_0 \\ge 10$ and $n(1-p_0) \\ge 10$ instead.",
+      "searchQuery": "success failure condition proportion confidence interval np at least 10"
+    },
+    {
+      "id": "ci-test-duality",
+      "title": "A $95\\%$ CI for $\\mu$ is $(12, 18)$. Would a two-sided test of $H_0: \\mu = 20$ at $\\alpha = 0.05$ reject $H_0$? Answer yes or no.",
+      "body": "Yes.\n\nThe value $20$ lies outside the interval, so it is not a plausible value for $\\mu$ at the $95\\%$ level, and the two-sided test at $\\alpha = 0.05$ **rejects** $H_0$.\n\nKey idea: a $(1-\\alpha)$ confidence interval and a two-sided test at level $\\alpha$ agree: reject exactly when the null value falls outside the interval.",
+      "answer": "yes",
+      "acceptedAnswers": [
+        "y",
+        "reject",
+        "yes, reject",
+        "yes reject"
+      ],
+      "searchQuery": "confidence interval two-sided hypothesis test equivalence reject null value"
+    },
+    {
+      "id": "z-test-statistic",
+      "title": "What is the test statistic for a one-sample $z$ test of $H_0: \\mu = \\mu_0$ when $\\sigma$ is known?",
+      "body": "$z = \\dfrac{\\bar{x} - \\mu_0}{\\sigma/\\sqrt{n}}$\n\nIt counts how many **standard errors** the sample mean lies from the hypothesized mean. Large $|z|$ means the data are far from what $H_0$ predicts.\n\nTip: every test statistic has the form $\\dfrac{\\text{estimate} - \\text{null value}}{\\text{standard error}}$.",
+      "searchQuery": "one-sample z test statistic formula known sigma"
+    },
+    {
+      "id": "z-test-compute",
+      "title": "$\\bar{x} = 52$, $\\mu_0 = 50$, $\\sigma = 10$, $n = 25$. What is the $z$ statistic?",
+      "body": "$1$.\n\n$\\mathrm{SE} = \\dfrac{10}{\\sqrt{25}} = 2$, so $z = \\dfrac{52 - 50}{2} = 1$.\n\nWatch out: divide by the standard error $\\sigma/\\sqrt{n}$, not by $\\sigma$.",
+      "answer": "1",
+      "searchQuery": "z statistic worked example sample mean hypothesized mean"
+    },
+    {
+      "id": "t-test-statistic",
+      "title": "What is the test statistic for a one-sample $t$ test of $H_0: \\mu = \\mu_0$, and how many degrees of freedom does it have?",
+      "body": "$t = \\dfrac{\\bar{x} - \\mu_0}{s/\\sqrt{n}}$, with $\\mathrm{df} = n - 1$.\n\nIt has the same form as $z$, but uses the sample standard deviation $s$, which adds uncertainty and gives the **$t$ distribution** heavier tails.\n\nTip: for large $n$ the $t$ and $z$ results are nearly identical.",
+      "searchQuery": "one-sample t test statistic formula degrees of freedom"
+    },
+    {
+      "id": "t-test-compute",
+      "title": "$\\bar{x} = 105$, $\\mu_0 = 100$, $s = 15$, $n = 36$. What is the $t$ statistic?",
+      "body": "$2$.\n\n$\\mathrm{SE} = \\dfrac{15}{\\sqrt{36}} = 2.5$, so $t = \\dfrac{105 - 100}{2.5} = 2$, with $\\mathrm{df} = 35$.\n\nWatch out: $\\sqrt{36} = 6$; forgetting the square root of $n$ is a classic slip.",
+      "answer": "2",
+      "searchQuery": "t statistic worked example one-sample sample standard deviation"
+    },
+    {
+      "id": "p-value-two-sided-z",
+      "title": "In a two-sided $z$ test, $z = 1.96$. What is the p-value? Round to 2 decimals.",
+      "body": "$0.05$.\n\nThe upper tail beyond $1.96$ has area $0.025$; a two-sided test counts both tails, so $p = 2(0.025) = 0.05$.\n\nWatch out: forgetting to double the tail area is the most common two-sided error.",
+      "answer": "0.05",
+      "searchQuery": "two-sided z test p-value 1.96 both tails"
+    },
+    {
+      "id": "p-value-right-tailed-z",
+      "title": "For $H_a: \\mu > \\mu_0$ the $z$ statistic is $1.645$. What is the p-value? Round to 2 decimals.",
+      "body": "$0.05$.\n\nFor a right-tailed test the p-value is just the upper-tail area beyond the statistic: $P(Z > 1.645) = 0.05$.\n\nKey idea: one-sided tests use one tail; two-sided tests double it.",
+      "answer": "0.05",
+      "searchQuery": "right-tailed z test p-value 1.645 upper tail"
+    },
+    {
+      "id": "critical-value-right-tailed",
+      "title": "To reject $H_0$ in a right-tailed $z$ test at $\\alpha = 0.05$, the statistic must exceed what critical value?",
+      "body": "$1.645$.\n\nAll $5\\%$ of the rejection region sits in the upper tail, so the cutoff is the $95$th percentile of the standard normal.\n\nTip: the **rejection region** approach and the p-value approach always give the same decision.",
+      "answer": "1.645",
+      "acceptedAnswers": [
+        "1.64",
+        "1.65"
+      ],
+      "searchQuery": "critical value right-tailed z test alpha 0.05 rejection region"
+    },
+    {
+      "id": "critical-value-two-sided-01",
+      "title": "To reject $H_0$ in a two-sided $z$ test at $\\alpha = 0.01$, $|z|$ must exceed what critical value?",
+      "body": "$2.576$.\n\nSplit $\\alpha$ between the tails: $0.005$ in each, so the cutoffs are $\\pm 2.576$.\n\nTip: the same value appears in a $99\\%$ confidence interval, because a $99\\%$ interval corresponds to a two-sided test at $\\alpha = 0.01$.",
+      "answer": "2.576",
+      "acceptedAnswers": [
+        "2.58",
+        "2.575"
+      ],
+      "searchQuery": "two-sided z test critical value alpha 0.01 2.576"
+    },
+    {
+      "id": "decision-rule-p-alpha",
+      "title": "How do you decide whether to reject $H_0$ using the p-value and the significance level $\\alpha$?",
+      "body": "Reject $H_0$ when $p \\le \\alpha$; otherwise fail to reject.\n\nIf $p \\le \\alpha$ the result is **statistically significant**: data this extreme would be rare if $H_0$ were true.\n\nWatch out: choose $\\alpha$ before collecting data, not after seeing the p-value.",
+      "searchQuery": "hypothesis test decision rule p-value less than alpha reject"
+    },
+    {
+      "id": "one-vs-two-sided",
+      "title": "When should you use a one-sided alternative instead of a two-sided one?",
+      "body": "Only when the research question, stated before seeing the data, cares about a difference in one direction alone.\n\nThe default is **two-sided**: $H_a: \\mu \\ne \\mu_0$. A one-sided test puts all of $\\alpha$ in one tail, so it is easier to reject in that direction but blind to the other.\n\nWatch out: switching to a one-sided test after seeing which way the data point is cheating.",
+      "searchQuery": "one-sided versus two-sided alternative hypothesis when to use"
+    },
+    {
+      "id": "statistical-vs-practical",
+      "title": "A huge study finds a statistically significant difference that is tiny in size. What does this illustrate?",
+      "body": "Statistical significance is not the same as **practical significance**.\n\nWith a very large $n$ the standard error is tiny, so even a trivial difference gives a small p-value.\n\nTip: always report the size of the effect, for instance with a confidence interval, not just the p-value.",
+      "searchQuery": "statistical significance versus practical significance large sample"
+    },
+    {
+      "id": "type-ii-error",
+      "title": "Failing to reject a false $H_0$ is which type of error?",
+      "body": "Type II error, a false negative.\n\nIts probability is $\\beta$, and power is $1 - \\beta$. A **Type I error** is rejecting a true $H_0$.\n\nMnemonic: Type II is a miss: the effect was real, but the test missed it.",
+      "answer": "Type II",
+      "acceptedAnswers": [
+        "type 2",
+        "type-II",
+        "type-2",
+        "type two",
+        "II",
+        "2",
+        "type II error",
+        "type 2 error",
+        "false negative"
+      ],
+      "searchQuery": "Type II error false negative fail to reject false null"
+    },
+    {
+      "id": "alpha-beta-tradeoff",
+      "title": "With $n$ fixed, you lower $\\alpha$ from $0.05$ to $0.01$. Does $\\beta$ increase or decrease?",
+      "body": "It increases, so power falls.\n\nA smaller $\\alpha$ makes the rejection region smaller, which makes it harder to reject, even when $H_0$ is false.\n\nTip: the only way to reduce both error rates at once is to increase $n$.",
+      "answer": "increase",
+      "acceptedAnswers": [
+        "increases",
+        "it increases",
+        "goes up",
+        "larger",
+        "bigger",
+        "higher"
+      ],
+      "searchQuery": "alpha beta tradeoff lower significance level type II error increases"
+    },
+    {
+      "id": "power-factors",
+      "title": "Which one of these lowers the power of a test: a larger $n$, a larger true effect, or a smaller $\\alpha$?",
+      "body": "A smaller $\\alpha$.\n\nA larger $n$ shrinks the standard error and a larger true effect moves the statistic further from $H_0$; both **raise** power. A smaller $\\alpha$ makes rejection harder.\n\nTip: less variability in the data also raises power.",
+      "searchQuery": "factors affecting power hypothesis test sample size alpha"
+    },
+    {
+      "id": "multiple-testing",
+      "title": "You run $20$ independent tests, each at $\\alpha = 0.05$, and every null hypothesis is true. About how many false positives do you expect?",
+      "body": "$1$.\n\nThe expected count is $20 \\times 0.05 = 1$, and the chance of at least one false positive is $1 - 0.95^{20} \\approx 0.64$.\n\nWatch out: running many tests and reporting only the significant ones inflates the **Type I error** rate. Adjust, for example with a Bonferroni correction ($\\alpha/20$).",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one"
+      ],
+      "searchQuery": "multiple comparisons false positives 20 tests alpha 0.05"
+    },
+    {
+      "id": "prop-test-statistic",
+      "title": "What is the test statistic for a one-proportion $z$ test of $H_0: p = p_0$?",
+      "body": "$z = \\dfrac{\\hat{p} - p_0}{\\sqrt{p_0(1-p_0)/n}}$\n\nThe **standard error** uses the null value $p_0$, because the test assumes $H_0$ is true.\n\nWatch out: a confidence interval for $p$ uses $\\hat{p}$ in its standard error; the test uses $p_0$.",
+      "searchQuery": "one-proportion z test statistic formula p0"
+    },
+    {
+      "id": "prop-test-compute",
+      "title": "$H_0: p = 0.5$ with $\\hat{p} = 0.56$ and $n = 100$. What is the $z$ statistic?",
+      "body": "$1.2$.\n\n$\\mathrm{SE} = \\sqrt{\\dfrac{0.5 \\times 0.5}{100}} = 0.05$, so $z = \\dfrac{0.56 - 0.5}{0.05} = 1.2$.\n\nTip: with $z = 1.2$ the two-sided p-value is about $0.23$, so there is no convincing evidence against $H_0$.",
+      "answer": "1.2",
+      "searchQuery": "one-proportion z test worked example p hat p0"
+    },
+    {
+      "id": "conclusion-in-context",
+      "title": "A test of $H_0: p = 0.5$ gives a p-value of $0.03$ at $\\alpha = 0.05$. How should you state the conclusion?",
+      "body": "Reject $H_0$: there is convincing evidence that the true proportion differs from $0.5$.\n\nA good conclusion has three parts: the **decision** (reject or fail to reject), a link to the p-value and $\\alpha$, and a statement about the claim in context.\n\nWatch out: do not write that \"$H_a$ is proven\" or that there is a $3\\%$ chance $H_0$ is true.",
+      "searchQuery": "hypothesis test conclusion in context reject null p-value 0.03"
+    },
+    {
+      "id": "paired-t-compute",
+      "title": "Paired differences have $\\bar{d} = 2.5$, $s_d = 5$ and $n = 25$. What is $t$ for $H_0: \\mu_d = 0$?",
+      "body": "$2.5$.\n\n$\\mathrm{SE} = \\dfrac{5}{\\sqrt{25}} = 1$, so $t = \\dfrac{2.5 - 0}{1} = 2.5$, with $\\mathrm{df} = 24$.\n\nTip: a paired test is just a one-sample $t$ test on the **differences**.",
+      "answer": "2.5",
+      "searchQuery": "paired t test statistic worked example mean difference"
+    },
+    {
+      "id": "paired-design-advantage",
+      "title": "Why can a paired design be more powerful than two independent samples?",
+      "body": "Differences within each pair cancel out person-to-person variability.\n\nSubjects (or twins, or before-and-after measurements) serve as their own **controls**, so the standard error of the mean difference is smaller and real effects are easier to detect.\n\nWatch out: pairing only helps when the paired measurements are positively correlated.",
+      "searchQuery": "paired design advantage matched pairs reduces variability"
+    },
+    {
+      "id": "bootstrap-idea",
+      "title": "What is the bootstrap, and what does it approximate?",
+      "body": "Resampling with replacement from the observed sample, many times, to approximate the sampling distribution of a statistic.\n\nEach **resample** has the same size as the original sample; computing the statistic for each gives an estimate of its standard error or a confidence interval.\n\nTip: it needs no normality assumption, which makes it useful for statistics like the median.",
+      "searchQuery": "bootstrap resampling with replacement sampling distribution"
+    },
+    {
+      "id": "permutation-test-idea",
+      "title": "How does a permutation test judge whether two groups differ?",
+      "body": "Shuffle the group labels many times and see how often the shuffled difference is as large as the observed one.\n\nIf $H_0$ (the labels do not matter) were true, any shuffle is equally likely. The fraction of shuffles at least as extreme as the observed result is the **p-value**.\n\nTip: like the bootstrap, it needs no normality assumption.",
+      "searchQuery": "permutation test shuffle group labels p-value"
+    },
+    {
+      "id": "random-assignment-vs-sampling",
+      "title": "What does random assignment of subjects to treatments allow that random sampling alone does not?",
+      "body": "Conclusions about **cause and effect**.\n\nRandom assignment balances lurking variables across groups on average, so a difference in outcomes can be attributed to the treatment. Random sampling, by contrast, lets you generalize to the population.\n\nKey idea: random sampling supports generalization; random assignment supports causation.",
+      "searchQuery": "random assignment versus random sampling cause and effect experiment"
+    },
+    {
+      "id": "effect-size-cohens-d",
+      "title": "Two groups means differ by $5$ and the pooled standard deviation is $10$. What is Cohen's $d$?",
+      "body": "$0.5$.\n\n$d = \\dfrac{\\bar{x}_1 - \\bar{x}_2}{s_p} = \\dfrac{5}{10} = 0.5$: the difference measured in standard deviations.\n\nTip: rough benchmarks are $0.2$ small, $0.5$ medium and $0.8$ large. Unlike a p-value, an **effect size** does not shrink or grow with $n$.",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "1/2"
+      ],
+      "searchQuery": "Cohen's d effect size difference in means pooled standard deviation"
+    },
+    {
+      "id": "two-sample-se",
+      "title": "Two independent samples have $s_1 = 12$, $n_1 = 16$, $s_2 = 16$ and $n_2 = 16$. What is the standard error $\\sqrt{\\dfrac{s_1^2}{n_1} + \\dfrac{s_2^2}{n_2}}$ of $\\bar{x}_1 - \\bar{x}_2$?",
+      "body": "$5$.\n\n$\\dfrac{12^2}{16} = 9$ and $\\dfrac{16^2}{16} = 16$, so $\\mathrm{SE} = \\sqrt{9 + 16} = \\sqrt{25} = 5$.\n\nKey idea: the **variances** of independent estimates add, so add the squared standard errors and then take the square root.",
+      "answer": "5",
+      "searchQuery": "two-sample t standard error difference of means formula"
+    },
+    {
+      "id": "two-sample-t-compute",
+      "title": "Two independent groups give $\\bar{x}_1 - \\bar{x}_2 = 10$ with standard error $5$. What is the two-sample $t$ statistic for $H_0: \\mu_1 = \\mu_2$?",
+      "body": "$2$.\n\n$t = \\dfrac{(\\bar{x}_1 - \\bar{x}_2) - 0}{\\mathrm{SE}} = \\dfrac{10}{5} = 2$.\n\nTip: the null value for the difference is $0$, so it drops out of the numerator.",
+      "answer": "2",
+      "searchQuery": "two-sample t statistic worked example difference in means"
+    },
+    {
+      "id": "two-sample-df-conservative",
+      "title": "For a two-sample $t$ procedure with $n_1 = 12$ and $n_2 = 20$, what is the conservative degrees of freedom, $\\min(n_1 - 1,\\ n_2 - 1)$?",
+      "body": "$11$.\n\n$\\min(12 - 1,\\ 20 - 1) = \\min(11, 19) = 11$.\n\nWatch out: software uses the more precise **Welch** formula, which gives a non-integer between $11$ and $30$; the minimum is the safe by-hand choice.",
+      "answer": "11",
+      "searchQuery": "two-sample t degrees of freedom conservative minimum n minus 1"
+    },
+    {
+      "id": "two-sample-conditions",
+      "title": "What conditions should hold for a two-sample $t$ procedure comparing two means?",
+      "body": "Two independent random samples (or two randomly assigned groups), each approximately normal or large.\n\n- **Random**: each sample is random, or subjects are randomly assigned.\n- **Independent**: the two groups are independent of each other and each is under $10\\%$ of its population.\n- **Normal**: each population is roughly normal, or each $n \\ge 30$.\n\nWatch out: if the measurements are naturally linked in pairs, use a paired test instead.",
+      "searchQuery": "two-sample t test conditions independent groups normal"
+    },
+    {
+      "id": "ci-difference-contains-zero",
+      "title": "A $95\\%$ CI for $\\mu_1 - \\mu_2$ is $(-1.2,\\ 4.6)$. Does a two-sided test of $H_0: \\mu_1 = \\mu_2$ at $\\alpha = 0.05$ reject $H_0$? Answer yes or no.",
+      "body": "No.\n\nThe interval contains $0$, so \"no difference\" is a plausible value, and the test **fails to reject** $H_0$.\n\nTip: the interval also shows the plausible size and direction of the difference, which a p-value cannot.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "n",
+        "fail to reject",
+        "do not reject",
+        "don't reject"
+      ],
+      "searchQuery": "confidence interval difference of means contains zero no significant difference"
+    },
+    {
+      "id": "pooled-proportion",
+      "title": "Group 1 has $30$ successes in $n_1 = 100$ and group 2 has $50$ in $n_2 = 150$. What is the pooled proportion $\\hat{p}$ for a two-proportion $z$ test?",
+      "body": "$0.32$.\n\n$\\hat{p} = \\dfrac{30 + 50}{100 + 150} = \\dfrac{80}{250} = 0.32$.\n\nKey idea: under $H_0: p_1 = p_2$ there is one common proportion, and the **pooled** estimate uses all of the data.",
+      "answer": "0.32",
+      "acceptedAnswers": [
+        "8/25"
+      ],
+      "searchQuery": "pooled proportion two-proportion z test formula"
+    },
+    {
+      "id": "pooled-vs-unpooled",
+      "title": "Why does a two-proportion $z$ test pool the samples, while a confidence interval for $p_1 - p_2$ does not?",
+      "body": "The test assumes $H_0: p_1 = p_2$, so one **common** proportion best describes both groups; the interval makes no such assumption.\n\nA confidence interval estimates the actual difference, so each group keeps its own $\\hat{p}_i$ in the standard error.\n\nTip: the same logic explains why a one-proportion test uses $p_0$ in its standard error while the interval uses $\\hat{p}$.",
+      "searchQuery": "two proportion test pooled versus confidence interval unpooled standard error"
+    },
+    {
+      "id": "twins-paired",
+      "title": "$25$ pairs of twins are studied; within each pair, one twin is randomly assigned a new treatment and the other a placebo. Which procedure compares the treatments: paired or two-sample?",
+      "body": "Paired.\n\nThe twins in each pair are linked, so analyze the $25$ **differences** with a one-sample $t$ procedure ($\\mathrm{df} = 24$).\n\nWatch out: random assignment within each pair is still a paired design; what matters is that the observations are matched.",
+      "answer": "paired",
+      "acceptedAnswers": [
+        "paired t-test",
+        "paired t test",
+        "paired t",
+        "matched pairs",
+        "matched pair",
+        "matched pairs t-test",
+        "paired test"
+      ],
+      "searchQuery": "paired design matched pairs twins t test"
+    },
+    {
+      "id": "two-prop-se",
+      "title": "$\\hat{p}_1 = 0.5$ with $n_1 = 100$, and $\\hat{p}_2 = 0.4$ with $n_2 = 100$. What is the unpooled standard error of $\\hat{p}_1 - \\hat{p}_2$?",
+      "body": "$0.07$.\n\n$\\mathrm{SE} = \\sqrt{\\dfrac{0.5 \\times 0.5}{100} + \\dfrac{0.4 \\times 0.6}{100}} = \\sqrt{0.0025 + 0.0024} = \\sqrt{0.0049} = 0.07$.\n\nTip: this is the **standard error** used for a confidence interval for $p_1 - p_2$.",
+      "answer": "0.07",
+      "acceptedAnswers": [
+        "7/100"
+      ],
+      "searchQuery": "standard error difference of two proportions confidence interval"
+    },
+    {
+      "id": "two-prop-ci-zero",
+      "title": "A $95\\%$ CI for $p_1 - p_2$ is $0.10 \\pm 1.96(0.07) = (-0.037,\\ 0.237)$. Does it give convincing evidence that the proportions differ? Answer yes or no.",
+      "body": "No.\n\nThe interval includes $0$, so $p_1 = p_2$ is plausible at the $95\\%$ level, even though $\\hat{p}_1 > \\hat{p}_2$ in the sample.\n\nWatch out: a sample difference of $0.10$ is not evidence of a population difference when the interval is that wide.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "n",
+        "not convincing"
+      ],
+      "searchQuery": "two proportion confidence interval includes zero evidence of difference"
+    },
+    {
+      "id": "anova-hypotheses",
+      "title": "What are the hypotheses of a one-way ANOVA comparing $k$ group means?",
+      "body": "$H_0$: all $k$ population means are equal. $H_a$: at least one mean differs.\n\nANOVA tests the **null hypothesis** $\\mu_1 = \\mu_2 = \\cdots = \\mu_k$ with a single $F$ test.\n\nWatch out: $H_a$ does not say that all means differ, only that they are not all equal.",
+      "searchQuery": "one-way ANOVA null alternative hypotheses all means equal"
+    },
+    {
+      "id": "anova-vs-many-t-tests",
+      "title": "Why run one ANOVA instead of many two-sample $t$ tests when comparing several means?",
+      "body": "Many separate tests inflate the overall Type I error rate.\n\nWith $k = 4$ groups there are $6$ pairs; at $\\alpha = 0.05$ each, the chance of at least one false positive is far above $5\\%$. One **$F$ test** keeps the overall error rate at $\\alpha$.\n\nTip: if the $F$ test is significant, follow up with a post hoc procedure to see which means differ.",
+      "searchQuery": "ANOVA versus multiple t tests type I error inflation"
+    },
+    {
+      "id": "f-statistic-ratio",
+      "title": "What ratio defines the $F$ statistic in a one-way ANOVA?",
+      "body": "$F = \\dfrac{\\text{variation between group means}}{\\text{variation within groups}} = \\dfrac{\\mathrm{MSG}}{\\mathrm{MSE}}$\n\nEach **mean square** is a sum of squares divided by its degrees of freedom.\n\nKey idea: if $H_0$ is true, both mean squares estimate the same variance and $F$ should be near $1$.",
+      "searchQuery": "F statistic ANOVA between over within group variation"
+    },
+    {
+      "id": "anova-df-numerator",
+      "title": "A one-way ANOVA compares $4$ groups with $40$ observations in total. How many numerator (between-group) degrees of freedom?",
+      "body": "$3$.\n\n$\\mathrm{df}_{\\text{between}} = k - 1 = 4 - 1 = 3$.\n\nTip: the denominator degrees of freedom are $N - k = 40 - 4 = 36$.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "ANOVA numerator degrees of freedom k minus 1"
+    },
+    {
+      "id": "anova-df-denominator",
+      "title": "A one-way ANOVA compares $4$ groups with $40$ observations in total. How many denominator (within-group) degrees of freedom?",
+      "body": "$36$.\n\n$\\mathrm{df}_{\\text{within}} = N - k = 40 - 4 = 36$.\n\nWatch out: the two degrees of freedom are $(k - 1,\\ N - k) = (3, 36)$; swapping them gives the wrong $F$ table entry.",
+      "answer": "36",
+      "searchQuery": "ANOVA denominator degrees of freedom N minus k"
+    },
+    {
+      "id": "f-large-meaning",
+      "title": "In a one-way ANOVA, what does a large $F$ statistic (and a small p-value) suggest?",
+      "body": "The group means differ more than the within-group variation would explain.\n\nThe p-value is the **upper-tail** area of the $F$ distribution, because only large values of $F$ are evidence against $H_0$.\n\nWatch out: a significant $F$ says that some means differ, not which ones.",
+      "searchQuery": "large F statistic small p-value ANOVA interpretation upper tail"
+    },
+    {
+      "id": "anova-conditions",
+      "title": "What conditions should hold for a one-way ANOVA $F$ test?",
+      "body": "Independent random samples, roughly normal groups, and similar spreads.\n\n- **Independent**: random samples or random assignment, with independent observations.\n- **Normal**: each group is roughly normal, or the samples are large.\n- **Equal variability**: the group standard deviations are similar (a common check: the largest is less than twice the smallest).\n\nTip: ANOVA is fairly robust to mild departures from normality when the group sizes are equal.",
+      "searchQuery": "ANOVA conditions independence normality equal variances"
+    },
+    {
+      "id": "anova-post-hoc",
+      "title": "After a significant ANOVA $F$ test, how do you find which group means differ?",
+      "body": "Use a post hoc multiple-comparison procedure, such as Tukey's HSD.\n\nThese procedures compare pairs of means while controlling the **overall** error rate across all the comparisons.\n\nWatch out: running ordinary two-sample $t$ tests on every pair brings back the inflated Type I error that ANOVA was meant to avoid.",
+      "searchQuery": "ANOVA post hoc test Tukey HSD which means differ"
+    },
+    {
+      "id": "f-equals-t-squared",
+      "title": "A two-group ANOVA and a pooled two-sample $t$ test are run on the same data, with $t = 3$. What is $F$?",
+      "body": "$9$.\n\nWith two groups, $F = t^2 = 3^2 = 9$, and the p-values are identical.\n\nKey idea: ANOVA with two groups is the **pooled** two-sample $t$ test in disguise.",
+      "answer": "9",
+      "acceptedAnswers": [
+        "nine"
+      ],
+      "searchQuery": "ANOVA two groups F equals t squared pooled t test"
+    },
+    {
+      "id": "chi-gof-df",
+      "title": "A chi-square goodness-of-fit test compares data across $6$ categories. How many degrees of freedom?",
+      "body": "$5$.\n\n$\\mathrm{df} = (\\text{number of categories}) - 1 = 6 - 1 = 5$.\n\nWatch out: for a test of independence, use $(r-1)(c-1)$ instead.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "five"
+      ],
+      "searchQuery": "chi-square goodness of fit degrees of freedom categories minus 1"
+    },
+    {
+      "id": "chi-gof-expected",
+      "title": "A die is rolled $120$ times. Under the hypothesis that it is fair, what is the expected count for each face?",
+      "body": "$20$.\n\n$E = n \\times p_0 = 120 \\times \\dfrac{1}{6} = 20$.\n\nTip: expected counts come from the **null hypothesis**, not from the data, so they need not be whole numbers.",
+      "answer": "20",
+      "acceptedAnswers": [
+        "twenty"
+      ],
+      "searchQuery": "chi-square goodness of fit expected count fair die"
+    },
+    {
+      "id": "chi-statistic-formula",
+      "title": "What is the formula for the chi-square test statistic?",
+      "body": "$\\chi^2 = \\sum \\dfrac{(O - E)^2}{E}$, summed over every category or cell.\n\nHere $O$ is the **observed** count and $E$ the expected count under $H_0$. Each term measures how far one cell is from expectation.\n\nWatch out: use counts, never percentages or proportions, in the formula.",
+      "searchQuery": "chi-square test statistic formula observed expected counts"
+    },
+    {
+      "id": "chi-cell-contribution",
+      "title": "A cell has observed count $O = 30$ and expected count $E = 20$. What is its contribution $\\dfrac{(O-E)^2}{E}$ to $\\chi^2$?",
+      "body": "$5$.\n\n$\\dfrac{(30 - 20)^2}{20} = \\dfrac{100}{20} = 5$.\n\nTip: the cells with the largest contributions are where the data depart most from $H_0$.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "five"
+      ],
+      "searchQuery": "chi-square cell contribution observed minus expected squared over expected"
+    },
+    {
+      "id": "chi-expected-independence",
+      "title": "In a test of independence, a cell has row total $60$ and column total $50$, and the table total is $200$. What is the expected count for that cell?",
+      "body": "$15$.\n\n$E = \\dfrac{\\text{row total} \\times \\text{column total}}{\\text{table total}} = \\dfrac{60 \\times 50}{200} = 15$.\n\nKey idea: if the variables are independent, the cell's share of the table equals the product of its row share and column share.",
+      "answer": "15",
+      "acceptedAnswers": [
+        "fifteen"
+      ],
+      "searchQuery": "chi-square independence expected count row total times column total"
+    },
+    {
+      "id": "chi-conditions",
+      "title": "What conditions should hold for a chi-square test?",
+      "body": "Random data, independent observations, and all expected counts at least $5$.\n\nCheck the **expected** counts, not the observed ones. If some are too small, combine categories or use an exact test.\n\nWatch out: the observations must be counts of individuals, each in exactly one category.",
+      "searchQuery": "chi-square test conditions expected counts at least 5"
+    },
+    {
+      "id": "chi-independence-hypotheses",
+      "title": "What are $H_0$ and $H_a$ in a chi-square test of independence?",
+      "body": "$H_0$: the two categorical variables are independent. $H_a$: they are associated.\n\nIndependence means that knowing one variable tells you nothing about the **distribution** of the other.\n\nWatch out: a significant result shows association, not causation, and not its strength or direction.",
+      "searchQuery": "chi-square test of independence null alternative hypotheses association"
+    },
+    {
+      "id": "chi-homogeneity-vs-independence",
+      "title": "How does a chi-square test of homogeneity differ from a test of independence?",
+      "body": "Homogeneity compares the distribution of one categorical variable across several populations; independence tests two variables within one sample.\n\nThe **calculations are identical**; what differs is the sampling design and the wording of the hypotheses.\n\nExample: surveying three separately sampled schools about lunch preferences is homogeneity; sampling one school and recording grade level and preference is independence.",
+      "searchQuery": "chi-square test of homogeneity versus independence difference"
+    },
+    {
+      "id": "chi-upper-tail-only",
+      "title": "Why is the p-value of a chi-square test found from the upper tail only?",
+      "body": "Because $\\chi^2 \\ge 0$ and any departure from $H_0$, in either direction, makes it larger.\n\nOnly large values of $\\chi^2$ are evidence against $H_0$. A value near $0$ means the data match the expected counts closely.\n\nWatch out: the **chi-square** distribution is right-skewed, so there is no left tail to double.",
+      "searchQuery": "chi-square test p-value upper tail right-skewed large values"
+    },
+    {
+      "id": "scatterplot-features",
+      "title": "Which four features should you describe when interpreting a scatterplot?",
+      "body": "Direction, form, strength and unusual features.\n\n- **Direction**: positive or negative association.\n- **Form**: linear or curved.\n- **Strength**: how closely the points follow the pattern.\n- **Unusual features**: outliers, clusters, gaps.\n\nTip: always look at the scatterplot before computing $r$, since $r$ only makes sense for linear patterns.",
+      "searchQuery": "scatterplot describe direction form strength unusual features"
+    },
+    {
+      "id": "r-from-r-squared",
+      "title": "A least-squares line with a positive slope has $R^2 = 0.49$. What is $r$?",
+      "body": "$0.7$.\n\n$r = \\pm\\sqrt{R^2} = \\pm 0.7$, and the sign matches the slope, so $r = +0.7$.\n\nWatch out: $R^2$ alone cannot tell you the **direction** of the association; the sign of the slope does.",
+      "answer": "0.7",
+      "acceptedAnswers": [
+        "7/10"
+      ],
+      "searchQuery": "r from r squared sign of slope correlation coefficient"
+    },
+    {
+      "id": "regression-prediction",
+      "title": "The least-squares line is $\\hat{y} = 20 + 3x$. What is the predicted $y$ when $x = 12$?",
+      "body": "$56$.\n\n$\\hat{y} = 20 + 3(12) = 20 + 36 = 56$.\n\nTip: a prediction is an average for all individuals with that $x$, not a guarantee for any one individual.",
+      "answer": "56",
+      "searchQuery": "regression line prediction substitute x value predicted y"
+    },
+    {
+      "id": "extrapolation",
+      "title": "Why is it risky to use a regression line to predict $y$ for an $x$ far outside the range of the data?",
+      "body": "The linear pattern may not continue beyond the observed range.\n\nThis is **extrapolation**. A line fitted to heights of children, for example, would predict absurd heights at age $40$.\n\nWatch out: a high $R^2$ does not make extrapolated predictions trustworthy.",
+      "searchQuery": "extrapolation regression risky predict outside range of data"
+    },
+    {
+      "id": "interpret-slope-context",
+      "title": "A regression of exam score ($y$, points) on hours studied ($x$) gives $\\hat{y} = 25 + 4.5x$. How do you interpret the slope?",
+      "body": "Each additional hour of study is associated with an increase of $4.5$ points in the predicted score, on average.\n\nAlways include the **units**, the words \"predicted\" or \"on average\", and the context.\n\nWatch out: do not say that studying one more hour causes a $4.5$-point gain unless the data come from a randomized experiment.",
+      "searchQuery": "interpret slope regression line context units predicted change"
+    },
+    {
+      "id": "residual-plot-pattern",
+      "title": "What does a curved pattern in a residual plot tell you about a linear model?",
+      "body": "A straight line is not an appropriate model: the true relationship is curved.\n\nA good fit shows a **random scatter** of residuals around $0$ with no pattern. A curve means the form is wrong, and a funnel shape means the spread changes with $x$.\n\nTip: try a transformation (such as $\\log y$) or a curved model.",
+      "searchQuery": "residual plot curved pattern linear model not appropriate"
+    },
+    {
+      "id": "residuals-sum",
+      "title": "For a least-squares line that includes an intercept, what is the sum of all the residuals?",
+      "body": "$0$.\n\nThe least-squares line balances the points above and below it, so the positive and negative **residuals** cancel exactly.\n\nWatch out: a sum of $0$ does not mean the fit is good; it holds for every least-squares line, good or bad.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero"
+      ],
+      "searchQuery": "sum of residuals least squares line equals zero"
+    },
+    {
+      "id": "influential-point",
+      "title": "What is an influential point in regression, and how can you spot one?",
+      "body": "A point whose removal noticeably changes the slope or intercept.\n\nPoints far from $\\bar{x}$ in the $x$ direction have **high leverage** and often pull the line toward them. Refit the line with and without the point to check.\n\nWatch out: an outlier in $y$ near the middle of the $x$ values changes the intercept but barely changes the slope.",
+      "searchQuery": "influential point high leverage regression outlier effect on slope"
+    },
+    {
+      "id": "slope-t-statistic",
+      "title": "A regression slope has $b_1 = 2.4$ with standard error $0.8$. What is the $t$ statistic for $H_0: \\beta_1 = 0$?",
+      "body": "$3$.\n\n$t = \\dfrac{b_1 - 0}{\\mathrm{SE}_{b_1}} = \\dfrac{2.4}{0.8} = 3$.\n\nTip: $H_0: \\beta_1 = 0$ says that there is no **linear** relationship between $x$ and $y$ in the population.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "t statistic regression slope test beta 1 zero"
+    },
+    {
+      "id": "slope-df",
+      "title": "A regression of $y$ on $x$ uses $n = 27$ data points. How many degrees of freedom does the $t$ test for the slope have?",
+      "body": "$25$.\n\n$\\mathrm{df} = n - 2 = 27 - 2 = 25$.\n\nWhy: two parameters, the slope and the intercept, are estimated from the data, so two degrees of freedom are lost.",
+      "answer": "25",
+      "searchQuery": "regression slope t test degrees of freedom n minus 2"
+    },
+    {
+      "id": "regression-conditions",
+      "title": "What does the LINE acronym stand for in the conditions for regression inference?",
+      "body": "Linear, Independent, Normal, Equal variance.\n\n- **Linear**: the true relationship is linear (check the residual plot).\n- **Independent**: the observations are independent.\n- **Normal**: the residuals are roughly normal for each $x$.\n- **Equal variance**: the spread of the residuals is the same at every $x$.\n\nMnemonic: LINE, the four conditions for a line to be a good model for inference.",
+      "searchQuery": "LINE conditions regression inference linear independent normal equal variance"
+    },
+    {
+      "id": "residual-standard-deviation",
+      "title": "A regression has $\\mathrm{SSE} = 100$ (the sum of squared residuals) and $n = 27$. What is the residual standard deviation $s_e = \\sqrt{\\mathrm{SSE}/(n-2)}$?",
+      "body": "$2$.\n\n$s_e = \\sqrt{\\dfrac{100}{27 - 2}} = \\sqrt{4} = 2$.\n\nTip: $s_e$ estimates the typical size of a prediction error, in the units of $y$.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "residual standard deviation regression SSE n minus 2"
+    },
+    {
+      "id": "r-squared-from-sums",
+      "title": "A regression has total variation $\\mathrm{SST} = 200$ and unexplained variation $\\mathrm{SSE} = 50$. What is $R^2$?",
+      "body": "$0.75$.\n\n$R^2 = 1 - \\dfrac{\\mathrm{SSE}}{\\mathrm{SST}} = 1 - \\dfrac{50}{200} = 0.75$.\n\nKey idea: $R^2$ is the fraction of the total variation in $y$ that the model explains, since $\\mathrm{SST} = \\mathrm{SSR} + \\mathrm{SSE}$.",
+      "answer": "0.75",
+      "acceptedAnswers": [
+        "3/4",
+        "75%"
+      ],
+      "searchQuery": "R squared from SSE and SST regression explained variation"
+    },
+    {
+      "id": "slope-ci-lower",
+      "title": "A regression has $b_1 = 1.5$ and $\\mathrm{SE}_{b_1} = 0.5$. Using $t^* = 2.0$, what is the lower endpoint of the confidence interval for the true slope?",
+      "body": "$0.5$.\n\n$b_1 \\pm t^*\\,\\mathrm{SE}_{b_1} = 1.5 \\pm 2.0(0.5) = 1.5 \\pm 1.0 = (0.5,\\ 2.5)$.\n\nTip: because the interval excludes $0$, the test of $H_0: \\beta_1 = 0$ would reject at the matching level.",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "1/2"
+      ],
+      "searchQuery": "confidence interval for regression slope worked example t critical value"
+    },
+    {
+      "id": "multiple-regression-slope",
+      "title": "In a multiple regression of $y$ on $x_1$ and $x_2$, how do you interpret the coefficient of $x_1$?",
+      "body": "It is the predicted change in $y$ for a $1$-unit increase in $x_1$, **holding $x_2$ constant**.\n\nBecause the other variable is held fixed, the coefficient of $x_1$ can differ from the slope in a simple regression of $y$ on $x_1$ alone.\n\nWatch out: adding variables never lowers $R^2$; use adjusted $R^2$ to compare models of different sizes.",
+      "searchQuery": "multiple regression coefficient interpretation holding other variables constant"
+    }
+  ]
+}

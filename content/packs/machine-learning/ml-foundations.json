@@ -1,0 +1,726 @@
+{
+  "id": "ml-foundations",
+  "title": "Learning Theory & Classic Models",
+  "course": "Machine Learning",
+  "description": "Supervised vs unsupervised learning, data splits, bias–variance, regularization, linear and logistic regression, gradient descent, evaluation metrics, cross-validation, trees and ensembles, SVMs, k-NN, k-means and PCA.",
+  "cards": [
+    {
+      "id": "supervised-learning",
+      "title": "Learning a mapping from inputs $x$ to outputs $y$ using labeled examples $(x, y)$ is called what kind of learning?",
+      "body": "supervised learning\n\nThe training set contains the **correct answer** for every example, and the model is trained to predict it for new inputs.\n\nExample: emails labeled spam or not spam, used to train a spam filter.\nKey idea: labels supply the supervision signal.",
+      "answer": "supervised learning",
+      "acceptedAnswers": [
+        "supervised"
+      ],
+      "searchQuery": "supervised learning labeled data definition"
+    },
+    {
+      "id": "unsupervised-learning",
+      "title": "Clustering and dimensionality reduction find structure in data that has no labels. What is this setting called?",
+      "body": "unsupervised learning\n\nThe algorithm sees only inputs $x$ and must discover structure such as groups, directions of variation or densities.\n\nExample: grouping customers by purchase behavior with k-means.\nWatch out: with no labels, there is no single \"accuracy\"; quality is judged with other measures or by downstream use.",
+      "answer": "unsupervised learning",
+      "acceptedAnswers": [
+        "unsupervised"
+      ],
+      "searchQuery": "unsupervised learning clustering no labels definition"
+    },
+    {
+      "id": "regression-vs-classification",
+      "title": "A model predicts a house's sale price in dollars. Is this classification or regression?",
+      "body": "regression\n\nThe target is a **continuous** number. Classification predicts a discrete category such as spam or not spam.\n\nWhy: the choice of task follows the type of the target $y$, not the type of the inputs.\nWatch out: logistic regression is a classifier despite its name, because it predicts a class.",
+      "answer": "regression",
+      "searchQuery": "regression vs classification continuous target"
+    },
+    {
+      "id": "label-target-term",
+      "title": "In supervised learning, what is the variable $y$ that the model is trained to predict called? (one common name)",
+      "body": "label\n\nAlso called the **target** or response (and the dependent variable in statistics). The inputs $x$ are the features.\n\nExample: in a spam filter, the label is spam or not spam.",
+      "answer": "label",
+      "acceptedAnswers": [
+        "target",
+        "response",
+        "target variable",
+        "labels",
+        "dependent variable"
+      ],
+      "searchQuery": "machine learning label target variable features"
+    },
+    {
+      "id": "validation-set-purpose",
+      "title": "What is the validation set used for in a train/validation/test split?",
+      "body": "Tuning hyperparameters and choosing between models, without touching the test set.\n\nThe model's parameters are fit on the **training set**. The validation set gives an unbiased-enough estimate to compare choices such as regularization strength or tree depth.\n\nKey idea: the training set fits parameters, the validation set picks hyperparameters, the test set reports final performance.",
+      "searchQuery": "validation set purpose hyperparameter tuning"
+    },
+    {
+      "id": "test-set-once",
+      "title": "Why should you evaluate on the test set only once, after all modeling decisions are made?",
+      "body": "Repeated use leaks information, so the test score becomes an optimistic estimate.\n\nEvery time you adjust the model after seeing the test score, you are effectively tuning to the test set. It then no longer measures **performance on unseen data**.\n\nWhy: choosing the best of many tried models selects partly for luck on that particular test sample.\nTip: if you need to keep comparing, use the validation set or cross-validation.",
+      "searchQuery": "why test set used only once overfitting to test set"
+    },
+    {
+      "id": "data-leakage",
+      "title": "What is data leakage in a machine learning pipeline?",
+      "body": "Information from outside the training data (often from the test set or the future) influences training, making evaluation too optimistic.\n\nThe model gets a score it cannot reproduce on truly new data.\n\nExample: computing the mean and standard deviation for scaling on the **whole dataset** before splitting, so test statistics leak into training.\nTip: split first, then fit preprocessing (scalers, imputers) on the training data only.",
+      "searchQuery": "data leakage machine learning preprocessing before split"
+    },
+    {
+      "id": "generalization-error",
+      "title": "What does generalization error measure?",
+      "body": "The expected loss of the trained model on new data drawn from the same distribution as the training data.\n\nIt cannot be computed exactly, so we **estimate** it with a held-out test set or cross-validation.\n\nWatch out: training error is usually an optimistic (too low) estimate of generalization error.",
+      "searchQuery": "generalization error definition expected loss unseen data"
+    },
+    {
+      "id": "overfitting-diagnosis",
+      "title": "Training error is very low but validation error is much higher. What is this problem called?",
+      "body": "overfitting\n\nThe model has memorized noise and quirks of the training set, so it is **high variance** and generalizes poorly.\n\nFixes: more data, a simpler model, regularization, early stopping, or data augmentation.\nWatch out: adding more training epochs or model capacity usually makes it worse, not better.",
+      "answer": "overfitting",
+      "acceptedAnswers": [
+        "overfit",
+        "high variance"
+      ],
+      "searchQuery": "overfitting low training error high validation error"
+    },
+    {
+      "id": "underfitting-diagnosis",
+      "title": "Both training error and validation error are high. What is this problem called?",
+      "body": "underfitting\n\nThe model is too simple or too constrained to capture the pattern, so it has **high bias**.\n\nFixes: a more flexible model, better features, less regularization, or training longer.\nWatch out: collecting more data alone will not fix underfitting.",
+      "answer": "underfitting",
+      "acceptedAnswers": [
+        "underfit",
+        "high bias"
+      ],
+      "searchQuery": "underfitting high bias high training error"
+    },
+    {
+      "id": "bias-variance-decomposition",
+      "title": "For squared loss, the expected test error at a point decomposes into which three terms?",
+      "body": "$\\text{Bias}^2 + \\text{Variance} + \\sigma^2$\n\nBias is the systematic error from wrong assumptions. Variance is how much the fitted model changes across different training sets. $\\sigma^2$ is the **irreducible noise** in $y$.\n\nKey idea: simple models tend toward high bias, flexible models toward high variance.\nWatch out: no model can reduce the $\\sigma^2$ term.",
+      "searchQuery": "bias variance decomposition squared loss irreducible error"
+    },
+    {
+      "id": "bias-definition",
+      "title": "In the bias–variance tradeoff, what does high bias mean?",
+      "body": "The model's average prediction, over many training sets, is systematically far from the true function.\n\nIt comes from **overly strong assumptions**, such as fitting a straight line to a curved relationship.\n\nExample: linear regression on data generated by a quadratic curve.",
+      "searchQuery": "bias variance tradeoff high bias meaning"
+    },
+    {
+      "id": "variance-definition",
+      "title": "In the bias–variance tradeoff, what does high variance mean?",
+      "body": "The fitted model changes a lot when the training set changes.\n\nIt is typical of **flexible models** fit to small or noisy data, which chase noise in the sample.\n\nExample: an unpruned decision tree can produce very different splits after small changes to the data.",
+      "searchQuery": "bias variance tradeoff high variance meaning"
+    },
+    {
+      "id": "more-data-effect",
+      "title": "A model is overfitting. Which does getting more training data mainly reduce, bias or variance?",
+      "body": "variance\n\nWith more examples, the fit is less sensitive to the noise in any one sample.\n\nBias comes from the model's assumptions, so it stays roughly the same.\n\nWatch out: more data does not help much if the model is underfitting.",
+      "answer": "variance",
+      "searchQuery": "more training data reduces variance not bias"
+    },
+    {
+      "id": "polynomial-degree-effect",
+      "title": "When you raise the degree of a polynomial regression fit, how do bias and variance typically change?",
+      "body": "Bias decreases and variance increases.\n\nA higher degree can bend to fit more shapes (lower bias), but it also fits noise and swings wildly between points (higher variance).\n\nKey idea: choose the degree at the **minimum of validation error**, where the two are balanced.",
+      "searchQuery": "polynomial degree bias variance tradeoff regression"
+    },
+    {
+      "id": "regularization-definition",
+      "title": "What is regularization in machine learning?",
+      "body": "Adding a constraint or penalty that discourages complex models, to reduce overfitting.\n\nIt trades a little **extra bias** for a larger reduction in variance.\n\nExample: adding $\\lambda\\|w\\|_2^2$ to the loss.\nKey idea: it is controlled by a hyperparameter such as $\\lambda$.",
+      "searchQuery": "regularization machine learning definition reduce overfitting"
+    },
+    {
+      "id": "ridge-penalty",
+      "title": "Ridge regression adds which penalty to the squared-error loss, with strength $\\lambda$?",
+      "body": "$\\lambda \\|w\\|_2^2 = \\lambda \\sum_j w_j^2$\n\nThis is the **L2 penalty**. It shrinks all weights toward zero but rarely makes them exactly zero.\n\nThe objective is $\\sum_i (y_i - w^\\top x_i)^2 + \\lambda\\|w\\|_2^2$.\nWatch out: the intercept is normally not penalized.",
+      "searchQuery": "ridge regression L2 penalty formula"
+    },
+    {
+      "id": "lasso-penalty",
+      "title": "Lasso regression adds which penalty to the squared-error loss, with strength $\\lambda$?",
+      "body": "$\\lambda \\|w\\|_1 = \\lambda \\sum_j |w_j|$\n\nThis is the **L1 penalty**. It can drive some weights exactly to zero, so it performs feature selection.\n\nKey idea: lasso gives sparse models, ridge gives small but nonzero weights.",
+      "searchQuery": "lasso regression L1 penalty formula sparsity"
+    },
+    {
+      "id": "l1-sparsity-reason",
+      "title": "Why does an L1 penalty produce exact zeros in weights while an L2 penalty usually does not?",
+      "body": "The L1 penalty has a constant-size pull toward zero, even for tiny weights, while the L2 gradient shrinks as the weight shrinks.\n\nGeometrically, the L1 constraint region $|w_1| + |w_2| \\le t$ has **corners on the axes**, where the loss contours often touch it.\n\nExample: the gradient of $\\lambda|w|$ is $\\pm\\lambda$, but the gradient of $\\lambda w^2$ is $2\\lambda w \\to 0$.",
+      "searchQuery": "why L1 regularization gives sparse weights corners"
+    },
+    {
+      "id": "regularization-scaling",
+      "title": "Why should features be standardized before applying ridge or lasso regression?",
+      "body": "The penalty treats all weights equally, so it depends on the scale of each feature.\n\nA feature measured in small units needs a large weight and is penalized more, which is **arbitrary**. Standardizing puts features on a comparable scale.\n\nTip: fit the scaler on the training data only, to avoid leakage.",
+      "searchQuery": "standardize features before ridge lasso regularization"
+    },
+    {
+      "id": "elastic-net",
+      "title": "Elastic net regularization combines which two penalties?",
+      "body": "L1 (lasso) and L2 (ridge)\n\nThe penalty is $\\lambda_1\\|w\\|_1 + \\lambda_2\\|w\\|_2^2$. It gives **sparsity** from L1 and stable handling of correlated features from L2.\n\nWhy: lasso tends to pick one feature from a correlated group arbitrarily, while the L2 part spreads weight across them.",
+      "searchQuery": "elastic net combines L1 L2 penalty correlated features"
+    },
+    {
+      "id": "early-stopping-regularizer",
+      "title": "How does early stopping act as a regularizer when training iteratively?",
+      "body": "It stops training when validation error starts rising, before the model fits noise.\n\nThe weights stay closer to their small initial values, which limits **effective model complexity**.\n\nTip: save the weights from the epoch with the lowest validation loss.",
+      "searchQuery": "early stopping regularization validation loss"
+    },
+    {
+      "id": "linear-regression-model",
+      "title": "Write the linear regression prediction for input vector $x \\in \\mathbb{R}^d$ with weights $w$ and bias $b$.",
+      "body": "$\\hat{y} = w^\\top x + b$\n\nThe prediction is a weighted sum of the features plus an intercept. Appending a constant 1 to $x$ lets you fold $b$ into $w$.\n\nKey idea: the model is linear in the **parameters**, so it can still fit curves with features like $x^2$.",
+      "searchQuery": "linear regression model equation weights bias"
+    },
+    {
+      "id": "linear-regression-params",
+      "title": "How many learnable parameters does a linear regression model with 5 features and an intercept have?",
+      "body": "6\n\nThere is one weight per feature (5) plus one intercept, so $5 + 1 = 6$.\n\nExample: with $d$ features the count is $d + 1$.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "six"
+      ],
+      "searchQuery": "linear regression number of parameters features intercept"
+    },
+    {
+      "id": "mse-loss-formula",
+      "title": "What is the mean squared error (MSE) loss for $n$ examples with predictions $\\hat{y}_i$?",
+      "body": "$\\dfrac{1}{n}\\sum_{i=1}^{n}(y_i - \\hat{y}_i)^2$\n\nSquaring penalizes **large errors** heavily and makes the loss smooth and convex for linear models.\n\nWatch out: MSE is in squared units of $y$; RMSE is its square root, in the original units.",
+      "searchQuery": "mean squared error formula definition"
+    },
+    {
+      "id": "mse-computation",
+      "title": "Residuals $y_i - \\hat{y}_i$ are $1,\\,-2,\\,2$. What is the MSE?",
+      "body": "3\n\nSquare the residuals: $1, 4, 4$. Their sum is $9$, and dividing by $n = 3$ gives $3$.\n\nWatch out: RMSE would be $\\sqrt{3} \\approx 1.73$.",
+      "answer": "3",
+      "searchQuery": "compute mean squared error from residuals example"
+    },
+    {
+      "id": "mse-vs-mae-outliers",
+      "title": "Which is more sensitive to outliers: MSE or MAE (mean absolute error)?",
+      "body": "MSE\n\nSquaring makes one big error dominate the average. MAE grows only linearly with the error, so it is more **robust**.\n\nExample: an error of 10 adds 100 to the MSE sum but only 10 to the MAE sum.",
+      "answer": "MSE",
+      "acceptedAnswers": [
+        "mean squared error"
+      ],
+      "searchQuery": "MSE vs MAE outlier sensitivity"
+    },
+    {
+      "id": "normal-equation",
+      "title": "State the normal equation: the least-squares weights $w$ for design matrix $X$ and targets $y$.",
+      "body": "$w = (X^\\top X)^{-1} X^\\top y$\n\nIt comes from setting the gradient of $\\|y - Xw\\|^2$ to zero, giving $X^\\top X w = X^\\top y$.\n\nWatch out: it needs $X^\\top X$ to be invertible, and it costs about $O(d^3)$ to invert, so gradient descent is preferred for large $d$.",
+      "searchQuery": "normal equation least squares closed form solution"
+    },
+    {
+      "id": "xtx-singular",
+      "title": "When is $X^\\top X$ not invertible in linear regression?",
+      "body": "When features are perfectly collinear (linearly dependent), or there are fewer examples than features.\n\nThen the least-squares solution is **not unique**. Ridge regression fixes this because $X^\\top X + \\lambda I$ is invertible for $\\lambda > 0$.\n\nExample: including both a temperature in Celsius and in Fahrenheit as features.",
+      "searchQuery": "X transpose X not invertible multicollinearity ridge fix"
+    },
+    {
+      "id": "r-squared-definition",
+      "title": "Define the coefficient of determination $R^2$ in terms of $SS_{res}$ and $SS_{tot}$.",
+      "body": "$R^2 = 1 - \\dfrac{SS_{res}}{SS_{tot}}$\n\n$SS_{res}$ is the sum of squared residuals, and $SS_{tot}$ is the total variation of $y$ around its mean. It is the **fraction of variance explained**.\n\nWatch out: on held-out data $R^2$ can be negative, if the model is worse than predicting the mean.",
+      "searchQuery": "R squared coefficient of determination formula"
+    },
+    {
+      "id": "r-squared-computation",
+      "title": "A model has $SS_{res} = 10$ and $SS_{tot} = 40$. What is $R^2$?",
+      "body": "0.75\n\n$R^2 = 1 - \\frac{10}{40} = 1 - 0.25 = 0.75$.\n\nThe model explains **75%** of the variance in $y$.",
+      "answer": "0.75",
+      "acceptedAnswers": [
+        "3/4",
+        "75%"
+      ],
+      "searchQuery": "R squared calculation SSres SStot example"
+    },
+    {
+      "id": "gradient-descent-update",
+      "title": "Write the gradient descent update for parameters $\\theta$ with learning rate $\\eta$ and loss $L$.",
+      "body": "$\\theta \\leftarrow \\theta - \\eta\\,\\nabla_\\theta L(\\theta)$\n\nThe gradient points in the direction of **steepest increase**, so we step the opposite way.\n\nKey idea: repeat until the loss stops decreasing or the gradient is near zero.",
+      "searchQuery": "gradient descent update rule learning rate"
+    },
+    {
+      "id": "gd-one-step",
+      "title": "For $L(w) = w^2$, start at $w = 3$ with learning rate $\\eta = 0.1$. What is $w$ after one gradient descent step?",
+      "body": "2.4\n\nThe gradient is $\\frac{dL}{dw} = 2w = 6$. Then $w \\leftarrow 3 - 0.1 \\cdot 6 = 2.4$.",
+      "answer": "2.4",
+      "searchQuery": "gradient descent one step example w squared"
+    },
+    {
+      "id": "gd-learning-rate-large",
+      "title": "What typically happens to gradient descent if the learning rate is too large?",
+      "body": "The updates overshoot the minimum, so the loss oscillates or diverges.\n\nIf it is too **small**, training is stable but very slow.\n\nTip: if the loss shoots up or becomes NaN, lower the learning rate first.",
+      "searchQuery": "gradient descent learning rate too large diverges"
+    },
+    {
+      "id": "mse-gradient-single",
+      "title": "For one example with loss $L = (\\hat{y} - y)^2$ and $\\hat{y} = wx + b$, take $x = 2$, $y = 5$, $w = 1$, $b = 0$. What is $\\frac{\\partial L}{\\partial w}$?",
+      "body": "-12\n\nHere $\\hat{y} = 2$. By the chain rule, $\\frac{\\partial L}{\\partial w} = 2(\\hat{y} - y)\\,x = 2(2 - 5)(2) = -12$.\n\nThe negative sign means increasing $w$ **lowers** the loss.",
+      "answer": "-12",
+      "searchQuery": "gradient of squared error with respect to weight chain rule"
+    },
+    {
+      "id": "batch-vs-sgd",
+      "title": "How do batch, stochastic and mini-batch gradient descent differ?",
+      "body": "They differ in how many examples are used to compute each gradient step.\n\n- **Batch**: all $n$ examples per step\n- **Stochastic (SGD)**: one example per step\n- **Mini-batch**: a small group, such as 32 or 256\n\nKey idea: mini-batches balance noisy-but-cheap steps with hardware efficiency, so they are the default.",
+      "searchQuery": "batch vs stochastic vs mini-batch gradient descent"
+    },
+    {
+      "id": "epoch-term",
+      "title": "What is one full pass through the entire training set called?",
+      "body": "epoch\n\nWith $n$ examples and mini-batch size $B$, one epoch has $\\lceil n/B \\rceil$ parameter updates.\n\nExample: 1,000 examples with batch size 100 gives 10 updates per epoch.",
+      "answer": "epoch",
+      "searchQuery": "epoch definition machine learning training pass"
+    },
+    {
+      "id": "convex-loss-gd",
+      "title": "Why is the MSE loss of linear regression easy to optimize with gradient descent?",
+      "body": "It is convex in the weights, so every local minimum is the global minimum.\n\nWith a suitable learning rate, gradient descent converges to the **global optimum** without getting stuck.\n\nWatch out: neural network losses are generally not convex.",
+      "searchQuery": "linear regression MSE convex global minimum gradient descent"
+    },
+    {
+      "id": "feature-scaling-gd",
+      "title": "Why does feature scaling speed up gradient descent?",
+      "body": "Features on very different scales produce elongated loss contours, so the gradient points mostly across the valley and steps zigzag.\n\nStandardizing makes the contours **more circular**, allowing a larger learning rate and faster convergence.\n\nTip: standardize to zero mean and unit variance using training-set statistics.",
+      "searchQuery": "feature scaling gradient descent convergence contours"
+    },
+    {
+      "id": "sigmoid-formula",
+      "title": "Write the sigmoid (logistic) function $\\sigma(z)$.",
+      "body": "$\\sigma(z) = \\dfrac{1}{1 + e^{-z}}$\n\nIt maps any real number into $(0, 1)$, so the output can be read as a **probability**. Its derivative is $\\sigma(z)(1 - \\sigma(z))$.\n\nKey idea: $\\sigma(z) \\to 1$ as $z \\to \\infty$ and $\\sigma(z) \\to 0$ as $z \\to -\\infty$.",
+      "searchQuery": "sigmoid function formula logistic regression"
+    },
+    {
+      "id": "sigmoid-at-zero",
+      "title": "What is $\\sigma(0)$ for the sigmoid function?",
+      "body": "0.5\n\n$\\sigma(0) = \\frac{1}{1 + e^{0}} = \\frac{1}{2}$.\n\nSo a logistic model sits exactly on its **decision boundary** (probability 0.5) when $w^\\top x + b = 0$.",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "1/2",
+        "50%"
+      ],
+      "searchQuery": "sigmoid of zero equals 0.5"
+    },
+    {
+      "id": "logistic-model-logit",
+      "title": "In logistic regression, which quantity is a linear function of the features: the probability $p$, or the log-odds $\\ln\\frac{p}{1-p}$?",
+      "body": "the log-odds\n\nThe model is $\\ln\\dfrac{p}{1-p} = w^\\top x + b$, which is equivalent to $p = \\sigma(w^\\top x + b)$.\n\nExample: a weight $w_j$ means that a one-unit increase in $x_j$ multiplies the **odds** by $e^{w_j}$.",
+      "answer": "log-odds",
+      "acceptedAnswers": [
+        "logit",
+        "log odds"
+      ],
+      "searchQuery": "logistic regression log-odds linear in features logit"
+    },
+    {
+      "id": "odds-computation",
+      "title": "A model predicts $p = 0.8$ for the positive class. What are the odds $\\frac{p}{1-p}$?",
+      "body": "4\n\n$\\frac{0.8}{1 - 0.8} = \\frac{0.8}{0.2} = 4$, i.e. 4 to 1 in favor of the positive class.\n\nWatch out: odds and probability are different scales. Odds range over $(0, \\infty)$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 to 1",
+        "4:1"
+      ],
+      "searchQuery": "odds from probability formula p over 1-p"
+    },
+    {
+      "id": "binary-cross-entropy",
+      "title": "Write the binary cross-entropy (log loss) for one example with label $y \\in \\{0,1\\}$ and predicted probability $p$.",
+      "body": "$-\\left[\\,y\\ln p + (1 - y)\\ln(1 - p)\\,\\right]$\n\nOnly one of the two terms is active: $-\\ln p$ when $y = 1$, and $-\\ln(1-p)$ when $y = 0$.\n\nKey idea: it is the negative log-likelihood of a Bernoulli model, and it **punishes confident wrong** predictions severely.",
+      "searchQuery": "binary cross-entropy log loss formula"
+    },
+    {
+      "id": "bce-computation",
+      "title": "For $y = 1$ and predicted $p = 0.8$, what is the binary cross-entropy $-\\ln p$? Round to 3 decimals (natural log).",
+      "body": "0.223\n\n$-\\ln(0.8) \\approx 0.2231$.\n\nFor comparison, $p = 0.2$ on the same example gives $-\\ln(0.2) \\approx 1.609$, a much larger loss.",
+      "answer": "0.223",
+      "searchQuery": "binary cross entropy calculation example ln 0.8"
+    },
+    {
+      "id": "logistic-no-mse",
+      "title": "Why is cross-entropy preferred over squared error as the loss for logistic regression?",
+      "body": "With a sigmoid output, squared error makes the loss non-convex in $w$ and gives tiny gradients when the model is confidently wrong. Cross-entropy is convex and keeps the gradient large.\n\nFor cross-entropy, the gradient simplifies to $(p - y)\\,x$.\n\nWatch out: with squared error, a saturated sigmoid learns very slowly from its worst mistakes.",
+      "searchQuery": "why cross entropy instead of MSE for logistic regression"
+    },
+    {
+      "id": "logistic-gradient",
+      "title": "For logistic regression with cross-entropy loss, what is $\\frac{\\partial L}{\\partial w}$ for a single example $(x, y)$ with prediction $p = \\sigma(w^\\top x + b)$?",
+      "body": "$(p - y)\\,x$\n\nThe sigmoid derivative cancels with the derivative of the log loss, leaving the prediction error times the input.\n\nIt has the same form as the linear regression gradient (up to a factor of 2), with $p$ in place of $\\hat{y}$.",
+      "searchQuery": "logistic regression gradient cross entropy p minus y times x"
+    },
+    {
+      "id": "logistic-decision-boundary",
+      "title": "What shape is the decision boundary of logistic regression in feature space (without feature transformations)?",
+      "body": "A line, plane or hyperplane: the set where $w^\\top x + b = 0$.\n\nThis is where $p = 0.5$. The boundary is **linear**, even though the probability itself is a nonlinear function of $x$.\n\nTip: to get a curved boundary, add polynomial or interaction features.",
+      "searchQuery": "logistic regression linear decision boundary hyperplane"
+    },
+    {
+      "id": "softmax-formula",
+      "title": "Write the softmax probability for class $k$ given logits $z_1, \\dots, z_K$.",
+      "body": "$\\dfrac{e^{z_k}}{\\sum_{j=1}^{K} e^{z_j}}$\n\nThe outputs are positive and sum to 1, so they form a probability distribution over classes.\n\nWatch out: for numerical stability, implementations subtract $\\max_j z_j$ from all logits first. This does not change the result.",
+      "searchQuery": "softmax function formula multiclass classification"
+    },
+    {
+      "id": "precision-definition",
+      "title": "Define precision in terms of true positives (TP) and false positives (FP).",
+      "body": "$\\dfrac{TP}{TP + FP}$\n\nOf everything the model **flagged as positive**, what fraction really is positive?\n\nExample: a spam filter with high precision rarely puts real mail in the spam folder.\nMnemonic: precision looks at the predicted positives.",
+      "searchQuery": "precision formula TP over TP plus FP"
+    },
+    {
+      "id": "recall-definition",
+      "title": "Define recall (sensitivity) in terms of true positives (TP) and false negatives (FN).",
+      "body": "$\\dfrac{TP}{TP + FN}$\n\nOf all the **actual positives**, what fraction did the model find?\n\nExample: a cancer screening test needs high recall so that few real cases are missed.\nMnemonic: recall looks at the actual positives.",
+      "searchQuery": "recall sensitivity formula TP over TP plus FN"
+    },
+    {
+      "id": "accuracy-computation",
+      "title": "A confusion matrix has TP = 40, FP = 10, FN = 20, TN = 30. What is the accuracy? (decimal)",
+      "body": "0.7\n\nAccuracy is $\\frac{TP + TN}{TP + FP + FN + TN} = \\frac{40 + 30}{100} = 0.70$.",
+      "answer": "0.7",
+      "acceptedAnswers": [
+        "70%",
+        "7/10"
+      ],
+      "searchQuery": "accuracy from confusion matrix calculation"
+    },
+    {
+      "id": "precision-computation",
+      "title": "Using TP = 40, FP = 10, FN = 20, TN = 30, what is the precision? (decimal)",
+      "body": "0.8\n\n$\\frac{TP}{TP + FP} = \\frac{40}{40 + 10} = 0.80$.",
+      "answer": "0.8",
+      "acceptedAnswers": [
+        "80%",
+        "4/5"
+      ],
+      "searchQuery": "precision calculation confusion matrix example"
+    },
+    {
+      "id": "recall-computation",
+      "title": "Using TP = 40, FP = 10, FN = 20, TN = 30, what is the recall? Round to 2 decimals.",
+      "body": "0.67\n\n$\\frac{TP}{TP + FN} = \\frac{40}{40 + 20} = \\frac{2}{3} \\approx 0.67$.",
+      "answer": "0.67",
+      "acceptedAnswers": [
+        "0.667",
+        "2/3"
+      ],
+      "searchQuery": "recall calculation confusion matrix example"
+    },
+    {
+      "id": "f1-definition",
+      "title": "The F1 score is which kind of mean of precision $P$ and recall $R$, and what is its formula?",
+      "body": "The harmonic mean: $F_1 = \\dfrac{2PR}{P + R}$\n\nIt is also $\\frac{2\\,TP}{2\\,TP + FP + FN}$. The harmonic mean is pulled toward the **smaller** value, so one low score cannot be hidden by a high one.\n\nExample: $P = 1$ and $R = 0.01$ give $F_1 \\approx 0.02$, not 0.5.",
+      "searchQuery": "F1 score harmonic mean precision recall formula"
+    },
+    {
+      "id": "f1-computation",
+      "title": "Using TP = 40, FP = 10, FN = 20, TN = 30, what is the F1 score? Round to 2 decimals.",
+      "body": "0.73\n\n$F_1 = \\frac{2\\,TP}{2\\,TP + FP + FN} = \\frac{80}{80 + 10 + 20} = \\frac{80}{110} \\approx 0.727$.\n\nCheck: $P = 0.8$, $R = 0.667$, and $\\frac{2(0.8)(0.667)}{1.467} \\approx 0.727$.",
+      "answer": "0.73",
+      "acceptedAnswers": [
+        "0.727"
+      ],
+      "searchQuery": "F1 score calculation confusion matrix example"
+    },
+    {
+      "id": "specificity-computation",
+      "title": "Using TP = 40, FP = 10, FN = 20, TN = 30, what is the specificity (true negative rate)? (decimal)",
+      "body": "0.75\n\n$\\frac{TN}{TN + FP} = \\frac{30}{30 + 10} = 0.75$.\n\nThe false positive rate is its complement: $1 - 0.75 = 0.25$.",
+      "answer": "0.75",
+      "acceptedAnswers": [
+        "75%",
+        "3/4"
+      ],
+      "searchQuery": "specificity true negative rate calculation"
+    },
+    {
+      "id": "accuracy-paradox",
+      "title": "Why can accuracy be misleading on imbalanced data?",
+      "body": "A model that always predicts the majority class can score high accuracy while detecting nothing.\n\nExample: if 99% of transactions are legitimate, predicting \"legitimate\" every time gives **99% accuracy** and 0% recall for fraud.\n\nTip: use precision, recall, F1 or PR-AUC for imbalanced problems.",
+      "searchQuery": "accuracy paradox imbalanced classes"
+    },
+    {
+      "id": "threshold-tradeoff",
+      "title": "What happens to precision and recall of a probabilistic classifier when you raise the decision threshold from 0.5 to 0.9?",
+      "body": "Recall typically falls and precision typically rises.\n\nA higher threshold labels fewer examples positive, so it flags only the **most confident** cases. It misses more true positives (lower recall), and those it flags are more often right.\n\nTip: choose the threshold from the costs of false positives versus false negatives.",
+      "searchQuery": "precision recall tradeoff decision threshold"
+    },
+    {
+      "id": "roc-axes",
+      "title": "What are the axes of an ROC curve?",
+      "body": "True positive rate (recall) on the y-axis, false positive rate on the x-axis.\n\nEach point is a different **decision threshold**. The curve shows how the trade-off changes as you sweep it.\n\nKey idea: $TPR = \\frac{TP}{TP + FN}$ and $FPR = \\frac{FP}{FP + TN}$.",
+      "searchQuery": "ROC curve axes true positive rate false positive rate"
+    },
+    {
+      "id": "auc-meaning",
+      "title": "What is the probabilistic interpretation of ROC AUC?",
+      "body": "The probability that a randomly chosen positive example gets a higher score than a randomly chosen negative one.\n\nIt measures **ranking quality** and does not depend on any one threshold.\n\nWatch out: AUC says nothing about whether the predicted probabilities are well calibrated.",
+      "searchQuery": "ROC AUC interpretation probability positive ranked above negative"
+    },
+    {
+      "id": "auc-random-value",
+      "title": "What ROC AUC does a classifier that guesses at random (no ranking skill) get?",
+      "body": "0.5\n\nThe ROC curve lies along the diagonal from $(0,0)$ to $(1,1)$. A perfect ranker has an AUC of 1.\n\nWatch out: an AUC well below 0.5 means the scores are informative but inverted.",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "1/2"
+      ],
+      "searchQuery": "random classifier ROC AUC 0.5"
+    },
+    {
+      "id": "pr-curve-imbalance",
+      "title": "When positives are rare, why is a precision–recall curve often more informative than an ROC curve?",
+      "body": "ROC's false positive rate divides by the large number of negatives, so many false positives barely move it. Precision does not hide them.\n\nExample: with $10$ positives and $10{,}000$ negatives, $100$ false positives give $\\mathrm{FPR} = 0.01$, which looks tiny. Yet even if all $10$ positives are caught, precision is only $\\frac{10}{110} \\approx 9\\%$.\n\nKey idea: PR curves focus on how well the model handles the **positive class**.",
+      "searchQuery": "precision recall curve vs ROC imbalanced data"
+    },
+    {
+      "id": "kfold-cv-definition",
+      "title": "How does $k$-fold cross-validation work?",
+      "body": "Split the data into $k$ equal folds. Train on $k-1$ folds, validate on the remaining one, and repeat so each fold is the validation set once. Then average the $k$ scores.\n\nIt uses every example for both training and validation, giving a **more stable estimate** than a single split.\n\nTip: $k = 5$ or $10$ is common.",
+      "searchQuery": "k-fold cross-validation how it works"
+    },
+    {
+      "id": "kfold-train-size",
+      "title": "With 100 examples and 5-fold cross-validation, how many examples does each model train on?",
+      "body": "80\n\nEach fold has $100/5 = 20$ examples. Each model trains on the other $4$ folds, so $4 \\times 20 = 80$ examples, and it is validated on 20.",
+      "answer": "80",
+      "searchQuery": "5-fold cross validation training set size 100 examples"
+    },
+    {
+      "id": "loocv",
+      "title": "How many models are trained in leave-one-out cross-validation on $n$ examples?",
+      "body": "$n$\n\nEach model trains on $n - 1$ examples and is tested on the single one left out. It is $k$-fold with $k = n$.\n\nWatch out: it is **expensive** for large $n$, and its estimates can have high variance.",
+      "searchQuery": "leave-one-out cross-validation number of models"
+    },
+    {
+      "id": "stratified-kfold",
+      "title": "What does stratified $k$-fold cross-validation guarantee about the folds?",
+      "body": "Each fold keeps approximately the same class proportions as the full dataset.\n\nThis matters for **imbalanced** classification, where a random fold could contain too few (or zero) minority examples.\n\nExample: with 5% positives, every fold has about 5% positives.",
+      "searchQuery": "stratified k-fold cross-validation class proportions"
+    },
+    {
+      "id": "time-series-cv",
+      "title": "Why should you not shuffle data randomly when cross-validating a time series forecasting model?",
+      "body": "Shuffling lets the model train on the future and predict the past, which leaks information.\n\nUse a **forward-chaining** split: always train on earlier data and validate on later data, as in `TimeSeriesSplit`.\n\nWatch out: a random split gives scores that are too optimistic for real forecasting.",
+      "searchQuery": "time series cross-validation no shuffling forward chaining"
+    },
+    {
+      "id": "cv-final-model",
+      "title": "After using cross-validation to choose hyperparameters, what is the usual final step before deployment?",
+      "body": "Retrain the model with the chosen hyperparameters on all the training data.\n\nThe $k$ cross-validation models were only used to **estimate** performance and compare settings.\n\nTip: still keep a separate test set for the final unbiased evaluation.",
+      "searchQuery": "after cross validation retrain final model on all training data"
+    },
+    {
+      "id": "gini-impurity-formula",
+      "title": "Write the Gini impurity of a node with class proportions $p_1, \\dots, p_K$.",
+      "body": "$1 - \\sum_{k=1}^{K} p_k^2$\n\nIt is 0 for a **pure** node (one class) and largest when the classes are evenly mixed.\n\nExample: for two classes at 50/50, it is $1 - 0.25 - 0.25 = 0.5$.",
+      "searchQuery": "Gini impurity formula decision tree"
+    },
+    {
+      "id": "gini-computation",
+      "title": "A node has 3 positive and 7 negative examples. What is its Gini impurity? (decimal)",
+      "body": "0.42\n\n$p_+ = 0.3$ and $p_- = 0.7$, so $1 - (0.3^2 + 0.7^2) = 1 - (0.09 + 0.49) = 0.42$.",
+      "answer": "0.42",
+      "searchQuery": "Gini impurity calculation 3 positive 7 negative"
+    },
+    {
+      "id": "entropy-formula",
+      "title": "Write the entropy of a node with class proportions $p_k$ (log base 2).",
+      "body": "$-\\sum_{k} p_k \\log_2 p_k$\n\nIt measures **uncertainty** in the class label, in bits. It is 0 for a pure node.\n\nWatch out: terms with $p_k = 0$ contribute 0, by the convention $0\\log 0 = 0$.",
+      "searchQuery": "entropy formula decision tree information theory"
+    },
+    {
+      "id": "entropy-fifty-fifty",
+      "title": "What is the entropy, in bits, of a binary node with a 50/50 class split?",
+      "body": "1\n\n$-(0.5\\log_2 0.5 + 0.5\\log_2 0.5) = -(0.5)(-1) \\cdot 2 = 1$ bit.\n\nThis is the **maximum** for two classes.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "1 bit"
+      ],
+      "searchQuery": "entropy of fair coin 1 bit binary maximum"
+    },
+    {
+      "id": "information-gain",
+      "title": "How is information gain for a split defined?",
+      "body": "The parent node's entropy minus the weighted average entropy of the child nodes.\n\nThe weights are the **fraction of examples** sent to each child. The tree picks the split with the largest gain.\n\nKey idea: a good split makes the children purer than the parent.",
+      "searchQuery": "information gain decision tree definition weighted child entropy"
+    },
+    {
+      "id": "greedy-tree-building",
+      "title": "Why are standard decision trees called greedy?",
+      "body": "At each node they pick the split that looks best right now, without looking ahead.\n\nThis finds a good tree quickly, but it is **not guaranteed** to find the globally best tree.\n\nExample: a pair of features that is only useful together can be missed by greedy splitting.",
+      "searchQuery": "decision tree greedy algorithm recursive splitting"
+    },
+    {
+      "id": "tree-depth-overfit",
+      "title": "How does increasing the maximum depth of a decision tree affect bias and variance?",
+      "body": "Bias decreases and variance increases.\n\nA very deep tree can isolate individual training points, reaching 0 training error but **overfitting**.\n\nTip: limit depth with `max_depth` or `min_samples_leaf`, or prune the tree.",
+      "searchQuery": "decision tree max depth overfitting bias variance"
+    },
+    {
+      "id": "tree-pruning",
+      "title": "What is pruning in decision trees?",
+      "body": "Removing branches that add little predictive power, to reduce overfitting.\n\n**Pre-pruning** stops growth early (depth or minimum leaf size limits). **Post-pruning** grows a full tree and then cuts back, as in cost-complexity pruning.\n\nKey idea: the penalty on the number of leaves is chosen by validation.",
+      "searchQuery": "decision tree pruning pre-pruning post-pruning"
+    },
+    {
+      "id": "tree-no-scaling",
+      "title": "Do decision trees need feature scaling? Answer yes or no.",
+      "body": "no\n\nSplits compare a single feature to a threshold, and any **monotonic** rescaling leaves the ordering of values unchanged.\n\nWatch out: scale does matter for distance-based models such as k-NN and SVMs, and for gradient-trained models.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "not needed"
+      ],
+      "searchQuery": "decision trees do not require feature scaling"
+    },
+    {
+      "id": "random-forest-idea",
+      "title": "What two sources of randomness make the trees in a random forest different from each other?",
+      "body": "Each tree is trained on a bootstrap sample of the data, and each split considers only a random subset of features.\n\nThe predictions are averaged (regression) or voted (classification). Decorrelated trees make the average have **lower variance** than a single tree.\n\nWatch out: forests mainly reduce variance, so they do not fix a high-bias base learner.",
+      "searchQuery": "random forest bootstrap random feature subset decorrelate trees"
+    },
+    {
+      "id": "oob-fraction",
+      "title": "For large $n$, about what percent of examples are left out of a given bootstrap sample of size $n$? (nearest whole number)",
+      "body": "37\n\nThe chance a given example is never drawn is $(1 - \\frac{1}{n})^n \\to e^{-1} \\approx 0.368$.\n\nThese **out-of-bag** examples give a free validation estimate for each tree.",
+      "answer": "37",
+      "acceptedAnswers": [
+        "37%",
+        "36.8"
+      ],
+      "searchQuery": "bootstrap sample out-of-bag fraction 36.8 percent"
+    },
+    {
+      "id": "boosting-idea",
+      "title": "How does boosting build its ensemble, compared with bagging?",
+      "body": "Weak learners are trained sequentially, each focusing on the mistakes of the ensemble so far.\n\nIn **gradient boosting**, each new tree is fit to the negative gradient of the loss (the residuals, for squared error), and added with a small learning rate.\n\nKey idea: bagging mainly reduces variance in parallel; boosting mainly reduces bias in sequence.",
+      "searchQuery": "boosting vs bagging sequential weak learners gradient boosting"
+    },
+    {
+      "id": "svm-margin",
+      "title": "What does a hard-margin SVM choose among all separating hyperplanes, and how wide is the margin?",
+      "body": "The one with the largest margin; its width is $\\dfrac{2}{\\|w\\|}$.\n\nMaximizing the margin is equivalent to **minimizing** $\\|w\\|^2$, subject to $y_i(w^\\top x_i + b) \\ge 1$.\n\nKey idea: a wider margin tends to generalize better.",
+      "searchQuery": "SVM maximum margin hyperplane width 2 over norm w"
+    },
+    {
+      "id": "svm-support-vectors",
+      "title": "What are the support vectors in an SVM?",
+      "body": "The training points on or inside the margin; they alone determine the decision boundary.\n\nMoving or deleting any other point, which lies safely outside the margin, does not change the solution.\n\nExample: a trained model can be defined by only a small fraction of the data.",
+      "searchQuery": "support vectors SVM definition margin points"
+    },
+    {
+      "id": "svm-c-parameter",
+      "title": "In a soft-margin SVM, what happens if you make the penalty parameter $C$ very large?",
+      "body": "Margin violations are punished heavily, so the margin narrows and the model fits the training data more closely (risking overfitting).\n\nA **small** $C$ allows more violations and gives a wider margin, a simpler model, and more regularization.\n\nWatch out: $C$ acts like the inverse of regularization strength, unlike $\\lambda$ in ridge.",
+      "searchQuery": "SVM C parameter large small margin overfitting"
+    },
+    {
+      "id": "kernel-trick",
+      "title": "What is the kernel trick in SVMs?",
+      "body": "Computing inner products in a high-dimensional feature space directly with a kernel function $k(x, x')$, without ever building the features.\n\nThis lets a **linear** separator in that space act as a nonlinear boundary in the original space. A common choice is the RBF kernel $e^{-\\gamma\\|x - x'\\|^2}$.\n\nTip: standardize features before using an RBF kernel.",
+      "searchQuery": "kernel trick SVM RBF kernel inner product feature space"
+    },
+    {
+      "id": "hinge-loss",
+      "title": "Write the hinge loss for a label $y \\in \\{-1, +1\\}$ and score $f(x)$.",
+      "body": "$\\max\\left(0,\\; 1 - y\\,f(x)\\right)$\n\nIt is zero when the example is correctly classified with a margin of at least 1, and grows linearly otherwise.\n\nWatch out: it needs labels coded as $-1$ and $+1$, not 0 and 1.",
+      "searchQuery": "hinge loss formula SVM max 0 1 minus y f(x)"
+    },
+    {
+      "id": "knn-k-effect",
+      "title": "In $k$-nearest neighbors, how does a very small $k$ (such as $k = 1$) affect bias and variance?",
+      "body": "Low bias and high variance.\n\nWith $k = 1$ the boundary follows every training point, including noisy ones, so it overfits. A larger $k$ **smooths** the boundary.\n\nTip: pick $k$ by cross-validation, and use an odd $k$ for two classes to avoid ties.",
+      "searchQuery": "k-nearest neighbors choice of k bias variance"
+    },
+    {
+      "id": "knn-scaling",
+      "title": "Why must features be scaled before using $k$-NN with Euclidean distance?",
+      "body": "Features with large numeric ranges dominate the distance, so the other features are effectively ignored.\n\nExample: with income in dollars and age in years, the distance is determined almost entirely by income.\n\nTip: standardize or min-max scale using training-set statistics.",
+      "searchQuery": "k-NN feature scaling Euclidean distance dominated by large range"
+    },
+    {
+      "id": "knn-lazy",
+      "title": "Why is $k$-NN called a lazy learner, and where does its cost fall?",
+      "body": "It does no real training: it stores the data and does all the work at prediction time.\n\nEach prediction compares the query to the stored training points, so prediction is **expensive** for large datasets (without index structures).\n\nWatch out: memory use also grows with the training set.",
+      "searchQuery": "k-NN lazy learner instance-based prediction cost"
+    },
+    {
+      "id": "curse-of-dimensionality",
+      "title": "How does the curse of dimensionality hurt distance-based methods such as $k$-NN?",
+      "body": "In high dimensions, points become nearly equidistant, so the nearest neighbor is hardly closer than a typical point.\n\nThe volume grows so fast that a fixed dataset becomes **sparse**, and \"nearest\" loses meaning.\n\nTip: reduce dimensions (PCA, feature selection) or collect much more data.",
+      "searchQuery": "curse of dimensionality distance concentration k-NN"
+    },
+    {
+      "id": "kmeans-objective",
+      "title": "What objective does $k$-means minimize?",
+      "body": "The within-cluster sum of squared distances to the cluster centroids: $\\sum_{j=1}^{k}\\sum_{x \\in C_j}\\|x - \\mu_j\\|^2$.\n\nThis quantity is called the **inertia**. It always decreases (or stays equal) as $k$ grows, so it cannot choose $k$ by itself.",
+      "searchQuery": "k-means objective within-cluster sum of squares inertia"
+    },
+    {
+      "id": "kmeans-algorithm",
+      "title": "What are the two alternating steps of Lloyd's $k$-means algorithm?",
+      "body": "1. Assign each point to its nearest centroid.\n2. Recompute each centroid as the mean of its assigned points.\n\nRepeat until the assignments stop changing. Each step **never increases** the objective, so the algorithm converges.\n\nWatch out: it converges to a local minimum, not necessarily the global one.",
+      "searchQuery": "k-means algorithm assignment step update step centroids"
+    },
+    {
+      "id": "kmeans-init",
+      "title": "Why is $k$-means usually run several times from different starting centroids (or with $k$-means++)?",
+      "body": "The result depends on the initial centroids and can land in a poor local minimum.\n\n**$k$-means++** spreads out the initial centroids, and multiple restarts (`n_init`) keep the run with the lowest inertia.\n\nTip: in scikit-learn, `KMeans` uses k-means++ initialization by default.",
+      "searchQuery": "k-means++ initialization local minima multiple restarts"
+    },
+    {
+      "id": "elbow-method",
+      "title": "What does the elbow method look at to choose $k$ in $k$-means?",
+      "body": "A plot of inertia against $k$: choose the $k$ where the decrease slows sharply (the bend).\n\nBeyond the elbow, extra clusters give only **small improvements**.\n\nWatch out: the elbow is often ambiguous, so the silhouette score is a common second check.",
+      "searchQuery": "elbow method k-means choosing number of clusters inertia"
+    },
+    {
+      "id": "kmeans-assumptions",
+      "title": "What kind of cluster shapes does $k$-means work poorly on?",
+      "body": "Non-spherical clusters, such as elongated, ring-shaped or very unequal-sized ones.\n\nIt uses Euclidean distance to a centroid, so it favors **compact, roughly round** clusters of similar size.\n\nTip: for arbitrary shapes, consider DBSCAN or a Gaussian mixture model.",
+      "searchQuery": "k-means limitations non-spherical clusters DBSCAN"
+    },
+    {
+      "id": "pca-definition",
+      "title": "What are the principal components found by PCA?",
+      "body": "Orthogonal directions that capture the most variance in the data, ordered from largest to smallest variance.\n\nThey are the **eigenvectors of the covariance matrix**, and the eigenvalues give the variance along each one.\n\nKey idea: projecting onto the top components keeps as much variance as possible in few dimensions.",
+      "searchQuery": "PCA principal components eigenvectors covariance matrix variance"
+    },
+    {
+      "id": "pca-explained-variance",
+      "title": "A covariance matrix has eigenvalues $4, 3, 2, 1$. What fraction of the total variance do the first two principal components explain? (decimal)",
+      "body": "0.7\n\nThe total variance is $4 + 3 + 2 + 1 = 10$. The first two give $\\frac{4 + 3}{10} = 0.7$.\n\nKey idea: the explained variance ratio of a component is its eigenvalue divided by the sum of all eigenvalues.",
+      "answer": "0.7",
+      "acceptedAnswers": [
+        "70%",
+        "7/10"
+      ],
+      "searchQuery": "PCA explained variance ratio eigenvalues calculation"
+    },
+    {
+      "id": "pca-output-shape",
+      "title": "What is the shape of `Z` after the following code, as `(rows, columns)`?",
+      "body": "(200, 3)\n\nPCA keeps 3 components, so each of the 200 samples becomes a 3-dimensional vector.\n\n```python\nfrom sklearn.decomposition import PCA\n# X has shape (200, 10)\npca = PCA(n_components=3)\nZ = pca.fit_transform(X)\n```",
+      "answer": "(200, 3)",
+      "acceptedAnswers": [
+        "200, 3",
+        "200x3"
+      ],
+      "searchQuery": "sklearn PCA fit_transform output shape n_components"
+    },
+    {
+      "id": "pca-standardize",
+      "title": "Why should you standardize features before PCA when they have different units?",
+      "body": "PCA maximizes variance, so features with large scales dominate the first components regardless of how informative they are.\n\nStandardizing gives each feature **unit variance**, so each contributes on equal footing.\n\nWatch out: PCA is unsupervised, so top components need not be the best ones for predicting a label.",
+      "searchQuery": "PCA standardize features before scale variance dominates"
+    },
+    {
+      "id": "hyperparameter-vs-parameter",
+      "title": "Is the regularization strength $\\lambda$ a parameter or a hyperparameter?",
+      "body": "hyperparameter\n\nParameters (such as weights $w$) are **learned from data** during training. Hyperparameters are set beforehand and tuned on validation data or by cross-validation.\n\nExample: tree depth, $k$ in k-NN, and the learning rate are all hyperparameters.",
+      "answer": "hyperparameter",
+      "acceptedAnswers": [
+        "hyper-parameter"
+      ],
+      "searchQuery": "hyperparameter vs parameter machine learning"
+    }
+  ]
+}

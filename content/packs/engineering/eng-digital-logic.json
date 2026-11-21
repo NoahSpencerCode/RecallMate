@@ -1,0 +1,962 @@
+{
+  "id": "eng-digital-logic",
+  "title": "Digital Logic",
+  "course": "Digital Systems",
+  "description": "Hex and two's complement, overflow, De Morgan, NAND universality, parity, minterms and K-maps, adders, muxes, latches, flip-flops, timing, FSMs, counters.",
+  "cards": [
+    {
+      "id": "binary-to-hex",
+      "title": "Convert the binary number $11010110_2$ to hexadecimal.",
+      "body": "$\\mathrm{D6}_{16}$ (which is $214_{10}$)\n\nGroup the bits in fours starting from the binary point: $1101\\;0110 \\to \\mathrm{D}, 6$. Pad the leftmost group with leading zeros if needed.\n\nCheck: $13 \\cdot 16 + 6 = 214 = 128 + 64 + 16 + 4 + 2$.\nTip: memorize $1010 = \\mathrm{A}$ through $1111 = \\mathrm{F}$.",
+      "answer": "D6",
+      "acceptedAnswers": [
+        "0xD6",
+        "D6h",
+        "D6 hex",
+        "D6_16",
+        "(D6)16"
+      ],
+      "searchQuery": "binary to hexadecimal conversion group four bits"
+    },
+    {
+      "id": "twos-complement-negation",
+      "title": "What is $-6$ in 8-bit two's complement?",
+      "body": "$1111\\,1010$\n\nNegate by inverting every bit and adding 1: $+6 = 0000\\,0110 \\to 1111\\,1001 \\to 1111\\,1010$.\n\nTip: copy the bits from the right up to and including the first $1$, then invert the rest.\nCheck: $-128 + 122 = -6$.",
+      "answer": "11111010",
+      "acceptedAnswers": [
+        "0xFA",
+        "FA"
+      ],
+      "searchQuery": "twos complement negation 8-bit minus 6"
+    },
+    {
+      "id": "twos-complement-range",
+      "title": "What range of integers can an 8-bit two's complement number represent?",
+      "body": "$-128$ to $+127$\n\nFor $n$ bits the range is $-2^{n-1}$ to $2^{n-1} - 1$. There is one more negative value because zero uses a \"positive\" pattern. $-128 = 1000\\,0000$ has no positive partner (negating it gives itself).\n\nWatch out: unsigned 8-bit is $0$ to $255$. Sign-magnitude and 1's complement give $-127$ to $+127$, with two zeros.",
+      "answer": "-128 to 127",
+      "acceptedAnswers": [
+        "-128 to +127",
+        "-128 through 127",
+        "-128..127",
+        "[-128, 127]",
+        "-128, 127",
+        "-2^7 to 2^7-1"
+      ],
+      "searchQuery": "two complement range 8-bit integers"
+    },
+    {
+      "id": "twos-complement-overflow",
+      "title": "When adding two $n$-bit two's complement numbers, how do you detect overflow?",
+      "body": "Overflow occurs when both operands have the same sign but the sum's sign bit is different.\n\nThe hardware test is $V = C_n \\oplus C_{n-1}$: the carry out of the MSB differs from the carry into it. Adding numbers of opposite signs can never overflow.\n\nExample: in 4 bits, $0111 + 0001 = 1000$, so $7 + 1$ gives $-8$.\nWatch out: the final carry-out alone does **not** indicate signed overflow.",
+      "searchQuery": "two complement addition overflow detection"
+    },
+    {
+      "id": "de-morgan-product",
+      "title": "By De Morgan's theorem, the complement of a product, $\\overline{AB}$, equals what?",
+      "body": "$\\bar{A} + \\bar{B}$\n\nBreak the bar and change the operator: $\\overline{A \\cdot B} = \\bar{A} + \\bar{B}$ and $\\overline{A + B} = \\bar{A} \\cdot \\bar{B}$. It works for any number of variables.\n\nSo a NAND gate is an OR gate with inverted (bubbled) inputs, and a NOR gate is an AND gate with bubbled inputs.\nWatch out: the bar over the **whole** product is not the same as the bar over each variable.",
+      "answer": "A'+B'",
+      "acceptedAnswers": [
+        "B'+A'",
+        "~A+~B",
+        "!A+!B",
+        "A' or B'",
+        "not A or not B",
+        "(A'+B')"
+      ],
+      "searchQuery": "De Morgan theorem complement of product"
+    },
+    {
+      "id": "nand-only-or-gate",
+      "title": "What is the minimum number of 2-input NAND gates needed to build a 2-input OR gate?",
+      "body": "$3$\n\n$A + B = \\overline{\\bar{A} \\cdot \\bar{B}}$. Two NANDs with tied inputs make $\\bar{A}$ and $\\bar{B}$, and a third NAND combines them.\n\nA NOT takes 1 NAND and an AND takes 2, so NAND alone builds any Boolean function. It is a **universal gate**; NOR is universal too (by duality).",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "OR gate from NAND gates universal gate"
+    },
+    {
+      "id": "even-parity-bit",
+      "title": "What even-parity bit should be appended to the 7-bit data word $1011001$?",
+      "body": "$0$\n\nEven parity makes the total number of $1$s even. The data $1011001$ already has four $1$s, so $P = 1 \\oplus 0 \\oplus 1 \\oplus 1 \\oplus 0 \\oplus 0 \\oplus 1 = 0$.\n\nWhy: a multi-input XOR outputs $1$ when an odd number of its inputs are $1$, which is why XOR trees generate and check parity.\nWatch out: one parity bit detects any single-bit error, but not a double-bit error.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero"
+      ],
+      "searchQuery": "even parity bit calculation 7-bit word"
+    },
+    {
+      "id": "minterm-simplification",
+      "title": "Simplify $F(A, B, C) = \\sum m(1, 3, 5, 7)$ to a minimal sum of products.",
+      "body": "$F = C$\n\nMinterms $1, 3, 5, 7$ ($001, 011, 101, 111$) are exactly the rows where $C = 1$. $A$ and $B$ take every value, so they drop out.\n\nKey idea: minterm $m_i$ is a product term equal to $1$ only in row $i$; maxterm $M_i$ is a sum term equal to $0$ only in row $i$, and $M_i = \\overline{m_i}$.\nExample: the same function in POS form is $F = \\prod M(0, 2, 4, 6)$.",
+      "answer": "C",
+      "acceptedAnswers": [
+        "F = C"
+      ],
+      "searchQuery": "minterm sum of products simplification sigma m"
+    },
+    {
+      "id": "karnaugh-map-grouping",
+      "title": "What are the rules for grouping $1$s on a Karnaugh map to get a minimal sum of products?",
+      "body": "Group the $1$s in rectangles of $1, 2, 4, 8, \\ldots$ cells (powers of 2), and let groups wrap around the edges.\n\nMake each group as large as possible, use as few groups as possible, and cover every $1$. Groups may overlap.\n\nTip: don't-cares ($X$) may be included when they enlarge a group.\nKey idea: a group of $2^k$ cells eliminates $k$ variables. The map uses Gray-code order ($00, 01, 11, 10$) so neighbors differ in one bit.",
+      "searchQuery": "Karnaugh map grouping rules minimal sum of products"
+    },
+    {
+      "id": "full-adder-equations",
+      "title": "Full adder with inputs $A$, $B$ and $C_{in}$: what are the Boolean expressions for the sum $S$ and the carry $C_{out}$?",
+      "body": "$S = A \\oplus B \\oplus C_{in}$ and $C_{out} = AB + C_{in}(A \\oplus B)$\n\nThe carry equals the majority function $AB + AC_{in} + BC_{in}$. A full adder can be built from two half adders (each: $S = A \\oplus B$, $C = AB$) plus an OR gate on their carries.\n\nKey idea: chaining $n$ full adders makes an $n$-bit **ripple-carry adder**.",
+      "searchQuery": "full adder sum and carry Boolean expressions"
+    },
+    {
+      "id": "mux-select-lines",
+      "title": "How many select lines does a 16-to-1 multiplexer need?",
+      "body": "$4$, since $2^4 = 16$.\n\n$n$ select lines choose one of $2^n$ data inputs. A $2^n$-to-1 mux can implement any $n$-variable function by wiring the truth-table outputs to its data inputs.\n\nExample: a decoder has $n$ inputs and $2^n$ outputs, each output being one minterm, so a decoder plus an OR gate also implements any function.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "multiplexer select lines 16 to 1 mux"
+    },
+    {
+      "id": "sr-latch-forbidden-input",
+      "title": "In an SR latch built from NOR gates, which input combination is not allowed, and why?",
+      "body": "$S = R = 1$.\n\nIn a NOR latch it forces both $Q$ and $\\bar{Q}$ to $0$, so they are no longer complements. If $S$ and $R$ then return to $0$ together, the next state is unpredictable (a race).\n\nWatch out: in a NAND ($\\bar{S}\\bar{R}$) latch the forbidden input is $\\bar{S} = \\bar{R} = 0$.\nTip: the JK flip-flop removes the problem, since $J = K = 1$ toggles.",
+      "searchQuery": "SR latch NOR forbidden input S R both 1"
+    },
+    {
+      "id": "jk-flip-flop-equation",
+      "title": "Characteristic equation of a JK flip-flop: $Q(t+1) = \\,?$",
+      "body": "$Q(t+1) = J\\bar{Q} + \\bar{K}Q$\n\nThe input table is $JK = 00$ hold, $10$ set, $01$ reset and $11$ toggle.\n\nKey idea: for comparison, D: $Q(t+1) = D$ (it just stores the input at the clock edge), and T: $Q(t+1) = T \\oplus Q$.",
+      "answer": "JQ'+K'Q",
+      "acceptedAnswers": [
+        "K'Q+JQ'",
+        "JQ'+QK'",
+        "QK'+JQ'",
+        "Q'J+K'Q",
+        "Q'J+QK'"
+      ],
+      "searchQuery": "JK flip-flop characteristic equation"
+    },
+    {
+      "id": "setup-and-hold-time",
+      "title": "Flip-flop timing: what are setup time and hold time?",
+      "body": "**Setup time** is how long the input must be stable *before* the active clock edge. **Hold time** is how long it must stay stable *after* the edge.\n\nViolating either can make the flip-flop metastable.\n\nWhy: setup limits clock speed, $T_{clk} \\ge t_{cq} + t_{logic,max} + t_{setup}$. Hold is checked on the shortest path, $t_{cq} + t_{logic,min} \\ge t_{hold}$.",
+      "searchQuery": "flip-flop setup time hold time definition"
+    },
+    {
+      "id": "moore-vs-mealy",
+      "title": "In which type of finite-state machine do the outputs depend only on the present state, not on the current inputs?",
+      "body": "A Moore machine.\n\nIn a Moore machine the outputs depend only on the present state. In a Mealy machine they depend on the present state **and** the inputs, so they can react within the same clock cycle and often need fewer states, but they can glitch when inputs change.\n\nTip: in a Moore diagram the outputs are written inside the states; in a Mealy diagram they go on the transitions (input/output).",
+      "answer": "Moore",
+      "acceptedAnswers": [
+        "Moore machine",
+        "Moore model",
+        "Moore FSM"
+      ],
+      "searchQuery": "Moore machine versus Mealy machine outputs"
+    },
+    {
+      "id": "counter-flip-flop-count",
+      "title": "Minimum number of flip-flops needed for a mod-10 (decade) counter?",
+      "body": "$4$\n\n$n$ flip-flops have $2^n$ states: $2^3 = 8 < 10 \\le 16 = 2^4$, so $n = \\lceil \\log_2 10 \\rceil = 4$.\n\nA BCD counter counts $0000$ to $1001$ and returns to $0000$ on the next clock; 6 of its 16 states ($1010$ to $1111$) are unused.\nKey idea: a mod-$N$ counter divides the clock frequency by $N$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "mod-10 decade counter number of flip-flops"
+    },
+    {
+      "id": "decimal-to-binary",
+      "title": "Convert $45_{10}$ to binary.",
+      "body": "$101101_2$\n\nRepeatedly divide by 2 and read the remainders from bottom to top, or subtract powers of two: $45 = 32 + 8 + 4 + 1$.\n\nCheck: bits $1, 0, 1, 1, 0, 1$ stand for $32, 16, 8, 4, 2, 1$, giving $32 + 8 + 4 + 1 = 45$.\nTip: memorize the powers of two up to $2^{10} = 1024$.",
+      "answer": "101101",
+      "acceptedAnswers": [
+        "0b101101",
+        "101101b",
+        "00101101"
+      ],
+      "searchQuery": "decimal to binary conversion 45"
+    },
+    {
+      "id": "binary-to-decimal",
+      "title": "Convert $11001_2$ to decimal.",
+      "body": "$25_{10}$\n\nAdd the weights of the $1$ bits: $16 + 8 + 1 = 25$.\n\nWatch out: weights double from the **right**, starting at $2^0 = 1$ for the least significant bit.",
+      "answer": "25",
+      "searchQuery": "binary to decimal conversion 11001"
+    },
+    {
+      "id": "hex-to-binary",
+      "title": "Convert $\\mathrm{3A}_{16}$ to 8-bit binary.",
+      "body": "$0011\\,1010_2$\n\nReplace each hex digit by four bits: $3 = 0011$ and $\\mathrm{A} = 1010$.\n\nCheck: $3 \\cdot 16 + 10 = 58 = 32 + 16 + 8 + 2$.\nTip: this four-bits-per-digit shortcut is why hex is used to write binary compactly.",
+      "answer": "00111010",
+      "acceptedAnswers": [
+        "111010",
+        "0x3A in binary",
+        "0b00111010"
+      ],
+      "searchQuery": "hexadecimal to binary conversion 3A"
+    },
+    {
+      "id": "hex-to-decimal",
+      "title": "Convert $\\mathrm{2F}_{16}$ to decimal.",
+      "body": "$47_{10}$\n\n$\\mathrm{2F}_{16} = 2 \\cdot 16 + 15 = 32 + 15 = 47$.\n\nWatch out: the digit $\\mathrm{F}$ is $15$, not $16$. The largest two-digit hex number, $\\mathrm{FF}$, is $255$.",
+      "answer": "47",
+      "acceptedAnswers": [
+        "0x2F in decimal"
+      ],
+      "searchQuery": "hexadecimal to decimal conversion 2F"
+    },
+    {
+      "id": "binary-to-octal",
+      "title": "Convert $110101_2$ to octal.",
+      "body": "$65_8$\n\nGroup the bits in threes from the binary point: $110\\;101 \\to 6, 5$.\n\nCheck: $6 \\cdot 8 + 5 = 53 = 32 + 16 + 4 + 1$.\nWatch out: octal digits go only from $0$ to $7$.",
+      "answer": "65",
+      "acceptedAnswers": [
+        "0o65",
+        "65 octal",
+        "65_8",
+        "(65)8"
+      ],
+      "searchQuery": "binary to octal conversion group three bits"
+    },
+    {
+      "id": "unsigned-max-10-bits",
+      "title": "What is the largest unsigned integer that fits in 10 bits?",
+      "body": "$1023$\n\nAn $n$-bit unsigned number ranges from $0$ to $2^n - 1$. So $2^{10} - 1 = 1024 - 1 = 1023$.\n\nWatch out: $2^{10} = 1024$ is the number of **patterns**, not the largest value.",
+      "answer": "1023",
+      "acceptedAnswers": [
+        "2^10-1",
+        "0x3FF"
+      ],
+      "searchQuery": "unsigned integer range n bits 2^n minus 1"
+    },
+    {
+      "id": "bits-for-range",
+      "title": "What is the minimum number of bits needed to represent the unsigned values $0$ through $1000$?",
+      "body": "$10$\n\nThere are $1001$ values, and $2^9 = 512 < 1001 \\le 1024 = 2^{10}$. So $n = \\lceil \\log_2 1001 \\rceil = 10$.\n\nTip: $\\log_2$ of a number is about $3.32$ times its number of decimal digits.",
+      "answer": "10",
+      "acceptedAnswers": [
+        "ten"
+      ],
+      "searchQuery": "minimum bits to represent range log base 2"
+    },
+    {
+      "id": "twos-complement-decode",
+      "title": "What decimal value is the 8-bit two's complement number $10110100$?",
+      "body": "$-76$\n\nThe MSB has weight $-128$: $-128 + 32 + 16 + 4 = -76$.\n\nCheck by negating: invert to $01001011$ and add $1$ to get $01001100 = 76$.\nWatch out: reading the pattern as unsigned would give $180$.",
+      "answer": "-76",
+      "searchQuery": "two complement decode 8-bit negative number"
+    },
+    {
+      "id": "sign-extension",
+      "title": "Extend the 4-bit two's complement number $1010$ to 8 bits. What is the result?",
+      "body": "$1111\\,1010$\n\nSign extension copies the MSB into the new upper bits. $1010$ is $-8 + 2 = -6$, and $11111010$ is also $-6$.\n\nWatch out: padding with zeros ($00001010 = 10$) changes the value of a negative number. Zero-extend only **unsigned** values.",
+      "answer": "11111010",
+      "acceptedAnswers": [
+        "0xFA"
+      ],
+      "searchQuery": "sign extension two complement 4-bit to 8-bit"
+    },
+    {
+      "id": "bcd-encoding",
+      "title": "Write the decimal number $47$ in 8-bit BCD.",
+      "body": "$0100\\,0111$\n\nBinary-coded decimal uses one 4-bit group per decimal digit: $4 \\to 0100$ and $7 \\to 0111$.\n\nWatch out: this is **not** the binary value of $47$, which is $00101111$. The codes $1010$ to $1111$ never occur in BCD.",
+      "answer": "01000111",
+      "acceptedAnswers": [
+        "0100-0111"
+      ],
+      "searchQuery": "binary coded decimal BCD encoding 47"
+    },
+    {
+      "id": "gray-code-conversion",
+      "title": "Convert the binary number $0110$ to 4-bit Gray code.",
+      "body": "$0101$\n\nKeep the MSB, then XOR each bit with the bit to its left: $0$, $0 \\oplus 1 = 1$, $1 \\oplus 1 = 0$, $1 \\oplus 0 = 1$. So the Gray code is $0101$.\n\nWhy: successive Gray codes differ in exactly **one bit**, which prevents glitches in shaft encoders and K-map ordering.",
+      "answer": "0101",
+      "acceptedAnswers": [
+        "101"
+      ],
+      "searchQuery": "binary to Gray code conversion XOR"
+    },
+    {
+      "id": "arithmetic-shift-right",
+      "title": "Arithmetic-shift the 8-bit two's complement number $11111000$ ($-8$) right by one place. What is the result?",
+      "body": "$1111\\,1100$, which is $-4$.\n\nAn arithmetic right shift keeps the sign bit and copies it into the vacated position. That divides by $2$, rounding toward $-\\infty$.\n\nWatch out: a **logical** right shift would insert $0$ and give $01111100 = 124$.",
+      "answer": "11111100",
+      "acceptedAnswers": [
+        "0xFC"
+      ],
+      "searchQuery": "arithmetic shift right two complement sign bit"
+    },
+    {
+      "id": "hamming-distance",
+      "title": "What is the Hamming distance between $10110$ and $11100$?",
+      "body": "$2$\n\nThe Hamming distance is the number of bit positions where the words differ. Here they differ in the second and fourth bits.\n\nKey idea: a code with minimum distance $d$ detects up to $d - 1$ bit errors, and corrects $\\lfloor (d-1)/2 \\rfloor$ of them.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "Hamming distance between binary words"
+    },
+    {
+      "id": "binary-addition-example",
+      "title": "Add the 4-bit unsigned numbers $1011_2 + 0110_2$. Give the full result in binary.",
+      "body": "$10001_2$\n\n$11 + 6 = 17$. Bit by bit from the right: $1+0=1$, $1+1=0$ carry $1$, $0+1+1=0$ carry $1$, $1+0+1=0$ carry $1$, and the final carry becomes the fifth bit.\n\nWatch out: the result needs **5 bits**. In a 4-bit register the carry-out is lost, which signals unsigned overflow.",
+      "answer": "10001",
+      "acceptedAnswers": [
+        "10001b",
+        "0b10001"
+      ],
+      "searchQuery": "binary addition carry 4-bit unsigned"
+    },
+    {
+      "id": "twos-complement-subtraction",
+      "title": "How does an adder compute $A - B$ in two's complement?",
+      "body": "$A + \\bar{B} + 1$\n\nInvert every bit of $B$ (the 1's complement) and feed a carry-in of $1$, which together form $-B$. A single adder with XOR gates on the $B$ input can do both addition and subtraction.\n\nWatch out: for the signed result use the overflow test $V = C_n \\oplus C_{n-1}$; the carry-out alone doesn't tell you.",
+      "searchQuery": "two complement subtraction adder invert and add one"
+    },
+    {
+      "id": "absorption-law",
+      "title": "Simplify $A + AB$.",
+      "body": "$A$\n\nFactor out $A$: $A + AB = A(1 + B) = A \\cdot 1 = A$. This is the **absorption law**.\n\nTip: the dual form is $A(A + B) = A$. If a term contains all the literals of another term, it is redundant.",
+      "answer": "A",
+      "acceptedAnswers": [
+        "F = A"
+      ],
+      "searchQuery": "Boolean absorption law A plus AB"
+    },
+    {
+      "id": "redundant-literal-law",
+      "title": "Simplify $A + \\bar{A}B$.",
+      "body": "$A + B$\n\nWrite $A + \\bar{A}B = (A + \\bar{A})(A + B) = A + B$ by the distributive law, or check with a truth table.\n\nWatch out: the result is **not** $A$ and not $AB$. The $\\bar{A}$ in the second term is redundant because $A = 1$ already covers that case.",
+      "answer": "A+B",
+      "acceptedAnswers": [
+        "B+A",
+        "A or B",
+        "F = A+B"
+      ],
+      "searchQuery": "Boolean simplification A plus A bar B equals A plus B"
+    },
+    {
+      "id": "consensus-theorem",
+      "title": "Simplify $AB + \\bar{A}C + BC$.",
+      "body": "$AB + \\bar{A}C$\n\nBy the **consensus theorem**, the term $BC$ is redundant. When $B = C = 1$, either $A$ or $\\bar{A}$ is $1$, so one of the other two terms already covers it.\n\nTip: on a K-map, $BC$ is the group that straddles the two groups $AB$ and $\\bar{A}C$. It is covered, but it removes a hazard if kept.",
+      "answer": "AB+A'C",
+      "acceptedAnswers": [
+        "A'C+AB",
+        "AB+CA'",
+        "CA'+AB",
+        "F = AB+A'C"
+      ],
+      "searchQuery": "consensus theorem Boolean algebra redundant term"
+    },
+    {
+      "id": "duality-principle",
+      "title": "What is the duality principle of Boolean algebra, and how do you form the dual of an expression?",
+      "body": "Swap $+$ with $\\cdot$ and $0$ with $1$ (keep the variables). Every true identity stays true.\n\nExample: $A + 0 = A$ has the dual $A \\cdot 1 = A$, and $A + \\bar{A} = 1$ has the dual $A \\cdot \\bar{A} = 0$.\n\nWatch out: the dual is **not** the complement. Variables stay as they are. Complementing an expression also complements each variable.",
+      "searchQuery": "Boolean algebra duality principle dual of expression"
+    },
+    {
+      "id": "xor-with-one",
+      "title": "Simplify $A \\oplus 1$.",
+      "body": "$\\bar{A}$\n\nXOR is $1$ exactly when the inputs differ. With one input tied to $1$, the output is the **inverse** of $A$. Tied to $0$, it passes $A$ unchanged.\n\nTip: that makes an XOR a **controlled inverter**, used in adder-subtractors.",
+      "answer": "A'",
+      "acceptedAnswers": [
+        "~A",
+        "!A",
+        "not A",
+        "A bar"
+      ],
+      "searchQuery": "XOR with 1 inverter Boolean identity"
+    },
+    {
+      "id": "xor-sop-form",
+      "title": "Write $A \\oplus B$ as a sum of products.",
+      "body": "$\\bar{A}B + A\\bar{B}$\n\nThe XOR is $1$ when exactly one input is $1$, giving the minterms $m_1$ and $m_2$.\n\nKey idea: XNOR is the complement, $AB + \\bar{A}\\bar{B}$, and it is $1$ when the inputs are **equal**.",
+      "answer": "A'B+AB'",
+      "acceptedAnswers": [
+        "AB'+A'B",
+        "B'A+A'B",
+        "A'B+B'A",
+        "BA'+AB'"
+      ],
+      "searchQuery": "XOR sum of products expression A xor B"
+    },
+    {
+      "id": "nor-both-zero",
+      "title": "What is the output of a 2-input NOR gate when both inputs are $0$?",
+      "body": "$1$\n\nA NOR gate is an OR followed by an inverter. It outputs $1$ **only** when every input is $0$.\n\nTip: NAND outputs $0$ only when every input is $1$. Like NOR, it is a universal gate.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one",
+        "high"
+      ],
+      "searchQuery": "NOR gate output both inputs zero truth table"
+    },
+    {
+      "id": "boolean-function-count",
+      "title": "How many different Boolean functions of 3 variables exist?",
+      "body": "$256$\n\nA 3-variable truth table has $2^3 = 8$ rows, and each row's output can be $0$ or $1$. So there are $2^{8} = 256$ functions.\n\nKey idea: for $n$ variables there are $2^{2^n}$ functions. For $n = 4$ that is already $65{,}536$.",
+      "answer": "256",
+      "acceptedAnswers": [
+        "2^8",
+        "2^(2^3)"
+      ],
+      "searchQuery": "number of Boolean functions of n variables 2^(2^n)"
+    },
+    {
+      "id": "truth-table-rows",
+      "title": "How many rows does the truth table of a function of 5 input variables have?",
+      "body": "$32$\n\nEach variable doubles the number of input combinations: $2^5 = 32$.\n\nWatch out: this exponential growth is why K-maps stop being practical above about 5 or 6 variables, and software minimizers take over.",
+      "answer": "32",
+      "acceptedAnswers": [
+        "2^5",
+        "thirty-two"
+      ],
+      "searchQuery": "truth table rows 2^n input combinations"
+    },
+    {
+      "id": "de-morgan-three-inputs",
+      "title": "Apply De Morgan's theorem: what is $\\overline{A + B + C}$?",
+      "body": "$\\bar{A}\\,\\bar{B}\\,\\bar{C}$\n\nThe complement of a sum is the product of the complements. The result is $1$ only when all three inputs are $0$, which is exactly a 3-input NOR.\n\nMnemonic: **break the bar, change the sign** (AND becomes OR, OR becomes AND).",
+      "answer": "A'B'C'",
+      "acceptedAnswers": [
+        "~A~B~C",
+        "!A!B!C",
+        "B'A'C'",
+        "C'B'A'"
+      ],
+      "searchQuery": "De Morgan theorem complement of sum three variables"
+    },
+    {
+      "id": "absorb-complement-factor",
+      "title": "Simplify $A(\\bar{A} + B)$.",
+      "body": "$AB$\n\nDistribute: $A\\bar{A} + AB = 0 + AB = AB$.\n\nWhy: $A$ and $\\bar{A}$ can't both be $1$, so only the $AB$ term survives.\nTip: this is the dual of $A + \\bar{A}B = A + B$.",
+      "answer": "AB",
+      "acceptedAnswers": [
+        "BA",
+        "A and B"
+      ],
+      "searchQuery": "Boolean simplification A times A bar plus B"
+    },
+    {
+      "id": "distributive-or-over-and",
+      "title": "Simplify $(A + B)(A + C)$.",
+      "body": "$A + BC$\n\nExpand: $AA + AC + AB + BC = A + AC + AB + BC = A(1 + C + B) + BC = A + BC$.\n\nKey idea: in Boolean algebra OR **distributes over AND**: $A + BC = (A + B)(A + C)$. That has no counterpart in ordinary arithmetic.",
+      "answer": "A+BC",
+      "acceptedAnswers": [
+        "BC+A",
+        "A+(BC)",
+        "A+CB",
+        "CB+A"
+      ],
+      "searchQuery": "Boolean algebra OR distributes over AND"
+    },
+    {
+      "id": "complement-of-expression",
+      "title": "Use De Morgan's theorem to find the complement of $F = AB + \\bar{C}$ as a product of sums.",
+      "body": "$\\bar{F} = (\\bar{A} + \\bar{B})\\,C$\n\nComplement the sum into a product of complements: $\\overline{AB + \\bar{C}} = \\overline{AB} \\cdot \\overline{\\bar{C}} = (\\bar{A} + \\bar{B})\\,C$.\n\nWatch out: the double bar over $C$ cancels, and the bar over $AB$ must be broken with a sign change. Don't forget the $C$ factor.",
+      "answer": "(A'+B')C",
+      "acceptedAnswers": [
+        "C(A'+B')",
+        "A'C+B'C",
+        "B'C+A'C",
+        "CA'+CB'",
+        "C(B'+A')",
+        "(B'+A')C"
+      ],
+      "searchQuery": "complement of Boolean function De Morgan AB plus C bar"
+    },
+    {
+      "id": "minterm-index",
+      "title": "For $F(A, B, C)$ with $A$ as the most significant bit, which minterm index is the row $A = 1$, $B = 0$, $C = 1$?",
+      "body": "$m_5$\n\nThe row is binary $101 = 5$, and the minterm is the product $A\\bar{B}C$, which equals $1$ only in that row.\n\nTip: a variable appears **uncomplemented** where the row has a $1$ and complemented where it has a $0$.",
+      "answer": "m5",
+      "acceptedAnswers": [
+        "5",
+        "m_5"
+      ],
+      "searchQuery": "minterm index binary row number m5"
+    },
+    {
+      "id": "maxterm-expression",
+      "title": "For $F(A, B, C)$, write the maxterm $M_5$ (row $A = 1$, $B = 0$, $C = 1$) as a sum.",
+      "body": "$\\bar{A} + B + \\bar{C}$\n\nA maxterm is $0$ in only one row. At $101$ each literal must be $0$, so $A$ appears complemented, $B$ appears uncomplemented and $C$ appears complemented.\n\nWatch out: this is the **opposite** convention from minterms. Also $M_5 = \\overline{m_5}$.",
+      "answer": "A'+B+C'",
+      "acceptedAnswers": [
+        "C'+B+A'",
+        "B+A'+C'",
+        "A'+C'+B",
+        "B+C'+A'",
+        "C'+A'+B"
+      ],
+      "searchQuery": "maxterm M5 sum term product of sums"
+    },
+    {
+      "id": "sop-vs-pos",
+      "title": "What is the difference between sum-of-products (SOP) and product-of-sums (POS) forms?",
+      "body": "SOP is an **OR of AND terms**, such as $AB + \\bar{A}C$. POS is an **AND of OR terms**, such as $(A + B)(\\bar{A} + C)$.\n\nSOP is built from the rows where $F = 1$ (minterms). POS is built from the rows where $F = 0$ (maxterms).\n\nTip: SOP maps to AND-OR (or NAND-NAND) gates; POS maps to OR-AND (or NOR-NOR) gates.",
+      "searchQuery": "sum of products versus product of sums Boolean forms"
+    },
+    {
+      "id": "minterms-to-maxterms",
+      "title": "Express $F(A, B) = \\sum m(0, 3)$ as a product of maxterms.",
+      "body": "$F = \\prod M(1, 2)$\n\nThe function is $1$ in rows $0$ and $3$ and $0$ in rows $1$ and $2$. The maxterms come from the rows where $F = 0$.\n\nCheck: $F = (A + \\bar{B})(\\bar{A} + B)$, which is the XNOR.\nKey idea: the minterm and maxterm index sets of a function are **complementary** within $0, \\ldots, 2^n - 1$.",
+      "searchQuery": "minterms to maxterms conversion canonical forms"
+    },
+    {
+      "id": "half-adder-equations",
+      "title": "What are the Boolean equations for a half adder with inputs $A$ and $B$?",
+      "body": "$S = A \\oplus B$ and $C = AB$\n\nThe sum is an XOR gate and the carry is an AND gate, so the circuit takes two gates.\n\nWatch out: a half adder has **no carry input**, so it can't be chained. Use a full adder, which has three inputs, for the upper bits of a multi-bit adder.",
+      "searchQuery": "half adder sum carry equations XOR AND"
+    },
+    {
+      "id": "decoder-output-select",
+      "title": "A 3-to-8 decoder has active-high outputs $Y_0$ to $Y_7$. With inputs $ABC = 101$ ($A$ is the MSB) and the enable on, which output is asserted?",
+      "body": "$Y_5$\n\n$101_2 = 5$, so $Y_5 = 1$ and every other output is $0$. Each decoder output is one minterm of the inputs.\n\nTip: a decoder plus an OR gate implements any function. Wire in the outputs that match the minterms of $F$.",
+      "answer": "Y5",
+      "acceptedAnswers": [
+        "5",
+        "D5",
+        "output 5",
+        "O5"
+      ],
+      "searchQuery": "3-to-8 decoder active high output input 101"
+    },
+    {
+      "id": "decoder-expansion",
+      "title": "How can two 3-to-8 decoders with enable inputs be combined into a 4-to-16 decoder?",
+      "body": "Use the fourth input bit as a selector for the enables.\n\nConnect the low three bits to both decoders. Drive one decoder's enable with $\\bar{D}$ (outputs $0$ to $7$) and the other's with $D$ (outputs $8$ to $15$), where $D$ is the MSB.\n\nKey idea: enable inputs let you expand a decoder or memory chip-select **without extra logic**.",
+      "searchQuery": "decoder expansion 4-to-16 from two 3-to-8 enable"
+    },
+    {
+      "id": "priority-encoder",
+      "title": "What does a priority encoder do differently from a plain encoder?",
+      "body": "It gives a valid output even when **several inputs are active**, encoding only the highest-priority one.\n\nA plain encoder assumes exactly one active input. A priority encoder also provides a valid flag, so an all-zero input can be told apart from input $0$ being active.\n\nExample: for a 4-to-2 priority encoder with $I_3 = 0$, $I_2 = 1$, $I_1 = 1$ the output is $10$ (input 2 wins).",
+      "searchQuery": "priority encoder multiple active inputs highest priority"
+    },
+    {
+      "id": "mux-implements-xor",
+      "title": "A 4-to-1 mux has $A$ on select $S_1$ and $B$ on select $S_0$. To implement $F = A \\oplus B$, what constants go on data inputs $I_0 I_1 I_2 I_3$?",
+      "body": "$0110$\n\nThe select $AB$ chooses $I_0, I_1, I_2, I_3$ for $00, 01, 10, 11$. The XOR is $0, 1, 1, 0$ in those rows, so tie $I_0 = 0$, $I_1 = 1$, $I_2 = 1$, $I_3 = 0$.\n\nKey idea: with this method a mux **is** a truth-table lookup, one data input per row.",
+      "answer": "0110",
+      "acceptedAnswers": [
+        "0,1,1,0",
+        "I0=0 I1=1 I2=1 I3=0"
+      ],
+      "searchQuery": "multiplexer implement XOR function data inputs"
+    },
+    {
+      "id": "mux-2to1-equation",
+      "title": "Write the output $Y$ of a 2-to-1 multiplexer with select $S$ and data inputs $I_0$ and $I_1$ as a Boolean expression.",
+      "body": "$Y = \\bar{S}I_0 + SI_1$\n\nWhen $S = 0$ the first term passes $I_0$, and when $S = 1$ the second term passes $I_1$. Two AND gates, one inverter and an OR gate build it.\n\nTip: a mux is also called a **data selector**; larger muxes can be built as trees of 2-to-1 muxes.",
+      "answer": "S'I0+SI1",
+      "acceptedAnswers": [
+        "I0S'+I1S",
+        "SI1+S'I0",
+        "I1S+I0S'",
+        "I0S'+SI1",
+        "S'I0+I1S"
+      ],
+      "searchQuery": "2-to-1 multiplexer Boolean equation select"
+    },
+    {
+      "id": "equality-comparator-bit",
+      "title": "Which single gate outputs $1$ when two 1-bit inputs are equal?",
+      "body": "XNOR.\n\n$A \\odot B = AB + \\bar{A}\\bar{B}$ is $1$ when the bits match. An $n$-bit equality comparator ANDs $n$ XNORs, one per bit pair.\n\nWatch out: XOR does the opposite. It is $1$ when the bits **differ**.",
+      "answer": "XNOR",
+      "acceptedAnswers": [
+        "XNOR gate",
+        "exclusive nor",
+        "exclusive-nor"
+      ],
+      "searchQuery": "1-bit equality comparator XNOR gate"
+    },
+    {
+      "id": "ripple-carry-delay",
+      "title": "How does the worst-case delay of an $n$-bit ripple-carry adder grow with $n$, and why?",
+      "body": "It grows **linearly** with $n$.\n\nEach stage must wait for the carry from the stage below, so the worst-case delay is about $n \\cdot t_{carry}$.\n\nWatch out: this is why wide adders use carry-lookahead or carry-select designs, which compute carries faster at the cost of more gates.",
+      "searchQuery": "ripple carry adder delay linear growth n bits"
+    },
+    {
+      "id": "carry-lookahead-equations",
+      "title": "In a carry-lookahead adder, what are the generate and propagate signals, and how is the next carry computed?",
+      "body": "$G_i = A_iB_i$ and $P_i = A_i \\oplus B_i$, with $C_{i+1} = G_i + P_iC_i$.\n\nA stage **generates** a carry by itself when $G_i = 1$, and **propagates** an incoming carry when $P_i = 1$.\n\nKey idea: expanding the recurrence gives each carry directly from $G$, $P$ and $C_0$, so all carries are computed in parallel after about two gate delays.",
+      "searchQuery": "carry lookahead adder generate propagate equations"
+    },
+    {
+      "id": "half-subtractor-equations",
+      "title": "What are the Boolean equations for a half subtractor computing $A - B$ (difference $D$, borrow-out $B_{out}$)?",
+      "body": "$D = A \\oplus B$ and $B_{out} = \\bar{A}B$\n\nThe difference is the same XOR as the half adder's sum. A borrow is needed only when $A = 0$ and $B = 1$.\n\nCheck: $0 - 1$ gives $D = 1$ with a borrow of $1$ (like $10_2 - 1 = 1$). The other three rows need no borrow.",
+      "searchQuery": "half subtractor difference borrow equations"
+    },
+    {
+      "id": "tri-state-buffer",
+      "title": "What is the high-impedance state ($\\mathrm{Z}$) of a tri-state buffer, and why is it useful?",
+      "body": "With the output disabled, the buffer is **electrically disconnected** from the line: neither driving $0$ nor $1$.\n\nThat lets many devices share one **bus** wire. Exactly one driver is enabled at a time and the rest sit in $\\mathrm{Z}$.\n\nWatch out: enabling two drivers that output opposite values at once is **bus contention**, which can burn out the drivers.",
+      "searchQuery": "tri-state buffer high impedance Z shared bus"
+    },
+    {
+      "id": "static-hazard",
+      "title": "What is a static-1 hazard in a combinational circuit, and how is it removed?",
+      "body": "A brief $0$ **glitch** on an output that should stay at $1$ while one input changes.\n\nIt happens when two adjacent $1$s on the K-map are covered by different product terms, and the two paths have unequal delay. Add the redundant **consensus** term that covers both cells.\n\nExample: $F = AB + \\bar{A}C$ can glitch when $A$ changes with $B = C = 1$. Adding $BC$ fixes it.",
+      "searchQuery": "static 1 hazard glitch consensus term K-map"
+    },
+    {
+      "id": "path-propagation-delay",
+      "title": "A signal passes through three gates in series with propagation delays of $2\\,\\mathrm{ns}$, $3\\,\\mathrm{ns}$ and $1\\,\\mathrm{ns}$. What is the total delay, in ns?",
+      "body": "$6\\,\\mathrm{ns}$\n\nDelays of gates in series **add**: $2 + 3 + 1 = 6\\,\\mathrm{ns}$.\n\nKey idea: the worst-case delay through the slowest path (the **critical path**) limits how fast a combinational block can run.",
+      "answer": "6 ns",
+      "acceptedAnswers": [
+        "6",
+        "6 nanoseconds"
+      ],
+      "searchQuery": "propagation delay series gates critical path"
+    },
+    {
+      "id": "noise-margin-high",
+      "title": "A gate has $V_{OH,min} = 2.7\\,\\mathrm{V}$ and the next gate needs $V_{IH,min} = 2.0\\,\\mathrm{V}$. What is the high-level noise margin $NM_H$, in volts?",
+      "body": "$0.7\\,\\mathrm{V}$\n\n$NM_H = V_{OH,min} - V_{IH,min} = 2.7 - 2.0 = 0.7\\,\\mathrm{V}$.\n\nKey idea: the noise margin is how much unwanted noise a logic $1$ can pick up before the receiver misreads it. Similarly, $NM_L = V_{IL,max} - V_{OL,max}$.",
+      "answer": "0.7 V",
+      "acceptedAnswers": [
+        "0.7",
+        "0.7 volts"
+      ],
+      "searchQuery": "noise margin high V_OH minus V_IH logic levels"
+    },
+    {
+      "id": "active-low-signal",
+      "title": "What does a bar over a signal name, such as $\\overline{\\mathrm{CS}}$, mean in a logic diagram?",
+      "body": "The signal is **active low**: it is asserted (true) when it is at logic $0$.\n\nAn inversion bubble on a gate pin means the same for that pin. So $\\overline{\\mathrm{CS}} = 0$ selects the chip.\n\nWatch out: \"active low\" describes **when the function is on**, not the name's complement. $\\overline{\\mathrm{CS}} = 1$ means the chip is NOT selected.",
+      "searchQuery": "active low signal bar over name asserted at logic 0"
+    },
+    {
+      "id": "xor-three-inputs",
+      "title": "What is the output of a 3-input XOR gate when all three inputs are $1$?",
+      "body": "$1$\n\nA multi-input XOR outputs $1$ when an **odd number** of its inputs are $1$. Three $1$s is odd.\n\nWhy: $1 \\oplus 1 = 0$ and then $0 \\oplus 1 = 1$. That is also why XOR chains compute parity.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one",
+        "high"
+      ],
+      "searchQuery": "three input XOR gate odd parity output"
+    },
+    {
+      "id": "parity-xor-count",
+      "title": "How many 2-input XOR gates does an 8-bit parity generator need?",
+      "body": "$7$\n\nCombining $n$ bits with 2-input XORs always takes $n - 1$ gates: $8 - 1 = 7$. A balanced tree has depth $\\lceil \\log_2 8 \\rceil = 3$.\n\nTip: a tree is faster than a chain of 7 XORs, because it has depth 3 rather than 7.",
+      "answer": "7",
+      "acceptedAnswers": [
+        "seven"
+      ],
+      "searchQuery": "parity generator number of XOR gates n minus 1"
+    },
+    {
+      "id": "nand-xor-count",
+      "title": "What is the minimum number of 2-input NAND gates needed to build a 2-input XOR?",
+      "body": "$4$\n\nLet $N = \\overline{AB}$. Then $A \\oplus B = \\overline{\\,\\overline{AN}\\cdot\\overline{BN}\\,}$: a NAND of $\\overline{AN}$ and $\\overline{BN}$. That is four gates in total: one for $N$, two for $\\overline{AN}$ and $\\overline{BN}$, and one to combine them.\n\nKey idea: the shared first gate $N$ is what keeps the count at four.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "XOR gate from NAND gates minimum number"
+    },
+    {
+      "id": "kmap-group-of-eight",
+      "title": "On a 4-variable K-map, a rectangle of 8 adjacent $1$s eliminates how many variables?",
+      "body": "$3$\n\nA group of $2^k$ cells eliminates $k$ variables, so $8 = 2^3$ removes three of the four variables, leaving a single literal.\n\nExample: the whole left half of the map ($A = 0$) is $\\bar{A}$.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "Karnaugh map group of 8 eliminates variables"
+    },
+    {
+      "id": "kmap-simplify-example",
+      "title": "Use a K-map to simplify $F(A, B, C) = \\sum m(0, 1, 2, 3, 6)$.",
+      "body": "$F = \\bar{A} + B\\bar{C}$\n\nMinterms $0$ to $3$ are the whole $A = 0$ row, which is a group of 4 giving $\\bar{A}$. Minterms $2$ and $6$ ($010$ and $110$) pair up as $B\\bar{C}$.\n\nWatch out: reuse the already-covered $m_2$ in the second group. Overlap is allowed, and it gives a smaller term than $m_6$ alone.",
+      "answer": "A'+BC'",
+      "acceptedAnswers": [
+        "BC'+A'",
+        "A'+C'B",
+        "C'B+A'"
+      ],
+      "searchQuery": "K-map simplify three variable sum of minterms"
+    },
+    {
+      "id": "kmap-corners",
+      "title": "On a 4-variable K-map ($A$ is the MSB, $D$ the LSB), $F = \\sum m(0, 2, 8, 10)$. What is the minimal expression?",
+      "body": "$F = \\bar{B}\\bar{D}$\n\nThe four corners $0000$, $0010$, $1000$, $1010$ are adjacent when the map wraps around, forming one group of 4. $A$ and $C$ change, while $B = 0$ and $D = 0$.\n\nKey idea: the corners of a K-map are adjacent, and so are the cells on opposite edges.",
+      "answer": "B'D'",
+      "acceptedAnswers": [
+        "D'B'",
+        "B'.D'"
+      ],
+      "searchQuery": "K-map four corners wrap around adjacency minterms 0 2 8 10"
+    },
+    {
+      "id": "nand-nand-implementation",
+      "title": "How can any sum-of-products expression be built using only NAND gates?",
+      "body": "Use a **two-level NAND-NAND** network.\n\nReplace each AND term with a NAND, and the final OR with a NAND. By De Morgan, $\\overline{\\overline{AB}\\;\\cdot\\;\\overline{CD}} = AB + CD$.\n\nTip: single-literal terms go straight to the second-level NAND, or through an inverter made from a NAND with tied inputs.",
+      "searchQuery": "NAND NAND two level implementation sum of products"
+    },
+    {
+      "id": "kmap-dont-cares",
+      "title": "How should don't-care cells ($X$) be treated when minimizing with a K-map?",
+      "body": "Treat each $X$ as $1$ **only if it makes a group larger**; otherwise leave it uncovered.\n\nYou don't need to cover every $X$, but every $1$ must be covered.\n\nExample: the unused BCD codes $1010$ to $1111$ are don't-cares, and they can shrink the logic for a decoder driving a 7-segment display.",
+      "searchQuery": "K-map don't care cells treatment minimization"
+    },
+    {
+      "id": "essential-prime-implicant",
+      "title": "What is an essential prime implicant?",
+      "body": "A prime implicant that **covers a $1$ that no other prime implicant covers**.\n\nA prime implicant is a largest possible group of $1$s on the K-map. Every essential one must appear in the minimal expression.\n\nTip: pick all essential prime implicants first, then add the fewest others to cover the remaining $1$s.",
+      "searchQuery": "essential prime implicant K-map minimal cover"
+    },
+    {
+      "id": "kmap-product-of-sums",
+      "title": "How do you read a minimal product-of-sums expression from a K-map?",
+      "body": "Group the **$0$s** instead of the $1$s, then write one sum term per group.\n\nIn each group, a variable that is constant at $0$ appears **uncomplemented** and one that is constant at $1$ appears **complemented**.\n\nExample: a group of $0$s with $A = 1$, $B = 0$ is the sum $(\\bar{A} + B)$.\nWatch out: this is the reverse of the SOP rule.",
+      "searchQuery": "K-map product of sums group zeros maxterms"
+    },
+    {
+      "id": "d-latch-vs-flip-flop",
+      "title": "What is the difference between a D latch and a D flip-flop?",
+      "body": "A latch is **level-sensitive**; a flip-flop is **edge-triggered**.\n\nA D latch is transparent while its enable is active, so $Q$ follows $D$. A D flip-flop samples $D$ only at the active clock edge and holds it for the whole cycle.\n\nWatch out: a flip-flop is built from two latches (master and slave) of opposite enable phases.",
+      "searchQuery": "D latch versus D flip-flop level edge triggered"
+    },
+    {
+      "id": "t-flip-flop-toggle",
+      "title": "A T flip-flop has $T = 1$ and its present output is $Q = 1$. What is $Q$ after the next active clock edge?",
+      "body": "$0$\n\nWith $T = 1$ the flip-flop **toggles**: $Q(t+1) = T \\oplus Q = 1 \\oplus 1 = 0$. With $T = 0$ it holds.\n\nKey idea: with $T = 1$ permanently wired, the output toggles each clock, which divides the clock frequency by $2$.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero",
+        "low"
+      ],
+      "searchQuery": "T flip-flop toggle next state T equals 1"
+    },
+    {
+      "id": "clock-period-from-frequency",
+      "title": "A clock runs at $100\\,\\mathrm{MHz}$. What is its period, in ns?",
+      "body": "$10\\,\\mathrm{ns}$\n\n$T = \\dfrac{1}{f} = \\dfrac{1}{100 \\times 10^{6}\\,\\mathrm{Hz}} = 10 \\times 10^{-9}\\,\\mathrm{s} = 10\\,\\mathrm{ns}$.\n\nTip: $1\\,\\mathrm{GHz}$ gives $1\\,\\mathrm{ns}$, and $100\\,\\mathrm{MHz}$ gives $10\\,\\mathrm{ns}$.",
+      "answer": "10 ns",
+      "acceptedAnswers": [
+        "10",
+        "10 nanoseconds"
+      ],
+      "searchQuery": "clock period frequency conversion 100 MHz ns"
+    },
+    {
+      "id": "max-clock-frequency",
+      "title": "A path has $t_{cq} = 0.5\\,\\mathrm{ns}$, maximum logic delay $6.5\\,\\mathrm{ns}$ and $t_{setup} = 1\\,\\mathrm{ns}$. What is the maximum clock frequency, in MHz? Ignore skew.",
+      "body": "$125\\,\\mathrm{MHz}$\n\n$T_{min} = t_{cq} + t_{logic,max} + t_{setup} = 0.5 + 6.5 + 1 = 8\\,\\mathrm{ns}$, so $f_{max} = \\dfrac{1}{8\\,\\mathrm{ns}} = 125\\,\\mathrm{MHz}$.\n\nWatch out: use the **longest** path. The shortest path matters for hold time instead.",
+      "answer": "125 MHz",
+      "acceptedAnswers": [
+        "125"
+      ],
+      "searchQuery": "maximum clock frequency setup time clk to Q logic delay"
+    },
+    {
+      "id": "hold-violation-fix",
+      "title": "A design has a hold-time violation. Does lowering the clock frequency fix it? What does?",
+      "body": "No. Slowing the clock doesn't help, because the hold check compares the data change with the **same** clock edge.\n\nFix it by adding delay to the short data path (for example buffers), or by reducing clock skew.\n\nKey idea: setup violations are cured by a **slower clock**; hold violations are not.",
+      "searchQuery": "hold time violation fix add delay not slower clock"
+    },
+    {
+      "id": "two-flop-synchronizer",
+      "title": "What is the purpose of a two-flip-flop synchronizer, and what problem does it reduce?",
+      "body": "It brings an **asynchronous input** into a clock domain, and it reduces **metastability**.\n\nIf the first flip-flop goes metastable (it violated setup or hold), it has a full clock cycle to settle before the second one samples it.\n\nWatch out: this lowers the failure probability (MTBF grows exponentially with settling time), but it never makes it exactly zero.",
+      "searchQuery": "two flip-flop synchronizer metastability asynchronous input"
+    },
+    {
+      "id": "shift-register-two-clocks",
+      "title": "A 4-bit right-shift register holds $1011$ (leftmost bit is the MSB). The serial input is $0$. What does it hold after two clock edges?",
+      "body": "$0010$\n\nEach clock moves every bit one place right, and the serial input enters on the left. $1011 \\to 0101 \\to 0010$.\n\nWatch out: the two rightmost bits ($1$ then $1$) have shifted **out** and are lost unless you capture them.\nTip: shifting right by one place halves an unsigned value; $1011 = 11 \\to 0101 = 5$ rounds down.",
+      "answer": "0010",
+      "acceptedAnswers": [
+        "10"
+      ],
+      "searchQuery": "shift register shift right two clock pulses"
+    },
+    {
+      "id": "shift-register-delay",
+      "title": "A serial bit enters an 8-stage shift register. After how many clock edges does it first appear at the last stage's output?",
+      "body": "$8$\n\nEach clock edge moves the bit one stage along, so it reaches the output of the last stage after 8 edges.\n\nKey idea: an $n$-stage shift register is a **delay line** of $n$ clock periods. It is also a serial-to-parallel converter, since all stages can be read at once.",
+      "answer": "8",
+      "acceptedAnswers": [
+        "eight"
+      ],
+      "searchQuery": "shift register delay n clock cycles serial data"
+    },
+    {
+      "id": "ring-counter",
+      "title": "What is a ring counter, and how many flip-flops does it need for $n$ states?",
+      "body": "A shift register whose last output feeds the first input, circulating a single $1$ (a **one-hot** code).\n\nIt needs $n$ flip-flops for $n$ states, which is far more than the $\\lceil \\log_2 n \\rceil$ of a binary counter, but its outputs need no decoding.\n\nWatch out: it must be **initialized** to a valid one-hot state, or the wrong pattern circulates forever.",
+      "searchQuery": "ring counter one hot shift register n flip-flops"
+    },
+    {
+      "id": "johnson-counter-flip-flops",
+      "title": "A Johnson (twisted-ring) counter must have 12 states. What is the minimum number of flip-flops?",
+      "body": "$6$\n\nA Johnson counter feeds the **inverted** last output back to the first input, giving $2n$ states from $n$ flip-flops. So $12 / 2 = 6$.\n\nCheck: a binary counter would need $4$ and a ring counter $12$.\nTip: Johnson states differ in only one bit, so each state can be decoded with a 2-input gate.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "six"
+      ],
+      "searchQuery": "Johnson counter twisted ring 2n states flip-flops"
+    },
+    {
+      "id": "ripple-counter",
+      "title": "How does an asynchronous (ripple) counter differ from a synchronous counter?",
+      "body": "In a ripple counter each flip-flop is clocked by the **previous** flip-flop's output, so changes ripple along the chain.\n\nIn a synchronous counter all flip-flops share one clock and change together.\n\nWatch out: ripple delays add up, so the counter shows brief wrong states, and decoding them can **glitch**. Synchronous counters avoid this at the cost of extra gates.",
+      "searchQuery": "asynchronous ripple counter versus synchronous counter"
+    },
+    {
+      "id": "counter-output-frequency",
+      "title": "A 4-bit binary ripple counter is clocked at $1.6\\,\\mathrm{MHz}$. What is the frequency of its most significant output, in kHz?",
+      "body": "$100\\,\\mathrm{kHz}$\n\nEach flip-flop divides the frequency by 2, so 4 stages divide by $2^4 = 16$: $\\dfrac{1.6\\,\\mathrm{MHz}}{16} = 100\\,\\mathrm{kHz}$.\n\nKey idea: bit $k$ of a binary counter has frequency $f_{clk}/2^{k+1}$, so the MSB of an $n$-bit counter is $f_{clk}/2^n$.",
+      "answer": "100 kHz",
+      "acceptedAnswers": [
+        "100",
+        "0.1 MHz"
+      ],
+      "searchQuery": "binary counter output frequency divide by 2^n"
+    },
+    {
+      "id": "mod-60-flip-flops",
+      "title": "What is the minimum number of flip-flops for a mod-60 counter (such as a seconds counter)?",
+      "body": "$6$\n\n$2^5 = 32 < 60 \\le 64 = 2^6$, so $n = \\lceil \\log_2 60 \\rceil = 6$.\n\nExample: a seconds counter is often built as a mod-10 BCD counter followed by a mod-6 counter, using $4 + 3 = 7$ flip-flops instead.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "six"
+      ],
+      "searchQuery": "mod 60 counter minimum number of flip-flops"
+    },
+    {
+      "id": "sync-counter-t-input",
+      "title": "In a 3-bit synchronous binary up-counter built from T flip-flops ($Q_0$ is the LSB), what is the input $T_2$?",
+      "body": "$T_2 = Q_1Q_0$\n\nA bit toggles when **all lower bits are $1$**. So $T_0 = 1$, $T_1 = Q_0$ and $T_2 = Q_1Q_0$.\n\nCheck: from $011$ the next state is $100$. $T_2 = 1 \\cdot 1 = 1$, so $Q_2$ toggles together with the lower bits.",
+      "answer": "Q1Q0",
+      "acceptedAnswers": [
+        "Q0Q1",
+        "Q1 and Q0"
+      ],
+      "searchQuery": "synchronous binary counter T flip-flop toggle input AND"
+    },
+    {
+      "id": "fsm-flip-flop-count",
+      "title": "What is the minimum number of flip-flops needed to encode a 5-state finite-state machine in binary?",
+      "body": "$3$\n\n$2^2 = 4 < 5 \\le 8 = 2^3$, so $\\lceil \\log_2 5 \\rceil = 3$ flip-flops. Three of the eight codes are unused.\n\nWatch out: design the next-state logic for the **unused** codes too (or treat them as don't-cares), so the machine can recover from a bad state.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "finite state machine number of state flip-flops binary encoding"
+    },
+    {
+      "id": "one-hot-encoding",
+      "title": "An FSM has 6 states. How many flip-flops does a one-hot encoding use?",
+      "body": "$6$\n\nOne-hot encoding gives each state its own flip-flop, and exactly one flip-flop is $1$ at any time.\n\nIt uses more flip-flops than binary encoding ($3$ here), but the next-state and output logic is usually simpler and faster. It is common in FPGAs, where flip-flops are plentiful.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "six"
+      ],
+      "searchQuery": "one hot state encoding flip-flops FSM"
+    },
+    {
+      "id": "sequence-detector-states",
+      "title": "How many states does a minimal overlapping \"101\" sequence detector need as a Mealy machine, and as a Moore machine?",
+      "body": "Mealy: **3** states. Moore: **4** states.\n\nThe Mealy states track \"nothing yet\", \"saw $1$\" and \"saw $10$\", and the output $1$ is on the transition taken by the final $1$ from \"saw $10$\". A Moore machine needs an extra state whose output is $1$.\n\nExample: with overlap, the input $10101$ is detected twice (the last $1$ of one match starts the next).",
+      "searchQuery": "sequence detector 101 Mealy Moore number of states"
+    },
+    {
+      "id": "sync-vs-async-reset",
+      "title": "How does an asynchronous reset differ from a synchronous reset on a flip-flop?",
+      "body": "An **asynchronous** reset acts immediately, whatever the clock is doing. A **synchronous** reset takes effect only at the next active clock edge.\n\nWatch out: releasing an asynchronous reset close to a clock edge can violate recovery/removal timing and cause metastability, so the release is usually synchronized.",
+      "searchQuery": "asynchronous reset versus synchronous reset flip-flop"
+    },
+    {
+      "id": "clock-skew",
+      "title": "What is clock skew, and how does it affect setup and hold timing?",
+      "body": "Clock skew is the **difference in clock arrival time** at two flip-flops.\n\nIf the capturing flip-flop's clock arrives later than the launching one, setup gets easier (more time) but hold gets harder. Skew the other way does the reverse.\n\nTip: that is why designers balance clock trees and then check **both** setup and hold.",
+      "searchQuery": "clock skew effect on setup and hold timing"
+    },
+    {
+      "id": "jk-excitation-set",
+      "title": "What JK inputs make a JK flip-flop go from $Q = 0$ to $Q = 1$?",
+      "body": "$J = 1$ and $K$ = don't care ($K = X$).\n\nBoth $JK = 10$ (set) and $JK = 11$ (toggle) take $0$ to $1$, so $K$ may be either value.\n\nTip: don't-cares like this in the excitation table are why JK-based designs can have simpler logic than D-based ones.",
+      "searchQuery": "JK flip-flop excitation table 0 to 1 don't care"
+    },
+    {
+      "id": "sr-latch-hold",
+      "title": "In a NOR-based SR latch, what does the input combination $S = R = 0$ do?",
+      "body": "It holds the previous state.\n\nWith both inputs inactive, the cross-coupled gates keep $Q$ and $\\bar{Q}$ at their stored values. $S = 1$ sets $Q = 1$ and $R = 1$ resets $Q = 0$.\n\nKey idea: this feedback is the basic **memory** element, since no input is needed to keep the value.",
+      "answer": "hold",
+      "acceptedAnswers": [
+        "holds",
+        "no change",
+        "memory",
+        "hold state",
+        "holds state",
+        "previous state"
+      ],
+      "searchQuery": "SR latch NOR S R both zero hold state"
+    },
+    {
+      "id": "rom-capacity-bits",
+      "title": "A ROM is organized as $1024 \\times 8$. How many bits does it store?",
+      "body": "$8192$ bits (1 KB)\n\nThere are $1024$ words of $8$ bits each: $1024 \\cdot 8 = 8192$ bits $= 1024$ bytes.\n\nWatch out: the notation is **words $\\times$ word width**. The size depends on both, so $1024 \\times 16$ stores twice as many bits.",
+      "answer": "8192",
+      "acceptedAnswers": [
+        "8192 bits",
+        "2^13",
+        "8k bits",
+        "8 kbit"
+      ],
+      "searchQuery": "ROM capacity bits words times width"
+    },
+    {
+      "id": "memory-address-lines",
+      "title": "How many address lines does a $4\\mathrm{K} \\times 8$ memory need? (Here $1\\mathrm{K} = 1024$.)",
+      "body": "$12$\n\n$4\\mathrm{K} = 4 \\cdot 1024 = 4096 = 2^{12}$ words, so $12$ address lines.\n\nTip: the data width (8 bits) sets the number of **data** lines. Only the number of words affects the address lines.",
+      "answer": "12",
+      "acceptedAnswers": [
+        "twelve"
+      ],
+      "searchQuery": "memory address lines 4K words 2^12"
+    },
+    {
+      "id": "sram-vs-dram",
+      "title": "How do SRAM and DRAM cells store a bit, and why does DRAM need refreshing?",
+      "body": "SRAM uses a **flip-flop** (about 6 transistors), while DRAM uses **one transistor and a small capacitor**.\n\nThe capacitor charge leaks away, so DRAM must be read and rewritten periodically (refreshed). SRAM is faster but larger per bit, so it is used for caches and DRAM for main memory.\n\nKey idea: both are **volatile**, and both lose their data when power is removed.",
+      "searchQuery": "SRAM versus DRAM storage cell refresh volatile"
+    },
+    {
+      "id": "fpga-lut-bits",
+      "title": "A 4-input look-up table (LUT) in an FPGA stores how many configuration bits?",
+      "body": "$16$\n\nA 4-input LUT is a tiny $16 \\times 1$ memory: one stored bit for each of the $2^4 = 16$ input combinations. Programming those 16 bits implements **any** 4-input Boolean function.\n\nWatch out: a $k$-input LUT needs $2^k$ bits, so cost doubles with each added input.",
+      "answer": "16",
+      "acceptedAnswers": [
+        "sixteen"
+      ],
+      "searchQuery": "FPGA look-up table 4-input LUT bits 2^4"
+    },
+    {
+      "id": "verilog-nonblocking",
+      "title": "In Verilog, which assignment operator should be used for registers inside a clocked block `always @(posedge clk)`: `=` or `<=`?",
+      "body": "The nonblocking assignment, `<=`.\n\nAll right-hand sides are evaluated first and the updates happen together at the end of the time step. That matches how real flip-flops all sample on the same edge.\n\nWatch out: using blocking `=` in a clocked block can make the result depend on the statement order, causing simulation and synthesis mismatches.",
+      "answer": "<=",
+      "acceptedAnswers": [
+        "nonblocking",
+        "non-blocking",
+        "nonblocking assignment",
+        "non-blocking assignment"
+      ],
+      "searchQuery": "Verilog nonblocking assignment clocked always block"
+    },
+    {
+      "id": "rom-as-lookup-table",
+      "title": "A ROM can implement any combinational function with $n$ inputs and $m$ outputs. What ROM size is needed, in words $\\times$ bits?",
+      "body": "$2^n \\times m$\n\nUse the $n$ inputs as the address and store the truth table: one $m$-bit word per input combination.\n\nExample: a 4-input, 3-output function needs a $16 \\times 3$ ROM.\nWatch out: the size doubles with every extra input, so ROMs suit functions with few inputs and many outputs.",
+      "searchQuery": "ROM implements combinational logic truth table 2^n words"
+    }
+  ]
+}

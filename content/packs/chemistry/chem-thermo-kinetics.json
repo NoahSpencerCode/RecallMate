@@ -1,0 +1,832 @@
+{
+  "id": "chem-thermo-kinetics",
+  "title": "Thermodynamics & Kinetics",
+  "course": "General Chemistry II",
+  "description": "Calorimetry, Hess's law, formation enthalpies, entropy, ΔG with K and E°, rate laws, first-order half-life, Arrhenius, mechanisms and catalysts.",
+  "cards": [
+    {
+      "id": "specific-heat-water",
+      "title": "What is the specific heat capacity of liquid water, as a number in J/(g·°C)?",
+      "body": "4.184\n\nThe value is the same per kelvin, and equals 1 cal/(g·°C).\n\nExample: $q = mc\\Delta T$, so warming $50.0\\,\\mathrm{g}$ of water by $10.0\\,^\\circ\\mathrm{C}$ takes $50.0 \\times 4.184 \\times 10.0 = 2.09\\,\\mathrm{kJ}$.\nWatch out: ice and steam have about **half** this value, so don't reuse 4.184 for them.",
+      "answer": "4.184",
+      "acceptedAnswers": [
+        "4.18"
+      ],
+      "searchQuery": "specific heat capacity of water 4.184 J/g°C"
+    },
+    {
+      "id": "calorimeter-sign",
+      "title": "During a reaction in a coffee-cup calorimeter, the water's temperature rises. What is the sign of $\\Delta H$ for the reaction?",
+      "body": "Negative: the reaction is **exothermic**.\n\nHeat released by the system is absorbed by the solution, so $q_{\\mathrm{rxn}} = -q_{\\mathrm{soln}} = -mc\\Delta T$.\n\nAn endothermic reaction ($\\Delta H > 0$) would make the solution colder.\n\nKey idea: at constant pressure, $\\Delta H = q$.",
+      "searchQuery": "coffee cup calorimeter temperature rise exothermic sign of delta H"
+    },
+    {
+      "id": "hess-law-manipulation",
+      "title": "$\\ce{A + B -> C}$ has $\\Delta H = -100\\,\\mathrm{kJ}$. What is $\\Delta H$ in kJ for $\\ce{2C -> 2A + 2B}$?",
+      "body": "+200\n\nHess's law: enthalpy is a **state function**, so $\\Delta H$ values add along any path.\n\nReversing a reaction flips the sign of $\\Delta H$; multiplying its coefficients by $n$ multiplies $\\Delta H$ by $n$.\n\nExample: reverse ($+100$), then double ($+200$).",
+      "answer": "+200",
+      "acceptedAnswers": [
+        "200",
+        "+200 kJ",
+        "200 kJ"
+      ],
+      "searchQuery": "Hess's law reverse reaction multiply coefficients enthalpy change"
+    },
+    {
+      "id": "enthalpy-of-formation-calc",
+      "title": "$\\Delta H^\\circ_f$ (kJ/mol): $\\ce{CH4(g)}$ $-74.6$, $\\ce{CO2(g)}$ $-393.5$, $\\ce{H2O(l)}$ $-285.8$. What is $\\Delta H^\\circ$ in kJ for $\\ce{CH4 + 2O2 -> CO2 + 2H2O(l)}$?",
+      "body": "-890.5\n\n$\\Delta H^\\circ_{\\mathrm{rxn}} = \\sum n\\Delta H^\\circ_f(\\text{products}) - \\sum n\\Delta H^\\circ_f(\\text{reactants}) = [-393.5 + 2(-285.8)] - [-74.6 + 0]$.\n\n$\\ce{O2(g)}$ is an element in its standard state, so its $\\Delta H^\\circ_f = 0$.\n\nWatch out: products minus reactants (not the reverse), and keep the coefficient 2.",
+      "answer": "-890.5",
+      "acceptedAnswers": [
+        "-890.5 kJ",
+        "-890.5 kJ/mol",
+        "-890",
+        "-891"
+      ],
+      "searchQuery": "standard enthalpy of combustion methane from enthalpy of formation"
+    },
+    {
+      "id": "entropy-sign-prediction",
+      "title": "Predict the sign of $\\Delta S^\\circ$ for $\\ce{2SO2(g) + O2(g) -> 2SO3(g)}$.",
+      "body": "Negative: 3 mol of gas become 2 mol.\n\nEntropy increases with more moles of gas, solid to liquid to gas, higher temperature, larger volume, dissolving a solid, and more complex molecules.\n\nTip: a change in the **moles of gas** usually dominates.",
+      "searchQuery": "predict sign of entropy change moles of gas SO2 SO3"
+    },
+    {
+      "id": "gibbs-four-cases",
+      "title": "$\\Delta G = \\Delta H - T\\Delta S$. If $\\Delta H < 0$ and $\\Delta S < 0$, when is the process spontaneous?",
+      "body": "Only at **low temperatures** (below $T = \\Delta H/\\Delta S$).\n\nAll four cases:\n- $\\Delta H -$, $\\Delta S +$: always\n- $\\Delta H +$, $\\Delta S -$: never\n- $\\Delta H -$, $\\Delta S -$: low $T$\n- $\\Delta H +$, $\\Delta S +$: high $T$\n\nExample: water freezing ($\\Delta H < 0$, $\\Delta S < 0$) is spontaneous only below $0\\,^\\circ\\mathrm{C}$.",
+      "searchQuery": "Gibbs free energy spontaneity four cases enthalpy entropy temperature"
+    },
+    {
+      "id": "delta-g-to-k",
+      "title": "At $298\\,\\mathrm{K}$ a reaction has $\\Delta G^\\circ = -11.4\\,\\mathrm{kJ/mol}$. Estimate $K$ using $\\Delta G^\\circ = -RT\\ln K$.",
+      "body": "100\n\n$\\ln K = 11{,}400 \\div (8.314 \\times 298) \\approx 4.6$, and $e^{4.6} \\approx 100$.\n\nTip: at $298\\,\\mathrm{K}$, every $-5.7\\,\\mathrm{kJ/mol}$ multiplies $K$ by 10.\nWatch out: use $R = 8.314\\,\\mathrm{J/(mol\\,K)}$ here, not 0.08206, and convert kJ to J.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "99",
+        "99.4",
+        "99.6",
+        "~100",
+        "about 100",
+        "1x10^2",
+        "10^2",
+        "1e2"
+      ],
+      "searchQuery": "delta G standard to equilibrium constant K = e^(-ΔG/RT)"
+    },
+    {
+      "id": "faraday-constant",
+      "title": "What is the Faraday constant $F$, used in $\\Delta G^\\circ = -nFE^\\circ$, as a number in coulombs per mole of electrons?",
+      "body": "96485\n\n$n$ is the moles of electrons transferred, and $1\\,\\mathrm{C\\cdot V} = 1\\,\\mathrm{J}$. Positive $E^\\circ$ means negative $\\Delta G^\\circ$: a spontaneous (galvanic) cell.\n\nExample: Zn/Cu cell, $n = 2$, $E^\\circ = 1.10\\,\\mathrm{V}$: $\\Delta G^\\circ = -2 \\times 96{,}485 \\times 1.10\\,\\mathrm{J} \\approx -212\\,\\mathrm{kJ}$.",
+      "answer": "96485",
+      "acceptedAnswers": [
+        "96500",
+        "9.65x10^4",
+        "9.6485x10^4",
+        "96485 C/mol"
+      ],
+      "searchQuery": "Faraday constant 96485 C/mol delta G nFE"
+    },
+    {
+      "id": "rate-law-from-experiment",
+      "title": "$\\ce{2NO(g) + 2H2(g) -> N2(g) + 2H2O(g)}$ has rate $= k[\\ce{NO}]^2[\\ce{H2}]$. Why isn't the exponent on $\\ce{H2}$ equal to its coefficient, 2?",
+      "body": "Rate laws are found by **experiment**; coefficients give the orders only for a single elementary step.\n\nThis reaction occurs in several steps, and the slow step (with any steps before it) sets the orders.\n\nTip: find the orders from data, for example with the method of initial rates.",
+      "searchQuery": "rate law determined experimentally not from stoichiometry NO H2"
+    },
+    {
+      "id": "initial-rates-order",
+      "title": "Holding $[\\ce{B}]$ constant, doubling $[\\ce{A}]$ makes the initial rate four times faster. What is the reaction order in A?",
+      "body": "2\n\nRate ratio = (concentration ratio)$^{\\text{order}}$, so $2^n = 4$ and $n = 2$: **second order**.\n\nDoubling $[\\ce{A}]$ with no rate change means zero order; rate doubles means first order; rate $\\times 8$ means third order.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "second",
+        "second order",
+        "2nd",
+        "2nd order",
+        "two"
+      ],
+      "searchQuery": "method of initial rates reaction order doubling concentration"
+    },
+    {
+      "id": "first-order-half-life",
+      "title": "A first-order reaction has $k = 0.0693\\,\\mathrm{min^{-1}}$. What is its half-life in minutes?",
+      "body": "10.0\n\n$t_{1/2} = \\ln 2/k = 0.693/k$, **independent** of the starting concentration.\n\nEach half-life halves whatever is left: 100% to 50% to 25% to 12.5%.\n\nWatch out: zero- and second-order half-lives do depend on $[\\ce{A}]_0$.",
+      "answer": "10",
+      "acceptedAnswers": [
+        "10 min",
+        "10 minutes"
+      ],
+      "searchQuery": "first-order half-life ln2/k calculation"
+    },
+    {
+      "id": "first-order-linear-plot",
+      "title": "Which plot gives a straight line for a first-order reaction, and what is its slope?",
+      "body": "$\\ln[\\ce{A}]$ versus time, with slope $= -k$\n\nIt comes from the integrated rate law $\\ln[\\ce{A}]_t = -kt + \\ln[\\ce{A}]_0$.\n\nCompare:\n- zero order: $[\\ce{A}]$ vs $t$, slope $-k$\n- second order: $1/[\\ce{A}]$ vs $t$, slope $+k$",
+      "searchQuery": "first order integrated rate law ln[A] versus time slope -k"
+    },
+    {
+      "id": "arrhenius-plot-slope",
+      "title": "Arrhenius plot: what is the slope of $\\ln k$ versus $1/T$?",
+      "body": "$-E_a/R$\n\nTaking the log of $k = Ae^{-E_a/RT}$ gives $\\ln k = -\\dfrac{E_a}{R}\\left(\\dfrac{1}{T}\\right) + \\ln A$, a straight line.\n\nSo $E_a = -\\text{slope} \\times 8.314\\,\\mathrm{J/(mol\\,K)}$.\n\nTip: two-point form: $\\ln\\dfrac{k_2}{k_1} = \\dfrac{E_a}{R}\\left(\\dfrac{1}{T_1} - \\dfrac{1}{T_2}\\right)$.",
+      "answer": "-Ea/R",
+      "acceptedAnswers": [
+        "-Ea/8.314",
+        "-(Ea/R)"
+      ],
+      "answerDisplay": "$-E_a/R$",
+      "searchQuery": "Arrhenius plot slope ln k vs 1/T equals -Ea/R"
+    },
+    {
+      "id": "rate-determining-step",
+      "title": "Mechanism: $\\ce{NO2 + NO2 -> NO3 + NO}$ (slow), then $\\ce{NO3 + CO -> NO2 + CO2}$ (fast). What is the rate law?",
+      "body": "Rate $= k[\\ce{NO2}]^2$\n\nThe slow, **rate-determining step** controls the overall rate, and for an elementary step the coefficients give the orders.\n\nCO reacts only after the slow step, so the reaction is zero order in CO. $\\ce{NO3}$ is an intermediate.\n\nKey idea: the slowest step is the bottleneck.",
+      "searchQuery": "rate law from mechanism slow step NO2 CO"
+    },
+    {
+      "id": "catalyst-activation-energy",
+      "title": "A catalyst speeds up a reaction by lowering what?",
+      "body": "The activation energy ($E_a$)\n\nIt provides a different mechanism with a lower barrier, speeding the forward and reverse reactions **equally**.\n\nIt doesn't change $\\Delta H$, $\\Delta G^\\circ$, $K$ or the equilibrium yield, and it isn't consumed.",
+      "answer": "activation energy",
+      "acceptedAnswers": [
+        "Ea",
+        "energy of activation",
+        "activation barrier",
+        "activation energy barrier",
+        "energy barrier"
+      ],
+      "searchQuery": "catalyst lowers activation energy reaction rate"
+    },
+    {
+      "id": "heat-versus-temperature",
+      "title": "What is the difference between heat and temperature?",
+      "body": "**Heat** is energy transferred because of a temperature difference; **temperature** measures the average kinetic energy of the particles.\n\nHeat flows from the hotter object to the colder one until their temperatures match.\n\nExample: a bathtub of warm water holds far more thermal energy than a hot spoon, though the spoon is at a higher temperature.\n\nWatch out: temperature is not the same as the total thermal energy of an object.",
+      "searchQuery": "difference between heat and temperature thermal energy transfer"
+    },
+    {
+      "id": "endothermic-sign-of-delta-h",
+      "title": "What is the sign of $\\Delta H$ for an endothermic process?",
+      "body": "positive\n\nAn **endothermic** process absorbs heat from the surroundings, so the surroundings get colder and $\\Delta H > 0$.\n\nExample: melting ice and dissolving $\\ce{NH4NO3}$ in water are endothermic.\n\nMnemonic: endo = in; heat goes **in**, so $\\Delta H$ is plus.",
+      "answer": "positive",
+      "acceptedAnswers": [
+        "+",
+        "greater than 0",
+        "greater than zero",
+        "plus"
+      ],
+      "searchQuery": "endothermic process positive enthalpy change heat absorbed"
+    },
+    {
+      "id": "state-function-identification",
+      "title": "Which of these is not a state function: internal energy $U$, enthalpy $H$, entropy $S$ or work $w$?",
+      "body": "Work ($w$)\n\nA **state function** depends only on the current state of the system, not on the path taken. Heat $q$ and work $w$ both depend on the path.\n\nTheir sum is path independent: $\\Delta U = q + w$.\n\nKey idea: $\\Delta$ of a state function is final minus initial, which is why Hess's law works.",
+      "searchQuery": "state function versus path function work heat internal energy"
+    },
+    {
+      "id": "heat-for-water-warming",
+      "title": "How much heat, in kJ, is needed to warm $100.0\\,\\mathrm{g}$ of water from $20.0\\,^\\circ\\mathrm{C}$ to $35.0\\,^\\circ\\mathrm{C}$? Use three significant figures.",
+      "body": "6.28\n\n$q = mc\\Delta T = (100.0\\,\\mathrm{g})(4.184\\,\\mathrm{J/(g\\cdot ^\\circ C)})(15.0\\,^\\circ\\mathrm{C}) = 6276\\,\\mathrm{J}$.\n\nWatch out: divide by 1000 to convert joules to kilojoules.",
+      "answer": "6.28",
+      "searchQuery": "heat required to warm water q = mcΔT calculation"
+    },
+    {
+      "id": "calorimetry-mixing-final-temperature",
+      "title": "$50.0\\,\\mathrm{g}$ of water at $80.0\\,^\\circ\\mathrm{C}$ is mixed with $50.0\\,\\mathrm{g}$ of water at $20.0\\,^\\circ\\mathrm{C}$ in an insulated cup. What is the final temperature in $^\\circ\\mathrm{C}$?",
+      "body": "50.0\n\nHeat lost by the hot water equals heat gained by the cold water: $m c(80.0 - T_f) = m c(T_f - 20.0)$.\n\nWith equal masses the result is the average of the two temperatures.\n\nTip: with unequal masses, use the mass-weighted average.",
+      "answer": "50.0",
+      "searchQuery": "calorimetry mixing hot and cold water final temperature"
+    },
+    {
+      "id": "calorimetry-neutralization-enthalpy",
+      "title": "$50.0\\,\\mathrm{mL}$ each of $1.00\\,\\mathrm{M}$ $\\ce{HCl}$ and $\\ce{NaOH}$ mix, warming $100.0\\,\\mathrm{g}$ of solution by $6.80\\,^\\circ\\mathrm{C}$. What is $\\Delta H$ (kJ per mol water formed)?",
+      "body": "-56.9\n\n$q_{\\mathrm{soln}} = (100.0)(4.184)(6.80) = 2845\\,\\mathrm{J}$, and $0.0500\\,\\mathrm{mol}$ of water forms.\n\n$\\Delta H = -2845\\,\\mathrm{J} / 0.0500\\,\\mathrm{mol} = -56.9\\,\\mathrm{kJ/mol}$.\n\nWatch out: the sign is negative, because the solution gained the heat the reaction released.",
+      "answer": "-56.9",
+      "acceptedAnswers": [
+        "-57"
+      ],
+      "searchQuery": "coffee cup calorimetry neutralization enthalpy HCl NaOH calculation"
+    },
+    {
+      "id": "calorimeter-heat-capacity-calculation",
+      "title": "A bomb calorimeter has a heat capacity of $4.50\\,\\mathrm{kJ/^\\circ C}$, and a combustion raises its temperature by $2.00\\,^\\circ\\mathrm{C}$. How much heat, in kJ, did the reaction release?",
+      "body": "9.00\n\n$q_{\\mathrm{cal}} = C_{\\mathrm{cal}}\\Delta T = (4.50)(2.00) = 9.00\\,\\mathrm{kJ}$, and the reaction released that much.\n\nThe calorimeter constant covers the water, steel and all other parts.\n\nTip: divide by the moles burned to get the molar heat of combustion.",
+      "answer": "9.00",
+      "searchQuery": "bomb calorimeter heat capacity calculation heat of combustion"
+    },
+    {
+      "id": "bomb-calorimeter-measures",
+      "title": "A bomb calorimeter operates at constant volume. Which quantity does the measured heat equal: $\\Delta U$ or $\\Delta H$?",
+      "body": "$\\Delta U$\n\nAt constant volume no $P\\Delta V$ work is done, so $q_V = \\Delta U$.\n\nConvert to enthalpy with $\\Delta H = \\Delta U + \\Delta n_{\\mathrm{gas}}RT$ (the two differ only when the moles of gas change).\n\nKey idea: coffee cup (constant $P$) gives $\\Delta H$; bomb (constant $V$) gives $\\Delta U$.",
+      "searchQuery": "bomb calorimeter constant volume measures internal energy change"
+    },
+    {
+      "id": "first-law-delta-u",
+      "title": "The first law gives $\\Delta U$ in terms of heat $q$ and work $w$. Write it, with $w > 0$ meaning work done on the system.",
+      "body": "$\\Delta U = q + w$\n\nHeat absorbed by the system and work done **on** the system both raise its internal energy.\n\nWatch out: some textbooks define $w$ as work done by the system and write $\\Delta U = q - w$; check your sign convention.",
+      "answer": "q+w",
+      "acceptedAnswers": [
+        "dU=q+w",
+        "ΔU=q+w"
+      ],
+      "answerDisplay": "$\\Delta U = q + w$",
+      "searchQuery": "first law of thermodynamics delta U equals q plus w sign convention"
+    },
+    {
+      "id": "expansion-work-calculation",
+      "title": "A gas expands by $2.00\\,\\mathrm{L}$ against a constant external pressure of $1.00\\,\\mathrm{atm}$. What is $w$ in joules? ($1\\,\\mathrm{L\\,atm} = 101.3\\,\\mathrm{J}$.)",
+      "body": "-203\n\n$w = -P_{\\mathrm{ext}}\\Delta V = -(1.00\\,\\mathrm{atm})(2.00\\,\\mathrm{L}) = -2.00\\,\\mathrm{L\\,atm} = -203\\,\\mathrm{J}$.\n\nThe sign is negative because the system does work **on** the surroundings, lowering its energy.",
+      "answer": "-203",
+      "acceptedAnswers": [
+        "-202.6",
+        "-202"
+      ],
+      "searchQuery": "pressure-volume work w = -PΔV expansion calculation joules"
+    },
+    {
+      "id": "delta-h-versus-delta-u",
+      "title": "How are $\\Delta H$ and $\\Delta U$ related for a reaction at constant temperature involving gases?",
+      "body": "$\\Delta H = \\Delta U + \\Delta n_{\\mathrm{gas}}RT$\n\n$\\Delta n_{\\mathrm{gas}}$ is moles of gaseous products minus gaseous reactants, and $R = 8.314\\,\\mathrm{J/(mol\\,K)}$.\n\nExample: $\\ce{2H2(g) + O2(g) -> 2H2O(l)}$ has $\\Delta n = -3$, so $\\Delta H$ is more negative than $\\Delta U$.\n\nWatch out: if $\\Delta n_{\\mathrm{gas}} = 0$, then $\\Delta H = \\Delta U$.",
+      "searchQuery": "relationship enthalpy and internal energy delta H delta U delta n RT"
+    },
+    {
+      "id": "thermochemical-equation-scaling",
+      "title": "$\\ce{2H2(g) + O2(g) -> 2H2O(l)}$ has $\\Delta H = -572\\,\\mathrm{kJ}$. How much heat, in kJ, is released when $1.00\\,\\mathrm{mol}$ of $\\ce{H2}$ burns?",
+      "body": "286\n\nThe equation as written uses 2 mol of $\\ce{H2}$, so 1 mol releases half: $572/2 = 286\\,\\mathrm{kJ}$.\n\nTip: $\\Delta H$ is per mole of reaction **as written**, so scale it by the actual moles over the coefficient.",
+      "answer": "286",
+      "acceptedAnswers": [
+        "-286"
+      ],
+      "searchQuery": "thermochemical equation scaling heat released moles of hydrogen"
+    },
+    {
+      "id": "standard-state-conditions",
+      "title": "What conditions define the thermodynamic standard state for a gas and for a solute?",
+      "body": "Gas: partial pressure of **1 bar** (nearly 1 atm). Solute: concentration of **1 M**.\n\nA pure solid or liquid is in its pure form at 1 bar. The degree sign in $\\Delta H^\\circ$ marks these conditions.\n\nWatch out: temperature is not part of the definition, though tables are usually given at $25\\,^\\circ\\mathrm{C}$ ($298.15\\,\\mathrm{K}$).",
+      "searchQuery": "thermodynamic standard state conditions 1 bar 1 M definition"
+    },
+    {
+      "id": "zero-formation-enthalpy-choice",
+      "title": "Which has $\\Delta H^\\circ_f = 0$ at $25\\,^\\circ\\mathrm{C}$: $\\ce{Br2(g)}$, $\\ce{Br2(l)}$, $\\ce{C}$(diamond) or $\\ce{O3(g)}$?",
+      "body": "$\\ce{Br2(l)}$\n\n$\\Delta H^\\circ_f$ is zero for an element in its **most stable form** at 1 bar and the given temperature. Bromine is a liquid at $25\\,^\\circ\\mathrm{C}$.\n\nDiamond and ozone are not the most stable forms of carbon and oxygen (graphite and $\\ce{O2}$ are), so their values are not zero.",
+      "searchQuery": "standard enthalpy of formation zero elements standard state bromine liquid"
+    },
+    {
+      "id": "formation-equation-sodium-chloride",
+      "title": "Write the formation reaction whose enthalpy is $\\Delta H^\\circ_f$ of $\\ce{NaCl(s)}$.",
+      "body": "$\\ce{Na(s) + 1/2Cl2(g) -> NaCl(s)}$\n\nA formation reaction makes **exactly 1 mol** of the compound from its elements in their standard states.\n\nThat's why fractional coefficients (here $\\tfrac12$) are allowed.\n\nWatch out: don't write $\\ce{Cl(g)}$; chlorine's standard state is $\\ce{Cl2(g)}$.",
+      "searchQuery": "formation reaction NaCl elements in standard states one mole"
+    },
+    {
+      "id": "hess-law-carbon-monoxide",
+      "title": "Given $\\ce{C + O2 -> CO2}$ ($-393.5\\,\\mathrm{kJ}$) and $\\ce{CO + 1/2O2 -> CO2}$ ($-283.0\\,\\mathrm{kJ}$), what is $\\Delta H$ in kJ for $\\ce{C + 1/2O2 -> CO}$?",
+      "body": "-110.5\n\nKeep the first equation and **reverse** the second ($+283.0$), then add: $-393.5 + 283.0 = -110.5$.\n\nThe $\\ce{CO2}$ cancels, leaving the target reaction.\n\nTip: check each species cancels or lands on the right side before adding the $\\Delta H$ values.",
+      "answer": "-110.5",
+      "searchQuery": "Hess's law carbon monoxide enthalpy of formation from combustion"
+    },
+    {
+      "id": "hess-law-nitrogen-dioxide",
+      "title": "$\\ce{N2 + O2 -> 2NO}$, $\\Delta H = +180.5\\,\\mathrm{kJ}$; $\\ce{2NO + O2 -> 2NO2}$, $\\Delta H = -114.1\\,\\mathrm{kJ}$. What is $\\Delta H$ in kJ for $\\ce{N2 + 2O2 -> 2NO2}$?",
+      "body": "66.4\n\nThe two steps add directly, and $2\\ce{NO}$ cancels: $180.5 + (-114.1) = +66.4\\,\\mathrm{kJ}$.\n\nThe positive sign means forming $\\ce{NO2}$ from its elements is endothermic.",
+      "answer": "66.4",
+      "acceptedAnswers": [
+        "+66.4"
+      ],
+      "searchQuery": "Hess's law N2 O2 NO2 enthalpy change two steps"
+    },
+    {
+      "id": "bond-enthalpy-hcl-estimate",
+      "title": "Bond enthalpies (kJ/mol): H-H 436, Cl-Cl 243, H-Cl 431. Estimate $\\Delta H$ in kJ for $\\ce{H2 + Cl2 -> 2HCl}$.",
+      "body": "-183\n\n$\\Delta H \\approx \\sum(\\text{bonds broken}) - \\sum(\\text{bonds formed}) = (436 + 243) - 2(431) = 679 - 862$.\n\nWatch out: this is **broken minus formed**, the reverse of the $\\Delta H_f$ rule (products minus reactants).",
+      "answer": "-183",
+      "searchQuery": "estimate reaction enthalpy from bond enthalpies H2 Cl2 HCl"
+    },
+    {
+      "id": "bond-breaking-energy-sign",
+      "title": "Is breaking a chemical bond exothermic or endothermic?",
+      "body": "endothermic\n\nEnergy must be **supplied** to pull atoms apart, while forming a bond releases the same energy.\n\nA reaction is exothermic overall when the bonds formed are stronger than the bonds broken.",
+      "answer": "endothermic",
+      "acceptedAnswers": [
+        "absorbs energy"
+      ],
+      "searchQuery": "bond breaking endothermic bond formation exothermic"
+    },
+    {
+      "id": "enthalpy-of-fusion-ice-calculation",
+      "title": "$\\Delta H_{\\mathrm{fus}}$ of water is $6.01\\,\\mathrm{kJ/mol}$. How much heat, in kJ, melts $36.0\\,\\mathrm{g}$ of ice at $0\\,^\\circ\\mathrm{C}$? ($M = 18.0\\,\\mathrm{g/mol}$)",
+      "body": "12.0\n\n$n = 36.0 / 18.0 = 2.00\\,\\mathrm{mol}$, so $q = n\\Delta H_{\\mathrm{fus}} = 2.00 \\times 6.01 = 12.0\\,\\mathrm{kJ}$.\n\nThe temperature stays at $0\\,^\\circ\\mathrm{C}$ during melting; all the heat goes into breaking intermolecular attractions.",
+      "answer": "12.0",
+      "acceptedAnswers": [
+        "12.02"
+      ],
+      "searchQuery": "heat of fusion ice calculation enthalpy of fusion water"
+    },
+    {
+      "id": "heating-curve-plateau",
+      "title": "Why is the temperature constant on the flat parts of a heating curve?",
+      "body": "The added heat is breaking **intermolecular attractions** (a phase change), not raising kinetic energy.\n\nThe temperature starts rising again only when the whole sample has changed phase.\n\nExample: while ice melts at $0\\,^\\circ\\mathrm{C}$, the ice-water mixture stays at $0\\,^\\circ\\mathrm{C}$.",
+      "searchQuery": "heating curve plateau phase change constant temperature"
+    },
+    {
+      "id": "vaporization-versus-fusion-enthalpy",
+      "title": "Why is $\\Delta H_{\\mathrm{vap}}$ much larger than $\\Delta H_{\\mathrm{fus}}$ for the same substance?",
+      "body": "Vaporization separates the molecules **completely**, while melting only loosens them.\n\nFor water, $\\Delta H_{\\mathrm{vap}} = 40.7\\,\\mathrm{kJ/mol}$ and $\\Delta H_{\\mathrm{fus}} = 6.01\\,\\mathrm{kJ/mol}$.\n\nKey idea: in the liquid, most intermolecular attractions are still present.",
+      "searchQuery": "why enthalpy of vaporization larger than enthalpy of fusion"
+    },
+    {
+      "id": "second-law-universe-entropy",
+      "title": "What does the second law of thermodynamics say about $\\Delta S_{\\mathrm{univ}}$ for a spontaneous process?",
+      "body": "$\\Delta S_{\\mathrm{univ}} > 0$\n\nThe entropy of the universe, $\\Delta S_{\\mathrm{univ}} = \\Delta S_{\\mathrm{sys}} + \\Delta S_{\\mathrm{surr}}$, increases in every spontaneous process.\n\nWatch out: the **system's** entropy can decrease, as when water freezes, as long as the surroundings gain more.",
+      "searchQuery": "second law of thermodynamics entropy of universe increases spontaneous"
+    },
+    {
+      "id": "third-law-zero-entropy",
+      "title": "What does the third law of thermodynamics say about a perfect crystal at $0\\,\\mathrm{K}$?",
+      "body": "Its entropy is **zero**.\n\nThat gives entropy an absolute zero point, so tables list absolute molar entropies $S^\\circ$, which are always positive above $0\\,\\mathrm{K}$.\n\nWatch out: unlike $\\Delta H^\\circ_f$ of an element, the $S^\\circ$ of an element is **not** zero at $25\\,^\\circ\\mathrm{C}$.",
+      "searchQuery": "third law of thermodynamics perfect crystal zero entropy absolute"
+    },
+    {
+      "id": "boltzmann-entropy-equation",
+      "title": "What does Boltzmann's equation $S = k_B\\ln W$ say about entropy?",
+      "body": "Entropy measures the number of **microstates** $W$ available to a system.\n\nMore ways to arrange the energy and particles means higher entropy; $k_B$ is Boltzmann's constant.\n\nKey idea: entropy counts the number of microscopic arrangements consistent with the macroscopic state.",
+      "searchQuery": "Boltzmann entropy S = k ln W microstates meaning"
+    },
+    {
+      "id": "entropy-comparison-molecular-complexity",
+      "title": "Which has the larger standard molar entropy at $25\\,^\\circ\\mathrm{C}$: $\\ce{CH4(g)}$ or $\\ce{C2H6(g)}$?",
+      "body": "$\\ce{C2H6(g)}$\n\nLarger, more complex molecules have more ways to rotate and vibrate, so more accessible microstates.\n\nTip: for similar phases, entropy rises with molar mass and molecular complexity.",
+      "searchQuery": "standard molar entropy comparison methane ethane molecular complexity"
+    },
+    {
+      "id": "entropy-change-haber-calculation",
+      "title": "$S^\\circ$ in J/(mol K): $\\ce{N2}$ 191.6, $\\ce{H2}$ 130.7, $\\ce{NH3}$ 192.5. What is $\\Delta S^\\circ$ in J/K for $\\ce{N2 + 3H2 -> 2NH3}$?",
+      "body": "-198.7\n\n$\\Delta S^\\circ = \\sum nS^\\circ(\\text{products}) - \\sum nS^\\circ(\\text{reactants}) = 2(192.5) - [191.6 + 3(130.7)] = 385.0 - 583.7$.\n\nThe negative sign agrees with 4 mol of gas becoming 2 mol.\n\nWatch out: multiply each $S^\\circ$ by its coefficient.",
+      "answer": "-198.7",
+      "searchQuery": "standard entropy change reaction calculation ammonia synthesis"
+    },
+    {
+      "id": "entropy-surroundings-calculation",
+      "title": "A reaction has $\\Delta H = -92.2\\,\\mathrm{kJ}$ at $298\\,\\mathrm{K}$. What is $\\Delta S_{\\mathrm{surr}}$ in J/K (nearest whole number)?",
+      "body": "309\n\n$\\Delta S_{\\mathrm{surr}} = -\\Delta H/T = +92{,}200\\,\\mathrm{J}/298\\,\\mathrm{K} = +309\\,\\mathrm{J/K}$.\n\nAn exothermic reaction dumps heat into the surroundings, raising their entropy.\n\nWatch out: convert kJ to J so the units match J/K.",
+      "answer": "309",
+      "acceptedAnswers": [
+        "+309"
+      ],
+      "searchQuery": "entropy change of surroundings -ΔH/T calculation"
+    },
+    {
+      "id": "gibbs-from-enthalpy-entropy",
+      "title": "At $298\\,\\mathrm{K}$, a reaction has $\\Delta H^\\circ = -92.2\\,\\mathrm{kJ}$ and $\\Delta S^\\circ = -198.7\\,\\mathrm{J/K}$. What is $\\Delta G^\\circ$ in kJ?",
+      "body": "-33.0\n\n$\\Delta G^\\circ = \\Delta H^\\circ - T\\Delta S^\\circ = -92.2\\,\\mathrm{kJ} - (298)(-0.1987\\,\\mathrm{kJ/K}) = -92.2 + 59.2$.\n\nWatch out: express $\\Delta S$ in **kJ/K** (divide J by 1000) before combining with $\\Delta H$.",
+      "answer": "-33.0",
+      "searchQuery": "calculate delta G from delta H and delta S at 298 K"
+    },
+    {
+      "id": "crossover-temperature-calculation",
+      "title": "A reaction has $\\Delta H = +160\\,\\mathrm{kJ/mol}$ and $\\Delta S = +200\\,\\mathrm{J/(mol\\,K)}$. Above what temperature in kelvin is it spontaneous?",
+      "body": "800\n\nSet $\\Delta G = 0$: $T = \\Delta H/\\Delta S = 160{,}000/200 = 800\\,\\mathrm{K}$.\n\nBecause $\\Delta S > 0$, the $-T\\Delta S$ term wins at higher $T$ and $\\Delta G < 0$ above this temperature.\n\nWatch out: convert $\\Delta H$ to joules to match $\\Delta S$.",
+      "answer": "800",
+      "searchQuery": "temperature at which reaction becomes spontaneous delta H over delta S"
+    },
+    {
+      "id": "gibbs-nonstandard-conditions",
+      "title": "How does $\\Delta G$ at non-standard conditions relate to $\\Delta G^\\circ$ and $Q$?",
+      "body": "$\\Delta G = \\Delta G^\\circ + RT\\ln Q$\n\nThe sign of $\\Delta G$ (not $\\Delta G^\\circ$) decides the actual direction: negative means forward.\n\nAt equilibrium, $\\Delta G = 0$ and $Q = K$, which gives $\\Delta G^\\circ = -RT\\ln K$.\n\nWatch out: $\\Delta G^\\circ$ only tells you about the standard state ($Q = 1$).",
+      "searchQuery": "delta G equals delta G standard plus RT ln Q nonstandard"
+    },
+    {
+      "id": "delta-g-at-equilibrium",
+      "title": "What is the value of $\\Delta G$ (not $\\Delta G^\\circ$) for a system at equilibrium, in kJ/mol?",
+      "body": "0\n\nAt equilibrium there is no driving force in either direction, and $Q = K$.\n\nWatch out: $\\Delta G^\\circ$ is zero at equilibrium only when $K = 1$.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero"
+      ],
+      "searchQuery": "Gibbs free energy at equilibrium delta G equals zero"
+    },
+    {
+      "id": "delta-g-to-k-calculation",
+      "title": "A reaction has $K = 1.0 \\times 10^5$ at $298\\,\\mathrm{K}$. What is $\\Delta G^\\circ$ in kJ/mol, to three significant figures?",
+      "body": "-28.5\n\n$\\Delta G^\\circ = -RT\\ln K = -(8.314)(298)\\ln(10^5) = -(2478)(11.51) = -28{,}500\\,\\mathrm{J/mol}$.\n\nTip: $\\Delta G^\\circ \\approx -5.71\\,\\mathrm{kJ/mol}$ for each factor of 10 in $K$ at $298\\,\\mathrm{K}$, and $5 \\times 5.71 = 28.5$.",
+      "answer": "-28.5",
+      "searchQuery": "calculate delta G standard from equilibrium constant K = 1e5"
+    },
+    {
+      "id": "k-from-positive-delta-g",
+      "title": "A reaction has $\\Delta G^\\circ = +10.0\\,\\mathrm{kJ/mol}$ at $298\\,\\mathrm{K}$. What is $K$, to two significant figures?",
+      "body": "0.018\n\n$\\ln K = -\\dfrac{10{,}000}{(8.314)(298)} = -4.04$, so $K = e^{-4.04} = 0.018$.\n\nA positive $\\Delta G^\\circ$ means $K < 1$: reactants are favored at equilibrium.\n\nWatch out: $K < 1$ does not mean no products form, only that they are a minority.",
+      "answer": "0.018",
+      "acceptedAnswers": [
+        "1.8x10^-2",
+        "1.8e-2",
+        "0.0177"
+      ],
+      "searchQuery": "equilibrium constant from positive standard Gibbs energy calculation"
+    },
+    {
+      "id": "spontaneous-versus-fast",
+      "title": "Does a negative $\\Delta G$ mean a reaction is fast?",
+      "body": "No: $\\Delta G$ says whether a reaction can occur, not **how fast**.\n\nDiamond turning into graphite has $\\Delta G < 0$ but is immeasurably slow because of its high activation energy.\n\nKey idea: thermodynamics gives direction and extent; kinetics gives speed.",
+      "searchQuery": "spontaneous does not mean fast thermodynamics versus kinetics diamond graphite"
+    },
+    {
+      "id": "endothermic-spontaneous-dissolution",
+      "title": "Dissolving $\\ce{NH4NO3}$ in water is endothermic yet spontaneous. What drives it?",
+      "body": "An **increase in entropy** ($\\Delta S > 0$).\n\nThe ordered solid breaks into free ions in solution. At room temperature the $-T\\Delta S$ term outweighs the positive $\\Delta H$, so $\\Delta G < 0$.\n\nKey idea: $\\Delta H > 0$ and $\\Delta S > 0$ is spontaneous at high enough $T$.",
+      "searchQuery": "endothermic dissolution spontaneous entropy driven ammonium nitrate"
+    },
+    {
+      "id": "boiling-point-from-thermodynamics",
+      "title": "For water, $\\Delta H_{\\mathrm{vap}} = 40.7\\,\\mathrm{kJ/mol}$ and $\\Delta S_{\\mathrm{vap}} = 109\\,\\mathrm{J/(mol\\,K)}$. Estimate the normal boiling point in kelvin.",
+      "body": "373\n\nAt the boiling point liquid and gas are in equilibrium, so $\\Delta G = 0$ and $T = \\Delta H/\\Delta S = 40{,}700/109 = 373\\,\\mathrm{K}$.\n\nThat's $100\\,^\\circ\\mathrm{C}$.\n\nWatch out: use $\\Delta H$ in joules to match $\\Delta S$.",
+      "answer": "373",
+      "searchQuery": "boiling point from enthalpy and entropy of vaporization water"
+    },
+    {
+      "id": "delta-g-to-cell-potential",
+      "title": "A galvanic cell reaction with $n = 2$ has $\\Delta G^\\circ = -193\\,\\mathrm{kJ}$. What is $E^\\circ_{\\mathrm{cell}}$ in volts, to three significant figures?",
+      "body": "1.00\n\n$E^\\circ = -\\Delta G^\\circ/(nF) = 193{,}000\\,\\mathrm{J}/[(2)(96{,}485\\,\\mathrm{C/mol})] = 1.00\\,\\mathrm{V}$.\n\nWatch out: use $\\Delta G^\\circ$ in joules.",
+      "answer": "1.00",
+      "searchQuery": "cell potential from delta G standard E = -ΔG/nF calculation"
+    },
+    {
+      "id": "cell-potential-to-k",
+      "title": "At $25\\,^\\circ\\mathrm{C}$, a cell reaction has $n = 2$ and $E^\\circ = 0.0592\\,\\mathrm{V}$. What is $K$?",
+      "body": "100\n\nAt $25\\,^\\circ\\mathrm{C}$, $\\log K = \\dfrac{nE^\\circ}{0.0592\\,\\mathrm{V}} = \\dfrac{2(0.0592)}{0.0592} = 2$, so $K = 10^2$.\n\nThis comes from $nFE^\\circ = RT\\ln K$.\n\nTip: every $0.0296\\,\\mathrm{V}$ of $E^\\circ$ (for $n = 2$) multiplies $K$ by 10.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "1x10^2",
+        "10^2",
+        "1e2"
+      ],
+      "searchQuery": "equilibrium constant from standard cell potential log K = nE/0.0592"
+    },
+    {
+      "id": "nernst-equation",
+      "title": "Write the Nernst equation at $25\\,^\\circ\\mathrm{C}$ for a cell with $n$ electrons transferred.",
+      "body": "$E = E^\\circ - \\dfrac{0.0592}{n}\\log Q$\n\nIt gives the cell potential at any concentrations; at equilibrium $Q = K$ and $E = 0$.\n\nIn general form, $E = E^\\circ - \\dfrac{RT}{nF}\\ln Q$.\n\nTip: when $Q < 1$ (more reactants), $E > E^\\circ$.",
+      "searchQuery": "Nernst equation cell potential non-standard concentrations 0.0592"
+    },
+    {
+      "id": "reaction-rate-definition",
+      "title": "How is the rate of $\\ce{aA -> products}$ defined in terms of the concentration of A, and in what units?",
+      "body": "Rate $= -\\dfrac{1}{a}\\dfrac{\\Delta[\\ce{A}]}{\\Delta t}$, in $\\mathrm{M/s}$\n\nThe minus sign makes the rate positive, because a reactant's concentration falls.\n\nDividing by the coefficient $a$ makes the rate the same for every species in the reaction.\n\nWatch out: for a product, the rate is $+\\Delta[\\ce{P}]/\\Delta t$ divided by its coefficient.",
+      "searchQuery": "definition of reaction rate change in concentration over time stoichiometry"
+    },
+    {
+      "id": "average-versus-instantaneous-rate",
+      "title": "How do you find the instantaneous rate at time $t$ from a plot of concentration versus time?",
+      "body": "Take the **slope of the tangent** to the curve at that time, and use its magnitude.\n\nThe **initial rate** is the slope at $t = 0$. An average rate uses $\\Delta[\\ce{A}]/\\Delta t$ over a whole interval.\n\nTip: initial rates are used in the method of initial rates because the products haven't built up yet.",
+      "searchQuery": "instantaneous rate tangent slope concentration time graph initial rate"
+    },
+    {
+      "id": "rate-of-product-from-reactant",
+      "title": "In $\\ce{2N2O5 -> 4NO2 + O2}$, $\\ce{N2O5}$ disappears at $0.020\\,\\mathrm{M/s}$. At what rate in M/s does $\\ce{O2}$ form?",
+      "body": "0.010\n\nRate $= -\\dfrac{1}{2}\\dfrac{\\Delta[\\ce{N2O5}]}{\\Delta t} = \\dfrac{\\Delta[\\ce{O2}]}{\\Delta t}$, so $\\ce{O2}$ forms at half the rate $\\ce{N2O5}$ is consumed.\n\nFor comparison, $\\ce{NO2}$ forms at $0.040\\,\\mathrm{M/s}$.\n\nTip: scale each species' rate by the ratio of coefficients.",
+      "answer": "0.010",
+      "searchQuery": "relative rates of formation and disappearance stoichiometry N2O5"
+    },
+    {
+      "id": "rate-constant-dependence",
+      "title": "What does the rate constant $k$ depend on, and what does it not depend on?",
+      "body": "$k$ depends on **temperature** and on the catalyst (and the reaction itself), but **not** on concentrations.\n\nConcentrations enter through the rate law factors, such as $[\\ce{A}]^m$.\n\nKey idea: $k$ is constant at a fixed temperature, which is why it can be compared between experiments.",
+      "searchQuery": "rate constant depends on temperature not concentration catalyst"
+    },
+    {
+      "id": "overall-reaction-order",
+      "title": "A reaction has rate $= k[\\ce{A}]^2[\\ce{B}]$. What is the overall order?",
+      "body": "3\n\nThe overall order is the **sum** of the exponents: $2 + 1 = 3$.\n\nIt is second order in A, first order in B, and third order overall.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "third",
+        "third order",
+        "3rd order"
+      ],
+      "searchQuery": "overall reaction order sum of exponents rate law"
+    },
+    {
+      "id": "rate-constant-units-first-order",
+      "title": "What are the units of $k$ for a first-order reaction, if time is in seconds?",
+      "body": "1/s\n\nRate has units $\\mathrm{M/s}$ and the rate law is rate $= k[\\ce{A}]$, so $k$ must be $\\mathrm{s^{-1}}$.\n\nGeneral rule: for overall order $n$, $k$ has units $\\mathrm{M^{1-n}\\,s^{-1}}$.",
+      "answer": "1/s",
+      "acceptedAnswers": [
+        "s^-1",
+        "per second",
+        "s-1"
+      ],
+      "answerDisplay": "$\\mathrm{s^{-1}}$",
+      "searchQuery": "units of rate constant first order reaction per second"
+    },
+    {
+      "id": "rate-constant-units-second-order",
+      "title": "What are the units of $k$ for a reaction that is second order overall (concentration in M, time in s)?",
+      "body": "$\\mathrm{M^{-1}\\,s^{-1}}$\n\nRate $= k[\\ce{A}]^2$ means $k = \\mathrm{M/s} \\div \\mathrm{M^2}$.\n\nThe same units apply to $k[\\ce{A}][\\ce{B}]$, which is also second order overall.",
+      "answer": "1/(M s)",
+      "acceptedAnswers": [
+        "M^-1 s^-1",
+        "L/(mol s)",
+        "L mol^-1 s^-1",
+        "1/M/s"
+      ],
+      "answerDisplay": "$\\mathrm{M^{-1}\\,s^{-1}}$",
+      "searchQuery": "units of rate constant second order reaction M^-1 s^-1"
+    },
+    {
+      "id": "rate-constant-units-zero-order",
+      "title": "What are the units of $k$ for a zero-order reaction (concentration in M, time in s)?",
+      "body": "M/s\n\nRate $= k[\\ce{A}]^0 = k$, so $k$ has the same units as the rate.",
+      "answer": "M/s",
+      "acceptedAnswers": [
+        "M s^-1",
+        "mol/(L s)"
+      ],
+      "answerDisplay": "$\\mathrm{M\\,s^{-1}}$",
+      "searchQuery": "units of rate constant zero order reaction M/s"
+    },
+    {
+      "id": "initial-rates-order-in-b",
+      "title": "Rate $= k[\\ce{A}]^m[\\ce{B}]^n$. Runs $([\\ce{A}], [\\ce{B}], \\text{rate})$: $(0.10, 0.10, 2.0 \\times 10^{-3})$, $(0.20, 0.10, 4.0 \\times 10^{-3})$, $(0.10, 0.20, 8.0 \\times 10^{-3})$. Find $n$.",
+      "body": "2\n\nRuns 1 and 3 change only $[\\ce{B}]$: doubling it makes the rate **4 times** larger, so $2^n = 4$ and $n = 2$.\n\nRuns 1 and 2 change only $[\\ce{A}]$: doubling it doubles the rate, so $m = 1$.\n\nTip: always compare two runs in which only one concentration changes.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "second",
+        "second order"
+      ],
+      "searchQuery": "method of initial rates data table find order in B"
+    },
+    {
+      "id": "initial-rates-rate-constant",
+      "title": "For $\\ce{A + B -> P}$ with rate $= k[\\ce{A}][\\ce{B}]^2$, a run at $[\\ce{A}] = [\\ce{B}] = 0.10\\,\\mathrm{M}$ has rate $2.0 \\times 10^{-3}\\,\\mathrm{M/s}$. Find $k$ in $\\mathrm{M^{-2}\\,s^{-1}}$.",
+      "body": "2.0\n\n$k = \\dfrac{\\text{rate}}{[\\ce{A}][\\ce{B}]^2} = \\dfrac{2.0 \\times 10^{-3}}{(0.10)(0.10)^2} = \\dfrac{2.0 \\times 10^{-3}}{1.0 \\times 10^{-3}}$.\n\nWatch out: the units follow the order: third order overall gives $\\mathrm{M^{-2}\\,s^{-1}}$.",
+      "answer": "2.0",
+      "searchQuery": "calculate rate constant k from initial rate and rate law"
+    },
+    {
+      "id": "first-order-fraction-remaining",
+      "title": "A first-order reaction has $k = 0.0300\\,\\mathrm{s^{-1}}$. What percent of A remains after $50.0\\,\\mathrm{s}$? Number only, three significant figures.",
+      "body": "22.3\n\n$\\ln\\dfrac{[\\ce{A}]_t}{[\\ce{A}]_0} = -kt = -(0.0300)(50.0) = -1.50$, so the fraction left is $e^{-1.50} = 0.223$.\n\nWatch out: the exponent is $-kt$, with the minus sign, since A is decaying.",
+      "answer": "22.3",
+      "acceptedAnswers": [
+        "22.3%"
+      ],
+      "searchQuery": "first order integrated rate law fraction remaining calculation"
+    },
+    {
+      "id": "first-order-half-lives-elapsed",
+      "title": "A first-order reaction has $t_{1/2} = 20.0\\,\\mathrm{min}$. How many minutes until 75% of the reactant has been consumed?",
+      "body": "40.0\n\n75% consumed means 25% remains, which is two half-lives: $100\\% \\to 50\\% \\to 25\\%$.\n\nSo $t = 2 \\times 20.0 = 40.0\\,\\mathrm{min}$.\n\nWatch out: don't add 75% to 25%; count how many halvings it takes to get to what is left.",
+      "answer": "40",
+      "acceptedAnswers": [
+        "40 min",
+        "40 minutes"
+      ],
+      "searchQuery": "first order half-lives number to reach 75 percent consumed"
+    },
+    {
+      "id": "first-order-k-from-half-life",
+      "title": "A first-order reaction has $t_{1/2} = 35.0\\,\\mathrm{min}$. What is $k$ in $\\mathrm{min^{-1}}$, to three significant figures?",
+      "body": "0.0198\n\n$k = \\dfrac{\\ln 2}{t_{1/2}} = \\dfrac{0.693}{35.0}$.\n\nTip: the two forms of the same relationship are $t_{1/2} = 0.693/k$ and $k = 0.693/t_{1/2}$.",
+      "answer": "0.0198",
+      "acceptedAnswers": [
+        "1.98x10^-2",
+        "1.98e-2"
+      ],
+      "searchQuery": "first order rate constant from half-life ln 2 divided by t half"
+    },
+    {
+      "id": "radioactive-decay-remaining-mass",
+      "title": "A sample has $80.0\\,\\mathrm{g}$ of a radioisotope. How many grams remain after three half-lives?",
+      "body": "10.0\n\nRadioactive decay is first order: each half-life halves the amount, $80.0 \\to 40.0 \\to 20.0 \\to 10.0\\,\\mathrm{g}$.\n\nEquivalently, $80.0 \\times (1/2)^3 = 10.0\\,\\mathrm{g}$.",
+      "answer": "10.0",
+      "acceptedAnswers": [
+        "10 g"
+      ],
+      "searchQuery": "radioactive decay half-life remaining amount after three half-lives"
+    },
+    {
+      "id": "zero-order-half-life-calculation",
+      "title": "A zero-order reaction has $[\\ce{A}]_0 = 0.80\\,\\mathrm{M}$ and $k = 0.020\\,\\mathrm{M/s}$. What is its half-life in seconds?",
+      "body": "20\n\nFor zero order, $t_{1/2} = \\dfrac{[\\ce{A}]_0}{2k} = \\dfrac{0.80}{2(0.020)}$.\n\nThe half-life of a zero-order reaction is **proportional** to $[\\ce{A}]_0$: it shrinks as the reaction goes on.\n\nWatch out: don't use $\\ln 2/k$; that is first order only.",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 s"
+      ],
+      "searchQuery": "zero order half-life formula A0 over 2k calculation"
+    },
+    {
+      "id": "second-order-half-life-calculation",
+      "title": "A second-order reaction has $k = 0.50\\,\\mathrm{M^{-1}\\,s^{-1}}$ and $[\\ce{A}]_0 = 0.20\\,\\mathrm{M}$. What is its half-life in seconds?",
+      "body": "10\n\n$t_{1/2} = \\dfrac{1}{k[\\ce{A}]_0} = \\dfrac{1}{(0.50)(0.20)} = 10\\,\\mathrm{s}$.\n\nThe half-life of a second-order reaction **grows** as the reaction proceeds, because $[\\ce{A}]$ falls.",
+      "answer": "10",
+      "acceptedAnswers": [
+        "10 s"
+      ],
+      "searchQuery": "second order half-life formula 1 over k A0 calculation"
+    },
+    {
+      "id": "second-order-integrated-law",
+      "title": "Write the integrated rate law for a reaction that is second order in A.",
+      "body": "$\\dfrac{1}{[\\ce{A}]_t} = kt + \\dfrac{1}{[\\ce{A}]_0}$\n\nA plot of $1/[\\ce{A}]$ against $t$ is a straight line with slope $+k$.\n\nTip: unlike first order, the line **rises** because $1/[\\ce{A}]$ grows as A is consumed.",
+      "searchQuery": "second order integrated rate law 1/[A] versus time"
+    },
+    {
+      "id": "zero-order-integrated-law",
+      "title": "Write the integrated rate law for a zero-order reaction, and say when zero-order behavior occurs.",
+      "body": "$[\\ce{A}]_t = [\\ce{A}]_0 - kt$\n\nThe concentration falls linearly with slope $-k$.\n\nZero order shows up when something other than $[\\ce{A}]$ limits the rate, such as a **saturated catalyst surface** or enzyme.",
+      "searchQuery": "zero order integrated rate law linear decay saturated catalyst"
+    },
+    {
+      "id": "pseudo-first-order-conditions",
+      "title": "What is a pseudo-first-order reaction, and how is it created?",
+      "body": "A reaction whose rate depends on **one** concentration because the other reactant is in large excess.\n\nIf $[\\ce{B}]$ is huge, it stays essentially constant, so rate $= k[\\ce{A}][\\ce{B}] \\approx k'[\\ce{A}]$ with $k' = k[\\ce{B}]$.\n\nTip: chemists use this trick to measure the order in a single reactant.",
+      "searchQuery": "pseudo-first-order reaction excess reagent constant concentration"
+    },
+    {
+      "id": "identify-order-from-linear-plot",
+      "title": "A plot of $1/[\\ce{A}]$ versus time is a straight line. What is the order of the reaction in A?",
+      "body": "second\n\n$1/[\\ce{A}]$ versus $t$ is linear only for **second-order** kinetics, with slope $+k$.\n\nMnemonic: zero order uses $[\\ce{A}]$, first order uses $\\ln[\\ce{A}]$, second order uses $1/[\\ce{A}]$.",
+      "answer": "second",
+      "acceptedAnswers": [
+        "2",
+        "second order",
+        "2nd order",
+        "2nd"
+      ],
+      "searchQuery": "integrated rate law plots zero first second order linear 1/[A]"
+    },
+    {
+      "id": "collision-theory-requirements",
+      "title": "According to collision theory, what two conditions must a collision meet to cause a reaction?",
+      "body": "The molecules must collide with at least the **activation energy** and with the proper **orientation**.\n\nMost collisions fail one of the two, which is why reactions are much slower than the collision frequency alone would suggest.\n\nKey idea: energy and geometry both matter.",
+      "searchQuery": "collision theory sufficient energy proper orientation reaction rate"
+    },
+    {
+      "id": "activation-energy-definition",
+      "title": "What is the activation energy of a reaction?",
+      "body": "The **minimum energy** colliding molecules need for a reaction to occur: the height of the energy barrier above the reactants.\n\nOn an energy diagram it is the peak (transition state) minus the energy of the reactants.\n\nWatch out: $E_a$ is not $\\Delta H$; a reaction can be strongly exothermic and still have a large $E_a$.",
+      "searchQuery": "activation energy definition energy barrier transition state reactants"
+    },
+    {
+      "id": "temperature-effect-on-rate",
+      "title": "Why does raising the temperature speed up a reaction so much more than the increase in collision frequency alone would suggest?",
+      "body": "The **fraction of molecules with energy of at least $E_a$** rises sharply.\n\nThat fraction grows exponentially, as in $e^{-E_a/RT}$, while the collision frequency grows only slightly with $T$.\n\nTip: a rough rule is that the rate doubles for each $10\\,\\mathrm{K}$ rise near room temperature (for $E_a \\approx 50\\,\\mathrm{kJ/mol}$).",
+      "searchQuery": "temperature effect on reaction rate fraction of molecules above activation energy"
+    },
+    {
+      "id": "concentration-effect-collisions",
+      "title": "Why does increasing the concentration of a reactant usually increase the rate?",
+      "body": "More molecules per volume means more **collisions per second**, so more successful collisions.\n\nThe size of the effect, however, is set by the reaction order and found by experiment.\n\nWatch out: a zero-order reactant does not speed up the reaction at all.",
+      "searchQuery": "concentration effect on reaction rate collision frequency"
+    },
+    {
+      "id": "surface-area-reaction-rate",
+      "title": "Why does a powdered solid react faster than the same mass of a single lump?",
+      "body": "Powder has far more **exposed surface area**, so more reactant particles can collide at once.\n\nThis is the rate-limiting factor for reactions at a solid surface.\n\nExample: finely divided flour dust can ignite explosively, while a bag of flour will not.",
+      "searchQuery": "surface area effect on reaction rate powder versus lump"
+    },
+    {
+      "id": "arrhenius-equation-form",
+      "title": "Write the Arrhenius equation for the rate constant $k$.",
+      "body": "$k = Ae^{-E_a/RT}$\n\n$A$ is the frequency (pre-exponential) factor, $E_a$ the activation energy, $R = 8.314\\,\\mathrm{J/(mol\\,K)}$ and $T$ the absolute temperature.\n\nBigger $E_a$ or lower $T$ makes $k$ smaller.\n\nWatch out: use $E_a$ in joules per mole with $R$ in joules.",
+      "searchQuery": "Arrhenius equation k = A e^(-Ea/RT) activation energy"
+    },
+    {
+      "id": "arrhenius-frequency-factor",
+      "title": "What does the frequency factor $A$ in the Arrhenius equation represent?",
+      "body": "The rate of collisions with the **correct orientation**, effectively $k$ if every such collision had enough energy.\n\nIt combines the collision frequency with a steric (orientation) factor and is nearly independent of $T$.\n\nKey idea: $A$ sets the maximum possible $k$; the exponential factor is the fraction of collisions energetic enough.",
+      "searchQuery": "Arrhenius frequency factor pre-exponential collision frequency orientation"
+    },
+    {
+      "id": "arrhenius-activation-energy-two-temperatures",
+      "title": "A rate constant exactly doubles when $T$ rises from $300\\,\\mathrm{K}$ to $310\\,\\mathrm{K}$. What is $E_a$ in kJ/mol, to three significant figures?",
+      "body": "53.6\n\n$\\ln 2 = \\dfrac{E_a}{R}\\left(\\dfrac{1}{300} - \\dfrac{1}{310}\\right) = \\dfrac{E_a}{8.314}(1.075 \\times 10^{-4})$.\n\nSo $E_a = \\dfrac{(0.6931)(8.314)}{1.075 \\times 10^{-4}} = 5.36 \\times 10^4\\,\\mathrm{J/mol}$.\n\nWatch out: give the answer in kJ, and use kelvin in the temperature terms.",
+      "answer": "53.6",
+      "searchQuery": "calculate activation energy from rate constants at two temperatures"
+    },
+    {
+      "id": "arrhenius-rate-constant-ratio",
+      "title": "A reaction has $E_a = 50.0\\,\\mathrm{kJ/mol}$. By what factor does $k$ increase from $300\\,\\mathrm{K}$ to $310\\,\\mathrm{K}$? Give three significant figures.",
+      "body": "1.91\n\n$\\ln\\dfrac{k_2}{k_1} = \\dfrac{E_a}{R}\\left(\\dfrac{1}{T_1} - \\dfrac{1}{T_2}\\right) = \\dfrac{50{,}000}{8.314}(1.075 \\times 10^{-4}) = 0.647$.\n\nThen $k_2/k_1 = e^{0.647} = 1.91$.\n\nTip: this matches the rule of thumb that a $10\\,\\mathrm{K}$ rise roughly doubles the rate.",
+      "answer": "1.91",
+      "searchQuery": "Arrhenius equation ratio of rate constants 300 K to 310 K Ea 50 kJ"
+    },
+    {
+      "id": "arrhenius-slope-to-activation-energy",
+      "title": "An Arrhenius plot of $\\ln k$ versus $1/T$ has slope $-6.00 \\times 10^3\\,\\mathrm{K}$. What is $E_a$ in kJ/mol, to three significant figures?",
+      "body": "49.9\n\n$E_a = -\\text{slope} \\times R = (6.00 \\times 10^3\\,\\mathrm{K})(8.314\\,\\mathrm{J/(mol\\,K)}) = 49{,}900\\,\\mathrm{J/mol}$.\n\nWatch out: the slope is negative, but $E_a$ is positive.",
+      "answer": "49.9",
+      "searchQuery": "activation energy from Arrhenius plot slope times R"
+    },
+    {
+      "id": "elementary-step-molecularity",
+      "title": "What is the molecularity of the elementary step $\\ce{NO2 + NO2 -> NO3 + NO}$?",
+      "body": "bimolecular\n\nMolecularity is the number of reactant particles that collide in an elementary step: 1 is unimolecular, 2 bimolecular, 3 termolecular.\n\nWatch out: molecularity applies only to **elementary** steps, never to an overall reaction.",
+      "answer": "bimolecular",
+      "acceptedAnswers": [
+        "2",
+        "two"
+      ],
+      "searchQuery": "molecularity of elementary step bimolecular unimolecular termolecular"
+    },
+    {
+      "id": "elementary-step-bimolecular-rate-law",
+      "title": "What is the rate law for the elementary step $\\ce{A + B -> C}$?",
+      "body": "$\\text{rate} = k[\\ce{A}][\\ce{B}]$\n\nFor an **elementary** step the exponents equal the coefficients, because the rate depends on how often the particles meet.\n\nWatch out: this shortcut is not valid for an overall reaction whose mechanism is unknown.",
+      "answer": "k[A][B]",
+      "acceptedAnswers": [
+        "rate=k[A][B]"
+      ],
+      "answerDisplay": "$\\text{rate} = k[\\ce{A}][\\ce{B}]$",
+      "searchQuery": "rate law for elementary bimolecular step coefficients are exponents"
+    },
+    {
+      "id": "elementary-step-unimolecular-rate-law",
+      "title": "What is the rate law for the elementary step $\\ce{A -> products}$?",
+      "body": "$\\text{rate} = k[\\ce{A}]$\n\nA unimolecular step is first order in its single reactant.\n\nKey idea: elementary-step rate laws follow directly from the molecularity.",
+      "answer": "k[A]",
+      "acceptedAnswers": [
+        "rate=k[A]"
+      ],
+      "answerDisplay": "$\\text{rate} = k[\\ce{A}]$",
+      "searchQuery": "unimolecular elementary step first order rate law"
+    },
+    {
+      "id": "termolecular-steps-rare",
+      "title": "Why are termolecular elementary steps rare in mechanisms?",
+      "body": "The chance of **three** particles colliding at the same moment with the right energy and orientation is very small.\n\nMost mechanisms use unimolecular and bimolecular steps.\n\nTip: a third-order overall rate law usually signals a multistep mechanism, such as one with a fast pre-equilibrium.",
+      "searchQuery": "why termolecular steps are rare three body collision mechanism"
+    },
+    {
+      "id": "intermediate-versus-catalyst",
+      "title": "How do you tell an intermediate from a catalyst in a mechanism?",
+      "body": "An **intermediate** is formed in one step and consumed in a later step; a **catalyst** is consumed in an early step and regenerated in a later one.\n\nNeither appears in the overall equation.\n\nMnemonic: an intermediate is produced then used; a catalyst is used then produced.",
+      "searchQuery": "intermediate versus catalyst difference mechanism"
+    },
+    {
+      "id": "mechanism-validity-criteria",
+      "title": "What two conditions must a proposed mechanism satisfy?",
+      "body": "The steps must **sum to the overall equation**, and the rate law from the slow step must **match the experimental rate law**.\n\nA mechanism can be ruled out by data but never proven by it.\n\nKey idea: agreement with experiment is necessary, not sufficient.",
+      "searchQuery": "mechanism requirements sum to overall equation rate law agrees with experiment"
+    },
+    {
+      "id": "pre-equilibrium-rate-law",
+      "title": "$\\ce{2NO <=> N2O2}$ is fast and reversible, then $\\ce{N2O2 + O2 -> 2NO2}$ is slow. What rate law does this mechanism predict?",
+      "body": "$\\text{rate} = k[\\ce{NO}]^2[\\ce{O2}]$\n\nThe slow step gives rate $= k_2[\\ce{N2O2}][\\ce{O2}]$, but $\\ce{N2O2}$ is an intermediate.\n\nThe fast pre-equilibrium gives $[\\ce{N2O2}] = K[\\ce{NO}]^2$, so $k = k_2K$.\n\nTip: replace each intermediate in the slow-step rate law using the fast equilibrium before it.",
+      "searchQuery": "fast pre-equilibrium mechanism rate law NO O2 intermediate elimination"
+    },
+    {
+      "id": "energy-profile-transition-state",
+      "title": "On a reaction energy diagram, what is the difference between a transition state and an intermediate?",
+      "body": "A **transition state** is the energy maximum (a peak) along a step; an **intermediate** is a local minimum (a valley) between two steps.\n\nIntermediates can sometimes be detected; transition states exist only fleetingly.\n\nTip: in a multistep mechanism, the step with the highest peak is the rate-determining step.",
+      "searchQuery": "reaction energy diagram transition state peak intermediate valley"
+    },
+    {
+      "id": "delta-h-from-activation-energies",
+      "title": "A reaction has $E_a = 85\\,\\mathrm{kJ/mol}$ forward and $120\\,\\mathrm{kJ/mol}$ reverse. What is $\\Delta H$ in kJ/mol for the forward reaction?",
+      "body": "-35\n\n$\\Delta H = E_{a,\\mathrm{fwd}} - E_{a,\\mathrm{rev}} = 85 - 120$.\n\nThe products lie below the reactants on the energy diagram, so the reaction is exothermic.",
+      "answer": "-35",
+      "searchQuery": "delta H from forward and reverse activation energies energy diagram"
+    },
+    {
+      "id": "catalyst-homogeneous-heterogeneous",
+      "title": "What is the difference between a homogeneous and a heterogeneous catalyst?",
+      "body": "A **homogeneous** catalyst is in the same phase as the reactants; a **heterogeneous** catalyst is in a different phase, usually a solid.\n\nExample: platinum, palladium and rhodium in a car's catalytic converter are heterogeneous, working on gases at the metal surface.",
+      "searchQuery": "homogeneous versus heterogeneous catalyst catalytic converter"
+    },
+    {
+      "id": "catalyst-in-rate-law",
+      "title": "Can a catalyst appear in a reaction's rate law even though it is not in the overall equation?",
+      "body": "Yes.\n\nA catalyst takes part in the mechanism, so its concentration can affect the rate. Example: acid-catalyzed reactions often have rate $= k[\\ce{H+}][\\ce{reactant}]$.\n\nThe catalyst cancels out of the overall equation because it is regenerated.",
+      "searchQuery": "catalyst appears in rate law acid catalyzed reaction"
+    },
+    {
+      "id": "ozone-depletion-catalytic-chlorine",
+      "title": "In $\\ce{Cl + O3 -> ClO + O2}$ followed by $\\ce{ClO + O -> Cl + O2}$, which species is the catalyst and which is the intermediate?",
+      "body": "$\\ce{Cl}$ is the catalyst; $\\ce{ClO}$ is the intermediate.\n\n$\\ce{Cl}$ is consumed in the first step and regenerated in the second. $\\ce{ClO}$ is formed in the first step and used up in the second.\n\nThe overall reaction is $\\ce{O3 + O -> 2O2}$.",
+      "searchQuery": "chlorine radical catalyst ozone depletion mechanism intermediate ClO"
+    },
+    {
+      "id": "enzyme-catalysis-activation-energy",
+      "title": "How do enzymes speed up biochemical reactions, and do they change the equilibrium?",
+      "body": "They bind the substrate at the **active site**, stabilizing the transition state and lowering $E_a$.\n\nThey do **not** change $\\Delta G$ or $K$, so the equilibrium position is the same; equilibrium is just reached faster.\n\nKey idea: enzymes are catalysts, so they obey the same rules.",
+      "searchQuery": "enzyme catalysis lowers activation energy active site does not change equilibrium"
+    },
+    {
+      "id": "specific-heat-of-metal-calculation",
+      "title": "A $25.0\\,\\mathrm{g}$ metal at $100.0\\,^\\circ\\mathrm{C}$ goes into $100.0\\,\\mathrm{g}$ of water at $20.0\\,^\\circ\\mathrm{C}$; both reach $22.5\\,^\\circ\\mathrm{C}$. Find the metal's $c$ in J/(g°C).",
+      "body": "0.54\n\nHeat gained by water: $(100.0)(4.184)(2.5) = 1046\\,\\mathrm{J}$.\n\nHeat lost by the metal equals this, with $\\Delta T = 100.0 - 22.5 = 77.5\\,^\\circ\\mathrm{C}$: $c = \\dfrac{1046}{(25.0)(77.5)}$.\n\nWatch out: the metal's $\\Delta T$ is its own temperature drop, not the water's rise.",
+      "answer": "0.54",
+      "searchQuery": "calorimetry specific heat of unknown metal dropped in water calculation"
+    },
+    {
+      "id": "entropy-sign-vaporization",
+      "title": "What is the sign of $\\Delta S$ for $\\ce{H2O(l) -> H2O(g)}$?",
+      "body": "positive\n\nA gas has far more accessible microstates than a liquid, since its molecules move freely through a much larger volume.\n\nSo vaporization always has $\\Delta S > 0$, which is why boiling is favored at **high** temperature.",
+      "answer": "positive",
+      "acceptedAnswers": [
+        "+",
+        "greater than 0",
+        "increases"
+      ],
+      "searchQuery": "entropy change vaporization liquid to gas positive"
+    }
+  ]
+}

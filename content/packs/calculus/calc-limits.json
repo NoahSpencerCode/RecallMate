@@ -1,0 +1,818 @@
+{
+  "id": "calc-limits",
+  "title": "Limits & Continuity",
+  "course": "Calculus I",
+  "description": "One-sided, infinite and at-infinity limits, trig limits, squeeze theorem, indeterminate forms, L'Hôpital, continuity, discontinuities, IVT and ε-δ.",
+  "cards": [
+    {
+      "id": "two-sided-limit-exists",
+      "title": "When does the two-sided limit $\\lim_{x \\to a} f(x)$ exist?",
+      "body": "Exactly when both one-sided limits exist and are equal: $\\lim_{x \\to a^-} f(x) = \\lim_{x \\to a^+} f(x) = L$\n\nThe value $f(a)$ is **irrelevant**: it can be undefined or different from $L$ without changing the limit.\n\nExample: $f(x) = \\frac{|x|}{x}$ has one-sided limits $-1$ and $1$ at $0$, so the two-sided limit does not exist.",
+      "searchQuery": "two-sided limit exists one-sided limits equal"
+    },
+    {
+      "id": "one-sided-infinite-limit",
+      "title": "$\\lim_{x \\to 3^-} \\dfrac{1}{x - 3} = \\,?$",
+      "body": "$-\\infty$\n\nJust left of $3$, $x - 3$ is a tiny negative number, so $\\frac{1}{x - 3}$ is hugely negative. From the right it's $+\\infty$, so the two-sided limit does not exist and $x = 3$ is a **vertical asymptote**.\n\nTip: Check the sign of the denominator on the side you approach from.",
+      "answer": "-inf",
+      "acceptedAnswers": [
+        "negative infinity"
+      ],
+      "answerDisplay": "$-\\infty$",
+      "searchQuery": "limit 1/(x-3) as x approaches 3 from left negative infinity"
+    },
+    {
+      "id": "rationalize-zero-over-zero",
+      "title": "Evaluate $\\lim_{h \\to 0} \\dfrac{\\sqrt{9 + h} - 3}{h}$.",
+      "body": "$\\frac{1}{6}$\n\nSubstitution gives $\\frac{0}{0}$, so multiply top and bottom by the **conjugate** $\\sqrt{9 + h} + 3$: the numerator becomes $h$, leaving $\\frac{1}{\\sqrt{9 + h} + 3} \\to \\frac{1}{6}$. It's also the derivative of $\\sqrt{x}$ at $x = 9$.\n\nTip: A square root in a $\\frac{0}{0}$ limit usually calls for the conjugate.",
+      "answer": "1/6",
+      "answerDisplay": "$\\frac{1}{6}$",
+      "searchQuery": "limit sqrt(9+h)-3 over h conjugate 1/6"
+    },
+    {
+      "id": "squeeze-theorem",
+      "title": "Use the squeeze theorem: $\\lim_{x \\to 0} x^2 \\sin\\left(\\frac{1}{x}\\right) = \\,?$",
+      "body": "$0$\n\n$-1 \\le \\sin(1/x) \\le 1$, so $-x^2 \\le x^2 \\sin(1/x) \\le x^2$, and **both bounds** $\\to 0$. Theorem: if $g \\le f \\le h$ near $a$ and $\\lim g = \\lim h = L$, then $\\lim f = L$. The product law fails here because $\\lim_{x \\to 0} \\sin(1/x)$ doesn't exist.\n\nTip: A bounded factor times a factor that tends to zero is a job for the squeeze theorem.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "squeeze theorem x^2 sin(1/x) limit 0"
+    },
+    {
+      "id": "sin-x-over-x",
+      "title": "$\\lim_{x \\to 0} \\dfrac{\\sin x}{x} = \\,?$",
+      "body": "$1$\n\nThis holds for $x$ in radians. It follows from the **squeeze** $\\cos x \\le \\frac{\\sin x}{x} \\le 1$ near $0$. Rescale for variants: $\\lim_{x \\to 0} \\frac{\\sin 5x}{x} = 5 \\lim_{x \\to 0} \\frac{\\sin 5x}{5x} = 5$.\n\nWatch out: the value $1$ requires radians; in degrees the limit is $\\frac{\\pi}{180}$.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "limit sin x over x equals 1 radians"
+    },
+    {
+      "id": "one-minus-cos-over-x",
+      "title": "$\\lim_{x \\to 0} \\dfrac{1 - \\cos x}{x} = \\,?$",
+      "body": "$0$\n\n**Multiply** by $\\frac{1 + \\cos x}{1 + \\cos x}$ to get $\\frac{\\sin x}{x} \\cdot \\frac{\\sin x}{1 + \\cos x} \\to 1 \\cdot 0 = 0$. Don't confuse it with $\\lim_{x \\to 0} \\frac{1 - \\cos x}{x^2} = \\frac{1}{2}$.\n\nTip: Multiplying by $1 + \\cos x$ turns $1 - \\cos x$ into $\\sin^2 x$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit (1-cos x)/x as x to 0 equals 0"
+    },
+    {
+      "id": "rational-limit-at-infinity",
+      "title": "$\\lim_{x \\to \\infty} \\dfrac{3x^2 - x + 1}{5x^2 + 4} = \\,?$",
+      "body": "$\\frac{3}{5}$\n\n**Equal degrees**: the ratio of leading coefficients (divide every term by $x^2$). Top degree lower: the limit is $0$. Top degree higher: $\\pm\\infty$, so no horizontal asymptote.\n\nExample: $\\frac{2x + 1}{x^2} \\to 0$, while $\\frac{x^3}{x^2 + 1} \\to \\infty$.",
+      "answer": "3/5",
+      "acceptedAnswers": [
+        "0.6"
+      ],
+      "answerDisplay": "$\\frac{3}{5}$",
+      "searchQuery": "limit at infinity rational function equal degrees leading coefficients"
+    },
+    {
+      "id": "continuity-three-conditions",
+      "title": "$f$ is continuous at $x = a$ when which three conditions all hold?",
+      "body": "1) $f(a)$ is defined. 2) $\\lim_{x \\to a} f(x)$ exists. 3) $\\lim_{x \\to a} f(x) = f(a)$.\n\nIf any one fails, $f$ is **discontinuous** at $a$. Condition 3 is the one people skip: the limit must exist and also equal the function value.\n\nMnemonic: defined, limit exists, and the two match.",
+      "searchQuery": "three conditions for continuity at a point"
+    },
+    {
+      "id": "removable-discontinuity",
+      "title": "What type of discontinuity does $f(x) = \\dfrac{x^2 - x - 2}{x - 2}$ have at $x = 2$?",
+      "body": "Removable\n\nIt factors to $\\frac{(x - 2)(x + 1)}{x - 2}$, so the limit is $3$ but $f(2)$ is undefined; defining $f(2) = 3$ repairs it. **Jump**: one-sided limits exist but differ. **Infinite**: $f \\to \\pm\\infty$ (vertical asymptote).\n\nTip: A rational function with a cancelling factor has a hole there.",
+      "answer": "removable",
+      "acceptedAnswers": [
+        "removable discontinuity",
+        "hole"
+      ],
+      "searchQuery": "removable discontinuity hole limit exists f(a) undefined"
+    },
+    {
+      "id": "ivt-hypothesis",
+      "title": "The Intermediate Value Theorem needs $f$ to be ___ on the closed interval $[a, b]$.",
+      "body": "Continuous\n\nThen $f$ takes every value $N$ between $f(a)$ and $f(b)$ at some $c$ in $(a, b)$. Classic use: $x^3 + x - 1$ is $-1$ at $x = 0$ and $1$ at $x = 1$, so it has a root in $(0, 1)$. It proves a **root exists**, not exactly where or how many.\n\nMnemonic: no jumps, so no skipped values.",
+      "answer": "continuous",
+      "searchQuery": "intermediate value theorem hypothesis continuous closed interval"
+    },
+    {
+      "id": "indeterminate-forms",
+      "title": "List the seven indeterminate forms.",
+      "body": "$\\frac{0}{0}$, $\\frac{\\infty}{\\infty}$, $0 \\cdot \\infty$, $\\infty - \\infty$, $1^\\infty$, $0^0$, $\\infty^0$\n\nNot indeterminate: $0^\\infty \\to 0$ (base $\\to 0^+$), $\\infty + \\infty \\to \\infty$, $\\infty \\cdot \\infty \\to \\infty$. **Before L'Hôpital**, rewrite products and differences as quotients, and handle powers by taking $\\ln$.\n\nMnemonic: two quotients, a product, a difference and three powers.",
+      "searchQuery": "seven indeterminate forms calculus"
+    },
+    {
+      "id": "lhopital-conditions",
+      "title": "L'Hôpital's rule: what must be true before you replace $\\lim \\frac{f(x)}{g(x)}$ with $\\lim \\frac{f'(x)}{g'(x)}$?",
+      "body": "The limit must be type $\\frac{0}{0}$ or $\\frac{\\pm\\infty}{\\pm\\infty}$; $f$ and $g$ differentiable near $a$ with $g'(x) \\ne 0$ (except possibly at $a$); and $\\lim \\frac{f'}{g'}$ must exist or be $\\pm\\infty$\n\nIt's $\\frac{f'}{g'}$, **not the quotient rule**.\n\nWatch out: $\\lim_{x \\to 1} \\frac{x + 1}{x} = 2$ is not indeterminate, yet the rule would give $1$.\nTip: Check the form before every application of the rule.",
+      "searchQuery": "L'Hopital's rule conditions indeterminate form"
+    },
+    {
+      "id": "limit-x-to-the-x",
+      "title": "$\\lim_{x \\to 0^+} x^x = \\,?$",
+      "body": "$1$\n\n$0^0$ form: let $y = x^x$, so $\\ln y = x \\ln x = \\frac{\\ln x}{1/x}$, type $\\frac{-\\infty}{\\infty}$. **L'Hôpital**: $\\frac{1/x}{-1/x^2} = -x \\to 0$. So $\\ln y \\to 0$ and $y \\to e^0 = 1$.\n\nTip: For $0^0$, $1^\\infty$ or $\\infty^0$, take $\\ln$ first, then exponentiate.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "limit x^x as x to 0+ equals 1"
+    },
+    {
+      "id": "limit-definition-of-e",
+      "title": "$\\lim_{n \\to \\infty} \\left(1 + \\frac{1}{n}\\right)^n = \\,?$",
+      "body": "$e$\n\nThe value is $e \\approx 2.71828$. It's a $1^\\infty$ form, not $1$: its $\\ln$ is $n \\ln\\left(1 + \\frac{1}{n}\\right) \\to 1$, so the limit is $e^1$. More generally, $\\lim_{n \\to \\infty} \\left(1 + \\frac{a}{n}\\right)^n = e^a$.\n\nWatch out: the base tends to $1$, but the growing exponent keeps the limit from being $1$.",
+      "answer": "e",
+      "answerDisplay": "$e$",
+      "searchQuery": "limit (1+1/n)^n equals e definition"
+    },
+    {
+      "id": "epsilon-delta-definition",
+      "title": "Precise definition: $\\lim_{x \\to a} f(x) = L$ means for every $\\varepsilon > 0$ there is a $\\delta > 0$ such that ___.",
+      "body": "If $0 < |x - a| < \\delta$, then $|f(x) - L| < \\varepsilon$\n\n$\\varepsilon$ comes first and $\\delta$ may depend on it; $0 < |x - a|$ **excludes** $x = a$ itself.\n\nExample: for $\\lim_{x \\to 2} (4x - 1) = 7$, $|(4x - 1) - 7| = 4|x - 2|$, so $\\delta = \\varepsilon/4$ works.\nMnemonic: you pick the target $\\varepsilon$, I find the tolerance $\\delta$.",
+      "searchQuery": "epsilon delta definition of limit"
+    },
+    {
+      "id": "limit-informal-meaning",
+      "title": "In words, what does $\\lim_{x \\to a} f(x) = L$ mean?",
+      "body": "The values $f(x)$ can be made as close to $L$ as we like by taking $x$ close enough to $a$, with $x \\ne a$\n\nOnly the **behavior near** $a$ matters, never the value at $a$. The $\\varepsilon$-$\\delta$ definition makes \"as close as we like\" precise.\n\nWatch out: a limit can exist even when $f(a)$ is undefined.",
+      "searchQuery": "informal definition of limit values close to L"
+    },
+    {
+      "id": "left-hand-limit-notation",
+      "title": "What does $x \\to a^-$ mean in $\\lim_{x \\to a^-} f(x)$?",
+      "body": "$x$ approaches $a$ from the left, through values less than $a$\n\nLikewise $x \\to a^+$ means from the right ($x > a$). The superscript is a **direction**, not a sign: $x \\to 3^-$ means values like $2.999$, not negative numbers.\n\nMnemonic: the minus sign means the minus side, below $a$ on the number line.",
+      "searchQuery": "x approaches a from the left one-sided limit notation"
+    },
+    {
+      "id": "limit-ignores-point-value",
+      "title": "$g(x) = x + 1$ for $x \\ne 2$, and $g(2) = 10$. $\\lim_{x \\to 2} g(x) = \\,?$",
+      "body": "$3$\n\nThe limit depends only on values near $2$, where $g(x) = x + 1 \\to 3$. The value $g(2) = 10$ is ignored; since the limit and the value differ, $g$ has a **removable discontinuity** at $2$.\n\nKey idea: the limit describes the neighborhood of $a$, not the point itself.",
+      "answer": "3",
+      "answerDisplay": "$3$",
+      "searchQuery": "limit ignores value at the point removable discontinuity"
+    },
+    {
+      "id": "piecewise-limit-dne",
+      "title": "$f(x) = x^2$ for $x < 1$ and $f(x) = 2x$ for $x \\ge 1$. Does $\\lim_{x \\to 1} f(x)$ exist?",
+      "body": "No\n\nFrom the left $f(x) = x^2 \\to 1$; from the right $f(x) = 2x \\to 2$. The one-sided limits differ (a **jump**), so the two-sided limit does not exist.\n\nTip: For a piecewise function, use the piece that applies on each side.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "dne",
+        "does not exist"
+      ],
+      "searchQuery": "piecewise function one-sided limits differ limit does not exist"
+    },
+    {
+      "id": "abs-x-over-x-one-sided",
+      "title": "$\\lim_{x \\to 0^-} \\dfrac{|x|}{x} = \\,?$",
+      "body": "$-1$\n\nFor $x < 0$, $|x| = -x$, so $\\frac{|x|}{x} = -1$. For $x > 0$ the ratio is $+1$, so $\\lim_{x \\to 0} \\frac{|x|}{x}$ does not exist (a **jump**).\n\nWatch out: $\\frac{|x|}{x}$ equals $-1$ for every negative $x$, not $0$.",
+      "answer": "-1",
+      "answerDisplay": "$-1$",
+      "searchQuery": "limit of |x|/x from the left equals -1"
+    },
+    {
+      "id": "sin-one-over-x-dne",
+      "title": "Why does $\\lim_{x \\to 0} \\sin\\left(\\frac{1}{x}\\right)$ not exist?",
+      "body": "As $x \\to 0$, $\\frac{1}{x}$ runs through infinitely many periods, so $\\sin(1/x)$ oscillates between $-1$ and $1$ in every interval around $0$\n\nIt equals $0$ at $x = \\frac{1}{n\\pi}$ and $1$ at $x = \\frac{2}{(4n + 1)\\pi}$, points **arbitrarily close** to $0$, so no single $L$ works.\n\nKey idea: a limit needs one value $L$ that $f$ stays near, and oscillation between $-1$ and $1$ rules that out.",
+      "searchQuery": "why limit sin(1/x) at 0 does not exist"
+    },
+    {
+      "id": "infinite-limit-meaning",
+      "title": "We write $\\lim_{x \\to 0} \\dfrac{1}{x^2} = \\infty$. Does this limit exist?",
+      "body": "No\n\n$\\infty$ **is not a number**: writing $= \\infty$ records how the limit fails to exist, namely $\\frac{1}{x^2}$ grows without bound from both sides. So you can't do arithmetic with it as a number; for example, $\\infty - \\infty$ is not $0$.\n\nTip: Read $\\lim f = \\infty$ as 'does not exist, because $f$ grows without bound'.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "dne",
+        "does not exist"
+      ],
+      "searchQuery": "infinite limit meaning limit does not exist 1/x^2"
+    },
+    {
+      "id": "vertical-asymptote-definition",
+      "title": "When is the line $x = a$ a vertical asymptote of $y = f(x)$?",
+      "body": "When at least one one-sided limit at $a$ is infinite: $\\lim_{x \\to a^-} f(x)$ or $\\lim_{x \\to a^+} f(x)$ is $\\infty$ or $-\\infty$\n\n**One side is enough**: $\\ln x$ has the asymptote $x = 0$ though it's defined only for $x > 0$. A zero denominator alone is not enough: $\\frac{x^2 - 4}{x - 2}$ has a hole at $x = 2$, not an asymptote.\n\nKey idea: an asymptote is about unbounded behavior near $a$, not about the value at $a$.",
+      "searchQuery": "vertical asymptote definition one-sided limit infinite"
+    },
+    {
+      "id": "infinite-limit-sign-analysis",
+      "title": "$\\lim_{x \\to 2^+} \\dfrac{x + 1}{x - 2} = \\,?$",
+      "body": "$\\infty$\n\nThe numerator $\\to 3$ while the denominator is a **tiny positive** number, so the quotient grows without bound. From the left the denominator is negative and the limit is $-\\infty$.\n\nKey idea: nonzero over nearly zero is infinite; the signs decide which infinity.\nTip: Make a sign check of numerator and denominator on the side you approach.",
+      "answer": "inf",
+      "acceptedAnswers": [
+        "+inf",
+        "positive infinity"
+      ],
+      "answerDisplay": "$\\infty$",
+      "searchQuery": "limit (x+1)/(x-2) as x approaches 2 from the right infinity"
+    },
+    {
+      "id": "direct-substitution-property",
+      "title": "When can you evaluate $\\lim_{x \\to a} f(x)$ just by plugging in $x = a$?",
+      "body": "When $f$ is continuous at $a$; then $\\lim_{x \\to a} f(x) = f(a)$\n\nThat covers **polynomials** at every $a$, rational functions where the denominator isn't $0$, and root, trig, exponential and log functions inside their domains. If substitution gives $\\frac{0}{0}$, it tells you nothing yet.\n\nWatch out: a substitution that gives $\\frac{0}{0}$ is not an answer; simplify first.",
+      "searchQuery": "direct substitution property limit continuous function"
+    },
+    {
+      "id": "polynomial-limit-example",
+      "title": "$\\lim_{x \\to -2} \\left(x^3 + 2x^2 - x + 5\\right) = \\,?$",
+      "body": "$7$\n\nPolynomials are **continuous**, so substitute: $(-8) + 8 + 2 + 5 = 7$. Watch the signs: $(-2)^3 = -8$, but $2(-2)^2 = 8$ and $-x = +2$.\n\nTip: Put parentheses around negative inputs: $(-2)^3$ is not $-2^3$.",
+      "answer": "7",
+      "answerDisplay": "$7$",
+      "searchQuery": "limit of polynomial by direct substitution"
+    },
+    {
+      "id": "quotient-law-condition",
+      "title": "The quotient law $\\lim \\frac{f}{g} = \\frac{\\lim f}{\\lim g}$ needs both limits to exist, plus what other condition?",
+      "body": "$\\lim g(x) \\ne 0$\n\nIf $\\lim g = 0$ the law says nothing: you get $\\frac{0}{0}$ (simplify first) or $\\frac{c}{0}$ with $c \\ne 0$ (the quotient blows up). The sum, difference, product and constant-multiple laws **need only** that both limits exist.\n\nExample: $\\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}$ looks like $\\frac{0}{0}$, yet it equals $4$ after cancelling.",
+      "searchQuery": "quotient law for limits requires denominator limit nonzero"
+    },
+    {
+      "id": "nonzero-over-zero",
+      "title": "Substituting into $\\lim_{x \\to a} \\frac{f(x)}{g(x)}$ gives $\\frac{5}{0}$. What can you conclude?",
+      "body": "The limit is not a finite number: $\\left|\\frac{f}{g}\\right| \\to \\infty$. Check the sign of $g(x)$ on each side of $a$ to get $\\infty$ or $-\\infty$ for each one-sided limit.\n\nSame sign on both sides: the limit is that infinity. Opposite signs: it does not exist. Unlike $\\frac{0}{0}$, this is **not an indeterminate form**.\n\nExample: $\\lim_{x \\to 1} \\frac{1}{(x - 1)^2} = \\infty$, but $\\lim_{x \\to 1} \\frac{1}{x - 1}$ does not exist.",
+      "searchQuery": "nonzero over zero limit infinite sign analysis one-sided"
+    },
+    {
+      "id": "limit-of-composition",
+      "title": "If $\\lim_{x \\to a} g(x) = b$ and $f$ is continuous at $b$, then $\\lim_{x \\to a} f(g(x)) = \\,?$",
+      "body": "$f(b)$\n\nThe limit passes inside a continuous function: $\\lim f(g(x)) = f\\left(\\lim g(x)\\right)$. $f$ must be **continuous** at $b$; $g$ need not be continuous at $a$.\n\nExample: $\\lim_{x \\to 0} e^{(\\sin x)/x} = e^1 = e$, since $\\frac{\\sin x}{x} \\to 1$ and $e^u$ is continuous.\nWatch out: the outer function must be continuous at the inner limit $b$.",
+      "answer": "f(b)",
+      "answerDisplay": "$f(b)$",
+      "searchQuery": "limit of composite function continuous outer function"
+    },
+    {
+      "id": "composition-limit-example",
+      "title": "$\\lim_{x \\to \\pi} \\sin(x + \\sin x) = \\,?$",
+      "body": "$0$\n\n$x + \\sin x$ and $\\sin$ are continuous, so their **composite** is too: substitute to get $\\sin(\\pi + \\sin \\pi) = \\sin(\\pi + 0) = 0$.\n\nTip: If every piece is continuous, just substitute.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit sin(x+sin x) as x approaches pi composition continuous"
+    },
+    {
+      "id": "sum-limit-exists-trap",
+      "title": "If $\\lim_{x \\to a} [f(x) + g(x)]$ exists, must $\\lim_{x \\to a} f(x)$ and $\\lim_{x \\to a} g(x)$ both exist?",
+      "body": "No\n\n$f(x) = \\frac{1}{x}$ and $g(x) = -\\frac{1}{x}$ have **no limit** at $0$, but $f + g = 0$ does. The limit laws run one way: if $\\lim f$ and $\\lim g$ exist, then $\\lim (f + g)$ exists, not conversely.\n\nTip: To disprove a \"must\" statement, find one counterexample.",
+      "answer": "no",
+      "searchQuery": "limit of sum exists but individual limits do not counterexample"
+    },
+    {
+      "id": "zero-over-zero-meaning",
+      "title": "Direct substitution into a limit gives $\\frac{0}{0}$. What does that tell you about its value?",
+      "body": "Nothing yet: $\\frac{0}{0}$ is indeterminate, so the limit could be any number, $\\pm\\infty$, or not exist\n\nAs $x \\to 0$: $\\frac{x^2}{x} \\to 0$, $\\frac{3x}{x} \\to 3$, and $\\frac{x}{x^2}$ has no limit. **Simplify** (factor, rationalize, combine fractions) or use L'Hôpital's rule.\n\nWatch out: $\\frac{0}{0}$ is not $0$, not $1$, and not automatically \"no limit\".",
+      "searchQuery": "0/0 indeterminate form meaning limit"
+    },
+    {
+      "id": "factor-and-cancel",
+      "title": "$\\lim_{x \\to 3} \\dfrac{x^2 - 9}{x - 3} = \\,?$",
+      "body": "$6$\n\nFactor: $\\frac{(x - 3)(x + 3)}{x - 3} = x + 3$ for $x \\ne 3$, which $\\to 6$. **Cancelling is legal** because the limit never uses $x = 3$ itself: functions that agree near $a$ (except at $a$) have the same limit there.\n\nTip: Factor first; it's the quickest fix for a rational $\\frac{0}{0}$.",
+      "answer": "6",
+      "answerDisplay": "$6$",
+      "searchQuery": "limit (x^2-9)/(x-3) factor and cancel"
+    },
+    {
+      "id": "difference-of-cubes-limit",
+      "title": "$\\lim_{x \\to 2} \\dfrac{x^3 - 8}{x - 2} = \\,?$",
+      "body": "$12$\n\n**Difference of cubes**: $x^3 - 8 = (x - 2)(x^2 + 2x + 4)$, so the quotient is $x^2 + 2x + 4 \\to 4 + 4 + 4 = 12$. It's also the derivative of $x^3$ at $x = 2$: $3 \\cdot 2^2 = 12$.\n\nTip: Memorize $a^3 - b^3 = (a - b)(a^2 + ab + b^2)$.",
+      "answer": "12",
+      "answerDisplay": "$12$",
+      "searchQuery": "limit x^3-8 over x-2 difference of cubes factor"
+    },
+    {
+      "id": "sqrt-x-minus-2-limit",
+      "title": "$\\lim_{x \\to 4} \\dfrac{\\sqrt{x} - 2}{x - 4} = \\,?$",
+      "body": "$\\frac{1}{4}$\n\nFactor the denominator as a **difference of squares**, $x - 4 = (\\sqrt{x} - 2)(\\sqrt{x} + 2)$, so the quotient is $\\frac{1}{\\sqrt{x} + 2} \\to \\frac{1}{4}$. Multiplying by the conjugate $\\sqrt{x} + 2$ gives the same result.\n\nTip: Write $x - 4$ as $(\\sqrt{x})^2 - 2^2$.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25"
+      ],
+      "answerDisplay": "$\\frac{1}{4}$",
+      "searchQuery": "limit (sqrt x - 2)/(x-4) difference of squares"
+    },
+    {
+      "id": "factor-numerator-and-denominator",
+      "title": "$\\lim_{x \\to 1} \\dfrac{x^2 + x - 2}{x^2 - 1} = \\,?$",
+      "body": "$\\frac{3}{2}$\n\n**Factor both**: $\\frac{(x - 1)(x + 2)}{(x - 1)(x + 1)} = \\frac{x + 2}{x + 1}$ for $x \\ne 1$, which $\\to \\frac{3}{2}$. For a rational function, $\\frac{0}{0}$ at $x = a$ means $x - a$ divides both top and bottom.\n\nWatch out: Cancel common factors, never common terms.",
+      "answer": "3/2",
+      "acceptedAnswers": [
+        "1.5"
+      ],
+      "answerDisplay": "$\\frac{3}{2}$",
+      "searchQuery": "limit (x^2+x-2)/(x^2-1) at 1 factor numerator denominator"
+    },
+    {
+      "id": "complex-fraction-limit",
+      "title": "$\\lim_{h \\to 0} \\dfrac{\\frac{1}{2 + h} - \\frac{1}{2}}{h} = \\,?$",
+      "body": "$-\\frac{1}{4}$\n\n**Combine the fractions**: $\\frac{1}{2 + h} - \\frac{1}{2} = \\frac{-h}{2(2 + h)}$. Dividing by $h$ leaves $\\frac{-1}{2(2 + h)} \\to -\\frac{1}{4}$. It's the derivative of $\\frac{1}{x}$ at $x = 2$.\n\nTip: Put the small fractions over a common denominator before dividing by $h$.",
+      "answer": "-1/4",
+      "acceptedAnswers": [
+        "-0.25"
+      ],
+      "answerDisplay": "$-\\frac{1}{4}$",
+      "searchQuery": "limit 1/(2+h)-1/2 over h complex fraction"
+    },
+    {
+      "id": "expand-and-cancel",
+      "title": "$\\lim_{h \\to 0} \\dfrac{(3 + h)^2 - 9}{h} = \\,?$",
+      "body": "$6$\n\n**Expand**: $(3 + h)^2 - 9 = 6h + h^2$, so the quotient is $6 + h \\to 6$ (for $h \\ne 0$). It's the slope of $y = x^2$ at $x = 3$.\n\nTip: Expand, cancel the constants, then factor $h$ out of what remains.",
+      "answer": "6",
+      "answerDisplay": "$6$",
+      "searchQuery": "limit ((3+h)^2-9)/h expand and cancel slope"
+    },
+    {
+      "id": "piecewise-sqrt-limit",
+      "title": "$f(x) = \\sqrt{x - 4}$ for $x > 4$ and $f(x) = 8 - 2x$ for $x < 4$. $\\lim_{x \\to 4} f(x) = \\,?$",
+      "body": "$0$\n\nFrom the right $\\sqrt{x - 4} \\to 0$; from the left $8 - 2x \\to 0$. The **one-sided limits agree**, so the limit is $0$, even though $f(4)$ is undefined.\n\nKey idea: the limit exists at $4$ even though $f(4)$ is undefined.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "piecewise limit sqrt(x-4) and 8-2x one-sided at 4"
+    },
+    {
+      "id": "two-roots-rationalize",
+      "title": "$\\lim_{x \\to 0} \\dfrac{\\sqrt{1 + x} - \\sqrt{1 - x}}{x} = \\,?$",
+      "body": "$1$\n\nMultiply by the **conjugate** $\\sqrt{1 + x} + \\sqrt{1 - x}$: the numerator becomes $(1 + x) - (1 - x) = 2x$, leaving $\\frac{2}{\\sqrt{1 + x} + \\sqrt{1 - x}} \\to \\frac{2}{2} = 1$.\n\nTip: For a difference of two roots, multiply by their sum.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "limit (sqrt(1+x)-sqrt(1-x))/x conjugate"
+    },
+    {
+      "id": "sin-ratio-limit",
+      "title": "$\\lim_{x \\to 0} \\dfrac{\\sin 7x}{\\sin 3x} = \\,?$",
+      "body": "$\\frac{7}{3}$\n\nWrite it as $\\frac{\\sin 7x}{7x} \\cdot \\frac{3x}{\\sin 3x} \\cdot \\frac{7x}{3x}$: the first two factors $\\to 1$ and $\\frac{7x}{3x} = \\frac{7}{3}$. **Shortcut**: near $0$, $\\sin kx \\approx kx$.\n\nTip: In general $\\frac{\\sin ax}{\\sin bx} \\to \\frac{a}{b}$ as $x \\to 0$.",
+      "answer": "7/3",
+      "answerDisplay": "$\\frac{7}{3}$",
+      "searchQuery": "limit sin 7x over sin 3x equals 7/3"
+    },
+    {
+      "id": "tan-x-over-x",
+      "title": "$\\lim_{x \\to 0} \\dfrac{\\tan x}{x} = \\,?$",
+      "body": "$1$\n\n$\\frac{\\tan x}{x} = \\frac{\\sin x}{x} \\cdot \\frac{1}{\\cos x} \\to 1 \\cdot 1 = 1$. So near $0$, $\\tan x \\approx x$, just like $\\sin x \\approx x$.\n\nTip: Write $\\tan x = \\frac{\\sin x}{\\cos x}$ and use $\\frac{\\sin x}{x} \\to 1$.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "limit tan x over x at 0 equals 1"
+    },
+    {
+      "id": "one-minus-cos-over-x-squared",
+      "title": "$\\lim_{x \\to 0} \\dfrac{1 - \\cos x}{x^2} = \\,?$",
+      "body": "$\\frac{1}{2}$\n\n**Multiply** by $1 + \\cos x$: $\\frac{1 - \\cos^2 x}{x^2(1 + \\cos x)} = \\left(\\frac{\\sin x}{x}\\right)^2 \\frac{1}{1 + \\cos x} \\to 1 \\cdot \\frac{1}{2}$. So near $0$, $\\cos x \\approx 1 - \\frac{x^2}{2}$.\n\nWatch out: don't confuse this with $\\lim_{x \\to 0} \\frac{1 - \\cos x}{x} = 0$.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "limit (1-cos x)/x^2 equals 1/2"
+    },
+    {
+      "id": "sin-x-over-x-at-infinity",
+      "title": "$\\lim_{x \\to \\infty} \\dfrac{\\sin x}{x} = \\,?$",
+      "body": "$0$\n\n**Squeeze**: $-\\frac{1}{x} \\le \\frac{\\sin x}{x} \\le \\frac{1}{x}$ for $x > 0$, and both bounds $\\to 0$.\n\nWatch out: the famous limit $1$ is for $x \\to 0$; at infinity a bounded numerator over a growing denominator goes to $0$.\nTip: A bounded numerator over a growing denominator tends to $0$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit sin x over x at infinity squeeze theorem"
+    },
+    {
+      "id": "x-sin-one-over-x-at-infinity",
+      "title": "$\\lim_{x \\to \\infty} x \\sin\\left(\\frac{1}{x}\\right) = \\,?$",
+      "body": "$1$\n\n**Substitute** $t = \\frac{1}{x}$, so $t \\to 0^+$ and the expression becomes $\\frac{\\sin t}{t} \\to 1$. Contrast $\\lim_{x \\to 0} x \\sin\\left(\\frac{1}{x}\\right) = 0$, by the squeeze theorem.\n\nTip: Substituting $t = \\frac{1}{x}$ turns a limit at infinity into a limit at $0$.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "limit x sin(1/x) as x approaches infinity substitution"
+    },
+    {
+      "id": "sin-x-squared-over-x",
+      "title": "$\\lim_{x \\to 0} \\dfrac{\\sin(x^2)}{x} = \\,?$",
+      "body": "$0$\n\nMake the denominator **match the argument**: $\\frac{\\sin(x^2)}{x} = \\frac{\\sin(x^2)}{x^2} \\cdot x \\to 1 \\cdot 0 = 0$.\n\nWatch out: the standard limit needs the denominator to match the argument of $\\sin$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit sin(x^2)/x as x to 0 equals 0"
+    },
+    {
+      "id": "sin-shifted-limit",
+      "title": "$\\lim_{x \\to \\pi} \\dfrac{\\sin x}{x - \\pi} = \\,?$",
+      "body": "$-1$\n\nLet $u = x - \\pi \\to 0$. Then $\\sin x = \\sin(u + \\pi) = -\\sin u$, so the expression is $-\\frac{\\sin u}{u} \\to -1$. The rule $\\frac{\\sin u}{u} \\to 1$ needs $u \\to 0$, so **shift first**. (It's also $\\cos \\pi$, the slope of $\\sin x$ at $\\pi$.)\n\nTip: Shift the variable so the limit point becomes $0$.",
+      "answer": "-1",
+      "answerDisplay": "$-1$",
+      "searchQuery": "limit sin x over x - pi shift variable"
+    },
+    {
+      "id": "degrees-vs-radians-limit",
+      "title": "If $x$ is measured in degrees, what is $\\lim_{x \\to 0} \\dfrac{\\sin x}{x}$?",
+      "body": "$\\frac{\\pi}{180}$\n\nThat is about $0.01745$. Here $x$ degrees is $u = \\frac{\\pi x}{180}$ **radians**, so the ratio is $\\frac{\\pi}{180} \\cdot \\frac{\\sin u}{u} \\to \\frac{\\pi}{180}$. That stray factor is why calculus uses radians: only then is $\\frac{d}{dx} \\sin x = \\cos x$.\n\nWatch out: the standard limit $1$ holds only in radians.",
+      "answer": "pi/180",
+      "answerDisplay": "$\\frac{\\pi}{180}$",
+      "searchQuery": "limit of sin x over x in degrees pi/180"
+    },
+    {
+      "id": "x-cot-x-limit",
+      "title": "$\\lim_{x \\to 0} x \\cot x = \\,?$",
+      "body": "$1$\n\nIt's a $0 \\cdot \\infty$ form, so rewrite it as a **quotient**: $x \\cot x = \\frac{x \\cos x}{\\sin x} = \\frac{\\cos x}{(\\sin x)/x} \\to \\frac{1}{1} = 1$.\n\nTip: Turn a $0 \\cdot \\infty$ product into a quotient, then use $\\frac{\\sin x}{x} \\to 1$.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "limit x cot x as x approaches 0 equals 1"
+    },
+    {
+      "id": "squeeze-bounds-example",
+      "title": "If $4x - 9 \\le f(x) \\le x^2 - 4x + 7$ for all $x \\ge 0$, find $\\lim_{x \\to 4} f(x)$.",
+      "body": "$7$\n\nBoth bounds are continuous, with $4(4) - 9 = 7$ and $16 - 16 + 7 = 7$. They **squeeze** $f$ to the same value, so the limit is $7$. Had the bounds approached different values, you could conclude nothing.\n\nTip: Evaluate both bounding functions at the limit point.",
+      "answer": "7",
+      "answerDisplay": "$7$",
+      "searchQuery": "squeeze theorem with bounding functions limit at 4"
+    },
+    {
+      "id": "abs-value-squeeze",
+      "title": "If $\\lim_{x \\to a} |f(x)| = 0$, what is $\\lim_{x \\to a} f(x)$?",
+      "body": "$0$\n\n**Squeeze**: $-|f(x)| \\le f(x) \\le |f(x)|$, and both bounds $\\to 0$. It works only for $0$: $\\left|\\frac{|x|}{x}\\right| = 1$ for all $x \\ne 0$, yet $\\frac{|x|}{x}$ has no limit at $0$.\n\nWatch out: this shortcut is special to the limit $0$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit of |f(x)| zero implies limit f(x) zero"
+    },
+    {
+      "id": "horizontal-asymptote-definition",
+      "title": "When is the line $y = L$ a horizontal asymptote of $y = f(x)$?",
+      "body": "When $\\lim_{x \\to \\infty} f(x) = L$ or $\\lim_{x \\to -\\infty} f(x) = L$\n\nA function can have **different horizontal asymptotes** at the two ends (for example $y = \\pm\\frac{\\pi}{2}$ for $\\arctan x$), and its graph may cross them.\n\nExample: $f(x) = \\frac{2x}{x + 1}$ has $y = 2$ at both ends.",
+      "searchQuery": "horizontal asymptote definition limit at infinity"
+    },
+    {
+      "id": "lower-degree-rational-limit",
+      "title": "$\\lim_{x \\to \\infty} \\dfrac{5x + 2}{x^2 - 3} = \\,?$",
+      "body": "$0$\n\nDivide top and bottom by $x^2$, the highest power in the denominator: $\\frac{5/x + 2/x^2}{1 - 3/x^2} \\to \\frac{0}{1} = 0$. The denominator **outgrows** the numerator, so $y = 0$ is a horizontal asymptote.\n\nTip: Divide by the highest power of $x$ in the denominator.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit (5x+2)/(x^2-3) at infinity equals 0"
+    },
+    {
+      "id": "limit-at-neg-infinity-sqrt",
+      "title": "$\\lim_{x \\to -\\infty} \\dfrac{\\sqrt{4x^2 + 1}}{x + 3} = \\,?$",
+      "body": "$-2$\n\nFor $x < 0$, $\\sqrt{x^2} = |x| = -x$, so $\\sqrt{4x^2 + 1} = -x\\sqrt{4 + 1/x^2}$. Dividing by $x + 3 = x(1 + 3/x)$ gives $\\frac{-\\sqrt{4 + 1/x^2}}{1 + 3/x} \\to -2$. As $x \\to \\infty$ it's $+2$.\n\nWatch out: writing $\\sqrt{x^2} = x$ for negative $x$.\nTip: As $x \\to -\\infty$, replace $\\sqrt{x^2}$ by $-x$.",
+      "answer": "-2",
+      "answerDisplay": "$-2$",
+      "searchQuery": "limit sqrt(4x^2+1)/(x+3) as x to negative infinity"
+    },
+    {
+      "id": "sqrt-minus-x-at-infinity",
+      "title": "$\\lim_{x \\to \\infty} \\left(\\sqrt{x^2 + x} - x\\right) = \\,?$",
+      "body": "$\\frac{1}{2}$\n\nAn $\\infty - \\infty$ form, not automatically $0$. Multiply by the **conjugate**: $\\frac{(x^2 + x) - x^2}{\\sqrt{x^2 + x} + x} = \\frac{1}{\\sqrt{1 + 1/x} + 1} \\to \\frac{1}{2}$ (divide top and bottom by $x$).\n\nWatch out: $\\infty - \\infty$ is not automatically $0$; here it equals $\\frac{1}{2}$.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "limit sqrt(x^2+x)-x as x to infinity conjugate 1/2"
+    },
+    {
+      "id": "arctan-at-infinity",
+      "title": "$\\lim_{x \\to \\infty} \\arctan x = \\,?$",
+      "body": "$\\frac{\\pi}{2}$\n\n$\\arctan$ has **range** $\\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$, and as $x \\to \\infty$ the angle whose tangent is $x$ approaches $\\frac{\\pi}{2}$ from below. Likewise $\\lim_{x \\to -\\infty} \\arctan x = -\\frac{\\pi}{2}$.\n\nTip: The horizontal asymptotes of $\\arctan x$ are $y = \\pm\\frac{\\pi}{2}$.",
+      "answer": "pi/2",
+      "answerDisplay": "$\\frac{\\pi}{2}$",
+      "searchQuery": "limit arctan x as x approaches infinity pi/2"
+    },
+    {
+      "id": "exp-at-neg-infinity",
+      "title": "$\\lim_{x \\to -\\infty} e^x = \\,?$",
+      "body": "$0$\n\n$e^{-N} = \\frac{1}{e^N}$ shrinks toward $0$ as $N$ grows, so $y = 0$ is a **horizontal asymptote** on the left; $e^x$ itself is always positive. On the right, $\\lim_{x \\to \\infty} e^x = \\infty$.\n\nTip: Likewise $e^{-x} \\to 0$ as $x \\to \\infty$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit e^x as x to negative infinity equals 0"
+    },
+    {
+      "id": "ln-at-zero-plus",
+      "title": "$\\lim_{x \\to 0^+} \\ln x = \\,?$",
+      "body": "$-\\infty$\n\n$\\ln x$ is the inverse of $e^x$, and $e^y$ gets close to $0$ only when $y$ is very negative. So the $y$-axis is a **vertical asymptote** of $y = \\ln x$. Only the right-hand limit makes sense, since $\\ln x$ is undefined for $x \\le 0$.\n\nWatch out: no left-hand limit exists, since $\\ln x$ is undefined for $x \\le 0$.",
+      "answer": "-inf",
+      "acceptedAnswers": [
+        "negative infinity"
+      ],
+      "answerDisplay": "$-\\infty$",
+      "searchQuery": "limit ln x as x to 0 right negative infinity"
+    },
+    {
+      "id": "exp-rational-asymptotes",
+      "title": "Find the horizontal asymptotes of $f(x) = \\dfrac{3e^x + 2}{e^x - 1}$.",
+      "body": "$y = 3$ and $y = -2$\n\nAs $x \\to \\infty$, divide by $e^x$: $\\frac{3 + 2e^{-x}}{1 - e^{-x}} \\to 3$. As $x \\to -\\infty$, $e^x \\to 0$, so $f(x) \\to \\frac{0 + 2}{0 - 1} = -2$. Always check the **two ends** separately.\n\nTip: As $x \\to -\\infty$, just substitute $e^x \\to 0$.",
+      "searchQuery": "horizontal asymptotes of (3e^x+2)/(e^x-1)"
+    },
+    {
+      "id": "slant-asymptote",
+      "title": "Find the slant asymptote of $f(x) = \\dfrac{2x^2 + 3x}{x - 1}$.",
+      "body": "$y = 2x + 5$\n\n**Long division**: $2x^2 + 3x = (x - 1)(2x + 5) + 5$, so $f(x) = 2x + 5 + \\frac{5}{x - 1}$, and the last term $\\to 0$ as $x \\to \\pm\\infty$. A rational function has a slant asymptote when the top's degree is exactly one more than the bottom's.\n\nTip: The slant asymptote is the quotient from long division; discard the remainder.",
+      "answer": "y=2x+5",
+      "acceptedAnswers": [
+        "2x+5",
+        "y=5+2x",
+        "5+2x"
+      ],
+      "answerDisplay": "$y = 2x + 5$",
+      "searchQuery": "slant asymptote rational function long division"
+    },
+    {
+      "id": "crossing-horizontal-asymptote",
+      "title": "Can the graph of $f$ cross its horizontal asymptote?",
+      "body": "Yes\n\nA horizontal asymptote describes only **end behavior**. $f(x) = \\frac{\\sin x}{x}$ crosses its asymptote $y = 0$ infinitely often (at $x = n\\pi$, $n \\ne 0$) while approaching it.\n\nKey idea: a horizontal asymptote describes end behavior, not a barrier.",
+      "answer": "yes",
+      "searchQuery": "graph crossing horizontal asymptote sin x over x"
+    },
+    {
+      "id": "growth-exp-vs-power",
+      "title": "$\\lim_{x \\to \\infty} \\dfrac{x^{100}}{e^x} = \\,?$",
+      "body": "$0$\n\n$e^x$ eventually **outgrows** every power of $x$: applying L'Hôpital's rule $100$ times leaves $\\frac{100!}{e^x} \\to 0$. Growth ranking as $x \\to \\infty$: $\\ln x \\ll x^p$ (any $p > 0$) $\\ll e^x$.\n\nMnemonic: logarithm, then power, then exponential.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit x^100 over e^x growth rates exponential beats power"
+    },
+    {
+      "id": "ln-over-sqrt",
+      "title": "$\\lim_{x \\to \\infty} \\dfrac{\\ln x}{\\sqrt{x}} = \\,?$",
+      "body": "$0$\n\nL'Hôpital: $\\frac{1/x}{1/(2\\sqrt{x})} = \\frac{2}{\\sqrt{x}} \\to 0$. Logarithms grow **more slowly** than any positive power of $x$, even $x^{0.01}$.\n\nTip: This is a growth comparison; L'Hôpital once settles it.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit ln x over sqrt x as x to infinity"
+    },
+    {
+      "id": "log-difference-at-infinity",
+      "title": "$\\lim_{x \\to \\infty} \\left[\\ln(2x + 1) - \\ln x\\right] = \\,?$",
+      "body": "$\\ln 2$\n\nAn $\\infty - \\infty$ form. Combine with a **log law**: $\\ln \\frac{2x + 1}{x} = \\ln\\left(2 + \\frac{1}{x}\\right) \\to \\ln 2$, by continuity of $\\ln$.\n\nWatch out: assuming $\\infty - \\infty = 0$.\nTip: Combine logs with $\\ln a - \\ln b = \\ln \\frac{a}{b}$.",
+      "answer": "ln 2",
+      "acceptedAnswers": [
+        "ln(2)"
+      ],
+      "answerDisplay": "$\\ln 2$",
+      "searchQuery": "limit ln(2x+1)-ln x as x to infinity equals ln 2"
+    },
+    {
+      "id": "polynomial-leading-term-infinity",
+      "title": "$\\lim_{x \\to \\infty} \\left(x^2 - x^3\\right) = \\,?$",
+      "body": "$-\\infty$\n\nAn $\\infty - \\infty$ form: **factor out the highest power**, $x^3\\left(\\frac{1}{x} - 1\\right)$, where $x^3 \\to \\infty$ and $\\frac{1}{x} - 1 \\to -1$. A polynomial's end behavior is that of its leading term.\n\nTip: At infinity, only the leading term of a polynomial matters.",
+      "answer": "-inf",
+      "acceptedAnswers": [
+        "negative infinity"
+      ],
+      "answerDisplay": "$-\\infty$",
+      "searchQuery": "limit x^2 - x^3 at infinity polynomial end behavior"
+    },
+    {
+      "id": "continuity-from-right",
+      "title": "What does it mean for $f$ to be continuous from the right at $a$?",
+      "body": "$\\lim_{x \\to a^+} f(x) = f(a)$\n\nFrom the left: $\\lim_{x \\to a^-} f(x) = f(a)$. Examples: $\\sqrt{x}$ is **continuous from the right** at $0$, the only side where it's defined; $\\lfloor x \\rfloor$ is continuous from the right, but not from the left, at every integer.\n\nWatch out: one-sided continuity is not enough for continuity at $a$; both sides must match $f(a)$.",
+      "searchQuery": "continuous from the right definition one-sided continuity"
+    },
+    {
+      "id": "continuous-on-closed-interval",
+      "title": "What does it mean for $f$ to be continuous on a closed interval $[a, b]$?",
+      "body": "$f$ is continuous at every number in $(a, b)$, continuous from the right at $a$, and continuous from the left at $b$\n\nOne-sided continuity is all you can ask for at the endpoints, since $f$ may not be defined beyond them. It's the **hypothesis** of the IVT and the Extreme Value Theorem.\n\nKey idea: at an endpoint, only one-sided continuity can be required.",
+      "searchQuery": "continuity on a closed interval definition endpoints"
+    },
+    {
+      "id": "continuous-function-families",
+      "title": "Which standard families of functions are continuous at every number in their domains?",
+      "body": "Polynomials, rational functions, root functions, trig and inverse trig functions, exponentials and logarithms\n\nSums, differences, products, quotients (where the denominator isn't $0$) and **compositions** of continuous functions are continuous too, so most formulas are continuous wherever they're defined.\n\nTip: Build complicated functions from these families and continuity comes free.",
+      "searchQuery": "continuous functions list polynomials rational trig exponential"
+    },
+    {
+      "id": "continuity-domain-example",
+      "title": "On what set is $f(x) = \\dfrac{\\ln x + \\arctan x}{x^2 - 1}$ continuous?",
+      "body": "$(0, 1) \\cup (1, \\infty)$\n\n$\\ln x$ needs $x > 0$, $\\arctan x$ is continuous everywhere, and the denominator is $0$ at $x = \\pm 1$, of which only $x = 1$ lies in $(0, \\infty)$. Built from continuous functions, $f$ is continuous on its **whole domain**.\n\nTip: List the restrictions one at a time: logs, roots, denominators.",
+      "searchQuery": "domain of continuity ln x + arctan x over x^2-1"
+    },
+    {
+      "id": "tan-discontinuities",
+      "title": "Where is $\\tan x$ discontinuous?",
+      "body": "At $x = \\frac{\\pi}{2} + n\\pi$ for every integer $n$, where $\\cos x = 0$\n\nThere $\\tan x = \\frac{\\sin x}{\\cos x}$ is undefined and $\\to \\pm\\infty$: **infinite discontinuities**, i.e. vertical asymptotes. Everywhere else it's continuous.\n\nTip: $\\tan x$ breaks exactly where $\\cos x = 0$.",
+      "searchQuery": "where tan x is discontinuous vertical asymptotes"
+    },
+    {
+      "id": "jump-discontinuity",
+      "title": "What type of discontinuity does $f(x) = \\lfloor x \\rfloor$ (greatest integer) have at each integer?",
+      "body": "A jump discontinuity\n\nAt an integer $n$, $\\lim_{x \\to n^-} \\lfloor x \\rfloor = n - 1$ but $\\lim_{x \\to n^+} \\lfloor x \\rfloor = n$: both one-sided limits exist but **differ**. No choice of $f(n)$ can remove a jump.\n\nTip: A jump needs both one-sided limits to be finite but unequal.",
+      "answer": "jump",
+      "acceptedAnswers": [
+        "jump discontinuity"
+      ],
+      "searchQuery": "jump discontinuity floor function one-sided limits differ"
+    },
+    {
+      "id": "infinite-discontinuity",
+      "title": "What type of discontinuity does $f(x) = \\dfrac{1}{x^2}$ have at $x = 0$?",
+      "body": "An infinite discontinuity\n\n$f(x) \\to \\infty$ as $x \\to 0$ from both sides, so $x = 0$ is a **vertical asymptote**. Like a jump, it can't be repaired by choosing a value for $f(0)$, because the limit isn't a finite number.\n\nTip: An infinite discontinuity at $a$ means a vertical asymptote $x = a$.",
+      "answer": "infinite",
+      "acceptedAnswers": [
+        "infinite discontinuity"
+      ],
+      "searchQuery": "infinite discontinuity vertical asymptote 1/x^2"
+    },
+    {
+      "id": "which-discontinuity-removable",
+      "title": "$f(x) = \\dfrac{x - 3}{x^2 - 9}$ is discontinuous at $x = 3$ and $x = -3$. Which one is removable?",
+      "body": "$x = 3$\n\nFor $x \\ne 3$, $f(x) = \\frac{1}{x + 3}$, so $\\lim_{x \\to 3} f(x) = \\frac{1}{6}$: a **hole**, removed by setting $f(3) = \\frac{1}{6}$. At $x = -3$ nothing cancels and $f \\to \\pm\\infty$: an infinite discontinuity.\n\nTip: A discontinuity is removable exactly when the limit exists as a finite number.",
+      "answer": "x=3",
+      "acceptedAnswers": [
+        "3"
+      ],
+      "answerDisplay": "$x = 3$",
+      "searchQuery": "which discontinuity removable (x-3)/(x^2-9)"
+    },
+    {
+      "id": "continuity-piecewise-constant",
+      "title": "For what $k$ is $f$ continuous everywhere, if $f(x) = kx^2$ for $x \\le 2$ and $f(x) = 2x + k$ for $x > 2$?",
+      "body": "$k = \\frac{4}{3}$\n\n**Each piece is a polynomial**, so only $x = 2$ needs checking. The left limit and $f(2)$ are both $4k$; the right limit is $4 + k$. Setting $4k = 4 + k$ gives $k = \\frac{4}{3}$.\n\nTip: Set the left limit equal to the right limit at the break point.",
+      "answer": "4/3",
+      "acceptedAnswers": [
+        "k=4/3"
+      ],
+      "answerDisplay": "$k = \\frac{4}{3}$",
+      "searchQuery": "find k so piecewise function is continuous"
+    },
+    {
+      "id": "continuous-on-domain-reciprocal",
+      "title": "Is $f(x) = \\dfrac{1}{x}$ continuous at every number in its domain?",
+      "body": "Yes\n\nIts **domain** is all $x \\ne 0$, and as a rational function it is continuous at each of those numbers. The break at $x = 0$ lies outside the domain, so the IVT can't be applied on an interval such as $[-1, 1]$.\n\nWatch out: continuous at every point of its domain is different from continuous on an interval containing $0$.",
+      "answer": "yes",
+      "searchQuery": "is 1/x continuous on its domain"
+    },
+    {
+      "id": "ivt-needs-continuity",
+      "title": "$f(-1) = -1$ and $f(1) = 1$. If $f$ is not continuous, must $f$ have a zero in $(-1, 1)$?",
+      "body": "No\n\n$f(x) = -1$ for $x < 0$ and $f(x) = 1$ for $x \\ge 0$ jumps over $0$ without ever taking that value. The IVT's conclusion can fail as soon as **continuity fails**.\n\nTip: For a counterexample, use a jump that skips the target value.",
+      "answer": "no",
+      "searchQuery": "intermediate value theorem fails without continuity counterexample"
+    },
+    {
+      "id": "ivt-cos-x-equals-x",
+      "title": "Does the IVT guarantee that $\\cos x = x$ has a solution in $(0, 1)$?",
+      "body": "Yes\n\nMove everything to one side: $g(x) = \\cos x - x$ is **continuous**, with $g(0) = 1 > 0$ and $g(1) = \\cos 1 - 1 \\approx -0.46 < 0$. So $g(c) = 0$, i.e. $\\cos c = c$, for some $c$ in $(0, 1)$.\n\nTip: To show $f(x) = g(x)$ has a solution, apply the IVT to $f - g$.",
+      "answer": "yes",
+      "searchQuery": "intermediate value theorem cos x = x solution"
+    },
+    {
+      "id": "bisection-method",
+      "title": "How does the bisection method use the IVT to approximate a root of a continuous $f$?",
+      "body": "Start with $[a, b]$ where $f(a)$ and $f(b)$ have opposite signs. Evaluate $f$ at the midpoint and keep the half on which the sign still changes; by the IVT that half contains a root.\n\nEach step **halves** the interval, so after $n$ steps the root is trapped in an interval of length $\\frac{b - a}{2^n}$.\n\nExample: from an interval of length $1$, ten steps trap the root in an interval of length $\\frac{1}{1024}$.",
+      "searchQuery": "bisection method intermediate value theorem root approximation"
+    },
+    {
+      "id": "exp-one-over-x-left",
+      "title": "$\\lim_{x \\to 0^-} e^{1/x} = \\,?$",
+      "body": "$0$\n\nAs $x \\to 0^-$, $\\frac{1}{x} \\to -\\infty$, and $e^u \\to 0$ as $u \\to -\\infty$. From the right, $\\frac{1}{x} \\to \\infty$ and $e^{1/x} \\to \\infty$, so the two-sided limit **does not exist**.\n\nTip: Substitute $u = \\frac{1}{x}$ and ask which way $u$ goes.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit e^(1/x) as x to 0 left"
+    },
+    {
+      "id": "derivative-recognition-limit",
+      "title": "$\\lim_{h \\to 0} \\dfrac{(2 + h)^5 - 32}{h} = \\,?$",
+      "body": "$80$\n\n**Recognize a derivative**: it's $\\lim_{h \\to 0} \\frac{f(2 + h) - f(2)}{h}$ with $f(x) = x^5$, so it equals $f'(2) = 5 \\cdot 2^4 = 80$. Expanding $(2 + h)^5$ also works, but takes longer.\n\nTip: Spot the pattern $\\frac{f(a + h) - f(a)}{h}$ and read off $f'(a)$.",
+      "answer": "80",
+      "answerDisplay": "$80$",
+      "searchQuery": "limit (2+h)^5-32 over h derivative recognition"
+    },
+    {
+      "id": "exp-minus-one-over-x",
+      "title": "$\\lim_{x \\to 0} \\dfrac{e^x - 1}{x} = \\,?$",
+      "body": "$1$\n\nIt's $\\frac{0}{0}$, and L'Hôpital gives $\\frac{e^x}{1} \\to 1$. Without L'Hôpital: it's the derivative of $e^x$ at $0$, which is $e^0 = 1$. This limit being $1$ is exactly what makes $e$ the **natural base**.\n\nTip: Memorize $\\frac{e^x - 1}{x} \\to 1$; it appears in many exponential limits.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "limit (e^x - 1)/x equals 1"
+    },
+    {
+      "id": "two-to-x-minus-one",
+      "title": "$\\lim_{x \\to 0} \\dfrac{2^x - 1}{x} = \\,?$",
+      "body": "$\\ln 2$\n\nThat is about $0.693$. L'Hôpital: $\\frac{2^x \\ln 2}{1} \\to \\ln 2$. In general $\\lim_{x \\to 0} \\frac{a^x - 1}{x} = \\ln a$, the **slope** of $a^x$ at $0$; it equals $1$ only when $a = e$.\n\nTip: Compare $\\frac{e^x - 1}{x} \\to 1$: that is this limit with $a = e$.",
+      "answer": "ln 2",
+      "acceptedAnswers": [
+        "ln(2)"
+      ],
+      "answerDisplay": "$\\ln 2$",
+      "searchQuery": "limit (2^x - 1)/x equals ln 2"
+    },
+    {
+      "id": "power-minus-one-over-x-minus-one",
+      "title": "$\\lim_{x \\to 1} \\dfrac{x^n - 1}{x - 1} = \\,?$",
+      "body": "$n$\n\nL'Hôpital: $\\frac{nx^{n-1}}{1} \\to n$. For a positive integer $n$, **factoring** agrees: $\\frac{x^n - 1}{x - 1} = x^{n-1} + \\dots + x + 1$, a sum of $n$ terms that each $\\to 1$.\n\nTip: This is the derivative of $x^n$ at $x = 1$.",
+      "answer": "n",
+      "answerDisplay": "$n$",
+      "searchQuery": "limit (x^n - 1)/(x - 1) at 1 equals n"
+    },
+    {
+      "id": "x-minus-sin-over-x-cubed",
+      "title": "$\\lim_{x \\to 0} \\dfrac{x - \\sin x}{x^3} = \\,?$",
+      "body": "$\\frac{1}{6}$\n\nL'Hôpital **twice**, checking for $\\frac{0}{0}$ before each step: $\\lim \\frac{1 - \\cos x}{3x^2} = \\lim \\frac{\\sin x}{6x} = \\frac{1}{6}$. So near $0$, $\\sin x \\approx x - \\frac{x^3}{6}$.\n\nTip: A Taylor series gives the same result: $\\sin x = x - \\frac{x^3}{6} + \\cdots$.",
+      "answer": "1/6",
+      "answerDisplay": "$\\frac{1}{6}$",
+      "searchQuery": "limit (x - sin x)/x^3 equals 1/6 L'Hopital"
+    },
+    {
+      "id": "x-ln-x-limit",
+      "title": "$\\lim_{x \\to 0^+} x \\ln x = \\,?$",
+      "body": "$0$\n\nA $0 \\cdot (-\\infty)$ form, so rewrite it as a quotient: $\\frac{\\ln x}{1/x}$, type $\\frac{-\\infty}{\\infty}$. L'Hôpital: $\\frac{1/x}{-1/x^2} = -x \\to 0$. **The power wins**: $x \\to 0$ faster than $\\ln x \\to -\\infty$.\n\nTip: For $0 \\cdot \\infty$, move one factor to the denominator as its reciprocal.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit x ln x as x to 0 right"
+    },
+    {
+      "id": "infinity-minus-infinity-lhopital",
+      "title": "$\\lim_{x \\to 0} \\left(\\dfrac{1}{x} - \\dfrac{1}{e^x - 1}\\right) = \\,?$",
+      "body": "$\\frac{1}{2}$\n\nAn $\\infty - \\infty$ form: **combine into one fraction**, $\\frac{e^x - 1 - x}{x(e^x - 1)}$, which is $\\frac{0}{0}$. L'Hôpital twice: $\\frac{e^x - 1}{e^x - 1 + xe^x}$, then $\\frac{e^x}{2e^x + xe^x} \\to \\frac{1}{2}$.\n\nTip: For $\\infty - \\infty$, combine into a single fraction first.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "limit 1/x - 1/(e^x-1) as x to 0 equals 1/2"
+    },
+    {
+      "id": "one-to-infinity-form",
+      "title": "$\\lim_{x \\to 0} (1 + 2x)^{1/x} = \\,?$",
+      "body": "$e^2$\n\nA $1^\\infty$ form. **Take logs**: $\\ln y = \\frac{\\ln(1 + 2x)}{x}$, type $\\frac{0}{0}$, and L'Hôpital gives $\\frac{2/(1 + 2x)}{1} \\to 2$. So $y \\to e^2$.\n\nWatch out: answering $1$ because the base $\\to 1$.\nTip: Finish by exponentiating, since $y = e^{\\ln y}$.",
+      "answer": "e^2",
+      "answerDisplay": "$e^2$",
+      "searchQuery": "limit (1+2x)^(1/x) as x to 0 equals e^2"
+    },
+    {
+      "id": "infinity-to-zero-form",
+      "title": "$\\lim_{x \\to \\infty} x^{1/x} = \\,?$",
+      "body": "$1$\n\nAn $\\infty^0$ form. $\\ln y = \\frac{\\ln x}{x} \\to 0$ (L'Hôpital: $\\frac{1/x}{1} \\to 0$), so $y \\to e^0 = 1$. Taking logs turns the power into a contest between $\\ln x$ and $x$, which $x$ **wins**.\n\nTip: For $\\infty^0$, the log $\\frac{\\ln x}{x}$ is a growth comparison.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "limit x^(1/x) as x to infinity equals 1"
+    },
+    {
+      "id": "lhopital-misuse-not-indeterminate",
+      "title": "$\\lim_{x \\to \\pi^-} \\dfrac{\\sin x}{1 - \\cos x} = \\,?$",
+      "body": "$0$\n\nSubstitute: $\\frac{\\sin \\pi}{1 - \\cos \\pi} = \\frac{0}{2} = 0$. It's **not indeterminate**, so L'Hôpital doesn't apply; using it anyway gives $\\frac{\\cos x}{\\sin x} \\to -\\infty$, which is wrong. Check the form first.\n\nTip: Always substitute first, and stop if the result is a number.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "L'Hopital misuse sin x over 1 - cos x"
+    },
+    {
+      "id": "lhopital-cycles",
+      "title": "L'Hôpital's rule just cycles on $\\lim_{x \\to \\infty} \\dfrac{x}{\\sqrt{x^2 + 1}}$. What is the limit?",
+      "body": "$1$\n\nL'Hôpital turns $\\frac{x}{\\sqrt{x^2 + 1}}$ into $\\frac{\\sqrt{x^2 + 1}}{x}$ and then back again. **Algebra works instead**: divide top and bottom by $x$ (positive here) to get $\\frac{1}{\\sqrt{1 + 1/x^2}} \\to 1$.\n\nTip: If L'Hôpital cycles, switch to algebra: divide by the dominant power.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "L'Hopital cycles limit x over sqrt(x^2+1)"
+    },
+    {
+      "id": "lhopital-derivative-limit-dne",
+      "title": "$\\lim_{x \\to \\infty} \\dfrac{x + \\sin x}{x} = \\,?$",
+      "body": "$1$\n\nIt equals $1 + \\frac{\\sin x}{x} \\to 1$. L'Hôpital gives $\\frac{1 + \\cos x}{1}$, which has no limit. That doesn't mean the original limit fails to exist: the rule **applies only when** $\\lim \\frac{f'}{g'}$ exists or is $\\pm\\infty$.\n\nKey idea: L'Hôpital is one-way: if $\\lim \\frac{f'}{g'}$ exists, so does $\\lim \\frac{f}{g}$, but not conversely.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "L'Hopital derivative quotient limit does not exist original limit exists"
+    },
+    {
+      "id": "log-trick-for-powers",
+      "title": "For limits of $f(x)^{g(x)}$ of type $1^\\infty$, $0^0$ or $\\infty^0$, what is the standard first step?",
+      "body": "Take logs: set $y = f^g$, so $\\ln y = g \\ln f$, a $0 \\cdot \\infty$ form you can rewrite as a quotient for L'Hôpital\n\nIf $\\ln y \\to L$, then $y \\to e^L$. Don't stop at $\\lim \\ln y$: the last step is **exponentiating**.\n\nExample: for $x^x$, $\\ln y = x \\ln x \\to 0$, so $y \\to e^0 = 1$.",
+      "searchQuery": "logarithm trick for 1^infinity 0^0 infinity^0 limits"
+    },
+    {
+      "id": "zero-to-infinity-not-indeterminate",
+      "title": "$\\lim_{x \\to 0^+} x^{1/x} = \\,?$",
+      "body": "$0$\n\nThis is $0^\\infty$, which is **not indeterminate**: a base near $0$ raised to a huge power is even closer to $0$. Check with logs: $\\ln y = \\frac{\\ln x}{x}$ has numerator $\\to -\\infty$ and denominator $\\to 0^+$, so $\\ln y \\to -\\infty$ and $y \\to 0$.\n\nWatch out: $0^0$ is indeterminate, but $0^\\infty$ is not.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "0 to the infinity not indeterminate x^(1/x)"
+    },
+    {
+      "id": "epsilon-delta-numeric",
+      "title": "For $\\lim_{x \\to 1} (5x - 2) = 3$ and $\\varepsilon = 0.1$, what is the largest $\\delta$ that works?",
+      "body": "$0.02$\n\nHere $\\delta = 0.02$, because $|(5x - 2) - 3| = 5|x - 1| < 0.1$ exactly when $|x - 1| < 0.02$. For a line $y = mx + b$, $\\delta = \\frac{\\varepsilon}{|m|}$: the **steeper** the line, the smaller the $\\delta$.\n\nWatch out: any smaller $\\delta$ also works; the question asks for the largest.",
+      "answer": "0.02",
+      "acceptedAnswers": [
+        "1/50"
+      ],
+      "answerDisplay": "$0.02$",
+      "searchQuery": "epsilon delta numeric linear function delta equals epsilon over slope"
+    },
+    {
+      "id": "epsilon-delta-quadratic",
+      "title": "Proving $\\lim_{x \\to 3} x^2 = 9$: why does $\\delta = \\min\\left(1, \\frac{\\varepsilon}{7}\\right)$ work?",
+      "body": "$|x^2 - 9| = |x - 3|\\,|x + 3|$. Taking $\\delta \\le 1$ keeps $x$ in $(2, 4)$, so $|x + 3| < 7$. Then $|x^2 - 9| < 7|x - 3| < 7 \\cdot \\frac{\\varepsilon}{7} = \\varepsilon$.\n\nThe standard trick: **bound the extra factor** by restricting $\\delta$ first, then shrink $\\delta$ to beat $\\varepsilon$.\n\nTip: First bound the extra factor, for example by restricting $\\delta \\le 1$.",
+      "searchQuery": "epsilon delta proof limit x squared equals 9 delta min"
+    },
+    {
+      "id": "precise-infinite-limit",
+      "title": "Precise definition: $\\lim_{x \\to a} f(x) = \\infty$ means for every $M > 0$ there is a $\\delta > 0$ such that ___.",
+      "body": "If $0 < |x - a| < \\delta$, then $f(x) > M$\n\n**However large** an $M$ you pick, $f$ exceeds it on a punctured interval around $a$. For $-\\infty$: for every $N < 0$ there is a $\\delta$ with $f(x) < N$ there.\n\nMnemonic: $M$ is how high, $\\delta$ is how close.",
+      "searchQuery": "precise definition infinite limit M delta"
+    },
+    {
+      "id": "precise-limit-at-infinity",
+      "title": "Precise definition: $\\lim_{x \\to \\infty} f(x) = L$ means for every $\\varepsilon > 0$ there is a number $N$ such that ___.",
+      "body": "If $x > N$, then $|f(x) - L| < \\varepsilon$\n\n$N$ plays the role of $\\delta$: beyond $N$ the graph stays inside the **band** $L \\pm \\varepsilon$.\n\nExample: for $\\frac{1}{x^2} \\to 0$, $N = \\frac{1}{\\sqrt{\\varepsilon}}$ works.\nMnemonic: $N$ is how far out you must go.",
+      "searchQuery": "precise definition limit at infinity epsilon N"
+    },
+    {
+      "id": "precise-left-hand-limit",
+      "title": "Precise definition: $\\lim_{x \\to a^-} f(x) = L$ means for every $\\varepsilon > 0$ there is a $\\delta > 0$ such that ___.",
+      "body": "If $a - \\delta < x < a$, then $|f(x) - L| < \\varepsilon$\n\nThe only change from the two-sided definition is that $x$ stays **to the left** of $a$. For a right-hand limit, use $a < x < a + \\delta$.\n\nTip: A one-sided limit swaps the symmetric interval for a one-sided one.",
+      "searchQuery": "precise definition left hand limit epsilon delta"
+    },
+    {
+      "id": "limit-negation",
+      "title": "In $\\varepsilon$-$\\delta$ terms, what does $\\lim_{x \\to a} f(x) \\ne L$ mean?",
+      "body": "There is some $\\varepsilon > 0$ such that for every $\\delta > 0$, some $x$ with $0 < |x - a| < \\delta$ has $|f(x) - L| \\ge \\varepsilon$\n\nNegation **swaps each quantifier** ($\\forall$ becomes $\\exists$ and vice versa) and flips the final inequality.\n\nExample: for $\\frac{|x|}{x}$ at $0$ with $L = 0$, take $\\varepsilon = \\frac{1}{2}$: every $\\delta$ has some $x$ with $|f(x)| = 1$.",
+      "searchQuery": "negation of epsilon delta limit definition quantifiers"
+    },
+    {
+      "id": "n-for-one-over-x",
+      "title": "For $\\lim_{x \\to \\infty} \\frac{1}{x} = 0$ with $\\varepsilon = 0.01$, what is the smallest $N$ that works?",
+      "body": "$N = 100$\n\nWe need $x > N \\implies \\frac{1}{x} < 0.01$, i.e. $x > 100$. Any $N \\ge 100$ works; a smaller $N$ **fails**, because $x = 100$ is then allowed and gives $\\frac{1}{x} = 0.01$, which is not less than $\\varepsilon$.\n\nTip: Solve $|f(x) - L| < \\varepsilon$ for $x$ to find $N$.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "N=100"
+      ],
+      "answerDisplay": "$N = 100$",
+      "searchQuery": "epsilon N for limit 1/x epsilon 0.01 smallest N"
+    }
+  ]
+}

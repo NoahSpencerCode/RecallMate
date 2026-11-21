@@ -1,0 +1,801 @@
+{
+  "id": "sw-oop",
+  "title": "OOP & Design Principles",
+  "course": "Software Engineering",
+  "description": "Encapsulation, polymorphism, overloading vs overriding, interfaces vs abstract classes, all five SOLID principles, key GoF patterns, test levels, and TDD.",
+  "cards": [
+    {
+      "id": "encapsulation",
+      "title": "Which OOP principle bundles data with the methods that operate on it and restricts direct access to that internal state?",
+      "answer": "encapsulation",
+      "acceptedAnswers": [
+        "data encapsulation"
+      ],
+      "body": "Encapsulation\n\nIt bundles data with the methods that operate on it and restricts direct access to that internal state, so the object can enforce its **invariants**.\n\nExample: a `private` balance field that changes only through `deposit()` and `withdraw()`, which reject a negative balance.\nWatch out: don't confuse it with **abstraction**, which exposes what an object does while hiding how.",
+      "searchQuery": "encapsulation OOP bundling data methods hiding state"
+    },
+    {
+      "id": "polymorphism",
+      "title": "Which OOP principle lets shape.area() run Circle's or Square's implementation depending on the object's runtime type?",
+      "answer": "polymorphism",
+      "acceptedAnswers": [
+        "subtype polymorphism",
+        "runtime polymorphism",
+        "run-time polymorphism",
+        "dynamic polymorphism"
+      ],
+      "body": "Polymorphism (subtype or runtime polymorphism)\n\nWith **dynamic dispatch**, `shape.area()` runs `Circle`'s or `Square`'s version depending on the object's runtime type. Callers depend only on the `Shape` type, so new shapes work without changing caller code.\n\nWatch out: method overloading is a different, compile-time kind (ad hoc polymorphism).",
+      "searchQuery": "polymorphism OOP dynamic dispatch runtime type"
+    },
+    {
+      "id": "overloading-vs-overriding",
+      "title": "Method overloading vs method overriding: what's the difference, and when is each resolved?",
+      "body": "Overloading picks a method at compile time; overriding picks it at runtime.\n\n- **Overloading**: same name, different parameter lists. The compiler chooses from the argument types.\n- **Overriding**: a subclass redefines an inherited method with the same signature. The object's runtime type decides which version runs.\n\nWatch out: in Java, methods that differ only in return type can't be overloads (compile error).",
+      "searchQuery": "method overloading vs overriding compile time runtime"
+    },
+    {
+      "id": "interface-vs-abstract-class",
+      "title": "In Java, what are the key differences between an interface and an abstract class?",
+      "body": "A class can implement many interfaces but extend only one class.\n\nAbstract classes can have constructors, instance fields, and `protected` members. Interface fields are implicitly `public static final` constants, though Java 8+ allows `default` and `static` methods.\n\nKey idea: an interface is a **capability** (`Comparable`); an abstract class is shared base state and code.",
+      "searchQuery": "Java interface vs abstract class differences"
+    },
+    {
+      "id": "composition-over-inheritance",
+      "title": "Why do designers advise 'favor composition over inheritance'?",
+      "body": "Inheritance ties a subclass to its parent's implementation; composition keeps parts swappable.\n\nInheritance (is-a) binds at compile time, so parent changes can break subclasses (the **fragile base class** problem). Composition (has-a) delegates to contained objects behind interfaces, which can be swapped at runtime, giving looser coupling.\n\nExample: a `Car` has an `Engine` field rather than extending `Engine`.",
+      "searchQuery": "favor composition over inheritance fragile base class"
+    },
+    {
+      "id": "coupling-vs-cohesion",
+      "title": "Good modular design aims for what level of coupling and what level of cohesion?",
+      "body": "Low (loose) coupling and high cohesion.\n\n- **Coupling**: how much modules depend on each other's internals; keep it to narrow interfaces.\n- **Cohesion**: how closely everything in a module serves one focused purpose.\n\nWhy: together they let you change one module without ripple effects.",
+      "searchQuery": "low coupling high cohesion modular design"
+    },
+    {
+      "id": "single-responsibility",
+      "title": "Which SOLID principle says a class should have only one reason to change?",
+      "answer": "single responsibility",
+      "acceptedAnswers": [
+        "single responsibility principle",
+        "single-responsibility",
+        "single-responsibility principle",
+        "SRP"
+      ],
+      "body": "Single Responsibility Principle (SRP)\n\nA class should have only **one reason to change**.\n\nExample: a `Report` class that both computes figures and renders PDFs has two reasons to change (business rules vs formatting). Split it into `ReportCalculator` and `PdfRenderer`.",
+      "searchQuery": "Single Responsibility Principle SOLID one reason to change"
+    },
+    {
+      "id": "open-closed",
+      "title": "State the Open/Closed Principle and the usual way to follow it.",
+      "body": "Open for extension, closed for modification.\n\nAdd behavior by writing **new code** (e.g. a new class implementing an existing interface), not by editing existing, tested code.\n\nWatch out: a `switch` on type that grows with every new case is the classic smell; replace it with polymorphism or the Strategy pattern.",
+      "searchQuery": "Open/Closed Principle open for extension closed for modification"
+    },
+    {
+      "id": "liskov-substitution",
+      "title": "A Square subclass of Rectangle breaks code that sets width and height independently. Which SOLID principle does it violate?",
+      "answer": "Liskov substitution",
+      "acceptedAnswers": [
+        "Liskov substitution principle",
+        "Liskov's substitution principle",
+        "LSP",
+        "Liskov"
+      ],
+      "body": "Liskov substitution principle\n\nObjects of a subtype must be usable anywhere the base type is expected without breaking correctness.\n\nExample: code that sets `width = 5`, then `height = 4`, expects area $20$. A `Square` that keeps its sides equal returns $16$.\n\nKey idea: subtypes must honor the base type's contract.",
+      "searchQuery": "Liskov Substitution Principle Square Rectangle violation"
+    },
+    {
+      "id": "interface-segregation",
+      "title": "Which SOLID principle says clients shouldn't be forced to depend on methods they don't use?",
+      "answer": "interface segregation",
+      "acceptedAnswers": [
+        "interface segregation principle",
+        "ISP"
+      ],
+      "body": "Interface Segregation Principle (ISP)\n\nClients shouldn't be forced to depend on methods they don't use.\n\nExample: split a fat `MultiFunctionDevice` interface into small role interfaces (`Printer`, `Scanner`, `Fax`) so a basic printer doesn't have to stub out `scan()` and `fax()`.",
+      "searchQuery": "Interface Segregation Principle clients not forced depend unused methods"
+    },
+    {
+      "id": "dependency-inversion",
+      "title": "What does the Dependency Inversion Principle say, and which technique commonly applies it?",
+      "body": "Depend on abstractions, not on concrete low-level details.\n\nHigh-level modules shouldn't depend on low-level modules; both should depend on abstractions. Example: `OrderService` depends on a `PaymentGateway` interface, not on `StripeClient`.\n\nTip: **dependency injection** supplies the concrete implementation from outside (constructor or setter), so tests can pass in a fake.",
+      "searchQuery": "Dependency Inversion Principle dependency injection abstractions"
+    },
+    {
+      "id": "observer-pattern",
+      "title": "Which design pattern defines a one-to-many dependency so that when one object changes state, all its dependents are notified?",
+      "answer": "Observer",
+      "acceptedAnswers": [
+        "observer pattern",
+        "publish-subscribe",
+        "publish subscribe",
+        "pub/sub",
+        "pub-sub",
+        "pubsub"
+      ],
+      "body": "Observer (publish–subscribe)\n\nThe subject keeps a list of observers and calls their `update` method on each change. Observers can subscribe and unsubscribe at runtime.\n\nExample: GUI event listeners, `addEventListener`, model–view updates.",
+      "searchQuery": "Observer pattern one-to-many notify dependents"
+    },
+    {
+      "id": "strategy-pattern",
+      "title": "Which design pattern encapsulates a family of interchangeable algorithms behind a common interface so they can be swapped at runtime?",
+      "answer": "Strategy",
+      "acceptedAnswers": [
+        "strategy pattern"
+      ],
+      "body": "Strategy\n\nIt encapsulates a family of algorithms behind a common interface so they can be swapped at runtime.\n\nExample: `Checkout` takes a `ShippingCost` strategy (`FlatRate`, `ByWeight`) instead of switching on a type field, so adding a strategy doesn't touch `Checkout`.\nTip: a `Comparator` passed to a sort function is a strategy.",
+      "searchQuery": "Strategy pattern interchangeable algorithms swap runtime"
+    },
+    {
+      "id": "adapter-vs-decorator",
+      "title": "Adapter vs Decorator: both wrap an object, so how do their intents differ?",
+      "body": "Adapter changes the interface; Decorator adds behavior.\n\n- **Adapter** converts an object's interface into the one clients expect, e.g. wrapping a legacy XML service to fit your `DataSource` interface.\n- **Decorator** keeps the same interface and adds responsibilities dynamically, e.g. a `BufferedInputStream` wrapping a `FileInputStream`. Decorators can be stacked.",
+      "searchQuery": "Adapter vs Decorator pattern intent difference"
+    },
+    {
+      "id": "unit-integration-e2e",
+      "title": "Unit vs integration vs end-to-end tests: what does each exercise?",
+      "body": "Unit tests one piece, integration tests pieces together, end-to-end tests the whole system.\n\n- **Unit**: one function or class, dependencies faked; fast and numerous.\n- **Integration**: several real components, e.g. a repository class against a real database.\n- **End-to-end**: the whole system through its real interface, e.g. a browser clicking through signup.\n\nKey idea: the **test pyramid** has many unit tests, fewer integration tests, and the fewest E2E tests (slowest, most brittle).",
+      "searchQuery": "unit vs integration vs end-to-end tests test pyramid"
+    },
+    {
+      "id": "tdd-cycle",
+      "title": "Name the three steps of the test-driven development cycle, in order.",
+      "answer": "red green refactor",
+      "acceptedAnswers": [
+        "red-green-refactor",
+        "red, green, refactor",
+        "red -> green -> refactor",
+        "red → green → refactor"
+      ],
+      "body": "Red, green, refactor.\n\n1. **Red**: write a small test that fails.\n2. **Green**: write the minimum code that makes it pass.\n3. **Refactor**: clean up code and tests while everything stays green.\n\nThen repeat with the next test.",
+      "searchQuery": "TDD red green refactor cycle"
+    },
+    {
+      "id": "class-vs-object",
+      "title": "What is the difference between a class and an object?",
+      "body": "A class is a blueprint; an object is an instance built from it.\n\nThe class defines the fields and methods. Each object (instance) has its own copy of the instance fields, created at runtime.\n\nExample: `Dog` is a class; `new Dog(\"Rex\")` and `new Dog(\"Fido\")` are two objects with separate names.",
+      "searchQuery": "class vs object OOP blueprint instance"
+    },
+    {
+      "id": "constructor-purpose",
+      "title": "What special method runs when an object is created, to initialize its fields? (Java: same name as the class, no return type)",
+      "answer": "constructor",
+      "body": "Constructor\n\nIt runs once per `new` and should leave the object in a valid state.\n\nExample: `Account(String owner) { this.owner = owner; }`\n\nWatch out: a constructor has no return type; adding one (even `void`) makes it an ordinary method.",
+      "searchQuery": "constructor OOP initialize object Java"
+    },
+    {
+      "id": "default-constructor-rule",
+      "title": "In Java, when does the compiler supply a no-argument constructor for you?",
+      "body": "Only when the class declares no constructor at all.\n\nAs soon as you write any constructor, the compiler stops adding the default one. A subclass constructor also needs a matching `super(...)` call if the parent lacks a no-argument constructor.\n\nWatch out: adding `Point(int x, int y)` to a class breaks every existing `new Point()` call.",
+      "searchQuery": "Java default constructor compiler provides when no constructor declared"
+    },
+    {
+      "id": "this-keyword",
+      "title": "In a Java method, what does `this` refer to?",
+      "body": "The object the method was called on (the current instance).\n\nIt's used to separate a field from a parameter with the same name, and to pass the current object to another method or constructor.\n\nExample: `this.balance = balance;` assigns the parameter to the field.",
+      "searchQuery": "this keyword Java current object reference"
+    },
+    {
+      "id": "static-keyword",
+      "title": "Which Java keyword makes a field or method belong to the class itself rather than to each instance?",
+      "answer": "static",
+      "body": "`static`\n\nA `static` member exists once per class and can be used without creating an object, e.g. `Math.sqrt(x)`.\n\nWatch out: a `static` method has no `this`, so it can't directly use instance fields.",
+      "searchQuery": "Java static keyword class member vs instance"
+    },
+    {
+      "id": "protected-access",
+      "title": "In Java, which access modifier allows access from the same package and from subclasses in other packages, but not from unrelated classes elsewhere?",
+      "answer": "protected",
+      "body": "`protected`\n\nThe four Java access levels, from most to least open: `public`, `protected`, package-private (no keyword), and `private`.\n\nTip: with no modifier, a member is visible only inside its own package.",
+      "searchQuery": "Java protected access modifier subclass package"
+    },
+    {
+      "id": "abstraction-definition",
+      "title": "Which OOP principle exposes only what an object does through a simple interface while hiding how it does it?",
+      "answer": "abstraction",
+      "acceptedAnswers": [
+        "data abstraction"
+      ],
+      "body": "Abstraction\n\nUsers work with a simple model (e.g. `List.add`) without knowing the internal array or linked nodes.\n\nWatch out: **encapsulation** protects internal state with access control; **abstraction** hides complexity behind a simpler interface. They work together but aren't the same.",
+      "searchQuery": "abstraction OOP hide implementation details interface"
+    },
+    {
+      "id": "inheritance-is-a",
+      "title": "Which OOP mechanism lets a class acquire the fields and methods of another class, modeling an \"is-a\" relationship?",
+      "answer": "inheritance",
+      "body": "Inheritance\n\nThe subclass reuses and can specialize the superclass's behavior.\n\nExample: `class Dog extends Animal` means a `Dog` **is an** `Animal`.\n\nWatch out: use it only for a true is-a relationship that holds for all the parent's behavior (see the Liskov principle).",
+      "searchQuery": "inheritance OOP is-a relationship subclass superclass"
+    },
+    {
+      "id": "super-keyword",
+      "title": "In Java, what does `super(...)` as the first statement of a constructor do?",
+      "body": "It calls a constructor of the superclass.\n\nThe parent part of the object must be initialized before the subclass's own fields. `super.method()` similarly calls the parent's version of an overridden method.\n\nWatch out: if you omit it, the compiler inserts `super()`, which fails if the parent has no no-argument constructor.",
+      "searchQuery": "Java super constructor call superclass"
+    },
+    {
+      "id": "abstract-method",
+      "title": "What is an abstract method, and what does it force on subclasses?",
+      "body": "A method declared without a body; concrete subclasses must override it.\n\nA class with any abstract method must itself be declared `abstract` and can't be instantiated.\n\nExample: `abstract double area();` in `Shape`, implemented by `Circle` and `Square`.",
+      "searchQuery": "abstract method Java no body subclasses must implement"
+    },
+    {
+      "id": "final-keyword",
+      "title": "What does `final` do on a Java class, a method, and a variable?",
+      "body": "Class: can't be subclassed. Method: can't be overridden. Variable: can be assigned only once.\n\nExample: `String` is a `final` class.\n\nWatch out: a `final` reference can't point to another object, but the object it points to can still change (e.g. a `final List` can have items added).",
+      "searchQuery": "Java final keyword class method variable"
+    },
+    {
+      "id": "immutable-objects",
+      "title": "What makes an object immutable, and why is that useful?",
+      "body": "Its state can't change after construction.\n\nImmutable objects are inherently **thread-safe**, safe to share and to use as map keys, and easy to reason about. Java's `String` is immutable.\n\nTip: make fields `private final`, set them in the constructor, and return copies of any mutable inputs.",
+      "searchQuery": "immutable objects benefits thread safe Java String"
+    },
+    {
+      "id": "getters-setters-vs-public-fields",
+      "title": "Why do OOP designers prefer private fields with getters and setters over public fields?",
+      "body": "Accessors let the class control and change its representation.\n\nA setter can validate input, a getter can compute a value, and the internal field can change type without breaking callers.\n\nWatch out: blind getters and setters for every field expose the internals anyway; prefer methods that express behavior, e.g. `withdraw(amount)`.",
+      "searchQuery": "why use getters setters instead of public fields"
+    },
+    {
+      "id": "equals-hashcode-contract",
+      "title": "In Java, if two objects are equal according to `equals()`, what must be true of their `hashCode()` values?",
+      "body": "They must be the same.\n\nThe reverse isn't required: unequal objects may share a hash code (a collision).\n\nWhy: hash-based collections like `HashMap` pick a bucket by `hashCode()` first, so overriding `equals()` without `hashCode()` makes lookups fail.",
+      "searchQuery": "Java equals hashCode contract equal objects same hash"
+    },
+    {
+      "id": "equals-operator-vs-method",
+      "title": "In Java, what does `==` compare for two object references, and how does that differ from `equals()`?",
+      "body": "`==` compares references (identity); `equals()` compares logical value if overridden.\n\nExample: `new String(\"a\") == new String(\"a\")` is `false`, but `.equals` returns `true`.\n\nWatch out: the default `Object.equals()` is the same as `==`, so you must override it for value equality.",
+      "searchQuery": "Java == vs equals reference vs value comparison"
+    },
+    {
+      "id": "static-vs-dynamic-binding",
+      "title": "In Java, which call is bound at compile time (static binding): a `private` method, a `static` method, or an overridden instance method?",
+      "body": "`private` and `static` methods (and constructors) are statically bound.\n\nOverridden instance methods are bound at **runtime** by the object's actual class (dynamic dispatch), which is what makes polymorphism work.\n\nKey idea: field access and overload choice are also resolved at compile time, from the declared type.",
+      "searchQuery": "static binding vs dynamic binding Java overridden methods"
+    },
+    {
+      "id": "diamond-problem",
+      "title": "What is the \"diamond problem\" in multiple inheritance?",
+      "body": "Ambiguity when a class inherits the same member from two parents that share one ancestor.\n\nIf `B` and `C` both override `A.greet()` and `D` extends both, which version should `D` inherit?\n\nTip: Java avoids it for classes (single inheritance) and resolves conflicting `default` methods by requiring an explicit override; Python uses a defined method resolution order (MRO).",
+      "searchQuery": "diamond problem multiple inheritance ambiguity"
+    },
+    {
+      "id": "upcasting-downcasting",
+      "title": "In Java, which cast is always safe: upcasting to a superclass type or downcasting to a subclass type?",
+      "body": "Upcasting is always safe.\n\nA `Dog` is an `Animal`, so `Animal a = new Dog();` needs no cast. A downcast `(Dog) a` is checked at runtime and throws `ClassCastException` if the object isn't a `Dog`.\n\nTip: guard a downcast with `instanceof`.",
+      "searchQuery": "upcasting vs downcasting Java ClassCastException instanceof"
+    },
+    {
+      "id": "object-root-class",
+      "title": "In Java, which class sits at the root of the class hierarchy, so every class inherits `equals()`, `hashCode()` and `toString()`?",
+      "answer": "Object",
+      "acceptedAnswers": [
+        "java.lang.Object"
+      ],
+      "body": "`Object`\n\nEvery class extends it implicitly, which is why any reference can be passed where an `Object` is expected.\n\nTip: override `toString()` to get readable output in logs and the debugger.",
+      "searchQuery": "Java Object root class equals hashCode toString"
+    },
+    {
+      "id": "method-signature",
+      "title": "In Java, what two things make up a method's signature, for overloading purposes?",
+      "body": "The method name and the parameter types (in order).\n\nThe return type and parameter names are **not** part of the signature, which is why changing only the return type doesn't create a valid overload.\n\nExample: `add(int, int)` and `add(double, double)` are different signatures.",
+      "searchQuery": "Java method signature name parameter types overloading"
+    },
+    {
+      "id": "solid-acronym",
+      "title": "What do the five letters of SOLID stand for?",
+      "body": "Single responsibility, Open/closed, Liskov substitution, Interface segregation, Dependency inversion.\n\n- **S**: a class has one reason to change.\n- **O**: open for extension, closed for modification.\n- **L**: subtypes must be substitutable for their base types.\n- **I**: prefer small, client-specific interfaces.\n- **D**: depend on abstractions, not concretions.",
+      "searchQuery": "SOLID principles acronym five letters list"
+    },
+    {
+      "id": "dry-principle",
+      "title": "Which principle says every piece of knowledge should have a single, authoritative representation in a codebase? (acronym)",
+      "answer": "DRY",
+      "acceptedAnswers": [
+        "don't repeat yourself",
+        "dont repeat yourself"
+      ],
+      "body": "DRY (Don't Repeat Yourself)\n\nDuplicated logic means every bug fix or rule change must be made in several places, and one copy is eventually missed.\n\nWatch out: two pieces of code that look alike but change for different reasons shouldn't be merged; the wrong abstraction is costlier than duplication.",
+      "searchQuery": "DRY principle don't repeat yourself"
+    },
+    {
+      "id": "yagni-principle",
+      "title": "What does the acronym YAGNI warn against?",
+      "answer": "you aren't gonna need it",
+      "acceptedAnswers": [
+        "YAGNI",
+        "you ain't gonna need it",
+        "you are not going to need it"
+      ],
+      "body": "You aren't gonna need it.\n\nDon't build features or flexibility until a real requirement needs them. Speculative code costs time to write, test, and maintain, and often guesses wrong.\n\nTip: it complements **KISS** (keep it simple, stupid), which favors the simplest design that works.",
+      "searchQuery": "YAGNI principle you aren't gonna need it"
+    },
+    {
+      "id": "law-of-demeter",
+      "title": "What does the Law of Demeter (\"principle of least knowledge\") say a method should talk to?",
+      "body": "Only its immediate collaborators, not their internals.\n\nA method should call methods on itself, its parameters, objects it creates, and its own fields, and avoid reaching through them.\n\nExample: prefer `order.getTotal()` over `order.getCustomer().getAddress().getCity()`, a chain that couples the caller to three classes.",
+      "searchQuery": "Law of Demeter principle of least knowledge"
+    },
+    {
+      "id": "tell-dont-ask",
+      "title": "What does the \"Tell, Don't Ask\" guideline recommend?",
+      "body": "Tell objects what to do instead of pulling out their data and deciding for them.\n\nExample: call `account.withdraw(50)` rather than reading `getBalance()`, subtracting in the caller, and calling `setBalance()`.\n\nWhy: behavior stays next to the data it protects, and callers can't break the object's invariants.",
+      "searchQuery": "tell don't ask principle OOP"
+    },
+    {
+      "id": "uml-aggregation-vs-composition",
+      "title": "In UML, how do aggregation and composition differ?",
+      "body": "Both are \"has-a\"; composition adds lifetime ownership.\n\n- **Aggregation** (hollow diamond): the part can exist without the whole, e.g. a `Team` and its `Player`s.\n- **Composition** (filled diamond): the part's lifetime depends on the whole, e.g. a `House` and its `Room`s; destroy the house and the rooms go too.",
+      "searchQuery": "UML aggregation vs composition difference"
+    },
+    {
+      "id": "uml-composition-term",
+      "title": "Which UML relationship, drawn with a filled diamond, means the part cannot outlive the whole?",
+      "answer": "composition",
+      "body": "Composition\n\nThe diamond sits on the side of the whole (the owner).\n\nExample: an `Order` composed of `OrderLine`s; deleting the order deletes its lines.\n\nMnemonic: filled diamond, filled with ownership.",
+      "searchQuery": "UML composition filled diamond part lifetime"
+    },
+    {
+      "id": "uml-generalization-arrow",
+      "title": "In a UML class diagram, a solid line with a hollow triangle arrowhead pointing at the parent shows which relationship?",
+      "answer": "inheritance",
+      "acceptedAnswers": [
+        "generalization",
+        "extends"
+      ],
+      "body": "Inheritance (generalization)\n\nThe arrow points from the subclass to the superclass: `Dog` points at `Animal`.\n\nWatch out: a **dashed** line with a hollow triangle is realization, meaning a class implements an interface.",
+      "searchQuery": "UML generalization inheritance hollow triangle arrow"
+    },
+    {
+      "id": "uml-realization",
+      "title": "In UML, which relationship does a dashed line with a hollow triangle arrowhead represent?",
+      "answer": "realization",
+      "acceptedAnswers": [
+        "implements",
+        "interface implementation"
+      ],
+      "body": "Realization (a class implementing an interface)\n\nExample: `ArrayList` realizes `List`.\n\nTip: dashed means \"weaker than inheritance\": there's a contract, but no shared implementation inherited.",
+      "searchQuery": "UML realization dashed line hollow triangle implements interface"
+    },
+    {
+      "id": "uml-dependency",
+      "title": "In UML, what does a dashed line with an open arrowhead between two classes mean?",
+      "body": "Dependency: one class uses another, typically as a parameter, local variable, or return type.\n\nIt's the weakest relationship; a change in the target may force a change in the user, but the user holds no long-term reference to it.\n\nExample: `ReportPrinter.print(Report r)` depends on `Report`.",
+      "searchQuery": "UML dependency dashed arrow uses relationship"
+    },
+    {
+      "id": "lsp-contract-rules",
+      "title": "Under the Liskov Substitution Principle, how may an overriding method's preconditions and postconditions differ from the parent's?",
+      "body": "It may weaken preconditions and strengthen postconditions, never the reverse.\n\nA subtype should accept at least what the parent accepted and promise at least what the parent promised.\n\nExample: if `Parent.save(x)` accepts any `x`, a child that demands `x > 0` strengthens the precondition and breaks callers.",
+      "searchQuery": "Liskov substitution preconditions postconditions subtype contract"
+    },
+    {
+      "id": "penguin-flying-bird",
+      "title": "A `Bird` base class has `fly()`, and `Penguin extends Bird` throws an exception in `fly()`. Which SOLID principle is violated, and what is the usual fix?",
+      "body": "The Liskov Substitution Principle; split the hierarchy.\n\nCode that calls `fly()` on any `Bird` breaks for a `Penguin`. Move `fly()` into a separate `FlyingBird` type (or a `Flyable` interface) so only birds that can fly promise it.\n\nTip: an override that throws \"not supported\" is a classic LSP smell.",
+      "searchQuery": "Penguin Bird fly Liskov substitution violation fix"
+    },
+    {
+      "id": "dip-vs-di-vs-ioc",
+      "title": "Dependency inversion principle, inversion of control, and dependency injection: how are the three related?",
+      "body": "A principle, a general style, and a technique.\n\n- **DIP**: depend on abstractions (a design principle).\n- **IoC**: a framework or container calls your code instead of your code driving the flow.\n- **DI**: one way to apply IoC, where an object receives its dependencies from outside instead of creating them.\n\nKey idea: DI is how you achieve DIP in practice.",
+      "searchQuery": "dependency inversion vs inversion of control vs dependency injection"
+    },
+    {
+      "id": "constructor-injection",
+      "title": "Why is constructor injection usually preferred over setter injection for required dependencies?",
+      "body": "The object can't exist without its dependencies, and they can be `final`.\n\nWith a constructor, an object is always fully initialized, and the dependency list is visible in one place. A setter lets callers forget to call it, leaving the object half-built.\n\nTip: use setter injection only for optional dependencies.",
+      "searchQuery": "constructor injection vs setter injection benefits"
+    },
+    {
+      "id": "god-class",
+      "title": "What code smell describes a huge class that knows and does too much?",
+      "answer": "god class",
+      "acceptedAnswers": [
+        "god object",
+        "blob"
+      ],
+      "body": "God class (also called a god object or blob)\n\nIt violates the single responsibility principle and attracts changes from every direction, making it hard to test and understand.\n\nTip: split it by responsibility, moving each behavior next to the data it uses.",
+      "searchQuery": "god class code smell SRP violation"
+    },
+    {
+      "id": "design-by-contract",
+      "title": "In design by contract, what are preconditions, postconditions, and invariants?",
+      "body": "Preconditions are what a caller must guarantee; postconditions are what the method guarantees; invariants always hold between calls.\n\nExample for `withdraw(amount)`: precondition `amount > 0` and funds suffice; postcondition: the balance drops by `amount`; invariant: the balance is never negative.\n\nKey idea: Bertrand Meyer's idea; it gives Liskov substitution its precise meaning.",
+      "searchQuery": "design by contract preconditions postconditions invariants"
+    },
+    {
+      "id": "program-to-interface",
+      "title": "What does the advice \"program to an interface, not an implementation\" mean?",
+      "body": "Declare variables and parameters by the abstract type, and let the concrete class be chosen elsewhere.\n\nExample: write `List<String> names = new ArrayList<>();` so you can later swap in `LinkedList` without changing the code that uses `names`.\n\nWhy: callers then depend only on the contract, which reduces coupling.",
+      "searchQuery": "program to an interface not an implementation"
+    },
+    {
+      "id": "separation-of-concerns",
+      "title": "What is separation of concerns, and what is a common example?",
+      "body": "Splitting a program into parts that each address one distinct concern.\n\nExample: layered architecture, with a presentation layer, business logic, and data access; HTML for structure, CSS for style, JavaScript for behavior.\n\nKey idea: each concern can then be changed, tested, and reused with minimal effect on the others.",
+      "searchQuery": "separation of concerns software design example layers"
+    },
+    {
+      "id": "fail-fast",
+      "title": "What does the \"fail fast\" principle recommend when a program detects an invalid state or argument?",
+      "body": "Report the error immediately instead of continuing with bad data.\n\nExample: validate arguments at the top of a method and throw `IllegalArgumentException` rather than letting a `null` travel deep into the system.\n\nWhy: the failure then happens near its cause, which makes it easier to debug.",
+      "searchQuery": "fail fast principle error handling validate early"
+    },
+    {
+      "id": "single-vs-multiple-inheritance-java",
+      "title": "Why does Java allow a class to implement many interfaces but extend only one class?",
+      "body": "To avoid ambiguity over inherited state and implementation.\n\nInheriting fields and method bodies from two classes could create conflicting versions (the diamond problem). Interfaces traditionally had no state, so combining them is safe.\n\nWatch out: since Java 8, conflicting `default` methods from two interfaces must be resolved by overriding explicitly.",
+      "searchQuery": "Java single inheritance multiple interfaces why diamond problem"
+    },
+    {
+      "id": "gof-pattern-categories",
+      "title": "The Gang of Four book groups design patterns into which three categories?",
+      "body": "Creational, structural, and behavioral.\n\n- **Creational**: how objects are created (Singleton, Factory Method, Builder).\n- **Structural**: how classes and objects are composed (Adapter, Decorator, Facade).\n- **Behavioral**: how objects communicate and share responsibility (Observer, Strategy, Command).",
+      "searchQuery": "Gang of Four design pattern categories creational structural behavioral"
+    },
+    {
+      "id": "singleton-pattern",
+      "title": "Which design pattern ensures a class has exactly one instance and provides a global access point to it?",
+      "answer": "Singleton",
+      "acceptedAnswers": [
+        "singleton pattern"
+      ],
+      "body": "Singleton\n\nTypical form: a `private` constructor plus a `static getInstance()` method that creates the instance on first use.\n\nExample: a configuration registry or a logger.\nWatch out: in multithreaded code, lazy creation needs thread-safe initialization.",
+      "searchQuery": "Singleton pattern one instance global access"
+    },
+    {
+      "id": "singleton-drawbacks",
+      "title": "Why is Singleton often criticized as an anti-pattern?",
+      "body": "It is global state in disguise.\n\nClasses that reach for `Singleton.getInstance()` hide their dependencies, become tightly coupled, and are hard to test because state persists between tests and can't be swapped for a fake.\n\nTip: create one instance in your composition root and inject it instead.",
+      "searchQuery": "Singleton drawbacks global state testing tight coupling"
+    },
+    {
+      "id": "factory-method-pattern",
+      "title": "Which pattern defines a method for creating an object but lets subclasses decide which concrete class to instantiate?",
+      "answer": "Factory Method",
+      "acceptedAnswers": [
+        "factory method pattern",
+        "factory"
+      ],
+      "body": "Factory Method\n\nExample: an abstract `Dialog` declares `createButton()`; `WindowsDialog` returns a `WindowsButton` and `WebDialog` returns an `HtmlButton`.\n\nKey idea: callers depend on the `Button` interface, not on concrete classes, so new variants don't change existing code.",
+      "searchQuery": "Factory Method pattern subclasses decide which class to instantiate"
+    },
+    {
+      "id": "abstract-factory-pattern",
+      "title": "Which creational pattern produces whole families of related objects without naming their concrete classes?",
+      "answer": "Abstract Factory",
+      "acceptedAnswers": [
+        "abstract factory pattern"
+      ],
+      "body": "Abstract Factory\n\nExample: a `GuiFactory` with `createButton()` and `createCheckbox()`, implemented once for each look and feel, guarantees the widgets you get all match.\n\nWatch out: it's different from Factory Method, which creates a single product through inheritance.",
+      "searchQuery": "Abstract Factory pattern families of related objects"
+    },
+    {
+      "id": "builder-pattern",
+      "title": "Which pattern constructs a complex object step by step, avoiding constructors with many parameters?",
+      "answer": "Builder",
+      "acceptedAnswers": [
+        "builder pattern"
+      ],
+      "body": "Builder\n\nExample: `new Pizza.Builder().size(12).cheese().build()` reads clearly and produces an immutable object once `build()` is called.\n\nTip: it avoids \"telescoping constructors\" with many optional parameters in a fixed order.",
+      "searchQuery": "Builder pattern step by step complex object construction"
+    },
+    {
+      "id": "prototype-pattern",
+      "title": "Which creational pattern creates new objects by copying an existing instance?",
+      "answer": "Prototype",
+      "acceptedAnswers": [
+        "prototype pattern"
+      ],
+      "body": "Prototype\n\nCloning is useful when constructing an object is expensive or when the concrete class is only known at runtime.\n\nWatch out: decide between a shallow copy (shared nested objects) and a deep copy (independent nested objects).",
+      "searchQuery": "Prototype pattern clone existing object"
+    },
+    {
+      "id": "facade-pattern",
+      "title": "Which structural pattern provides one simplified interface to a complex subsystem?",
+      "answer": "Facade",
+      "acceptedAnswers": [
+        "facade pattern"
+      ],
+      "body": "Facade\n\nExample: a `VideoConverter.convert(file, \"mp4\")` method hides the codec, audio, and bitrate classes behind it.\n\nKey idea: the subsystem classes stay accessible for advanced uses; the facade only simplifies the common ones.",
+      "searchQuery": "Facade pattern simplified interface complex subsystem"
+    },
+    {
+      "id": "proxy-pattern",
+      "title": "Which structural pattern uses a stand-in object with the same interface to control access to the real object?",
+      "answer": "Proxy",
+      "acceptedAnswers": [
+        "proxy pattern"
+      ],
+      "body": "Proxy\n\nCommon kinds: a **virtual proxy** (lazy-loads an expensive object), a **protection proxy** (checks permissions), and a **remote proxy** (represents an object in another process).\n\nWatch out: a decorator adds behavior, while a proxy controls access to the same object.",
+      "searchQuery": "Proxy pattern surrogate controls access real object"
+    },
+    {
+      "id": "composite-pattern",
+      "title": "Which structural pattern lets clients treat single objects and groups of objects uniformly in a tree structure?",
+      "answer": "Composite",
+      "acceptedAnswers": [
+        "composite pattern"
+      ],
+      "body": "Composite\n\nExample: a file system, where both `File` and `Folder` implement `size()`; a folder's size sums its children.\n\nKey idea: the client calls one method on the root without caring whether a node is a leaf or a branch.",
+      "searchQuery": "Composite pattern tree structure part-whole uniform treatment"
+    },
+    {
+      "id": "command-pattern",
+      "title": "Which behavioral pattern turns a request into an object, enabling queuing, logging, and undo?",
+      "answer": "Command",
+      "acceptedAnswers": [
+        "command pattern"
+      ],
+      "body": "Command\n\nEach command object has `execute()` (and often `undo()`), and knows its receiver.\n\nExample: editor actions such as Type, Delete, and Paste stored on an undo stack.",
+      "searchQuery": "Command pattern request as object undo queue"
+    },
+    {
+      "id": "state-pattern",
+      "title": "Which behavioral pattern lets an object change its behavior when its internal state changes, by delegating to state objects?",
+      "answer": "State",
+      "acceptedAnswers": [
+        "state pattern"
+      ],
+      "body": "State\n\nExample: a `TrafficLight` holds a `State` (Red, Green, Yellow) that handles `next()`; each state class defines the transition.\n\nTip: it replaces large `if/else` or `switch` chains on a status field.",
+      "searchQuery": "State pattern object behavior changes with internal state"
+    },
+    {
+      "id": "template-method-pattern",
+      "title": "Which behavioral pattern defines an algorithm's skeleton in a base class and lets subclasses override specific steps?",
+      "answer": "Template Method",
+      "acceptedAnswers": [
+        "template method pattern"
+      ],
+      "body": "Template Method\n\nExample: `DataProcessor.run()` calls `read()`, `process()`, `write()` in a fixed order; subclasses supply their own `read()` and `write()`.\n\nWatch out: it uses inheritance; Strategy achieves a similar goal through composition.",
+      "searchQuery": "Template Method pattern algorithm skeleton subclasses override steps"
+    },
+    {
+      "id": "iterator-pattern",
+      "title": "Which behavioral pattern provides sequential access to a collection's elements without exposing its underlying structure?",
+      "answer": "Iterator",
+      "acceptedAnswers": [
+        "iterator pattern"
+      ],
+      "body": "Iterator\n\nExample: Java's `for (String s : list)` uses an `Iterator` with `hasNext()` and `next()`.\n\nKey idea: the same loop works for arrays, lists, and trees because each collection supplies its own iterator.",
+      "searchQuery": "Iterator pattern sequential access collection hide structure"
+    },
+    {
+      "id": "chain-of-responsibility-pattern",
+      "title": "Which behavioral pattern passes a request along a chain of handlers until one handles it?",
+      "answer": "Chain of Responsibility",
+      "acceptedAnswers": [
+        "chain of responsibility pattern"
+      ],
+      "body": "Chain of Responsibility\n\nExample: web middleware, where each handler (logging, authentication, rate limiting) either handles the request or passes it to the next.\n\nWatch out: if no handler handles the request, it may fall off the end unprocessed.",
+      "searchQuery": "Chain of Responsibility pattern handlers request pipeline"
+    },
+    {
+      "id": "mediator-pattern",
+      "title": "Which behavioral pattern centralizes communication between objects so they no longer refer to each other directly?",
+      "answer": "Mediator",
+      "acceptedAnswers": [
+        "mediator pattern"
+      ],
+      "body": "Mediator\n\nExample: a chat room object routes messages among users, so users don't hold references to each other.\n\nWhy: it turns many-to-many dependencies into one-to-many.\nWatch out: the mediator itself can become a god class.",
+      "searchQuery": "Mediator pattern centralize communication between objects"
+    },
+    {
+      "id": "memento-pattern",
+      "title": "Which behavioral pattern captures an object's internal state so it can be restored later without breaking encapsulation?",
+      "answer": "Memento",
+      "acceptedAnswers": [
+        "memento pattern"
+      ],
+      "body": "Memento\n\nThe originator creates an opaque snapshot object; a caretaker stores it and hands it back to restore the state.\n\nExample: editor undo, or game save points.",
+      "searchQuery": "Memento pattern save restore object state undo"
+    },
+    {
+      "id": "visitor-pattern",
+      "title": "Which behavioral pattern adds new operations to a class hierarchy without modifying the classes, using double dispatch?",
+      "answer": "Visitor",
+      "acceptedAnswers": [
+        "visitor pattern"
+      ],
+      "body": "Visitor\n\nEach element has `accept(visitor)`, which calls the visitor's method for its own type. Adding a new operation means writing a new visitor.\n\nWatch out: adding a new element class forces changes in every visitor.",
+      "searchQuery": "Visitor pattern new operations without modifying classes double dispatch"
+    },
+    {
+      "id": "flyweight-pattern",
+      "title": "Which structural pattern saves memory by sharing the common intrinsic state of many similar objects?",
+      "answer": "Flyweight",
+      "acceptedAnswers": [
+        "flyweight pattern"
+      ],
+      "body": "Flyweight\n\nExample: a text editor stores one shared glyph object per character; each position passes its extrinsic state (row, column) separately.\n\nTip: Java's `Integer.valueOf` caches small values, a flyweight-style optimization.",
+      "searchQuery": "Flyweight pattern share intrinsic state save memory"
+    },
+    {
+      "id": "bridge-pattern",
+      "title": "Which structural pattern separates an abstraction from its implementation so the two can vary independently?",
+      "answer": "Bridge",
+      "acceptedAnswers": [
+        "bridge pattern"
+      ],
+      "body": "Bridge\n\nExample: shapes (`Circle`, `Square`) hold a reference to a renderer (`VectorRenderer`, `RasterRenderer`). Instead of $2 \\times 2$ subclasses, you write $2 + 2$ classes.\n\nKey idea: it replaces an inheritance explosion with composition.",
+      "searchQuery": "Bridge pattern decouple abstraction from implementation"
+    },
+    {
+      "id": "null-object-pattern",
+      "title": "What problem does the Null Object pattern solve?",
+      "body": "Callers no longer need repeated `null` checks.\n\nInstead of returning `null`, return an object that implements the interface and does nothing sensible (e.g. a `NullLogger` whose `log()` is empty).\n\nWatch out: it can hide bugs if \"nothing happens\" isn't actually a valid behavior.",
+      "searchQuery": "Null Object pattern avoid null checks"
+    },
+    {
+      "id": "mvc-pattern",
+      "title": "Which architectural pattern splits an application into a model, a view, and a controller? (acronym)",
+      "answer": "MVC",
+      "acceptedAnswers": [
+        "model view controller",
+        "model-view-controller"
+      ],
+      "body": "MVC (model–view–controller)\n\n- **Model**: data and business rules.\n- **View**: presentation to the user.\n- **Controller**: handles input and updates the model and view.\n\nKey idea: it's an application of separation of concerns, and the view typically observes the model.",
+      "searchQuery": "MVC pattern model view controller separation"
+    },
+    {
+      "id": "repository-pattern",
+      "title": "Which pattern hides data-access details behind a collection-like interface for domain objects?",
+      "answer": "Repository",
+      "acceptedAnswers": [
+        "repository pattern"
+      ],
+      "body": "Repository\n\nExample: `UserRepository` with `findById(id)` and `save(user)` hides whether data lives in SQL, files, or memory.\n\nWhy: business code stays independent of storage, and tests can use an in-memory fake.",
+      "searchQuery": "Repository pattern data access collection-like interface"
+    },
+    {
+      "id": "test-double-types",
+      "title": "Name the common kinds of test doubles and what each does.",
+      "body": "Dummy, stub, fake, spy, and mock.\n\n- **Dummy**: fills a parameter and is never used.\n- **Stub**: returns canned answers.\n- **Fake**: a working but simplified implementation (e.g. an in-memory database).\n- **Spy**: a real or stub object that records how it was called.\n- **Mock**: pre-programmed with expected calls and fails if they don't happen.",
+      "searchQuery": "test doubles dummy stub fake mock spy"
+    },
+    {
+      "id": "mock-vs-stub",
+      "title": "Stub vs mock in unit testing: what does each one verify?",
+      "body": "A stub supplies inputs; a mock verifies interactions.\n\nWith a stub you assert on the **state** or return value of the code under test. With a mock you assert on **behavior**: that a dependency was called, with which arguments, how many times.\n\nWatch out: over-specified mocks tie tests to implementation details, so harmless refactoring breaks them.",
+      "searchQuery": "mock vs stub difference state vs behavior verification"
+    },
+    {
+      "id": "arrange-act-assert",
+      "title": "Which three-phase structure organizes a unit test: set up, run, then check? (three words)",
+      "answer": "arrange act assert",
+      "acceptedAnswers": [
+        "AAA",
+        "arrange-act-assert",
+        "given when then"
+      ],
+      "body": "Arrange, act, assert.\n\n```java\nvar cart = new Cart();          // arrange\ncart.add(new Item(\"pen\", 3));   // act\nassertEquals(3, cart.total());  // assert\n```\n\nTip: BDD names the same phases given, when, then.",
+      "searchQuery": "unit test arrange act assert structure"
+    },
+    {
+      "id": "first-principles-tests",
+      "title": "What does the FIRST mnemonic say good unit tests should be?",
+      "body": "Fast, Independent, Repeatable, Self-validating, Timely.\n\nEach test should run quickly, not depend on other tests, give the same result every run, report pass or fail without manual inspection, and be written close to the code it covers.\n\nMnemonic: **FIRST** gives you the five qualities in order.",
+      "searchQuery": "FIRST principles good unit tests fast independent repeatable"
+    },
+    {
+      "id": "statement-vs-branch-coverage",
+      "title": "A method is `if (x > 0) { log(); }` with no `else`. A single test with `x = 5` gives what statement coverage and what branch coverage?",
+      "body": "100% statement coverage, but only 50% branch coverage.\n\nThe test runs every statement, but the `false` outcome of the condition is never taken.\n\nKey idea: branch coverage is stronger than statement coverage, because it requires every decision to go both ways.",
+      "searchQuery": "statement coverage vs branch coverage example"
+    },
+    {
+      "id": "coverage-not-correctness",
+      "title": "Does 100% code coverage prove the code is correct?",
+      "body": "No.\n\nCoverage only shows which code ran, not whether the tests checked the results. A test with no assertions can execute every line.\n\nTip: use coverage to find untested code, not as a quality score; **mutation testing** checks whether tests actually fail when the code is broken.",
+      "searchQuery": "100 percent code coverage does not prove correctness"
+    },
+    {
+      "id": "regression-test",
+      "title": "What name is given to tests that re-run after changes to catch features that used to work but now break?",
+      "answer": "regression test",
+      "acceptedAnswers": [
+        "regression testing",
+        "regression"
+      ],
+      "body": "Regression testing\n\nA good habit is to add a failing test that reproduces every bug before fixing it, so that bug can never silently return.\n\nKey idea: automated suites run in continuous integration make regressions cheap to catch.",
+      "searchQuery": "regression testing definition software"
+    },
+    {
+      "id": "black-box-vs-white-box",
+      "title": "Black-box vs white-box testing: what does the tester use to design the tests?",
+      "body": "Black-box uses the specification; white-box uses the code's structure.\n\n- **Black-box**: test inputs and expected outputs from requirements, without looking at the implementation.\n- **White-box**: test paths, branches, and conditions in the code, aiming at coverage.\n\nTip: in practice, teams combine both.",
+      "searchQuery": "black-box vs white-box testing difference"
+    },
+    {
+      "id": "boundary-value-analysis",
+      "title": "Valid ages are 18 to 65 inclusive. Which test inputs does boundary value analysis pick?",
+      "body": "17, 18, 65, and 66.\n\nBugs cluster at the edges of ranges, often from `<` vs `<=` mistakes. Test just below and exactly on each boundary: 17 and 18 at the low end, 65 and 66 at the high end.\n\nExample: if the code wrongly says `age < 65`, only the input `65` catches it.",
+      "searchQuery": "boundary value analysis test inputs example"
+    },
+    {
+      "id": "equivalence-partitioning",
+      "title": "What is equivalence partitioning in test design?",
+      "body": "Dividing inputs into classes that the program should treat the same, then testing one representative per class.\n\nExample: for ages 18 to 65, the classes are below 18, 18 to 65, and above 65, so you test, say, 10, 40, and 80.\n\nTip: combine it with boundary value analysis, which probes the edges of each class.",
+      "searchQuery": "equivalence partitioning test design input classes"
+    },
+    {
+      "id": "flaky-tests",
+      "title": "What is a flaky test, and what are common causes?",
+      "body": "A test that sometimes passes and sometimes fails with no code change.\n\nCommon causes: timing and `sleep` calls, tests depending on execution order or shared state, real network or clock use, and random data.\n\nWatch out: flaky tests erode trust, because people start ignoring red builds.",
+      "searchQuery": "flaky tests nondeterministic causes timing shared state"
+    },
+    {
+      "id": "test-isolation-shared-state",
+      "title": "Why should unit tests not share mutable state, such as a static field or a shared database row?",
+      "body": "So each test passes or fails independently of the others and of the run order.\n\nShared state makes a test's result depend on which tests ran before it, producing confusing failures that appear only in the full suite.\n\nTip: create fresh objects in a setup method (e.g. `@BeforeEach`) and clean up in teardown.",
+      "searchQuery": "unit test isolation independent shared mutable state order"
+    },
+    {
+      "id": "mutation-testing",
+      "title": "What does mutation testing measure?",
+      "body": "How well the test suite detects deliberately injected bugs.\n\nA tool makes small changes (**mutants**), such as flipping `>` to `>=`, and re-runs the tests. A mutant that no test fails on has \"survived\", which reveals a weak assertion.\n\nKey idea: it measures test strength, which line coverage can't.",
+      "searchQuery": "mutation testing mutants killed test suite quality"
+    },
+    {
+      "id": "smoke-test",
+      "title": "What is the name for a quick, shallow test run that checks whether the most critical functions work after a build or deployment?",
+      "answer": "smoke test",
+      "acceptedAnswers": [
+        "smoke testing",
+        "sanity test"
+      ],
+      "body": "Smoke test\n\nIf the app doesn't start or login fails, there's no point running the full suite.\n\nExample: after a deploy, hit the health endpoint and load the home page.\n\nMnemonic: switch the hardware on; if smoke comes out, stop.",
+      "searchQuery": "smoke test definition build verification"
+    },
+    {
+      "id": "extract-method-refactoring",
+      "title": "Which refactoring moves part of a long method into a new, well-named method and replaces the original code with a call?",
+      "answer": "extract method",
+      "acceptedAnswers": [
+        "extract function"
+      ],
+      "body": "Extract Method\n\nUse it for long methods and when a comment explains what a block does: turn the block into a method named after that comment.\n\nWhy: shorter methods are easier to read, reuse, and test.",
+      "searchQuery": "extract method refactoring long method"
+    },
+    {
+      "id": "feature-envy",
+      "title": "What code smell is it when a method uses another class's data more than its own?",
+      "answer": "feature envy",
+      "body": "Feature envy\n\nExample: `Invoice.total()` that mostly calls `customer.getDiscount()` and `customer.getTier()`.\n\nTip: apply **Move Method** so the behavior lives with the data it uses.",
+      "searchQuery": "feature envy code smell move method"
+    },
+    {
+      "id": "shotgun-surgery",
+      "title": "What is the \"shotgun surgery\" code smell?",
+      "body": "One change forces many small edits across many classes.\n\nIt signals that one responsibility is scattered; gather it into one class.\n\nWatch out: **divergent change** is the opposite: one class that changes for many unrelated reasons.",
+      "searchQuery": "shotgun surgery code smell vs divergent change"
+    },
+    {
+      "id": "magic-numbers",
+      "title": "Why are magic numbers a code smell, and what's the fix?",
+      "body": "An unexplained literal hides its meaning and gets repeated.\n\nReplace it with a named constant: `TAX_RATE = 0.08` instead of scattered `0.08`.\n\nWhy: the name documents intent, and a change is made in one place.\nWatch out: `0` and `1` in obvious roles (index, increment) don't need names.",
+      "searchQuery": "magic numbers code smell named constants"
+    },
+    {
+      "id": "primitive-obsession",
+      "title": "What does the \"primitive obsession\" smell mean?",
+      "body": "Using bare primitives or strings for concepts that deserve their own type.\n\nExample: passing a phone number as `String` everywhere instead of a `PhoneNumber` class that validates itself.\n\nTip: small **value objects** make invalid states unrepresentable and give behavior a home.",
+      "searchQuery": "primitive obsession code smell value object"
+    },
+    {
+      "id": "cyclomatic-complexity",
+      "title": "A method has one `if` and one `while` loop, with no other branching. What is its cyclomatic complexity? (number only)",
+      "answer": "3",
+      "body": "3\n\nFor a single method, cyclomatic complexity equals the number of decision points plus $1$: $2 + 1 = 3$. In graph form, $M = E - N + 2P$.\n\nWhy: it counts the linearly independent paths through the method, so it guides how many tests you need to exercise them.",
+      "searchQuery": "cyclomatic complexity decision points plus one"
+    },
+    {
+      "id": "technical-debt",
+      "title": "What does the metaphor \"technical debt\" describe?",
+      "body": "Shortcuts that speed up delivery now but make future changes costlier.\n\nLike financial debt, it accrues **interest**: each later change is slower until the debt is repaid by refactoring.\n\nTip: taking on debt can be a deliberate trade-off, but only if it's tracked and repaid.",
+      "searchQuery": "technical debt metaphor shortcuts interest"
+    }
+  ]
+}

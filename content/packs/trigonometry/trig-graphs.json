@@ -1,0 +1,822 @@
+{
+  "id": "trig-graphs",
+  "title": "Trig Graphs & Equations",
+  "course": "Precalculus",
+  "description": "Graphs of sine, cosine, tangent, cotangent, secant and cosecant; amplitude, period, phase shift and midline of y = A sin(Bx − C) + D; modeling; and solving trig equations and inequalities.",
+  "cards": [
+    {
+      "id": "sine-graph-basics",
+      "title": "State the domain, range, amplitude and period of $y = \\sin x$, with $x$ in radians.",
+      "body": "Domain: all real numbers. Range: $[-1, 1]$. Amplitude: $1$. Period: $2\\pi$.\n\nThe graph is a smooth wave through the origin that rises to $1$ at $x = \\frac{\\pi}{2}$, crosses zero at $x = \\pi$, bottoms out at $-1$ at $x = \\frac{3\\pi}{2}$, and repeats every $2\\pi$.\n\nKey idea: $\\sin x$ is the $y$-coordinate on the unit circle, so it can never leave $[-1, 1]$.",
+      "searchQuery": "graph of sine function domain range amplitude period"
+    },
+    {
+      "id": "cosine-graph-basics",
+      "title": "How does the graph of $y = \\cos x$ start at $x = 0$, and what are its range and period (radians)?",
+      "body": "It starts at its **maximum**: $\\cos 0 = 1$. The range is $[-1, 1]$ and the period is $2\\pi$.\n\nIt falls through $\\left(\\frac{\\pi}{2}, 0\\right)$ to a minimum of $-1$ at $x = \\pi$, then returns to $1$ at $x = 2\\pi$.\n\nTip: sine starts at the midline going up; cosine starts at the top. That is the quickest way to tell the two graphs apart.",
+      "searchQuery": "graph of cosine function starts at maximum range period"
+    },
+    {
+      "id": "sine-zeros-general",
+      "title": "At which values of $x$ (radians) does $\\sin x = 0$?",
+      "body": "$x = k\\pi$, where $k$ is any integer.\n\nThe sine graph crosses the $x$-axis once every half period, at $0, \\pm\\pi, \\pm 2\\pi, \\dots$\n\nWatch out: do not write $2k\\pi$; that lists only the zeros where the graph is rising, and misses $\\pi, 3\\pi, \\dots$",
+      "searchQuery": "zeros of sine function x intercepts k pi"
+    },
+    {
+      "id": "sine-maximum-locations",
+      "title": "At which values of $x$ (radians) does $y = \\sin x$ reach its maximum value of $1$?",
+      "body": "$x = \\frac{\\pi}{2} + 2k\\pi$, where $k$ is any integer.\n\nThe maxima are one period ($2\\pi$) apart. The minima, where $\\sin x = -1$, are at $x = \\frac{3\\pi}{2} + 2k\\pi$ (equivalently $-\\frac{\\pi}{2} + 2k\\pi$).\n\nTip: each maximum comes a quarter period after a rising zero of the sine wave.",
+      "searchQuery": "where does sin x equal 1 maximum points general form"
+    },
+    {
+      "id": "cosine-zeros-general",
+      "title": "At which values of $x$ (radians) does $\\cos x = 0$?",
+      "body": "$x = \\frac{\\pi}{2} + k\\pi$, where $k$ is any integer.\n\nCosine is zero at the top of the unit circle ($\\frac{\\pi}{2}$) and the bottom ($\\frac{3\\pi}{2}$), then every $\\pi$ after that.\n\nKey idea: these are the same $x$-values where $\\tan x$ and $\\sec x$ have vertical asymptotes.",
+      "searchQuery": "zeros of cosine function cos x = 0 pi over 2 plus k pi"
+    },
+    {
+      "id": "cosine-as-shifted-sine",
+      "title": "The graph of $y = \\cos x$ is the graph of $y = \\sin x$ shifted left by how many radians?",
+      "body": "$\\frac{\\pi}{2}$\n\nThe identity is $\\cos x = \\sin\\left(x + \\frac{\\pi}{2}\\right)$, so every sine feature appears a quarter period earlier.\n\nExample: sine's maximum at $x = \\frac{\\pi}{2}$ becomes cosine's maximum at $x = 0$.\nWatch out: shifting **right** by $\\frac{\\pi}{2}$ turns cosine into sine, not the other way around.",
+      "answer": "pi/2",
+      "answerDisplay": "$\\frac{\\pi}{2}$",
+      "searchQuery": "cosine graph is sine shifted left pi over 2"
+    },
+    {
+      "id": "cosine-even-function",
+      "title": "Is $y = \\cos x$ an even or an odd function?",
+      "body": "even\n\nSince $\\cos(-x) = \\cos x$, the graph is symmetric about the **$y$-axis**.\n\nExample: $\\cos\\left(-\\frac{\\pi}{3}\\right) = \\cos\\frac{\\pi}{3} = \\frac{1}{2}$.\nTip: $\\sin x$ is the odd one, with $\\sin(-x) = -\\sin x$ and origin symmetry.",
+      "answer": "even",
+      "searchQuery": "cosine even function symmetry y-axis cos(-x)"
+    },
+    {
+      "id": "sine-five-key-points",
+      "title": "What are the five key points of $y = \\sin x$ over one period $[0, 2\\pi]$?",
+      "body": "$(0, 0)$, $\\left(\\frac{\\pi}{2}, 1\\right)$, $(\\pi, 0)$, $\\left(\\frac{3\\pi}{2}, -1\\right)$, $(2\\pi, 0)$\n\nThey split one period into four equal quarters. The pattern is zero, max, zero, min, zero.\n\nTip: to graph a transformed sinusoid, move these five points first, then connect them with a smooth curve.",
+      "searchQuery": "five key points sine graph one period sketch"
+    },
+    {
+      "id": "sine-value-five-halves-pi",
+      "title": "What is $\\sin\\left(\\frac{5\\pi}{2}\\right)$, with the angle in radians?",
+      "body": "$1$\n\nSubtract a full period: $\\frac{5\\pi}{2} - 2\\pi = \\frac{\\pi}{2}$, and $\\sin\\frac{\\pi}{2} = 1$.\n\nTip: for large angles, subtract multiples of $2\\pi$ before evaluating.",
+      "answer": "1",
+      "searchQuery": "sin of 5 pi over 2 periodicity exact value"
+    },
+    {
+      "id": "sine-increasing-interval",
+      "title": "On which interval around the origin is $y = \\sin x$ increasing (radians)?",
+      "body": "$\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$\n\nSine rises from its minimum $-1$ at $x = -\\frac{\\pi}{2}$ to its maximum $1$ at $x = \\frac{\\pi}{2}$. It then falls on $\\left[\\frac{\\pi}{2}, \\frac{3\\pi}{2}\\right]$.\n\nKey idea: this interval is why $\\sin x$ is one-to-one there, which is the reason the principal range of $\\arcsin$ is $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$.",
+      "searchQuery": "interval where sine is increasing -pi/2 to pi/2"
+    },
+    {
+      "id": "cosine-decreasing-interval",
+      "title": "On which interval starting at $x = 0$ is $y = \\cos x$ decreasing (radians)?",
+      "body": "$[0, \\pi]$\n\nCosine falls from its maximum $1$ at $x = 0$ to its minimum $-1$ at $x = \\pi$. Then it rises on $[\\pi, 2\\pi]$.\n\nKey idea: this is the interval that makes $\\cos x$ one-to-one, so $\\arccos$ has range $[0, \\pi]$.",
+      "searchQuery": "interval where cosine is decreasing 0 to pi"
+    },
+    {
+      "id": "sine-cosine-intersections",
+      "title": "Where do the graphs of $y = \\sin x$ and $y = \\cos x$ intersect on $[0, 2\\pi)$, with $x$ in radians?",
+      "body": "At $x = \\frac{\\pi}{4}$ and $x = \\frac{5\\pi}{4}$.\n\nSetting $\\sin x = \\cos x$ means $\\tan x = 1$. The $y$-values are $\\frac{\\sqrt{2}}{2}$ at $\\frac{\\pi}{4}$ and $-\\frac{\\sqrt{2}}{2}$ at $\\frac{5\\pi}{4}$.\n\nWatch out: do not stop at $\\frac{\\pi}{4}$; the graphs cross once every half period.",
+      "searchQuery": "where do sin x and cos x graphs intersect pi over 4"
+    },
+    {
+      "id": "sine-x-intercept-count",
+      "title": "How many $x$-intercepts does $y = \\sin x$ have on the closed interval $[0, 4\\pi]$ (radians)?",
+      "body": "$5$\n\nThe intercepts are at $x = 0, \\pi, 2\\pi, 3\\pi, 4\\pi$.\n\nWatch out: when the interval is closed, count both endpoints. On the half-open interval $[0, 4\\pi)$ the answer would be $4$.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "five"
+      ],
+      "searchQuery": "count x intercepts of sine on closed interval 0 to 4 pi"
+    },
+    {
+      "id": "sine-period-in-degrees",
+      "title": "What is the period of $y = \\sin x$ when $x$ is measured in degrees? Give the number only.",
+      "body": "$360$\n\nOne full turn is $360^\\circ$, so $\\sin(x + 360^\\circ) = \\sin x$. The period is $360^\\circ$ in degrees and $2\\pi$ in radians.\n\nWatch out: always check whether a graph's $x$-axis is in degrees or radians before you read off a period or a phase shift.",
+      "answer": "360",
+      "acceptedAnswers": [
+        "360 degrees"
+      ],
+      "answerDisplay": "$360$",
+      "searchQuery": "period of sine in degrees 360"
+    },
+    {
+      "id": "sinusoid-parameters",
+      "title": "For $y = A\\sin(Bx - C) + D$ with $B > 0$ and $x$ in radians, what are the amplitude, period, phase shift and midline?",
+      "body": "Amplitude $|A|$, period $\\frac{2\\pi}{B}$, phase shift $\\frac{C}{B}$ (to the right if positive), midline $y = D$.\n\nFactor out $B$ to see the shift: $A\\sin\\left(B\\left(x - \\frac{C}{B}\\right)\\right) + D$. The same rules hold for cosine.\n\nWatch out: the shift is $\\frac{C}{B}$, not $C$.",
+      "searchQuery": "sinusoid amplitude period phase shift midline formula"
+    },
+    {
+      "id": "amplitude-negative-a",
+      "title": "What is the amplitude of $y = -3\\sin(2x) + 1$?",
+      "body": "$3$\n\nAmplitude is $|A| = |-3| = 3$. It is a distance, so it is never negative.\n\nWhy: the minus sign only **reflects the graph** across its midline, $y = 1$.\nWatch out: the $+1$ moves the midline and does not change the amplitude.",
+      "answer": "3",
+      "searchQuery": "amplitude of sine function with negative coefficient"
+    },
+    {
+      "id": "period-cosine",
+      "title": "What is the period of $y = 4\\cos\\left(\\frac{\\pi x}{3}\\right)$?",
+      "body": "$6$\n\nUse period $= \\frac{2\\pi}{B}$ with $B = \\frac{\\pi}{3}$: $2\\pi \\div \\frac{\\pi}{3} = 6$.\n\nTip: the $4$ changes the amplitude, not the period.",
+      "answer": "6",
+      "searchQuery": "period of cosine function 2pi over B example"
+    },
+    {
+      "id": "phase-shift",
+      "title": "In radians, $y = \\sin\\left(2x - \\frac{\\pi}{3}\\right)$ is the graph of $y = \\sin(2x)$ shifted right by how much?",
+      "body": "$\\frac{\\pi}{6}$\n\nFactor out $B$: $\\sin\\left(2x - \\frac{\\pi}{3}\\right) = \\sin\\left(2\\left(x - \\frac{\\pi}{6}\\right)\\right)$. So the phase shift is $\\frac{C}{B} = \\frac{\\pi/3}{2} = \\frac{\\pi}{6}$.\n\nWatch out: answering $\\frac{\\pi}{3}$ forgets to divide by $B$.",
+      "answer": "pi/6",
+      "acceptedAnswers": [
+        "pi/6 to the right",
+        "pi/6 right"
+      ],
+      "answerDisplay": "$\\frac{\\pi}{6}$",
+      "searchQuery": "phase shift of sin(2x - pi/3) factor out B"
+    },
+    {
+      "id": "range-shifted-sine",
+      "title": "What is the range of $y = 2\\sin x + 3$?",
+      "body": "$[1, 5]$\n\nSince $\\sin x \\in [-1, 1]$, we get $2\\sin x \\in [-2, 2]$, and adding $3$ gives $[1, 5]$.\n\nExample: equivalently, the midline is $y = 3$ and the amplitude is $2$, so the graph runs over $3 \\pm 2$.",
+      "answer": "[1, 5]",
+      "acceptedAnswers": [
+        "1<=y<=5",
+        "1≤y≤5",
+        "1 to 5"
+      ],
+      "answerDisplay": "$[1, 5]$",
+      "searchQuery": "range of shifted sine function 2 sin x + 3"
+    },
+    {
+      "id": "midline-from-max-min",
+      "title": "A sinusoid has maximum value $9$ and minimum value $-1$. What is its midline?",
+      "body": "$y = 4$\n\nMidline $= \\frac{\\max + \\min}{2} = \\frac{9 + (-1)}{2} = 4$.\n\nExample: the amplitude is $\\frac{\\max - \\min}{2} = 5$, so the graph swings $5$ units above and below $y = 4$.",
+      "answer": "y = 4",
+      "acceptedAnswers": [
+        "4"
+      ],
+      "answerDisplay": "$y = 4$",
+      "searchQuery": "midline of sinusoid from maximum and minimum values"
+    },
+    {
+      "id": "period-tangent",
+      "title": "What is the period of $y = \\tan(3x)$, with $x$ in radians?",
+      "body": "$\\frac{\\pi}{3}$\n\nThe functions $\\tan$ and $\\cot$ have period $\\pi$, not $2\\pi$, so $y = \\tan(Bx)$ has period $\\frac{\\pi}{B} = \\frac{\\pi}{3}$.\n\nWatch out: only $\\sin$, $\\cos$, $\\sec$ and $\\csc$ use $\\frac{2\\pi}{B}$.",
+      "answer": "pi/3",
+      "answerDisplay": "$\\frac{\\pi}{3}$",
+      "searchQuery": "period of tangent function tan(Bx) pi over B"
+    },
+    {
+      "id": "tangent-asymptotes",
+      "title": "Where are the vertical asymptotes of $y = \\tan(2x)$, with $x$ in radians?",
+      "body": "$x = \\frac{\\pi}{4} + \\frac{k\\pi}{2}$, where $k$ is any integer.\n\nSince $\\tan u$ is undefined at $u = \\frac{\\pi}{2} + k\\pi$, solve $2x = \\frac{\\pi}{2} + k\\pi$.\n\nExample: consecutive asymptotes are one period ($\\frac{\\pi}{2}$) apart, and the graph rises from $-\\infty$ to $\\infty$ between them.",
+      "searchQuery": "vertical asymptotes of tan(2x) formula"
+    },
+    {
+      "id": "cosecant-domain-range",
+      "title": "What are the domain and range of $y = \\csc x$, with $x$ in radians?",
+      "body": "Domain: all real $x$ except $x = k\\pi$ (where $\\sin x = 0$). Range: $(-\\infty, -1] \\cup [1, \\infty)$.\n\nSince $|\\sin x| \\le 1$, we have $|\\csc x| = \\frac{1}{|\\sin x|} \\ge 1$.\n\nTip: $\\sec x$ has the same range; its domain excludes $x = \\frac{\\pi}{2} + k\\pi$ instead.",
+      "searchQuery": "cosecant domain and range graph"
+    },
+    {
+      "id": "cosecant-symmetry",
+      "title": "Is the graph of $y = \\csc x$ symmetric about the $y$-axis or about the origin?",
+      "body": "origin\n\n$\\csc$ is **odd**: $\\csc(-x) = \\frac{1}{\\sin(-x)} = -\\csc x$.\n\nKey idea: odd functions ($\\sin$, $\\tan$, $\\cot$, $\\csc$) have origin symmetry; the even ones ($\\cos$, $\\sec$) are symmetric about the $y$-axis.",
+      "answer": "origin",
+      "acceptedAnswers": [
+        "about the origin",
+        "symmetric about the origin",
+        "origin symmetry"
+      ],
+      "searchQuery": "cosecant graph symmetry odd function origin"
+    },
+    {
+      "id": "general-solution-sine",
+      "title": "What is the general solution of $\\sin x = \\frac{1}{2}$, with $x$ in radians?",
+      "body": "$x = \\frac{\\pi}{6} + 2k\\pi$ or $x = \\frac{5\\pi}{6} + 2k\\pi$, where $k$ is any integer.\n\nSine is positive in Quadrants I and II, so each period has two solutions with reference angle $\\frac{\\pi}{6}$.\n\nWatch out: $\\frac{\\pi}{6} + k\\pi$ is wrong; it includes $\\frac{7\\pi}{6}$, where $\\sin = -\\frac{1}{2}$.",
+      "searchQuery": "general solution of sin x = 1/2 radians"
+    },
+    {
+      "id": "general-solution-tangent",
+      "title": "What is the general solution of $\\tan x = \\sqrt{3}$, with $x$ in radians?",
+      "body": "$x = \\frac{\\pi}{3} + k\\pi$, where $k$ is any integer.\n\nTangent has period $\\pi$, so **one family** covers both solutions in each $2\\pi$: $\\frac{\\pi}{3}$ (QI) and $\\frac{4\\pi}{3}$ (QIII).\n\nWatch out: writing $\\frac{\\pi}{3} + 2k\\pi$ would miss $\\frac{4\\pi}{3}$.",
+      "searchQuery": "general solution tan x = sqrt 3 period pi"
+    },
+    {
+      "id": "solve-cosine-equation",
+      "title": "Solve $2\\cos x + \\sqrt{3} = 0$ on $[0, 2\\pi)$, with $x$ in radians.",
+      "body": "$x = \\frac{5\\pi}{6}$ and $x = \\frac{7\\pi}{6}$\n\nIsolate $\\cos x = -\\frac{\\sqrt{3}}{2}$, so the reference angle is $\\frac{\\pi}{6}$. Cosine is negative in QII and QIII: $\\pi - \\frac{\\pi}{6} = \\frac{5\\pi}{6}$ and $\\pi + \\frac{\\pi}{6} = \\frac{7\\pi}{6}$.\n\nTip: isolate the trig function first, then find reference angle and quadrants.",
+      "searchQuery": "solve 2 cos x + sqrt 3 = 0 interval 0 to 2pi"
+    },
+    {
+      "id": "count-solutions-sin-2x",
+      "title": "How many solutions does $\\sin(2x) = \\frac{1}{2}$ have on $[0, 2\\pi)$, with $x$ in radians?",
+      "body": "$4$\n\nAs $x$ runs over $[0, 2\\pi)$, $2x$ runs over $[0, 4\\pi)$: **two full periods**, each with two solutions.\n\nExample: $2x = \\frac{\\pi}{6}, \\frac{5\\pi}{6}, \\frac{13\\pi}{6}, \\frac{17\\pi}{6}$, so $x = \\frac{\\pi}{12}, \\frac{5\\pi}{12}, \\frac{13\\pi}{12}, \\frac{17\\pi}{12}$.\nWatch out: solving only $2x \\in [0, 2\\pi)$ finds half the answers.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "number of solutions sin(2x) = 1/2 on 0 to 2pi"
+    },
+    {
+      "id": "quadratic-trig-equation",
+      "title": "Solve $2\\sin^2 x - \\sin x - 1 = 0$ on $[0, 2\\pi)$, with $x$ in radians.",
+      "body": "$x = \\frac{\\pi}{2}, \\frac{7\\pi}{6}, \\frac{11\\pi}{6}$\n\nFactor as a quadratic in $\\sin x$: $(2\\sin x + 1)(\\sin x - 1) = 0$. Then $\\sin x = 1$ gives $\\frac{\\pi}{2}$, and $\\sin x = -\\frac{1}{2}$ gives $\\frac{7\\pi}{6}$ and $\\frac{11\\pi}{6}$ (QIII and QIV).\n\nTip: treat $\\sin x$ like a single variable $u$, factor, then solve each $\\sin x = u$.",
+      "searchQuery": "solve quadratic trig equation 2 sin^2 x - sin x - 1 = 0"
+    },
+    {
+      "id": "phase-shift-cosine-negative",
+      "title": "Find the phase shift of $y = \\cos(3x + \\pi)$ in radians. Use a negative number for a shift to the left.",
+      "body": "$-\\frac{\\pi}{3}$\n\nWrite $y = \\cos(3x - C)$ with $C = -\\pi$, or factor: $\\cos(3x + \\pi) = \\cos\\left(3\\left(x + \\frac{\\pi}{3}\\right)\\right)$. The graph of $\\cos(3x)$ moves **left** $\\frac{\\pi}{3}$.\n\nWatch out: a plus sign inside the bracket means a shift left, and you still divide by $B = 3$.",
+      "answer": "-pi/3",
+      "acceptedAnswers": [
+        "pi/3 left",
+        "pi/3 to the left"
+      ],
+      "answerDisplay": "$-\\frac{\\pi}{3}$",
+      "searchQuery": "phase shift cos(3x + pi) left shift negative"
+    },
+    {
+      "id": "period-sine-b-pi",
+      "title": "What is the period of $y = \\sin(4\\pi x)$?",
+      "body": "$\\frac{1}{2}$\n\nUse period $= \\frac{2\\pi}{B}$ with $B = 4\\pi$: $\\frac{2\\pi}{4\\pi} = \\frac{1}{2}$.\n\nExample: the graph completes $2$ full cycles on $[0, 1]$.\nTip: when $B$ is a multiple of $\\pi$, the $\\pi$ cancels and the period is a simple fraction.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "period of sin(4 pi x) 2 pi over B"
+    },
+    {
+      "id": "frequency-from-sinusoid",
+      "title": "A signal is $y = \\sin(6\\pi t)$ with $t$ in seconds. What is its frequency in cycles per second (Hz)? Give the number only.",
+      "body": "$3$\n\nThe period is $\\frac{2\\pi}{6\\pi} = \\frac{1}{3}$ s, and frequency is the reciprocal of the period.\n\nKey idea: for $y = \\sin(Bt)$, frequency $= \\frac{B}{2\\pi}$ cycles per unit time, while $B$ itself is the angular frequency in radians per unit time.",
+      "answer": "3",
+      "searchQuery": "frequency of sin(Bt) B over 2 pi hertz"
+    },
+    {
+      "id": "reflection-versus-negative-input",
+      "title": "How do the graphs of $y = -\\cos x$ and $y = \\cos(-x)$ compare with $y = \\cos x$?",
+      "body": "$y = -\\cos x$ is **reflected across the $x$-axis**, while $y = \\cos(-x)$ is **identical** to $y = \\cos x$.\n\nThe negative outside flips the output. The negative inside flips the graph across the $y$-axis, which changes nothing for the even function $\\cos x$.\n\nWatch out: for $\\sin x$, the two are the same, since $\\sin(-x) = -\\sin x$.",
+      "searchQuery": "reflection across x-axis versus y-axis cosine -cos x cos(-x)"
+    },
+    {
+      "id": "period-horizontal-stretch",
+      "title": "What is the period of $y = \\sin\\left(\\frac{x}{2}\\right)$, with $x$ in radians?",
+      "body": "$4\\pi$\n\nHere $B = \\frac{1}{2}$, so the period is $\\frac{2\\pi}{1/2} = 4\\pi$.\n\nKey idea: $B < 1$ **stretches** the graph horizontally, and $B > 1$ compresses it.",
+      "answer": "4pi",
+      "answerDisplay": "$4\\pi$",
+      "searchQuery": "period of sin(x/2) horizontal stretch B less than 1"
+    },
+    {
+      "id": "range-shifted-cosine",
+      "title": "What is the range of $y = 3\\cos x - 2$?",
+      "body": "$[-5, 1]$\n\nSince $\\cos x \\in [-1, 1]$, we have $3\\cos x \\in [-3, 3]$, and subtracting $2$ gives $[-5, 1]$.\n\nExample: midline $y = -2$, amplitude $3$, so the graph runs over $-2 \\pm 3$.",
+      "answer": "[-5, 1]",
+      "acceptedAnswers": [
+        "-5<=y<=1",
+        "-5≤y≤1"
+      ],
+      "answerDisplay": "$[-5, 1]$",
+      "searchQuery": "range of 3 cos x - 2 vertical shift amplitude"
+    },
+    {
+      "id": "amplitude-from-max-min",
+      "title": "A sinusoid has maximum value $10$ and minimum value $2$. What is its amplitude?",
+      "body": "$4$\n\nAmplitude $= \\frac{\\max - \\min}{2} = \\frac{10 - 2}{2} = 4$.\n\nExample: the midline is $\\frac{10 + 2}{2} = 6$, so the graph oscillates between $6 - 4$ and $6 + 4$.\nWatch out: do not use $\\max - \\min$ (that is the full height, twice the amplitude).",
+      "answer": "4",
+      "searchQuery": "amplitude from maximum and minimum of sinusoid"
+    },
+    {
+      "id": "write-sine-from-description",
+      "title": "A sinusoid has midline $y = 1$, amplitude $2$ and period $\\pi$, and passes through $(0, 1)$ going upward. Write its equation as a sine function.",
+      "body": "$y = 2\\sin(2x) + 1$\n\nAmplitude gives $A = 2$ and midline gives $D = 1$. Then $B = \\frac{2\\pi}{\\pi} = 2$. Sine starts on the midline rising, so no phase shift is needed.\n\nTip: check the equation against the description at $x = 0$: $2\\sin 0 + 1 = 1$.",
+      "answer": "y=2sin(2x)+1",
+      "acceptedAnswers": [
+        "2sin(2x)+1",
+        "y=1+2sin(2x)"
+      ],
+      "answerDisplay": "$y = 2\\sin(2x) + 1$",
+      "searchQuery": "write equation of sinusoid from amplitude period midline"
+    },
+    {
+      "id": "write-cosine-from-description",
+      "title": "A sinusoid has maximum $4$ at $x = 0$, minimum $-2$, and period $8$. Write its equation as a cosine function (angles in radians).",
+      "body": "$y = 3\\cos\\left(\\frac{\\pi x}{4}\\right) + 1$\n\nAmplitude: $\\frac{4 - (-2)}{2} = 3$. Midline: $\\frac{4 + (-2)}{2} = 1$. Period $8$ gives $B = \\frac{2\\pi}{8} = \\frac{\\pi}{4}$. A maximum at $x = 0$ is where cosine starts, so there is no shift.\n\nTip: starting at a max or min points to cosine; starting on the midline points to sine.",
+      "answer": "y=3cos(pi x/4)+1",
+      "acceptedAnswers": [
+        "3cos(pi x/4)+1",
+        "y=3cos((pi/4)x)+1",
+        "y=1+3cos(pi x/4)"
+      ],
+      "answerDisplay": "$y = 3\\cos\\left(\\frac{\\pi x}{4}\\right) + 1$",
+      "searchQuery": "write cosine function from max min and period"
+    },
+    {
+      "id": "find-b-from-period",
+      "title": "A sine wave $y = A\\sin(Bx)$ with $B > 0$ has period $8\\pi$. What is $B$?",
+      "body": "$\\frac{1}{4}$\n\nSolve $\\frac{2\\pi}{B} = 8\\pi$ for $B$, giving $B = \\frac{2\\pi}{8\\pi} = \\frac{1}{4}$.\n\nWatch out: $B$ is the **reciprocal** relationship: a longer period means a smaller $B$.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25"
+      ],
+      "answerDisplay": "$\\frac{1}{4}$",
+      "searchQuery": "find B from period of sine function 2pi over B"
+    },
+    {
+      "id": "phase-shift-left-sine",
+      "title": "How is the graph of $y = \\sin\\left(x + \\frac{\\pi}{4}\\right)$ related to $y = \\sin x$ (radians)?",
+      "body": "It is shifted **left** by $\\frac{\\pi}{4}$.\n\nThe graph of $y = f(x + h)$ moves $h$ units to the left for $h > 0$. Check: the rising zero of $\\sin x$ at $x = 0$ moves to $x = -\\frac{\\pi}{4}$, where $\\sin\\left(-\\frac{\\pi}{4} + \\frac{\\pi}{4}\\right) = 0$.\n\nWatch out: plus means left, which feels backwards but is correct.",
+      "searchQuery": "horizontal shift sin(x + pi/4) left or right"
+    },
+    {
+      "id": "order-of-transformations",
+      "title": "To graph $y = A\\sin(B(x - h)) + D$ from $y = \\sin x$, what transformations do you apply?",
+      "body": "Scale horizontally, shift horizontally, scale vertically, shift vertically.\n\n- Compress or stretch horizontally by a factor of $\\frac{1}{B}$ (period $\\frac{2\\pi}{B}$).\n- Shift right by $h$.\n- Stretch vertically by $|A|$, reflecting across the $x$-axis if $A < 0$.\n- Shift up by $D$.\n\nTip: horizontal changes act on $x$ inside the bracket, vertical changes act outside; move the five key points through these steps.",
+      "searchQuery": "order of transformations trig graphs amplitude period shift"
+    },
+    {
+      "id": "negative-cosine-as-sine",
+      "title": "Write $y = -\\cos x$ as a sine function with amplitude $1$ and a phase shift (radians).",
+      "body": "$y = \\sin\\left(x - \\frac{\\pi}{2}\\right)$\n\nShifting $\\sin x$ right by $\\frac{\\pi}{2}$ puts its first minimum at $x = 0$, which is the graph of $-\\cos x$.\n\nWhy: $\\sin\\left(x - \\frac{\\pi}{2}\\right) = \\sin x\\cos\\frac{\\pi}{2} - \\cos x\\sin\\frac{\\pi}{2} = -\\cos x$.",
+      "answer": "sin(x-pi/2)",
+      "acceptedAnswers": [
+        "y=sin(x-pi/2)"
+      ],
+      "answerDisplay": "$y = \\sin\\left(x - \\frac{\\pi}{2}\\right)$",
+      "searchQuery": "-cos x as shifted sine function phase shift pi over 2"
+    },
+    {
+      "id": "evaluate-sinusoid-at-point",
+      "title": "Evaluate $y = 2\\sin(\\pi x) + 1$ at $x = \\frac{1}{2}$.",
+      "body": "$3$\n\nSubstitute: $2\\sin\\left(\\frac{\\pi}{2}\\right) + 1 = 2(1) + 1 = 3$.\n\nExample: this is the maximum value of the function, since the amplitude is $2$ and the midline is $y = 1$.",
+      "answer": "3",
+      "searchQuery": "evaluate sinusoid 2 sin(pi x) + 1 at x = 1/2"
+    },
+    {
+      "id": "count-cycles-in-interval",
+      "title": "How many full cycles of $y = \\sin(3x)$ occur on $[0, 2\\pi]$ (radians)?",
+      "body": "$3$\n\nThe period is $\\frac{2\\pi}{3}$, and $2\\pi \\div \\frac{2\\pi}{3} = 3$.\n\nTip: the number of cycles on $[0, 2\\pi]$ equals $B$ (when $B$ is a positive integer).",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "number of cycles of sin(3x) on 0 to 2pi period"
+    },
+    {
+      "id": "negative-b-rewrite",
+      "title": "Rewrite $y = 3\\sin(-2x)$ with a positive $B$.",
+      "body": "$y = -3\\sin(2x)$\n\nSine is odd, so $\\sin(-2x) = -\\sin(2x)$. Always rewrite so that $B > 0$ before reading off period and shift.\n\nWatch out: for cosine, a negative $B$ simply disappears, since $\\cos(-u) = \\cos u$.",
+      "answer": "-3sin(2x)",
+      "acceptedAnswers": [
+        "y=-3sin(2x)",
+        "-3sin2x"
+      ],
+      "answerDisplay": "$y = -3\\sin(2x)$",
+      "searchQuery": "negative B in sine function rewrite odd function"
+    },
+    {
+      "id": "all-parameters-example",
+      "title": "For $y = -2\\sin(3x - \\pi) + 4$ with $x$ in radians, give the amplitude, period, phase shift and midline.",
+      "body": "Amplitude $2$, period $\\frac{2\\pi}{3}$, phase shift $\\frac{\\pi}{3}$ to the right, midline $y = 4$.\n\nHere $A = -2$, $B = 3$, $C = \\pi$ and $D = 4$. The phase shift is $\\frac{C}{B} = \\frac{\\pi}{3}$, and the negative $A$ reflects the graph across its midline.\n\nWatch out: the amplitude is $|A|$, never negative.",
+      "searchQuery": "amplitude period phase shift midline of -2 sin(3x - pi) + 4"
+    },
+    {
+      "id": "tangent-graph-basics",
+      "title": "Describe the graph of $y = \\tan x$: domain, range, period, $x$-intercepts and asymptotes (radians).",
+      "body": "Domain: $x \\neq \\frac{\\pi}{2} + k\\pi$. Range: all real numbers. Period: $\\pi$. Zeros: $x = k\\pi$. Asymptotes: $x = \\frac{\\pi}{2} + k\\pi$.\n\nBetween consecutive asymptotes the graph **increases** from $-\\infty$ to $\\infty$, passing through $\\left(\\frac{\\pi}{4}, 1\\right)$ and the origin.\n\nWhy: $\\tan x = \\frac{\\sin x}{\\cos x}$ is undefined wherever $\\cos x = 0$ and is zero wherever $\\sin x = 0$.",
+      "searchQuery": "graph of tangent function domain range asymptotes period"
+    },
+    {
+      "id": "tangent-no-maximum",
+      "title": "Does $y = \\tan x$ have a maximum or minimum value? Answer yes or no.",
+      "body": "No\n\nThe range is all real numbers: near each vertical asymptote the graph climbs to $+\\infty$ or falls to $-\\infty$.\n\nWatch out: for this reason $\\tan x$ has **no amplitude**; $\\sin x$ and $\\cos x$ are bounded, but $\\tan x$ is not.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "none",
+        "no maximum",
+        "no max"
+      ],
+      "searchQuery": "tangent function has no maximum or minimum range all reals"
+    },
+    {
+      "id": "tangent-vertical-stretch",
+      "title": "What does the constant $A$ do in $y = A\\tan x$?",
+      "body": "It stretches the graph **vertically** by $|A|$ and makes it steeper, but it moves neither the asymptotes nor the period.\n\nA convenient check: at $x = \\frac{\\pi}{4}$ the value is $A$, since $\\tan\\frac{\\pi}{4} = 1$.\n\nWatch out: do not call $A$ the amplitude; tangent is unbounded. If $A < 0$, the graph is reflected across the $x$-axis and decreases on each branch.",
+      "searchQuery": "vertical stretch of tangent graph A tan x effect"
+    },
+    {
+      "id": "tangent-phase-shift-asymptotes",
+      "title": "Where are the vertical asymptotes of $y = \\tan\\left(x - \\frac{\\pi}{4}\\right)$ (radians)?",
+      "body": "$x = \\frac{3\\pi}{4} + k\\pi$, where $k$ is any integer.\n\nSolve $x - \\frac{\\pi}{4} = \\frac{\\pi}{2} + k\\pi$. The graph of $\\tan x$ has moved right $\\frac{\\pi}{4}$, so its zeros are now at $x = \\frac{\\pi}{4} + k\\pi$.\n\nTip: set the inside of the tangent equal to $\\frac{\\pi}{2} + k\\pi$ and solve for $x$.",
+      "searchQuery": "vertical asymptotes of shifted tangent function tan(x - pi/4)"
+    },
+    {
+      "id": "tangent-half-angle-asymptotes",
+      "title": "Where are the vertical asymptotes of $y = \\tan\\left(\\frac{x}{2}\\right)$ (radians)?",
+      "body": "$x = \\pi + 2k\\pi$, where $k$ is any integer.\n\nSolve $\\frac{x}{2} = \\frac{\\pi}{2} + k\\pi$, which gives $x = \\pi + 2k\\pi$. The period is $\\frac{\\pi}{1/2} = 2\\pi$.\n\nWatch out: stretching horizontally by $2$ spreads the asymptotes twice as far apart.",
+      "searchQuery": "asymptotes of tan(x/2) period 2 pi"
+    },
+    {
+      "id": "tangent-value-with-coefficient",
+      "title": "Evaluate $y = 2\\tan x$ at $x = \\frac{\\pi}{4}$.",
+      "body": "$2$\n\nSince $\\tan\\frac{\\pi}{4} = 1$, we get $2 \\cdot 1 = 2$.\n\nTip: $x = \\pm\\frac{\\pi}{4}$ are the quarter-period points where $\\tan x = \\pm 1$, which are handy for sketching.",
+      "answer": "2",
+      "searchQuery": "value of 2 tan x at pi over 4"
+    },
+    {
+      "id": "tangent-intercept-count",
+      "title": "How many $x$-intercepts does $y = \\tan x$ have on $[0, 2\\pi]$ (radians)?",
+      "body": "$3$\n\nThe zeros are at $x = 0, \\pi, 2\\pi$. At $x = \\frac{\\pi}{2}$ and $x = \\frac{3\\pi}{2}$ the function is undefined, so those are not intercepts.\n\nWatch out: tangent has period $\\pi$, so its zeros are $\\pi$ apart, not $2\\pi$ apart.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "number of x intercepts of tangent on 0 to 2 pi"
+    },
+    {
+      "id": "cotangent-graph-basics",
+      "title": "Describe the graph of $y = \\cot x$: period, zeros, asymptotes and direction (radians).",
+      "body": "Period $\\pi$, zeros at $x = \\frac{\\pi}{2} + k\\pi$, vertical asymptotes at $x = k\\pi$, and **decreasing** on each branch.\n\nBecause $\\cot x = \\frac{\\cos x}{\\sin x}$, the asymptotes sit where $\\sin x = 0$, and the zeros where $\\cos x = 0$.\n\nTip: cotangent is tangent's mirror image: asymptotes and zeros swap, and the graph falls from $\\infty$ to $-\\infty$.",
+      "searchQuery": "graph of cotangent function asymptotes zeros decreasing"
+    },
+    {
+      "id": "cotangent-from-tangent",
+      "title": "Express $\\cot x$ as a transformation of $\\tan x$ (radians).",
+      "body": "$\\cot x = -\\tan\\left(x + \\frac{\\pi}{2}\\right)$\n\nShift the tangent graph left $\\frac{\\pi}{2}$ so its asymptotes land on multiples of $\\pi$, then reflect across the $x$-axis so it decreases.\n\nWatch out: the equivalent form $\\cot x = \\tan\\left(\\frac{\\pi}{2} - x\\right)$ is the cofunction identity.",
+      "searchQuery": "cotangent as transformation of tangent shift reflect"
+    },
+    {
+      "id": "secant-graph-basics",
+      "title": "Describe the graph of $y = \\sec x$: domain, range, period and asymptotes (radians).",
+      "body": "Domain: $x \\neq \\frac{\\pi}{2} + k\\pi$. Range: $(-\\infty, -1] \\cup [1, \\infty)$. Period: $2\\pi$. Asymptotes: $x = \\frac{\\pi}{2} + k\\pi$.\n\nThe branches are U-shapes that touch $y = 1$ where $\\cos x = 1$ and $y = -1$ where $\\cos x = -1$.\n\nTip: sketch $y = \\cos x$ lightly first; each max of cosine is the bottom of an upward branch, and each min is the top of a downward one.",
+      "searchQuery": "graph of secant function domain range asymptotes branches"
+    },
+    {
+      "id": "cosecant-shifted-asymptotes",
+      "title": "Where are the vertical asymptotes of $y = \\csc(2x)$ (radians)?",
+      "body": "$x = \\frac{k\\pi}{2}$, where $k$ is any integer.\n\nAsymptotes occur where $\\sin(2x) = 0$, so $2x = k\\pi$. The period is $\\frac{2\\pi}{2} = \\pi$.\n\nWatch out: $\\csc(2x)$ has twice as many asymptotes as $\\csc x$ in the same interval.",
+      "searchQuery": "vertical asymptotes of csc(2x) where sin 2x equals zero"
+    },
+    {
+      "id": "secant-period-value",
+      "title": "What is the period of $y = \\sec\\left(\\frac{\\pi x}{2}\\right)$?",
+      "body": "$4$\n\nSecant uses period $\\frac{2\\pi}{B}$ with $B = \\frac{\\pi}{2}$: $2\\pi \\div \\frac{\\pi}{2} = 4$.\n\nTip: $\\sec$ and $\\csc$ keep the period of their reciprocal $\\cos$ and $\\sin$; only $\\tan$ and $\\cot$ use $\\frac{\\pi}{B}$.",
+      "answer": "4",
+      "searchQuery": "period of sec(pi x / 2) secant period formula"
+    },
+    {
+      "id": "tangent-b-from-asymptotes",
+      "title": "$y = \\tan(Bx)$ with $B > 0$ has consecutive vertical asymptotes at $x = -\\frac{\\pi}{4}$ and $x = \\frac{\\pi}{4}$. What is $B$?",
+      "body": "$2$\n\nConsecutive asymptotes are one period apart, so the period is $\\frac{\\pi}{4} - \\left(-\\frac{\\pi}{4}\\right) = \\frac{\\pi}{2}$. Setting $\\frac{\\pi}{B} = \\frac{\\pi}{2}$ gives $B = 2$.\n\nTip: for tangent, the period is $\\pi/B$; the distance between neighboring asymptotes is the whole period.",
+      "answer": "2",
+      "searchQuery": "find B in tan(Bx) from distance between asymptotes"
+    },
+    {
+      "id": "sketch-cosecant-from-sine",
+      "title": "How do you sketch $y = \\csc x$ from the graph of $y = \\sin x$?",
+      "body": "Draw $\\sin x$ lightly, put vertical asymptotes at its zeros, and draw U-shaped branches that turn at its maxima and minima.\n\n- Where $\\sin x = 1$, the branch bottoms out at $(\\frac{\\pi}{2}, 1)$.\n- Where $\\sin x = -1$, the branch peaks at $(\\frac{3\\pi}{2}, -1)$.\n- The curve never enters $-1 < y < 1$.\n\nKey idea: $\\csc x = \\frac{1}{\\sin x}$ turns zeros into asymptotes and keeps the points where $\\sin x = \\pm 1$.",
+      "searchQuery": "how to sketch cosecant graph from sine graph"
+    },
+    {
+      "id": "model-parameters-from-data",
+      "title": "A periodic quantity has maximum $M$, minimum $m$ and period $P$. How do you get $A$, $D$ and $B$ for $y = A\\cos(Bt) + D$?",
+      "body": "$A = \\frac{M - m}{2}$, $D = \\frac{M + m}{2}$ and $B = \\frac{2\\pi}{P}$.\n\nThen shift the graph horizontally if the maximum does not occur at $t = 0$: use $\\cos(B(t - h))$, where $h$ is the time of a maximum.\n\nTip: choose cosine when you know where a max or min occurs, and sine when you know where the curve crosses the midline.",
+      "searchQuery": "modeling with sinusoids amplitude midline period from max and min"
+    },
+    {
+      "id": "tide-model-cosine",
+      "title": "High tide is $5\\,\\mathrm{m}$ at $t = 0$, low tide is $1\\,\\mathrm{m}$, and the period is $12$ hours. Write $h(t)$ as a cosine model (angles in radians).",
+      "body": "$h(t) = 2\\cos\\left(\\frac{\\pi t}{6}\\right) + 3$\n\nAmplitude: $\\frac{5 - 1}{2} = 2$. Midline: $\\frac{5 + 1}{2} = 3$. And $B = \\frac{2\\pi}{12} = \\frac{\\pi}{6}$. A maximum at $t = 0$ means plain cosine with no shift.\n\nExample: at $t = 6$ the model gives $2\\cos\\pi + 3 = 1\\,\\mathrm{m}$, low tide, as expected.",
+      "searchQuery": "tide model cosine function amplitude period high tide low tide"
+    },
+    {
+      "id": "ferris-wheel-model",
+      "title": "A Ferris wheel has radius $20\\,\\mathrm{m}$, its center $22\\,\\mathrm{m}$ above the ground, and one turn takes $8$ minutes. A rider starts at the bottom. Write $h(t)$ in meters.",
+      "body": "$h(t) = 22 - 20\\cos\\left(\\frac{\\pi t}{4}\\right)$\n\nThe midline is the center height $22$, the amplitude is the radius $20$, and $B = \\frac{2\\pi}{8} = \\frac{\\pi}{4}$. Starting at the **bottom** means the cosine is reflected: $-\\cos$.\n\nExample: at $t = 0$, $h = 22 - 20 = 2\\,\\mathrm{m}$, the lowest point.",
+      "searchQuery": "Ferris wheel height function cosine model radius period"
+    },
+    {
+      "id": "ferris-wheel-height-value",
+      "title": "A rider's height is $h(t) = 22 - 20\\cos\\left(\\frac{\\pi t}{4}\\right)$ meters, with $t$ in minutes. What is $h(2)$? Give the number only.",
+      "body": "$22$\n\nSubstitute: $\\frac{\\pi \\cdot 2}{4} = \\frac{\\pi}{2}$, and $\\cos\\frac{\\pi}{2} = 0$, so $h(2) = 22$.\n\nExample: $t = 2$ is a quarter of the 8-minute turn, so the rider is level with the center.",
+      "answer": "22",
+      "searchQuery": "Ferris wheel height at t = 2 minutes cosine model"
+    },
+    {
+      "id": "monthly-temperature-b",
+      "title": "Monthly average temperature repeats every $12$ months. In $T(t) = A\\cos(B(t - h)) + D$ with $t$ in months, what is $B$ in radians per month?",
+      "body": "$\\frac{\\pi}{6}$\n\nSet $\\frac{2\\pi}{B} = 12$, so $B = \\frac{2\\pi}{12} = \\frac{\\pi}{6}$.\n\nExample: if the warmest month is July (month $7$), then $h = 7$, so $T(t) = A\\cos\\left(\\frac{\\pi}{6}(t - 7)\\right) + D$.\nWatch out: use $B$ in radians; do not write $\\frac{360}{12} = 30$ unless the calculator is in degree mode.",
+      "answer": "pi/6",
+      "answerDisplay": "$\\frac{\\pi}{6}$",
+      "searchQuery": "temperature model period 12 months B pi over 6 cosine"
+    },
+    {
+      "id": "daylight-midline",
+      "title": "Daylight in a city varies between $9$ and $15$ hours over the year. What is the midline of a sinusoidal model of daylight hours? Give the number only.",
+      "body": "$12$\n\nMidline $= \\frac{15 + 9}{2} = 12$ hours, and the amplitude is $\\frac{15 - 9}{2} = 3$ hours.\n\nExample: a model is $D(t) = 3\\sin\\left(\\frac{2\\pi}{365}(t - 80)\\right) + 12$, with $t$ in days.\nTip: the midline is the average of the two extremes, not their sum.",
+      "answer": "12",
+      "searchQuery": "daylight hours sinusoidal model midline amplitude"
+    },
+    {
+      "id": "pure-tone-angular-frequency",
+      "title": "A pure $440\\,\\mathrm{Hz}$ tone is modeled by $y = \\sin(Bt)$ with $t$ in seconds. What is $B$ in radians per second?",
+      "body": "$880\\pi$\n\nFrequency $f = \\frac{B}{2\\pi}$, so $B = 2\\pi f = 2\\pi \\cdot 440 = 880\\pi$.\n\nWatch out: $B$ is the angular frequency in radians per second, while $440$ is the frequency in cycles per second.",
+      "answer": "880pi",
+      "answerDisplay": "$880\\pi$",
+      "searchQuery": "angular frequency from hertz B = 2 pi f sine model"
+    },
+    {
+      "id": "spring-position-value",
+      "title": "A mass on a spring has position $y = 5\\cos(2\\pi t)$ cm, with $t$ in seconds. What is $y$ at $t = \\frac{1}{4}$ s? Give the number only.",
+      "body": "$0$\n\nSubstitute: $5\\cos\\left(2\\pi \\cdot \\frac{1}{4}\\right) = 5\\cos\\frac{\\pi}{2} = 0$.\n\nExample: the period is $1$ s, so $t = \\frac{1}{4}$ s is a quarter cycle, when the mass passes through its equilibrium position.",
+      "answer": "0",
+      "searchQuery": "spring mass position cosine model quarter period equilibrium"
+    },
+    {
+      "id": "ac-voltage-frequency",
+      "title": "Household voltage is $V(t) = 170\\sin(120\\pi t)$ volts with $t$ in seconds. What is its frequency in Hz? Give the number only.",
+      "body": "$60$\n\nThe frequency is $\\frac{B}{2\\pi} = \\frac{120\\pi}{2\\pi} = 60$ cycles per second, so the period is $\\frac{1}{60}$ s.\n\nTip: the amplitude $170\\,\\mathrm{V}$ is the peak voltage.",
+      "answer": "60",
+      "searchQuery": "AC voltage sine wave frequency 120 pi t hertz"
+    },
+    {
+      "id": "solve-sine-negative-radical",
+      "title": "Solve $\\sin x = -\\frac{\\sqrt{2}}{2}$ on $[0, 2\\pi)$, with $x$ in radians.",
+      "body": "$x = \\frac{5\\pi}{4}$ and $x = \\frac{7\\pi}{4}$\n\nThe reference angle is $\\frac{\\pi}{4}$. Sine is negative in QIII and QIV: $\\pi + \\frac{\\pi}{4} = \\frac{5\\pi}{4}$ and $2\\pi - \\frac{\\pi}{4} = \\frac{7\\pi}{4}$.\n\nWatch out: ignore the sign when finding the reference angle, then use the sign to pick the quadrants.",
+      "answer": "5pi/4, 7pi/4",
+      "acceptedAnswers": [
+        "7pi/4, 5pi/4",
+        "5pi/4 and 7pi/4"
+      ],
+      "answerDisplay": "$\\frac{5\\pi}{4}, \\frac{7\\pi}{4}$",
+      "searchQuery": "solve sin x = -sqrt2/2 on 0 to 2 pi reference angle quadrants"
+    },
+    {
+      "id": "solve-cosine-half-degrees",
+      "title": "Solve $\\cos\\theta = \\frac{1}{2}$ for $0^\\circ \\le \\theta < 360^\\circ$. Give the angles in degrees, separated by commas.",
+      "body": "$60^\\circ$ and $300^\\circ$\n\nThe reference angle is $60^\\circ$. Cosine is positive in QI and QIV: $\\theta = 60^\\circ$ and $\\theta = 360^\\circ - 60^\\circ = 300^\\circ$.\n\nTip: sketch the unit circle and find the two points with $x$-coordinate $\\frac{1}{2}$.",
+      "answer": "60, 300",
+      "acceptedAnswers": [
+        "300, 60",
+        "60 and 300",
+        "60°, 300°"
+      ],
+      "answerDisplay": "$60^\\circ, 300^\\circ$",
+      "searchQuery": "solve cos theta = 1/2 degrees 0 to 360"
+    },
+    {
+      "id": "solve-tangent-negative-degrees",
+      "title": "Solve $\\tan\\theta = -1$ for $0^\\circ \\le \\theta < 360^\\circ$. Give the angles in degrees, separated by commas.",
+      "body": "$135^\\circ$ and $315^\\circ$\n\nThe reference angle is $45^\\circ$. Tangent is negative in QII and QIV: $180^\\circ - 45^\\circ = 135^\\circ$ and $360^\\circ - 45^\\circ = 315^\\circ$.\n\nTip: the two solutions of a tangent equation are always $180^\\circ$ apart.",
+      "answer": "135, 315",
+      "acceptedAnswers": [
+        "315, 135",
+        "135 and 315",
+        "135°, 315°"
+      ],
+      "answerDisplay": "$135^\\circ, 315^\\circ$",
+      "searchQuery": "solve tan theta = -1 degrees 0 to 360 quadrants II and IV"
+    },
+    {
+      "id": "general-solution-cosine",
+      "title": "What is the general solution of $\\cos x = \\frac{1}{2}$, with $x$ in radians?",
+      "body": "$x = \\pm\\frac{\\pi}{3} + 2k\\pi$, where $k$ is any integer.\n\nCosine is positive in QI and QIV, so the two solutions per period are $\\frac{\\pi}{3}$ and $-\\frac{\\pi}{3}$ (equivalently $\\frac{5\\pi}{3}$).\n\nWatch out: because cosine has period $2\\pi$, the family uses $2k\\pi$, unlike tangent's $k\\pi$.",
+      "searchQuery": "general solution cos x = 1/2 plus minus pi/3 plus 2k pi"
+    },
+    {
+      "id": "sine-no-solution-out-of-range",
+      "title": "How many real solutions does $\\sin x = 1.5$ have?",
+      "body": "$0$\n\nThe range of $\\sin x$ is $[-1, 1]$, and $1.5$ lies outside it.\n\nTip: before solving, check that the value is in the range of the function. The same applies to $\\cos x = -2$, but not to $\\tan x = 5$, which has solutions.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "none",
+        "zero",
+        "no solutions"
+      ],
+      "searchQuery": "sin x = 1.5 no solution range of sine"
+    },
+    {
+      "id": "factor-do-not-divide",
+      "title": "Solve $2\\sin x\\cos x = \\cos x$ on $[0, 2\\pi)$, with $x$ in radians.",
+      "body": "$x = \\frac{\\pi}{6}, \\frac{\\pi}{2}, \\frac{5\\pi}{6}, \\frac{3\\pi}{2}$\n\nMove everything to one side and factor: $\\cos x\\,(2\\sin x - 1) = 0$. Then $\\cos x = 0$ gives $\\frac{\\pi}{2}, \\frac{3\\pi}{2}$, and $\\sin x = \\frac{1}{2}$ gives $\\frac{\\pi}{6}, \\frac{5\\pi}{6}$.\n\nWatch out: dividing both sides by $\\cos x$ would **lose** the solutions where $\\cos x = 0$.",
+      "searchQuery": "solve trig equation by factoring do not divide by cos x lose solutions"
+    },
+    {
+      "id": "sine-squared-equals-sine",
+      "title": "Solve $\\sin^2 x = \\sin x$ on $[0, 2\\pi)$, with $x$ in radians. Separate the answers with commas.",
+      "body": "$x = 0, \\frac{\\pi}{2}, \\pi$\n\nFactor: $\\sin x\\,(\\sin x - 1) = 0$. Then $\\sin x = 0$ gives $0$ and $\\pi$, and $\\sin x = 1$ gives $\\frac{\\pi}{2}$.\n\nWatch out: dividing by $\\sin x$ gives only $\\sin x = 1$ and throws away $0$ and $\\pi$.",
+      "answer": "0, pi/2, pi",
+      "acceptedAnswers": [
+        "0, pi, pi/2",
+        "pi/2, 0, pi"
+      ],
+      "answerDisplay": "$0, \\frac{\\pi}{2}, \\pi$",
+      "searchQuery": "solve sin^2 x = sin x factor trig equation 0 to 2 pi"
+    },
+    {
+      "id": "pythagorean-substitution-equation",
+      "title": "Solve $2\\cos^2 x + 3\\sin x = 3$ on $[0, 2\\pi)$, with $x$ in radians.",
+      "body": "$x = \\frac{\\pi}{6}, \\frac{\\pi}{2}, \\frac{5\\pi}{6}$\n\nReplace $\\cos^2 x$ with $1 - \\sin^2 x$ to get $2\\sin^2 x - 3\\sin x + 1 = 0$, which factors as $(2\\sin x - 1)(\\sin x - 1) = 0$. So $\\sin x = \\frac{1}{2}$ or $\\sin x = 1$.\n\nTip: when sines and cosines are mixed, rewrite everything in terms of one function using $\\sin^2 x + \\cos^2 x = 1$.",
+      "searchQuery": "solve trig equation using Pythagorean identity 2cos^2 x + 3 sin x = 3"
+    },
+    {
+      "id": "solve-cosine-double-angle-half",
+      "title": "Solve $\\cos(2x) = \\frac{1}{2}$ on $[0, 2\\pi)$, with $x$ in radians.",
+      "body": "$x = \\frac{\\pi}{6}, \\frac{5\\pi}{6}, \\frac{7\\pi}{6}, \\frac{11\\pi}{6}$\n\nHere $2x$ runs over $[0, 4\\pi)$, and $\\cos u = \\frac{1}{2}$ at $u = \\frac{\\pi}{3}, \\frac{5\\pi}{3}, \\frac{7\\pi}{3}, \\frac{11\\pi}{3}$. Divide each by $2$.\n\nWatch out: solve for $2x$ over the **doubled** interval first, then divide.",
+      "searchQuery": "solve cos 2x = 1/2 on 0 to 2 pi multiple angle equation"
+    },
+    {
+      "id": "solve-sine-half-angle",
+      "title": "Solve $\\sin\\left(\\frac{x}{2}\\right) = \\frac{\\sqrt{3}}{2}$ on $[0, 2\\pi)$, with $x$ in radians.",
+      "body": "$x = \\frac{2\\pi}{3}$ and $x = \\frac{4\\pi}{3}$\n\nNow $\\frac{x}{2}$ runs over only $[0, \\pi)$, and $\\sin u = \\frac{\\sqrt{3}}{2}$ there at $u = \\frac{\\pi}{3}, \\frac{2\\pi}{3}$. Multiply by $2$.\n\nWatch out: when $B < 1$ the interval for $Bx$ is shorter, so adding $2\\pi$ to the angle gives no new solutions.",
+      "searchQuery": "solve sin(x/2) = sqrt3/2 on 0 to 2 pi"
+    },
+    {
+      "id": "solve-shifted-argument",
+      "title": "Solve $\\sin\\left(x - \\frac{\\pi}{3}\\right) = \\frac{1}{2}$ on $[0, 2\\pi)$, with $x$ in radians.",
+      "body": "$x = \\frac{\\pi}{2}$ and $x = \\frac{7\\pi}{6}$\n\nLet $u = x - \\frac{\\pi}{3}$, which ranges over $\\left[-\\frac{\\pi}{3}, \\frac{5\\pi}{3}\\right)$. Then $\\sin u = \\frac{1}{2}$ gives $u = \\frac{\\pi}{6}$ or $\\frac{5\\pi}{6}$, so $x = u + \\frac{\\pi}{3}$.\n\nTip: always translate the interval for $u$ as well as the equation.",
+      "searchQuery": "solve sin(x - pi/3) = 1/2 substitution shifted interval"
+    },
+    {
+      "id": "extraneous-solutions-squaring",
+      "title": "Solve $\\sin x + \\cos x = 1$ on $[0, 2\\pi)$, with $x$ in radians. Separate the answers with commas.",
+      "body": "$x = 0, \\frac{\\pi}{2}$\n\nSquare both sides: $1 + 2\\sin x\\cos x = 1$, so $\\sin 2x = 0$ and $x = 0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}$. Squaring can add false solutions, so check each in the original equation.\n\nWatch out: $x = \\pi$ and $x = \\frac{3\\pi}{2}$ give $-1$, not $1$, so they are **extraneous**.",
+      "answer": "0, pi/2",
+      "acceptedAnswers": [
+        "pi/2, 0",
+        "0 and pi/2"
+      ],
+      "answerDisplay": "$0, \\frac{\\pi}{2}$",
+      "searchQuery": "extraneous solutions squaring trig equation sin x + cos x = 1"
+    },
+    {
+      "id": "tangent-equals-two-sine",
+      "title": "Solve $\\tan x = 2\\sin x$ on $[0, 2\\pi)$, with $x$ in radians. Separate the answers with commas.",
+      "body": "$x = 0, \\frac{\\pi}{3}, \\pi, \\frac{5\\pi}{3}$\n\nWrite $\\frac{\\sin x}{\\cos x} = 2\\sin x$ and move terms: $\\sin x\\,(1 - 2\\cos x) = 0$. Then $\\sin x = 0$ gives $0, \\pi$, and $\\cos x = \\frac{1}{2}$ gives $\\frac{\\pi}{3}, \\frac{5\\pi}{3}$.\n\nWatch out: $\\tan x$ is undefined where $\\cos x = 0$, so $\\frac{\\pi}{2}$ and $\\frac{3\\pi}{2}$ cannot be solutions. None of the answers above has $\\cos x = 0$.",
+      "answer": "0, pi/3, pi, 5pi/3",
+      "acceptedAnswers": [
+        "0, pi, pi/3, 5pi/3"
+      ],
+      "answerDisplay": "$0, \\frac{\\pi}{3}, \\pi, \\frac{5\\pi}{3}$",
+      "searchQuery": "solve tan x = 2 sin x on 0 to 2 pi"
+    },
+    {
+      "id": "general-solution-tan-2x",
+      "title": "What is the general solution of $\\tan(2x) = 1$, with $x$ in radians?",
+      "body": "$x = \\frac{\\pi}{8} + \\frac{k\\pi}{2}$, where $k$ is any integer.\n\nSolve $2x = \\frac{\\pi}{4} + k\\pi$, then divide **everything**, including $k\\pi$, by $2$.\n\nWatch out: dividing only $\\frac{\\pi}{4}$ and leaving $k\\pi$ undivided misses half the solutions.",
+      "searchQuery": "general solution tan 2x = 1 divide k pi by 2"
+    },
+    {
+      "id": "solve-cosine-double-equals-cosine",
+      "title": "Solve $\\cos 2x = \\cos x$ on $[0, 2\\pi)$, with $x$ in radians. Separate the answers with commas.",
+      "body": "$x = 0, \\frac{2\\pi}{3}, \\frac{4\\pi}{3}$\n\nUse $\\cos 2x = 2\\cos^2 x - 1$ to get $2\\cos^2 x - \\cos x - 1 = 0$, which factors as $(2\\cos x + 1)(\\cos x - 1) = 0$. So $\\cos x = 1$ gives $0$, and $\\cos x = -\\frac{1}{2}$ gives $\\frac{2\\pi}{3}, \\frac{4\\pi}{3}$.\n\nTip: when two different multiples of $x$ appear, use a double-angle identity to get a single angle.",
+      "answer": "0, 2pi/3, 4pi/3",
+      "acceptedAnswers": [
+        "0, 4pi/3, 2pi/3"
+      ],
+      "answerDisplay": "$0, \\frac{2\\pi}{3}, \\frac{4\\pi}{3}$",
+      "searchQuery": "solve cos 2x = cos x double angle identity quadratic"
+    },
+    {
+      "id": "solutions-graphical-intersections",
+      "title": "How many real solutions does $\\sin x = \\frac{x}{2}$ have (radians)?",
+      "body": "$3$\n\nSolve graphically: since $|\\sin x| \\le 1$, any solution needs $|x| \\le 2$. The line $y = \\frac{x}{2}$ meets the sine curve at $x = 0$ and at two symmetric points near $x \\approx \\pm 1.9$.\n\nWatch out: equations mixing $x$ with a trig function usually cannot be solved algebraically; count intersections of the two graphs instead.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "number of solutions sin x = x/2 graph intersections"
+    },
+    {
+      "id": "solve-sine-inequality",
+      "title": "Solve $\\sin x > \\frac{1}{2}$ on $[0, 2\\pi)$, with $x$ in radians.",
+      "body": "$\\frac{\\pi}{6} < x < \\frac{5\\pi}{6}$\n\nSolve the equation first: $\\sin x = \\frac{1}{2}$ at $x = \\frac{\\pi}{6}, \\frac{5\\pi}{6}$. The curve lies **above** the line $y = \\frac{1}{2}$ only between them.\n\nTip: sketch the graph and the horizontal line, then read off where the curve is above (for $>$) or below (for $<$).",
+      "searchQuery": "solve trig inequality sin x > 1/2 graph interval"
+    },
+    {
+      "id": "solve-cosine-inequality",
+      "title": "Solve $\\cos x \\le -\\frac{1}{2}$ on $[0, 2\\pi)$, with $x$ in radians.",
+      "body": "$\\frac{2\\pi}{3} \\le x \\le \\frac{4\\pi}{3}$\n\nThe boundary points come from $\\cos x = -\\frac{1}{2}$, namely $\\frac{2\\pi}{3}$ and $\\frac{4\\pi}{3}$. Between them, cosine is at or below $-\\frac{1}{2}$, with its minimum at $x = \\pi$.\n\nWatch out: because of the $\\le$ sign, the endpoints are **included**.",
+      "searchQuery": "solve cos x <= -1/2 interval 0 to 2 pi inequality"
+    },
+    {
+      "id": "solve-sine-calculator-degrees",
+      "title": "Solve $3\\sin\\theta = 2$ for $0^\\circ \\le \\theta < 360^\\circ$. Give both angles in degrees to the nearest tenth, separated by commas.",
+      "body": "$41.8^\\circ$ and $138.2^\\circ$\n\nIsolate $\\sin\\theta = \\frac{2}{3}$. The calculator gives $\\sin^{-1}\\left(\\frac{2}{3}\\right) \\approx 41.8^\\circ$ (QI), and the QII solution is $180^\\circ - 41.8^\\circ = 138.2^\\circ$.\n\nWatch out: a calculator returns only one solution; find the other from the quadrant.",
+      "answer": "41.8, 138.2",
+      "acceptedAnswers": [
+        "138.2, 41.8",
+        "41.8°, 138.2°"
+      ],
+      "answerDisplay": "$41.8^\\circ, 138.2^\\circ$",
+      "searchQuery": "solve 3 sin theta = 2 inverse sine second quadrant solution"
+    },
+    {
+      "id": "solve-sine-negative-calculator-radians",
+      "title": "Solve $\\sin x = -0.3$ on $[0, 2\\pi)$, in radians to $3$ decimal places, separated by commas.",
+      "body": "$3.446$ and $5.978$\n\nThe reference angle is $\\sin^{-1}(0.3) \\approx 0.305$. Sine is negative in QIII and QIV: $\\pi + 0.305 \\approx 3.446$ and $2\\pi - 0.305 \\approx 5.978$.\n\nWatch out: $\\sin^{-1}(-0.3) \\approx -0.305$ is outside the interval; add $2\\pi$ for one solution and use $\\pi - (-0.305) = 3.446$ for the other.",
+      "answer": "3.446, 5.978",
+      "acceptedAnswers": [
+        "5.978, 3.446"
+      ],
+      "answerDisplay": "$3.446,\\ 5.978$",
+      "searchQuery": "solve sin x = -0.3 radians third and fourth quadrant"
+    },
+    {
+      "id": "count-solutions-cos-3x",
+      "title": "How many solutions does $\\cos(3x) = -\\frac{1}{2}$ have on $[0, 2\\pi)$, with $x$ in radians?",
+      "body": "$6$\n\nAs $x$ runs over $[0, 2\\pi)$, $3x$ runs over $[0, 6\\pi)$: three full periods, each with two solutions.\n\nTip: the count is $2 \\cdot B$ when $B$ is a positive integer and the target value is strictly between $-1$ and $1$.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "six"
+      ],
+      "searchQuery": "number of solutions cos(3x) = -1/2 on 0 to 2 pi"
+    },
+    {
+      "id": "solve-secant-equation",
+      "title": "Solve $\\sec x = 2$ on $[0, 2\\pi)$, with $x$ in radians. Separate the answers with commas.",
+      "body": "$x = \\frac{\\pi}{3}, \\frac{5\\pi}{3}$\n\nTake reciprocals: $\\cos x = \\frac{1}{2}$. Cosine is positive in QI and QIV, with reference angle $\\frac{\\pi}{3}$.\n\nTip: convert $\\sec$, $\\csc$ and $\\cot$ into $\\cos$, $\\sin$ and $\\tan$ before solving.",
+      "answer": "pi/3, 5pi/3",
+      "acceptedAnswers": [
+        "5pi/3, pi/3",
+        "pi/3 and 5pi/3"
+      ],
+      "answerDisplay": "$\\frac{\\pi}{3}, \\frac{5\\pi}{3}$",
+      "searchQuery": "solve sec x = 2 on 0 to 2 pi reciprocal cosine"
+    },
+    {
+      "id": "solve-quadratic-in-cosine",
+      "title": "Solve $2\\cos^2 x + \\cos x - 1 = 0$ on $[0, 2\\pi)$, with $x$ in radians. Separate the answers with commas.",
+      "body": "$x = \\frac{\\pi}{3}, \\pi, \\frac{5\\pi}{3}$\n\nFactor: $(2\\cos x - 1)(\\cos x + 1) = 0$. Then $\\cos x = \\frac{1}{2}$ gives $\\frac{\\pi}{3}$ and $\\frac{5\\pi}{3}$, and $\\cos x = -1$ gives $\\pi$.\n\nTip: the value $\\cos x = -1$ gives a single solution per period, so do not list $\\pi$ twice.",
+      "answer": "pi/3, pi, 5pi/3",
+      "acceptedAnswers": [
+        "pi/3, 5pi/3, pi"
+      ],
+      "answerDisplay": "$\\frac{\\pi}{3}, \\pi, \\frac{5\\pi}{3}$",
+      "searchQuery": "solve 2cos^2 x + cos x - 1 = 0 factor quadratic trig"
+    },
+    {
+      "id": "even-trig-functions",
+      "title": "Which two of $\\sin$, $\\cos$, $\\tan$, $\\cot$, $\\sec$ and $\\csc$ are even functions?",
+      "body": "$\\cos$ and $\\sec$\n\nThey satisfy $f(-x) = f(x)$, so their graphs are symmetric about the $y$-axis. The other four are odd, with origin symmetry.\n\nWhy: $\\sec x = \\frac{1}{\\cos x}$ inherits the evenness of $\\cos x$, and $\\csc x = \\frac{1}{\\sin x}$ inherits the oddness of $\\sin x$.",
+      "answer": "cos and sec",
+      "acceptedAnswers": [
+        "cos, sec",
+        "sec and cos",
+        "sec, cos",
+        "cosine and secant"
+      ],
+      "answerDisplay": "$\\cos$ and $\\sec$",
+      "searchQuery": "even and odd trig functions cos sec even symmetry"
+    },
+    {
+      "id": "sine-plus-cosine-amplitude",
+      "title": "$y = \\sin x + \\cos x$ is a sinusoid. What is its amplitude?",
+      "body": "$\\sqrt{2}$\n\nIt can be written $y = \\sqrt{2}\\sin\\left(x + \\frac{\\pi}{4}\\right)$, a sine wave shifted left $\\frac{\\pi}{4}$ with amplitude $\\sqrt{2}$.\n\nExample: at $x = \\frac{\\pi}{4}$ both terms equal $\\frac{\\sqrt{2}}{2}$, so $y = \\sqrt{2}$, the maximum.\nWatch out: the amplitude is not $2$; the two waves peak at different places.",
+      "answer": "sqrt(2)",
+      "answerDisplay": "$\\sqrt{2}$",
+      "searchQuery": "sin x + cos x amplitude sqrt 2 combine sine cosine"
+    },
+    {
+      "id": "combine-sine-cosine-formula",
+      "title": "How do you write $a\\sin x + b\\cos x$ as a single sine wave $R\\sin(x + \\alpha)$?",
+      "body": "$R = \\sqrt{a^2 + b^2}$, with $\\cos\\alpha = \\frac{a}{R}$ and $\\sin\\alpha = \\frac{b}{R}$.\n\nExpand $R\\sin(x + \\alpha) = R\\cos\\alpha\\,\\sin x + R\\sin\\alpha\\,\\cos x$ and match coefficients with $a$ and $b$.\n\nWatch out: choose the quadrant of $\\alpha$ from the signs of $a$ and $b$; $\\tan\\alpha = \\frac{b}{a}$ alone is ambiguous.",
+      "searchQuery": "a sin x + b cos x as R sin(x + alpha) amplitude phase"
+    },
+    {
+      "id": "maximum-three-sine-four-cosine",
+      "title": "What is the maximum value of $3\\sin x + 4\\cos x$?",
+      "body": "$5$\n\nThe amplitude is $R = \\sqrt{3^2 + 4^2} = 5$, and the midline is $y = 0$, so the maximum is $5$ and the minimum is $-5$.\n\nTip: this works for any $a\\sin x + b\\cos x$; the extremes are $\\pm\\sqrt{a^2 + b^2}$.",
+      "answer": "5",
+      "searchQuery": "maximum of 3 sin x + 4 cos x amplitude 5"
+    },
+    {
+      "id": "sine-cosine-product-graph",
+      "title": "What are the amplitude and period (radians) of $y = \\sin x\\cos x$?",
+      "body": "Amplitude $\\frac{1}{2}$, period $\\pi$.\n\nBy the double-angle identity, $\\sin x\\cos x = \\frac{1}{2}\\sin 2x$, so $A = \\frac{1}{2}$ and the period is $\\frac{2\\pi}{2} = \\pi$.\n\nTip: rewrite products and powers of $\\sin$ and $\\cos$ as a single sinusoid before reading off its features.",
+      "searchQuery": "graph of sin x cos x amplitude period double angle"
+    },
+    {
+      "id": "sine-squared-graph",
+      "title": "Describe the graph of $y = \\sin^2 x$: midline, amplitude and period (radians).",
+      "body": "Midline $y = \\frac{1}{2}$, amplitude $\\frac{1}{2}$, period $\\pi$, range $[0, 1]$.\n\nThe power-reducing identity gives $\\sin^2 x = \\frac{1}{2} - \\frac{1}{2}\\cos 2x$.\n\nWatch out: the period of $\\sin^2 x$ is $\\pi$, half that of $\\sin x$, because squaring removes the negative half.",
+      "searchQuery": "graph of sin^2 x midline amplitude period power reducing"
+    },
+    {
+      "id": "absolute-sine-period",
+      "title": "What is the period of $y = |\\sin x|$ in radians?",
+      "body": "$\\pi$\n\nTaking the absolute value reflects the negative arches of the sine wave above the $x$-axis. The result repeats every half period of $\\sin x$.\n\nExample: the graph is a chain of identical arches over $[0, \\pi]$, $[\\pi, 2\\pi]$, and so on, each with range $[0, 1]$.",
+      "answer": "pi",
+      "answerDisplay": "$\\pi$",
+      "searchQuery": "period of absolute value of sine function |sin x|"
+    },
+    {
+      "id": "sum-of-sines-period",
+      "title": "What is the period of $y = \\sin x + \\sin 2x$ in radians?",
+      "body": "$2\\pi$\n\nThe periods of the two terms are $2\\pi$ and $\\pi$. The sum repeats once **both** terms have repeated, at the least common multiple, which is $2\\pi$.\n\nWatch out: the sum of two sinusoids with different periods is not itself a sinusoid, but it is still periodic.",
+      "answer": "2pi",
+      "answerDisplay": "$2\\pi$",
+      "searchQuery": "period of sum of sine functions least common multiple sin x + sin 2x"
+    }
+  ]
+}

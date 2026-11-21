@@ -1,52 +1,71 @@
 #!/usr/bin/env node
 /**
  * Builds a Supabase migration that publishes the study packs in
- * content/packs/*.json. The SQL upserts by id and prunes cards/packs that were
- * removed from the JSON, so it is safe to re-run after editing content.
+ * content/packs/<subject>/ (see content/README.md). The SQL upserts by id and
+ * prunes cards and packs that were removed, so it's safe to apply on top of
+ * any earlier version:
  *
- *   npm run packs:build                      # writes the default migration
  *   npm run packs:build -- --out supabase/migrations/20270101000000_update_packs.sql
  *
- * Users keep their own copies of cards they already added; removing a card
- * here only stops it from being offered to new learners.
+ * Students' copies of pack cards they never edited follow the new text;
+ * copies they edited are left alone. Removing a card only stops it from being
+ * offered to new learners. Run `npx jest content` first: it checks the content
+ * far more thoroughly than this script.
  */
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join, relative } from 'node:path';
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const contentDir = join(root, 'content', 'packs');
 const outArg = process.argv.indexOf('--out');
-const outFile =
-  outArg > -1
-    ? join(root, process.argv[outArg + 1])
-    : join(root, 'supabase', 'migrations', '20261120163100_study_pack_content.sql');
+if (outArg === -1 || !process.argv[outArg + 1]) {
+  console.error('Usage: npm run packs:build -- --out supabase/migrations/<timestamp>_<name>.sql');
+  process.exit(1);
+}
+const outFile = resolve(root, process.argv[outArg + 1]);
 
-/** Display order: the categories students asked for first. */
-const ORDER = ['calculus', 'trigonometry', 'biology', 'engineering', 'software', 'chemistry', 'physics', 'statistics'];
+/** Display order: the subjects students asked for first, each followed by its neighbors. */
+const ORDER = [
+  'calculus', 'trigonometry', 'linear-algebra', 'differential-equations',
+  'biology', 'anatomy-physiology', 'microbiology',
+  'engineering',
+  'software', 'machine-learning', 'discrete-math',
+  'chemistry', 'organic-chemistry', 'biochemistry',
+  'physics', 'statistics',
+];
 const ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 const errors = [];
 const fail = (message) => errors.push(message);
 
-const files = readdirSync(contentDir).filter((f) => f.endsWith('.json')).sort();
-const categories = files.map((file) => {
-  const data = JSON.parse(readFileSync(join(contentDir, file), 'utf8'));
-  data.file = file;
-  return data;
-});
-categories.sort((a, b) => {
-  const rank = (c) => (ORDER.includes(c.category.id) ? ORDER.indexOf(c.category.id) : ORDER.length);
+const subjects = readdirSync(contentDir, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => {
+    const category = JSON.parse(readFileSync(join(contentDir, entry.name, 'category.json'), 'utf8'));
+    if (category.id !== entry.name) fail(`${entry.name}/category.json: id should be "${entry.name}"`);
+    const packs = (category.packs ?? []).map((packId) => {
+      const file = join(contentDir, entry.name, `${packId}.json`);
+      if (!existsSync(file)) {
+        fail(`${entry.name}: missing ${packId}.json`);
+        return null;
+      }
+      return JSON.parse(readFileSync(file, 'utf8'));
+    });
+    return { category, packs: packs.filter(Boolean) };
+  });
+subjects.sort((a, b) => {
+  const rank = (s) => (ORDER.includes(s.category.id) ? ORDER.indexOf(s.category.id) : ORDER.length);
   return rank(a) - rank(b) || a.category.id.localeCompare(b.category.id);
 });
 
 const packIds = new Set();
-for (const { file, category, packs } of categories) {
-  if (!ID.test(category?.id ?? '')) fail(`${file}: bad category id`);
-  if (!category?.name || !category?.tagline) fail(`${file}: category needs name and tagline`);
-  for (const pack of packs ?? []) {
-    if (!ID.test(pack.id)) fail(`${file}: bad pack id ${pack.id}`);
-    if (packIds.has(pack.id)) fail(`${file}: duplicate pack id ${pack.id}`);
+for (const { category, packs } of subjects) {
+  if (!ID.test(category.id ?? '')) fail(`bad category id ${category.id}`);
+  if (!category.name || !category.tagline) fail(`${category.id}: category needs name and tagline`);
+  for (const pack of packs) {
+    if (!ID.test(pack.id)) fail(`${category.id}: bad pack id ${pack.id}`);
+    if (packIds.has(pack.id)) fail(`duplicate pack id ${pack.id}`);
     packIds.add(pack.id);
     for (const key of ['title', 'course', 'description']) if (!pack[key]?.trim()) fail(`${pack.id}: missing ${key}`);
     const cardIds = new Set();
@@ -55,8 +74,10 @@ for (const { file, category, packs } of categories) {
       if (cardIds.has(card.id)) fail(`${pack.id}: duplicate card id ${card.id}`);
       cardIds.add(card.id);
       if (!card.title?.trim() || !card.body?.trim()) fail(`${pack.id}/${card.id}: missing title or body`);
-      if (card.title.length > 200) fail(`${pack.id}/${card.id}: title over 200 chars`);
-      if (card.acceptedAnswers && !card.answer) fail(`${pack.id}/${card.id}: acceptedAnswers without answer`);
+      if ((card.title ?? '').length > 200) fail(`${pack.id}/${card.id}: title over 200 characters`);
+      if ((card.acceptedAnswers?.length || card.answerDisplay) && !card.answer) {
+        fail(`${pack.id}/${card.id}: acceptedAnswers/answerDisplay without an answer`);
+      }
     }
     if ((pack.cards ?? []).length === 0) fail(`${pack.id}: no cards`);
   }
@@ -73,29 +94,21 @@ const textArray = (values) =>
 const lines = [];
 const push = (s = '') => lines.push(s);
 
-push('-- Generated by scripts/build-packs-migration.mjs from content/packs/*.json.');
+push('-- Generated by scripts/build-packs-migration.mjs from content/packs.');
 push('-- Do not edit by hand: change the JSON and re-run `npm run packs:build`.');
 push();
 
 push('insert into public.pack_categories (id, name, tagline, position) values');
-push(
-  categories
-    .map(({ category }, i) => `  (${lit(category.id)}, ${lit(category.name)}, ${lit(category.tagline)}, ${i})`)
-    .join(',\n'),
-);
+push(subjects.map(({ category }, i) => `  (${lit(category.id)}, ${lit(category.name)}, ${lit(category.tagline)}, ${i})`).join(',\n'));
 push('on conflict (id) do update set name = excluded.name, tagline = excluded.tagline, position = excluded.position;');
 push();
 
-let cardTotal = 0;
-for (const { category, packs } of categories) {
+for (const { category, packs } of subjects) {
   push(`-- ${category.name}`);
   push('insert into public.packs (id, category_id, title, course, description, position) values');
   push(
     packs
-      .map(
-        (pack, i) =>
-          `  (${lit(pack.id)}, ${lit(category.id)}, ${lit(pack.title)}, ${lit(pack.course)}, ${lit(pack.description)}, ${i})`,
-      )
+      .map((pack, i) => `  (${lit(pack.id)}, ${lit(category.id)}, ${lit(pack.title)}, ${lit(pack.course)}, ${lit(pack.description)}, ${i})`)
       .join(',\n'),
   );
   push(
@@ -103,38 +116,59 @@ for (const { category, packs } of categories) {
       'course = excluded.course, description = excluded.description, position = excluded.position;',
   );
   push();
+}
 
+// Every card goes into a temporary table first, so unedited copies can be
+// compared with the old text before the pack cards are overwritten.
+push('create temporary table pack_card_rows (');
+push('  id text primary key, pack_id text not null, position int not null, title text not null, body text not null,');
+push('  answer text, accepted_answers text[] not null, answer_display text, search_query text');
+push(');');
+push();
+let cardTotal = 0;
+for (const { packs } of subjects) {
   for (const pack of packs) {
-    push(`insert into public.pack_cards (id, pack_id, position, title, body, answer, accepted_answers) values`);
+    push(`insert into pack_card_rows values -- ${pack.id}`);
     push(
       pack.cards
         .map(
           (card, i) =>
             `  (${lit(`${pack.id}/${card.id}`)}, ${lit(pack.id)}, ${i}, ${lit(card.title)}, ${lit(card.body)}, ` +
-            `${lit(card.answer ?? null)}, ${textArray(card.acceptedAnswers ?? [])})`,
+            `${lit(card.answer ?? null)}, ${textArray(card.acceptedAnswers ?? [])}, ${lit(card.answerDisplay ?? null)}, ` +
+            `${lit(card.searchQuery ?? null)})`,
         )
-        .join(',\n'),
+        .join(',\n') + ';',
     );
-    push(
-      'on conflict (id) do update set pack_id = excluded.pack_id, position = excluded.position, title = excluded.title, ' +
-        'body = excluded.body, answer = excluded.answer, accepted_answers = excluded.accepted_answers;',
-    );
-    push(
-      `delete from public.pack_cards where pack_id = ${lit(pack.id)} and id not in (${pack.cards
-        .map((card) => lit(`${pack.id}/${card.id}`))
-        .join(', ')});`,
-    );
-    push();
     cardTotal += pack.cards.length;
   }
-
-  push(
-    `delete from public.packs where category_id = ${lit(category.id)} and id not in (${packs.map((p) => lit(p.id)).join(', ')});`,
-  );
-  push();
 }
+push();
+push('-- Students\' copies they never edited follow the new text.');
+push('update public.memories m');
+push('   set title = r.title, body = r.body, answer = r.answer,');
+push('       accepted_answers = r.accepted_answers, answer_display = r.answer_display, search_query = r.search_query');
+push('  from pack_card_rows r');
+push('  join public.pack_cards c on c.id = r.id');
+push(' where m.pack_card_id = r.id');
+push('   and m.title = c.title and m.body = c.body');
+push('   and m.answer is not distinct from c.answer and m.accepted_answers = c.accepted_answers');
+push('   and (m.title, m.body, m.answer, m.accepted_answers, m.answer_display, m.search_query)');
+push('       is distinct from (r.title, r.body, r.answer, r.accepted_answers, r.answer_display, r.search_query);');
+push();
+push('insert into public.pack_cards (id, pack_id, position, title, body, answer, accepted_answers, answer_display, search_query)');
+push('select id, pack_id, position, title, body, answer, accepted_answers, answer_display, search_query from pack_card_rows');
+push(
+  'on conflict (id) do update set pack_id = excluded.pack_id, position = excluded.position, title = excluded.title, ' +
+    'body = excluded.body, answer = excluded.answer, accepted_answers = excluded.accepted_answers, ' +
+    'answer_display = excluded.answer_display, search_query = excluded.search_query;',
+);
+push();
+push('-- Prune cards and packs that were removed from the content.');
+push('delete from public.pack_cards c where not exists (select 1 from pack_card_rows r where r.id = c.id);');
+push(`delete from public.packs where id not in (${[...packIds].map(lit).join(', ')});`);
+push(`delete from public.pack_categories where id not in (${subjects.map((s) => lit(s.category.id)).join(', ')});`);
+push();
+push('drop table pack_card_rows;');
 
 writeFileSync(outFile, `${lines.join('\n')}\n`);
-console.log(
-  `Wrote ${relative(root, outFile)}: ${categories.length} categories, ${packIds.size} packs, ${cardTotal} cards.`,
-);
+console.log(`Wrote ${relative(root, outFile)}: ${subjects.length} subjects, ${packIds.size} packs, ${cardTotal} cards.`);

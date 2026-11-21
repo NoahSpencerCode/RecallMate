@@ -35,13 +35,14 @@ begin
 
   -- Calculus I: well underway (some due, some soon, some mastered).
   i := 0;
-  for card in select * from public.pack_cards where pack_id = 'calc-derivatives' order by position loop
+  for card in select * from public.pack_cards where pack_id = 'calc-derivatives' order by position limit 16 loop
     i := i + 1;
     insert into public.memories (
-      user_id, title, body, answer, accepted_answers, pack_id, pack_card_id,
+      user_id, title, body, answer, accepted_answers, answer_display, search_query, pack_id, pack_card_id,
       stage, due_on, review_count, lapse_count, last_reviewed_on, created_at
     ) values (
-      demo, card.title, card.body, card.answer, card.accepted_answers, card.pack_id, card.id,
+      demo, card.title, card.body, card.answer, card.accepted_answers, card.answer_display, card.search_query,
+      card.pack_id, card.id,
       case when i <= 6 then 1 + i % 2 when i <= 11 then 3 else 5 + i % 2 end,
       case when i <= 6 then current_date - (i % 3) when i <= 11 then current_date + (i - 6) else current_date + 6 + i end,
       case when i <= 6 then 2 when i <= 11 then 4 else 6 end,
@@ -54,8 +55,12 @@ begin
   -- Biology: added today at 5 new cards a day.
   i := 0;
   for card in select * from public.pack_cards where pack_id = 'bio-cell-structure' order by position loop
-    insert into public.memories (user_id, title, body, answer, accepted_answers, pack_id, pack_card_id, due_on)
-    values (demo, card.title, card.body, card.answer, card.accepted_answers, card.pack_id, card.id, current_date + i / 5);
+    insert into public.memories (
+      user_id, title, body, answer, accepted_answers, answer_display, search_query, pack_id, pack_card_id, due_on
+    ) values (
+      demo, card.title, card.body, card.answer, card.accepted_answers, card.answer_display, card.search_query,
+      card.pack_id, card.id, current_date + i / 5
+    );
     i := i + 1;
   end loop;
 

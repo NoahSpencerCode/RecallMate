@@ -15,6 +15,7 @@ import { Icon } from '@/components/Icon';
 import { IconButton } from '@/components/IconButton';
 import { PressableScale } from '@/components/PressableScale';
 import { Skeleton } from '@/components/Skeleton';
+import { RichText } from '@/components/rich/RichText';
 import { Text } from '@/components/Text';
 import { useToast } from '@/components/Toast';
 import { useMemories } from '@/features/memories/hooks';
@@ -263,9 +264,9 @@ export default function PackDetail() {
                       {index + 1}
                     </Text>
                   </View>
-                  <Text variant="smallStrong" style={styles.flex}>
+                  <RichText variant="smallStrong" style={styles.flex} inline>
                     {card.title}
-                  </Text>
+                  </RichText>
                   {card.hasAnswer ? <Icon name="keyboard-outline" size={18} color={colors.textSubtle} /> : null}
                 </Animated.View>
               ))}

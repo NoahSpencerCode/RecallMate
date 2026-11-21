@@ -1,0 +1,751 @@
+{
+  "id": "linalg-spaces-eigen",
+  "title": "Vector Spaces & Eigenvalues",
+  "course": "Linear Algebra",
+  "description": "Span, independence, bases, dimension, rank–nullity, linear transformations, eigenvalues and eigenvectors, diagonalization, orthogonality, Gram–Schmidt, least squares and the SVD.",
+  "cards": [
+    {
+      "id": "subspace-test",
+      "title": "What three conditions make a subset $H$ of $\\mathbb{R}^n$ a subspace?",
+      "body": "$H$ contains $\\mathbf{0}$, is **closed under addition** ($\\mathbf{u}, \\mathbf{v} \\in H \\Rightarrow \\mathbf{u} + \\mathbf{v} \\in H$), and is closed under scalar multiplication ($\\mathbf{u} \\in H \\Rightarrow c\\mathbf{u} \\in H$).\n\nTip: Checking for $\\mathbf{0}$ first is the fastest way to rule a set out.",
+      "searchQuery": "subspace test three conditions zero vector closure"
+    },
+    {
+      "id": "line-not-through-origin",
+      "title": "Is the line $y = 2x + 1$ a subspace of $\\mathbb{R}^2$?",
+      "body": "No: it doesn't contain the **zero vector**, since $0 \\neq 2(0) + 1$.\n\nThe subspaces of $\\mathbb{R}^2$ are $\\{\\mathbf{0}\\}$, the lines through the origin and $\\mathbb{R}^2$ itself.\n\nKey idea: The parallel line $y = 2x$ is a subspace.",
+      "searchQuery": "line y=2x+1 not a subspace zero vector"
+    },
+    {
+      "id": "quadrants-not-subspace",
+      "title": "Is $\\{(x, y) : xy \\geq 0\\}$, the first and third quadrants with the axes, a subspace of $\\mathbb{R}^2$?",
+      "body": "No: it is **not closed under addition**.\n\nExample: $(1, 0)$ and $(0, -1)$ are both in the set, but their sum $(1, -1)$ has $xy = -1 < 0$.\nWatch out: The set does contain $\\mathbf{0}$ and is closed under scalar multiples, so all three conditions really must be checked.",
+      "searchQuery": "first and third quadrants not a subspace closure under addition"
+    },
+    {
+      "id": "union-intersection-subspaces",
+      "title": "$U$ and $W$ are subspaces of $\\mathbb{R}^n$. Which is always a subspace: $U \\cap W$ or $U \\cup W$?",
+      "body": "The **intersection** $U \\cap W$.\n\nExample: The union usually fails closure under addition: the $x$-axis $\\cup$ the $y$-axis contains $(1, 0)$ and $(0, 1)$ but not $(1, 1)$.\nKey idea: A union is a subspace only when one of the two contains the other.",
+      "searchQuery": "union of subspaces not a subspace intersection is"
+    },
+    {
+      "id": "polynomials-degree-exactly-two",
+      "title": "Is the set of polynomials of degree exactly $2$ a vector space under the usual operations?",
+      "body": "No.\n\nIt has no **zero vector** (the zero polynomial doesn't have degree $2$), and it isn't closed under addition: $(t^2 + t) + (-t^2) = t$.\n\nKey idea: The polynomials of degree at most $2$, $\\mathbb{P}_2$, do form a vector space.",
+      "searchQuery": "polynomials of degree exactly 2 not a vector space"
+    },
+    {
+      "id": "dimension-of-polynomial-space",
+      "title": "What is the dimension of $\\mathbb{P}_3$, the space of polynomials of degree at most $3$?",
+      "body": "$4$.\n\nThe **standard basis** is $\\{1, t, t^2, t^3\\}$.\n\nWatch out: In general $\\dim \\mathbb{P}_n = n + 1$; the common slip is forgetting the constant polynomial $1$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "dimension of P3 polynomials degree at most 3"
+    },
+    {
+      "id": "dimension-symmetric-matrices",
+      "title": "What is the dimension of the space of symmetric $3 \\times 3$ matrices?",
+      "body": "$6$.\n\nA symmetric matrix is determined by its entries **on and above the diagonal**: $3 + 2 + 1 = 6$.\n\nKey idea: In general the dimension is $\\tfrac{n(n+1)}{2}$, while all $n \\times n$ matrices form a space of dimension $n^2$.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "six"
+      ],
+      "searchQuery": "dimension of symmetric 3x3 matrices"
+    },
+    {
+      "id": "span-definition",
+      "title": "What is $\\operatorname{Span}\\{\\mathbf{v}_1, \\dots, \\mathbf{v}_p\\}$?",
+      "body": "The set of all **linear combinations** $c_1\\mathbf{v}_1 + \\cdots + c_p\\mathbf{v}_p$, with $c_1, \\dots, c_p$ any scalars.\n\nKey idea: It is always a subspace, the smallest one containing $\\mathbf{v}_1, \\dots, \\mathbf{v}_p$, and it always contains $\\mathbf{0}$ (take every $c_i = 0$).",
+      "searchQuery": "span of vectors definition linear combinations"
+    },
+    {
+      "id": "span-two-vectors-plane",
+      "title": "Nonzero vectors $\\mathbf{u}$ and $\\mathbf{v}$ in $\\mathbb{R}^3$ are not multiples of each other. What is $\\operatorname{Span}\\{\\mathbf{u}, \\mathbf{v}\\}$ geometrically?",
+      "body": "A **plane through the origin**.\n\nIf $\\mathbf{v}$ were a multiple of $\\mathbf{u}$, the span would collapse to a line through the origin.\n\nKey idea: Two vectors can never span all of $\\mathbb{R}^3$.",
+      "searchQuery": "span of two vectors in R3 plane through origin"
+    },
+    {
+      "id": "linear-independence-definition",
+      "title": "When is a set of vectors $\\{\\mathbf{v}_1, \\dots, \\mathbf{v}_p\\}$ linearly independent?",
+      "body": "When $c_1\\mathbf{v}_1 + \\cdots + c_p\\mathbf{v}_p = \\mathbf{0}$ has only the **trivial solution** $c_1 = \\cdots = c_p = 0$.\n\nKey idea: If some nontrivial combination gives $\\mathbf{0}$, that equation is a linear dependence relation and the set is dependent.",
+      "searchQuery": "linearly independent definition trivial solution only"
+    },
+    {
+      "id": "independence-test-pivots",
+      "title": "How do you test whether the columns of a matrix $A$ are linearly independent?",
+      "body": "Row reduce $A$: the columns are independent iff **every column is a pivot column**.\n\nEquivalently, $A\\mathbf{x} = \\mathbf{0}$ has only the trivial solution.\n\nKey idea: Any free variable gives a dependence relation among the columns.",
+      "searchQuery": "test linear independence of columns pivot columns"
+    },
+    {
+      "id": "zero-vector-dependent",
+      "title": "Can a set of vectors that contains the zero vector be linearly independent?",
+      "body": "No.\n\nWhy: If $\\mathbf{v}_1 = \\mathbf{0}$, then $1 \\cdot \\mathbf{v}_1 + 0 \\cdot \\mathbf{v}_2 + \\cdots + 0 \\cdot \\mathbf{v}_p = \\mathbf{0}$ is a **nontrivial dependence relation**.",
+      "searchQuery": "set containing zero vector linearly dependent"
+    },
+    {
+      "id": "too-many-vectors-dependent",
+      "title": "Can $5$ vectors in $\\mathbb{R}^4$ be linearly independent?",
+      "body": "No.\n\nAs columns they form a $4 \\times 5$ matrix with at most $4$ pivots, so some column has no pivot and $A\\mathbf{x} = \\mathbf{0}$ has a **nontrivial solution**.\n\nKey idea: In $\\mathbb{R}^n$, any set of more than $n$ vectors is dependent.",
+      "searchQuery": "more than n vectors in R^n linearly dependent"
+    },
+    {
+      "id": "dependence-parameter-h",
+      "title": "For what value of $h$ are $\\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix}$, $\\begin{pmatrix} 0 \\\\ 1 \\\\ 1 \\end{pmatrix}$, $\\begin{pmatrix} 1 \\\\ 1 \\\\ h \\end{pmatrix}$ linearly dependent?",
+      "body": "$h = 2$.\n\nThe **determinant** of the matrix with these columns is $h - 2$, which is $0$ only at $h = 2$.\n\nTip: at $h = 2$ the third vector is the sum of the first two.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "h=2"
+      ],
+      "answerDisplay": "$h = 2$",
+      "searchQuery": "linearly dependent vectors parameter h determinant"
+    },
+    {
+      "id": "dependent-means-combination",
+      "title": "A set of two or more vectors is linearly dependent. What must be true of the vectors themselves?",
+      "body": "**At least one** of them is a linear combination of the others.\n\nWatch out: Not necessarily every one: in $\\{(1, 0), (2, 0), (0, 1)\\}$, the vector $(0, 1)$ is not a combination of the other two.\nKey idea: For exactly two vectors, dependent means one is a scalar multiple of the other.",
+      "searchQuery": "linearly dependent set one vector combination of others"
+    },
+    {
+      "id": "span-unchanged-by-dependent-vector",
+      "title": "$\\mathbf{v}_3$ is a linear combination of $\\mathbf{v}_1$ and $\\mathbf{v}_2$. Does adding $\\mathbf{v}_3$ to the set $\\{\\mathbf{v}_1, \\mathbf{v}_2\\}$ change its span?",
+      "body": "No, the **span stays the same**.\n\nAny combination that uses $\\mathbf{v}_3$ can be rewritten with $\\mathbf{v}_1$ and $\\mathbf{v}_2$ alone.\n\nKey idea: Deleting redundant vectors from a spanning set, one at a time, leaves a basis (the spanning set theorem).",
+      "searchQuery": "redundant vector does not change span spanning set theorem"
+    },
+    {
+      "id": "basis-definition",
+      "title": "What is a basis for a subspace $H$?",
+      "body": "A **linearly independent** set of vectors in $H$ that spans $H$.\n\nKey idea: Every vector in $H$ is then a combination of the basis vectors in exactly one way.",
+      "searchQuery": "basis definition linearly independent spanning set"
+    },
+    {
+      "id": "dimension-definition",
+      "title": "What is the dimension of a nonzero subspace $H$, and why is it well defined?",
+      "body": "The number of vectors in a basis of $H$.\n\nIt is well defined because **every basis** of $H$ has the same number of vectors.\n\nKey idea: By convention $\\dim\\{\\mathbf{0}\\} = 0$.",
+      "searchQuery": "dimension of a subspace number of basis vectors"
+    },
+    {
+      "id": "basis-theorem",
+      "title": "$V$ has dimension $p$. When is a set of exactly $p$ vectors in $V$ a basis?",
+      "body": "When it is linearly independent, or when it spans $V$: with exactly $p$ vectors, **either property implies the other**.\n\nTip: This halves the work of checking a basis.\nKey idea: Fewer than $p$ vectors can't span $V$, and more than $p$ can't be independent.",
+      "searchQuery": "basis theorem p vectors in p-dimensional space"
+    },
+    {
+      "id": "basis-minimal-maximal",
+      "title": "In what sense is a basis both as small and as large as possible?",
+      "body": "It is a spanning set that is **as small as possible** and an independent set that is as large as possible.\n\nKey idea: Remove a vector and the set no longer spans; add any vector and the set is no longer independent.",
+      "searchQuery": "basis minimal spanning set maximal independent set"
+    },
+    {
+      "id": "coordinates-in-basis",
+      "title": "$\\mathcal{B} = \\{(1, 1), (1, -1)\\}$ is a basis of $\\mathbb{R}^2$. What is the coordinate vector of $\\mathbf{x} = (5, 1)$ relative to $\\mathcal{B}$?",
+      "body": "$[\\mathbf{x}]_{\\mathcal{B}} = (3, 2)$.\n\n**Solve** $c_1(1, 1) + c_2(1, -1) = (5, 1)$: $c_1 + c_2 = 5$ and $c_1 - c_2 = 1$, so $c_1 = 3$, $c_2 = 2$.\n\nTip: verify: $3(1, 1) + 2(1, -1) = (5, 1)$.",
+      "answer": "(3, 2)",
+      "acceptedAnswers": [
+        "[3, 2]",
+        "3, 2",
+        "<3, 2>"
+      ],
+      "answerDisplay": "$[\\mathbf{x}]_{\\mathcal{B}} = \\begin{pmatrix} 3 \\\\ 2 \\end{pmatrix}$",
+      "searchQuery": "coordinate vector relative to a basis example"
+    },
+    {
+      "id": "change-of-coordinates-matrix",
+      "title": "$P_{\\mathcal{B}} = [\\,\\mathbf{b}_1\\ \\cdots\\ \\mathbf{b}_n\\,]$ holds a basis $\\mathcal{B}$ of $\\mathbb{R}^n$. How are $\\mathbf{x}$ and $[\\mathbf{x}]_{\\mathcal{B}}$ related?",
+      "body": "$\\mathbf{x} = P_{\\mathcal{B}}[\\mathbf{x}]_{\\mathcal{B}}$, so $[\\mathbf{x}]_{\\mathcal{B}} = P_{\\mathcal{B}}^{-1}\\mathbf{x}$.\n\nMultiplying by $P_{\\mathcal{B}}$ **rebuilds** $\\mathbf{x}$ from its weights on the basis vectors.\n\nWhy: $P_{\\mathcal{B}}$ is invertible because its columns form a basis.",
+      "searchQuery": "change of coordinates matrix coordinate vector basis"
+    },
+    {
+      "id": "plane-subspace-dimension",
+      "title": "What is the dimension of the subspace of $\\mathbb{R}^3$ defined by $x + 2y - z = 0$?",
+      "body": "$2$.\n\nIt is the null space of $\\begin{pmatrix} 1 & 2 & -1 \\end{pmatrix}$: one pivot and two **free variables** ($y$ and $z$), giving the basis $\\{(-2, 1, 0), (1, 0, 1)\\}$.\n\nKey idea: Geometrically, it is a plane through the origin.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "dimension of plane x+2y-z=0 null space"
+    },
+    {
+      "id": "subspaces-of-r3",
+      "title": "What are the subspaces of $\\mathbb{R}^3$, sorted by dimension?",
+      "body": "Dimension $0$: $\\{\\mathbf{0}\\}$. Dimension $1$: lines **through the origin**. Dimension $2$: planes through the origin. Dimension $3$: $\\mathbb{R}^3$ itself.\n\nWatch out: Lines and planes that miss the origin are not subspaces.",
+      "searchQuery": "subspaces of R3 by dimension lines planes"
+    },
+    {
+      "id": "null-space-definition",
+      "title": "What is the null space $\\operatorname{Nul}A$ of an $m \\times n$ matrix $A$, and where does it live?",
+      "body": "$\\operatorname{Nul}A = \\{\\mathbf{x} : A\\mathbf{x} = \\mathbf{0}\\}$, a subspace of $\\mathbb{R}^n$.\n\nTip: Its dimension is the number of **free variables** in $A\\mathbf{x} = \\mathbf{0}$, and the parametric vector form of the solution gives a basis.",
+      "searchQuery": "null space definition Nul A subspace of R^n"
+    },
+    {
+      "id": "column-space-definition",
+      "title": "What is the column space $\\operatorname{Col}A$ of an $m \\times n$ matrix $A$, and where does it live?",
+      "body": "The **span of the columns** of $A$, which equals $\\{A\\mathbf{x} : \\mathbf{x} \\in \\mathbb{R}^n\\}$, a subspace of $\\mathbb{R}^m$.\n\nKey idea: So $A\\mathbf{x} = \\mathbf{b}$ is consistent exactly when $\\mathbf{b}$ is in $\\operatorname{Col}A$.",
+      "searchQuery": "column space Col A definition subspace of R^m"
+    },
+    {
+      "id": "column-space-basis-trap",
+      "title": "To get a basis for $\\operatorname{Col}A$ you locate the pivot columns. Do you then take those columns from $A$ or from its echelon form?",
+      "body": "From $A$ itself.\n\nRow operations change the column space: the columns of an echelon form usually don't even lie in $\\operatorname{Col}A$.\n\nWatch out: The echelon form only tells you **which columns to keep**.\nTip: for $\\operatorname{Row}A$ it's the opposite: the nonzero rows of the echelon form work.",
+      "answer": "A",
+      "acceptedAnswers": [
+        "from A",
+        "original matrix",
+        "the original matrix A",
+        "matrix A"
+      ],
+      "searchQuery": "basis for column space pivot columns of original matrix"
+    },
+    {
+      "id": "row-space-basis",
+      "title": "How do you find a basis for the row space of $A$?",
+      "body": "Take the **nonzero rows** of any echelon form of $A$.\n\nWhy: Row operations replace rows with combinations of rows, so they don't change the row space, and the nonzero rows of an echelon form are linearly independent.",
+      "searchQuery": "basis for row space nonzero rows echelon form"
+    },
+    {
+      "id": "rank-nullity-theorem",
+      "title": "State the rank–nullity theorem for an $m \\times n$ matrix $A$.",
+      "body": "$\\operatorname{rank}A + \\dim\\operatorname{Nul}A = n$, the **number of columns**.\n\nPivot columns plus free-variable columns account for every column.\n\nWatch out: The total is $n$ (columns), not $m$ (rows): a classic slip.",
+      "searchQuery": "rank-nullity theorem rank plus nullity equals columns"
+    },
+    {
+      "id": "rank-nullity-compute",
+      "title": "A $5 \\times 7$ matrix has rank $3$. What is the dimension of its null space?",
+      "body": "$4$.\n\n**Rank–nullity**: $\\dim\\operatorname{Nul}A = n - \\operatorname{rank}A = 7 - 3$, using the $7$ columns.\n\nWatch out: Using the $5$ rows instead gives the wrong answer $2$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "rank nullity 5x7 matrix rank 3 nullity"
+    },
+    {
+      "id": "minimum-nullity",
+      "title": "What is the smallest possible dimension of $\\operatorname{Nul}A$ for a $4 \\times 6$ matrix $A$?",
+      "body": "$2$.\n\nThe rank is at most $4$ (**at most one pivot per row**), so $\\dim\\operatorname{Nul}A = 6 - \\operatorname{rank}A \\geq 2$.\n\nKey idea: A matrix with more columns than rows always has a nontrivial null space.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "smallest nullity of a 4 by 6 matrix"
+    },
+    {
+      "id": "left-null-space-dimension",
+      "title": "$A$ is a $5 \\times 3$ matrix of rank $3$. What is the dimension of $\\operatorname{Nul}A^T$?",
+      "body": "$2$.\n\n$A^T$ is $3 \\times 5$ with rank $3$, so $\\dim\\operatorname{Nul}A^T = 5 - 3$.\n\nKey idea: For any $m \\times n$ matrix of rank $r$: $\\dim\\operatorname{Col}A = \\dim\\operatorname{Row}A = r$, $\\dim\\operatorname{Nul}A = n - r$ and $\\dim\\operatorname{Nul}A^T = m - r$.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "dimension of left null space Nul A transpose"
+    },
+    {
+      "id": "row-rank-equals-column-rank",
+      "title": "Why does $\\dim\\operatorname{Row}A = \\dim\\operatorname{Col}A$ for every matrix $A$?",
+      "body": "Both equal the **number of pivots** in an echelon form of $A$.\n\nThe pivot columns of $A$ form a basis for $\\operatorname{Col}A$, and the nonzero rows of the echelon form (one per pivot) form a basis for $\\operatorname{Row}A$.\n\nKey idea: So $\\operatorname{rank}A = \\operatorname{rank}A^T$.",
+      "searchQuery": "row rank equals column rank number of pivots"
+    },
+    {
+      "id": "rank-of-outer-product",
+      "title": "$\\mathbf{u} \\in \\mathbb{R}^m$ and $\\mathbf{v} \\in \\mathbb{R}^n$ are nonzero. What is the rank of $\\mathbf{u}\\mathbf{v}^T$?",
+      "body": "$1$.\n\nColumn $j$ of $\\mathbf{u}\\mathbf{v}^T$ is $v_j\\mathbf{u}$, so every column is a **multiple of** $\\mathbf{u}$, and at least one is nonzero.\n\nKey idea: Conversely, every rank-$1$ matrix can be written as $\\mathbf{u}\\mathbf{v}^T$.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one"
+      ],
+      "searchQuery": "rank of outer product u v transpose is one"
+    },
+    {
+      "id": "rank-of-ata",
+      "title": "How does $\\operatorname{rank}(A^TA)$ compare with $\\operatorname{rank}A$?",
+      "body": "They are equal.\n\n$A^TA$ and $A$ have the **same null space**: if $A^TA\\mathbf{x} = \\mathbf{0}$, then $\\mathbf{x}^TA^TA\\mathbf{x} = \\|A\\mathbf{x}\\|^2 = 0$, so $A\\mathbf{x} = \\mathbf{0}$.\n\nWhy: Both have $n$ columns, so rank–nullity gives equal ranks.\nKey idea: Hence $A^TA$ is invertible iff $A$ has independent columns.",
+      "searchQuery": "rank of A transpose A equals rank of A"
+    },
+    {
+      "id": "rank-of-product",
+      "title": "How does $\\operatorname{rank}(AB)$ compare with $\\operatorname{rank}A$ and $\\operatorname{rank}B$?",
+      "body": "$\\operatorname{rank}(AB) \\leq \\min(\\operatorname{rank}A, \\operatorname{rank}B)$.\n\nThe columns of $AB$ are combinations of the columns of $A$, so $\\operatorname{Col}(AB) \\subseteq \\operatorname{Col}A$; likewise the rows of $AB$ are combinations of the rows of $B$.\n\nKey idea: Multiplying can **never raise the rank**.",
+      "searchQuery": "rank of a product at most min of ranks"
+    },
+    {
+      "id": "linear-transformation-definition",
+      "title": "What two properties make $T: V \\to W$ a linear transformation?",
+      "body": "$T(\\mathbf{u} + \\mathbf{v}) = T(\\mathbf{u}) + T(\\mathbf{v})$ and $T(c\\mathbf{u}) = cT(\\mathbf{u})$ for all vectors $\\mathbf{u}, \\mathbf{v}$ and scalars $c$.\n\nTogether they say $T$ **preserves linear combinations**.\n\nKey idea: A consequence: $T(\\mathbf{0}) = \\mathbf{0}$.",
+      "searchQuery": "linear transformation two properties additivity homogeneity"
+    },
+    {
+      "id": "translation-not-linear",
+      "title": "Is $T(\\mathbf{x}) = \\mathbf{x} + \\mathbf{b}$ with $\\mathbf{b} \\neq \\mathbf{0}$ a linear transformation?",
+      "body": "No: $T(\\mathbf{0}) = \\mathbf{b} \\neq \\mathbf{0}$, but every linear map sends $\\mathbf{0}$ to $\\mathbf{0}$.\n\nKey idea: Translations, and **affine maps** $A\\mathbf{x} + \\mathbf{b}$ with $\\mathbf{b} \\neq \\mathbf{0}$, are not linear.\nTip: Checking $T(\\mathbf{0})$ is the quickest test.",
+      "searchQuery": "translation not a linear transformation T(0) nonzero"
+    },
+    {
+      "id": "standard-matrix-columns",
+      "title": "How do you find the standard matrix of a linear transformation $T: \\mathbb{R}^n \\to \\mathbb{R}^m$?",
+      "body": "Its columns are $T(\\mathbf{e}_1), T(\\mathbf{e}_2), \\dots, T(\\mathbf{e}_n)$, the images of the **standard basis vectors**.\n\nKey idea: Then $T(\\mathbf{x}) = A\\mathbf{x}$ for every $\\mathbf{x}$, because $\\mathbf{x} = x_1\\mathbf{e}_1 + \\cdots + x_n\\mathbf{e}_n$ and $T$ preserves linear combinations.",
+      "searchQuery": "standard matrix of linear transformation columns images of e_i"
+    },
+    {
+      "id": "rotation-matrix",
+      "title": "What is the standard matrix of the counterclockwise rotation of $\\mathbb{R}^2$ by an angle $\\theta$?",
+      "body": "$\\begin{pmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{pmatrix}$\n\nColumn 1 is where $\\mathbf{e}_1$ lands, $(\\cos\\theta, \\sin\\theta)$; column 2 is where $\\mathbf{e}_2$ lands, $(-\\sin\\theta, \\cos\\theta)$.\n\nKey idea: A rotation **preserves lengths** and has determinant $1$.",
+      "searchQuery": "rotation matrix in R2 counterclockwise angle theta"
+    },
+    {
+      "id": "reflection-across-y-equals-x",
+      "title": "What is the standard matrix of the reflection of $\\mathbb{R}^2$ across the line $y = x$?",
+      "body": "$\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$\n\nIt **swaps the coordinates**: $\\mathbf{e}_1 \\mapsto \\mathbf{e}_2$ and $\\mathbf{e}_2 \\mapsto \\mathbf{e}_1$.\n\nKey idea: Like every reflection, it has determinant $-1$, and applying it twice gives $I$.",
+      "searchQuery": "reflection matrix across line y=x"
+    },
+    {
+      "id": "one-to-one-criterion",
+      "title": "When is the linear map $T(\\mathbf{x}) = A\\mathbf{x}$ one-to-one?",
+      "body": "Exactly when $A\\mathbf{x} = \\mathbf{0}$ has only the trivial solution, i.e., when the columns of $A$ are **linearly independent**.\n\nWhy: If $T(\\mathbf{u}) = T(\\mathbf{v})$, then $A(\\mathbf{u} - \\mathbf{v}) = \\mathbf{0}$, so a trivial null space forces $\\mathbf{u} = \\mathbf{v}$.\nTip: In pivot terms: every column is a pivot column.",
+      "searchQuery": "linear map one-to-one columns linearly independent"
+    },
+    {
+      "id": "onto-criterion",
+      "title": "$A$ is $m \\times n$. When does the linear map $T(\\mathbf{x}) = A\\mathbf{x}$ map onto $\\mathbb{R}^m$?",
+      "body": "Exactly when the columns of $A$ span $\\mathbb{R}^m$, i.e., when $A$ has a **pivot in every row**.\n\nKey idea: Onto means every $\\mathbf{b}$ in $\\mathbb{R}^m$ equals $A\\mathbf{x}$ for some $\\mathbf{x}$, so $\\operatorname{Col}A = \\mathbb{R}^m$ and $\\operatorname{rank}A = m$.",
+      "searchQuery": "linear map onto columns span R^m pivot in every row"
+    },
+    {
+      "id": "map-r5-to-r3-one-to-one",
+      "title": "Can a linear transformation $T: \\mathbb{R}^5 \\to \\mathbb{R}^3$ be one-to-one?",
+      "body": "No.\n\nIts $3 \\times 5$ standard matrix has rank at most $3$, so its null space has dimension at least $5 - 3 = 2$: **some nonzero vectors** are sent to $\\mathbf{0}$.\n\nKey idea: Likewise, a linear map $\\mathbb{R}^3 \\to \\mathbb{R}^5$ can never be onto.",
+      "searchQuery": "linear map R5 to R3 cannot be one-to-one"
+    },
+    {
+      "id": "composition-matrix",
+      "title": "$S$ has standard matrix $A$ and $T$ has standard matrix $B$. What is the standard matrix of $T \\circ S$ (apply $S$ first)?",
+      "body": "$BA$.\n\n$(T \\circ S)(\\mathbf{x}) = T(S(\\mathbf{x})) = B(A\\mathbf{x}) = (BA)\\mathbf{x}$.\n\nWatch out: The matrix of the map applied first **sits on the right**, next to $\\mathbf{x}$.",
+      "answer": "BA",
+      "answerDisplay": "$BA$",
+      "searchQuery": "matrix of composition of linear maps order BA"
+    },
+    {
+      "id": "derivative-matrix-p2",
+      "title": "What is the matrix of $D = \\frac{d}{dt}$ on $\\mathbb{P}_2$ relative to the basis $\\{1, t, t^2\\}$?",
+      "body": "$\\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}$\n\nColumn $j$ holds the **coordinates** of $D$ applied to basis vector $j$: $D(1) = 0$, $D(t) = 1$, $D(t^2) = 2t$.\n\nKey idea: Its null space (the constants) is nonzero, so $D$ is not invertible.",
+      "searchQuery": "matrix of derivative on P2 standard basis"
+    },
+    {
+      "id": "eigenvector-definition",
+      "title": "What are an eigenvector and an eigenvalue of a square matrix $A$?",
+      "body": "An eigenvector is a **nonzero** $\\mathbf{v}$ with $A\\mathbf{v} = \\lambda\\mathbf{v}$ for some scalar $\\lambda$, and that $\\lambda$ is its eigenvalue.\n\n$A$ only stretches, shrinks or flips an eigenvector along its own line.\n\nWatch out: The zero vector is never an eigenvector, but $\\lambda = 0$ can be an eigenvalue.",
+      "searchQuery": "eigenvector eigenvalue definition Av = lambda v"
+    },
+    {
+      "id": "characteristic-equation",
+      "title": "Which equation do you solve to find the eigenvalues of a square matrix $A$?",
+      "body": "The characteristic equation $\\det(A - \\lambda I) = 0$.\n\nWhy: $A\\mathbf{v} = \\lambda\\mathbf{v}$ with $\\mathbf{v} \\neq \\mathbf{0}$ means $(A - \\lambda I)\\mathbf{v} = \\mathbf{0}$ has a nontrivial solution, which happens exactly when $A - \\lambda I$ is **singular**.",
+      "searchQuery": "characteristic equation det(A - lambda I) = 0 eigenvalues"
+    },
+    {
+      "id": "eigenvalues-2x2",
+      "title": "What are the eigenvalues of $\\begin{pmatrix} 4 & 1 \\\\ 2 & 3 \\end{pmatrix}$?",
+      "body": "$\\lambda = 2$ and $\\lambda = 5$.\n\nFor a $2 \\times 2$ matrix, $\\det(A - \\lambda I) = \\lambda^2 - (\\operatorname{tr}A)\\lambda + \\det A = \\lambda^2 - 7\\lambda + 10 = (\\lambda - 2)(\\lambda - 5)$.\n\nTip: verify: $2 + 5 = 7$ is the **trace** and $2 \\cdot 5 = 10$ is the determinant.",
+      "answer": "2, 5",
+      "acceptedAnswers": [
+        "5, 2",
+        "2 and 5",
+        "5 and 2"
+      ],
+      "answerDisplay": "$\\lambda = 2,\\ 5$",
+      "searchQuery": "eigenvalues of 2x2 matrix trace determinant"
+    },
+    {
+      "id": "eigenvector-for-eigenvalue",
+      "title": "Find an eigenvector of $\\begin{pmatrix} 4 & 1 \\\\ 2 & 3 \\end{pmatrix}$ for the eigenvalue $\\lambda = 5$.",
+      "body": "$\\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$, or **any nonzero multiple** of it.\n\n$A - 5I = \\begin{pmatrix} -1 & 1 \\\\ 2 & -2 \\end{pmatrix}$, so $-x + y = 0$.\n\nTip: verify: $A\\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} = \\begin{pmatrix} 5 \\\\ 5 \\end{pmatrix}$.",
+      "searchQuery": "find eigenvector for eigenvalue null space A minus lambda I"
+    },
+    {
+      "id": "eigenvalues-triangular",
+      "title": "What are the eigenvalues of $\\begin{pmatrix} 3 & 7 & -1 \\\\ 0 & -2 & 4 \\\\ 0 & 0 & 5 \\end{pmatrix}$?",
+      "body": "$3$, $-2$ and $5$: the **diagonal entries**.\n\n$A - \\lambda I$ is still triangular, so $\\det(A - \\lambda I) = (3 - \\lambda)(-2 - \\lambda)(5 - \\lambda)$.\n\nWatch out: This shortcut works only for triangular (or diagonal) matrices.",
+      "answer": "-2, 3, 5",
+      "acceptedAnswers": [
+        "3, -2, 5",
+        "-2, 5, 3",
+        "3, 5, -2",
+        "5, -2, 3",
+        "5, 3, -2"
+      ],
+      "answerDisplay": "$\\lambda = 3,\\ -2,\\ 5$",
+      "searchQuery": "eigenvalues of triangular matrix diagonal entries"
+    },
+    {
+      "id": "eigenvalue-zero-singular",
+      "title": "$0$ is an eigenvalue of a square matrix $A$. Is $A$ invertible?",
+      "body": "No.\n\n$\\lambda = 0$ means $A\\mathbf{v} = \\mathbf{0}$ for some $\\mathbf{v} \\neq \\mathbf{0}$, so $A$ has a **nontrivial null space** and $\\det A = 0$.\n\nKey idea: Conversely, $A$ is invertible exactly when $0$ is not an eigenvalue.",
+      "searchQuery": "zero eigenvalue implies singular matrix"
+    },
+    {
+      "id": "trace-missing-eigenvalue",
+      "title": "A $2 \\times 2$ matrix has trace $7$ and one eigenvalue equal to $3$. What is the other eigenvalue?",
+      "body": "$4$.\n\nKey idea: The trace equals the **sum of the eigenvalues**, counted with multiplicity: $3 + \\lambda_2 = 7$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "lambda=4"
+      ],
+      "answerDisplay": "$\\lambda_2 = 4$",
+      "searchQuery": "trace equals sum of eigenvalues find missing eigenvalue"
+    },
+    {
+      "id": "det-product-of-eigenvalues",
+      "title": "A $3 \\times 3$ matrix has eigenvalues $1$, $-2$ and $4$. What is its determinant?",
+      "body": "$-8$.\n\nThe determinant is the **product of the eigenvalues**, counted with multiplicity: $1 \\cdot (-2) \\cdot 4$.\n\nTip: the trace is their sum, $3$.",
+      "answer": "-8",
+      "searchQuery": "determinant equals product of eigenvalues"
+    },
+    {
+      "id": "eigenspace-definition",
+      "title": "What is the eigenspace of $A$ for an eigenvalue $\\lambda$?",
+      "body": "$\\operatorname{Nul}(A - \\lambda I)$: all eigenvectors for $\\lambda$, together with $\\mathbf{0}$.\n\nIt is a subspace, and its dimension is the **geometric multiplicity** of $\\lambda$.\n\nTip: Find a basis by row reducing $A - \\lambda I$.",
+      "searchQuery": "eigenspace definition null space geometric multiplicity"
+    },
+    {
+      "id": "eigenvalue-of-matrix-polynomial",
+      "title": "$A\\mathbf{v} = 3\\mathbf{v}$ with $\\mathbf{v} \\neq \\mathbf{0}$. What is the eigenvalue of $A^2 - 2A + I$ for the eigenvector $\\mathbf{v}$?",
+      "body": "$4$.\n\n$A^2\\mathbf{v} = 9\\mathbf{v}$, so $(A^2 - 2A + I)\\mathbf{v} = (9 - 6 + 1)\\mathbf{v}$.\n\nKey idea: In general, if $A\\mathbf{v} = \\lambda\\mathbf{v}$ then $p(A)\\mathbf{v} = p(\\lambda)\\mathbf{v}$ for any polynomial $p$, with the **same eigenvector**.",
+      "answer": "4",
+      "searchQuery": "eigenvalue of polynomial in a matrix p(lambda)"
+    },
+    {
+      "id": "eigenvalue-of-inverse",
+      "title": "$A$ is invertible and has eigenvalue $4$. What is the corresponding eigenvalue of $A^{-1}$?",
+      "body": "$\\tfrac{1}{4}$, with the **same eigenvector**.\n\nWhy: Multiply $A\\mathbf{v} = 4\\mathbf{v}$ by $A^{-1}$: $\\mathbf{v} = 4A^{-1}\\mathbf{v}$, so $A^{-1}\\mathbf{v} = \\tfrac{1}{4}\\mathbf{v}$.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25",
+        "4^-1"
+      ],
+      "answerDisplay": "$\\tfrac{1}{4}$",
+      "searchQuery": "eigenvalue of inverse matrix reciprocal"
+    },
+    {
+      "id": "distinct-eigenvalues-independent",
+      "title": "Eigenvectors $\\mathbf{v}_1, \\dots, \\mathbf{v}_k$ of $A$ correspond to distinct eigenvalues. What can you conclude about them?",
+      "body": "They are **linearly independent**.\n\nKey idea: So an $n \\times n$ matrix has at most $n$ distinct eigenvalues, and if it has $n$ distinct real eigenvalues, its eigenvectors form a basis of $\\mathbb{R}^n$.",
+      "searchQuery": "eigenvectors for distinct eigenvalues linearly independent"
+    },
+    {
+      "id": "algebraic-vs-geometric-multiplicity",
+      "title": "What are the algebraic and geometric multiplicities of an eigenvalue, and which is larger?",
+      "body": "Algebraic: its multiplicity as a root of the characteristic polynomial. Geometric: the dimension of its eigenspace.\n\nKey idea: Always $1 \\leq$ **geometric** $\\leq$ algebraic.\nWatch out: When the geometric multiplicity is strictly smaller for some eigenvalue, the matrix is not diagonalizable.",
+      "searchQuery": "algebraic versus geometric multiplicity of eigenvalue"
+    },
+    {
+      "id": "geometric-multiplicity-compute",
+      "title": "$A = \\begin{pmatrix} 3 & 1 & 0 \\\\ 0 & 3 & 0 \\\\ 0 & 0 & 3 \\end{pmatrix}$. What is the geometric multiplicity of the eigenvalue $3$?",
+      "body": "$2$.\n\n$A - 3I = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix}$ has rank $1$, so its **null space has dimension** $3 - 1 = 2$.\n\nKey idea: The algebraic multiplicity is $3$, so $A$ is not diagonalizable.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "geometric multiplicity of eigenvalue rank of A minus lambda I"
+    },
+    {
+      "id": "rotation-complex-eigenvalues",
+      "title": "What are the eigenvalues of the $90^\\circ$ rotation matrix $\\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$?",
+      "body": "$\\lambda = \\pm i$.\n\nThe characteristic polynomial is $\\lambda^2 + 1$, which has no real roots: a $90^\\circ$ rotation leaves no real direction fixed.\n\nWatch out: complex eigenvalues of a real matrix always come in **conjugate pairs** $a \\pm bi$.",
+      "answer": "i, -i",
+      "acceptedAnswers": [
+        "-i, i",
+        "±i",
+        "+-i",
+        "+/-i",
+        "i and -i"
+      ],
+      "answerDisplay": "$\\lambda = \\pm i$",
+      "searchQuery": "eigenvalues of 90 degree rotation matrix complex"
+    },
+    {
+      "id": "similar-matrices-eigenvalues",
+      "title": "$B = P^{-1}AP$ for an invertible $P$. Do $A$ and $B$ have the same eigenvalues? The same eigenvectors?",
+      "body": "Same eigenvalues (in fact the **same characteristic polynomial**), but generally different eigenvectors.\n\nIf $A\\mathbf{v} = \\lambda\\mathbf{v}$, then $B(P^{-1}\\mathbf{v}) = \\lambda P^{-1}\\mathbf{v}$.\n\nKey idea: Similar matrices represent the same linear map in different bases, so they also share the determinant, trace and rank.",
+      "searchQuery": "similar matrices same eigenvalues characteristic polynomial"
+    },
+    {
+      "id": "row-reduction-changes-eigenvalues",
+      "title": "Can you read the eigenvalues of $A$ off the diagonal of an echelon form of $A$?",
+      "body": "No: **row operations change eigenvalues**.\n\n$\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$ has eigenvalues $1$ and $-1$, but one row swap turns it into $I$, whose only eigenvalue is $1$.\n\nWatch out: The diagonal shortcut applies only to $A$ itself, and only when $A$ is triangular.",
+      "searchQuery": "row operations change eigenvalues echelon form diagonal"
+    },
+    {
+      "id": "cayley-hamilton",
+      "title": "What does the Cayley–Hamilton theorem say?",
+      "body": "Every square matrix **satisfies its own characteristic equation**: if $p(\\lambda) = \\det(A - \\lambda I)$, then $p(A) = 0$.\n\nExample: For $2 \\times 2$ matrices: $A^2 - (\\operatorname{tr}A)A + (\\det A)I = 0$.\nWatch out: The tempting one-line proof $\\det(A - A I) = 0$ is invalid: it produces a number, not a matrix.",
+      "searchQuery": "Cayley-Hamilton theorem matrix satisfies characteristic equation"
+    },
+    {
+      "id": "diagonalizable-definition",
+      "title": "What does it mean for a square matrix $A$ to be diagonalizable?",
+      "body": "$A = PDP^{-1}$ for some invertible $P$ and diagonal $D$; that is, $A$ is **similar to a diagonal matrix**.\n\nKey idea: In the basis formed by the columns of $P$, the map $\\mathbf{x} \\mapsto A\\mathbf{x}$ just scales each coordinate.",
+      "searchQuery": "diagonalizable matrix definition PDP inverse"
+    },
+    {
+      "id": "diagonalization-theorem",
+      "title": "When is an $n \\times n$ matrix $A$ diagonalizable, and how do you build $P$ and $D$?",
+      "body": "Exactly when $A$ has $n$ **linearly independent eigenvectors**.\n\nPut those eigenvectors in the columns of $P$, and their eigenvalues on the diagonal of $D$ in the same order.\n\nTip: Then $AP = PD$, so $A = PDP^{-1}$.",
+      "searchQuery": "diagonalization theorem n independent eigenvectors P and D"
+    },
+    {
+      "id": "distinct-eigenvalues-diagonalizable",
+      "title": "A $3 \\times 3$ matrix has three distinct real eigenvalues. Is it diagonalizable?",
+      "body": "Yes.\n\nEigenvectors for distinct eigenvalues are **independent**, so there are $3$ independent eigenvectors.\n\nWatch out: The condition is sufficient but not necessary: $I_3$ has the single eigenvalue $1$ and is already diagonal.",
+      "searchQuery": "three distinct eigenvalues diagonalizable sufficient not necessary"
+    },
+    {
+      "id": "not-diagonalizable-shear",
+      "title": "Why is $\\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}$ not diagonalizable?",
+      "body": "Its only eigenvalue, $2$, has a **one-dimensional eigenspace**, so there aren't $2$ independent eigenvectors.\n\nWhy: $A - 2I = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$ has rank $1$, so the eigenspace is spanned by $(1, 0)$ alone: algebraic multiplicity $2$, geometric multiplicity $1$.",
+      "searchQuery": "why shear matrix not diagonalizable eigenspace dimension"
+    },
+    {
+      "id": "diagonalizable-multiplicity-criterion",
+      "title": "In terms of multiplicities, when is a matrix with all real eigenvalues diagonalizable?",
+      "body": "When every eigenvalue's **geometric multiplicity** equals its algebraic multiplicity.\n\nEquivalently, the dimensions of the eigenspaces add up to $n$.\n\nWatch out: A single deficient eigenvalue is enough to block diagonalization.",
+      "searchQuery": "diagonalizable geometric equals algebraic multiplicity"
+    },
+    {
+      "id": "powers-via-diagonalization",
+      "title": "$A = PDP^{-1}$ with $D$ diagonal. What is $A^k$?",
+      "body": "$PD^kP^{-1}$.\n\nThe **inner factors cancel**: $A^2 = PDP^{-1}PDP^{-1} = PD^2P^{-1}$, and so on.\n\nTip: $D^k$ is easy: raise each diagonal entry to the $k$th power.",
+      "answer": "PD^kP^-1",
+      "acceptedAnswers": [
+        "PD^kP^(-1)",
+        "P D^k inv(P)"
+      ],
+      "answerDisplay": "$PD^kP^{-1}$",
+      "searchQuery": "matrix power via diagonalization A^k = P D^k P inverse"
+    },
+    {
+      "id": "diagonalize-2x2-example",
+      "title": "Diagonalize $A = \\begin{pmatrix} 2 & 3 \\\\ 0 & -1 \\end{pmatrix}$: find $P$ and $D$ with $A = PDP^{-1}$.",
+      "body": "$P = \\begin{pmatrix} 1 & 1 \\\\ 0 & -1 \\end{pmatrix}$, $D = \\begin{pmatrix} 2 & 0 \\\\ 0 & -1 \\end{pmatrix}$\n\nThe **eigenvalues** are the diagonal entries $2$ and $-1$. $\\operatorname{Nul}(A - 2I)$ gives $(1, 0)$ and $\\operatorname{Nul}(A + I)$ gives $(1, -1)$.\n\nTip: Nonzero multiples of these columns also work, as long as each column stays matched with its eigenvalue in $D$.",
+      "searchQuery": "diagonalize 2x2 matrix example find P and D"
+    },
+    {
+      "id": "diagonalizable-vs-invertible",
+      "title": "Is every diagonalizable matrix invertible? Is every invertible matrix diagonalizable?",
+      "body": "No to both: the two properties are **independent**.\n\n$\\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}$ is diagonal but singular, and $\\begin{pmatrix} 1 & 1 \\\\ 0 & 1 \\end{pmatrix}$ is invertible but not diagonalizable.\n\nKey idea: Invertibility is about whether $0$ is an eigenvalue; diagonalizability is about having enough eigenvectors.",
+      "searchQuery": "diagonalizable versus invertible independent properties"
+    },
+    {
+      "id": "orthogonal-complement-definition",
+      "title": "What is the orthogonal complement $W^\\perp$ of a subspace $W$ of $\\mathbb{R}^n$?",
+      "body": "The set of all vectors **orthogonal to every vector** in $W$.\n\n$W^\\perp$ is a subspace, $\\dim W + \\dim W^\\perp = n$, and $(W^\\perp)^\\perp = W$.\n\nTip: To test membership, it's enough to check orthogonality to a spanning set of $W$.",
+      "searchQuery": "orthogonal complement definition dimension W perp"
+    },
+    {
+      "id": "row-space-complement",
+      "title": "For an $m \\times n$ matrix $A$, what is $(\\operatorname{Row}A)^\\perp$?",
+      "body": "$\\operatorname{Nul}A$.\n\n$A\\mathbf{x} = \\mathbf{0}$ says exactly that $\\mathbf{x}$ is **orthogonal to every row** of $A$.\n\nKey idea: Applying this to $A^T$ gives $(\\operatorname{Col}A)^\\perp = \\operatorname{Nul}A^T$.",
+      "answer": "Nul A",
+      "acceptedAnswers": [
+        "null space of A",
+        "Null A",
+        "N(A)",
+        "ker A",
+        "kernel of A",
+        "Nul(A)",
+        "null space"
+      ],
+      "answerDisplay": "$\\operatorname{Nul}A$",
+      "searchQuery": "orthogonal complement of row space is null space"
+    },
+    {
+      "id": "orthogonal-set-independent",
+      "title": "Why is an orthogonal set of nonzero vectors linearly independent?",
+      "body": "**Dot** a dependence relation $c_1\\mathbf{u}_1 + \\cdots + c_p\\mathbf{u}_p = \\mathbf{0}$ with $\\mathbf{u}_j$: every term but one vanishes, leaving $c_j(\\mathbf{u}_j \\cdot \\mathbf{u}_j) = 0$.\n\nKey idea: Since $\\mathbf{u}_j \\neq \\mathbf{0}$, $\\mathbf{u}_j \\cdot \\mathbf{u}_j > 0$, so $c_j = 0$ for every $j$.",
+      "searchQuery": "orthogonal set of nonzero vectors linearly independent proof"
+    },
+    {
+      "id": "orthogonal-basis-weights",
+      "title": "$\\{\\mathbf{u}_1, \\dots, \\mathbf{u}_p\\}$ is an orthogonal basis for $W$ and $\\mathbf{y} \\in W$. In $\\mathbf{y} = c_1\\mathbf{u}_1 + \\cdots + c_p\\mathbf{u}_p$, what is $c_j$?",
+      "body": "$c_j = \\dfrac{\\mathbf{y} \\cdot \\mathbf{u}_j}{\\mathbf{u}_j \\cdot \\mathbf{u}_j}$\n\n**No row reduction needed**: dot both sides with $\\mathbf{u}_j$ and the other terms vanish.\n\nTip: For an orthonormal basis this is just $c_j = \\mathbf{y} \\cdot \\mathbf{u}_j$.",
+      "searchQuery": "weights in orthogonal basis expansion formula"
+    },
+    {
+      "id": "orthogonal-matrix-inverse",
+      "title": "$Q$ is a square matrix with orthonormal columns. What is $Q^{-1}$?",
+      "body": "$Q^{-1} = Q^T$.\n\nThe $(i, j)$ entry of $Q^TQ$ is $\\mathbf{q}_i \\cdot \\mathbf{q}_j$, which is $1$ if $i = j$ and $0$ otherwise, so $Q^TQ = I$.\n\nKey idea: Such a $Q$ is called an **orthogonal matrix**, and its rows are orthonormal too.",
+      "answer": "Q^T",
+      "acceptedAnswers": [
+        "QT",
+        "Q'",
+        "transpose of Q"
+      ],
+      "answerDisplay": "$Q^T$",
+      "searchQuery": "orthogonal matrix inverse equals transpose orthonormal columns"
+    },
+    {
+      "id": "orthogonal-matrix-preserves-length",
+      "title": "Why does multiplying by an orthogonal matrix $Q$ preserve lengths?",
+      "body": "$\\|Q\\mathbf{x}\\|^2 = (Q\\mathbf{x})^T(Q\\mathbf{x}) = \\mathbf{x}^TQ^TQ\\mathbf{x} = \\mathbf{x}^T\\mathbf{x} = \\|\\mathbf{x}\\|^2$.\n\nThe same computation shows $Q$ **preserves dot products**, hence angles.\n\nKey idea: Taking determinants of $Q^TQ = I$ gives $(\\det Q)^2 = 1$, so $\\det Q = \\pm 1$.",
+      "searchQuery": "orthogonal matrix preserves length proof"
+    },
+    {
+      "id": "orthonormal-columns-nonsquare",
+      "title": "$U$ is $m \\times n$ with $m > n$ and orthonormal columns. Which is true: $U^TU = I$ or $UU^T = I$?",
+      "body": "$U^TU = I_n$, but $UU^T \\neq I_m$.\n\n$UU^T$ is the **orthogonal projection** onto $\\operatorname{Col}U$, so $UU^T\\mathbf{y} = \\mathbf{y}$ only for $\\mathbf{y}$ in that subspace.\n\nWatch out: $U$ is not square, so it has no inverse.",
+      "searchQuery": "tall matrix orthonormal columns U transpose U identity"
+    },
+    {
+      "id": "projection-matrix-properties",
+      "title": "An orthogonal projection matrix $P$ onto a subspace $W$ satisfies which two matrix equations?",
+      "body": "$P^2 = P$ and $P^T = P$.\n\n**Projecting twice** changes nothing, and orthogonal projections are symmetric.\n\nKey idea: Its eigenvalues are $1$ (on $W$) and $0$ (on $W^\\perp$), and $I - P$ projects onto $W^\\perp$.",
+      "searchQuery": "orthogonal projection matrix P squared equals P symmetric"
+    },
+    {
+      "id": "gram-schmidt-step",
+      "title": "In Gram–Schmidt, how is $\\mathbf{v}_2$ computed from $\\mathbf{x}_2$ and the first vector $\\mathbf{v}_1$?",
+      "body": "$\\mathbf{v}_2 = \\mathbf{x}_2 - \\dfrac{\\mathbf{x}_2 \\cdot \\mathbf{v}_1}{\\mathbf{v}_1 \\cdot \\mathbf{v}_1}\\mathbf{v}_1$\n\nSubtract the **projection** of $\\mathbf{x}_2$ onto $\\mathbf{v}_1$, leaving the part orthogonal to $\\mathbf{v}_1$.\n\nKey idea: Each later $\\mathbf{v}_k$ subtracts the projections onto all of $\\mathbf{v}_1, \\dots, \\mathbf{v}_{k-1}$.",
+      "searchQuery": "Gram-Schmidt formula second orthogonal vector projection"
+    },
+    {
+      "id": "gram-schmidt-example",
+      "title": "Apply Gram–Schmidt to $\\mathbf{x}_1 = (1, 0, 1)$ and $\\mathbf{x}_2 = (1, 1, 3)$, with $\\mathbf{v}_1 = \\mathbf{x}_1$. What is $\\mathbf{v}_2$?",
+      "body": "$\\mathbf{v}_2 = (-1, 1, 1)$.\n\n$\\dfrac{\\mathbf{x}_2 \\cdot \\mathbf{v}_1}{\\mathbf{v}_1 \\cdot \\mathbf{v}_1} = \\dfrac{4}{2} = 2$, so $\\mathbf{v}_2 = (1, 1, 3) - 2(1, 0, 1)$. **Check**: $\\mathbf{v}_2 \\cdot \\mathbf{v}_1 = -1 + 0 + 1 = 0$.\n\nTip: Divide each vector by its length if you need an orthonormal basis.",
+      "answer": "(-1, 1, 1)",
+      "acceptedAnswers": [
+        "-1, 1, 1",
+        "[-1, 1, 1]",
+        "<-1, 1, 1>"
+      ],
+      "answerDisplay": "$\\mathbf{v}_2 = (-1, 1, 1)$",
+      "searchQuery": "Gram-Schmidt worked example orthogonal vectors R3"
+    },
+    {
+      "id": "qr-factorization",
+      "title": "In the QR factorization $A = QR$ of a matrix with linearly independent columns, what are $Q$ and $R$?",
+      "body": "$Q$ has **orthonormal columns** spanning $\\operatorname{Col}A$ (Gram–Schmidt on the columns of $A$, then normalized), and $R$ is upper triangular and invertible, with positive diagonal entries.\n\nTip: Since $Q^TQ = I$, you can recover $R = Q^TA$.",
+      "searchQuery": "QR factorization orthonormal columns upper triangular"
+    },
+    {
+      "id": "normal-equations",
+      "title": "Which equations does a least-squares solution $\\hat{\\mathbf{x}}$ of $A\\mathbf{x} = \\mathbf{b}$ satisfy?",
+      "body": "The **normal equations** $A^TA\\hat{\\mathbf{x}} = A^T\\mathbf{b}$.\n\nThey say that the residual $\\mathbf{b} - A\\hat{\\mathbf{x}}$ is orthogonal to every column of $A$.\n\nKey idea: They are always consistent, even when $A\\mathbf{x} = \\mathbf{b}$ is not.",
+      "searchQuery": "normal equations least squares A transpose A x hat"
+    },
+    {
+      "id": "least-squares-unique",
+      "title": "When does $A\\mathbf{x} = \\mathbf{b}$ have exactly one least-squares solution, and what is it?",
+      "body": "When the columns of $A$ are linearly **independent**; then $\\hat{\\mathbf{x}} = (A^TA)^{-1}A^T\\mathbf{b}$.\n\nWhy: Independent columns make $A^TA$ invertible.\nWatch out: Otherwise there are infinitely many least-squares solutions, all giving the same $A\\hat{\\mathbf{x}}$.",
+      "searchQuery": "unique least-squares solution independent columns formula"
+    },
+    {
+      "id": "least-squares-geometry",
+      "title": "Geometrically, what is $A\\hat{\\mathbf{x}}$ when $\\hat{\\mathbf{x}}$ is a least-squares solution of $A\\mathbf{x} = \\mathbf{b}$?",
+      "body": "The orthogonal projection of $\\mathbf{b}$ onto $\\operatorname{Col}A$, the point of $\\operatorname{Col}A$ **closest** to $\\mathbf{b}$.\n\nKey idea: The residual $\\mathbf{b} - A\\hat{\\mathbf{x}}$ lies in $(\\operatorname{Col}A)^\\perp = \\operatorname{Nul}A^T$, and $\\hat{\\mathbf{x}}$ minimizes $\\|\\mathbf{b} - A\\mathbf{x}\\|$.",
+      "searchQuery": "least squares solution orthogonal projection onto column space"
+    },
+    {
+      "id": "least-squares-line",
+      "title": "Find the least-squares line $y = \\beta_0 + \\beta_1x$ through the points $(-1, 2)$, $(0, 1)$, $(1, 6)$.",
+      "body": "$y = 3 + 2x$.\n\nWith rows $(1, x_i)$, $A^TA = \\begin{pmatrix} 3 & 0 \\\\ 0 & 2 \\end{pmatrix}$ and $A^T\\mathbf{y} = \\begin{pmatrix} 9 \\\\ 4 \\end{pmatrix}$, so $\\beta_0 = 3$ and $\\beta_1 = 2$.\n\nTip: The **residuals** $(1, -2, 1)$ are orthogonal to both columns of $A$.",
+      "answer": "y = 3 + 2x",
+      "acceptedAnswers": [
+        "y = 2x + 3",
+        "3 + 2x",
+        "2x + 3"
+      ],
+      "answerDisplay": "$y = 3 + 2x$",
+      "searchQuery": "least squares line through three points example"
+    },
+    {
+      "id": "qr-least-squares",
+      "title": "Given $A = QR$, how do you compute the least-squares solution of $A\\mathbf{x} = \\mathbf{b}$?",
+      "body": "Solve $R\\hat{\\mathbf{x}} = Q^T\\mathbf{b}$ by **back substitution**.\n\nSubstituting $A = QR$ into the normal equations gives $R^TR\\hat{\\mathbf{x}} = R^TQ^T\\mathbf{b}$, and $R^T$ is invertible.\n\nWhy: This avoids forming $A^TA$, which squares the condition number and loses accuracy.",
+      "searchQuery": "least squares via QR factorization back substitution"
+    },
+    {
+      "id": "projection-onto-column-space",
+      "title": "$A$ has linearly independent columns. Which matrix projects $\\mathbb{R}^m$ orthogonally onto $\\operatorname{Col}A$?",
+      "body": "$P = A(A^TA)^{-1}A^T$.\n\nIt sends $\\mathbf{b}$ to $A\\hat{\\mathbf{x}}$, the **least-squares fit**.\n\nTip: If the columns are orthonormal, $A^TA = I$ and $P$ simplifies to $AA^T$.",
+      "searchQuery": "projection matrix onto column space formula"
+    },
+    {
+      "id": "spectral-theorem",
+      "title": "What does the spectral theorem say about a real symmetric matrix $A$?",
+      "body": "$A$ has only real eigenvalues and is **orthogonally diagonalizable**: $A = QDQ^T$ with $Q$ orthogonal and $D$ diagonal.\n\nThe columns of $Q$ are orthonormal eigenvectors.\n\nKey idea: Conversely, every matrix $QDQ^T$ is symmetric, so for real matrices, orthogonally diagonalizable means symmetric.",
+      "searchQuery": "spectral theorem real symmetric matrix orthogonally diagonalizable"
+    },
+    {
+      "id": "symmetric-eigenvectors-orthogonal",
+      "title": "Why are eigenvectors of a symmetric matrix for distinct eigenvalues orthogonal?",
+      "body": "$\\lambda_1(\\mathbf{v}_1 \\cdot \\mathbf{v}_2) = (A\\mathbf{v}_1) \\cdot \\mathbf{v}_2 = \\mathbf{v}_1 \\cdot (A\\mathbf{v}_2) = \\lambda_2(\\mathbf{v}_1 \\cdot \\mathbf{v}_2)$, using $A^T = A$.\n\nKey idea: So $(\\lambda_1 - \\lambda_2)(\\mathbf{v}_1 \\cdot \\mathbf{v}_2) = 0$, and $\\lambda_1 \\neq \\lambda_2$ **forces** $\\mathbf{v}_1 \\cdot \\mathbf{v}_2 = 0$.",
+      "searchQuery": "symmetric matrix eigenvectors distinct eigenvalues orthogonal"
+    },
+    {
+      "id": "positive-definite-definition",
+      "title": "When is a symmetric matrix $A$ positive definite, and what is the eigenvalue test?",
+      "body": "When $\\mathbf{x}^TA\\mathbf{x} > 0$ for every $\\mathbf{x} \\neq \\mathbf{0}$; equivalently, when all eigenvalues of $A$ are positive.\n\nKey idea: Positive definite matrices are invertible.\nTip: With $\\geq$ in place of $>$ (all eigenvalues $\\geq 0$), $A$ is **positive semidefinite**.",
+      "searchQuery": "positive definite matrix eigenvalue test"
+    },
+    {
+      "id": "positive-definite-2x2-test",
+      "title": "For which values of $k$ is $\\begin{pmatrix} 2 & k \\\\ k & 8 \\end{pmatrix}$ positive definite?",
+      "body": "$-4 < k < 4$.\n\nA symmetric $2 \\times 2$ matrix is positive definite iff its **top-left entry** is positive ($2 > 0$) and its determinant is positive: $16 - k^2 > 0$.\n\nWatch out: At $k = \\pm 4$ the determinant is $0$, so the matrix is only semidefinite.",
+      "answer": "-4 < k < 4",
+      "acceptedAnswers": [
+        "|k| < 4",
+        "(-4, 4)"
+      ],
+      "answerDisplay": "$-4 < k < 4$",
+      "searchQuery": "positive definite 2x2 symmetric matrix parameter k"
+    },
+    {
+      "id": "quadratic-form-matrix",
+      "title": "Which symmetric matrix $A$ gives $Q(x, y) = 3x^2 + 4xy + 5y^2$ as $\\mathbf{x}^TA\\mathbf{x}$?",
+      "body": "$A = \\begin{pmatrix} 3 & 2 \\\\ 2 & 5 \\end{pmatrix}$\n\nThe cross term $4xy$ is **split evenly** between the two off-diagonal entries, because $\\mathbf{x}^TA\\mathbf{x}$ contains $a_{12}xy + a_{21}yx$.\n\nWatch out: Putting $4$ in both spots is the classic mistake.",
+      "searchQuery": "quadratic form symmetric matrix cross term"
+    },
+    {
+      "id": "svd-definition",
+      "title": "What is the singular value decomposition of an $m \\times n$ matrix $A$?",
+      "body": "$A = U\\Sigma V^T$, with $U$ ($m \\times m$) and $V$ ($n \\times n$) orthogonal, and $\\Sigma$ ($m \\times n$) zero except for $\\sigma_1 \\geq \\sigma_2 \\geq \\cdots \\geq 0$ on its diagonal.\n\nKey idea: The $\\sigma_i$ are the **singular values**; the columns of $U$ and $V$ are the left and right singular vectors.",
+      "searchQuery": "singular value decomposition U Sigma V transpose"
+    },
+    {
+      "id": "singular-values-from-ata",
+      "title": "How are the singular values of $A$ related to the matrix $A^TA$?",
+      "body": "They are the square roots of the eigenvalues of $A^TA$: $\\sigma_i = \\sqrt{\\lambda_i}$.\n\nKey idea: $A^TA$ is symmetric with eigenvalues $\\lambda_i = \\|A\\mathbf{v}_i\\|^2 \\geq 0$, and its orthonormal eigenvectors $\\mathbf{v}_i$ are the **right singular vectors**.",
+      "searchQuery": "singular values square roots eigenvalues A transpose A"
+    },
+    {
+      "id": "singular-values-diagonal",
+      "title": "What are the singular values of $\\begin{pmatrix} 3 & 0 \\\\ 0 & -4 \\end{pmatrix}$?",
+      "body": "$4$ and $3$.\n\n$A^TA = \\begin{pmatrix} 9 & 0 \\\\ 0 & 16 \\end{pmatrix}$, so the singular values are $\\sqrt{16}$ and $\\sqrt{9}$, listed in **decreasing order**.\n\nWatch out: Singular values are never negative, unlike the eigenvalue $-4$.\nKey idea: The rank is the number of nonzero singular values, here $2$.",
+      "answer": "4, 3",
+      "acceptedAnswers": [
+        "3, 4",
+        "4 and 3",
+        "3 and 4"
+      ],
+      "answerDisplay": "$\\sigma_1 = 4,\\ \\sigma_2 = 3$",
+      "searchQuery": "singular values of a diagonal matrix"
+    },
+    {
+      "id": "best-low-rank-approximation",
+      "title": "Given the SVD of $A$, what is the best rank-$k$ approximation to $A$ in the 2-norm or Frobenius norm?",
+      "body": "$A_k = \\sigma_1\\mathbf{u}_1\\mathbf{v}_1^T + \\cdots + \\sigma_k\\mathbf{u}_k\\mathbf{v}_k^T$: keep the $k$ largest singular values and drop the rest.\n\nKey idea: This is the **Eckart–Young theorem**; the error in the 2-norm is $\\sigma_{k+1}$.\nTip: It underlies PCA and image compression.",
+      "searchQuery": "Eckart-Young best rank k approximation SVD"
+    },
+    {
+      "id": "condition-number",
+      "title": "An invertible matrix has largest singular value $50$ and smallest singular value $0.5$. What is its condition number?",
+      "body": "$100$.\n\n$\\kappa(A) = \\sigma_{\\max}/\\sigma_{\\min} = 50/0.5$ (in the 2-norm).\n\nWatch out: A large $\\kappa$ means $A\\mathbf{x} = \\mathbf{b}$ is **ill-conditioned**: a small relative change in $\\mathbf{b}$ can change $\\mathbf{x}$ by up to $\\kappa$ times as much, relatively.",
+      "answer": "100",
+      "searchQuery": "condition number ratio of largest to smallest singular value"
+    },
+    {
+      "id": "svd-exists-for-every-matrix",
+      "title": "Which matrices have a singular value decomposition, and which can be diagonalized as $PDP^{-1}$?",
+      "body": "**Every matrix**, of any shape, has an SVD; only some square matrices are diagonalizable.\n\nKey idea: The SVD uses two different orthonormal bases ($V$ for inputs, $U$ for outputs), which lets it exist even for $\\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$ or a non-square $A$.",
+      "searchQuery": "SVD exists for every matrix versus diagonalization"
+    }
+  ]
+}

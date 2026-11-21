@@ -5,7 +5,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 
-select plan(28);
+select plan(29);
 
 -- Two students, A and B.
 insert into auth.users (id, email, aud, role, instance_id)
@@ -34,6 +34,11 @@ select is((select count(*)::int from public.memories where due_on = current_date
   'with 5 a day, five cards are due today');
 select is((select count(*)::int from public.memories where due_on = current_date + 1), 5,
   'and five more tomorrow');
+select is(
+  (select count(*)::int from public.memories m join public.pack_cards c on c.id = m.pack_card_id
+    where m.answer_display is not distinct from c.answer_display and m.search_query = c.search_query),
+  (select count(*)::int from public.pack_cards where pack_id = 'calc-derivatives'),
+  'copies keep each card''s formatted answer and learn-more search');
 select is(public.add_pack('calc-derivatives', current_date, 5), 0, 'adding the same pack again adds nothing');
 select is(
   (select array_agg(c.position order by m.created_at) from public.memories m join public.pack_cards c on c.id = m.pack_card_id),

@@ -1,0 +1,1030 @@
+{
+  "id": "stats-probability",
+  "title": "Probability Rules",
+  "course": "Intro Statistics",
+  "description": "Addition and multiplication rules, disjoint vs independent, conditional and total probability, Bayes, counting, expected value, variance of sums.",
+  "cards": [
+    {
+      "id": "general-addition-rule",
+      "title": "$P(A) = 0.5$, $P(B) = 0.4$ and $P(A \\cap B) = 0.2$. What is $P(A \\cup B)$?",
+      "body": "0.7\n\n**General addition rule**: $P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = 0.5 + 0.4 - 0.2 = 0.7$.\n\nWhy: subtract the overlap so it isn't counted twice.\nWatch out: only for disjoint events is $P(A \\cup B) = P(A) + P(B)$.",
+      "answer": "0.7",
+      "acceptedAnswers": [
+        "7/10",
+        "70%"
+      ],
+      "searchQuery": "general addition rule P(A or B)"
+    },
+    {
+      "id": "disjoint-vs-independent",
+      "title": "Can two disjoint (mutually exclusive) events, each with positive probability, be independent?",
+      "body": "No: disjoint events with nonzero probabilities are always **dependent**.\n\nDisjoint means $P(A \\cap B) = 0$, but independence would need $P(A \\cap B) = P(A)\\,P(B) > 0$.\n\nWhy: if $A$ happens you know $B$ didn't, so $P(B \\mid A) = 0 \\ne P(B)$.",
+      "searchQuery": "disjoint events cannot be independent"
+    },
+    {
+      "id": "checking-independence",
+      "title": "How do you check whether two events $A$ and $B$ are independent?",
+      "body": "Check whether $P(A \\cap B) = P(A)\\,P(B)$, or equivalently (when $P(B) > 0$) whether $P(A \\mid B) = P(A)$.\n\nExample: $P(A) = 0.6$, $P(B) = 0.5$, $P(A \\cap B) = 0.3$. Since $0.6 \\times 0.5 = 0.3$, $A$ and $B$ are **independent**.\nTip: if the product doesn't match, they're dependent.",
+      "searchQuery": "how to check independence of two events"
+    },
+    {
+      "id": "conditional-probability",
+      "title": "$P(A \\cap B) = 0.12$ and $P(B) = 0.4$. What is $P(A \\mid B)$?",
+      "body": "0.3\n\n$P(A \\mid B) = \\dfrac{P(A \\cap B)}{P(B)} = \\dfrac{0.12}{0.4} = 0.3$\n\nTip: divide by the probability of the condition (the event after the bar).\nWatch out: $P(A \\mid B)$ and $P(B \\mid A)$ are usually different.",
+      "answer": "0.3",
+      "acceptedAnswers": [
+        "3/10",
+        "30%"
+      ],
+      "searchQuery": "conditional probability formula P(A given B)"
+    },
+    {
+      "id": "dependent-draws",
+      "title": "Two cards are drawn without replacement from a standard 52-card deck. What is the probability that both are aces, as a fraction?",
+      "body": "$\\frac{1}{221} \\approx 0.0045$\n\nThe draws are dependent, so use the general multiplication rule: $P(A_1 \\cap A_2) = P(A_1)\\,P(A_2 \\mid A_1) = \\frac{4}{52} \\cdot \\frac{3}{51} = \\frac{1}{221}$.\n\nWatch out: with replacement (independent draws) it would be $\\left(\\frac{4}{52}\\right)^2 = \\frac{1}{169}$.",
+      "answer": "1/221",
+      "acceptedAnswers": [
+        "12/2652",
+        "0.0045",
+        "0.00452"
+      ],
+      "answerDisplay": "$\\frac{1}{221}$",
+      "searchQuery": "probability two aces without replacement"
+    },
+    {
+      "id": "at-least-one-complement",
+      "title": "A fair die is rolled 3 times. What is the probability of at least one 6, as a fraction?",
+      "body": "$\\frac{91}{216} \\approx 0.421$\n\nUse the **complement**: $P(\\text{at least one 6}) = 1 - P(\\text{no 6s}) = 1 - \\left(\\frac{5}{6}\\right)^3 = 1 - \\frac{125}{216} = \\frac{91}{216}$.\n\nWatch out: $3 \\times \\frac{1}{6} = \\frac{1}{2}$ overcounts rolls with two or more 6s.",
+      "answer": "91/216",
+      "acceptedAnswers": [
+        "0.421",
+        "0.42",
+        "0.4213",
+        "42.1%"
+      ],
+      "answerDisplay": "$\\frac{91}{216}$",
+      "searchQuery": "probability at least one six in three rolls complement"
+    },
+    {
+      "id": "law-of-total-probability",
+      "title": "Machine A makes 60% of a plant's parts (2% defective); Machine B makes 40% (5% defective). What is the probability that a random part is defective?",
+      "body": "0.032\n\n$P(D) = P(D \\mid A)P(A) + P(D \\mid B)P(B) = (0.02)(0.6) + (0.05)(0.4) = 0.012 + 0.020 = 0.032$\n\nTip: split by source, weight each defect rate by its share, and add.",
+      "answer": "0.032",
+      "acceptedAnswers": [
+        "3.2%",
+        "4/125"
+      ],
+      "searchQuery": "law of total probability defective parts two machines"
+    },
+    {
+      "id": "bayes-theorem",
+      "title": "State Bayes' theorem for $P(A \\mid B)$.",
+      "body": "$P(A \\mid B) = \\dfrac{P(B \\mid A)\\,P(A)}{P(B)}$, where $P(B) = P(B \\mid A)P(A) + P(B \\mid A^c)P(A^c)$\n\nIt reverses a conditional: from $P(B \\mid A)$, which you usually know (like a test's accuracy), to $P(A \\mid B)$, which you want.\n\nKey idea: the denominator is the law of total probability.",
+      "searchQuery": "Bayes' theorem formula P(A given B)"
+    },
+    {
+      "id": "bayes-medical-test",
+      "title": "1% of people have a disease. A test detects 90% of cases but also flags 5% of healthy people. What is $P(\\text{disease} \\mid \\text{positive})$, to three decimal places?",
+      "body": "0.154 (exactly $\\frac{2}{13}$)\n\n$P(D \\mid +) = \\dfrac{(0.90)(0.01)}{(0.90)(0.01) + (0.05)(0.99)} = \\dfrac{0.009}{0.0585}$\n\nWatch out: most positives are **false positives**, because healthy people vastly outnumber sick ones (low base rate).",
+      "answer": "0.154",
+      "acceptedAnswers": [
+        "0.15",
+        "0.1538",
+        "15.4%",
+        "15%",
+        "2/13"
+      ],
+      "searchQuery": "Bayes theorem disease test positive probability"
+    },
+    {
+      "id": "permutations-vs-combinations",
+      "title": "When do you count with permutations $P(n, r)$ versus combinations $\\binom{n}{r}$, and what are their formulas?",
+      "body": "$P(n, r) = \\dfrac{n!}{(n - r)!}$ when order matters; $\\binom{n}{r} = \\dfrac{n!}{r!\\,(n - r)!}$ when it doesn't.\n\nUse permutations for rankings and distinct roles, combinations for committees and hands.\n\nWhy: $\\binom{n}{r} = \\dfrac{P(n, r)}{r!}$, since each group of $r$ can be ordered $r!$ ways.\nExample: $P(10, 3) = 720$ but $\\binom{10}{3} = 120$.",
+      "searchQuery": "permutations vs combinations formulas order matters"
+    },
+    {
+      "id": "committee-count",
+      "title": "How many different 4-person committees can be chosen from 9 people?",
+      "body": "126\n\nOrder doesn't matter, so use a **combination**: $\\binom{9}{4} = \\dfrac{9!}{4!\\,5!} = \\dfrac{9 \\cdot 8 \\cdot 7 \\cdot 6}{4 \\cdot 3 \\cdot 2 \\cdot 1} = \\dfrac{3024}{24} = 126$.",
+      "answer": "126",
+      "searchQuery": "combinations committee of 4 from 9 people"
+    },
+    {
+      "id": "expected-value",
+      "title": "A game pays 10 dollars with probability 0.2; otherwise you lose 2 dollars. What is the expected value per play, in dollars?",
+      "body": "0.40 dollars per play (a 40-cent average gain)\n\n$E(X) = \\sum x\\,P(x) = 10(0.2) + (-2)(0.8) = 2 - 1.6 = 0.4$\n\nWatch out: it's a long-run average per play. No single play actually pays 40 cents.",
+      "answer": "0.4",
+      "acceptedAnswers": [
+        "40 cents",
+        "0.40 dollars"
+      ],
+      "searchQuery": "expected value of a game payoff"
+    },
+    {
+      "id": "sd-of-sum",
+      "title": "$X$ and $Y$ are independent, with $\\mathrm{SD}(X) = 3$ and $\\mathrm{SD}(Y) = 4$. What is $\\mathrm{SD}(X + Y)$?",
+      "body": "5\n\nFor independent variables, **variances add**, SDs don't: $\\mathrm{Var}(X + Y) = 3^2 + 4^2 = 25$, so $\\mathrm{SD}(X + Y) = \\sqrt{25} = 5$.\n\nWatch out: $3 + 4 = 7$ is the trap.\nTip: means always add: $E(X + Y) = E(X) + E(Y)$.",
+      "answer": "5",
+      "searchQuery": "standard deviation of sum of independent variables"
+    },
+    {
+      "id": "variance-of-difference",
+      "title": "For independent $X$ and $Y$, what is $\\mathrm{Var}(X - Y)$ in terms of $\\mathrm{Var}(X)$ and $\\mathrm{Var}(Y)$?",
+      "body": "$\\mathrm{Var}(X - Y) = \\mathrm{Var}(X) + \\mathrm{Var}(Y)$, the same as $\\mathrm{Var}(X + Y)$.\n\nSubtracting still adds uncertainty: $\\mathrm{Var}(X - Y) = \\mathrm{Var}(X) + (-1)^2\\,\\mathrm{Var}(Y)$.\n\nWatch out: the guess $\\mathrm{Var}(X) - \\mathrm{Var}(Y)$ is wrong and could even be negative.",
+      "searchQuery": "variance of difference of independent variables"
+    },
+    {
+      "id": "sample-space-definition",
+      "title": "In probability, what are the sample space and an event?",
+      "body": "The **sample space** $S$ is the set of all possible outcomes of a random process; an **event** is any subset of it.\n\nExample: for two coin flips, $S = \\{HH, HT, TH, TT\\}$, and the event \"exactly one head\" is $\\{HT, TH\\}$.",
+      "searchQuery": "sample space and event definition probability"
+    },
+    {
+      "id": "sample-space-size-coins",
+      "title": "How many outcomes are in the sample space for flipping a coin 3 times?",
+      "body": "8\n\nEach flip has 2 outcomes, so there are $2^3 = 8$ sequences: HHH, HHT, HTH, THH, HTT, THT, TTH, TTT.\n\nTip: with $n$ flips there are $2^n$.",
+      "answer": "8",
+      "acceptedAnswers": [
+        "eight",
+        "2^3"
+      ],
+      "searchQuery": "sample space size flipping coin 3 times"
+    },
+    {
+      "id": "probability-axioms",
+      "title": "What three axioms must every probability assignment satisfy?",
+      "body": "Nonnegativity, $P(S) = 1$, and additivity for disjoint events\n\n1. $P(A) \\ge 0$ for every event $A$\n2. $P(S) = 1$\n3. If $A_1, A_2, \\dots$ are disjoint, $P(A_1 \\cup A_2 \\cup \\cdots) = P(A_1) + P(A_2) + \\cdots$\n\nKey idea: everything else follows, including $P(A) \\le 1$ and the complement rule $P(A^c) = 1 - P(A)$.",
+      "searchQuery": "Kolmogorov axioms of probability"
+    },
+    {
+      "id": "classical-probability",
+      "title": "When does $P(A) = \\dfrac{\\text{outcomes in } A}{\\text{outcomes in } S}$ give the right probability?",
+      "body": "Only when all outcomes in the sample space are **equally likely**.\n\nIt works for fair dice, fair coins and well-shuffled cards.\n\nWatch out: it fails for lopsided outcomes. Winning the lottery is not 50% likely just because you either win or lose.",
+      "searchQuery": "classical probability equally likely outcomes"
+    },
+    {
+      "id": "two-dice-sum-seven",
+      "title": "Two fair dice are rolled. What is the probability that the sum is 7, as a fraction?",
+      "body": "$\\frac{1}{6}$\n\nOf the $6 \\times 6 = 36$ equally likely ordered outcomes, six give a sum of 7: $(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)$. So $P = \\frac{6}{36} = \\frac{1}{6}$.\n\nKey idea: 7 is the most likely sum.",
+      "answer": "1/6",
+      "acceptedAnswers": [
+        "6/36",
+        "0.167",
+        "0.1667"
+      ],
+      "answerDisplay": "$\\frac{1}{6}$",
+      "searchQuery": "two dice sum of 7 probability"
+    },
+    {
+      "id": "two-coins-two-heads",
+      "title": "Two fair coins are flipped. What is the probability of two heads, as a fraction?",
+      "body": "$\\frac{1}{4}$\n\nThe equally likely outcomes are HH, HT, TH, TT, and only HH works.\n\nWatch out: answering $\\frac{1}{3}$ by treating \"0, 1 or 2 heads\" as equally likely is wrong. One head can happen in two ways (HT and TH).",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25",
+        "25%"
+      ],
+      "answerDisplay": "$\\frac{1}{4}$",
+      "searchQuery": "two coins probability of two heads"
+    },
+    {
+      "id": "empirical-probability",
+      "title": "A thumbtack lands point-up 312 times in 800 tosses. What is the empirical probability that it lands point-up?",
+      "body": "0.39\n\n**Empirical** (relative frequency) probability: $\\dfrac{\\text{times the event occurred}}{\\text{number of trials}} = \\dfrac{312}{800} = 0.39$.\n\nTip: it's an estimate, and it becomes more reliable as the number of trials grows.",
+      "answer": "0.39",
+      "acceptedAnswers": [
+        "39%",
+        "39/100",
+        "312/800"
+      ],
+      "searchQuery": "empirical probability relative frequency"
+    },
+    {
+      "id": "law-of-large-numbers",
+      "title": "What does the law of large numbers say?",
+      "body": "As the number of independent trials grows, the relative frequency of an event gets closer to its true probability (and a sample mean to the population mean).\n\nWatch out: it describes the long run only. It says nothing about the next trial and doesn't make short-run results \"even out\".",
+      "searchQuery": "law of large numbers definition"
+    },
+    {
+      "id": "gamblers-fallacy",
+      "title": "A fair coin has landed heads 5 times in a row. What is the probability of heads on the next flip, as a fraction?",
+      "body": "$\\frac{1}{2}$\n\nFlips are **independent**: the coin has no memory, so tails is never \"due\". Believing otherwise is the gambler's fallacy.\n\nWhy: the law of large numbers works by swamping early streaks with many later flips, not by compensating for them.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5",
+        "50%"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "gambler's fallacy coin heads in a row"
+    },
+    {
+      "id": "odds-from-probability",
+      "title": "An event has probability 0.2. What are the odds in favor of it?",
+      "body": "1 to 4 (1:4)\n\nOdds in favor $= \\dfrac{p}{1 - p} = \\dfrac{0.2}{0.8} = \\dfrac{1}{4}$: one success for every four failures, on average.\n\nWatch out: odds of 1:4 are not a probability of $\\frac{1}{4}$. The probability is $\\frac{1}{1 + 4} = 0.2$.",
+      "answer": "1:4",
+      "acceptedAnswers": [
+        "1 to 4",
+        "1/4",
+        "0.25"
+      ],
+      "searchQuery": "odds in favor from probability"
+    },
+    {
+      "id": "probability-from-odds",
+      "title": "The odds against an event are 7 to 3. What is the probability that it happens?",
+      "body": "0.3\n\nOdds against of 7 to 3 mean 7 failures for every 3 successes, so $P = \\dfrac{3}{7 + 3} = 0.3$.\n\nTip: in general, odds in favor of $a$ to $b$ give $P = \\dfrac{a}{a + b}$.",
+      "answer": "0.3",
+      "acceptedAnswers": [
+        "3/10",
+        "30%"
+      ],
+      "searchQuery": "probability from odds against"
+    },
+    {
+      "id": "set-notation-union-intersection",
+      "title": "In probability notation, what do $A \\cup B$, $A \\cap B$ and $A^c$ mean?",
+      "body": "$A \\cup B$: $A$ or $B$ (or both). $A \\cap B$: both. $A^c$: not $A$.\n\nThe complement is also written $A'$ or $\\bar{A}$.\n\nMnemonic: $\\cup$ looks like a cup that holds everything in either set.",
+      "searchQuery": "union intersection complement notation events"
+    },
+    {
+      "id": "disjoint-addition",
+      "title": "$A$ and $B$ are disjoint, with $P(A) = 0.3$ and $P(B) = 0.45$. What is $P(A \\cup B)$?",
+      "body": "0.75\n\nDisjoint events can't happen together, so $P(A \\cap B) = 0$ and the probabilities simply add: $0.3 + 0.45 = 0.75$.\n\nTip: without disjointness, subtract the overlap (general addition rule).",
+      "answer": "0.75",
+      "acceptedAnswers": [
+        "3/4",
+        "75%"
+      ],
+      "searchQuery": "addition rule for disjoint events"
+    },
+    {
+      "id": "neither-event-de-morgan",
+      "title": "$P(A) = 0.6$, $P(B) = 0.3$ and $P(A \\cap B) = 0.1$. What is the probability that neither $A$ nor $B$ occurs?",
+      "body": "0.2\n\n\"Neither\" is the complement of \"at least one\": $P(A \\cup B) = 0.6 + 0.3 - 0.1 = 0.8$, so $P(A^c \\cap B^c) = 1 - 0.8 = 0.2$.\n\nWhy: this uses De Morgan's law, $(A \\cup B)^c = A^c \\cap B^c$.",
+      "answer": "0.2",
+      "acceptedAnswers": [
+        "1/5",
+        "20%"
+      ],
+      "searchQuery": "probability of neither event De Morgan"
+    },
+    {
+      "id": "de-morgan-laws",
+      "title": "What are De Morgan's laws for events $A$ and $B$?",
+      "body": "$(A \\cup B)^c = A^c \\cap B^c$ and $(A \\cap B)^c = A^c \\cup B^c$\n\nIn words: \"not ($A$ or $B$)\" means neither occurs; \"not ($A$ and $B$)\" means at least one fails.\n\nTip: to complement, complement each event and swap $\\cup$ with $\\cap$.",
+      "searchQuery": "De Morgan's laws for events"
+    },
+    {
+      "id": "a-only-region",
+      "title": "$P(A) = 0.45$ and $P(A \\cap B) = 0.15$. What is the probability that $A$ occurs but $B$ does not?",
+      "body": "0.3\n\n$P(A \\cap B^c) = P(A) - P(A \\cap B) = 0.45 - 0.15 = 0.30$\n\nTip: remove the overlap from the $A$ circle of the Venn diagram.",
+      "answer": "0.3",
+      "acceptedAnswers": [
+        "3/10",
+        "30%"
+      ],
+      "searchQuery": "probability A occurs but not B Venn diagram"
+    },
+    {
+      "id": "exactly-one-event",
+      "title": "$P(A) = 0.5$, $P(B) = 0.3$ and $P(A \\cap B) = 0.1$. What is the probability that exactly one of $A$ and $B$ occurs?",
+      "body": "0.6\n\n$P(\\text{exactly one}) = P(A) + P(B) - 2P(A \\cap B) = 0.5 + 0.3 - 0.2 = 0.6$\n\nWhy: the overlap is subtracted twice because it is counted in both $P(A)$ and $P(B)$ but belongs to neither \"only\" region.",
+      "answer": "0.6",
+      "acceptedAnswers": [
+        "3/5",
+        "60%"
+      ],
+      "searchQuery": "probability exactly one of two events occurs"
+    },
+    {
+      "id": "min-overlap-bonferroni",
+      "title": "$P(A) = 0.6$ and $P(B) = 0.7$. What is the smallest possible value of $P(A \\cap B)$?",
+      "body": "0.3\n\nSince $P(A \\cup B) \\le 1$, $P(A \\cap B) = P(A) + P(B) - P(A \\cup B) \\ge 0.6 + 0.7 - 1 = 0.3$.\n\nKey idea: these events can't be disjoint, because their probabilities add to more than 1.",
+      "answer": "0.3",
+      "acceptedAnswers": [
+        "3/10",
+        "30%"
+      ],
+      "searchQuery": "smallest possible P(A and B) given P(A) and P(B)"
+    },
+    {
+      "id": "inclusion-exclusion-three",
+      "title": "What is the inclusion-exclusion formula for $P(A \\cup B \\cup C)$?",
+      "body": "$P(A) + P(B) + P(C) - P(A \\cap B) - P(A \\cap C) - P(B \\cap C) + P(A \\cap B \\cap C)$\n\nAdding the three probabilities counts each two-way overlap twice and the triple overlap three times.\n\nWhy: subtracting the pairwise terms fixes the doubles but leaves the triple overlap counted zero times, so add it back once.",
+      "searchQuery": "inclusion-exclusion formula three events"
+    },
+    {
+      "id": "inclusion-exclusion-divisible",
+      "title": "An integer is chosen at random from 1 to 100. What is the probability that it is divisible by 2, 3 or 5?",
+      "body": "0.74\n\nInclusion-exclusion on counts: multiples of 2, 3 and 5, minus multiples of 6, 10 and 15, plus multiples of 30: $50 + 33 + 20 - 16 - 10 - 6 + 3 = 74$.\n\nSo $P = \\frac{74}{100}$.",
+      "answer": "0.74",
+      "acceptedAnswers": [
+        "74%",
+        "74/100",
+        "37/50"
+      ],
+      "searchQuery": "probability integer 1 to 100 divisible by 2 3 or 5"
+    },
+    {
+      "id": "complement-rule",
+      "title": "An event has probability $P(A) = 0.35$. What is $P(A^c)$?",
+      "body": "$0.65$\n\n**Complement rule**: $P(A^c) = 1 - P(A) = 1 - 0.35 = 0.65$.\n\nTip: use it whenever \"not\" is easier to count than the event itself.",
+      "answer": "0.65",
+      "acceptedAnswers": [
+        "65%",
+        "13/20"
+      ],
+      "answerDisplay": "$0.65$",
+      "searchQuery": "complement rule probability of not A"
+    },
+    {
+      "id": "probability-bounds",
+      "title": "Between which two numbers (inclusive) must every probability lie?",
+      "body": "0 and 1\n\nEvery probability satisfies $0 \\le P(A) \\le 1$. An impossible event has probability $0$ and a certain event has probability $1$.\n\nTip: a probability outside this range, such as $1.2$ or $-0.1$, signals a calculation error.",
+      "answer": "0 and 1",
+      "acceptedAnswers": [
+        "0 to 1",
+        "between 0 and 1",
+        "0-1",
+        "[0,1]",
+        "zero and one"
+      ],
+      "searchQuery": "probability must be between 0 and 1"
+    },
+    {
+      "id": "random-variable-definition",
+      "title": "In probability, what is a random variable?",
+      "body": "A rule that assigns a **number** to each outcome of a random process.\n\nExample: roll two dice. The outcome is a pair like $(3, 5)$, and the random variable $X$ = \"sum\" assigns it the number $8$.\n\nKey idea: it is a function from outcomes to numbers, not a variable you solve for.",
+      "searchQuery": "random variable definition numerical outcome"
+    },
+    {
+      "id": "interpretations-of-probability",
+      "title": "Name the three common interpretations of probability.",
+      "body": "Classical, empirical (relative frequency) and subjective\n\n- **Classical**: equally likely outcomes, $\\frac{\\text{favorable}}{\\text{total}}$\n- **Empirical**: long-run relative frequency of the event\n- **Subjective**: a personal degree of belief\n\nExample: \"the chance of rain tomorrow is 30%\" is usually empirical or subjective, since the outcomes aren't equally likely.",
+      "searchQuery": "classical empirical subjective probability interpretations"
+    },
+    {
+      "id": "face-card-probability",
+      "title": "One card is drawn from a standard 52-card deck. What is the probability that it is a face card (J, Q or K), as a fraction in lowest terms?",
+      "body": "$\\frac{3}{13} \\approx 0.231$\n\nA standard deck has $3 \\times 4 = 12$ face cards (J, Q, K in four suits), so $P = \\frac{12}{52} = \\frac{3}{13}$.\n\nWatch out: aces are not face cards in the usual definition.",
+      "answer": "3/13",
+      "acceptedAnswers": [
+        "12/52",
+        "0.231",
+        "0.2308",
+        "23.1%"
+      ],
+      "answerDisplay": "$\\frac{3}{13}$",
+      "searchQuery": "probability of drawing a face card"
+    },
+    {
+      "id": "two-dice-sum-at-least-9",
+      "title": "Two fair dice are rolled. What is the probability that the sum is at least 9, as a fraction in lowest terms?",
+      "body": "$\\frac{5}{18} \\approx 0.278$\n\nList the favorable sums: 9 (4 ways), 10 (3 ways), 11 (2 ways), 12 (1 way), a total of $10$ of the $36$ outcomes. So $P = \\frac{10}{36} = \\frac{5}{18}$.\n\nTip: counting ordered pairs keeps all 36 outcomes equally likely.",
+      "answer": "5/18",
+      "acceptedAnswers": [
+        "10/36",
+        "0.278",
+        "0.2778",
+        "27.8%"
+      ],
+      "answerDisplay": "$\\frac{5}{18}$",
+      "searchQuery": "two dice sum at least 9 probability"
+    },
+    {
+      "id": "two-dice-at-least-one-six",
+      "title": "Two fair dice are rolled. What is the probability that at least one shows a 6, as a fraction?",
+      "body": "$\\frac{11}{36} \\approx 0.306$\n\nUse the complement: $1 - P(\\text{no 6 on either die}) = 1 - \\left(\\frac{5}{6}\\right)^2 = 1 - \\frac{25}{36} = \\frac{11}{36}$.\n\nWatch out: $\\frac{1}{6} + \\frac{1}{6} = \\frac{1}{3}$ double counts the outcome (6,6).",
+      "answer": "11/36",
+      "acceptedAnswers": [
+        "0.306",
+        "0.3056",
+        "30.6%"
+      ],
+      "answerDisplay": "$\\frac{11}{36}$",
+      "searchQuery": "two dice at least one six complement"
+    },
+    {
+      "id": "three-flips-at-least-two-heads",
+      "title": "A fair coin is flipped 3 times. What is the probability of at least two heads, as a fraction?",
+      "body": "$\\frac{1}{2}$\n\nOf the 8 equally likely sequences, exactly 3 have two heads (HHT, HTH, THH) and 1 has three heads (HHH), so $P = \\frac{4}{8} = \\frac{1}{2}$.\n\nTip: by symmetry, \"at least two heads\" and \"at least two tails\" together cover everything exactly once.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5",
+        "50%",
+        "4/8"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "three coin flips at least two heads"
+    },
+    {
+      "id": "birthday-problem",
+      "title": "What is the smallest group size for which the probability that two people share a birthday exceeds $\\frac{1}{2}$?",
+      "body": "23\n\nWith 23 people, $P(\\text{shared birthday}) = 1 - \\dfrac{365}{365} \\cdot \\dfrac{364}{365} \\cdots \\dfrac{343}{365} \\approx 0.507$. With 22 people it is about $0.476$.\n\nWhy: the number of **pairs** grows like $\\frac{n(n-1)}{2}$, so matches show up far sooner than intuition expects.\nTip: assume 365 equally likely birthdays and ignore leap years.",
+      "answer": "23",
+      "acceptedAnswers": [
+        "23 people",
+        "twenty-three"
+      ],
+      "searchQuery": "birthday problem 23 people shared birthday"
+    },
+    {
+      "id": "monty-hall",
+      "title": "Monty Hall: you pick one of 3 doors (1 car, 2 goats). The host, who knows where the car is, opens a different door showing a goat and offers a switch. What is the probability of winning if you switch?",
+      "body": "$\\frac{2}{3}$\n\nYour first pick is right with probability $\\frac{1}{3}$. The host always opens a goat door, so switching wins exactly when your first pick was wrong: $\\frac{2}{3}$.\n\nWatch out: the two remaining doors are not 50-50. The host's choice is not random, since he knows where the car is.",
+      "answer": "2/3",
+      "acceptedAnswers": [
+        "0.667",
+        "0.6667",
+        "66.7%"
+      ],
+      "answerDisplay": "$\\frac{2}{3}$",
+      "searchQuery": "Monty Hall problem probability of winning by switching"
+    },
+    {
+      "id": "at-least-one-rain-days",
+      "title": "Each of 3 days is rainy with probability $0.3$, independently. What is the probability that at least one day is rainy?",
+      "body": "0.657\n\n$P(\\text{at least one}) = 1 - P(\\text{no rain}) = 1 - 0.7^3 = 1 - 0.343 = 0.657$\n\nTip: \"at least one\" almost always means complement.",
+      "answer": "0.657",
+      "acceptedAnswers": [
+        "65.7%",
+        "657/1000"
+      ],
+      "answerDisplay": "$0.657$",
+      "searchQuery": "probability of at least one rainy day independent"
+    },
+    {
+      "id": "multiplication-rule-independent",
+      "title": "$A$ and $B$ are independent, with $P(A) = 0.5$ and $P(B) = 0.3$. What is $P(A \\cap B)$?",
+      "body": "0.15\n\nFor independent events, $P(A \\cap B) = P(A)\\,P(B) = 0.5 \\times 0.3 = 0.15$.\n\nWatch out: this shortcut is valid only when the events are independent. Otherwise use $P(A)\\,P(B \\mid A)$.",
+      "answer": "0.15",
+      "acceptedAnswers": [
+        "15%",
+        "3/20"
+      ],
+      "searchQuery": "multiplication rule for independent events"
+    },
+    {
+      "id": "independence-complement",
+      "title": "Events $A$ and $B$ are independent. Are $A$ and $B^c$ also independent? (Yes or no)",
+      "body": "Yes\n\nIf $A$ and $B$ are independent, so are $A$ and $B^c$: $P(A \\cap B^c) = P(A) - P(A)P(B) = P(A)\\,(1 - P(B)) = P(A)\\,P(B^c)$.\n\nKey idea: knowing whether $B$ happened never changes the probability of $A$, in either direction.",
+      "answer": "yes",
+      "acceptedAnswers": [
+        "yes they are",
+        "independent"
+      ],
+      "searchQuery": "independent events complement also independent"
+    },
+    {
+      "id": "independent-union-calc",
+      "title": "$A$ and $B$ are independent, with $P(A) = 0.3$ and $P(B) = 0.2$. What is $P(A \\cup B)$?",
+      "body": "0.44\n\n$P(A \\cap B) = 0.3 \\times 0.2 = 0.06$, so $P(A \\cup B) = 0.3 + 0.2 - 0.06 = 0.44$.\n\nTip: or use the complement: $1 - (0.7)(0.8) = 1 - 0.56 = 0.44$.",
+      "answer": "0.44",
+      "acceptedAnswers": [
+        "44%",
+        "11/25"
+      ],
+      "searchQuery": "union of independent events probability"
+    },
+    {
+      "id": "series-system-reliability",
+      "title": "A machine needs all 3 of its independent components to work, and each works with probability $0.9$. What is the probability that the machine works?",
+      "body": "0.729\n\nA series system works only if every component works: $0.9 \\times 0.9 \\times 0.9 = 0.729$.\n\nWatch out: adding components in series makes the system less reliable, not more.",
+      "answer": "0.729",
+      "acceptedAnswers": [
+        "72.9%",
+        "729/1000"
+      ],
+      "answerDisplay": "$0.729$",
+      "searchQuery": "series system reliability independent components"
+    },
+    {
+      "id": "parallel-system-reliability",
+      "title": "Two independent backup pumps each work with probability $0.9$, and the system works if at least one does. What is the probability that the system works?",
+      "body": "0.99\n\nA parallel system fails only if both fail: $1 - (0.1)(0.1) = 1 - 0.01 = 0.99$.\n\nKey idea: redundancy helps, and the complement makes it easy to compute.",
+      "answer": "0.99",
+      "acceptedAnswers": [
+        "99%",
+        "99/100"
+      ],
+      "answerDisplay": "$0.99$",
+      "searchQuery": "parallel system reliability backup component"
+    },
+    {
+      "id": "general-multiplication-rule",
+      "title": "State the general multiplication rule for $P(A \\cap B)$, valid even when $A$ and $B$ are dependent.",
+      "body": "$P(A \\cap B) = P(A)\\,P(B \\mid A)$\n\nMultiply the probability of the first event by the probability of the second **given** the first. It is the conditional probability formula rearranged.\n\nTip: the order can be swapped: $P(A \\cap B) = P(B)\\,P(A \\mid B)$.",
+      "searchQuery": "general multiplication rule P(A and B)"
+    },
+    {
+      "id": "multiplication-from-conditional",
+      "title": "$P(A \\mid B) = 0.4$ and $P(B) = 0.5$. What is $P(A \\cap B)$?",
+      "body": "0.2\n\n$P(A \\cap B) = P(A \\mid B)\\,P(B) = 0.4 \\times 0.5 = 0.2$\n\nWatch out: don't add or average the two numbers. A joint probability is a conditional times a marginal.",
+      "answer": "0.2",
+      "acceptedAnswers": [
+        "20%",
+        "1/5"
+      ],
+      "searchQuery": "P(A and B) from conditional probability"
+    },
+    {
+      "id": "conditional-complement",
+      "title": "$P(A \\mid B) = 0.3$. What is $P(A^c \\mid B)$?",
+      "body": "0.7\n\nGiven $B$, the outcomes are split into $A$ and $A^c$, so $P(A^c \\mid B) = 1 - P(A \\mid B) = 1 - 0.3 = 0.7$.\n\nWatch out: $P(A^c \\mid B) \\ne 1 - P(A \\mid B^c)$. The complement rule applies to the event, not the condition.",
+      "answer": "0.7",
+      "acceptedAnswers": [
+        "70%",
+        "7/10"
+      ],
+      "searchQuery": "complement of conditional probability"
+    },
+    {
+      "id": "reverse-conditional-fallacy",
+      "title": "Why is $P(\\text{positive test} \\mid \\text{disease})$ usually not equal to $P(\\text{disease} \\mid \\text{positive test})$?",
+      "body": "Because $P(A \\mid B)$ and $P(B \\mid A)$ have different denominators and answer different questions.\n\nExample: almost all professional basketball players are tall, but very few tall people are professional basketball players.\n\nTip: Bayes' theorem converts one into the other, but you need the base rate $P(A)$.",
+      "searchQuery": "confusing P(A given B) with P(B given A) transposed conditional"
+    },
+    {
+      "id": "ace-then-king",
+      "title": "Two cards are dealt in order without replacement from a standard 52-card deck. What is the probability that the first is an ace and the second is a king, as a fraction in lowest terms?",
+      "body": "$\\frac{4}{663} \\approx 0.0060$\n\n$P(\\text{ace first}) = \\frac{4}{52}$, then $P(\\text{king} \\mid \\text{ace}) = \\frac{4}{51}$, so $\\frac{4}{52} \\cdot \\frac{4}{51} = \\frac{16}{2652} = \\frac{4}{663}$.\n\nTip: after the first draw only 51 cards remain, but all 4 kings are still there.",
+      "answer": "4/663",
+      "acceptedAnswers": [
+        "16/2652",
+        "0.006",
+        "0.00603"
+      ],
+      "answerDisplay": "$\\frac{4}{663}$",
+      "searchQuery": "probability ace then king without replacement"
+    },
+    {
+      "id": "two-children-at-least-one-boy",
+      "title": "A family has two children, each equally likely a boy or a girl, independently. Given that at least one is a boy, what is the probability that both are boys?",
+      "body": "$\\frac{1}{3}$\n\nThe equally likely families are BB, BG, GB, GG. \"At least one boy\" leaves BB, BG, GB, and only BB has two boys: $\\frac{1}{3}$.\n\nWatch out: the answer is not $\\frac{1}{2}$. Compare the next card, where the older child is known to be a boy.",
+      "answer": "1/3",
+      "acceptedAnswers": [
+        "0.333",
+        "0.3333",
+        "33.3%"
+      ],
+      "answerDisplay": "$\\frac{1}{3}$",
+      "searchQuery": "two children at least one boy probability both boys"
+    },
+    {
+      "id": "two-children-older-boy",
+      "title": "A family has two children, each equally likely a boy or a girl, independently. Given that the older child is a boy, what is the probability that both are boys?",
+      "body": "$\\frac{1}{2}$\n\nKnowing the older child is a boy leaves BB and BG, equally likely, so $P(\\text{both boys}) = \\frac{1}{2}$.\n\nWhy: the younger child is independent of the older one.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5",
+        "50%"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "two children older is a boy probability both boys"
+    },
+    {
+      "id": "two-red-without-replacement",
+      "title": "A bag holds 5 red and 5 blue marbles. Two are drawn without replacement. What is the probability that both are red, as a fraction in lowest terms?",
+      "body": "$\\frac{2}{9} \\approx 0.222$\n\n$P(\\text{both red}) = \\frac{5}{10} \\cdot \\frac{4}{9} = \\frac{20}{90} = \\frac{2}{9}$\n\nWatch out: with replacement it would be $\\left(\\frac{1}{2}\\right)^2 = \\frac{1}{4}$.",
+      "answer": "2/9",
+      "acceptedAnswers": [
+        "20/90",
+        "0.222",
+        "0.2222",
+        "22.2%"
+      ],
+      "answerDisplay": "$\\frac{2}{9}$",
+      "searchQuery": "two red marbles drawn without replacement probability"
+    },
+    {
+      "id": "dice-sum-8-contains-3",
+      "title": "Two fair dice are rolled and the sum is 8. Given that, what is the probability that at least one die shows a 3, as a fraction?",
+      "body": "$\\frac{2}{5}$\n\nSum 8 has five equally likely outcomes: $(2,6), (3,5), (4,4), (5,3), (6,2)$. Two contain a 3, so $P = \\frac{2}{5}$.\n\nTip: condition by shrinking the sample space to the outcomes that satisfy the given event.",
+      "answer": "2/5",
+      "acceptedAnswers": [
+        "0.4",
+        "40%"
+      ],
+      "answerDisplay": "$\\frac{2}{5}$",
+      "searchQuery": "conditional probability dice sum 8 one die shows 3"
+    },
+    {
+      "id": "disjoint-conditional-zero",
+      "title": "$A$ and $B$ are disjoint and $P(B) > 0$. What is $P(A \\mid B)$?",
+      "body": "0\n\nIf $A$ and $B$ are disjoint and $P(B) > 0$, then $P(A \\mid B) = \\dfrac{P(A \\cap B)}{P(B)} = \\dfrac{0}{P(B)} = 0$.\n\nKey idea: if $B$ happened, $A$ cannot have, so disjoint events are never independent (when both have positive probability).",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero"
+      ],
+      "searchQuery": "conditional probability of disjoint events zero"
+    },
+    {
+      "id": "left-handed-table",
+      "title": "Of 80 men, 20 are left-handed; of 120 women, 18 are. A left-handed person is chosen at random. What is the probability that the person is a man, as a fraction?",
+      "body": "$\\frac{10}{19} \\approx 0.526$\n\nLeft-handed men: $20$. Left-handed women: $18$. So $P(\\text{man} \\mid \\text{left-handed}) = \\frac{20}{20 + 18} = \\frac{20}{38} = \\frac{10}{19}$.\n\nWatch out: dividing by the 80 men would give $P(\\text{left-handed} \\mid \\text{man}) = 0.25$, a different question.",
+      "answer": "10/19",
+      "acceptedAnswers": [
+        "20/38",
+        "0.526",
+        "0.5263",
+        "52.6%"
+      ],
+      "answerDisplay": "$\\frac{10}{19}$",
+      "searchQuery": "reverse conditioning two-way counts left-handed man"
+    },
+    {
+      "id": "partition-definition",
+      "title": "What two properties must events $B_1, \\dots, B_k$ have to be used in the law of total probability?",
+      "body": "Mutually exclusive and exhaustive events\n\nEvents $B_1, \\dots, B_k$ form a **partition** if they are disjoint and together cover the whole sample space, so exactly one of them occurs.\n\nKey idea: the law of total probability needs a partition: $P(A) = \\sum_i P(A \\mid B_i)\\,P(B_i)$.",
+      "searchQuery": "partition of sample space law of total probability mutually exclusive exhaustive"
+    },
+    {
+      "id": "total-prob-three-suppliers",
+      "title": "Three suppliers provide 50%, 30% and 20% of a store's bulbs, with defect rates of 1%, 2% and 4%. What is the probability that a random bulb is defective?",
+      "body": "0.019\n\n$P(D) = (0.50)(0.01) + (0.30)(0.02) + (0.20)(0.04) = 0.005 + 0.006 + 0.008 = 0.019$\n\nWatch out: the shares $0.5 + 0.3 + 0.2$ must add to 1. Check that the sources form a partition.",
+      "answer": "0.019",
+      "acceptedAnswers": [
+        "1.9%",
+        "19/1000"
+      ],
+      "answerDisplay": "$0.019$",
+      "searchQuery": "law of total probability three suppliers defect rates"
+    },
+    {
+      "id": "bayes-machine-defective",
+      "title": "Machine A makes 60% of a plant's parts (2% defective); Machine B makes 40% (5% defective). A randomly chosen part is defective. What is the probability that it came from Machine A?",
+      "body": "0.375 (that is, $\\frac{3}{8}$)\n\nMachine A contributes $(0.02)(0.6) = 0.012$ of the $P(D) = 0.032$ total, so $P(A \\mid D) = \\dfrac{0.012}{0.032} = 0.375$.\n\nWhy: A makes 60% of the parts, but only 37.5% of the defective ones, because its defect rate is lower.",
+      "answer": "0.375",
+      "acceptedAnswers": [
+        "3/8",
+        "37.5%",
+        "0.38"
+      ],
+      "answerDisplay": "$0.375$",
+      "searchQuery": "Bayes theorem which machine made defective part"
+    },
+    {
+      "id": "bayes-urn-red",
+      "title": "Urn 1 holds 3 red and 1 blue ball; urn 2 holds 1 red and 3 blue. An urn is chosen at random and a ball drawn from it is red. What is the probability that it came from urn 1?",
+      "body": "0.75\n\n$P(\\text{red}) = \\frac{1}{2}\\cdot\\frac{3}{4} + \\frac{1}{2}\\cdot\\frac{1}{4} = \\frac{1}{2}$, so $P(\\text{urn 1} \\mid \\text{red}) = \\dfrac{\\frac{1}{2}\\cdot\\frac{3}{4}}{\\frac{1}{2}} = \\dfrac{3}{4}$.\n\nTip: with equal priors, the posterior is just the share of red among the two likelihoods: $\\frac{0.75}{0.75 + 0.25}$.",
+      "answer": "0.75",
+      "acceptedAnswers": [
+        "3/4",
+        "75%"
+      ],
+      "answerDisplay": "$0.75$",
+      "searchQuery": "Bayes theorem two urns red ball drawn"
+    },
+    {
+      "id": "bayes-spam-filter",
+      "title": "40% of email is spam. The word \"free\" appears in 50% of spam and 10% of non-spam. What is $P(\\text{spam} \\mid \\text{contains \"free\"})$, to three decimal places?",
+      "body": "$\\frac{10}{13} \\approx 0.769$\n\n$P(\\text{spam} \\mid \\text{word}) = \\dfrac{(0.5)(0.4)}{(0.5)(0.4) + (0.1)(0.6)} = \\dfrac{0.20}{0.26} = \\dfrac{10}{13}$\n\nTip: the numerator is one branch of the tree; the denominator adds all branches that end in the word.",
+      "answer": "0.769",
+      "acceptedAnswers": [
+        "10/13",
+        "76.9%",
+        "0.77"
+      ],
+      "answerDisplay": "$0.769$",
+      "searchQuery": "Bayes theorem spam filter word probability"
+    },
+    {
+      "id": "bayes-higher-prevalence",
+      "title": "A test detects 90% of cases and falsely flags 5% of healthy people. If 10% of the people tested have the disease, what is $P(\\text{disease} \\mid \\text{positive})$, to three decimal places?",
+      "body": "$\\frac{2}{3} \\approx 0.667$\n\n$P(D \\mid +) = \\dfrac{(0.90)(0.10)}{(0.90)(0.10) + (0.05)(0.90)} = \\dfrac{0.09}{0.135} = \\dfrac{2}{3}$\n\nKey idea: the same test is far more trustworthy when the condition is common. With a 1% prevalence the answer was only about 0.154.",
+      "answer": "0.667",
+      "acceptedAnswers": [
+        "2/3",
+        "66.7%",
+        "0.67"
+      ],
+      "answerDisplay": "$0.667$",
+      "searchQuery": "Bayes theorem effect of prevalence positive predictive value"
+    },
+    {
+      "id": "base-rate-neglect",
+      "title": "What is base rate neglect?",
+      "body": "Ignoring the **base rate** (prior probability), so that a test's accuracy is mistaken for the chance that a positive is a true positive.\n\nWhen a condition is rare, even a small false-positive rate produces many more false alarms than true cases.\n\nTip: picture 1,000 people instead of probabilities. Count true positives and false positives, then compare them.",
+      "searchQuery": "base rate neglect fallacy rare disease"
+    },
+    {
+      "id": "sensitivity-vs-specificity",
+      "title": "Define the sensitivity and the specificity of a diagnostic test as conditional probabilities.",
+      "body": "**Sensitivity** is $P(+ \\mid \\text{condition})$; **specificity** is $P(- \\mid \\text{no condition})$.\n\nSensitivity is the true positive rate; specificity is the true negative rate.\n\nWatch out: the false-positive rate is $1 - \\text{specificity}$, not $1 - \\text{sensitivity}$.",
+      "searchQuery": "sensitivity and specificity definitions test"
+    },
+    {
+      "id": "bayes-from-conditional-ab",
+      "title": "$P(A) = 0.3$, $P(B) = 0.5$ and $P(A \\mid B) = 0.2$. What is $P(B \\mid A)$, as a fraction?",
+      "body": "$\\frac{1}{3} \\approx 0.333$\n\n$P(B \\mid A) = \\dfrac{P(A \\mid B)\\,P(B)}{P(A)} = \\dfrac{0.2 \\times 0.5}{0.3} = \\dfrac{0.1}{0.3} = \\dfrac{1}{3}$\n\nTip: the numerator is the joint probability $P(A \\cap B) = 0.1$.",
+      "answer": "1/3",
+      "acceptedAnswers": [
+        "0.333",
+        "0.3333",
+        "33.3%"
+      ],
+      "answerDisplay": "$\\frac{1}{3}$",
+      "searchQuery": "Bayes theorem reverse conditional numbers P(B given A)"
+    },
+    {
+      "id": "bayes-odds-form",
+      "title": "In the odds form of Bayes' rule, what do you multiply the prior odds by to get the posterior odds?",
+      "body": "Posterior odds = prior odds $\\times$ likelihood ratio\n\n$\\dfrac{P(H \\mid E)}{P(H^c \\mid E)} = \\dfrac{P(H)}{P(H^c)} \\times \\dfrac{P(E \\mid H)}{P(E \\mid H^c)}$\n\nExample: 1% prevalence (odds $\\frac{1}{99}$), and a positive result with likelihood ratio $\\frac{0.90}{0.05} = 18$: posterior odds $\\frac{18}{99}$, so $P \\approx 0.154$.",
+      "searchQuery": "Bayes rule odds form posterior odds prior odds likelihood ratio"
+    },
+    {
+      "id": "multiplication-principle",
+      "title": "An outfit is 1 of 5 shirts, 1 of 4 pairs of pants and 1 of 2 pairs of shoes. How many different outfits are there?",
+      "body": "40\n\nChoices made one after another multiply: $5 \\times 4 \\times 2 = 40$.\n\nWatch out: use addition only when the choices are alternatives (either/or), not steps in a sequence.",
+      "answer": "40",
+      "acceptedAnswers": [
+        "forty"
+      ],
+      "searchQuery": "fundamental counting principle multiplication principle outfits"
+    },
+    {
+      "id": "factorial-arrangements",
+      "title": "In how many different orders can 5 people stand in a line?",
+      "body": "120\n\nThere are $5$ choices for the first spot, $4$ for the next, and so on: $5! = 5 \\cdot 4 \\cdot 3 \\cdot 2 \\cdot 1 = 120$.\n\nTip: $n$ distinct objects can be ordered in $n!$ ways, and $0! = 1$.",
+      "answer": "120",
+      "acceptedAnswers": [
+        "5!",
+        "one hundred twenty"
+      ],
+      "searchQuery": "arrange 5 people in a row factorial"
+    },
+    {
+      "id": "permutation-medals",
+      "title": "Eight runners compete. In how many ways can the gold, silver and bronze medals be awarded (no ties)?",
+      "body": "336\n\nOrder matters (gold, silver, bronze are different), so $P(8, 3) = \\dfrac{8!}{5!} = 8 \\cdot 7 \\cdot 6 = 336$.\n\nWatch out: $\\binom{8}{3} = 56$ counts only the groups of three, ignoring who gets which medal.",
+      "answer": "336",
+      "acceptedAnswers": [
+        "P(8,3)",
+        "8*7*6"
+      ],
+      "searchQuery": "permutations gold silver bronze 8 runners"
+    },
+    {
+      "id": "lottery-combinations",
+      "title": "A lottery draws 6 numbers from 1 to 49, order not mattering. How many different draws are possible?",
+      "body": "13,983,816\n\nOrder doesn't matter, so $\\binom{49}{6} = \\dfrac{49 \\cdot 48 \\cdot 47 \\cdot 46 \\cdot 45 \\cdot 44}{6!} = 13{,}983{,}816$.\n\nTip: the chance of matching all six is one in about 14 million.",
+      "answer": "13983816",
+      "acceptedAnswers": [
+        "C(49,6)"
+      ],
+      "answerDisplay": "$13{,}983{,}816$",
+      "searchQuery": "lottery odds combination 6 of 49"
+    },
+    {
+      "id": "poker-hands-count",
+      "title": "How many different 5-card hands can be dealt from a standard 52-card deck?",
+      "body": "2,598,960\n\nA hand is an unordered set of 5 cards: $\\binom{52}{5} = \\dfrac{52 \\cdot 51 \\cdot 50 \\cdot 49 \\cdot 48}{5!} = 2{,}598{,}960$.\n\nKey idea: this is the denominator for every five-card hand probability.",
+      "answer": "2598960",
+      "acceptedAnswers": [
+        "C(52,5)"
+      ],
+      "answerDisplay": "$2{,}598{,}960$",
+      "searchQuery": "number of five-card poker hands combination"
+    },
+    {
+      "id": "arrangements-repeated-letters",
+      "title": "How many distinct arrangements are there of the letters in the word BOOK?",
+      "body": "12\n\nDivide by the repeats: $\\dfrac{4!}{2!} = \\dfrac{24}{2} = 12$ distinct arrangements of B, O, O, K.\n\nWhy: swapping the two O's doesn't create a new word, so each arrangement was counted $2!$ times.",
+      "answer": "12",
+      "acceptedAnswers": [
+        "twelve",
+        "4!/2!"
+      ],
+      "searchQuery": "arrangements of letters with repeats BOOK"
+    },
+    {
+      "id": "combination-symmetry",
+      "title": "What is $\\binom{12}{10}$?",
+      "body": "66\n\nSymmetry: $\\binom{12}{10} = \\binom{12}{2} = \\dfrac{12 \\cdot 11}{2} = 66$.\n\nWhy: choosing the 10 people to include is the same as choosing the 2 to leave out.",
+      "answer": "66",
+      "acceptedAnswers": [
+        "C(12,10)",
+        "C(12,2)"
+      ],
+      "searchQuery": "binomial coefficient symmetry C(n,r) = C(n,n-r)"
+    },
+    {
+      "id": "circular-arrangements",
+      "title": "In how many distinct ways can 5 people sit around a circular table if rotations count as the same seating?",
+      "body": "24\n\nFix one person's seat to remove rotations; the other 4 can be arranged in $4! = 24$ ways.\n\nKey idea: for $n$ people around a circle, there are $(n-1)!$ seatings when only the relative order counts.",
+      "answer": "24",
+      "acceptedAnswers": [
+        "4!",
+        "twenty-four"
+      ],
+      "searchQuery": "seating people around a circular table arrangements"
+    },
+    {
+      "id": "password-count",
+      "title": "A code is 3 letters (A to Z) followed by 2 digits (0 to 9), and repeats are allowed. How many codes are possible?",
+      "body": "1,757,600\n\nEach of the 3 letter slots has 26 choices and each of the 2 digit slots has 10: $26^3 \\cdot 10^2 = 17{,}576 \\times 100 = 1{,}757{,}600$.\n\nWatch out: repeats are allowed here, so use powers rather than $P(26, 3)$.",
+      "answer": "1757600",
+      "acceptedAnswers": [
+        "26^3*10^2"
+      ],
+      "answerDisplay": "$1{,}757{,}600$",
+      "searchQuery": "password count letters then digits multiplication principle"
+    },
+    {
+      "id": "committee-with-restrictions",
+      "title": "A committee of 5 is chosen from 6 men and 5 women, with exactly 3 men and 2 women. How many committees are possible?",
+      "body": "200\n\nChoose the men and the women separately, then multiply: $\\binom{6}{3}\\binom{5}{2} = 20 \\times 10 = 200$.\n\nTip: \"and\" between independent selections means multiply; don't use $\\binom{11}{5}$, which ignores the required mix.",
+      "answer": "200",
+      "acceptedAnswers": [
+        "two hundred"
+      ],
+      "searchQuery": "committee with 3 men and 2 women combinations"
+    },
+    {
+      "id": "exactly-two-aces-hand",
+      "title": "A 5-card hand is dealt from a standard deck. What is the probability that it contains exactly 2 aces? Round to 4 decimal places.",
+      "body": "0.0399\n\n$P = \\dfrac{\\binom{4}{2}\\binom{48}{3}}{\\binom{52}{5}} = \\dfrac{6 \\times 17{,}296}{2{,}598{,}960} = \\dfrac{103{,}776}{2{,}598{,}960} \\approx 0.0399$\n\nTip: count favorable hands as (ways to pick the aces) times (ways to fill the rest with non-aces).",
+      "answer": "0.0399",
+      "acceptedAnswers": [
+        "3.99%",
+        "103776/2598960"
+      ],
+      "answerDisplay": "$0.0399$",
+      "searchQuery": "probability exactly two aces in a five-card hand counting"
+    },
+    {
+      "id": "ev-definition-discrete",
+      "title": "What is the formula for the expected value $E(X)$ of a discrete random variable $X$?",
+      "body": "$E(X) = \\sum x\\,P(X = x)$\n\nMultiply each possible value by its probability and add. It is the long-run average of $X$, not necessarily a value $X$ can take.\n\nExample: a fair die has $E(X) = \\frac{1 + 2 + \\cdots + 6}{6} = 3.5$.",
+      "searchQuery": "expected value of discrete random variable formula"
+    },
+    {
+      "id": "ev-from-pmf",
+      "title": "$X$ takes the values $1$, $2$ and $3$ with probabilities $0.5$, $0.3$ and $0.2$. What is $E(X)$?",
+      "body": "1.7\n\n$E(X) = 1(0.5) + 2(0.3) + 3(0.2) = 0.5 + 0.6 + 0.6 = 1.7$\n\nWatch out: the plain average of $1, 2, 3$ is $2$, which ignores the unequal probabilities.",
+      "answer": "1.7",
+      "acceptedAnswers": [
+        "17/10"
+      ],
+      "searchQuery": "expected value from probability table"
+    },
+    {
+      "id": "pmf-missing-probability",
+      "title": "A random variable takes four values with probabilities $0.2$, $0.3$, $c$ and $0.1$. What is $c$?",
+      "body": "0.4\n\nProbabilities must sum to $1$: $0.2 + 0.3 + c + 0.1 = 1$, so $c = 0.4$.\n\nTip: always check this first. It also catches any value outside $[0, 1]$.",
+      "answer": "0.4",
+      "acceptedAnswers": [
+        "40%",
+        "2/5",
+        "c=0.4"
+      ],
+      "searchQuery": "missing probability in distribution sum to 1"
+    },
+    {
+      "id": "ev-fair-die",
+      "title": "What is the expected value of one roll of a fair six-sided die?",
+      "body": "3.5\n\n$E(X) = \\frac{1}{6}(1 + 2 + 3 + 4 + 5 + 6) = \\frac{21}{6} = 3.5$\n\nWatch out: $3.5$ is not a possible roll. The expected value is a long-run average.",
+      "answer": "3.5",
+      "acceptedAnswers": [
+        "7/2"
+      ],
+      "searchQuery": "expected value of a fair die roll"
+    },
+    {
+      "id": "ev-linear-transformation",
+      "title": "$E(X) = 5$. What is $E(2X + 3)$?",
+      "body": "13\n\n$E(aX + b) = aE(X) + b$, so $E(2X + 3) = 2(5) + 3 = 13$.\n\nKey idea: expectation is linear, and this holds for any distribution of $X$.",
+      "answer": "13",
+      "acceptedAnswers": [
+        "thirteen"
+      ],
+      "searchQuery": "expected value of aX + b linearity"
+    },
+    {
+      "id": "ev-difference",
+      "title": "$E(X) = 10$ and $E(Y) = 4$. What is $E(X - Y)$?",
+      "body": "6\n\n$E(X - Y) = E(X) - E(Y) = 10 - 4 = 6$\n\nTip: unlike variances, means subtract exactly, and independence isn't needed.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "six"
+      ],
+      "searchQuery": "expected value of difference E(X - Y)"
+    },
+    {
+      "id": "ev-sum-two-dice",
+      "title": "Two fair dice are rolled. What is the expected value of their sum?",
+      "body": "7\n\nBy linearity, $E(X_1 + X_2) = E(X_1) + E(X_2) = 3.5 + 3.5 = 7$.\n\nKey idea: linearity of expectation needs **no independence**. It works even when the variables depend on each other.",
+      "answer": "7",
+      "acceptedAnswers": [
+        "seven"
+      ],
+      "searchQuery": "expected sum of two dice linearity of expectation"
+    },
+    {
+      "id": "ev-lottery-net",
+      "title": "A raffle ticket costs 2 dollars and wins a 1000-dollar prize with probability $\\frac{1}{1000}$ (otherwise nothing). What is the expected net gain per ticket, in dollars?",
+      "body": "$-1$ dollar per ticket\n\nExpected prize: $1000 \\times \\frac{1}{1000} = 1$ dollar. Net: $1 - 2 = -1$ dollar.\n\nWatch out: subtract the ticket price. The expected prize alone is a gain of 1 dollar; the expected net result is a loss of 1 dollar.",
+      "answer": "-1",
+      "acceptedAnswers": [
+        "-1 dollar",
+        "-1 dollars"
+      ],
+      "answerDisplay": "$-1$",
+      "searchQuery": "expected net winnings lottery ticket"
+    },
+    {
+      "id": "fair-game-check",
+      "title": "A game costs 5 dollars to play and pays 20 dollars with probability $\\frac{1}{4}$ (otherwise nothing). Is it a fair game, meaning an expected net gain of 0? (Yes or no)",
+      "body": "Yes\n\n$E(\\text{net}) = 20\\left(\\frac{1}{4}\\right) + 0\\left(\\frac{3}{4}\\right) - 5 = 5 - 5 = 0$, so it is a **fair game**.\n\nTip: a game is fair when the expected net gain is $0$ for the player.",
+      "answer": "yes",
+      "acceptedAnswers": [
+        "fair",
+        "yes it is"
+      ],
+      "searchQuery": "fair game expected value zero"
+    },
+    {
+      "id": "roulette-expected-value",
+      "title": "In American roulette, 18 of 38 equally likely slots are red. A 1-dollar bet on red wins 1 dollar if red comes up, else loses it. What is the expected net gain, in dollars? Round to 4 decimal places.",
+      "body": "$-\\frac{1}{19} \\approx -0.0526$\n\n$E = (+1)\\frac{18}{38} + (-1)\\frac{20}{38} = -\\frac{2}{38} = -\\frac{1}{19}$ per 1-dollar bet.\n\nKey idea: a small negative expected value is the house edge. It guarantees a loss in the long run.",
+      "answer": "-0.0526",
+      "acceptedAnswers": [
+        "-1/19",
+        "-0.05",
+        "-5.26 cents"
+      ],
+      "answerDisplay": "$-0.0526$",
+      "searchQuery": "roulette expected value bet on red"
+    },
+    {
+      "id": "variance-definition",
+      "title": "Write two equivalent formulas for the variance of a random variable $X$ with mean $\\mu$.",
+      "body": "$\\operatorname{Var}(X) = E\\big[(X - \\mu)^2\\big] = E(X^2) - \\mu^2$\n\nThe variance is the average squared distance from the mean $\\mu = E(X)$; the second form is usually easier to compute.\n\nWatch out: $E(X^2) \\ne [E(X)]^2$ unless $X$ is constant.",
+      "searchQuery": "variance of a random variable definition shortcut"
+    },
+    {
+      "id": "variance-fair-die",
+      "title": "What is the variance of one roll of a fair six-sided die? Round to 2 decimal places.",
+      "body": "2.92\n\n$E(X^2) = \\frac{1 + 4 + 9 + 16 + 25 + 36}{6} = \\frac{91}{6}$, so $\\operatorname{Var}(X) = \\frac{91}{6} - (3.5)^2 = \\frac{35}{12} \\approx 2.92$.\n\nTip: the SD is $\\sqrt{35/12} \\approx 1.71$.",
+      "answer": "2.92",
+      "acceptedAnswers": [
+        "35/12",
+        "2.917"
+      ],
+      "searchQuery": "variance of one roll of a fair die"
+    },
+    {
+      "id": "variance-scaling",
+      "title": "$\\operatorname{Var}(X) = 4$. What is $\\operatorname{Var}(3X + 2)$?",
+      "body": "36\n\n$\\operatorname{Var}(aX + b) = a^2 \\operatorname{Var}(X) = 3^2(4) = 36$\n\nWatch out: the constant $b$ doesn't affect the variance, and $a$ is **squared** (so the SD scales by $|a| = 3$).",
+      "answer": "36",
+      "acceptedAnswers": [
+        "thirty-six"
+      ],
+      "searchQuery": "variance of aX + b scaling squares"
+    },
+    {
+      "id": "variance-sum-iid",
+      "title": "$X_1, X_2, X_3$ are independent, each with variance $4$. What is $\\operatorname{Var}(X_1 + X_2 + X_3)$?",
+      "body": "12\n\nFor independent variables, variances add: $\\operatorname{Var}(X_1 + X_2 + X_3) = 4 + 4 + 4 = 12$.\n\nWatch out: this is not $\\operatorname{Var}(3X) = 9 \\cdot 4 = 36$, which would treat the three as the same variable.",
+      "answer": "12",
+      "acceptedAnswers": [
+        "twelve"
+      ],
+      "searchQuery": "variance of sum of independent identically distributed variables"
+    },
+    {
+      "id": "var-2x-vs-x-plus-y",
+      "title": "$X$ and $Y$ are independent with the same variance $\\sigma^2$. How do $\\operatorname{Var}(2X)$ and $\\operatorname{Var}(X + Y)$ compare?",
+      "body": "$\\operatorname{Var}(2X) = 4\\sigma^2$, but $\\operatorname{Var}(X + Y) = 2\\sigma^2$.\n\nDoubling one variable stretches it fully ($b^2 = 4$). Adding an independent copy lets the two partly cancel, so the variances simply add.\n\nExample: two separate dice have a smaller relative spread in their sum than one die doubled.",
+      "searchQuery": "variance 2X versus X plus independent copy"
+    },
+    {
+      "id": "variance-sum-covariance",
+      "title": "For possibly dependent $X$ and $Y$, what is $\\operatorname{Var}(X + Y)$?",
+      "body": "$\\operatorname{Var}(X + Y) = \\operatorname{Var}(X) + \\operatorname{Var}(Y) + 2\\operatorname{Cov}(X, Y)$\n\nThe covariance term vanishes when $X$ and $Y$ are independent (or just uncorrelated).\n\nTip: positive covariance makes the sum more variable; negative covariance makes it less variable (as in hedging).",
+      "searchQuery": "variance of sum with covariance correlated variables"
+    },
+    {
+      "id": "sd-from-pmf",
+      "title": "$X$ equals $0$ or $10$, each with probability $0.5$. What is the standard deviation of $X$?",
+      "body": "5\n\n$\\mu = 0(0.5) + 10(0.5) = 5$. Each value is $5$ away from the mean, so $\\operatorname{Var}(X) = 25$ and $\\sigma = \\sqrt{25} = 5$.\n\nTip: here $\\sigma$ equals the typical distance from the mean exactly, because both deviations are the same size.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "five"
+      ],
+      "searchQuery": "standard deviation from probability distribution 0 or 10"
+    },
+    {
+      "id": "ev-indicator",
+      "title": "$I_A$ equals $1$ if event $A$ occurs and $0$ otherwise. What is $E(I_A)$?",
+      "body": "$P(A)$\n\nFor $I_A = 1$ if $A$ occurs and $0$ otherwise, $E(I_A) = 1 \\cdot P(A) + 0 \\cdot P(A^c) = P(A)$.\n\nKey idea: counting events with indicators turns expected counts into sums of probabilities, via linearity.",
+      "answer": "P(A)",
+      "acceptedAnswers": [
+        "probability of A"
+      ],
+      "answerDisplay": "$P(A)$",
+      "searchQuery": "expected value of indicator variable equals probability"
+    }
+  ]
+}

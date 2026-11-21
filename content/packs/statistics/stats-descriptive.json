@@ -1,0 +1,932 @@
+{
+  "id": "stats-descriptive",
+  "title": "Descriptive Statistics",
+  "course": "Intro Statistics",
+  "description": "Mean vs median under skew, n − 1 variance, IQR and the 1.5×IQR outlier rule, z-scores, the 68-95-99.7 rule, and linear transformations.",
+  "cards": [
+    {
+      "id": "median-even-count",
+      "title": "What is the median of 3, 8, 1, 10, 6, 4?",
+      "body": "5\n\nSort first: $1, 3, 4, 6, 8, 10$. With an even count, the **median** is the mean of the two middle values: $\\frac{4 + 6}{2} = 5$.\n\nWatch out: skipping the sort would average the unsorted middle pair, 1 and 10, and give $5.5$.",
+      "answer": "5",
+      "searchQuery": "median of even number of values"
+    },
+    {
+      "id": "skew-mean-vs-median",
+      "title": "In a strongly right-skewed distribution, which is usually larger: the mean or the median?",
+      "body": "The mean\n\nA few very large values in the right tail pull the **mean** up, while the median stays with the bulk of the data.\n\nExample: incomes are the classic right-skewed case.\nTip: left skew usually puts the mean below the median; for symmetric data the two are about equal.",
+      "answer": "mean",
+      "acceptedAnswers": [
+        "average",
+        "mean is larger"
+      ],
+      "searchQuery": "right skewed mean greater than median"
+    },
+    {
+      "id": "resistant-measures",
+      "title": "Which common summary statistics are resistant to outliers, and which are not?",
+      "body": "Resistant: **median** and **IQR**. Not resistant: mean, standard deviation, range.\n\nOne extreme value drags the mean and inflates the SD and range, but barely moves the middle of the sorted data.\n\nTip: for skewed data or data with outliers, report the median and IQR.",
+      "searchQuery": "resistant statistics median IQR outliers"
+    },
+    {
+      "id": "five-number-summary",
+      "title": "What is the five-number summary, and which plot is built from it?",
+      "body": "Minimum, $Q_1$, median, $Q_3$, maximum\n\nA **boxplot** draws a box from $Q_1$ to $Q_3$ with a line at the median. In the usual (modified) boxplot, the whiskers reach the most extreme points within the $1.5 \\times \\text{IQR}$ fences, and points beyond them are plotted individually as outliers.\n\nKey idea: the five numbers split the sorted data into four parts of about 25% each.",
+      "searchQuery": "five-number summary boxplot"
+    },
+    {
+      "id": "outlier-fence",
+      "title": "A data set has $Q_1 = 20$ and $Q_3 = 35$. Above what value is a point flagged as an outlier by the $1.5 \\times \\text{IQR}$ rule?",
+      "body": "57.5\n\n$\\text{IQR} = Q_3 - Q_1 = 15$, so the fences are $Q_1 - 1.5(15) = -2.5$ and $Q_3 + 1.5(15) = 35 + 22.5 = 57.5$.\n\nWatch out: points beyond a fence are only flagged as **potential outliers**. The rule is a rule of thumb, not proof.",
+      "answer": "57.5",
+      "searchQuery": "1.5 IQR rule upper outlier fence"
+    },
+    {
+      "id": "variance-n-minus-1",
+      "title": "In the sample variance $s^2$, what is the sum of squared deviations divided by?",
+      "body": "$n - 1$\n\n$s^2 = \\dfrac{\\sum (x_i - \\bar{x})^2}{n - 1}$\n\nWhy: the deviations from $\\bar{x}$ always sum to 0, so only $n - 1$ of them are free (the **degrees of freedom**). Dividing by $n$ would systematically underestimate $\\sigma^2$.",
+      "answer": "n-1",
+      "acceptedAnswers": [
+        "(n-1)",
+        "n minus 1",
+        "n minus one",
+        "degrees of freedom"
+      ],
+      "answerDisplay": "$n - 1$",
+      "searchQuery": "sample variance divisor n minus 1"
+    },
+    {
+      "id": "sample-sd-by-hand",
+      "title": "What is the sample standard deviation of the data 1, 3, 5?",
+      "body": "2\n\n$\\bar{x} = 3$. The squared deviations $4, 0, 4$ sum to $8$, so $s^2 = \\frac{8}{3 - 1} = 4$ and $s = \\sqrt{4} = 2$.\n\nWatch out: dividing by $n$ instead would give $\\sqrt{8/3} \\approx 1.63$, the wrong answer for a sample.",
+      "answer": "2",
+      "searchQuery": "sample standard deviation worked example"
+    },
+    {
+      "id": "sd-vs-variance-units",
+      "title": "Lengths are measured in cm. Why is the standard deviation easier to interpret than the variance?",
+      "body": "The SD is in $\\mathrm{cm}$, the same units as the data; the variance is in $\\mathrm{cm}^2$.\n\nVariance averages **squared** deviations, so its units are squared. Taking the square root returns to the original scale.\n\nKey idea: the SD reads as a typical distance from the mean.",
+      "searchQuery": "standard deviation vs variance units"
+    },
+    {
+      "id": "compare-with-z-scores",
+      "title": "Maya scored 85 on a test with mean 75, SD 5. Leo scored 90 on a test with mean 80, SD 10. Who did better relative to their class?",
+      "body": "Maya\n\nStandardizing with $z = \\frac{x - \\text{mean}}{\\text{SD}}$ puts both scores on one scale. Maya: $z = \\frac{85 - 75}{5} = 2.0$. Leo: $z = \\frac{90 - 80}{10} = 1.0$.\n\nKey idea: Maya is 2 SDs above her class mean, Leo only 1. Raw points can't be compared across different tests.",
+      "answer": "Maya",
+      "acceptedAnswers": [
+        "Maya did better"
+      ],
+      "searchQuery": "compare scores using z-scores"
+    },
+    {
+      "id": "value-from-z-score",
+      "title": "Scores have mean 70 and SD 8. What score has a z-score of $-1.5$?",
+      "body": "58\n\nSolve $z = \\frac{x - \\mu}{\\sigma}$ for $x$: $x = \\mu + z\\sigma = 70 + (-1.5)(8) = 70 - 12 = 58$.\n\nTip: a negative **z-score** means the value is below the mean.",
+      "answer": "58",
+      "searchQuery": "find value from z-score"
+    },
+    {
+      "id": "z-score-distribution",
+      "title": "After converting every value in a data set to a z-score, what are the new mean and standard deviation?",
+      "body": "Mean $0$, SD $1$\n\nSubtracting the mean shifts the center to 0, and dividing by the SD rescales the spread to 1.\n\nWatch out: the shape doesn't change. Z-scores of skewed data are still skewed, not normal.",
+      "searchQuery": "standardized data mean 0 SD 1"
+    },
+    {
+      "id": "empirical-rule",
+      "title": "What does the empirical rule say, and what kind of data does it apply to?",
+      "body": "About $68\\%$, $95\\%$ and $99.7\\%$ of values lie within $1$, $2$ and $3$ SD of the mean.\n\nIn symbols: $\\mu \\pm \\sigma$, $\\mu \\pm 2\\sigma$ and $\\mu \\pm 3\\sigma$.\n\nWatch out: it applies only to roughly **normal** (unimodal, symmetric, bell-shaped) data. For skewed data these percentages can be far off.",
+      "searchQuery": "empirical rule 68-95-99.7"
+    },
+    {
+      "id": "empirical-rule-tail",
+      "title": "Heights are roughly normal with mean $170\\,\\mathrm{cm}$ and SD $10\\,\\mathrm{cm}$. By the empirical rule, about what percent are taller than $190\\,\\mathrm{cm}$?",
+      "body": "About $2.5\\%$\n\n$190 = 170 + 2(10)$ is 2 SD above the mean. About 95% of values lie within 2 SD, leaving 5% in the two tails.\n\nWhy: by symmetry, half of that 5% is above $190\\,\\mathrm{cm}$.",
+      "answer": "2.5%",
+      "acceptedAnswers": [
+        "2.5",
+        "0.025",
+        "2.5 percent",
+        "about 2.5%",
+        "approximately 2.5%"
+      ],
+      "searchQuery": "empirical rule percent above 2 SD"
+    },
+    {
+      "id": "linear-transformation-sd",
+      "title": "Daily highs have mean $20\\,^\\circ\\mathrm{C}$ and SD $5\\,^\\circ\\mathrm{C}$. After converting with $F = 1.8C + 32$, what is the SD in $^\\circ\\mathrm{F}$?",
+      "body": "$9\\,^\\circ\\mathrm{F}$\n\nFor $y = a + bx$, the mean becomes $a + b\\bar{x}$ but the SD becomes $|b|\\,s$. So the SD is $1.8 \\times 5 = 9$.\n\nWatch out: adding 32 shifts the center, not the spread. (The mean becomes $1.8(20) + 32 = 68\\,^\\circ\\mathrm{F}$.)",
+      "answer": "9",
+      "acceptedAnswers": [
+        "9 F",
+        "9°F",
+        "9 degrees",
+        "9 degrees F",
+        "9 degrees Fahrenheit"
+      ],
+      "answerDisplay": "$9\\,^\\circ\\mathrm{F}$",
+      "searchQuery": "SD after linear transformation Celsius Fahrenheit"
+    },
+    {
+      "id": "descriptive-vs-inferential",
+      "title": "What is the difference between descriptive and inferential statistics?",
+      "body": "Descriptive statistics **summarize the data in hand**; inferential statistics use a sample to draw conclusions about a larger population.\n\nDescriptive tools are graphs and numbers such as the mean and SD. Inferential methods add a measure of uncertainty.\n\nExample: \"the 200 students surveyed have a mean GPA of 3.1\" is descriptive. \"We're 95% confident the mean GPA of all students here is between 3.0 and 3.2\" is inferential.",
+      "searchQuery": "descriptive vs inferential statistics difference"
+    },
+    {
+      "id": "population-vs-sample",
+      "title": "In statistics, what is the difference between a population and a sample?",
+      "body": "The **population** is the entire group a study wants to describe; a **sample** is the part of it actually observed.\n\nExample: all 30,000 students at a university (population) vs. the 400 who answer a survey (sample).\n\nWatch out: conclusions extend to the population only if the sample represents it, ideally through random selection.",
+      "searchQuery": "population vs sample statistics"
+    },
+    {
+      "id": "census-definition",
+      "title": "What is a census, and why do studies usually sample instead?",
+      "body": "A census collects data from **every member** of the population.\n\nCensuses are expensive and slow, and sometimes impossible. A well-chosen sample estimates population values at a fraction of the cost.\n\nExample: testing every light bulb until it burns out would leave none to sell.",
+      "searchQuery": "census definition vs sampling"
+    },
+    {
+      "id": "parameter-vs-statistic",
+      "title": "Is the mean GPA of a random sample of 50 students a parameter or a statistic?",
+      "body": "A statistic\n\nA **statistic** describes a sample and changes from sample to sample. A **parameter** describes the whole population and is usually unknown.\n\nMnemonic: Sample goes with Statistic, Population with Parameter.",
+      "answer": "statistic",
+      "acceptedAnswers": [
+        "sample statistic"
+      ],
+      "searchQuery": "parameter vs statistic sample mean"
+    },
+    {
+      "id": "notation-population-vs-sample",
+      "title": "Which symbols denote the population mean and SD, and which denote the sample mean and SD?",
+      "body": "Population: $\\mu$ and $\\sigma$. Sample: $\\bar{x}$ and $s$.\n\nGreek letters usually mark **parameters** and Latin letters mark **statistics**.\n\nTip: likewise, $p$ is a population proportion and $\\hat{p}$ is a sample proportion.",
+      "searchQuery": "population and sample notation mu sigma x-bar s"
+    },
+    {
+      "id": "categorical-vs-quantitative",
+      "title": "What distinguishes a categorical variable from a quantitative one?",
+      "body": "A **categorical** variable places each individual in a group; a **quantitative** variable takes numerical values for which arithmetic makes sense.\n\nExample: blood type and major are categorical; height and income are quantitative.\n\nTip: would an average of the values mean anything? If not, the variable is categorical.",
+      "searchQuery": "categorical vs quantitative variable"
+    },
+    {
+      "id": "zip-code-variable-type",
+      "title": "ZIP codes are written with digits. Is ZIP code a categorical or a quantitative variable?",
+      "body": "Categorical\n\nZIP codes are labels for places; their average or difference means nothing.\n\nWatch out: being written with digits doesn't make a variable quantitative. Jersey numbers and phone numbers are the same.",
+      "answer": "categorical",
+      "acceptedAnswers": [
+        "qualitative",
+        "nominal"
+      ],
+      "searchQuery": "ZIP code categorical or quantitative"
+    },
+    {
+      "id": "discrete-vs-continuous",
+      "title": "Is the number of siblings a person has a discrete or a continuous variable?",
+      "body": "Discrete\n\nIt takes separate, countable values ($0, 1, 2, \\dots$) with nothing in between.\n\nKey idea: a **continuous** variable, such as height or time, can take any value in an interval, limited only by how precisely it's measured.",
+      "answer": "discrete",
+      "acceptedAnswers": [
+        "discrete variable",
+        "discrete quantitative"
+      ],
+      "searchQuery": "discrete vs continuous variable number of siblings"
+    },
+    {
+      "id": "levels-of-measurement",
+      "title": "What are the four levels of measurement, from least to most informative?",
+      "body": "Nominal, ordinal, interval, ratio\n\n- **Nominal**: names only (blood type)\n- **Ordinal**: ordered, but gaps aren't equal (letter grades)\n- **Interval**: equal gaps, no true zero (Celsius temperature)\n- **Ratio**: equal gaps and a true zero (mass, elapsed time)\n\nMnemonic: NOIR.",
+      "searchQuery": "four levels of measurement NOIR"
+    },
+    {
+      "id": "ordinal-example",
+      "title": "Survey responses range from 'strongly disagree' to 'strongly agree'. At which level of measurement are they?",
+      "body": "Ordinal\n\nThe categories have a natural order, but the steps between them aren't known to be equal. Is \"neutral\" to \"agree\" the same distance as \"agree\" to \"strongly agree\"?\n\nWatch out: differences and averages of the numeric codes are therefore questionable.",
+      "answer": "ordinal",
+      "acceptedAnswers": [
+        "ordinal level",
+        "ordinal scale"
+      ],
+      "searchQuery": "ordinal level of measurement Likert scale"
+    },
+    {
+      "id": "ratio-level-true-zero",
+      "title": "Which level of measurement has a true zero, so that statements like 'twice as much' make sense?",
+      "body": "Ratio\n\nZero means **none of the quantity** ($0\\,\\mathrm{kg}$, $0\\,\\mathrm{s}$, $0\\,\\mathrm{K}$), so $40\\,\\mathrm{kg}$ really is twice $20\\,\\mathrm{kg}$.\n\nWatch out: interval scales such as Fahrenheit temperature have equal steps but an arbitrary zero.",
+      "answer": "ratio",
+      "acceptedAnswers": [
+        "ratio level",
+        "ratio scale"
+      ],
+      "searchQuery": "ratio level true zero measurement"
+    },
+    {
+      "id": "celsius-ratio-trap",
+      "title": "Why is it wrong to say that $20\\,^\\circ\\mathrm{C}$ is twice as hot as $10\\,^\\circ\\mathrm{C}$?",
+      "body": "Celsius is an **interval** scale: its zero is a convention, not an absence of heat, so ratios of Celsius values are meaningless.\n\nExample: on the kelvin scale, which has a true zero, $293.15\\,\\mathrm{K}$ is only about 3.5% more than $283.15\\,\\mathrm{K}$.\n\nTip: differences are fine. $20\\,^\\circ\\mathrm{C}$ is $10\\,^\\circ\\mathrm{C}$ warmer than $10\\,^\\circ\\mathrm{C}$.",
+      "searchQuery": "Celsius interval scale ratio meaningless"
+    },
+    {
+      "id": "graph-for-categorical",
+      "title": "Which graphs display the distribution of a single categorical variable?",
+      "body": "**Bar charts** and **pie charts**\n\nBars show each category's count or percent. A pie chart shows parts of one whole, so its categories must cover 100% of the group.\n\nWatch out: histograms, dotplots and boxplots are for quantitative data.",
+      "searchQuery": "graphs for categorical data bar chart pie chart"
+    },
+    {
+      "id": "relative-vs-absolute-frequency",
+      "title": "Why compare two groups of different sizes with relative frequencies (percents) rather than counts?",
+      "body": "Counts grow with group size; **percents** put both groups on the same scale.\n\nExample: 30 smokers out of 100 vs. 45 out of 300. The second group has more smokers but a lower rate ($15\\%$ vs. $30\\%$).",
+      "searchQuery": "relative frequency vs counts comparing groups"
+    },
+    {
+      "id": "histogram-vs-bar-chart",
+      "title": "How does a histogram differ from a bar chart?",
+      "body": "A **histogram** shows a quantitative variable: its bars cover adjacent numeric intervals, so they touch and their order is fixed. A **bar chart** shows a categorical variable: its bars are separate and can be listed in any order.\n\nKey idea: shape (skew, modes) is meaningful for a histogram, not for a bar chart of unordered categories.",
+      "searchQuery": "histogram vs bar chart difference"
+    },
+    {
+      "id": "histogram-bin-width",
+      "title": "How can the choice of bin width change what a histogram shows?",
+      "body": "Very wide bins hide detail, even a second peak; very narrow bins make the shape jagged and noisy.\n\nThe data don't change, only the picture.\n\nTip: try a few **bin widths** before describing a distribution's shape.",
+      "searchQuery": "histogram bin width effect on shape"
+    },
+    {
+      "id": "stemplot-advantage",
+      "title": "What does a stemplot (stem-and-leaf plot) show that a histogram does not?",
+      "body": "The individual data values\n\nEach value splits into a **stem** (leading digits) and a **leaf** (last digit): 47 is stem 4, leaf 7. You see the shape like a sideways histogram and can still read off every value, for example to find the median.\n\nWatch out: stemplots work best for small data sets.",
+      "searchQuery": "stemplot stem-and-leaf advantage"
+    },
+    {
+      "id": "time-plot",
+      "title": "Which graph best shows how one quantitative variable changes over time?",
+      "body": "A **time plot** (time series plot)\n\nTime goes on the horizontal axis, the variable on the vertical axis, with points connected in time order.\n\nWhy: it reveals trends, seasonal cycles and sudden shifts that a histogram of the same values would hide.",
+      "searchQuery": "time plot time series graph"
+    },
+    {
+      "id": "right-skew-shape",
+      "title": "A histogram has a long tail stretching toward large values. What is its shape called?",
+      "body": "Skewed right (positively skewed)\n\nSkew is named for the direction of the **long tail**, not the peak. Here the peak sits on the left.\n\nExample: incomes, house prices and waiting times are typically skewed right.",
+      "answer": "skewed right",
+      "acceptedAnswers": [
+        "right skewed",
+        "right-skewed",
+        "skewed to the right",
+        "right skew",
+        "right",
+        "positively skewed",
+        "positive skew",
+        "positive"
+      ],
+      "searchQuery": "right skewed distribution long tail"
+    },
+    {
+      "id": "easy-exam-left-skew",
+      "title": "On an easy exam, most scores fall between 90 and 100 and a few are much lower. What shape is the distribution?",
+      "body": "Skewed left\n\nScores pile up against the 100-point ceiling and trail off toward low values, so the long tail points left.\n\nTip: expect the mean to fall below the median.",
+      "answer": "skewed left",
+      "acceptedAnswers": [
+        "left skewed",
+        "left-skewed",
+        "skewed to the left",
+        "left skew",
+        "left",
+        "negatively skewed",
+        "negative skew",
+        "negative"
+      ],
+      "searchQuery": "left skewed distribution easy exam scores"
+    },
+    {
+      "id": "bimodal-meaning",
+      "title": "A histogram shows two distinct peaks. What does this bimodal shape usually suggest?",
+      "body": "The data may combine two different groups or processes.\n\nExample: Old Faithful's waiting times between eruptions cluster around a short and a long value.\n\nWatch out: a single mean or median of a **bimodal** distribution can describe almost nobody. Look for the variable that separates the groups.",
+      "searchQuery": "bimodal distribution two peaks meaning"
+    },
+    {
+      "id": "describe-a-distribution",
+      "title": "When describing the distribution of a quantitative variable, what four features should you cover?",
+      "body": "Shape, center, spread and unusual features (outliers, gaps, clusters), all in context.\n\nExample: \"Commute times are skewed right, with median $22\\,\\mathrm{min}$ and IQR $15\\,\\mathrm{min}$; one commute of $95\\,\\mathrm{min}$ is a high outlier.\"\n\nMnemonic: **SOCS**: shape, outliers, center, spread.",
+      "searchQuery": "describe distribution shape center spread outliers"
+    },
+    {
+      "id": "density-histogram-height",
+      "title": "In a density histogram, a bin of width 5 holds 20% of the data. How tall is its bar?",
+      "body": "0.04 (per unit of the variable)\n\nHeight $= \\dfrac{\\text{relative frequency}}{\\text{bin width}} = \\dfrac{0.20}{5} = 0.04$.\n\nWhy: each bar's **area** then equals its share of the data, and the areas sum to 1.\nTip: use this scale whenever bins have unequal widths.",
+      "answer": "0.04",
+      "acceptedAnswers": [
+        "1/25"
+      ],
+      "searchQuery": "density histogram bar height relative frequency bin width"
+    },
+    {
+      "id": "cumulative-relative-frequency",
+      "title": "A cumulative relative frequency table shows 35% of values at most 20 and 80% at most 30. What fraction of values are above 20 but at most 30?",
+      "body": "0.45\n\nSubtract the cumulative values: $0.80 - 0.35 = 0.45$, i.e. 45% of the data.\n\nKey idea: cumulative frequencies never decrease and end at 1 (100%); their graph is called an **ogive**.",
+      "answer": "0.45",
+      "acceptedAnswers": [
+        "45%",
+        "9/20"
+      ],
+      "searchQuery": "cumulative relative frequency table interval"
+    },
+    {
+      "id": "sample-mean-formula",
+      "title": "What is the formula for the sample mean $\\bar{x}$ of $n$ values $x_1, \\dots, x_n$?",
+      "body": "$\\bar{x} = \\dfrac{1}{n}\\sum_{i=1}^{n} x_i = \\dfrac{x_1 + x_2 + \\cdots + x_n}{n}$\n\nAdd the values and divide by how many there are.\n\nTip: the population mean $\\mu$ is the same calculation over all $N$ values of the population.",
+      "searchQuery": "sample mean formula x-bar"
+    },
+    {
+      "id": "median-odd-position",
+      "title": "A sorted data set has $n = 25$ values. In which position is the median?",
+      "body": "The 13th\n\nFor odd $n$, the median is the value in position $\\frac{n + 1}{2} = \\frac{26}{2} = 13$, with 12 values on each side.\n\nTip: for even $n$, average the values in positions $\\frac{n}{2}$ and $\\frac{n}{2} + 1$.",
+      "answer": "13th",
+      "acceptedAnswers": [
+        "13",
+        "thirteenth",
+        "13th position",
+        "13th value"
+      ],
+      "searchQuery": "median position odd n formula"
+    },
+    {
+      "id": "mode-definition",
+      "title": "Which measure of center is the only one that makes sense for nominal data such as favorite color?",
+      "body": "The **mode**, the most frequent value\n\nColors can't be averaged or put in order, so the mean and median don't exist. You can still say which category is most common.",
+      "answer": "mode",
+      "acceptedAnswers": [
+        "modal category",
+        "modal value"
+      ],
+      "searchQuery": "mode nominal data measure of center"
+    },
+    {
+      "id": "center-for-ordinal-data",
+      "title": "Which measures of center are appropriate for ordinal data such as letter grades?",
+      "body": "The median and the mode\n\nOrdinal values can be sorted, so a middle value exists. But the gaps between categories aren't equal, so a mean of the codes isn't meaningful.\n\nWatch out: nominal data allow only the **mode**.",
+      "searchQuery": "measure of center ordinal data median mode"
+    },
+    {
+      "id": "bimodal-mode-data",
+      "title": "What is the mode of the data 2, 3, 3, 5, 7, 7, 9?",
+      "body": "3 and 7: the data are **bimodal**.\n\nBoth values appear twice, more often than any other.\n\nTip: a data set can have one mode, several, or none at all (when every value appears equally often).",
+      "answer": "3 and 7",
+      "acceptedAnswers": [
+        "7 and 3",
+        "both 3 and 7",
+        "3 & 7"
+      ],
+      "searchQuery": "mode of data set bimodal"
+    },
+    {
+      "id": "weighted-mean-grade",
+      "title": "Exams count 60% and homework 40% of a course grade. A student averages 80 on exams and 90 on homework. What is the course grade?",
+      "body": "84\n\nA **weighted mean** multiplies each value by its weight: $\\bar{x}_w = \\dfrac{\\sum w_i x_i}{\\sum w_i} = 0.6(80) + 0.4(90) = 48 + 36 = 84$.\n\nWatch out: the plain average of 80 and 90 ($85$) ignores that exams count more.",
+      "answer": "84",
+      "searchQuery": "weighted mean course grade"
+    },
+    {
+      "id": "mean-from-frequency-table",
+      "title": "The values 1, 2 and 3 occur with frequencies 2, 5 and 3. What is the mean?",
+      "body": "2.1\n\n$\\bar{x} = \\dfrac{\\sum f_i x_i}{\\sum f_i} = \\dfrac{1(2) + 2(5) + 3(3)}{2 + 5 + 3} = \\dfrac{21}{10} = 2.1$\n\nWatch out: averaging just the distinct values $1, 2, 3$ gives $2$ and ignores how often each occurs.",
+      "answer": "2.1",
+      "acceptedAnswers": [
+        "21/10"
+      ],
+      "searchQuery": "mean from frequency table"
+    },
+    {
+      "id": "median-from-frequency-table",
+      "title": "The values 10, 20, 30 and 40 occur with frequencies 3, 4, 2 and 1. What is the median?",
+      "body": "20\n\nThere are $n = 10$ values, so the median averages the 5th and 6th in order. Positions 1 to 3 hold 10 and positions 4 to 7 hold 20, so both middle values are 20.\n\nWatch out: the median of the four distinct values ($25$) ignores the frequencies.",
+      "answer": "20",
+      "searchQuery": "median from frequency table"
+    },
+    {
+      "id": "grouped-mean-midpoints",
+      "title": "Grouped data: 5 values in $[0, 10)$, 10 in $[10, 20)$ and 5 in $[20, 30)$. Using class midpoints, what is the estimated mean?",
+      "body": "15\n\nTreat every value as its **class midpoint** ($5$, $15$, $25$): $\\dfrac{5(5) + 10(15) + 5(25)}{20} = \\dfrac{300}{20} = 15$.\n\nWatch out: it's only an estimate, because the exact values within each class are unknown.",
+      "answer": "15",
+      "searchQuery": "estimate mean grouped data class midpoints"
+    },
+    {
+      "id": "mean-of-indicator",
+      "title": "A variable is coded 1 for 'yes' and 0 for 'no'. In a sample of 50, 18 answered yes. What is the mean of the variable?",
+      "body": "0.36\n\n$\\bar{x} = \\dfrac{18(1) + 32(0)}{50} = 0.36$\n\nKey idea: the mean of a 0/1 variable is the **proportion** of 1s, $\\hat{p}$. That's why sample proportions behave like sample means in many formulas.",
+      "answer": "0.36",
+      "acceptedAnswers": [
+        "36%",
+        "9/25",
+        "18/50"
+      ],
+      "searchQuery": "mean of 0-1 indicator variable proportion"
+    },
+    {
+      "id": "combined-group-mean",
+      "title": "Section A has 10 students with mean score 70; section B has 30 students with mean 80. What is the mean of all 40 students?",
+      "body": "77.5\n\nCombine the totals: $\\dfrac{10(70) + 30(80)}{40} = \\dfrac{700 + 2400}{40} = 77.5$.\n\nWatch out: averaging the two means ($75$) is wrong unless the groups are the same size. The larger group pulls the result toward its mean.",
+      "answer": "77.5",
+      "acceptedAnswers": [
+        "155/2"
+      ],
+      "searchQuery": "combined mean of two groups weighted"
+    },
+    {
+      "id": "missing-value-for-mean",
+      "title": "A student's first four test scores average 85. What score on the fifth test makes the five-test average 87?",
+      "body": "95\n\nWork with **totals**: five tests averaging 87 need $5 \\times 87 = 435$ points, and the first four contribute $4 \\times 85 = 340$.\n\nSo the fifth must be $435 - 340 = 95$.",
+      "answer": "95",
+      "searchQuery": "score needed to reach target average"
+    },
+    {
+      "id": "deviations-sum-to-zero",
+      "title": "For any data set, what does $\\sum (x_i - \\bar{x})$ equal?",
+      "body": "0\n\nThe mean is the balance point: positive and negative deviations cancel exactly, since $\\sum x_i - n\\bar{x} = 0$.\n\nWhy: that's why measures of spread **square** the deviations (or take absolute values) before averaging.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero"
+      ],
+      "searchQuery": "sum of deviations from the mean equals zero"
+    },
+    {
+      "id": "outlier-shifts-mean",
+      "title": "The data 2, 3, 4, 5, 6 have mean 4 and median 4. If the 6 is replaced by 56, what is the new mean?",
+      "body": "14\n\nThe sum rises by 50, from 20 to 70, so the mean becomes $\\frac{70}{5} = 14$, while the median stays 4.\n\nKey idea: one extreme value pulled the mean far from all the typical values. The mean is **not resistant**.",
+      "answer": "14",
+      "searchQuery": "effect of outlier on mean"
+    },
+    {
+      "id": "identify-skew-from-mean-median",
+      "title": "A data set has mean 52 and median 60. In which direction is it most likely skewed?",
+      "body": "Left (negatively skewed)\n\nA long tail of low values pulls the mean below the median.\n\nWatch out: this is a rule of thumb, not a theorem. It can fail, especially for discrete data, so confirm with a graph.",
+      "answer": "left",
+      "acceptedAnswers": [
+        "skewed left",
+        "left skewed",
+        "left-skewed",
+        "skewed to the left",
+        "left skew",
+        "negatively skewed",
+        "negative skew",
+        "negative"
+      ],
+      "searchQuery": "skew direction from mean and median"
+    },
+    {
+      "id": "trimmed-mean",
+      "title": "What is the 10% trimmed mean of 1, 3, 4, 5, 6, 7, 8, 9, 10, 100?",
+      "body": "6.5\n\nDrop the lowest 10% and highest 10% of the sorted data (one value at each end here), then average the rest: $\\frac{3 + 4 + \\cdots + 10}{8} = \\frac{52}{8} = 6.5$.\n\nWhy: a **trimmed mean** resists outliers yet uses most of the data. The ordinary mean here is $15.3$.",
+      "answer": "6.5",
+      "acceptedAnswers": [
+        "13/2"
+      ],
+      "searchQuery": "10 percent trimmed mean"
+    },
+    {
+      "id": "combine-medians-trap",
+      "title": "Two groups have medians 40 and 60. Can you find the median of the combined data from these numbers and the group sizes alone?",
+      "body": "No\n\nThe combined median depends on how the values are arranged within each group, not just on the two medians.\n\nTip: means are different. The combined mean follows from the group means and sizes: $\\dfrac{n_1\\bar{x}_1 + n_2\\bar{x}_2}{n_1 + n_2}$.",
+      "searchQuery": "combined median from group medians"
+    },
+    {
+      "id": "range-definition",
+      "title": "What is the range of the data 4, 9, 1, 15, 7?",
+      "body": "14\n\n$\\text{range} = \\max - \\min = 15 - 1 = 14$\n\nWatch out: it depends only on the two most extreme values, so one outlier can inflate it, and it tends to grow as more data are collected.",
+      "answer": "14",
+      "searchQuery": "range of data set max minus min"
+    },
+    {
+      "id": "iqr-by-hand",
+      "title": "Taking $Q_1$ and $Q_3$ as the medians of the lower and upper halves, what is the IQR of 2, 4, 5, 7, 8, 10, 12, 15?",
+      "body": "6.5\n\nThe lower half $2, 4, 5, 7$ gives $Q_1 = \\frac{4 + 5}{2} = 4.5$; the upper half $8, 10, 12, 15$ gives $Q_3 = \\frac{10 + 12}{2} = 11$. So $\\text{IQR} = 11 - 4.5 = 6.5$.\n\nWatch out: software often interpolates quartiles, so its answer may differ slightly.",
+      "answer": "6.5",
+      "acceptedAnswers": [
+        "13/2"
+      ],
+      "searchQuery": "interquartile range by hand medians of halves"
+    },
+    {
+      "id": "boxplot-box-length",
+      "title": "In a boxplot, what does the length of the box represent?",
+      "body": "The interquartile range, $\\text{IQR} = Q_3 - Q_1$\n\nThe box spans the **middle 50%** of the data. A longer box means more spread in the middle half; the whiskers show the spread of the outer quarters.",
+      "answer": "IQR",
+      "acceptedAnswers": [
+        "interquartile range",
+        "Q3 - Q1",
+        "middle 50%"
+      ],
+      "searchQuery": "boxplot box length interquartile range"
+    },
+    {
+      "id": "boxplot-percent-above-q1",
+      "title": "About what percent of a data set lies between $Q_1$ and the maximum?",
+      "body": "About $75\\%$\n\nThe four sections of a boxplot (minimum to $Q_1$, $Q_1$ to median, median to $Q_3$, $Q_3$ to maximum) each hold about 25% of the data, however long they're drawn.\n\nWatch out: a long section means the values are **spread out**, not that there are more of them.",
+      "answer": "75%",
+      "acceptedAnswers": [
+        "75",
+        "0.75",
+        "3/4",
+        "75 percent"
+      ],
+      "searchQuery": "percent of data between Q1 and maximum"
+    },
+    {
+      "id": "boxplot-skew",
+      "title": "In a horizontal boxplot, the median sits close to $Q_1$ and the right whisker is much longer than the left. What shape is the distribution?",
+      "body": "Skewed right\n\nThe upper half of the data is spread over a much wider range than the lower half, the signature of a long right tail.\n\nTip: a symmetric distribution shows a centered median and whiskers of similar length.",
+      "answer": "skewed right",
+      "acceptedAnswers": [
+        "right skewed",
+        "right-skewed",
+        "skewed to the right",
+        "right skew",
+        "right",
+        "positively skewed",
+        "positive skew",
+        "positive"
+      ],
+      "searchQuery": "boxplot skewed right long whisker"
+    },
+    {
+      "id": "boxplot-hides-modes",
+      "title": "What features of a distribution can a boxplot hide that a histogram would reveal?",
+      "body": "Peaks (modes), clusters and gaps\n\nA bimodal and a unimodal distribution can have identical five-number summaries, so their boxplots look the same.\n\nTip: check a **histogram** or dotplot before trusting a boxplot's picture of shape.",
+      "searchQuery": "what boxplots hide modes gaps"
+    },
+    {
+      "id": "population-variance-divisor",
+      "title": "When computing the variance $\\sigma^2$ of an entire population of $N$ values, what do you divide the sum of squared deviations by?",
+      "body": "$N$\n\n$\\sigma^2 = \\dfrac{\\sum (x_i - \\mu)^2}{N}$\n\nWhy: no correction is needed because $\\mu$ is the true mean, not an estimate.\nWatch out: the $n - 1$ divisor is for the **sample** variance $s^2$, which estimates $\\sigma^2$ from a sample.",
+      "answer": "N",
+      "acceptedAnswers": [
+        "population size"
+      ],
+      "answerDisplay": "$N$",
+      "searchQuery": "population variance divisor N"
+    },
+    {
+      "id": "population-sd-by-hand",
+      "title": "Treating 2, 4, 4, 4, 5, 5, 7, 9 as an entire population, what is its standard deviation $\\sigma$?",
+      "body": "2\n\n$\\mu = \\frac{40}{8} = 5$. The squared deviations $9, 1, 1, 1, 0, 0, 4, 16$ sum to $32$, so $\\sigma^2 = \\frac{32}{8} = 4$ and $\\sigma = 2$.\n\nWatch out: treated as a sample, the same data give $s = \\sqrt{32/7} \\approx 2.14$.",
+      "answer": "2",
+      "searchQuery": "population standard deviation by hand"
+    },
+    {
+      "id": "sample-variance-by-hand",
+      "title": "What is the sample variance $s^2$ of the data 1, 2, 3, 4, 10?",
+      "body": "12.5\n\n$\\bar{x} = 4$. The squared deviations $9, 4, 1, 0, 36$ sum to $50$, so $s^2 = \\frac{50}{5 - 1} = 12.5$, in squared units.\n\nTip: the SD is $s = \\sqrt{12.5} \\approx 3.54$.",
+      "answer": "12.5",
+      "acceptedAnswers": [
+        "25/2"
+      ],
+      "searchQuery": "sample variance by hand 1 2 3 4 10"
+    },
+    {
+      "id": "variance-shortcut-formula",
+      "title": "A sample has $n = 5$, $\\sum x = 20$ and $\\sum x^2 = 100$. What is $s^2$?",
+      "body": "5\n\n$s^2 = \\dfrac{\\sum x^2 - (\\sum x)^2/n}{n - 1} = \\dfrac{100 - 400/5}{4} = \\dfrac{20}{4} = 5$\n\nIt matches the deviation formula.\n\nWatch out: on a computer the shortcut can lose precision when values are large.",
+      "answer": "5",
+      "searchQuery": "sample variance shortcut formula sum of squares"
+    },
+    {
+      "id": "sd-zero",
+      "title": "When is the standard deviation of a data set equal to 0?",
+      "body": "Only when every value is the same\n\nThe SD is the square root of an average of squared deviations, so it is never negative, and it is 0 only when every deviation is 0.\n\nKey idea: any variation at all makes the SD positive.",
+      "searchQuery": "when is standard deviation zero"
+    },
+    {
+      "id": "add-value-at-mean",
+      "title": "A new value exactly equal to the current mean is added to a data set. What happens to the mean and to the standard deviation?",
+      "body": "The mean stays the same; the SD decreases (unless it was already 0).\n\nThe new point adds nothing to $\\sum (x_i - \\bar{x})^2$ but raises the count, so $s^2 = \\dfrac{\\sum (x_i - \\bar{x})^2}{n - 1}$ gets a larger denominator with the same numerator.",
+      "searchQuery": "adding a value equal to the mean effect on SD"
+    },
+    {
+      "id": "mean-absolute-deviation",
+      "title": "What is the mean absolute deviation (about the mean) of 2, 4, 6, 8?",
+      "body": "2\n\n$\\bar{x} = 5$, the absolute deviations are $3, 1, 1, 3$, and their average is $\\frac{8}{4} = 2$.\n\nWatch out: the **MAD** is easy to interpret but harder to work with algebraically than the SD (here $s \\approx 2.58$).",
+      "answer": "2",
+      "searchQuery": "mean absolute deviation calculation"
+    },
+    {
+      "id": "coefficient-of-variation",
+      "title": "A sample has mean 50 and standard deviation 5. What is its coefficient of variation, as a percent?",
+      "body": "$10\\%$\n\n$\\text{CV} = \\dfrac{s}{\\bar{x}} \\times 100\\% = \\dfrac{5}{50} \\times 100\\% = 10\\%$\n\nWhy: it has no units, so the **CV** can compare variability across different scales.\nWatch out: it's meaningful only for ratio-scale data with a positive mean.",
+      "answer": "10%",
+      "acceptedAnswers": [
+        "10",
+        "0.1",
+        "10 percent"
+      ],
+      "searchQuery": "coefficient of variation formula percent"
+    },
+    {
+      "id": "cv-under-shift",
+      "title": "Every value in a data set with a positive mean is increased by 10. What happens to the coefficient of variation?",
+      "body": "It decreases\n\nThe SD stays the same while the mean grows by 10, so $\\text{CV} = \\frac{s}{\\bar{x}}$ shrinks.\n\nTip: multiplying every value by a positive constant (a change of units, for example) leaves the CV unchanged.",
+      "answer": "decreases",
+      "acceptedAnswers": [
+        "it decreases",
+        "decrease",
+        "gets smaller",
+        "goes down"
+      ],
+      "searchQuery": "coefficient of variation after adding constant"
+    },
+    {
+      "id": "percentile-meaning",
+      "title": "A score is at the 80th percentile. What does that mean?",
+      "body": "About $80\\%$ of the scores are at or below it.\n\nA **percentile** describes position relative to other scores.\n\nWatch out: it is not the percent of questions answered correctly. On a hard exam, a raw score of 62% might be at the 80th percentile.",
+      "searchQuery": "percentile meaning 80th percentile"
+    },
+    {
+      "id": "percentile-rank-calc",
+      "title": "In a class of 25, exactly 20 students scored below Ana. Defined as the percent of scores below hers, what is Ana's percentile rank?",
+      "body": "80th\n\n$\\frac{20}{25} = 0.80$, so 80% scored below her.\n\nWatch out: some textbooks count ties as half or use \"at or below\", which can shift a percentile rank slightly, so state the definition you use.",
+      "answer": "80th",
+      "acceptedAnswers": [
+        "80",
+        "80th percentile",
+        "80%"
+      ],
+      "searchQuery": "percentile rank calculation"
+    },
+    {
+      "id": "quartile-percentiles",
+      "title": "The third quartile $Q_3$ is which percentile?",
+      "body": "The 75th\n\n$Q_1$, the median and $Q_3$ are the 25th, 50th and 75th percentiles, cutting the sorted data into four parts with about 25% of the values each.",
+      "answer": "75th",
+      "acceptedAnswers": [
+        "75",
+        "75th percentile"
+      ],
+      "searchQuery": "third quartile percentile"
+    },
+    {
+      "id": "z-score-definition-calc",
+      "title": "IQ scores have mean 100 and SD 15. What is the z-score of an IQ of 130?",
+      "body": "2\n\n$z = \\dfrac{x - \\mu}{\\sigma} = \\dfrac{130 - 100}{15} = 2$: the score is 2 standard deviations above the mean.\n\nWhy: a z-score has no units, so it can compare values measured on different scales.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "+2",
+        "z=2"
+      ],
+      "searchQuery": "z-score calculation IQ 130"
+    },
+    {
+      "id": "z-to-percentile-empirical",
+      "title": "In a roughly normal distribution, a value with $z = 1$ is at about which percentile?",
+      "body": "The 84th\n\nHalf the data lie below the mean, and the empirical rule puts about 34% (half of 68%) between $z = 0$ and $z = 1$: $50\\% + 34\\% = 84\\%$.\n\nTip: likewise $z = -1$ is near the 16th percentile.",
+      "answer": "84th",
+      "acceptedAnswers": [
+        "84",
+        "84th percentile",
+        "84%"
+      ],
+      "searchQuery": "z equals 1 percentile empirical rule"
+    },
+    {
+      "id": "lower-fence-outlier",
+      "title": "A data set has $Q_1 = 40$ and $Q_3 = 60$. Is a value of 5 an outlier by the $1.5 \\times \\text{IQR}$ rule?",
+      "body": "Yes\n\n$\\text{IQR} = 20$, so the lower fence is $40 - 1.5(20) = 10$, and $5 < 10$. (The upper fence is $60 + 30 = 90$.)\n\nWatch out: a flagged point deserves a closer look. Don't delete it just because it's unusual.",
+      "answer": "yes",
+      "acceptedAnswers": [
+        "yes it is",
+        "it is an outlier",
+        "outlier"
+      ],
+      "searchQuery": "lower fence outlier 1.5 IQR rule"
+    },
+    {
+      "id": "handling-outliers",
+      "title": "You find an outlier in your data. What should you do before deciding whether to remove it?",
+      "body": "Investigate it: is it a recording or measurement error, or a genuine but unusual case?\n\nCorrect or remove errors, and say so. Keep genuine values.\n\nTip: if a genuine outlier matters, report results with and without it, or use resistant summaries such as the median and IQR.",
+      "searchQuery": "how to handle outliers investigate"
+    },
+    {
+      "id": "empirical-rule-asymmetric",
+      "title": "Weights are roughly normal with mean $50\\,\\mathrm{kg}$ and SD $5\\,\\mathrm{kg}$. By the empirical rule, about what percent weigh between $40$ and $55\\,\\mathrm{kg}$?",
+      "body": "About $81.5\\%$\n\n$40\\,\\mathrm{kg}$ is 2 SD below the mean and $55\\,\\mathrm{kg}$ is 1 SD above.\n\nWhy: half of 95% ($47.5\\%$) lies between $z = -2$ and $z = 0$, and half of 68% ($34\\%$) between $z = 0$ and $z = 1$. So $47.5\\% + 34\\% = 81.5\\%$.",
+      "answer": "81.5%",
+      "acceptedAnswers": [
+        "81.5",
+        "0.815",
+        "81.5 percent"
+      ],
+      "searchQuery": "empirical rule percent between 2 SD below and 1 SD above"
+    },
+    {
+      "id": "empirical-rule-beyond-3sd",
+      "title": "By the empirical rule, about what percent of a normal distribution lies more than 3 SD below the mean?",
+      "body": "About $0.15\\%$\n\n$99.7\\%$ lies within 3 SD, leaving $0.3\\%$ in the two tails, or $\\frac{0.3\\%}{2} = 0.15\\%$ in each.\n\nTip: a value that far out is rare enough to suspect an error, or a distribution that isn't normal.",
+      "answer": "0.15%",
+      "acceptedAnswers": [
+        "0.15",
+        "0.0015",
+        "0.15 percent"
+      ],
+      "searchQuery": "empirical rule percent beyond 3 SD below mean"
+    },
+    {
+      "id": "impossible-normal-skew",
+      "title": "Waiting times have mean $4\\,\\mathrm{min}$ and SD $5\\,\\mathrm{min}$. Why can't their distribution be roughly normal?",
+      "body": "A normal shape would put about 16% of the times more than 1 SD below the mean, that is, below $-1\\,\\mathrm{min}$, which is impossible.\n\nKey idea: when a variable can't be negative and its SD is large compared with its mean, the distribution must be **skewed right**.",
+      "searchQuery": "why waiting times cannot be normal mean less than SD"
+    },
+    {
+      "id": "chebyshev-inequality",
+      "title": "By Chebyshev's inequality, at least what fraction of any data set lies within $k$ standard deviations of the mean ($k > 1$)?",
+      "body": "$1 - \\dfrac{1}{k^2}$\n\nIt holds for **every** distribution, whatever its shape: at least $75\\%$ within 2 SD and at least $\\frac{8}{9} \\approx 88.9\\%$ within 3 SD.\n\nTip: for normal data the true figures ($95\\%$ and $99.7\\%$) are much higher.",
+      "answer": "1 - 1/k^2",
+      "acceptedAnswers": [
+        "(k^2 - 1)/k^2",
+        "1 - k^-2"
+      ],
+      "answerDisplay": "$1 - \\dfrac{1}{k^2}$",
+      "searchQuery": "Chebyshev's inequality fraction within k standard deviations"
+    },
+    {
+      "id": "chebyshev-two-sd",
+      "title": "A data set of unknown shape has mean 100 and SD 10. At least what percent of its values must lie between 80 and 120?",
+      "body": "$75\\%$\n\n80 to 120 is $k = 2$ SDs on each side of the mean, and Chebyshev guarantees at least $1 - \\frac{1}{2^2} = \\frac{3}{4}$ of the data there.\n\nWatch out: the empirical rule's 95% would require roughly **normal** data.",
+      "answer": "75%",
+      "acceptedAnswers": [
+        "75",
+        "0.75",
+        "3/4",
+        "75 percent"
+      ],
+      "searchQuery": "Chebyshev's inequality 2 standard deviations 75 percent"
+    },
+    {
+      "id": "mean-after-transformation",
+      "title": "Test scores have mean 60. Each score is multiplied by 1.5 and then 10 points are added. What is the new mean?",
+      "body": "100\n\nMeasures of center follow the same transformation as the data: $1.5(60) + 10 = 100$.\n\nTip: the median and quartiles transform the same way, while measures of spread are only multiplied by $1.5$.",
+      "answer": "100",
+      "searchQuery": "mean after multiplying and adding constant"
+    },
+    {
+      "id": "iqr-after-transformation",
+      "title": "A data set has IQR 12. Every value is multiplied by 3 and then 5 is added. What is the new IQR?",
+      "body": "36\n\nThe quartiles become $3Q_1 + 5$ and $3Q_3 + 5$, so the IQR becomes $3 \\times 12 = 36$.\n\nWhy: adding a constant shifts every value equally and cancels in the difference.",
+      "answer": "36",
+      "searchQuery": "IQR after linear transformation"
+    },
+    {
+      "id": "variance-after-unit-change",
+      "title": "Lengths have variance $4\\,\\mathrm{m}^2$. After converting every length to centimeters, what is the variance in $\\mathrm{cm}^2$?",
+      "body": "$40{,}000\\,\\mathrm{cm}^2$\n\nMultiplying data by $b$ multiplies the SD by $|b|$ and the variance by $b^2$: $100^2 \\times 4 = 40{,}000$.\n\nTip: check with the SD. $2\\,\\mathrm{m} = 200\\,\\mathrm{cm}$, and $200^2 = 40{,}000$.",
+      "answer": "40000",
+      "acceptedAnswers": [
+        "40000 cm^2"
+      ],
+      "answerDisplay": "$40{,}000\\,\\mathrm{cm}^2$",
+      "searchQuery": "variance after unit conversion meters to centimeters"
+    },
+    {
+      "id": "sd-negative-scale",
+      "title": "A data set has standard deviation 3. What is the standard deviation of $y = 10 - 2x$?",
+      "body": "6\n\nFor $y = a + bx$, $s_y = |b|\\,s_x = |-2| \\times 3 = 6$.\n\nWatch out: a standard deviation is never negative. The minus sign reverses the order of the data (and flips the sign of each z-score) but doesn't change the spread.",
+      "answer": "6",
+      "searchQuery": "SD of negative scaling y = 10 - 2x"
+    },
+    {
+      "id": "z-unchanged-by-units",
+      "title": "Does converting heights from inches to centimeters change anyone's z-score?",
+      "body": "No\n\nThe conversion $y = 2.54x$ multiplies each height, the mean and the SD by 2.54, which cancels in $z = \\frac{x - \\bar{x}}{s}$.\n\nKey idea: any change $y = a + bx$ with $b > 0$ leaves z-scores unchanged; with $b < 0$ they flip sign.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "no change",
+        "unchanged"
+      ],
+      "searchQuery": "z-score unchanged by unit conversion"
+    },
+    {
+      "id": "marginal-distribution",
+      "title": "In a two-way table, what is a marginal distribution?",
+      "body": "The distribution of **one variable alone**, read from the row or column totals in the table's margins.\n\nExample: in a table of class year by major, the column totals give the distribution of major for all students, ignoring year.",
+      "searchQuery": "marginal distribution two-way table"
+    },
+    {
+      "id": "conditional-distribution",
+      "title": "In a two-way table, what is a conditional distribution?",
+      "body": "The distribution of one variable among **only the individuals** with a given value of the other: percents within a single row or column.\n\nKey idea: if the conditional distributions of one variable differ across the categories of the other, the two variables are **associated**.",
+      "searchQuery": "conditional distribution two-way table"
+    },
+    {
+      "id": "conditional-percent-calc",
+      "title": "Of 200 students, 80 are seniors, and 60 of the seniors drive to school. What percent of seniors drive?",
+      "body": "75%\n\nCondition on seniors, so divide by the senior total: $\\frac{60}{80} = 0.75$.\n\nWatch out: $\\frac{60}{200} = 30\\%$ is the share of all students who are senior drivers (a **joint** percent), which answers a different question.",
+      "answer": "75%",
+      "acceptedAnswers": [
+        "75",
+        "0.75",
+        "3/4",
+        "75 percent"
+      ],
+      "searchQuery": "conditional percent two-way table seniors drive"
+    },
+    {
+      "id": "simpsons-paradox",
+      "title": "What is Simpson's paradox?",
+      "body": "A trend that holds within every group **reverses** (or disappears) when the groups are combined.\n\nIt happens when a lurking variable is unevenly spread across the groups.\n\nExample: a treatment with higher success rates for both mild and severe cases can look worse overall if it was given mostly to severe cases.",
+      "searchQuery": "Simpson's paradox definition"
+    },
+    {
+      "id": "simpsons-paradox-numbers",
+      "title": "Hospital A saves 18 of 20 mild and 48 of 80 severe cases; Hospital B saves 64 of 80 mild and 10 of 20 severe cases. Which has the higher overall survival rate?",
+      "body": "Hospital B, $74\\%$ vs. $66\\%$\n\nA does better within each group ($90\\%$ vs. $80\\%$ for mild, $60\\%$ vs. $50\\%$ for severe), but most of its patients are severe cases, which drags its overall rate down: $\\frac{66}{100}$ vs. $\\frac{74}{100}$.\n\nKey idea: compare within groups. This is **Simpson's paradox**.",
+      "answer": "B",
+      "acceptedAnswers": [
+        "Hospital B"
+      ],
+      "searchQuery": "Simpson's paradox hospital survival example"
+    },
+    {
+      "id": "minimize-squared-deviations",
+      "title": "Which single value $c$ minimizes the sum of squared deviations $\\sum (x_i - c)^2$?",
+      "body": "The mean, $c = \\bar{x}$\n\nSetting the derivative $-2\\sum (x_i - c)$ equal to 0 gives $c = \\bar{x}$.\n\nWhy: that's why the mean pairs naturally with the variance and SD, which are built from squared deviations.",
+      "answer": "mean",
+      "acceptedAnswers": [
+        "x-bar",
+        "xbar",
+        "sample mean",
+        "arithmetic mean",
+        "average"
+      ],
+      "answerDisplay": "the mean, $\\bar{x}$",
+      "searchQuery": "value minimizing sum of squared deviations is the mean"
+    },
+    {
+      "id": "minimize-absolute-deviations",
+      "title": "Which single value $c$ minimizes the sum of absolute deviations $\\sum |x_i - c|$?",
+      "body": "The median\n\nMoving $c$ toward the side with more data points lowers the total distance, so the minimum comes where half the points lie on each side.\n\nTip: with an even count, any value between the two middle values works.",
+      "answer": "median",
+      "acceptedAnswers": [
+        "sample median"
+      ],
+      "searchQuery": "value minimizing sum of absolute deviations is the median"
+    },
+    {
+      "id": "geometric-mean-growth",
+      "title": "An investment grows by a factor of 2 one year and a factor of 8 the next. What constant yearly growth factor gives the same total growth?",
+      "body": "$4$, the **geometric mean**\n\n$\\sqrt{2 \\times 8} = \\sqrt{16} = 4$, and indeed $4 \\times 4 = 16 = 2 \\times 8$.\n\nWatch out: the arithmetic mean, $5$, would overstate the growth ($5^2 = 25$). Average growth factors with the geometric mean.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four",
+        "4x"
+      ],
+      "searchQuery": "geometric mean growth factors"
+    },
+    {
+      "id": "harmonic-mean-speed",
+      "title": "You drive $60\\,\\mathrm{km}$ at $60\\,\\mathrm{km/h}$ and return the same $60\\,\\mathrm{km}$ at $40\\,\\mathrm{km/h}$. What is your average speed for the round trip, in $\\mathrm{km/h}$?",
+      "body": "$48\\,\\mathrm{km/h}$\n\nTotal distance over total time: $\\dfrac{120\\,\\mathrm{km}}{1\\,\\mathrm{h} + 1.5\\,\\mathrm{h}} = 48\\,\\mathrm{km/h}$, the **harmonic mean** $\\dfrac{2}{1/60 + 1/40}$.\n\nWatch out: averaging the speeds gives $50$, but you spend more time at the slower speed.",
+      "answer": "48",
+      "acceptedAnswers": [
+        "48 km/h",
+        "48 kph"
+      ],
+      "answerDisplay": "$48\\,\\mathrm{km/h}$",
+      "searchQuery": "harmonic mean average speed round trip"
+    },
+    {
+      "id": "s-biased-for-sigma",
+      "title": "The sample variance $s^2$ is an unbiased estimator of $\\sigma^2$. Is the sample SD $s$ an unbiased estimator of $\\sigma$?",
+      "body": "No: on average, $s$ slightly underestimates $\\sigma$.\n\nThe square root is concave, so $E(s) = E\\left(\\sqrt{s^2}\\right) < \\sqrt{E(s^2)} = \\sigma$ whenever $s$ varies from sample to sample (Jensen's inequality).\n\nTip: the bias shrinks as $n$ grows and is usually ignored in practice.",
+      "searchQuery": "sample standard deviation biased estimator of sigma"
+    },
+    {
+      "id": "sum-of-squared-z-scores",
+      "title": "Each of $n$ values is standardized using the sample mean and sample SD $s$. What is the sum of the squared z-scores?",
+      "body": "$n - 1$\n\n$\\sum z_i^2 = \\dfrac{\\sum (x_i - \\bar{x})^2}{s^2}$, and $s^2 = \\dfrac{\\sum (x_i - \\bar{x})^2}{n - 1}$, so the ratio is exactly $n - 1$.\n\nWatch out: standardizing with the divide-by-$n$ SD would give $n$.",
+      "answer": "n-1",
+      "acceptedAnswers": [
+        "(n-1)",
+        "n minus 1"
+      ],
+      "answerDisplay": "$n - 1$",
+      "searchQuery": "sum of squared z-scores equals n minus 1"
+    },
+    {
+      "id": "normal-iqr-sigma",
+      "title": "For normally distributed data, the IQR is about how many standard deviations wide?",
+      "body": "About $1.35$\n\nThe quartiles of a normal distribution sit at $z \\approx \\pm 0.674$, so $\\text{IQR} \\approx 1.349\\sigma$.\n\nTip: turned around, $\\text{IQR}/1.35$ gives a resistant estimate of $\\sigma$.",
+      "answer": "1.35",
+      "acceptedAnswers": [
+        "1.349",
+        "1.35 SD",
+        "1.35 sigma",
+        "1.35 standard deviations"
+      ],
+      "answerDisplay": "$\\approx 1.35\\sigma$",
+      "searchQuery": "IQR of normal distribution 1.35 standard deviations"
+    },
+    {
+      "id": "normal-outlier-rate",
+      "title": "For perfectly normal data, about what percent of values fall outside the $1.5 \\times \\text{IQR}$ fences?",
+      "body": "About $0.7\\%$\n\nThe upper fence sits at $Q_3 + 1.5\\,\\text{IQR} \\approx 0.674\\sigma + 1.5(1.349\\sigma) \\approx 2.70\\sigma$ above the mean (the lower fence mirrors it), and only about $0.7\\%$ of a normal distribution lies beyond $\\pm 2.70\\sigma$.\n\nKey idea: large normal samples still show a few flagged points.",
+      "answer": "0.7%",
+      "acceptedAnswers": [
+        "0.7",
+        "0.007",
+        "0.7 percent"
+      ],
+      "searchQuery": "percent of normal data flagged as outliers by IQR rule"
+    }
+  ]
+}

@@ -1,0 +1,1137 @@
+{
+  "id": "calc-integration",
+  "title": "Integration Techniques",
+  "course": "Calculus II",
+  "description": "FTC parts 1 and 2, key antiderivatives, u-substitution, by parts, trig integrals and substitution, partial fractions, improper integrals, area and volume.",
+  "cards": [
+    {
+      "id": "riemann-sum-definition",
+      "title": "Definite integral as a limit of right-endpoint sums with $n$ equal subintervals: $\\int_a^b f(x)\\,dx = \\lim_{n\\to\\infty} \\,?$",
+      "body": "$\\sum_{i=1}^{n} f(x_i)\\,\\Delta x$, with $\\Delta x = \\frac{b - a}{n}$ and $x_i = a + i\\,\\Delta x$\n\nEach term is a rectangle of height $f(x_i)$ and width $\\Delta x$.\n\nFor continuous $f$ the limit is the same with left endpoints, midpoints or any other sample points.\n\nKey idea: the integral is the limit of sums of \"height times width\" as the rectangles get infinitely thin.",
+      "searchQuery": "definite integral as limit of Riemann sums"
+    },
+    {
+      "id": "right-riemann-sum-example",
+      "title": "Right Riemann sum $R_4$ for $f(x) = x^2$ on $[0, 2]$?",
+      "body": "$3.75$\n\n$\\Delta x = 0.5$ and the right endpoints are $0.5, 1, 1.5, 2$:\n\n$R_4 = 0.5(0.25 + 1 + 2.25 + 4) = 3.75$.\n\nWhy: the exact value is $\\frac83 \\approx 2.67$. Right sums overestimate an increasing function.",
+      "answer": "3.75",
+      "acceptedAnswers": [
+        "15/4"
+      ],
+      "searchQuery": "right Riemann sum R4 x^2 on [0,2]"
+    },
+    {
+      "id": "odd-function-symmetric-interval",
+      "title": "$f$ is odd and continuous. $\\int_{-a}^{a} f(x)\\,dx = \\,?$",
+      "body": "$0$\n\nThe signed areas on $[-a, 0]$ and $[0, a]$ cancel.\n\nFor an even $f$, $\\int_{-a}^{a} f(x)\\,dx = 2\\int_0^a f(x)\\,dx$ instead.\n\nExample: $\\int_{-2}^{2} (x^3 - \\sin x)\\,dx = 0$, because both terms are odd.",
+      "answer": "0",
+      "searchQuery": "integral of odd function symmetric interval zero"
+    },
+    {
+      "id": "reversing-limits-of-integration",
+      "title": "If $\\int_1^4 f(x)\\,dx = 7$, what is $\\int_4^1 f(x)\\,dx$?",
+      "body": "$-7$\n\nSwapping the limits flips the sign: $\\int_b^a f(x)\\,dx = -\\int_a^b f(x)\\,dx$.\n\nKey idea: also $\\int_a^a f(x)\\,dx = 0$, since the interval has no width.",
+      "answer": "-7",
+      "searchQuery": "reversing limits of integration changes sign"
+    },
+    {
+      "id": "integral-additivity",
+      "title": "$\\int_0^5 f(x)\\,dx = 10$ and $\\int_0^2 f(x)\\,dx = 3$. Find $\\int_2^5 f(x)\\,dx$.",
+      "body": "$7$\n\nAdditivity: $\\int_0^2 f + \\int_2^5 f = \\int_0^5 f$, so $\\int_2^5 f = 10 - 3 = 7$.\n\nTip: the rule $\\int_a^b f + \\int_b^c f = \\int_a^c f$ holds for any order of $a$, $b$, $c$.",
+      "answer": "7",
+      "searchQuery": "additivity of definite integrals over intervals"
+    },
+    {
+      "id": "signed-area-vs-total-area",
+      "title": "$\\int_0^{2\\pi} \\sin x\\,dx = 0$. What is the total area between $y = \\sin x$ and the $x$-axis on $[0, 2\\pi]$?",
+      "body": "$4$\n\nThe integral counts area below the axis as negative: $2 + (-2) = 0$.\n\nTotal area is $\\int_0^{2\\pi} |\\sin x|\\,dx = 2\\int_0^{\\pi} \\sin x\\,dx = 2 \\cdot 2 = 4$.\n\nWatch out: for total area, split the integral wherever the function changes sign.",
+      "answer": "4",
+      "searchQuery": "signed area versus total area sin x 0 to 2pi"
+    },
+    {
+      "id": "integral-of-constant",
+      "title": "$\\int_1^4 5\\,dx = \\,?$",
+      "body": "$15$\n\nThis is the area of a rectangle of height $5$ and width $4 - 1 = 3$. In general, $\\int_a^b c\\,dx = c(b - a)$.\n\nWatch out: the width is $b - a$, not $b$.",
+      "answer": "15",
+      "answerDisplay": "$15$",
+      "searchQuery": "definite integral of a constant rectangle area"
+    },
+    {
+      "id": "sum-of-first-n-integers",
+      "title": "Closed form for $\\sum_{i=1}^{n} i$, the sum used to evaluate Riemann sums?",
+      "body": "$\\frac{n(n + 1)}{2}$\n\nPair the terms: $1 + n$, $2 + (n - 1)$, and so on. There are $\\frac{n}{2}$ pairs, each summing to $n + 1$.\n\nCompanions: $\\sum_{i=1}^{n} i^2 = \\frac{n(n + 1)(2n + 1)}{6}$ and $\\sum_{i=1}^{n} i^3 = \\left[\\frac{n(n + 1)}{2}\\right]^2$.\n\nExample: $1 + 2 + \\dots + 100 = \\frac{100 \\cdot 101}{2} = 5050$.",
+      "answer": "n(n+1)/2",
+      "acceptedAnswers": [
+        "(n^2+n)/2"
+      ],
+      "answerDisplay": "$\\frac{n(n+1)}{2}$",
+      "searchQuery": "sum of first n integers formula Riemann sums"
+    },
+    {
+      "id": "riemann-sum-x-simplified",
+      "title": "The right Riemann sum for $\\int_0^1 x\\,dx$ with $n$ equal subintervals simplifies to what?",
+      "body": "$\\frac{n + 1}{2n}$\n\nHere $\\Delta x = \\frac1n$ and $x_i = \\frac{i}{n}$, so the sum is $\\sum_{i=1}^{n} \\frac{i}{n}\\cdot\\frac{1}{n} = \\frac{1}{n^2}\\cdot\\frac{n(n + 1)}{2}$.\n\nAs $n \\to \\infty$ it tends to $\\frac12$, which matches $\\int_0^1 x\\,dx = \\frac12$.\n\nTip: factor the $\\frac{1}{n}$ powers out of the sum, then use $\\sum i = \\frac{n(n + 1)}{2}$.",
+      "answer": "(n+1)/(2n)",
+      "acceptedAnswers": [
+        "(n+1)/2n",
+        "1/2+1/(2n)"
+      ],
+      "answerDisplay": "$\\frac{n + 1}{2n}$",
+      "searchQuery": "right Riemann sum for integral of x from 0 to 1 limit"
+    },
+    {
+      "id": "integral-semicircle-area",
+      "title": "Use geometry to evaluate $\\int_{-3}^{3} \\sqrt{9 - x^2}\\,dx$.",
+      "body": "$\\frac{9\\pi}{2}$\n\nThe graph of $y = \\sqrt{9 - x^2}$ is the upper half of the circle $x^2 + y^2 = 9$, which has radius $3$.\n\nSo the integral is the area of a half disk: $\\frac12\\pi(3)^2 = \\frac{9\\pi}{2}$.\n\nTip: when the integrand is a line or a circle arc, area formulas are faster than antiderivatives.",
+      "answer": "9pi/2",
+      "acceptedAnswers": [
+        "(9/2)pi",
+        "(9pi)/2",
+        "4.5pi"
+      ],
+      "answerDisplay": "$\\frac{9\\pi}{2}$",
+      "searchQuery": "integral as area semicircle sqrt(9-x^2)"
+    },
+    {
+      "id": "integral-bounds-estimate",
+      "title": "If $m \\le f(x) \\le M$ on $[a, b]$, what bounds does that put on $\\int_a^b f(x)\\,dx$?",
+      "body": "$m(b - a) \\le \\int_a^b f(x)\\,dx \\le M(b - a)$\n\nThe integral is squeezed between the areas of the smallest and largest rectangles over $[a, b]$.\n\nExample: on $[0, 1]$, $1 \\le e^{x^2} \\le e$, so $1 \\le \\int_0^1 e^{x^2}\\,dx \\le e$.\nKey idea: if $f \\le g$ on $[a, b]$, then $\\int_a^b f \\le \\int_a^b g$.",
+      "searchQuery": "comparison property of integrals bounds m(b-a) M(b-a)"
+    },
+    {
+      "id": "integral-linearity",
+      "title": "If $\\int_0^1 f(x)\\,dx = 4$ and $\\int_0^1 g(x)\\,dx = -1$, what is $\\int_0^1 \\big(2f(x) - 3g(x)\\big)\\,dx$?",
+      "body": "$11$\n\nIntegrals are linear: $\\int (af + bg) = a\\int f + b\\int g$. Here $2(4) - 3(-1) = 8 + 3 = 11$.\n\nWatch out: the minus sign in front of $3g$ and the negative integral of $g$ combine to add $3$.",
+      "answer": "11",
+      "answerDisplay": "$11$",
+      "searchQuery": "linearity of definite integrals constant multiple sum"
+    },
+    {
+      "id": "ftc-part-2",
+      "title": "FTC Part 2 (net change): $\\int_a^b F'(x)\\,dx = \\,?$",
+      "body": "$F(b) - F(a)$\n\nThe definite integral of a rate of change is the **net change** in the original quantity. Here $F$ is any antiderivative of $f = F'$.\n\nExample: $\\int_0^1 x^2\\,dx = F(1) - F(0)$ with $F(x) = \\frac{x^3}{3}$, so the value is $\\frac13$.\nWatch out: $F'$ must be continuous on $[a, b]$. $\\int_{-1}^{1} \\frac{dx}{x^2}$ is not $-2$; it is improper and diverges.",
+      "answer": "F(b)-F(a)",
+      "acceptedAnswers": [
+        "-F(a)+F(b)"
+      ],
+      "answerDisplay": "$F(b) - F(a)$",
+      "searchQuery": "fundamental theorem of calculus part 2 net change"
+    },
+    {
+      "id": "ftc-part-1-chain-rule",
+      "title": "$\\frac{d}{dx}\\int_1^{x^2} \\cos t\\,dt = \\,?$",
+      "body": "$2x\\cos(x^2)$\n\nFTC Part 1 says $\\frac{d}{dx}\\int_a^x f(t)\\,dt = f(x)$. With upper limit $g(x)$ the chain rule adds a factor: $f(g(x))\\,g'(x)$.\n\nA constant lower limit does not matter.\n\nTip: substitute the upper limit into the integrand, then multiply by the derivative of the upper limit.",
+      "answer": "2x cos(x^2)",
+      "acceptedAnswers": [
+        "cos(x^2)*2x",
+        "cos(x^2)(2x)",
+        "2x cos x^2"
+      ],
+      "answerDisplay": "$2x\\cos(x^2)$",
+      "searchQuery": "fundamental theorem of calculus chain rule derivative of integral"
+    },
+    {
+      "id": "ftc-part-1-statement",
+      "title": "FTC Part 1: $f$ is continuous on $[a, b]$ and $g(x) = \\int_a^x f(t)\\,dt$. Then $g'(x) = \\,?$",
+      "body": "$f(x)$\n\nThe area function $g(x) = \\int_a^x f(t)\\,dt$ is an antiderivative of its integrand.\n\nKey idea: every continuous function has an antiderivative, even one with no elementary formula, such as $\\int_0^x e^{-t^2}\\,dt$.",
+      "answer": "f(x)",
+      "answerDisplay": "$f(x)$",
+      "searchQuery": "fundamental theorem of calculus part 1 statement area function"
+    },
+    {
+      "id": "ftc-variable-lower-limit",
+      "title": "$\\frac{d}{dx}\\int_x^{5} \\sqrt{1 + t^3}\\,dt = \\,?$",
+      "body": "$-\\sqrt{1 + x^3}$\n\nFlip the limits first, $\\int_x^5 = -\\int_5^x$, then apply FTC Part 1.\n\nWatch out: do not drop the minus sign when $x$ is the lower limit.",
+      "answer": "-sqrt(1+x^3)",
+      "acceptedAnswers": [
+        "-sqrt(x^3+1)",
+        "-(1+x^3)^(1/2)",
+        "-(x^3+1)^(1/2)"
+      ],
+      "answerDisplay": "$-\\sqrt{1 + x^3}$",
+      "searchQuery": "derivative of integral with variable lower limit"
+    },
+    {
+      "id": "ftc-both-limits-variable",
+      "title": "$\\frac{d}{dx}\\int_{2x}^{x^3} \\cos t\\,dt = \\,?$",
+      "body": "$3x^2\\cos(x^3) - 2\\cos(2x)$\n\nSplit at a constant: $\\int_{2x}^{x^3} = \\int_0^{x^3} - \\int_0^{2x}$.\n\nIn general, $\\frac{d}{dx}\\int_{u(x)}^{v(x)} f(t)\\,dt = f(v)\\,v' - f(u)\\,u'$.\n\nTip: upper-limit term minus lower-limit term, each with its own chain-rule factor.",
+      "answer": "3x^2 cos(x^3) - 2cos(2x)",
+      "acceptedAnswers": [
+        "-2cos(2x) + 3x^2 cos(x^3)",
+        "3x^2 cos x^3 - 2cos 2x"
+      ],
+      "answerDisplay": "$3x^2\\cos(x^3) - 2\\cos(2x)$",
+      "searchQuery": "derivative of integral with both limits variable Leibniz"
+    },
+    {
+      "id": "ftc-sine-zero-to-pi",
+      "title": "Evaluate $\\int_0^{\\pi} \\sin x\\,dx$.",
+      "body": "$2$\n\nAn antiderivative is $-\\cos x$, so the value is $-\\cos\\pi - (-\\cos 0) = 1 + 1 = 2$.\n\nWatch out: $-\\cos\\pi = +1$. Dropping the double negative is the usual slip.",
+      "answer": "2",
+      "answerDisplay": "$2$",
+      "searchQuery": "evaluate integral of sin x from 0 to pi"
+    },
+    {
+      "id": "ftc-sqrt-definite",
+      "title": "Evaluate $\\int_1^4 \\sqrt{x}\\,dx$.",
+      "body": "$\\frac{14}{3}$\n\nWrite $\\sqrt{x} = x^{1/2}$, with antiderivative $\\frac23 x^{3/2}$. Then $\\frac23(4^{3/2} - 1^{3/2}) = \\frac23(8 - 1) = \\frac{14}{3}$.\n\nTip: compute $4^{3/2}$ as $(\\sqrt 4)^3 = 8$.",
+      "answer": "14/3",
+      "answerDisplay": "$\\frac{14}{3}$",
+      "searchQuery": "definite integral of sqrt x from 1 to 4"
+    },
+    {
+      "id": "ftc-one-over-x-exponential-bound",
+      "title": "Evaluate $\\int_1^{e^3} \\frac{dx}{x}$.",
+      "body": "$3$\n\n$\\int_1^{e^3} \\frac{dx}{x} = \\ln(e^3) - \\ln 1 = 3 - 0 = 3$.\n\nKey idea: $\\ln$ and $e^x$ undo each other, so $\\ln(e^3) = 3$ exactly.",
+      "answer": "3",
+      "answerDisplay": "$3$",
+      "searchQuery": "integral 1/x from 1 to e^3 natural log"
+    },
+    {
+      "id": "area-function-local-max",
+      "title": "Let $g(x) = \\int_0^x f(t)\\,dt$ with $f$ continuous. Where does $g$ have a local maximum?",
+      "body": "Where $f$ changes sign from positive to negative\n\nBy FTC Part 1, $g'(x) = f(x)$. So the critical points of $g$ are the zeros of $f$, and the first derivative test applies to $f$'s sign changes.\n\nExample: if $f$ is positive up to $x = 3$ and negative after, then $g$ rises until $x = 3$ and falls afterward.\nTip: you never need a formula for $g$, only the graph of $f$.",
+      "searchQuery": "area function local maximum where f changes positive to negative"
+    },
+    {
+      "id": "integral-of-one-over-x",
+      "title": "$\\int \\frac{1}{x}\\,dx = \\,?$",
+      "body": "$\\ln|x| + C$\n\nThe absolute value makes the formula valid for $x < 0$ too, since $\\frac{d}{dx}\\ln|x| = \\frac{1}{x}$ on both sides of $0$.\n\nKey idea: this is the one power the rule $\\int x^n\\,dx = \\frac{x^{n+1}}{n+1} + C$ cannot handle, because $n = -1$ would divide by zero.",
+      "answer": "ln|x| + C",
+      "acceptedAnswers": [
+        "ln|x|",
+        "ln(|x|) + C",
+        "ln(|x|)"
+      ],
+      "answerDisplay": "$\\ln|x| + C$",
+      "searchQuery": "integral of 1/x natural log absolute value"
+    },
+    {
+      "id": "arctan-integral-form",
+      "title": "$\\int \\frac{dx}{x^2 + a^2} = \\,?$ ($a > 0$)",
+      "body": "$\\frac{1}{a}\\arctan\\frac{x}{a} + C$\n\nThe factor $\\frac{1}{a}$ comes from the substitution $x = a\\tan\\theta$ (or $u = \\frac{x}{a}$).\n\nCompanion form: $\\int \\frac{dx}{\\sqrt{a^2 - x^2}} = \\arcsin\\frac{x}{a} + C$.\n\nWhy: $\\frac{d}{dx}\\left[\\frac{1}{a}\\arctan\\frac{x}{a}\\right] = \\frac{1/a^2}{1 + x^2/a^2} = \\frac{1}{x^2 + a^2}$.\nExample: $\\int \\frac{dx}{x^2 + 9} = \\frac13\\arctan\\frac{x}{3} + C$.",
+      "answer": "(1/a) arctan(x/a) + C",
+      "acceptedAnswers": [
+        "(1/a) arctan(x/a)",
+        "arctan(x/a)/a + C",
+        "arctan(x/a)/a",
+        "1/a arctan(x/a) + C",
+        "1/a arctan(x/a)",
+        "(1/a) tan^-1(x/a) + C",
+        "(1/a) tan^-1(x/a)"
+      ],
+      "answerDisplay": "$\\frac{1}{a}\\arctan\\frac{x}{a} + C$",
+      "searchQuery": "integral 1/(x^2+a^2) arctan formula"
+    },
+    {
+      "id": "integral-of-tan",
+      "title": "$\\int \\tan x\\,dx = \\,?$",
+      "body": "$\\ln|\\sec x| + C$, equivalently $-\\ln|\\cos x| + C$\n\nThe two forms agree because $\\ln|\\sec x| = -\\ln|\\cos x|$.\n\nWhy: write $\\tan x = \\frac{\\sin x}{\\cos x}$ and let $u = \\cos x$, $du = -\\sin x\\,dx$. Then $-\\int \\frac{du}{u} = -\\ln|\\cos x| + C$.",
+      "answer": "ln|sec x| + C",
+      "acceptedAnswers": [
+        "-ln|cos x| + C",
+        "ln|sec(x)| + C",
+        "-ln|cos(x)| + C",
+        "ln|sec x|",
+        "-ln|cos x|",
+        "ln|sec(x)|",
+        "-ln|cos(x)|"
+      ],
+      "answerDisplay": "$\\ln|\\sec x| + C$",
+      "searchQuery": "integral of tan x ln sec x"
+    },
+    {
+      "id": "power-rule-integral",
+      "title": "$\\int x^n\\,dx = \\,?$ for $n \\ne -1$",
+      "body": "$\\frac{x^{n+1}}{n+1} + C$\n\nRaise the power by one, then divide by the new power.\n\nExample: $\\int \\frac{dx}{\\sqrt{x}} = \\int x^{-1/2}\\,dx = 2\\sqrt{x} + C$.\nWatch out: at $n = -1$ it would divide by zero. That case gives $\\ln|x|$.",
+      "answer": "x^(n+1)/(n+1) + C",
+      "acceptedAnswers": [
+        "x^(n+1)/(n+1)",
+        "(x^(n+1))/(n+1) + C",
+        "(x^(n+1))/(n+1)",
+        "(1/(n+1))x^(n+1) + C",
+        "(1/(n+1))x^(n+1)"
+      ],
+      "answerDisplay": "$\\dfrac{x^{n+1}}{n+1} + C$",
+      "searchQuery": "power rule for integrals x^n+1/(n+1)"
+    },
+    {
+      "id": "integral-of-a-to-the-x",
+      "title": "$\\int a^x\\,dx = \\,?$ ($a > 0$, $a \\ne 1$)",
+      "body": "$\\frac{a^x}{\\ln a} + C$\n\nIt reverses $\\frac{d}{dx}a^x = a^x\\ln a$.\n\nExample: $\\int 2^x\\,dx = \\frac{2^x}{\\ln 2} + C$.\nWatch out: $\\frac{a^{x+1}}{x+1}$ treats $a^x$ as if it were a power of $x$.",
+      "answer": "a^x/ln a + C",
+      "acceptedAnswers": [
+        "a^x/ln(a) + C",
+        "a^x/ln a",
+        "a^x/ln(a)",
+        "(a^x)/(ln a) + C",
+        "(a^x)/(ln a)"
+      ],
+      "answerDisplay": "$\\dfrac{a^x}{\\ln a} + C$",
+      "searchQuery": "integral of a^x divided by ln a"
+    },
+    {
+      "id": "integral-of-sec-squared",
+      "title": "$\\int \\sec^2 x\\,dx = \\,?$",
+      "body": "$\\tan x + C$\n\nBecause $\\frac{d}{dx}\\tan x = \\sec^2 x$.\n\nIts partners: $\\int \\csc^2 x\\,dx = -\\cot x + C$, $\\int \\sec x\\tan x\\,dx = \\sec x + C$, and $\\int \\csc x\\cot x\\,dx = -\\csc x + C$.\n\nTip: the three \"co\" derivatives all carry a minus sign, so their integrals do too.",
+      "answer": "tan x + C",
+      "acceptedAnswers": [
+        "tan(x) + C",
+        "tan x",
+        "tan(x)"
+      ],
+      "answerDisplay": "$\\tan x + C$",
+      "searchQuery": "integral of sec^2 x tan x"
+    },
+    {
+      "id": "integral-of-sec",
+      "title": "$\\int \\sec x\\,dx = \\,?$",
+      "body": "$\\ln|\\sec x + \\tan x| + C$\n\nMultiply by $\\frac{\\sec x + \\tan x}{\\sec x + \\tan x}$. The numerator becomes the derivative of the denominator, so $\\int \\frac{du}{u}$ finishes it.\n\nSimilarly, $\\int \\csc x\\,dx = -\\ln|\\csc x + \\cot x| + C$.\n\nTip: this one is worth memorizing, since deriving it on an exam takes a trick.",
+      "answer": "ln|sec x + tan x| + C",
+      "acceptedAnswers": [
+        "ln|sec x + tan x|",
+        "ln|tan x + sec x| + C",
+        "ln|tan x + sec x|",
+        "ln|sec(x) + tan(x)| + C",
+        "ln|sec(x) + tan(x)|"
+      ],
+      "answerDisplay": "$\\ln|\\sec x + \\tan x| + C$",
+      "searchQuery": "integral of sec x ln sec x + tan x"
+    },
+    {
+      "id": "integral-of-sine-sign",
+      "title": "$\\int \\sin x\\,dx = \\,?$",
+      "body": "$-\\cos x + C$\n\nCheck: $\\frac{d}{dx}(-\\cos x) = \\sin x$. Meanwhile $\\int \\cos x\\,dx = \\sin x + C$ has no minus sign.\n\nMnemonic: differentiating $\\cos$ produces a minus sign, so integrating $\\sin$ does too.",
+      "answer": "-cos x + C",
+      "acceptedAnswers": [
+        "-cos(x) + C",
+        "-cos x",
+        "-cos(x)"
+      ],
+      "answerDisplay": "$-\\cos x + C$",
+      "searchQuery": "integral of sin x negative cosine"
+    },
+    {
+      "id": "integral-of-e-to-kx",
+      "title": "$\\int e^{3x}\\,dx = \\,?$",
+      "body": "$\\frac{1}{3}e^{3x} + C$\n\nIn general $\\int e^{kx}\\,dx = \\frac{1}{k}e^{kx} + C$ for $k \\ne 0$: divide by the inner derivative.\n\nTip: differentiate to check. The chain rule brings back the factor $3$.",
+      "answer": "(1/3)e^(3x) + C",
+      "acceptedAnswers": [
+        "(1/3)e^(3x)",
+        "e^(3x)/3 + C",
+        "e^(3x)/3",
+        "1/3 e^(3x) + C",
+        "1/3 e^(3x)"
+      ],
+      "answerDisplay": "$\\frac{1}{3}e^{3x} + C$",
+      "searchQuery": "integral of e^(kx) divide by k"
+    },
+    {
+      "id": "arcsin-integral-form",
+      "title": "$\\int \\frac{dx}{\\sqrt{4 - x^2}} = \\,?$",
+      "body": "$\\arcsin\\frac{x}{2} + C$\n\nForm: $\\int \\frac{dx}{\\sqrt{a^2 - x^2}} = \\arcsin\\frac{x}{a} + C$, with $a = 2$.\n\nWatch out: unlike the arctan form, there is no $\\frac{1}{a}$ in front.",
+      "answer": "arcsin(x/2) + C",
+      "acceptedAnswers": [
+        "arcsin(x/2)",
+        "sin^-1(x/2) + C",
+        "sin^-1(x/2)"
+      ],
+      "answerDisplay": "$\\arcsin\\frac{x}{2} + C$",
+      "searchQuery": "integral 1/sqrt(a^2-x^2) arcsin formula"
+    },
+    {
+      "id": "integral-of-e-to-x",
+      "title": "$\\int e^x\\,dx = \\,?$",
+      "body": "$e^x + C$\n\nThe exponential $e^x$ is its own derivative, so it is also its own antiderivative.\n\nWatch out: $\\int e^x\\,dx$ is not $\\frac{e^{x+1}}{x+1}$. The power rule does not apply when the variable is in the exponent.",
+      "answer": "e^x + C",
+      "acceptedAnswers": [
+        "e^x"
+      ],
+      "answerDisplay": "$e^x + C$",
+      "searchQuery": "integral of e^x antiderivative"
+    },
+    {
+      "id": "integral-of-csc-squared",
+      "title": "$\\int \\csc^2 x\\,dx = \\,?$",
+      "body": "$-\\cot x + C$\n\nBecause $\\frac{d}{dx}\\cot x = -\\csc^2 x$.\n\nMnemonic: every derivative of a \"co\" function has a minus sign, so the matching integrals do too.",
+      "answer": "-cot x + C",
+      "acceptedAnswers": [
+        "-cot x",
+        "-cot(x) + C",
+        "-cot(x)"
+      ],
+      "answerDisplay": "$-\\cot x + C$",
+      "searchQuery": "integral of csc^2 x negative cotangent"
+    },
+    {
+      "id": "integral-of-polynomial",
+      "title": "$\\int (3x^2 - 4x + 5)\\,dx = \\,?$",
+      "body": "$x^3 - 2x^2 + 5x + C$\n\nIntegrate term by term with the power rule. The constant $5$ becomes $5x$.\n\nTip: differentiate your answer to check it. You should get the integrand back.",
+      "answer": "x^3 - 2x^2 + 5x + C",
+      "acceptedAnswers": [
+        "x^3 - 2x^2 + 5x"
+      ],
+      "answerDisplay": "$x^3 - 2x^2 + 5x + C$",
+      "searchQuery": "integral of polynomial term by term"
+    },
+    {
+      "id": "integral-of-negative-power",
+      "title": "$\\int \\frac{dx}{x^3} = \\,?$",
+      "body": "$-\\frac{1}{2x^2} + C$\n\nRewrite as $\\int x^{-3}\\,dx = \\frac{x^{-2}}{-2} + C$.\n\nWatch out: $-3 + 1 = -2$, so the new exponent is negative and the coefficient is $\\frac{1}{-2}$.",
+      "answer": "-1/(2x^2) + C",
+      "acceptedAnswers": [
+        "-1/(2x^2)",
+        "-x^(-2)/2 + C",
+        "-x^(-2)/2",
+        "-(1/2)x^(-2) + C",
+        "-(1/2)x^(-2)"
+      ],
+      "answerDisplay": "$-\\dfrac{1}{2x^2} + C$",
+      "searchQuery": "integral of 1/x^3 power rule negative exponent"
+    },
+    {
+      "id": "divide-before-integrating",
+      "title": "$\\int \\frac{x^2 + 1}{x}\\,dx = \\,?$",
+      "body": "$\\frac{x^2}{2} + \\ln|x| + C$\n\nSplit the fraction: $\\frac{x^2 + 1}{x} = x + \\frac{1}{x}$. Then integrate each term.\n\nWatch out: you may split a sum in the numerator, but never a sum in the denominator.",
+      "answer": "x^2/2 + ln|x| + C",
+      "acceptedAnswers": [
+        "x^2/2 + ln|x|",
+        "(1/2)x^2 + ln|x| + C",
+        "(1/2)x^2 + ln|x|",
+        "ln|x| + x^2/2 + C",
+        "ln|x| + x^2/2"
+      ],
+      "answerDisplay": "$\\frac{x^2}{2} + \\ln|x| + C$",
+      "searchQuery": "integral (x^2+1)/x split into terms"
+    },
+    {
+      "id": "u-sub-changing-bounds",
+      "title": "Evaluate $\\int_0^2 2x(x^2 + 1)^3\\,dx$.",
+      "body": "$156$\n\nLet $u = x^2 + 1$, so $du = 2x\\,dx$. The bounds become $u = 1$ to $u = 5$, giving $\\int_1^5 u^3\\,du = \\frac{5^4 - 1^4}{4} = \\frac{624}{4} = 156$.\n\nWatch out: switching to $u$ but keeping the old bounds $0$ and $2$ gives $4$. Change the bounds with the variable, or go back to $x$ before evaluating.",
+      "answer": "156",
+      "searchQuery": "u substitution definite integral change bounds"
+    },
+    {
+      "id": "u-sub-indefinite-exp",
+      "title": "$\\int xe^{x^2}\\,dx = \\,?$",
+      "body": "$\\frac{1}{2}e^{x^2} + C$\n\nLet $u = x^2$, $du = 2x\\,dx$, so $x\\,dx = \\frac12\\,du$ and the integral is $\\frac12\\int e^u\\,du$.\n\nTip: spot it when a factor is, up to a constant, the derivative of the inner function $x^2$.",
+      "answer": "(1/2)e^(x^2) + C",
+      "acceptedAnswers": [
+        "(1/2)e^(x^2)",
+        "e^(x^2)/2 + C",
+        "e^(x^2)/2",
+        "1/2 e^(x^2) + C",
+        "1/2 e^(x^2)"
+      ],
+      "answerDisplay": "$\\frac{1}{2}e^{x^2} + C$",
+      "searchQuery": "u substitution x e^(x^2) integral"
+    },
+    {
+      "id": "u-sub-log-derivative",
+      "title": "$\\int \\frac{x}{x^2 + 1}\\,dx = \\,?$",
+      "body": "$\\frac{1}{2}\\ln(x^2 + 1) + C$\n\nWith $u = x^2 + 1$, $x\\,dx = \\frac12\\,du$.\n\nPattern: $\\int \\frac{f'(x)}{f(x)}\\,dx = \\ln|f(x)| + C$.\n\nWhy: no absolute value is needed here, since $x^2 + 1 > 0$.",
+      "answer": "(1/2)ln(x^2+1) + C",
+      "acceptedAnswers": [
+        "(1/2)ln(x^2+1)",
+        "ln(x^2+1)/2 + C",
+        "ln(x^2+1)/2",
+        "1/2 ln(x^2+1) + C",
+        "1/2 ln(x^2+1)",
+        "(1/2)ln(1+x^2) + C",
+        "(1/2)ln(1+x^2)",
+        "(1/2)ln|x^2+1| + C",
+        "(1/2)ln|x^2+1|"
+      ],
+      "answerDisplay": "$\\frac{1}{2}\\ln(x^2 + 1) + C$",
+      "searchQuery": "integral x/(x^2+1) log derivative substitution"
+    },
+    {
+      "id": "u-sub-ln-over-x",
+      "title": "$\\int \\frac{\\ln x}{x}\\,dx = \\,?$",
+      "body": "$\\frac{(\\ln x)^2}{2} + C$\n\nLet $u = \\ln x$, $du = \\frac{dx}{x}$. Then $\\int u\\,du = \\frac{u^2}{2} + C$.\n\nWatch out: $(\\ln x)^2$ is not $\\ln(x^2)$.",
+      "answer": "(ln x)^2/2 + C",
+      "acceptedAnswers": [
+        "(ln x)^2/2",
+        "(1/2)(ln x)^2 + C",
+        "(1/2)(ln x)^2",
+        "(ln(x))^2/2 + C",
+        "(ln(x))^2/2",
+        "1/2 (ln x)^2 + C",
+        "1/2 (ln x)^2"
+      ],
+      "answerDisplay": "$\\frac{(\\ln x)^2}{2} + C$",
+      "searchQuery": "integral ln x over x substitution"
+    },
+    {
+      "id": "u-sub-linear-inside",
+      "title": "$\\int \\frac{dx}{2x + 1} = \\,?$",
+      "body": "$\\frac{1}{2}\\ln|2x + 1| + C$\n\nWith $u = 2x + 1$, $dx = \\frac12\\,du$.\n\nFor any linear inside, $\\int f(ax + b)\\,dx = \\frac{1}{a}F(ax + b) + C$.\n\nWatch out: $\\ln|2x + 1|$ alone differentiates to $\\frac{2}{2x + 1}$, so the $\\frac12$ is required.",
+      "answer": "(1/2)ln|2x+1| + C",
+      "acceptedAnswers": [
+        "(1/2)ln|2x+1|",
+        "ln|2x+1|/2 + C",
+        "ln|2x+1|/2",
+        "1/2 ln|2x+1| + C",
+        "1/2 ln|2x+1|"
+      ],
+      "answerDisplay": "$\\frac{1}{2}\\ln|2x + 1| + C$",
+      "searchQuery": "integral 1/(2x+1) linear substitution"
+    },
+    {
+      "id": "u-sub-different-forms",
+      "title": "$\\int \\sin x\\cos x\\,dx$: $u = \\sin x$ gives $\\frac12\\sin^2 x + C$, but $u = \\cos x$ gives $-\\frac12\\cos^2 x + C$. Which is right?",
+      "body": "Both\n\n$-\\frac12\\cos^2 x = -\\frac12(1 - \\sin^2 x) = \\frac12\\sin^2 x - \\frac12$. The answers differ by a constant, which $+\\,C$ absorbs.\n\nA third form, $-\\frac14\\cos 2x + C$, is also correct.\n\nKey idea: two antiderivatives of the same function always differ by a constant.",
+      "answer": "both",
+      "acceptedAnswers": [
+        "both are correct",
+        "both are right"
+      ],
+      "searchQuery": "different antiderivatives differ by a constant sin x cos x"
+    },
+    {
+      "id": "u-sub-definite-trig",
+      "title": "Evaluate $\\int_0^{\\pi/2} \\sin^2 x\\cos x\\,dx$.",
+      "body": "$\\frac13$\n\nLet $u = \\sin x$, $du = \\cos x\\,dx$. The bounds become $u = \\sin 0 = 0$ to $u = \\sin\\frac{\\pi}{2} = 1$.\n\nSo the integral is $\\int_0^1 u^2\\,du = \\frac13$.\n\nTip: with new bounds you never need to substitute back.",
+      "answer": "1/3",
+      "answerDisplay": "$\\frac{1}{3}$",
+      "searchQuery": "definite integral sin^2 x cos x substitution"
+    },
+    {
+      "id": "u-sub-back-substitution",
+      "title": "$\\int x\\sqrt{x + 1}\\,dx$: after $u = x + 1$, what do you do with the leftover factor $x$?",
+      "body": "Write $x = u - 1$\n\nThen $\\int (u - 1)u^{1/2}\\,du = \\frac25 u^{5/2} - \\frac23 u^{3/2} + C$, which is $\\frac25(x + 1)^{5/2} - \\frac23(x + 1)^{3/2} + C$.\n\nTip: when a leftover factor isn't a multiple of $du$, solve the substitution for $x$.",
+      "answer": "x = u - 1",
+      "acceptedAnswers": [
+        "u - 1",
+        "x = -1 + u"
+      ],
+      "answerDisplay": "$x = u - 1$",
+      "searchQuery": "u substitution leftover factor solve for x"
+    },
+    {
+      "id": "u-sub-arctan-pattern",
+      "title": "$\\int \\frac{e^x}{1 + e^{2x}}\\,dx = \\,?$",
+      "body": "$\\arctan(e^x) + C$\n\nLet $u = e^x$, so $du = e^x\\,dx$ and $e^{2x} = u^2$. Then $\\int \\frac{du}{1 + u^2} = \\arctan u + C$.\n\nTip: $e^{2x}$ is $(e^x)^2$, which hints at $u = e^x$.",
+      "answer": "arctan(e^x) + C",
+      "acceptedAnswers": [
+        "arctan(e^x)",
+        "tan^-1(e^x) + C",
+        "tan^-1(e^x)",
+        "arctan e^x + C",
+        "arctan e^x"
+      ],
+      "answerDisplay": "$\\arctan(e^x) + C$",
+      "searchQuery": "integral e^x/(1+e^(2x)) arctan substitution"
+    },
+    {
+      "id": "u-sub-sqrt-cube",
+      "title": "$\\int x^2\\sqrt{x^3 + 1}\\,dx = \\,?$",
+      "body": "$\\frac{2}{9}(x^3 + 1)^{3/2} + C$\n\nLet $u = x^3 + 1$, so $x^2\\,dx = \\frac13\\,du$. Then $\\frac13\\int u^{1/2}\\,du = \\frac13\\cdot\\frac23 u^{3/2}$.\n\nTip: the outside factor $x^2$ is the derivative of the inside, $x^3$, up to the constant $3$.",
+      "answer": "(2/9)(x^3+1)^(3/2) + C",
+      "acceptedAnswers": [
+        "(2/9)(x^3+1)^(3/2)",
+        "2(x^3+1)^(3/2)/9 + C",
+        "2(x^3+1)^(3/2)/9"
+      ],
+      "answerDisplay": "$\\frac{2}{9}(x^3 + 1)^{3/2} + C$",
+      "searchQuery": "integral x^2 sqrt(x^3+1) u substitution"
+    },
+    {
+      "id": "u-sub-exp-of-sine",
+      "title": "$\\int e^{\\sin x}\\cos x\\,dx = \\,?$",
+      "body": "$e^{\\sin x} + C$\n\nLet $u = \\sin x$, so $du = \\cos x\\,dx$. The integral becomes $\\int e^u\\,du = e^u + C$.\n\nTip: when the derivative of the exponent appears as a factor, substitute for the exponent.",
+      "answer": "e^(sin x) + C",
+      "acceptedAnswers": [
+        "e^(sin x)",
+        "e^(sin(x)) + C",
+        "e^(sin(x))"
+      ],
+      "answerDisplay": "$e^{\\sin x} + C$",
+      "searchQuery": "integral e^(sin x) cos x substitution"
+    },
+    {
+      "id": "u-sub-one-over-x-ln-x",
+      "title": "$\\int \\frac{dx}{x\\ln x} = \\,?$",
+      "body": "$\\ln|\\ln x| + C$\n\nLet $u = \\ln x$, so $du = \\frac{dx}{x}$. Then $\\int \\frac{du}{u} = \\ln|u| + C$.\n\nKey idea: this is the pattern $\\int \\frac{f'}{f}\\,dx = \\ln|f| + C$ with $f = \\ln x$.",
+      "answer": "ln|ln x| + C",
+      "acceptedAnswers": [
+        "ln|ln x|",
+        "ln|ln(x)| + C",
+        "ln|ln(x)|"
+      ],
+      "answerDisplay": "$\\ln|\\ln x| + C$",
+      "searchQuery": "integral 1/(x ln x) substitution ln ln x"
+    },
+    {
+      "id": "u-sub-definite-log-result",
+      "title": "Evaluate $\\int_0^1 \\frac{x}{x^2 + 1}\\,dx$.",
+      "body": "$\\frac12\\ln 2$\n\nWith $u = x^2 + 1$ the bounds become $u = 1$ to $u = 2$, and $x\\,dx = \\frac12\\,du$.\n\nSo the integral is $\\frac12\\ln u\\Big|_1^2 = \\frac12(\\ln 2 - \\ln 1) = \\frac12\\ln 2$.\n\nTip: $\\ln 1 = 0$, so the lower bound contributes nothing.",
+      "answer": "(1/2)ln 2",
+      "acceptedAnswers": [
+        "ln(2)/2",
+        "ln 2/2",
+        "(ln 2)/2",
+        "(1/2)ln(2)",
+        "0.5 ln 2"
+      ],
+      "answerDisplay": "$\\frac{1}{2}\\ln 2$",
+      "searchQuery": "definite integral x/(x^2+1) from 0 to 1 half ln 2"
+    },
+    {
+      "id": "integral-of-e-to-x-squared",
+      "title": "Can $\\int e^{x^2}\\,dx$ be written using elementary functions? (yes or no)",
+      "body": "No\n\nThe antiderivative exists, since $e^{x^2}$ is continuous, but it is not an elementary function. It is related to the error function $\\operatorname{erf}$.\n\nThe substitution $u = x^2$ fails because there is no $x$ factor to supply $du = 2x\\,dx$.\n\nKey idea: continuous functions always have antiderivatives, but not always elementary ones. $\\int xe^{x^2}\\,dx$ works, while $\\int e^{x^2}\\,dx$ does not.",
+      "answer": "no",
+      "searchQuery": "integral e^(x^2) no elementary antiderivative"
+    },
+    {
+      "id": "integration-by-parts",
+      "title": "Integration by parts: $\\int u\\,dv = \\,?$",
+      "body": "$uv - \\int v\\,du$\n\nIt is the product rule, integrated. Choose $u$ to get simpler when differentiated and $dv$ to be easy to integrate.\n\nExample: $\\int xe^x\\,dx$ with $u = x$, $dv = e^x\\,dx$ gives $xe^x - \\int e^x\\,dx = xe^x - e^x + C$.\nWhy: $d(uv) = u\\,dv + v\\,du$, so $\\int u\\,dv = uv - \\int v\\,du$.",
+      "searchQuery": "integration by parts formula derivation"
+    },
+    {
+      "id": "liate-choice-of-u",
+      "title": "In $\\int x^2 \\ln x\\,dx$, which factor should be $u$ for integration by parts?",
+      "body": "$u = \\ln x$, $dv = x^2\\,dx$\n\n**LIATE** (Log, Inverse trig, Algebraic, Trig, Exponential) ranks the choices for $u$. $\\ln x$ is easy to differentiate but awkward to integrate.\n\nResult: $\\frac{x^3}{3}\\ln x - \\int \\frac{x^3}{3}\\cdot\\frac{1}{x}\\,dx = \\frac{x^3}{3}\\ln x - \\frac{x^3}{9} + C$.\n\nMnemonic: LIATE, the earlier letter wins as $u$.",
+      "answer": "u = ln x",
+      "acceptedAnswers": [
+        "ln x",
+        "ln(x)",
+        "u=ln(x)"
+      ],
+      "answerDisplay": "$u = \\ln x$",
+      "searchQuery": "LIATE choice of u integration by parts"
+    },
+    {
+      "id": "integral-of-ln-x",
+      "title": "$\\int \\ln x\\,dx = \\,?$",
+      "body": "$x\\ln x - x + C$\n\nParts with $u = \\ln x$, $dv = dx$ gives $x\\ln x - \\int x\\cdot\\frac{1}{x}\\,dx$.\n\nTip: the same trick ($dv = dx$) handles $\\int \\arctan x\\,dx$ and $\\int \\arcsin x\\,dx$.",
+      "answer": "x ln x - x + C",
+      "acceptedAnswers": [
+        "x ln x - x",
+        "x ln(x) - x + C",
+        "x ln(x) - x",
+        "x(ln x - 1) + C",
+        "x(ln x - 1)",
+        "x(ln(x) - 1) + C",
+        "x(ln(x) - 1)",
+        "-x + x ln x + C",
+        "-x + x ln x"
+      ],
+      "answerDisplay": "$x\\ln x - x + C$",
+      "searchQuery": "integral of ln x by parts"
+    },
+    {
+      "id": "parts-x-cos-x",
+      "title": "$\\int x\\cos x\\,dx = \\,?$",
+      "body": "$x\\sin x + \\cos x + C$\n\nTake $u = x$, $dv = \\cos x\\,dx$. Then $x\\sin x - \\int \\sin x\\,dx = x\\sin x + \\cos x + C$.\n\nTip: check by differentiating. The derivative is $\\sin x + x\\cos x - \\sin x = x\\cos x$.",
+      "answer": "x sin x + cos x + C",
+      "acceptedAnswers": [
+        "x sin x + cos x",
+        "cos x + x sin x + C",
+        "cos x + x sin x",
+        "x sin(x) + cos(x) + C",
+        "x sin(x) + cos(x)"
+      ],
+      "answerDisplay": "$x\\sin x + \\cos x + C$",
+      "searchQuery": "integral x cos x by parts"
+    },
+    {
+      "id": "tabular-integration",
+      "title": "Tabular integration: $\\int x^2 e^x\\,dx = \\,?$",
+      "body": "$e^x(x^2 - 2x + 2) + C$\n\nDifferentiate $x^2 \\to 2x \\to 2 \\to 0$, integrate $e^x$ repeatedly, and pair diagonally with alternating signs $+, -, +$. That gives $x^2e^x - 2xe^x + 2e^x$.\n\nTip: it works when repeated differentiation of $u$ reaches $0$, as with polynomials.",
+      "answer": "e^x(x^2-2x+2) + C",
+      "acceptedAnswers": [
+        "e^x(x^2-2x+2)",
+        "x^2e^x - 2xe^x + 2e^x + C",
+        "x^2e^x - 2xe^x + 2e^x",
+        "(x^2-2x+2)e^x + C",
+        "(x^2-2x+2)e^x"
+      ],
+      "answerDisplay": "$e^x(x^2 - 2x + 2) + C$",
+      "searchQuery": "tabular integration x^2 e^x repeated parts"
+    },
+    {
+      "id": "parts-cyclic-exp-sin",
+      "title": "$\\int e^x\\sin x\\,dx = \\,?$",
+      "body": "$\\frac{e^x}{2}(\\sin x - \\cos x) + C$\n\nParts twice brings back the original integral $I$: $I = e^x\\sin x - e^x\\cos x - I$, so $2I = e^x(\\sin x - \\cos x)$.\n\nWatch out: make the same kind of choice for $u$ both times (trig both times, or exponential both times), or the second step undoes the first.",
+      "answer": "(e^x/2)(sin x - cos x) + C",
+      "acceptedAnswers": [
+        "(e^x/2)(sin x - cos x)",
+        "e^x(sin x - cos x)/2 + C",
+        "e^x(sin x - cos x)/2",
+        "(1/2)e^x(sin x - cos x) + C",
+        "(1/2)e^x(sin x - cos x)"
+      ],
+      "answerDisplay": "$\\frac{e^x}{2}(\\sin x - \\cos x) + C$",
+      "searchQuery": "integral e^x sin x cyclic integration by parts"
+    },
+    {
+      "id": "integral-of-arctan",
+      "title": "$\\int \\arctan x\\,dx = \\,?$",
+      "body": "$x\\arctan x - \\frac{1}{2}\\ln(1 + x^2) + C$\n\nParts with $u = \\arctan x$, $dv = dx$ leaves $\\int \\frac{x}{1 + x^2}\\,dx$, which a $u$-substitution finishes.\n\nTip: inverse trig functions with $dv = dx$ turn into algebraic integrals.",
+      "answer": "x arctan x - (1/2)ln(1+x^2) + C",
+      "acceptedAnswers": [
+        "x arctan x - (1/2)ln(1+x^2)",
+        "x arctan(x) - (1/2)ln(1+x^2) + C",
+        "x arctan(x) - (1/2)ln(1+x^2)",
+        "x arctan x - ln(1+x^2)/2 + C",
+        "x arctan x - ln(1+x^2)/2",
+        "x arctan x - 1/2 ln(1+x^2) + C",
+        "x arctan x - 1/2 ln(1+x^2)"
+      ],
+      "answerDisplay": "$x\\arctan x - \\frac{1}{2}\\ln(1 + x^2) + C$",
+      "searchQuery": "integral of arctan x by parts"
+    },
+    {
+      "id": "parts-definite-form",
+      "title": "Integration by parts for a definite integral: $\\int_a^b u\\,dv = \\,?$",
+      "body": "$\\Big[uv\\Big]_a^b - \\int_a^b v\\,du$\n\nEvaluate the boundary term $uv$ at both limits.\n\nExample: $\\int_0^1 xe^x\\,dx = \\big[xe^x\\big]_0^1 - \\int_0^1 e^x\\,dx = e - (e - 1) = 1$.",
+      "searchQuery": "integration by parts definite integral boundary term"
+    },
+    {
+      "id": "parts-ln-squared",
+      "title": "$\\int (\\ln x)^2\\,dx = \\,?$",
+      "body": "$x(\\ln x)^2 - 2x\\ln x + 2x + C$\n\nWith $u = (\\ln x)^2$, $dv = dx$ we get $x(\\ln x)^2 - 2\\int \\ln x\\,dx$, and $\\int \\ln x\\,dx = x\\ln x - x$.\n\nKey idea: each round of parts lowers the power of $\\ln x$ by one.",
+      "answer": "x(ln x)^2 - 2x ln x + 2x + C",
+      "acceptedAnswers": [
+        "x(ln x)^2 - 2x ln x + 2x",
+        "x(ln(x))^2 - 2x ln(x) + 2x + C",
+        "x(ln(x))^2 - 2x ln(x) + 2x",
+        "x((ln x)^2 - 2ln x + 2) + C",
+        "x((ln x)^2 - 2ln x + 2)"
+      ],
+      "answerDisplay": "$x(\\ln x)^2 - 2x\\ln x + 2x + C$",
+      "searchQuery": "integral (ln x)^2 by parts"
+    },
+    {
+      "id": "parts-x-squared-sin-x",
+      "title": "$\\int x^2\\sin x\\,dx = \\,?$",
+      "body": "$-x^2\\cos x + 2x\\sin x + 2\\cos x + C$\n\nApply parts twice with $u = x^2$, then $u = x$. In tabular form the derivatives are $x^2, 2x, 2, 0$ and the integrals of $\\sin x$ are $-\\cos x, -\\sin x, \\cos x$.\n\nThe signs alternate $+, -, +$ down the diagonals.\n\nTip: differentiate the answer to check it. The cosine and sine terms cancel except for $x^2\\sin x$.",
+      "answer": "-x^2 cos x + 2x sin x + 2cos x + C",
+      "acceptedAnswers": [
+        "-x^2 cos x + 2x sin x + 2cos x",
+        "2x sin x + 2cos x - x^2 cos x + C",
+        "2x sin x + 2cos x - x^2 cos x"
+      ],
+      "answerDisplay": "$-x^2\\cos x + 2x\\sin x + 2\\cos x + C$",
+      "searchQuery": "integral x^2 sin x integration by parts twice"
+    },
+    {
+      "id": "parts-x-e-to-2x",
+      "title": "$\\int xe^{2x}\\,dx = \\,?$",
+      "body": "$\\left(\\frac{x}{2} - \\frac14\\right)e^{2x} + C$\n\nTake $u = x$, $dv = e^{2x}\\,dx$, so $v = \\frac12 e^{2x}$. Then $\\frac{x}{2}e^{2x} - \\frac12\\int e^{2x}\\,dx = \\frac{x}{2}e^{2x} - \\frac14 e^{2x}$.\n\nWatch out: $\\int e^{2x}\\,dx$ is $\\frac12 e^{2x}$, not $e^{2x}$. The inner derivative matters.",
+      "answer": "(x/2 - 1/4)e^(2x) + C",
+      "acceptedAnswers": [
+        "(x/2 - 1/4)e^(2x)",
+        "e^(2x)(x/2 - 1/4) + C",
+        "e^(2x)(x/2 - 1/4)",
+        "(2x - 1)e^(2x)/4 + C",
+        "(2x - 1)e^(2x)/4"
+      ],
+      "answerDisplay": "$\\left(\\frac{x}{2} - \\frac{1}{4}\\right)e^{2x} + C$",
+      "searchQuery": "integral x e^(2x) integration by parts"
+    },
+    {
+      "id": "parts-definite-ln-x",
+      "title": "Evaluate $\\int_1^{e} \\ln x\\,dx$.",
+      "body": "$1$\n\nUse $\\int \\ln x\\,dx = x\\ln x - x$. At $x = e$ it equals $e - e = 0$; at $x = 1$ it equals $0 - 1 = -1$.\n\nSo the value is $0 - (-1) = 1$.\n\nWatch out: the lower limit gives $-1$, and subtracting it adds $1$.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "definite integral ln x from 1 to e by parts"
+    },
+    {
+      "id": "integral-of-arcsin",
+      "title": "$\\int \\arcsin x\\,dx = \\,?$",
+      "body": "$x\\arcsin x + \\sqrt{1 - x^2} + C$\n\nParts with $u = \\arcsin x$, $dv = dx$ leaves $-\\int \\frac{x}{\\sqrt{1 - x^2}}\\,dx$. The substitution $u = 1 - x^2$ finishes it.\n\nCheck: $\\frac{d}{dx}\\left[x\\arcsin x + \\sqrt{1 - x^2}\\right] = \\arcsin x + \\frac{x}{\\sqrt{1 - x^2}} - \\frac{x}{\\sqrt{1 - x^2}} = \\arcsin x$.",
+      "answer": "x arcsin x + sqrt(1-x^2) + C",
+      "acceptedAnswers": [
+        "x arcsin x + sqrt(1-x^2)",
+        "x arcsin(x) + sqrt(1-x^2) + C",
+        "x arcsin(x) + sqrt(1-x^2)",
+        "x sin^-1(x) + sqrt(1-x^2) + C",
+        "x sin^-1(x) + sqrt(1-x^2)"
+      ],
+      "answerDisplay": "$x\\arcsin x + \\sqrt{1 - x^2} + C$",
+      "searchQuery": "integral of arcsin x by parts"
+    },
+    {
+      "id": "parts-wrong-choice-of-u",
+      "title": "In $\\int xe^x\\,dx$, what goes wrong if you pick $u = e^x$ and $dv = x\\,dx$?",
+      "body": "The power of $x$ goes up, so the new integral is harder\n\nThen $v = \\frac{x^2}{2}$ and the formula gives $\\frac{x^2}{2}e^x - \\int \\frac{x^2}{2}e^x\\,dx$. That integral is worse than the original.\n\nWith $u = x$, differentiating lowers the power, and the remaining integral is just $\\int e^x\\,dx$.\n\nTip: if the second integral looks harder, swap your choices of $u$ and $dv$.",
+      "searchQuery": "integration by parts wrong choice of u makes harder"
+    },
+    {
+      "id": "odd-power-of-sine",
+      "title": "$\\int \\sin^3 x\\cos^2 x\\,dx$: which substitution turns it into the integral of a polynomial?",
+      "body": "$u = \\cos x$\n\n$\\sin$ has the odd power: save one $\\sin x$ for $du = -\\sin x\\,dx$ and convert the rest with $\\sin^2 x = 1 - \\cos^2 x$.\n\nIf $\\cos$ has the odd power, save a $\\cos x$ and let $u = \\sin x$.\n\nTip: if both powers are even, use the half-angle identities instead.",
+      "answer": "u = cos x",
+      "acceptedAnswers": [
+        "u=cos(x)",
+        "cos x",
+        "cos(x)"
+      ],
+      "answerDisplay": "$u = \\cos x$",
+      "searchQuery": "integral sin^3 x cos^2 x odd power substitution"
+    },
+    {
+      "id": "integral-sin-squared",
+      "title": "$\\int \\sin^2 x\\,dx = \\,?$",
+      "body": "$\\frac{x}{2} - \\frac{\\sin 2x}{4} + C$\n\nUse the half-angle identity $\\sin^2 x = \\frac{1 - \\cos 2x}{2}$.\n\nExample: for $\\cos^2 x = \\frac{1 + \\cos 2x}{2}$ the result is $\\frac{x}{2} + \\frac{\\sin 2x}{4} + C$.",
+      "answer": "x/2 - sin(2x)/4 + C",
+      "acceptedAnswers": [
+        "x/2 - sin(2x)/4",
+        "x/2 - (1/4)sin(2x) + C",
+        "x/2 - (1/4)sin(2x)",
+        "(1/2)x - (1/4)sin(2x) + C",
+        "(1/2)x - (1/4)sin(2x)",
+        "x/2 - sin 2x/4 + C",
+        "x/2 - sin 2x/4",
+        "(2x - sin(2x))/4 + C",
+        "(2x - sin(2x))/4",
+        "(x - sin x cos x)/2 + C",
+        "(x - sin x cos x)/2"
+      ],
+      "answerDisplay": "$\\frac{x}{2} - \\frac{\\sin 2x}{4} + C$",
+      "searchQuery": "integral sin^2 x half-angle identity"
+    },
+    {
+      "id": "definite-sin-squared",
+      "title": "$\\int_0^{\\pi} \\sin^2 x\\,dx = \\,?$",
+      "body": "$\\frac{\\pi}{2}$\n\nFrom $\\frac{x}{2} - \\frac{\\sin 2x}{4}$, the sine term vanishes at both ends, leaving $\\frac{\\pi}{2}$.\n\nTip: over $[0, \\pi]$, $\\sin^2 x$ and $\\cos^2 x$ have equal integrals that add up to $\\int_0^{\\pi} 1\\,dx = \\pi$, so each is half.",
+      "answer": "pi/2",
+      "acceptedAnswers": [
+        "(1/2)pi",
+        "0.5pi"
+      ],
+      "answerDisplay": "$\\frac{\\pi}{2}$",
+      "searchQuery": "definite integral sin^2 x from 0 to pi"
+    },
+    {
+      "id": "tan-sec-even-secant",
+      "title": "$\\int \\tan^2 x\\sec^4 x\\,dx$: which substitution turns it into the integral of a polynomial?",
+      "body": "$u = \\tan x$\n\nThe power of $\\sec$ is even: save $\\sec^2 x\\,dx = du$ and write the remaining $\\sec^2 x = 1 + \\tan^2 x$. This gives $\\int u^2(1 + u^2)\\,du$.\n\nTip: if instead the power of $\\tan$ is odd, save $\\sec x\\tan x\\,dx$ and let $u = \\sec x$.",
+      "answer": "u = tan x",
+      "acceptedAnswers": [
+        "u=tan(x)",
+        "tan x",
+        "tan(x)"
+      ],
+      "answerDisplay": "$u = \\tan x$",
+      "searchQuery": "integral tan^2 x sec^4 x substitution"
+    },
+    {
+      "id": "integral-tan-squared",
+      "title": "$\\int \\tan^2 x\\,dx = \\,?$",
+      "body": "$\\tan x - x + C$\n\nUse $\\tan^2 x = \\sec^2 x - 1$, then integrate term by term.\n\nWatch out: $\\frac{\\tan^3 x}{3}$ ignores the chain rule. That would need a $\\sec^2 x$ factor in the integrand.",
+      "answer": "tan x - x + C",
+      "acceptedAnswers": [
+        "tan x - x",
+        "tan(x) - x + C",
+        "tan(x) - x",
+        "-x + tan x + C",
+        "-x + tan x"
+      ],
+      "answerDisplay": "$\\tan x - x + C$",
+      "searchQuery": "integral of tan^2 x sec^2 minus 1"
+    },
+    {
+      "id": "sine-orthogonality",
+      "title": "For integers $m \\ne n$, $\\int_{-\\pi}^{\\pi} \\sin(mx)\\sin(nx)\\,dx = \\,?$",
+      "body": "$0$\n\nProduct-to-sum: $\\sin A\\sin B = \\frac12[\\cos(A - B) - \\cos(A + B)]$. Each cosine term integrates to $0$ over a full period.\n\nKey idea: when $m = n \\ne 0$ the integral is $\\pi$. This orthogonality is the basis of Fourier series.",
+      "answer": "0",
+      "searchQuery": "orthogonality of sine functions integral -pi to pi"
+    },
+    {
+      "id": "integral-sin-cubed",
+      "title": "$\\int \\sin^3 x\\,dx = \\,?$",
+      "body": "$-\\cos x + \\frac{\\cos^3 x}{3} + C$\n\nSave one $\\sin x$ and write $\\sin^2 x = 1 - \\cos^2 x$. With $u = \\cos x$, the integral is $-\\int (1 - u^2)\\,du = -u + \\frac{u^3}{3}$.\n\nTip: for an odd power of $\\sin$ or $\\cos$, peel off one factor and convert the rest.",
+      "answer": "-cos x + (cos x)^3/3 + C",
+      "acceptedAnswers": [
+        "-cos x + (cos x)^3/3",
+        "-cos x + cos^3 x/3 + C",
+        "-cos x + cos^3 x/3",
+        "cos^3(x)/3 - cos(x) + C",
+        "cos^3(x)/3 - cos(x)"
+      ],
+      "answerDisplay": "$-\\cos x + \\dfrac{\\cos^3 x}{3} + C$",
+      "searchQuery": "integral sin^3 x odd power substitution"
+    },
+    {
+      "id": "integral-sec-cubed",
+      "title": "What is $\\int \\sec^3 x\\,dx$?",
+      "body": "$\\frac12\\sec x\\tan x + \\frac12\\ln|\\sec x + \\tan x| + C$\n\nUse parts with $u = \\sec x$, $dv = \\sec^2 x\\,dx$. This gives $I = \\sec x\\tan x - \\int \\sec x\\tan^2 x\\,dx$.\n\nReplace $\\tan^2 x = \\sec^2 x - 1$. The original integral $I$ reappears, so $2I = \\sec x\\tan x + \\int \\sec x\\,dx$.\n\nKey idea: this is a cyclic integral, like $\\int e^x\\sin x\\,dx$. Solve for $I$ algebraically.",
+      "searchQuery": "integral sec^3 x by parts reduction"
+    },
+    {
+      "id": "trig-substitution-table",
+      "title": "Which trig substitution matches $\\sqrt{a^2 - x^2}$, $\\sqrt{a^2 + x^2}$ and $\\sqrt{x^2 - a^2}$?",
+      "body": "$x = a\\sin\\theta$, $x = a\\tan\\theta$, $x = a\\sec\\theta$, in the order listed\n\n- $\\sqrt{a^2 - x^2}$: $x = a\\sin\\theta$, since $1 - \\sin^2\\theta = \\cos^2\\theta$\n\n- $\\sqrt{a^2 + x^2}$: $x = a\\tan\\theta$, since $1 + \\tan^2\\theta = \\sec^2\\theta$\n\n- $\\sqrt{x^2 - a^2}$: $x = a\\sec\\theta$, since $\\sec^2\\theta - 1 = \\tan^2\\theta$\n\nKey idea: each Pythagorean identity collapses the radical into a single trig function.",
+      "searchQuery": "trig substitution table sqrt(a^2-x^2) sin tan sec"
+    },
+    {
+      "id": "trig-sub-quarter-circle",
+      "title": "Evaluate $\\int_0^1 \\sqrt{1 - x^2}\\,dx$.",
+      "body": "$\\frac{\\pi}{4}$\n\nLet $x = \\sin\\theta$, so $dx = \\cos\\theta\\,d\\theta$ and the bounds become $\\theta = 0$ to $\\frac{\\pi}{2}$. The integral is $\\int_0^{\\pi/2} \\cos^2\\theta\\,d\\theta = \\frac{\\pi}{4}$.\n\nTip: it is also a quarter of the unit disk, whose area is $\\frac{\\pi}{4}$.",
+      "answer": "pi/4",
+      "answerDisplay": "$\\frac{\\pi}{4}$",
+      "searchQuery": "integral sqrt(1-x^2) from 0 to 1 trig substitution"
+    },
+    {
+      "id": "trig-sub-one-over-sqrt-x2-plus-1",
+      "title": "$\\int \\frac{dx}{\\sqrt{x^2 + 1}} = \\,?$",
+      "body": "$\\ln\\left(x + \\sqrt{x^2 + 1}\\right) + C$\n\nLet $x = \\tan\\theta$. Then $\\sqrt{x^2 + 1} = \\sec\\theta$, and the integral becomes $\\int \\sec\\theta\\,d\\theta = \\ln|\\sec\\theta + \\tan\\theta| + C$.\n\nBack-substituting gives $\\sec\\theta = \\sqrt{x^2 + 1}$ and $\\tan\\theta = x$.\n\nKey idea: this function is also $\\sinh^{-1} x$, the inverse hyperbolic sine.",
+      "answer": "ln|x + sqrt(x^2+1)| + C",
+      "acceptedAnswers": [
+        "ln|x + sqrt(x^2+1)|",
+        "ln(x + sqrt(x^2+1)) + C",
+        "ln(x + sqrt(x^2+1))",
+        "arcsinh(x) + C",
+        "arcsinh(x)"
+      ],
+      "answerDisplay": "$\\ln\\left(x + \\sqrt{x^2 + 1}\\right) + C$",
+      "searchQuery": "integral 1/sqrt(x^2+1) tan substitution ln"
+    },
+    {
+      "id": "complete-square-arctan",
+      "title": "$\\int \\frac{dx}{x^2 + 2x + 5} = \\,?$",
+      "body": "$\\frac12\\arctan\\frac{x + 1}{2} + C$\n\nComplete the square: $x^2 + 2x + 5 = (x + 1)^2 + 4$. Then use $\\int \\frac{du}{u^2 + a^2} = \\frac1a\\arctan\\frac{u}{a}$ with $u = x + 1$ and $a = 2$.\n\nTip: an irreducible quadratic in the denominator with no $x$ in the numerator points to arctan.",
+      "answer": "(1/2)arctan((x+1)/2) + C",
+      "acceptedAnswers": [
+        "(1/2)arctan((x+1)/2)",
+        "arctan((x+1)/2)/2 + C",
+        "arctan((x+1)/2)/2",
+        "(1/2)tan^-1((x+1)/2) + C",
+        "(1/2)tan^-1((x+1)/2)"
+      ],
+      "answerDisplay": "$\\frac{1}{2}\\arctan\\frac{x + 1}{2} + C$",
+      "searchQuery": "integral 1/(x^2+2x+5) complete the square arctan"
+    },
+    {
+      "id": "partial-fractions-form",
+      "title": "Write the partial fraction form of $\\dfrac{1}{(x - 1)^2(x^2 + 4)}$.",
+      "body": "$\\frac{A}{x - 1} + \\frac{B}{(x - 1)^2} + \\frac{Cx + D}{x^2 + 4}$\n\nA repeated linear factor gets one term per power, up to the repeat. An irreducible quadratic gets a **linear numerator**.\n\nWatch out: first make sure $\\deg(\\text{top}) < \\deg(\\text{bottom})$. If not, do long division.",
+      "searchQuery": "partial fractions form repeated linear irreducible quadratic"
+    },
+    {
+      "id": "partial-fractions-cover-up",
+      "title": "$\\frac{3x + 5}{(x + 1)(x + 2)} = \\frac{A}{x + 1} + \\frac{B}{x + 2}$. Find $A$.",
+      "body": "$A = 2$\n\nCover-up: multiply by $(x + 1)$ and set $x = -1$. Then $A = \\frac{3(-1) + 5}{(-1) + 2} = \\frac{2}{1} = 2$.\n\nThe same method gives $B = \\frac{3(-2) + 5}{-2 + 1} = 1$.\n\nCheck: $2(x + 2) + 1(x + 1) = 3x + 5$.",
+      "answer": "2",
+      "answerDisplay": "$2$",
+      "searchQuery": "partial fractions cover-up method coefficient"
+    },
+    {
+      "id": "partial-fractions-x-squared-minus-1",
+      "title": "$\\int \\frac{dx}{x^2 - 1} = \\,?$",
+      "body": "$\\frac12\\ln\\left|\\frac{x - 1}{x + 1}\\right| + C$\n\nFactor: $\\frac{1}{x^2 - 1} = \\frac12\\left[\\frac{1}{x - 1} - \\frac{1}{x + 1}\\right]$. Integrating each piece gives logs.\n\nWatch out: this is not an arctan integral. The minus sign in $x^2 - 1$ means the denominator factors over the reals.",
+      "answer": "(1/2)ln|(x-1)/(x+1)| + C",
+      "acceptedAnswers": [
+        "(1/2)ln|(x-1)/(x+1)|",
+        "ln|(x-1)/(x+1)|/2 + C",
+        "ln|(x-1)/(x+1)|/2",
+        "(1/2)ln|x-1| - (1/2)ln|x+1| + C",
+        "(1/2)ln|x-1| - (1/2)ln|x+1|"
+      ],
+      "answerDisplay": "$\\frac{1}{2}\\ln\\left|\\frac{x - 1}{x + 1}\\right| + C$",
+      "searchQuery": "integral 1/(x^2-1) partial fractions"
+    },
+    {
+      "id": "partial-fractions-long-division",
+      "title": "$\\int \\frac{x^2}{x + 1}\\,dx = \\,?$",
+      "body": "$\\frac{x^2}{2} - x + \\ln|x + 1| + C$\n\nThe degree of the top is not less than the bottom, so divide first: $\\frac{x^2}{x + 1} = x - 1 + \\frac{1}{x + 1}$.\n\nWatch out: partial fractions need $\\deg(\\text{top}) < \\deg(\\text{bottom})$, so long division comes first.",
+      "answer": "x^2/2 - x + ln|x+1| + C",
+      "acceptedAnswers": [
+        "x^2/2 - x + ln|x+1|",
+        "(1/2)x^2 - x + ln|x+1| + C",
+        "(1/2)x^2 - x + ln|x+1|"
+      ],
+      "answerDisplay": "$\\frac{x^2}{2} - x + \\ln|x + 1| + C$",
+      "searchQuery": "integral x^2/(x+1) long division improper rational"
+    },
+    {
+      "id": "improper-integral-p-test",
+      "title": "For which $p$ does $\\int_1^\\infty \\frac{dx}{x^p}$ converge?",
+      "body": "$p > 1$, and then it equals $\\frac{1}{p - 1}$\n\nAt $p = 1$ the antiderivative is $\\ln x \\to \\infty$, so the integral diverges.\n\nWatch out: near $0$ the rule flips. $\\int_0^1 \\frac{dx}{x^p}$ converges only for $p < 1$.",
+      "answer": "p > 1",
+      "acceptedAnswers": [
+        "1<p"
+      ],
+      "answerDisplay": "$p > 1$",
+      "searchQuery": "improper integral p test 1/x^p converge"
+    },
+    {
+      "id": "improper-exponential-decay",
+      "title": "Evaluate $\\int_0^{\\infty} e^{-2x}\\,dx$.",
+      "body": "$\\frac12$\n\n$\\lim_{b \\to \\infty}\\left[-\\frac12 e^{-2x}\\right]_0^b = 0 - \\left(-\\frac12\\right) = \\frac12$.\n\nTip: for $k > 0$, $\\int_0^{\\infty} e^{-kx}\\,dx = \\frac1k$.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "improper integral e^(-2x) from 0 to infinity"
+    },
+    {
+      "id": "improper-one-over-root-x",
+      "title": "Evaluate $\\int_0^1 \\frac{dx}{\\sqrt{x}}$.",
+      "body": "$2$\n\nThe integrand blows up at $x = 0$, so define it as $\\lim_{a \\to 0^+}\\int_a^1 x^{-1/2}\\,dx = \\lim_{a \\to 0^+} 2(1 - \\sqrt{a}) = 2$.\n\nKey idea: an infinite integrand can still enclose a finite area, because $p = \\frac12 < 1$.",
+      "answer": "2",
+      "answerDisplay": "$2$",
+      "searchQuery": "improper integral 1/sqrt x from 0 to 1 type 2"
+    },
+    {
+      "id": "improper-arctan-whole-line",
+      "title": "Evaluate $\\int_{-\\infty}^{\\infty} \\frac{dx}{1 + x^2}$.",
+      "body": "$\\pi$\n\nSplit at $0$ and use $\\arctan x$: $\\left(\\frac{\\pi}{2} - 0\\right) + \\left(0 - \\left(-\\frac{\\pi}{2}\\right)\\right) = \\pi$.\n\nWatch out: both halves must converge separately. Do not just take $\\lim_{b \\to \\infty}\\int_{-b}^{b}$.",
+      "answer": "pi",
+      "answerDisplay": "$\\pi$",
+      "searchQuery": "improper integral 1/(1+x^2) over whole real line pi"
+    },
+    {
+      "id": "improper-one-over-x-through-zero",
+      "title": "Does $\\int_{-1}^{1} \\frac{dx}{x}$ converge or diverge?",
+      "body": "Diverges\n\nThe integrand is undefined at $x = 0$, so split it there. Each piece, $\\int_0^1 \\frac{dx}{x}$ and $\\int_{-1}^0 \\frac{dx}{x}$, diverges on its own.\n\nWatch out: \"odd function, so the answer is $0$\" is wrong here. Cancellation requires both pieces to converge.",
+      "answer": "diverges",
+      "acceptedAnswers": [
+        "diverge",
+        "divergent",
+        "it diverges"
+      ],
+      "searchQuery": "improper integral 1/x from -1 to 1 diverges"
+    },
+    {
+      "id": "midpoint-rule-example",
+      "title": "Midpoint Rule $M_2$ for $\\int_0^2 x^3\\,dx$?",
+      "body": "$3.5$\n\n$\\Delta x = 1$ with midpoints $0.5$ and $1.5$: $0.5^3 + 1.5^3 = 0.125 + 3.375 = 3.5$.\n\nWhy: the exact value is $4$. For a concave-up integrand the Midpoint Rule underestimates.",
+      "answer": "3.5",
+      "acceptedAnswers": [
+        "7/2"
+      ],
+      "searchQuery": "midpoint rule M2 integral x^3 from 0 to 2"
+    },
+    {
+      "id": "trapezoidal-rule",
+      "title": "Write the Trapezoidal Rule $T_n$ for $\\int_a^b f(x)\\,dx$ with $\\Delta x = \\frac{b - a}{n}$.",
+      "body": "$T_n = \\frac{\\Delta x}{2}\\left[f(x_0) + 2f(x_1) + \\dots + 2f(x_{n-1}) + f(x_n)\\right]$\n\nInterior points count twice because each is shared by two trapezoids.\n\n$T_n$ is also the average of the left and right sums, $\\frac{L_n + R_n}{2}$.\n\nWatch out: $T_n$ overestimates a concave-up integrand and underestimates a concave-down one.",
+      "searchQuery": "trapezoidal rule formula numerical integration"
+    },
+    {
+      "id": "simpsons-rule",
+      "title": "Simpson's Rule $S_n$: what weights multiply $f(x_0), f(x_1), \\dots, f(x_n)$, and what must be true of $n$?",
+      "body": "$S_n = \\frac{\\Delta x}{3}\\left[f(x_0) + 4f(x_1) + 2f(x_2) + \\dots + 4f(x_{n-1}) + f(x_n)\\right]$, with $n$ even\n\nIt fits a parabola over each pair of subintervals, and it is exact for polynomials of degree up to $3$.\n\nError bound: $|E_S| \\le \\frac{K(b - a)^5}{180n^4}$ where $|f^{(4)}(x)| \\le K$.\n\nMnemonic: weights run $1, 4, 2, 4, 2, \\dots, 4, 1$.",
+      "searchQuery": "Simpsons rule formula weights 1 4 2 4 1 n even"
+    },
+    {
+      "id": "trapezoid-error-bound",
+      "title": "Trapezoidal Rule error bound: if $|f''(x)| \\le K$ on $[a, b]$, then $|E_T| \\le \\,?$",
+      "body": "$\\frac{K(b - a)^3}{12n^2}$\n\nThe Midpoint Rule's bound is half of that, $\\frac{K(b - a)^3}{24n^2}$.\n\nTip: doubling $n$ cuts both bounds by a factor of $4$.",
+      "answer": "K(b-a)^3/(12n^2)",
+      "acceptedAnswers": [
+        "(K(b-a)^3)/(12n^2)",
+        "K(b-a)^3/12n^2"
+      ],
+      "answerDisplay": "$\\dfrac{K(b - a)^3}{12n^2}$",
+      "searchQuery": "trapezoidal rule error bound formula"
+    },
+    {
+      "id": "trapezoid-example",
+      "title": "Trapezoidal Rule $T_2$ for $\\int_0^2 x^2\\,dx$?",
+      "body": "$3$\n\n$\\Delta x = 1$ with nodes $0, 1, 2$: $T_2 = \\frac12\\left[0 + 2(1) + 4\\right] = 3$.\n\nWhy: the exact value is $\\frac83 \\approx 2.67$. The estimate is high because $x^2$ is concave up.",
+      "answer": "3",
+      "answerDisplay": "$3$",
+      "searchQuery": "trapezoidal rule T2 x^2 from 0 to 2"
+    },
+    {
+      "id": "simpson-example-exact",
+      "title": "Simpson's Rule $S_2$ for $\\int_0^2 x^2\\,dx$?",
+      "body": "$\\frac83$\n\n$\\Delta x = 1$ with nodes $0, 1, 2$: $S_2 = \\frac13\\left[0 + 4(1) + 4\\right] = \\frac83$.\n\nKey idea: Simpson's Rule is exact for polynomials up to degree $3$, so it matches $\\int_0^2 x^2\\,dx$ exactly.",
+      "answer": "8/3",
+      "acceptedAnswers": [
+        "2.67",
+        "2.667"
+      ],
+      "answerDisplay": "$\\frac{8}{3}$",
+      "searchQuery": "Simpsons rule S2 x^2 from 0 to 2 exact"
+    },
+    {
+      "id": "trapezoid-choose-n",
+      "title": "Smallest $n$ so the Trapezoidal Rule error for $\\int_0^1 \\sin x\\,dx$ is guaranteed below $0.001$? (use $K = 1$)",
+      "body": "$n = 10$\n\nSince $|f''| = |\\sin x| \\le 1$, we need $\\frac{1 \\cdot 1^3}{12n^2} < 0.001$, so $n^2 > \\frac{1000}{12} \\approx 83.3$ and $n \\ge 10$.\n\nWatch out: $n = 9$ fails, because $\\frac{1}{12 \\cdot 81} \\approx 0.00103$ is still above $0.001$.",
+      "answer": "10",
+      "answerDisplay": "$10$",
+      "searchQuery": "trapezoidal rule how many subintervals error bound"
+    },
+    {
+      "id": "area-between-curves",
+      "title": "Area of the region between $y = x$ and $y = x^2$ for $0 \\le x \\le 1$?",
+      "body": "$\\frac16$\n\nOn $[0, 1]$, $x \\ge x^2$, so $A = \\int_0^1 (x - x^2)\\,dx = \\frac12 - \\frac13 = \\frac16$.\n\nTip: always integrate **top minus bottom**. If the curves cross, split at the crossing point (or integrate $|f - g|$).",
+      "answer": "1/6",
+      "answerDisplay": "$\\frac{1}{6}$",
+      "searchQuery": "area between curves y=x and y=x^2"
+    },
+    {
+      "id": "disk-method",
+      "title": "Volume when the region under $y = \\sqrt{x}$, $0 \\le x \\le 1$, is revolved about the $x$-axis?",
+      "body": "$\\frac{\\pi}{2}$\n\nDisks: $V = \\int_0^1 \\pi(\\sqrt{x})^2\\,dx = \\pi\\int_0^1 x\\,dx = \\frac{\\pi}{2}$.\n\nIf the region leaves a hole, use washers: $V = \\int \\pi(R^2 - r^2)\\,dx$.\n\nWatch out: washers use $\\pi(R^2 - r^2)$, not $\\pi(R - r)^2$.",
+      "answer": "pi/2",
+      "acceptedAnswers": [
+        "(1/2)pi",
+        "0.5pi"
+      ],
+      "answerDisplay": "$\\frac{\\pi}{2}$",
+      "searchQuery": "disk method volume of revolution sqrt x about x-axis"
+    },
+    {
+      "id": "shell-method",
+      "title": "Shell method: volume when the region under $y = f(x)$, $a \\le x \\le b$ ($a \\ge 0$), is revolved about the $y$-axis?",
+      "body": "$V = \\int_a^b 2\\pi x\\,f(x)\\,dx$\n\nEach shell has circumference $2\\pi x$, height $f(x)$ and thickness $dx$.\n\nTip: shells parallel to the axis of rotation avoid solving $y = f(x)$ for $x$, which washers about the $y$-axis would require.",
+      "searchQuery": "shell method volume formula revolve about y-axis"
+    },
+    {
+      "id": "average-value",
+      "title": "Average value of $f(x) = x^2$ on $[0, 3]$?",
+      "body": "$3$\n\n$f_{\\text{avg}} = \\frac{1}{b - a}\\int_a^b f(x)\\,dx = \\frac13 \\cdot 9 = 3$.\n\nThe **Mean Value Theorem for Integrals** says $f(c) = f_{\\text{avg}}$ for some $c$ in $[a, b]$; here $c = \\sqrt{3}$.\n\nWatch out: divide by the interval length $b - a$, not by $2$.",
+      "answer": "3",
+      "searchQuery": "average value of a function on an interval integral"
+    },
+    {
+      "id": "displacement-vs-distance",
+      "title": "A particle moves with velocity $v(t) = (t - 2)\\,\\mathrm{m/s}$. What total distance does it travel for $0 \\le t \\le 4\\,\\mathrm{s}$?",
+      "body": "$4\\,\\mathrm{m}$\n\nDisplacement is $\\int_0^4 (t - 2)\\,dt = 0$, but distance is $\\int_0^4 |t - 2|\\,dt$.\n\nThe particle moves $2\\,\\mathrm{m}$ backward for $t < 2$, then $2\\,\\mathrm{m}$ forward.\n\nTip: split the integral where $v$ changes sign.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 m",
+        "4 meters"
+      ],
+      "answerDisplay": "$4\\,\\mathrm{m}$",
+      "searchQuery": "displacement versus total distance velocity integral"
+    },
+    {
+      "id": "arc-length-formula",
+      "title": "Arc length of the curve $y = f(x)$ from $x = a$ to $x = b$?",
+      "body": "$L = \\int_a^b \\sqrt{1 + [f'(x)]^2}\\,dx$\n\nIt sums tiny hypotenuses $\\sqrt{dx^2 + dy^2}$ along the curve.\n\nExample: for the line $y = 2x$ on $[0, 1]$, $L = \\int_0^1 \\sqrt{1 + 4}\\,dx = \\sqrt{5}$.\nWatch out: the square root is of $1 + (f')^2$, not $1 + f'$.",
+      "searchQuery": "arc length formula integral sqrt(1+f prime squared)"
+    },
+    {
+      "id": "washer-method-between-curves",
+      "title": "Volume when the region between $y = x$ and $y = x^2$ is revolved about the $x$-axis?",
+      "body": "$\\frac{2\\pi}{15}$\n\nOn $[0, 1]$ the outer radius is $x$ and the inner radius is $x^2$. So $V = \\pi\\int_0^1 (x^2 - x^4)\\,dx = \\pi\\left(\\frac13 - \\frac15\\right) = \\frac{2\\pi}{15}$.\n\nWatch out: square each radius before subtracting. $(x - x^2)^2$ is the wrong integrand.",
+      "answer": "2pi/15",
+      "acceptedAnswers": [
+        "(2/15)pi",
+        "(2pi)/15"
+      ],
+      "answerDisplay": "$\\frac{2\\pi}{15}$",
+      "searchQuery": "washer method volume y=x and y=x^2 about x-axis"
+    },
+    {
+      "id": "work-spring-hookes-law",
+      "title": "A spring has $k = 50\\,\\mathrm{N/m}$. How much work, in joules, stretches it from its natural length by $0.2\\,\\mathrm{m}$?",
+      "body": "$1\\,\\mathrm{J}$\n\nHooke's law gives $F = kx$, so $W = \\int_0^{0.2} 50x\\,dx = 25x^2\\Big|_0^{0.2} = 25(0.04) = 1$.\n\nTip: in general $W = \\frac12 kx^2$ for a spring stretched $x$ from its natural length.",
+      "answer": "1",
+      "answerDisplay": "$1\\,\\mathrm{J}$",
+      "searchQuery": "work done stretching a spring Hookes law integral"
+    }
+  ]
+}

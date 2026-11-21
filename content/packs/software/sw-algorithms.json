@@ -1,0 +1,1097 @@
+{
+  "id": "sw-algorithms",
+  "title": "Core Algorithms",
+  "course": "Algorithms",
+  "description": "Sorting trade-offs and the n log n lower bound, master theorem, BFS/DFS, topological sort, Dijkstra, Bellman–Ford, Floyd–Warshall, MSTs, DP vs greedy.",
+  "cards": [
+    {
+      "id": "merge-sort-profile",
+      "title": "Merge sort on $n$ elements: worst-case time, extra space, and is it stable?",
+      "body": "$\\Theta(n \\log n)$ time in every case, $\\Theta(n)$ extra space, and stable.\n\nThe time bound holds for best, average and worst case. The extra space is for merging arrays, and the sort stays **stable** as long as ties are taken from the left half first.\n\nWatch out: that extra memory is its main drawback, which is why in-place sorts like quicksort and heapsort exist.",
+      "searchQuery": "merge sort time space complexity stable"
+    },
+    {
+      "id": "quicksort-worst-case",
+      "title": "Worst-case running time of quicksort with a fixed pivot position (e.g. always the last element)?",
+      "body": "$O(n^2)$\n\nEvery partition is maximally unbalanced (sizes $n - 1$ and $0$), e.g. already-sorted input with a last-element pivot.\n\nKey idea: the average case is $O(n \\log n)$. Quicksort sorts in place but isn't stable.\nWatch out: random pivots make the worst case unlikely, not impossible.",
+      "answer": "O(n^2)",
+      "acceptedAnswers": [
+        "n^2",
+        "Theta(n^2)",
+        "O(n2)",
+        "n2",
+        "O(n*n)",
+        "quadratic"
+      ],
+      "answerDisplay": "$O(n^2)$",
+      "searchQuery": "quicksort worst case O(n^2) fixed pivot sorted input"
+    },
+    {
+      "id": "heapsort-in-place",
+      "title": "Among the classic textbook sorts, which guarantees $O(n \\log n)$ worst-case time with only $O(1)$ extra space?",
+      "body": "Heapsort.\n\nBuild a max-heap in $O(n)$, then $n - 1$ times swap the root (the max) to the end of the array and sift down, $O(\\log n)$ each.\n\nWatch out: heapsort isn't stable and is cache-unfriendly, so quicksort is usually faster in practice.",
+      "answer": "heapsort",
+      "acceptedAnswers": [
+        "heap-sort"
+      ],
+      "searchQuery": "heapsort O(n log n) worst case O(1) extra space"
+    },
+    {
+      "id": "insertion-sort-sorted-input",
+      "title": "Running time of insertion sort on an array of $n$ elements that is already sorted?",
+      "body": "$\\Theta(n)$\n\nEach element is compared once with its predecessor and stays put.\n\nKey idea: in general insertion sort runs in $\\Theta(n + d)$, where $d$ is the number of inversions, so nearly sorted input is near-linear.\nWatch out: reverse-sorted input is the $\\Theta(n^2)$ worst case.",
+      "answer": "O(n)",
+      "acceptedAnswers": [
+        "n",
+        "Theta(n)",
+        "linear",
+        "linear time"
+      ],
+      "answerDisplay": "$\\Theta(n)$",
+      "searchQuery": "insertion sort best case already sorted linear time"
+    },
+    {
+      "id": "comparison-sort-lower-bound",
+      "title": "Lower bound on the worst-case number of comparisons for any comparison-based sort of $n$ elements?",
+      "body": "$\\Omega(n \\log n)$\n\nModel the sort as a binary decision tree: it needs at least $n!$ leaves (one per input ordering), so its height is at least $\\log_2(n!) = \\Theta(n \\log n)$.\n\nKey idea: counting and radix sort beat the bound only because they don't compare keys.",
+      "answer": "Omega(n log n)",
+      "acceptedAnswers": [
+        "n log n",
+        "Omega(n lg n)",
+        "n lg n",
+        "Ω(n log n)",
+        "Ω(n lg n)",
+        "log(n!)",
+        "lg(n!)",
+        "Omega(n log(n))",
+        "Ω(n log(n))",
+        "n log(n)"
+      ],
+      "answerDisplay": "$\\Omega(n \\log n)$",
+      "searchQuery": "comparison sort lower bound n log n decision tree"
+    },
+    {
+      "id": "counting-sort",
+      "title": "Counting sort on $n$ integers in the range $0$ to $k$: running time, and when does it beat comparison sorts?",
+      "body": "$\\Theta(n + k)$ time and $\\Theta(n + k)$ extra space, and it's stable.\n\nIt beats $\\Theta(n \\log n)$ when $k = O(n)$.\n\nKey idea: **radix sort** runs a stable counting sort on each digit, least significant first. With $d$ digits in base $b$ it takes $\\Theta(d(n + b))$.",
+      "searchQuery": "counting sort time complexity range k radix sort"
+    },
+    {
+      "id": "master-theorem-example",
+      "title": "Solve $T(n) = 2T(n/2) + \\Theta(n)$ with the master theorem.",
+      "body": "$\\Theta(n \\log n)$\n\nHere $a = 2$ and $b = 2$, so $n^{\\log_b a} = n$. Since $f(n) = \\Theta(n)$ matches it exactly, case 2 gives $\\Theta(n \\log n)$.\n\nExample: this is merge sort's recurrence: $\\log n$ levels of recursion, $\\Theta(n)$ work per level.",
+      "answer": "Theta(n log n)",
+      "acceptedAnswers": [
+        "n log n",
+        "O(n log n)",
+        "n lg n",
+        "Theta(n lg n)",
+        "O(n lg n)",
+        "Theta(n log(n))",
+        "O(n log(n))",
+        "n log(n)"
+      ],
+      "answerDisplay": "$\\Theta(n \\log n)$",
+      "searchQuery": "master theorem T(n)=2T(n/2)+n merge sort recurrence"
+    },
+    {
+      "id": "bfs-unweighted-shortest-paths",
+      "title": "Which graph traversal finds shortest paths (fewest edges) from a source in an unweighted graph in $O(V + E)$?",
+      "body": "Breadth-first search (BFS).\n\nIts FIFO queue finishes each distance layer before starting the next, so every vertex is first discovered via a shortest path.\n\nWatch out: DFS gives no such guarantee.\nTip: for non-negative edge weights, use Dijkstra instead.",
+      "answer": "BFS",
+      "acceptedAnswers": [
+        "breadth-first search",
+        "breadth first search",
+        "breadth-first",
+        "breadth first"
+      ],
+      "searchQuery": "BFS shortest path unweighted graph queue"
+    },
+    {
+      "id": "dfs-cycle-detection",
+      "title": "How does depth-first search detect a cycle in a directed graph?",
+      "body": "It finds a **back edge**: an edge $u \\to v$ where $v$ is gray (discovered but not finished, i.e. still on the recursion stack).\n\nThe whole search runs in $O(V + E)$.\n\nWatch out: edges to black (finished) vertices don't imply a cycle.\nTip: in an undirected graph, any edge to an already-visited vertex other than the parent signals a cycle.",
+      "searchQuery": "DFS detect cycle directed graph back edge gray"
+    },
+    {
+      "id": "topological-sort-dag",
+      "title": "A topological ordering of a directed graph exists if and only if the graph is what kind of graph?",
+      "body": "A DAG (directed acyclic graph).\n\nA cycle would force some vertex to come before itself.\n\nKey idea: two $O(V + E)$ methods: DFS, listing vertices in decreasing finish time, or **Kahn's algorithm**, repeatedly removing a vertex with in-degree $0$.",
+      "answer": "DAG",
+      "acceptedAnswers": [
+        "directed acyclic graph",
+        "acyclic",
+        "acyclic graph",
+        "directed acyclic"
+      ],
+      "searchQuery": "topological ordering directed acyclic graph DFS Kahn"
+    },
+    {
+      "id": "dijkstra-negative-edges",
+      "title": "Dijkstra's shortest-path algorithm can give wrong answers when a graph contains what kind of edges?",
+      "body": "Negative-weight edges.\n\nDijkstra permanently finalizes the closest unvisited vertex, assuming no later path can be shorter; a negative edge breaks that.\n\nTip: use Bellman–Ford when edge weights can be negative.\nKey idea: with a binary-heap priority queue, Dijkstra runs in $O((V + E) \\log V)$.",
+      "answer": "negative",
+      "acceptedAnswers": [
+        "negative weight",
+        "negative-weight",
+        "negative weights",
+        "negative edges",
+        "negative edge",
+        "negative-weight edges",
+        "negative weight edges",
+        "negative edge weights",
+        "negatively weighted"
+      ],
+      "searchQuery": "Dijkstra negative weight edges wrong answers"
+    },
+    {
+      "id": "bellman-ford-time",
+      "title": "Running time of Bellman–Ford single-source shortest paths on a graph with $V$ vertices and $E$ edges?",
+      "body": "$O(VE)$\n\nRelax every edge $V - 1$ times. It handles negative edge weights.\n\nKey idea: one extra pass that still improves some distance proves that a **negative-weight cycle** is reachable from the source.",
+      "answer": "O(VE)",
+      "acceptedAnswers": [
+        "VE",
+        "O(EV)",
+        "EV",
+        "Theta(VE)",
+        "O(|V||E|)"
+      ],
+      "answerDisplay": "$O(VE)$",
+      "searchQuery": "Bellman-Ford running time O(VE) relax edges"
+    },
+    {
+      "id": "floyd-warshall-time",
+      "title": "Running time of the Floyd–Warshall all-pairs shortest-paths algorithm on a graph with $V$ vertices?",
+      "body": "$\\Theta(V^3)$\n\nThree nested loops over an intermediate vertex $k$, then $i$, then $j$, applying `dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])`.\n\nKey idea: it allows negative edges, and a negative cycle shows up as `dist[i][i] < 0`.",
+      "answer": "O(V^3)",
+      "acceptedAnswers": [
+        "V^3",
+        "Theta(V^3)",
+        "O(V3)",
+        "O(n^3)",
+        "n^3",
+        "O(|V|^3)"
+      ],
+      "answerDisplay": "$\\Theta(V^3)$",
+      "searchQuery": "Floyd-Warshall all-pairs shortest paths time V^3"
+    },
+    {
+      "id": "kruskal-vs-prim",
+      "title": "Kruskal's vs Prim's minimum spanning tree algorithms: how does each grow the tree?",
+      "body": "Kruskal grows a forest edge by edge; Prim grows a single tree from a start vertex.\n\n- **Kruskal**: sort all edges by weight; add the lightest edge that doesn't create a cycle, checked with union–find. $O(E \\log V)$.\n- **Prim**: always add the lightest edge leaving the tree, using a priority queue. $O(E \\log V)$ with a binary heap.\n\nKey idea: both are greedy and rely on the cut property.",
+      "searchQuery": "Kruskal versus Prim minimum spanning tree greedy"
+    },
+    {
+      "id": "dp-requirements",
+      "title": "What two properties must a problem have for dynamic programming to pay off?",
+      "body": "Optimal substructure and overlapping subproblems.\n\n- **Optimal substructure**: an optimal solution is built from optimal solutions to subproblems.\n- **Overlapping subproblems**: the same subproblems recur, so storing their results (memoization or a bottom-up table) avoids recomputation.\n\nWatch out: without the overlap, plain divide and conquer (like merge sort) is enough.",
+      "searchQuery": "dynamic programming optimal substructure overlapping subproblems"
+    },
+    {
+      "id": "greedy-choice-property",
+      "title": "Besides optimal substructure, what property must a problem have for a greedy algorithm to be optimal?",
+      "body": "The greedy-choice property: some optimal solution begins with the locally best choice, so committing to it never has to be undone.\n\nGreedy needs this together with optimal substructure.\n\nExample: with coins $\\{1, 3, 4\\}$ and amount $6$, greedy takes $4 + 1 + 1$ ($3$ coins), but $3 + 3$ uses only $2$.",
+      "searchQuery": "greedy choice property greedy algorithm optimal"
+    },
+    {
+      "id": "sort-stable-definition",
+      "title": "What does it mean for a sorting algorithm to be **stable**?",
+      "body": "Elements with equal keys keep their original relative order.\n\nIf two records tie on the key and record $A$ came before record $B$ in the input, $A$ still comes before $B$ in the output.\n\nExample: sort people by age after sorting them by name. A stable sort leaves people of equal age in alphabetical order.\nKey idea: stability matters when you sort by several keys in turn, and it is what makes radix sort work.",
+      "searchQuery": "stable sorting algorithm definition equal keys"
+    },
+    {
+      "id": "sort-which-stable",
+      "title": "Which of merge sort, heapsort, insertion sort and standard in-place quicksort are stable?",
+      "body": "Merge sort and insertion sort.\n\nMerge sort is stable when ties are taken from the left half first. Insertion sort is stable if it only shifts elements that are strictly greater than the one being inserted.\n\nWatch out: heapsort and typical in-place quicksort are not stable, because long-range swaps jump equal keys past each other.",
+      "searchQuery": "which sorting algorithms are stable merge insertion"
+    },
+    {
+      "id": "sort-in-place-definition",
+      "title": "What does it mean for a sorting algorithm to be **in-place**?",
+      "body": "It rearranges the input array using only a small amount of extra memory.\n\nThat usually means $O(1)$ extra space, though many texts also allow $O(\\log n)$ for a recursion stack.\n\nExample: heapsort and insertion sort use $O(1)$ extra space; standard quicksort uses $O(\\log n)$ stack on average.\nWatch out: merge sort on arrays needs $\\Theta(n)$ extra space, so it is not in-place.",
+      "searchQuery": "in-place sorting algorithm definition extra memory"
+    },
+    {
+      "id": "selection-sort-comparisons",
+      "title": "How many comparisons does selection sort make on $n$ elements?",
+      "body": "$\\dfrac{n(n-1)}{2}$\n\nSelection sort scans the unsorted part for the minimum: $(n - 1) + (n - 2) + \\cdots + 1$ comparisons, whatever the input order.\n\nKey idea: it is $\\Theta(n^2)$ in every case but makes at most $n - 1$ swaps, which is useful when writes are expensive.\nWatch out: it is not stable in its usual swap-based form.",
+      "answer": "n(n-1)/2",
+      "acceptedAnswers": [
+        "(n^2-n)/2",
+        "n(n-1)/2 comparisons",
+        "C(n,2)"
+      ],
+      "answerDisplay": "$\\dfrac{n(n-1)}{2}$",
+      "searchQuery": "selection sort number of comparisons n(n-1)/2"
+    },
+    {
+      "id": "bubble-sort-early-exit",
+      "title": "Bubble sort stops when a full pass makes no swaps. What is its best-case time on an already-sorted array of $n$ elements?",
+      "body": "$\\Theta(n)$\n\nOn sorted input the first pass makes $n - 1$ comparisons and no swaps, so the flag stops the sort after one pass.\n\nWatch out: without the early-exit flag, bubble sort always makes $\\Theta(n^2)$ comparisons.\nKey idea: the worst case (reverse-sorted input) is still $\\Theta(n^2)$.",
+      "answer": "O(n)",
+      "answerDisplay": "$\\Theta(n)$",
+      "acceptedAnswers": [
+        "n",
+        "Theta(n)",
+        "linear",
+        "linear time"
+      ],
+      "searchQuery": "bubble sort best case early exit sorted array"
+    },
+    {
+      "id": "inversions-reverse-array",
+      "title": "How many inversions does a reverse-sorted array of $n$ distinct elements have?",
+      "body": "$\\dfrac{n(n-1)}{2}$\n\nAn **inversion** is a pair of positions $i < j$ with $a_i > a_j$. In a reverse-sorted array every one of the $\\binom{n}{2}$ pairs is inverted.\n\nWhy: insertion sort does one shift per inversion, so this is its worst case, $\\Theta(n^2)$.\nExample: $[3, 2, 1]$ has $3$ inversions: $(3,2)$, $(3,1)$ and $(2,1)$.",
+      "answer": "n(n-1)/2",
+      "acceptedAnswers": [
+        "(n^2-n)/2",
+        "C(n,2)",
+        "n choose 2"
+      ],
+      "answerDisplay": "$\\dfrac{n(n-1)}{2}$",
+      "searchQuery": "inversions in reverse sorted array n(n-1)/2"
+    },
+    {
+      "id": "quicksort-average-case",
+      "title": "Expected running time of quicksort with a uniformly random pivot?",
+      "body": "$\\Theta(n \\log n)$\n\nOn average the pivot splits the array into reasonably balanced parts, giving about $2n \\ln n \\approx 1.39\\, n \\log_2 n$ comparisons.\n\nKey idea: the expectation is over the algorithm's own random choices, so it holds for every input.\nWatch out: the worst case is still $O(n^2)$.",
+      "answer": "O(n log n)",
+      "answerDisplay": "$\\Theta(n \\log n)$",
+      "acceptedAnswers": [
+        "n log n",
+        "Theta(n log n)",
+        "n lg n",
+        "O(n lg n)",
+        "Theta(n lg n)",
+        "n log(n)",
+        "O(n log(n))",
+        "Theta(n log(n))",
+        "linearithmic"
+      ],
+      "searchQuery": "quicksort average case expected time random pivot"
+    },
+    {
+      "id": "lomuto-partition-result",
+      "title": "After Lomuto's partition (pivot is `a[hi]`) returns index `p`, what is true about `p` and the elements around it?",
+      "body": "The pivot sits at its final sorted position `p`.\n\n```python\ndef partition(a, lo, hi):\n    pivot, i = a[hi], lo\n    for j in range(lo, hi):\n        if a[j] < pivot:\n            a[i], a[j] = a[j], a[i]\n            i += 1\n    a[i], a[hi] = a[hi], a[i]\n    return i\n```\n\nKey idea: everything left of `p` is less than the pivot and everything right is at least as large, so quicksort recurses on both sides.",
+      "searchQuery": "Lomuto partition scheme pivot final position quicksort"
+    },
+    {
+      "id": "quicksort-stack-depth",
+      "title": "How can quicksort keep its recursion depth at $O(\\log n)$ even on worst-case inputs?",
+      "body": "Recurse on the smaller partition and loop on the larger one.\n\nEach recursive call then handles at most half of the current range, so the depth is at most $\\log_2 n$.\n\nWatch out: the running time can still be $O(n^2)$; this trick only bounds the stack space at $O(\\log n)$.",
+      "searchQuery": "quicksort recurse smaller partition first stack depth log n"
+    },
+    {
+      "id": "quicksort-random-pivot-why",
+      "title": "Why does picking a random pivot help quicksort?",
+      "body": "No fixed input is consistently bad.\n\nWith a fixed rule like \"last element\", an adversary (or just sorted data) can force $O(n^2)$ every time. With a random pivot, every input has expected time $O(n \\log n)$.\n\nTip: median-of-three is a cheaper heuristic that fixes the common sorted-input case, but unlike a random pivot it has bad inputs.",
+      "searchQuery": "randomized quicksort random pivot avoids worst case"
+    },
+    {
+      "id": "merge-two-sorted-comparisons",
+      "title": "Merging two sorted arrays of lengths $a$ and $b$ takes at most how many comparisons?",
+      "body": "$a + b - 1$\n\nEach comparison outputs one element, and once one array is empty the rest of the other is copied without comparing.\n\nKey idea: merging costs $\\Theta(a + b)$ time, which is the $\\Theta(n)$ per level in merge sort.",
+      "answer": "a+b-1",
+      "acceptedAnswers": [
+        "b+a-1",
+        "(a+b)-1",
+        "-1+a+b"
+      ],
+      "answerDisplay": "$a + b - 1$",
+      "searchQuery": "merge two sorted arrays maximum comparisons a+b-1"
+    },
+    {
+      "id": "merge-sort-linked-list",
+      "title": "Which $O(n \\log n)$ sort is the usual choice for a linked list, and why?",
+      "body": "Merge sort.\n\nMerging walks both lists front to back and relinks nodes, so it needs no random access and only $O(1)$ extra space on a list.\n\nWatch out: quicksort and heapsort need fast random access, which a linked list doesn't offer.",
+      "searchQuery": "merge sort linked list no random access"
+    },
+    {
+      "id": "radix-sort-inner-sort",
+      "title": "LSD radix sort must use which kind of sort for each digit?",
+      "body": "A **stable** sort, usually counting sort.\n\nSorting by the least significant digit first, then the next, and so on works only if each pass keeps the order produced by the earlier passes.\n\nExample: after the ones-digit pass, $[170, 45, 75, 90]$ becomes $[170, 90, 45, 75]$. In the tens-digit pass, $170$ stays before $75$ (both have tens digit $7$) only because the sort is stable.",
+      "answer": "stable",
+      "acceptedAnswers": [
+        "stable sort",
+        "stable sorting algorithm"
+      ],
+      "searchQuery": "LSD radix sort requires stable digit sort"
+    },
+    {
+      "id": "bucket-sort-expected",
+      "title": "Bucket sort with $n$ buckets on $n$ numbers uniformly distributed in $[0, 1)$: expected running time?",
+      "body": "$\\Theta(n)$ expected.\n\nEach number goes into bucket $\\lfloor n x \\rfloor$; each bucket is then sorted (e.g. by insertion sort), and the buckets are concatenated.\n\nWhy: with uniform input each bucket holds $O(1)$ items on average, so sorting all buckets costs $O(n)$ in expectation.\nWatch out: if everything lands in one bucket, the cost degrades to the cost of the inner sort.",
+      "answer": "O(n)",
+      "answerDisplay": "$\\Theta(n)$",
+      "acceptedAnswers": [
+        "n",
+        "Theta(n)",
+        "linear",
+        "linear time"
+      ],
+      "searchQuery": "bucket sort uniform distribution expected linear time"
+    },
+    {
+      "id": "timsort-python",
+      "title": "Which sorting algorithm does Python's built-in `sorted` use?",
+      "body": "Timsort.\n\nIt is a stable hybrid of merge sort and insertion sort that finds already-sorted runs in the data and merges them.\n\nKey idea: worst case $O(n \\log n)$, and $O(n)$ on input that is already sorted or reverse sorted.",
+      "answer": "timsort",
+      "acceptedAnswers": [
+        "tim-sort"
+      ],
+      "searchQuery": "Python sorted list sort Timsort algorithm"
+    },
+    {
+      "id": "quickselect-average",
+      "title": "Quickselect finds the $k$-th smallest of $n$ elements in what expected time?",
+      "body": "$O(n)$ expected.\n\nPartition around a pivot as in quicksort, then recurse into only the side that contains rank $k$. The expected work is $n + n/2 + n/4 + \\cdots = O(n)$.\n\nWatch out: the worst case is $O(n^2)$; the median-of-medians pivot rule brings it down to $O(n)$.",
+      "answer": "O(n)",
+      "answerDisplay": "$O(n)$",
+      "acceptedAnswers": [
+        "n",
+        "Theta(n)",
+        "linear",
+        "linear time"
+      ],
+      "searchQuery": "quickselect k-th smallest element average time"
+    },
+    {
+      "id": "counting-sort-backward-scan",
+      "title": "Why does counting sort fill its output array by scanning the input from right to left?",
+      "body": "It keeps the sort stable.\n\nCounting sort turns the counts into end positions. Scanning right to left and placing each element at the next free slot from the end keeps equal keys in their original order.\n\nWatch out: scanning left to right with end positions reverses equal keys, which breaks the stability that radix sort relies on.",
+      "searchQuery": "counting sort stability backward scan output array"
+    },
+    {
+      "id": "python-sorted-stability",
+      "title": "What does `sorted(['bb', 'a', 'cc', 'd'], key=len)` return?",
+      "body": "`['a', 'd', 'bb', 'cc']`\n\nPython's sort is **stable**, so items with equal keys keep their input order: `'a'` stays before `'d'`, and `'bb'` before `'cc'`.\n\nTip: to sort by several keys, sort by the least important key first, or use a tuple key like `key=lambda s: (len(s), s)`.",
+      "searchQuery": "Python sorted key len stable sort example"
+    },
+    {
+      "id": "bisect-left-meaning",
+      "title": "For a sorted list `a`, what does `bisect.bisect_left(a, x)` return?",
+      "body": "The leftmost index where `x` could be inserted to keep `a` sorted.\n\nEquivalently, it is the index of the first element that is at least `x`. It runs in $O(\\log n)$.\n\nExample: `bisect_left([1, 3, 3, 5], 3)` returns `1`, while `bisect_right` returns `3`.\nWatch out: inserting into a list still costs $O(n)$ because later elements shift.",
+      "searchQuery": "Python bisect_left insertion index sorted list"
+    },
+    {
+      "id": "binary-search-comparisons",
+      "title": "Worst-case order of growth of the number of comparisons in binary search on $n$ sorted elements?",
+      "body": "$O(\\log n)$\n\nEach comparison halves the remaining range, so after about $\\log_2 n$ steps the range is empty.\n\nWatch out: binary search needs a sorted array with $O(1)$ random access; on a linked list it loses its advantage.",
+      "answer": "O(log n)",
+      "answerDisplay": "$O(\\log n)$",
+      "acceptedAnswers": [
+        "log n",
+        "Theta(log n)",
+        "lg n",
+        "O(lg n)",
+        "Theta(lg n)",
+        "log(n)",
+        "O(log(n))",
+        "Theta(log(n))",
+        "logarithmic"
+      ],
+      "searchQuery": "binary search time complexity O(log n)"
+    },
+    {
+      "id": "binary-search-million",
+      "title": "Worst-case comparisons to binary-search $1{,}000{,}000$ sorted items?",
+      "body": "$20$\n\nThe worst case is $\\lfloor \\log_2 n \\rfloor + 1$ comparisons, and $\\log_2 10^6 \\approx 19.93$.\n\nKey idea: doubling the data adds only one more comparison.",
+      "answer": "20",
+      "acceptedAnswers": [
+        "about 20",
+        "20 comparisons"
+      ],
+      "searchQuery": "binary search one million items number of comparisons"
+    },
+    {
+      "id": "binary-search-midpoint-overflow",
+      "title": "Why can `mid = (lo + hi) / 2` be a bug in languages like Java, and what is the safe form?",
+      "body": "`lo + (hi - lo) / 2`\n\nIn fixed-width integers, `lo + hi` can exceed the largest `int` for big arrays and wrap to a negative number, giving a bad index.\n\nKey idea: `hi - lo` never overflows when `lo <= hi`, so the safe form always stays in range.\nExample: $1.5 \\times 10^9 + 1.6 \\times 10^9$ exceeds the largest 32-bit signed integer, $2^{31} - 1$.",
+      "searchQuery": "binary search midpoint integer overflow lo + (hi - lo) / 2"
+    },
+    {
+      "id": "binary-search-exit-state",
+      "title": "In the loop below, what does `lo > hi` mean when the loop exits?",
+      "body": "The search range is empty, so `x` is not in the array.\n\n```python\nlo, hi = 0, len(a) - 1\nwhile lo <= hi:\n    mid = lo + (hi - lo) // 2\n    if a[mid] == x: return mid\n    if a[mid] < x: lo = mid + 1\n    else: hi = mid - 1\nreturn -1\n```\n\nWatch out: updating with `lo = mid` or `hi = mid` (without `+ 1`/`- 1`) can loop forever on a range of two items.",
+      "searchQuery": "binary search loop terminates lo greater than hi not found"
+    },
+    {
+      "id": "binary-search-on-answer",
+      "title": "In \"binary search on the answer\", what property must the yes/no test have?",
+      "body": "It must be **monotonic**: false for every value below some threshold and true for every value from it upward (or the reverse).\n\nThen you binary search the value range for the threshold, calling the test $O(\\log R)$ times for a range of size $R$.\n\nExample: the smallest ship capacity that delivers all packages within $D$ days; a bigger capacity never makes it harder.",
+      "searchQuery": "binary search on the answer monotonic predicate"
+    },
+    {
+      "id": "master-theorem-cases",
+      "title": "State the three cases of the master theorem for $T(n) = aT(n/b) + f(n)$, using $c = \\log_b a$.",
+      "body": "Compare $f(n)$ with $n^{c}$, where $c = \\log_b a$:\n\n1. If $f(n) = O(n^{c - \\varepsilon})$ for some $\\varepsilon > 0$, then $T(n) = \\Theta(n^{c})$.\n2. If $f(n) = \\Theta(n^{c})$, then $T(n) = \\Theta(n^{c} \\log n)$.\n3. If $f(n) = \\Omega(n^{c + \\varepsilon})$ and $af(n/b) \\le kf(n)$ for some $k < 1$, then $T(n) = \\Theta(f(n))$.\n\nKey idea: the bigger of the leaf work $n^{c}$ and the root work $f(n)$ wins; if they tie, you pay an extra $\\log n$ factor.",
+      "searchQuery": "master theorem three cases statement n^log_b a"
+    },
+    {
+      "id": "master-case-one-example",
+      "title": "Solve $T(n) = 8T(n/2) + n^2$.",
+      "body": "$\\Theta(n^3)$\n\nHere $a = 8$, $b = 2$, so $n^{\\log_2 8} = n^3$. The driving term $n^2$ is polynomially smaller than $n^3$, so the leaves dominate (case 1).\n\nExample: this is the recurrence of naive divide-and-conquer matrix multiplication, which gains nothing over the triple loop.",
+      "answer": "Theta(n^3)",
+      "acceptedAnswers": [
+        "n^3",
+        "O(n^3)",
+        "cubic"
+      ],
+      "answerDisplay": "$\\Theta(n^3)$",
+      "searchQuery": "master theorem 8T(n/2) + n^2 case 1 solution"
+    },
+    {
+      "id": "master-case-three-example",
+      "title": "Solve $T(n) = 2T(n/2) + n^2$.",
+      "body": "$\\Theta(n^2)$\n\nHere $n^{\\log_2 2} = n$, and $f(n) = n^2$ is polynomially larger, so the root dominates (case 3).\n\nWhy: the regularity condition holds, since $2(n/2)^2 = n^2/2 \\le \\tfrac{1}{2} n^2$.\nKey idea: the work per level shrinks geometrically ($n^2, n^2/2, n^2/4, \\ldots$), so the total is a constant times the top level.",
+      "answer": "Theta(n^2)",
+      "acceptedAnswers": [
+        "n^2",
+        "O(n^2)",
+        "quadratic",
+        "Theta(n2)",
+        "n2"
+      ],
+      "answerDisplay": "$\\Theta(n^2)$",
+      "searchQuery": "master theorem 2T(n/2) + n^2 case 3 solution"
+    },
+    {
+      "id": "recurrence-binary-search",
+      "title": "Solve $T(n) = T(n/2) + \\Theta(1)$, the recurrence of binary search.",
+      "body": "$\\Theta(\\log n)$\n\nHere $a = 1$, $b = 2$, so $n^{\\log_2 1} = n^0 = 1$, which matches $f(n) = \\Theta(1)$. Case 2 gives $\\Theta(\\log n)$.\n\nKey idea: halving the problem with constant work per step takes $\\log_2 n$ steps.",
+      "answer": "O(log n)",
+      "answerDisplay": "$\\Theta(\\log n)$",
+      "acceptedAnswers": [
+        "log n",
+        "Theta(log n)",
+        "lg n",
+        "O(lg n)",
+        "Theta(lg n)",
+        "log(n)",
+        "O(log(n))",
+        "Theta(log(n))",
+        "logarithmic"
+      ],
+      "searchQuery": "recurrence T(n) = T(n/2) + 1 binary search solution"
+    },
+    {
+      "id": "recurrence-linear-reduction",
+      "title": "Solve $T(n) = T(n - 1) + n$.",
+      "body": "$\\Theta(n^2)$\n\nUnrolling gives $T(n) = n + (n - 1) + \\cdots + 1 = \\dfrac{n(n + 1)}{2}$.\n\nWatch out: the master theorem needs $T(n/b)$ subproblems, so it can't solve this one; unroll the recurrence instead.\nExample: this is quicksort's worst-case recurrence.",
+      "answer": "Theta(n^2)",
+      "acceptedAnswers": [
+        "n^2",
+        "O(n^2)",
+        "quadratic",
+        "Theta(n2)",
+        "n2"
+      ],
+      "answerDisplay": "$\\Theta(n^2)$",
+      "searchQuery": "recurrence T(n) = T(n-1) + n solution quadratic"
+    },
+    {
+      "id": "recurrence-doubling-reduction",
+      "title": "Solve $T(n) = 2T(n - 1) + 1$ with $T(0) = 1$.",
+      "body": "$\\Theta(2^n)$\n\nUnrolling gives $T(n) = 2^{n+1} - 1$: each level doubles the number of calls.\n\nExample: the Tower of Hanoi needs $2^n - 1$ moves for $n$ disks, from a recurrence of this shape.",
+      "answer": "Theta(2^n)",
+      "acceptedAnswers": [
+        "2^n",
+        "O(2^n)",
+        "exponential"
+      ],
+      "answerDisplay": "$\\Theta(2^n)$",
+      "searchQuery": "recurrence T(n) = 2T(n-1) + 1 exponential solution"
+    },
+    {
+      "id": "recurrence-strassen",
+      "title": "Strassen's algorithm gives $T(n) = 7T(n/2) + \\Theta(n^2)$. What does that solve to?",
+      "body": "$\\Theta(n^{\\log_2 7})$, about $\\Theta(n^{2.81})$.\n\nHere $n^{\\log_2 7} \\approx n^{2.807}$ is polynomially larger than $n^2$, so case 1 applies.\n\nKey idea: seven recursive multiplications instead of the naive eight beat the $\\Theta(n^3)$ triple loop for large matrices.",
+      "answer": "Theta(n^(log2 7))",
+      "acceptedAnswers": [
+        "n^(log2 7)",
+        "n^log2(7)",
+        "O(n^(log2 7))",
+        "n^(lg 7)",
+        "Theta(n^2.81)",
+        "n^2.81",
+        "O(n^2.81)"
+      ],
+      "answerDisplay": "$\\Theta(n^{\\log_2 7})$",
+      "searchQuery": "Strassen matrix multiplication recurrence n^log2 7"
+    },
+    {
+      "id": "recurrence-karatsuba",
+      "title": "Karatsuba's multiplication of two $n$-digit numbers has $T(n) = 3T(n/2) + \\Theta(n)$. What does that solve to?",
+      "body": "$\\Theta(n^{\\log_2 3})$, about $\\Theta(n^{1.585})$.\n\nSince $\\log_2 3 \\approx 1.585 > 1$, the leaves dominate (case 1).\n\nKey idea: three half-size multiplications instead of four beat the $\\Theta(n^2)$ schoolbook method.",
+      "answer": "Theta(n^(log2 3))",
+      "acceptedAnswers": [
+        "n^(log2 3)",
+        "n^log2(3)",
+        "O(n^(log2 3))",
+        "n^(lg 3)",
+        "Theta(n^1.585)",
+        "n^1.585",
+        "O(n^1.585)"
+      ],
+      "answerDisplay": "$\\Theta(n^{\\log_2 3})$",
+      "searchQuery": "Karatsuba multiplication recurrence n^log2 3"
+    },
+    {
+      "id": "naive-fibonacci-time",
+      "title": "Time complexity of naive recursive `fib(n)`, which returns `fib(n-1) + fib(n-2)`?",
+      "body": "$O(2^n)$, more tightly $\\Theta(\\varphi^n)$ with $\\varphi \\approx 1.618$.\n\nThe call count satisfies $C(n) = C(n - 1) + C(n - 2) + 1$, and the same subproblems are recomputed over and over.\n\nTip: memoization collapses this to $O(n)$.",
+      "answer": "O(2^n)",
+      "acceptedAnswers": [
+        "2^n",
+        "exponential",
+        "Theta(phi^n)",
+        "O(phi^n)",
+        "phi^n",
+        "1.618^n",
+        "O(1.618^n)"
+      ],
+      "answerDisplay": "$O(2^n)$",
+      "searchQuery": "naive recursive Fibonacci exponential time complexity"
+    },
+    {
+      "id": "master-theorem-gap",
+      "title": "Why can't the master theorem solve $T(n) = 2T(n/2) + n/\\log n$?",
+      "body": "The driving function falls in a gap between cases 1 and 2.\n\nHere $n^{\\log_2 2} = n$. The term $n / \\log n$ is smaller than $n$, but only by a $\\log n$ factor, not by a polynomial factor $n^{\\varepsilon}$, so case 1 fails; and it isn't $\\Theta(n)$, so case 2 fails.\n\nTip: use a recursion tree or substitution instead. This one solves to $\\Theta(n \\log \\log n)$.",
+      "searchQuery": "master theorem gap between cases n over log n"
+    },
+    {
+      "id": "fast-exponentiation-cost",
+      "title": "Computing $x^n$ by repeated squaring takes how many multiplications, in big-O terms?",
+      "body": "$O(\\log n)$\n\nUse $x^n = (x^{n/2})^2$ when $n$ is even and $x \\cdot x^{n-1}$ when $n$ is odd. The exponent at least halves every two steps.\n\nExample: $x^{16}$ takes $4$ squarings instead of $15$ multiplications.\nWatch out: repeated multiplication one factor at a time costs $\\Theta(n)$ multiplications.",
+      "answer": "O(log n)",
+      "answerDisplay": "$O(\\log n)$",
+      "acceptedAnswers": [
+        "log n",
+        "Theta(log n)",
+        "lg n",
+        "O(lg n)",
+        "Theta(lg n)",
+        "log(n)",
+        "O(log(n))",
+        "Theta(log(n))",
+        "logarithmic"
+      ],
+      "searchQuery": "fast exponentiation repeated squaring multiplications O(log n)"
+    },
+    {
+      "id": "closest-pair-time",
+      "title": "Divide-and-conquer closest pair of $n$ points in the plane: running time?",
+      "body": "$\\Theta(n \\log n)$\n\nSplit the points by a vertical line, solve each half, then check only the points within distance $\\delta$ of the line, where $\\delta$ is the smaller of the two half answers.\n\nWhy: each point in the strip needs comparing with only a constant number of neighbors in $y$-order, so the combine step is $O(n)$ and $T(n) = 2T(n/2) + O(n)$.\nWatch out: brute force checks all pairs, which is $\\Theta(n^2)$.",
+      "answer": "O(n log n)",
+      "answerDisplay": "$\\Theta(n \\log n)$",
+      "acceptedAnswers": [
+        "n log n",
+        "Theta(n log n)",
+        "n lg n",
+        "O(n lg n)",
+        "Theta(n lg n)",
+        "n log(n)",
+        "O(n log(n))",
+        "Theta(n log(n))",
+        "linearithmic"
+      ],
+      "searchQuery": "closest pair of points divide and conquer time complexity"
+    },
+    {
+      "id": "kadane-time",
+      "title": "Kadane's algorithm finds the maximum-sum contiguous subarray in what time?",
+      "body": "$\\Theta(n)$\n\n```python\nbest = cur = a[0]\nfor x in a[1:]:\n    cur = max(x, cur + x)\n    best = max(best, cur)\n```\n\nKey idea: `cur` is the best sum of a subarray ending at the current element: either extend the previous one or start fresh.",
+      "answer": "O(n)",
+      "answerDisplay": "$\\Theta(n)$",
+      "acceptedAnswers": [
+        "n",
+        "Theta(n)",
+        "linear",
+        "linear time"
+      ],
+      "searchQuery": "Kadane's algorithm maximum subarray linear time"
+    },
+    {
+      "id": "naive-matrix-multiplication",
+      "title": "Time to multiply two $n \\times n$ matrices with the standard triple-loop method?",
+      "body": "$\\Theta(n^3)$\n\nEach of the $n^2$ entries of the product is a dot product of length $n$, costing $n$ multiplications.\n\nKey idea: Strassen's algorithm lowers the exponent to $\\log_2 7 \\approx 2.81$.",
+      "answer": "Theta(n^3)",
+      "acceptedAnswers": [
+        "n^3",
+        "O(n^3)",
+        "cubic",
+        "Theta(n3)",
+        "n3"
+      ],
+      "answerDisplay": "$\\Theta(n^3)$",
+      "searchQuery": "matrix multiplication triple loop time complexity n^3"
+    },
+    {
+      "id": "count-inversions-merge",
+      "title": "How does a modified merge sort count the inversions of an array in $O(n \\log n)$?",
+      "body": "Count the cross inversions while merging, and add the counts from the two halves.\n\nDuring a merge, whenever an element from the right half is output before the remaining elements of the left half, it forms an inversion with each of them, so add the number of left elements still waiting.\n\nKey idea: the count equals the number of swaps adjacent-swap sorting would need, and the merge step still costs $\\Theta(n)$ per level.",
+      "searchQuery": "count inversions merge sort O(n log n) divide and conquer"
+    },
+    {
+      "id": "dfs-time-adjacency-list",
+      "title": "Time complexity of depth-first search on a graph stored as adjacency lists?",
+      "body": "$O(V + E)$\n\nEach vertex is visited once, and each edge is examined once (twice in an undirected graph) while scanning adjacency lists.\n\nWatch out: with an adjacency matrix, scanning each row costs $\\Theta(V)$, so the total becomes $\\Theta(V^2)$.",
+      "answer": "O(V+E)",
+      "acceptedAnswers": [
+        "V+E",
+        "E+V",
+        "O(E+V)",
+        "Theta(V+E)",
+        "linear"
+      ],
+      "answerDisplay": "$O(V + E)$",
+      "searchQuery": "depth-first search time complexity adjacency list V+E"
+    },
+    {
+      "id": "bfs-queue-dfs-stack",
+      "title": "Which data structure drives BFS, and which drives DFS (iterative)?",
+      "body": "BFS uses a queue (FIFO); DFS uses a stack (LIFO), explicit or the recursion call stack.\n\nA queue visits vertices in order of distance from the source. A stack keeps following one path as deep as possible before backing up.\n\nTip: swap the queue for a stack in iterative BFS and you get a form of DFS.",
+      "searchQuery": "BFS queue DFS stack data structure traversal"
+    },
+    {
+      "id": "dfs-edge-classification",
+      "title": "Name the four kinds of edges in a depth-first search of a directed graph.",
+      "body": "Tree, back, forward and cross edges.\n\n- **Tree**: edges of the DFS forest.\n- **Back**: to an ancestor, still gray. These mean a cycle.\n- **Forward**: to a descendant that is not a tree child.\n- **Cross**: between different subtrees, or to an already finished vertex in another branch.\n\nKey idea: an undirected DFS has only tree and back edges.",
+      "searchQuery": "DFS edge classification tree back forward cross edges"
+    },
+    {
+      "id": "connected-components-count",
+      "title": "How do you count the connected components of an undirected graph in $O(V + E)$ time?",
+      "body": "Start a BFS or DFS from every vertex not yet visited, and count the starts.\n\nEach search marks exactly one whole component, and the loop over vertices plus the searches together cost $O(V + E)$.\n\nTip: union-find gives the same answer by merging the endpoints of each edge.",
+      "searchQuery": "count connected components undirected graph BFS DFS"
+    },
+    {
+      "id": "bipartite-check-bfs",
+      "title": "How can BFS test whether an undirected graph is bipartite?",
+      "body": "2-color the graph level by level; it is bipartite iff no edge joins two vertices of the same color.\n\nGive the source color $0$, and give each newly found neighbor the opposite color. If an edge ever connects two vertices of the same color, the graph has an odd cycle.\n\nKey idea: a graph is bipartite if and only if it has no **odd cycle**.",
+      "searchQuery": "bipartite graph check BFS two coloring odd cycle"
+    },
+    {
+      "id": "kahn-cycle-detection",
+      "title": "How does Kahn's topological sort detect that a directed graph has a cycle?",
+      "body": "It outputs fewer than $V$ vertices before the queue of in-degree-$0$ vertices runs empty.\n\nVertices on a cycle never reach in-degree $0$, because each one is waiting for another on the same cycle.\n\nTip: the whole algorithm runs in $O(V + E)$.",
+      "searchQuery": "Kahn's algorithm cycle detection in-degree zero queue"
+    },
+    {
+      "id": "dijkstra-heap-time",
+      "title": "Running time of Dijkstra's algorithm with a binary-heap priority queue and adjacency lists?",
+      "body": "$O((V + E) \\log V)$\n\nEach edge can trigger one heap update at $O(\\log V)$ and each vertex is extracted once at $O(\\log V)$.\n\nKey idea: for a connected graph $E \\ge V - 1$, so this is also written $O(E \\log V)$.",
+      "answer": "O((V+E) log V)",
+      "acceptedAnswers": [
+        "(V+E) log V",
+        "O((E+V) log V)",
+        "(E+V) log V",
+        "O(E log V)",
+        "E log V"
+      ],
+      "answerDisplay": "$O((V + E) \\log V)$",
+      "searchQuery": "Dijkstra binary heap time complexity (V+E) log V"
+    },
+    {
+      "id": "dijkstra-array-time",
+      "title": "Running time of Dijkstra's algorithm when the minimum is found by scanning an unsorted array of distances?",
+      "body": "$O(V^2)$\n\nEach of the $V$ rounds scans the array for the closest unfinished vertex in $O(V)$ time, and all edge relaxations cost $O(E)$ in total.\n\nTip: on dense graphs, where $E = \\Theta(V^2)$, this beats the heap version's $O(E \\log V)$.",
+      "answer": "O(V^2)",
+      "answerDisplay": "$O(V^2)$",
+      "acceptedAnswers": [
+        "V^2",
+        "Theta(V^2)",
+        "V2",
+        "O(V2)",
+        "quadratic"
+      ],
+      "searchQuery": "Dijkstra array implementation V squared time"
+    },
+    {
+      "id": "relaxation-step",
+      "title": "What does **relaxing** an edge $(u, v)$ of weight $w$ do in shortest-path algorithms?",
+      "body": "```python\nif d[u] + w < d[v]:\n    d[v] = d[u] + w\n    parent[v] = u\n```\n\nIf going through $u$ gives a shorter path to $v$ than the best known, it lowers the estimate $d[v]$ and records $u$ as the predecessor.\n\nKey idea: Dijkstra, Bellman–Ford and DAG shortest paths differ only in the order in which they relax edges.",
+      "searchQuery": "edge relaxation shortest path distance update"
+    },
+    {
+      "id": "dijkstra-finalize-reason",
+      "title": "Why is $d[u]$ final when Dijkstra extracts the unfinished vertex $u$ with the smallest tentative distance?",
+      "body": "Any other path to $u$ must leave the finished set through a vertex whose distance is at least $d[u]$.\n\nBecause every edge weight is non-negative, extending that path can only add length, so it cannot beat $d[u]$.\n\nWatch out: this argument fails with a negative edge, which could later make a path through an unfinished vertex shorter.",
+      "searchQuery": "Dijkstra correctness proof non-negative weights finalized"
+    },
+    {
+      "id": "shortest-path-dag",
+      "title": "Single-source shortest paths in a weighted DAG, even with negative edge weights: running time?",
+      "body": "$O(V + E)$\n\nTopologically sort the vertices, then relax the outgoing edges of each vertex once, in that order.\n\nWhy: when a vertex is processed, every path into it has already been relaxed, so its distance is final.\nTip: negative weights are fine because there are no cycles. Longest paths in a DAG work the same way.",
+      "answer": "O(V+E)",
+      "acceptedAnswers": [
+        "V+E",
+        "E+V",
+        "O(E+V)",
+        "Theta(V+E)",
+        "linear"
+      ],
+      "answerDisplay": "$O(V + E)$",
+      "searchQuery": "shortest paths DAG topological order relax O(V+E)"
+    },
+    {
+      "id": "floyd-warshall-meaning",
+      "title": "In Floyd–Warshall, what does $d^{(k)}_{ij}$ represent, and what is its recurrence?",
+      "body": "$d^{(k)}_{ij}$ is the shortest path length from $i$ to $j$ using only vertices $1, \\ldots, k$ as intermediates.\n\nThe recurrence is $d^{(k)}_{ij} = \\min\\left(d^{(k-1)}_{ij},\\; d^{(k-1)}_{ik} + d^{(k-1)}_{kj}\\right)$: either the path avoids $k$, or it passes through $k$ once.\n\nTip: the layer index can be dropped, so one 2D array updated in place is enough: $\\Theta(V^2)$ space.",
+      "searchQuery": "Floyd-Warshall recurrence intermediate vertices d k i j"
+    },
+    {
+      "id": "johnson-algorithm",
+      "title": "Which all-pairs shortest-path algorithm reweights edges using Bellman–Ford, then runs Dijkstra from every vertex?",
+      "body": "Johnson's algorithm.\n\nBellman–Ford computes a potential $h(v)$ for each vertex, and the new weights $w'(u, v) = w(u, v) + h(u) - h(v)$ are non-negative, so Dijkstra applies. Every path between two fixed vertices shifts by the same amount, so shortest paths are preserved.\n\nKey idea: with a binary heap it takes $O(VE \\log V)$, which beats Floyd–Warshall's $\\Theta(V^3)$ on sparse graphs.",
+      "answer": "Johnson's algorithm",
+      "acceptedAnswers": [
+        "Johnson",
+        "Johnsons algorithm",
+        "Johnson algorithm"
+      ],
+      "searchQuery": "Johnson's algorithm all-pairs shortest paths reweighting"
+    },
+    {
+      "id": "astar-admissible",
+      "title": "A* picks the next node by the smallest $f(n) = g(n) + h(n)$. Which property of $h$ guarantees that the first path found to the goal is optimal?",
+      "body": "An **admissible** heuristic: $h(n)$ never overestimates the true remaining cost to the goal.\n\nHere $g(n)$ is the cost so far and $h(n)$ estimates the cost still to go.\n\nExample: straight-line distance is admissible for road routing, since no road is shorter than a straight line.\nWatch out: with $h = 0$, A* becomes Dijkstra; an $h$ that overestimates can make it return a non-optimal path.",
+      "answer": "admissible",
+      "acceptedAnswers": [
+        "admissible heuristic",
+        "admissibility"
+      ],
+      "searchQuery": "A star search admissible heuristic optimal path"
+    },
+    {
+      "id": "scc-linear-time",
+      "title": "Kosaraju's and Tarjan's algorithms find the strongly connected components of a directed graph in what time?",
+      "body": "$O(V + E)$\n\nBoth use depth-first search: Kosaraju runs DFS on the graph and then on its transpose in decreasing finish time, and Tarjan does it in one pass with a stack.\n\nKey idea: contracting each component gives a DAG, so the components can be topologically ordered.",
+      "answer": "O(V+E)",
+      "acceptedAnswers": [
+        "V+E",
+        "E+V",
+        "O(E+V)",
+        "Theta(V+E)",
+        "linear"
+      ],
+      "answerDisplay": "$O(V + E)$",
+      "searchQuery": "strongly connected components Kosaraju Tarjan linear time"
+    },
+    {
+      "id": "mst-cut-property",
+      "title": "State the cut property for minimum spanning trees.",
+      "body": "For any cut of the graph, a minimum-weight edge crossing the cut belongs to some MST.\n\nA cut splits the vertices into two sets. If the lightest crossing edge is unique, it is in every MST.\n\nKey idea: Prim's and Kruskal's algorithms are safe because each edge they add is the lightest edge crossing some cut.",
+      "searchQuery": "minimum spanning tree cut property lightest edge crossing cut"
+    },
+    {
+      "id": "mst-distinct-weights",
+      "title": "If all edge weights of a connected graph are distinct, how many minimum spanning trees does it have?",
+      "body": "$1$\n\nWith distinct weights, every cut has a unique lightest edge, and by the cut property that edge is in every MST, so there can be only one.\n\nWatch out: the converse is false. A graph with repeated weights can still have a unique MST.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one",
+        "exactly one",
+        "unique",
+        "exactly 1"
+      ],
+      "searchQuery": "minimum spanning tree unique distinct edge weights"
+    },
+    {
+      "id": "max-flow-min-cut",
+      "title": "State the max-flow min-cut theorem.",
+      "body": "The value of a maximum $s$–$t$ flow equals the capacity of a minimum $s$–$t$ cut.\n\nAn $s$–$t$ cut splits the vertices into a set containing $s$ and a set containing $t$; its capacity is the total capacity of edges leaving the source side.\n\nKey idea: when no augmenting path exists in the residual graph, the vertices reachable from $s$ form a minimum cut.",
+      "searchQuery": "max-flow min-cut theorem s-t cut capacity"
+    },
+    {
+      "id": "edmonds-karp-time",
+      "title": "Edmonds–Karp (Ford–Fulkerson with BFS augmenting paths) runs in what time?",
+      "body": "$O(VE^2)$\n\nChoosing the shortest augmenting path by BFS means each edge becomes critical at most $O(V)$ times, so there are $O(VE)$ augmentations, each found in $O(E)$.\n\nWatch out: plain Ford–Fulkerson with arbitrary paths takes time that depends on the flow value, not just the graph size.",
+      "answer": "O(VE^2)",
+      "acceptedAnswers": [
+        "VE^2",
+        "O(EEV)"
+      ],
+      "answerDisplay": "$O(VE^2)$",
+      "searchQuery": "Edmonds-Karp max flow time complexity VE^2"
+    },
+    {
+      "id": "euler-circuit-condition",
+      "title": "When does a connected undirected graph have an Eulerian circuit (a closed walk using every edge exactly once)?",
+      "body": "When every vertex has even degree.\n\nEach pass through a vertex uses one edge to enter and one to leave, so degrees must pair up. Hierholzer's algorithm builds the circuit in $O(E)$.\n\nWatch out: an Eulerian path (not necessarily closed) exists when exactly $0$ or $2$ vertices have odd degree.",
+      "searchQuery": "Eulerian circuit condition every vertex even degree"
+    },
+    {
+      "id": "zero-one-bfs",
+      "title": "When every edge weight is $0$ or $1$, which data structure replaces Dijkstra's heap to give $O(V + E)$ shortest paths?",
+      "body": "A deque (double-ended queue).\n\nIn 0-1 BFS, relaxing a weight-$0$ edge pushes the neighbor onto the front of the deque, and a weight-$1$ edge pushes it onto the back. The deque stays sorted by distance.\n\nKey idea: no priority queue is needed, so each vertex and edge costs $O(1)$.",
+      "answer": "deque",
+      "acceptedAnswers": [
+        "double-ended queue",
+        "double ended queue"
+      ],
+      "searchQuery": "0-1 BFS deque shortest path weights zero one"
+    },
+    {
+      "id": "bfs-grid-time",
+      "title": "BFS finds the fewest moves through a maze with $R$ rows and $C$ columns, moving to the 4 neighboring cells. What is its time?",
+      "body": "$O(RC)$\n\nEach of the $RC$ cells is enqueued at most once, and each checks a constant number of neighbors.\n\nTip: treat the grid as an implicit graph with $V = RC$ and $E \\le 4RC$; no adjacency list is needed.",
+      "answer": "O(RC)",
+      "acceptedAnswers": [
+        "RC",
+        "Theta(RC)",
+        "O(CR)",
+        "CR"
+      ],
+      "answerDisplay": "$O(RC)$",
+      "searchQuery": "BFS grid maze shortest path time rows columns"
+    },
+    {
+      "id": "dp-steps-to-design",
+      "title": "What are the usual steps for designing a dynamic-programming solution?",
+      "body": "1. Define the **state**: what the subproblem is, and what its table entry means.\n2. Write the **recurrence** that builds a bigger state from smaller ones.\n3. Set the base cases.\n4. Choose an evaluation order (or memoize) so each state is computed after its dependencies.\n5. Read the answer from the final state.\n\nTip: the running time is usually (number of states) $\\times$ (work per state).",
+      "searchQuery": "dynamic programming design steps state recurrence base case"
+    },
+    {
+      "id": "top-down-vs-bottom-up",
+      "title": "Memoized recursion (top-down) vs a filled table (bottom-up): what is the main trade-off?",
+      "body": "Both solve each subproblem once; they differ in how subproblems are reached.\n\n- **Top-down** computes only the states the answer actually needs, but pays recursion overhead and can hit the stack-depth limit.\n- **Bottom-up** needs a valid evaluation order, but runs a plain loop and often lets you keep only the last row of the table.\n\nTip: start top-down to get the recurrence right, then convert to bottom-up if you need speed or less memory.",
+      "searchQuery": "top-down memoization versus bottom-up tabulation tradeoff"
+    },
+    {
+      "id": "fibonacci-memoized-time",
+      "title": "Time to compute the $n$-th Fibonacci number with memoization?",
+      "body": "$O(n)$\n\nThere are only $n + 1$ distinct subproblems, and each is computed once from two stored values.\n\nKey idea: the memo table turns the exponential recursion into a linear one.\nTip: a bottom-up loop that keeps only the last two values uses $O(1)$ space.",
+      "answer": "O(n)",
+      "answerDisplay": "$O(n)$",
+      "acceptedAnswers": [
+        "n",
+        "Theta(n)",
+        "linear",
+        "linear time"
+      ],
+      "searchQuery": "Fibonacci memoization dynamic programming linear time"
+    },
+    {
+      "id": "python-functools-cache",
+      "title": "Which `functools` decorator memoizes a pure Python function's results?",
+      "body": "`functools.cache`\n\nDecorate a recursive function with `@cache` and each distinct argument tuple is computed once, which is top-down dynamic programming for free.\n\nWatch out: the arguments must be hashable, and deep recursion can still hit Python's recursion limit.\nTip: `functools.lru_cache(maxsize=None)` does the same on older Python versions.",
+      "answer": "functools.cache",
+      "acceptedAnswers": [
+        "cache",
+        "lru_cache",
+        "functools.lru_cache",
+        "@cache",
+        "@functools.cache"
+      ],
+      "searchQuery": "Python functools cache memoize recursive function"
+    },
+    {
+      "id": "knapsack-01-time",
+      "title": "Time to solve 0/1 knapsack with $n$ items and capacity $W$ by dynamic programming?",
+      "body": "$O(nW)$\n\nThe table has $(n + 1)(W + 1)$ states, with $O(1)$ work each: take item $i$ or leave it, $dp[i][c] = \\max(dp[i-1][c],\\ dp[i-1][c - w_i] + v_i)$.\n\nWatch out: this is pseudo-polynomial, not truly polynomial in the input size.",
+      "answer": "O(nW)",
+      "acceptedAnswers": [
+        "nW",
+        "O(Wn)",
+        "Wn",
+        "Theta(nW)"
+      ],
+      "answerDisplay": "$O(nW)$",
+      "searchQuery": "0/1 knapsack dynamic programming time O(nW)"
+    },
+    {
+      "id": "knapsack-pseudo-polynomial",
+      "title": "Why is $O(nW)$ knapsack not a polynomial-time algorithm, even though it looks polynomial?",
+      "body": "$W$ is a number, and its input size is only about $\\log_2 W$ bits.\n\nPolynomial time means polynomial in the length of the input. $W$ itself can be exponential in $\\log_2 W$, so a run time proportional to $W$ is exponential in the input length.\n\nKey idea: such an algorithm is called **pseudo-polynomial**, and knapsack is still NP-hard.",
+      "searchQuery": "pseudo-polynomial time knapsack input size bits"
+    },
+    {
+      "id": "knapsack-1d-loop-direction",
+      "title": "In the one-dimensional 0/1 knapsack DP, why must the capacity loop run downward?",
+      "body": "```python\nfor w, v in items:\n    for c in range(W, w - 1, -1):\n        dp[c] = max(dp[c], dp[c - w] + v)\n```\n\nGoing from `W` down to `w` means `dp[c - w]` still holds the value from before this item, so each item is used at most once.\n\nWatch out: an upward loop reuses the item just added, which solves the unbounded knapsack instead.",
+      "searchQuery": "knapsack one dimensional array loop backward capacity"
+    },
+    {
+      "id": "lcs-recurrence",
+      "title": "For the longest common subsequence $L[i][j]$ of prefixes $X[1..i]$ and $Y[1..j]$, what is the recurrence?",
+      "body": "If $x_i = y_j$: $L[i][j] = L[i-1][j-1] + 1$. Otherwise: $L[i][j] = \\max(L[i-1][j],\\ L[i][j-1])$.\n\nWhen the last characters match, they extend the best common subsequence of the shorter prefixes. When they differ, at least one of them is not in the answer, so drop one.\n\nKey idea: the base cases are $L[0][j] = L[i][0] = 0$.",
+      "searchQuery": "longest common subsequence recurrence dynamic programming"
+    },
+    {
+      "id": "lcs-time",
+      "title": "Time to compute the longest common subsequence of strings of lengths $m$ and $n$ by dynamic programming?",
+      "body": "$O(mn)$\n\nThe table has $(m + 1)(n + 1)$ cells, each filled in $O(1)$ time.\n\nTip: if you only need the length, two rows suffice, so the space drops from $O(mn)$ to $O(\\min(m, n))$.",
+      "answer": "O(mn)",
+      "acceptedAnswers": [
+        "mn",
+        "O(nm)",
+        "nm",
+        "Theta(mn)"
+      ],
+      "answerDisplay": "$O(mn)$",
+      "searchQuery": "LCS dynamic programming time complexity O(mn)"
+    },
+    {
+      "id": "edit-distance-kitten",
+      "title": "What is the Levenshtein edit distance between \"kitten\" and \"sitting\"?",
+      "body": "$3$\n\nOne optimal edit sequence: replace `k` with `s`, replace `e` with `i`, then insert `g` at the end.\n\nKey idea: edit distance allows insert, delete and substitute, each costing $1$, and the DP table has $O(mn)$ cells.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "Levenshtein edit distance kitten sitting"
+    },
+    {
+      "id": "lis-fast-time",
+      "title": "What is the running time of the best simple algorithm for the longest increasing subsequence of $n$ numbers (patience sorting with binary search)?",
+      "body": "$\\Theta(n \\log n)$\n\nKeep `tails[k]`, the smallest possible last value of an increasing subsequence of length `k + 1`. For each number, binary-search its slot in `tails`, which is always sorted.\n\nTip: the straightforward DP, with `dp[i]` the best length ending at `i`, takes $O(n^2)$.",
+      "answer": "O(n log n)",
+      "answerDisplay": "$\\Theta(n \\log n)$",
+      "acceptedAnswers": [
+        "n log n",
+        "Theta(n log n)",
+        "n lg n",
+        "O(n lg n)",
+        "Theta(n lg n)",
+        "n log(n)",
+        "O(n log(n))",
+        "Theta(n log(n))",
+        "linearithmic"
+      ],
+      "searchQuery": "longest increasing subsequence n log n binary search"
+    },
+    {
+      "id": "coin-change-recurrence",
+      "title": "Minimum-coin change DP: if `dp[a]` is the fewest coins summing to amount `a`, what is its recurrence?",
+      "body": "$dp[a] = 1 + \\min_{c \\le a} dp[a - c]$ over the coin values $c$, with $dp[0] = 0$.\n\nTry each coin as the last one used, and take the best of the remaining amount.\n\nKey idea: with $k$ coin values and target $A$, it takes $O(kA)$ time.\nWatch out: set unreachable amounts to infinity, and report \"impossible\" if `dp[A]` stays infinite.",
+      "searchQuery": "coin change minimum coins dynamic programming recurrence"
+    },
+    {
+      "id": "matrix-chain-time",
+      "title": "Dynamic programming for the optimal order of multiplying a chain of $n$ matrices: running time?",
+      "body": "$O(n^3)$\n\nThere are $O(n^2)$ subchains, and each tries $O(n)$ split points: $m[i][j] = \\min_k \\left(m[i][k] + m[k+1][j] + p_{i-1}p_kp_j\\right)$.\n\nKey idea: it finds the best parenthesization of the product, not the product itself.",
+      "answer": "O(n^3)",
+      "acceptedAnswers": [
+        "n^3",
+        "Theta(n^3)",
+        "cubic",
+        "O(n3)",
+        "n3"
+      ],
+      "answerDisplay": "$O(n^3)$",
+      "searchQuery": "matrix chain multiplication dynamic programming time n^3"
+    },
+    {
+      "id": "climbing-stairs-ten",
+      "title": "How many ways are there to climb $10$ stairs taking $1$ or $2$ steps at a time?",
+      "body": "$89$\n\nLet $w(n)$ be the number of ways. The last move is a $1$-step or a $2$-step, so $w(n) = w(n-1) + w(n-2)$ with $w(1) = 1$ and $w(2) = 2$.\n\nExample: $w$ runs $1, 2, 3, 5, 8, 13, 21, 34, 55, 89$ for $n = 1, \\ldots, 10$.\nKey idea: it's the Fibonacci sequence shifted by one place.",
+      "answer": "89",
+      "acceptedAnswers": [
+        "89 ways"
+      ],
+      "searchQuery": "climbing stairs 10 steps 1 or 2 Fibonacci ways"
+    },
+    {
+      "id": "grid-paths-count",
+      "title": "How many paths lead from the top-left to the bottom-right cell of a $3 \\times 3$ grid when you may only move right or down?",
+      "body": "$6$\n\nYou make $2$ right moves and $2$ down moves in some order: $\\binom{4}{2} = 6$ arrangements.\n\nWhy: the DP agrees: `paths[i][j] = paths[i-1][j] + paths[i][j-1]`, with `1`s along the first row and column.\nTip: for an $m \\times n$ grid of cells the count is $\\binom{m + n - 2}{m - 1}$.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "six"
+      ],
+      "searchQuery": "grid unique paths right down dynamic programming binomial"
+    },
+    {
+      "id": "activity-selection-rule",
+      "title": "To pick the maximum number of non-overlapping intervals, which greedy rule is optimal?",
+      "body": "Always pick the compatible interval that **finishes earliest**.\n\nSort by finish time, take the first, then repeatedly take the next interval whose start is at or after the last chosen finish. It runs in $O(n \\log n)$, dominated by the sort.\n\nWhy: finishing earliest leaves the most room for the remaining intervals, so an optimal solution can always be exchanged to include it.",
+      "answer": "earliest finish time",
+      "acceptedAnswers": [
+        "earliest finish",
+        "earliest end time",
+        "earliest end",
+        "earliest finishing time"
+      ],
+      "searchQuery": "interval scheduling greedy earliest finish time"
+    },
+    {
+      "id": "interval-wrong-greedy-rules",
+      "title": "Why do \"earliest start time\" and \"shortest interval\" fail for interval scheduling?",
+      "body": "Each has a counterexample.\n\n- **Earliest start**: one very long interval starting first can block many short ones.\n- **Shortest interval**: a short interval in the middle can overlap two disjoint intervals, so picking it gives $1$ instead of $2$.\n\nKey idea: only the earliest-finish rule has an exchange argument that works.",
+      "searchQuery": "interval scheduling greedy counterexamples earliest start shortest"
+    },
+    {
+      "id": "fractional-knapsack-greedy",
+      "title": "Fractional knapsack: which greedy rule gives the optimal value?",
+      "body": "Take items in decreasing order of value-to-weight ratio, taking a fraction of the last one if it doesn't fit.\n\nExample: items $(\\text{value}, \\text{weight}) = (60, 10), (100, 20), (120, 30)$ with capacity $50$: the greedy takes the first two plus $\\tfrac{2}{3}$ of the third, for a value of $240$.\nWatch out: for the 0/1 version this rule gives $160$, but the optimum is $220$ (the last two items).",
+      "answer": "highest value per weight",
+      "acceptedAnswers": [
+        "value per weight",
+        "value/weight",
+        "highest value/weight ratio",
+        "best value to weight ratio",
+        "highest ratio"
+      ],
+      "searchQuery": "fractional knapsack greedy value to weight ratio"
+    },
+    {
+      "id": "exchange-argument-meaning",
+      "title": "What is an **exchange argument** in a greedy correctness proof?",
+      "body": "Take any optimal solution and show you can swap one of its choices for the greedy choice without making it worse.\n\nRepeating the swap step by step turns the optimal solution into the greedy one, so the greedy solution is also optimal.\n\nExample: in interval scheduling, replace the first interval of an optimal schedule with the earliest-finishing interval; no conflicts appear.",
+      "searchQuery": "exchange argument greedy proof technique"
+    },
+    {
+      "id": "huffman-merge-rule",
+      "title": "At each step of Huffman's algorithm, which two nodes are merged?",
+      "body": "The two nodes with the **lowest frequencies**.\n\nThey become children of a new node whose frequency is their sum, and that node goes back into the pool. The last remaining node is the root of the code tree.\n\nKey idea: rare symbols end up deep in the tree with long codes, and frequent symbols near the root with short codes.",
+      "searchQuery": "Huffman coding algorithm merge two lowest frequency nodes"
+    },
+    {
+      "id": "huffman-time",
+      "title": "Time for Huffman's algorithm on $n$ symbols, using a min-heap?",
+      "body": "$O(n \\log n)$\n\nThere are $n - 1$ merges, each doing two `extract-min` operations and one `insert`, all $O(\\log n)$.\n\nTip: if the symbols are already sorted by frequency, two queues give $O(n)$.",
+      "answer": "O(n log n)",
+      "answerDisplay": "$O(n \\log n)$",
+      "acceptedAnswers": [
+        "n log n",
+        "Theta(n log n)",
+        "n lg n",
+        "O(n lg n)",
+        "Theta(n lg n)",
+        "n log(n)",
+        "O(n log(n))",
+        "Theta(n log(n))",
+        "linearithmic"
+      ],
+      "searchQuery": "Huffman coding time complexity min-heap n log n"
+    },
+    {
+      "id": "prefix-free-code",
+      "title": "What property lets a variable-length code like Huffman's be decoded without separators between codewords?",
+      "body": "It is **prefix-free**: no codeword is a prefix of another.\n\nThen each leaf of the code tree is one symbol, so decoding follows the bits from the root to a leaf and restarts, with no ambiguity.\n\nExample: $\\{0, 10, 11\\}$ is prefix-free, but $\\{0, 01\\}$ is not: after reading `0`, a decoder can't tell whether the symbol ended or `01` is coming.",
+      "answer": "prefix-free",
+      "acceptedAnswers": [
+        "prefix free",
+        "prefix code",
+        "prefix-free code",
+        "prefix property"
+      ],
+      "searchQuery": "prefix-free code no codeword prefix of another decoding"
+    },
+    {
+      "id": "min-lateness-edf",
+      "title": "To minimize the maximum lateness of jobs with deadlines on one machine, in what order should you run them?",
+      "body": "**Earliest deadline first**: sort the jobs by deadline and run them back to back with no idle time.\n\nAn exchange argument shows that swapping two adjacent jobs that are out of deadline order never increases the maximum lateness.\n\nWatch out: the processing times don't matter for the order; they only affect the lateness values.",
+      "answer": "earliest deadline first",
+      "acceptedAnswers": [
+        "EDF",
+        "earliest deadline",
+        "earliest due date first",
+        "earliest due date"
+      ],
+      "searchQuery": "scheduling minimize maximum lateness earliest deadline first"
+    }
+  ]
+}

@@ -1,0 +1,1043 @@
+{
+  "id": "eng-materials",
+  "title": "Mechanics of Materials",
+  "course": "Strength of Materials",
+  "description": "Stress and strain, material properties, axial and thermal loading, indeterminate members, torsion, bending and transverse shear, pressure vessels, combined loads, Mohr's circle, failure theories, beam deflection and buckling, with worked numbers.",
+  "cards": [
+    {
+      "id": "elastic-modulus-values",
+      "title": "Hooke's law $\\sigma = E\\varepsilon$: what is the approximate modulus of elasticity of structural steel, and of aluminum alloys?",
+      "body": "Steel $\\approx 200\\,\\mathrm{GPa}$ ($29{,}000\\,\\mathrm{ksi}$); aluminum $\\approx 70\\,\\mathrm{GPa}$ ($10{,}000\\,\\mathrm{ksi}$)\n\nAluminum is about $\\tfrac{1}{3}$ of steel, so at the same stress it strains about 3 times as much. $E$ is the slope of the linear-elastic part of the $\\sigma$–$\\varepsilon$ curve: it measures **stiffness**, not strength.\n\nWatch out: $\\sigma = E\\varepsilon$ holds only up to the proportional limit.",
+      "searchQuery": "modulus of elasticity steel 200 GPa aluminum 70 GPa Hooke's law"
+    },
+    {
+      "id": "stress-strain-curve-regions",
+      "title": "Tension test of mild steel: name the four regions of the engineering stress–strain curve, in order.",
+      "body": "Elastic, yielding, strain hardening, necking.\n\nKey points: the proportional limit and **yield stress** $\\sigma_Y$ (end of elastic behavior), then the ultimate stress $\\sigma_u$ (the peak), then fracture.\n\nWhy: engineering stress drops during necking only because it divides by the original area; the true stress keeps rising until fracture.",
+      "searchQuery": "mild steel stress strain curve regions elastic yielding strain hardening necking"
+    },
+    {
+      "id": "poisson-lateral-strain",
+      "title": "A bar stretched axially to a longitudinal strain of $0.001$ has Poisson's ratio $\\nu = 0.3$. What is its lateral strain, as a decimal?",
+      "body": "$\\varepsilon_{\\mathrm{lat}} = -0.0003$ ($-300 \\times 10^{-6}$)\n\nThe bar gets thinner as it stretches. $\\nu = -\\varepsilon_{\\mathrm{lat}}/\\varepsilon_{\\mathrm{long}}$, so $\\varepsilon_{\\mathrm{lat}} = -\\nu\\,\\varepsilon_{\\mathrm{long}}$.\n\nMetals have $\\nu \\approx 0.25$ to $0.35$ (steel $\\approx 0.3$). The theoretical range is $0 \\le \\nu \\le 0.5$, and $\\nu = 0.5$ means incompressible (rubber-like).\n\nWatch out: the minus sign is the usual trap; lateral and longitudinal strains have opposite signs.",
+      "answer": "-0.0003",
+      "acceptedAnswers": [
+        "-3e-4",
+        "-300e-6",
+        "-3*10^-4",
+        "-3x10^-4",
+        "-300 microstrain",
+        "-0.0003 mm/mm",
+        "-3*10^(-4)"
+      ],
+      "answerDisplay": "$\\varepsilon_{\\mathrm{lat}} = -0.0003$",
+      "searchQuery": "Poisson's ratio lateral strain longitudinal strain minus sign"
+    },
+    {
+      "id": "axial-deformation",
+      "title": "A steel rod ($E = 200\\,\\mathrm{GPa}$) with $A = 100\\,\\mathrm{mm^2}$ and $L = 2\\,\\mathrm{m}$ carries an axial load of $10\\,\\mathrm{kN}$. How much does it elongate, in mm?",
+      "body": "$\\delta = 1\\,\\mathrm{mm}$\n\n$\\delta = \\dfrac{PL}{AE} = \\dfrac{(10{,}000\\,\\mathrm{N})(2000\\,\\mathrm{mm})}{(100\\,\\mathrm{mm^2})(200{,}000\\,\\mathrm{N/mm^2})} = 1\\,\\mathrm{mm}$.\n\nN and mm are convenient because $1\\,\\mathrm{MPa} = 1\\,\\mathrm{N/mm^2}$, so $200\\,\\mathrm{GPa} = 200{,}000\\,\\mathrm{N/mm^2}$.\n\nWatch out: valid in the linear-elastic range with constant $P$, $A$ and $E$; otherwise sum $PL/(AE)$ over segments.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "1 mm",
+        "0.001 m",
+        "1 millimeter",
+        "1 millimeters"
+      ],
+      "answerDisplay": "$\\delta = 1\\,\\mathrm{mm}$",
+      "searchQuery": "axial deformation delta = PL/AE steel rod elongation"
+    },
+    {
+      "id": "thermal-stress-fixed-bar",
+      "title": "A steel bar ($E = 200\\,\\mathrm{GPa}$, $\\alpha = 12 \\times 10^{-6}/{}^\\circ\\mathrm{C}$) is held between rigid walls and heated $50\\,^\\circ\\mathrm{C}$. Magnitude of the thermal stress, in MPa?",
+      "body": "$120\\,\\mathrm{MPa}$, compressive\n\nThe free thermal strain $\\alpha\\,\\Delta T = 600 \\times 10^{-6}$ is completely prevented, so $\\sigma = E\\alpha\\,\\Delta T = (200{,}000\\,\\mathrm{MPa})(600 \\times 10^{-6}) = 120\\,\\mathrm{MPa}$.\n\nThe bar's length and area don't matter.\n\nKey idea: if the bar were free to expand, the stress would be zero; thermal strain alone causes no stress.",
+      "answer": "120",
+      "acceptedAnswers": [
+        "120 MPa",
+        "-120",
+        "-120 MPa",
+        "120 MPa compression",
+        "120 MPa compressive",
+        "120 MPa (C)"
+      ],
+      "answerDisplay": "$120\\,\\mathrm{MPa}$ (compression)",
+      "searchQuery": "thermal stress fixed bar sigma = E alpha delta T rigid walls"
+    },
+    {
+      "id": "shear-modulus-relation",
+      "title": "Hooke's law in shear is $\\tau = G\\gamma$. How is $G$ related to $E$ and Poisson's ratio $\\nu$ for an isotropic material?",
+      "body": "$G = \\dfrac{E}{2(1 + \\nu)}$\n\nSteel: $200/(2 \\cdot 1.3) \\approx 77\\,\\mathrm{GPa}$ (Hibbeler's A-36 table value: $75\\,\\mathrm{GPa}$). Since $0 \\le \\nu \\le 0.5$, $G$ always lies between $E/3$ and $E/2$.\n\nWatch out: $\\gamma$ is the shear strain in radians, the change in an originally right angle.",
+      "answer": "E/(2(1+v))",
+      "acceptedAnswers": [
+        "E/(2(1+nu))",
+        "E/2(1+v)",
+        "E/2(1+nu)",
+        "E/(2+2v)",
+        "E/(2+2nu)"
+      ],
+      "answerDisplay": "$G = \\dfrac{E}{2(1+\\nu)}$",
+      "searchQuery": "shear modulus G = E/(2(1+nu)) isotropic relation"
+    },
+    {
+      "id": "polar-moment-solid-shaft",
+      "title": "What is the polar moment of inertia $J$ of a solid circular shaft of diameter $d$?",
+      "body": "$J = \\dfrac{\\pi d^4}{32} = \\dfrac{\\pi c^4}{2}$ ($c$ = radius)\n\nIt sets the torsion stress $\\tau = T\\rho/J$, which grows linearly from zero at the center to $\\tau_{\\max} = Tc/J$ at the surface.\n\nHollow shaft: $J = \\tfrac{\\pi}{2}(c_o^4 - c_i^4)$.\n\nWatch out: $\\pi d^4/64$ is $I$ about a diameter; $J = 2I$.",
+      "answer": "pi*d^4/32",
+      "acceptedAnswers": [
+        "(pi*d^4)/32",
+        "(pi/32)d^4",
+        "pi/32*d^4",
+        "pi*c^4/2",
+        "pi*r^4/2",
+        "(pi/2)c^4",
+        "(pi/2)r^4"
+      ],
+      "answerDisplay": "$J = \\dfrac{\\pi d^4}{32}$",
+      "searchQuery": "polar moment of inertia solid circular shaft pi d^4/32"
+    },
+    {
+      "id": "angle-of-twist",
+      "title": "Angle of twist $\\phi$ of a uniform circular shaft of length $L$ under torque $T$ (shear modulus $G$)?",
+      "body": "$\\phi = \\dfrac{TL}{GJ}$, in radians\n\nSame pattern as axial $\\delta = PL/(AE)$. For several segments, sum $T_iL_i/(G_iJ_i)$ using each segment's internal torque, positive by the right-hand rule when the thumb points out of the cut section.\n\nWatch out: valid for linear-elastic circular shafts only.",
+      "answer": "TL/(GJ)",
+      "acceptedAnswers": [
+        "TL/GJ",
+        "(TL)/(GJ)",
+        "TL/(JG)",
+        "TL/JG"
+      ],
+      "answerDisplay": "$\\phi = \\dfrac{TL}{GJ}$",
+      "searchQuery": "angle of twist phi = TL/GJ circular shaft"
+    },
+    {
+      "id": "torsion-fracture-ductile-brittle",
+      "title": "Twisted to failure, how does the fracture surface of a ductile shaft differ from that of a brittle one?",
+      "body": "Ductile: a flat break perpendicular to the axis. Brittle: a $45^\\circ$ helix.\n\nMild steel fails in shear, which is maximum on transverse planes. Cast iron and chalk fail in tension, because pure shear produces $\\sigma_1 = \\tau$ on planes at $45^\\circ$.\n\nKey idea: ductile means large plastic strain before fracture; brittle means little or no yielding, and much stronger in compression than in tension.",
+      "searchQuery": "torsion failure ductile flat fracture brittle 45 degree helical"
+    },
+    {
+      "id": "load-shear-moment-relations",
+      "title": "Beam relations: how is the bending moment $M$ related to the shear $V$, and $V$ to the distributed load $w$?",
+      "body": "$\\dfrac{dM}{dx} = V$ and $\\dfrac{dV}{dx} = -w$ ($w$ positive downward)\n\nHibbeler takes $w$ positive upward and writes $dV/dx = w$.\n\nSo $M$ has a local max or min where $V = 0$, the change in $M$ between two points equals the area under the $V$ diagram, and the change in $V$ equals minus the area under the downward load.\n\nWatch out: a point force makes $V$ jump; a concentrated couple makes $M$ jump.",
+      "searchQuery": "beam relations dM/dx = V dV/dx = -w shear moment diagram"
+    },
+    {
+      "id": "rectangle-moment-of-inertia",
+      "title": "Area moment of inertia of a $b \\times h$ rectangle about its centroidal axis parallel to side $b$?",
+      "body": "$I = \\dfrac{bh^3}{12}$, with $h$ perpendicular to the bending axis\n\nA $50 \\times 200\\,\\mathrm{mm}$ board is 16 times stiffer on edge than laid flat: $(200/50)^2 = 16$.\n\nOther parallel axes: $I = \\bar{I} + Ad^2$ (e.g., $bh^3/3$ about the base).\n\nTip: the dimension perpendicular to the bending axis is cubed.",
+      "answer": "bh^3/12",
+      "acceptedAnswers": [
+        "(bh^3)/12",
+        "(1/12)bh^3",
+        "1/12bh^3"
+      ],
+      "answerDisplay": "$I = \\dfrac{bh^3}{12}$",
+      "searchQuery": "rectangle area moment of inertia bh^3/12 centroidal axis"
+    },
+    {
+      "id": "flexure-formula",
+      "title": "Flexure formula: what is the bending stress at distance $y$ above the neutral axis, and which side is compressed by a positive moment?",
+      "body": "$\\sigma = -\\dfrac{My}{I}$; a positive moment **compresses the top** and stretches the bottom.\n\nHibbeler: $y$ measured upward, positive $M$ = sagging (concave up). Stress varies linearly: zero at the neutral axis (through the centroid), maximum $\\sigma = Mc/I$ at the extreme fiber.\n\nWatch out: assumes linear-elastic, homogeneous material and a section symmetric about the plane of loading.",
+      "searchQuery": "flexure formula bending stress sigma = -My/I neutral axis"
+    },
+    {
+      "id": "max-shear-rectangular-beam",
+      "title": "From $\\tau = \\dfrac{VQ}{It}$, what is the maximum transverse shear stress in a rectangular section of area $A$ carrying shear $V$?",
+      "body": "$\\tau_{\\max} = 1.5V/A$, at the neutral axis\n\nThe distribution is parabolic, zero at the top and bottom. $Q = \\bar{y}'A'$ is the first moment about the neutral axis of the area beyond the point; $t$ is the section width there.\n\nAt the NA, $Q = bh^2/8$, so $\\tau = \\dfrac{V(bh^2/8)}{(bh^3/12)\\,b} = \\dfrac{1.5V}{bh}$.\n\nWatch out: $V/A$ is only the average.",
+      "answer": "1.5V/A",
+      "acceptedAnswers": [
+        "3V/(2A)",
+        "3V/2A",
+        "(3/2)V/A",
+        "3/2 V/A"
+      ],
+      "answerDisplay": "$\\tau_{\\max} = \\dfrac{3V}{2A}$",
+      "searchQuery": "maximum shear stress rectangular beam 1.5 V/A tau = VQ/It"
+    },
+    {
+      "id": "cantilever-tip-deflection",
+      "title": "Maximum deflection of a cantilever (length $L$, flexural rigidity $EI$) carrying a point load $P$ at its free end?",
+      "body": "$\\delta_{\\max} = \\dfrac{PL^3}{3EI}$, at the free end\n\nThe slope there is $PL^2/(2EI)$. Deflection $\\propto L^3$: doubling the length gives 8 times the deflection.\n\nCompare a simply supported beam with $P$ at midspan: $PL^3/(48EI)$.\n\nKey idea: each half of that beam acts like a cantilever of length $L/2$ carrying $P/2$.",
+      "answer": "PL^3/(3EI)",
+      "acceptedAnswers": [
+        "PL^3/3EI",
+        "(PL^3)/(3EI)",
+        "(PL^3)/3EI"
+      ],
+      "answerDisplay": "$\\delta_{\\max} = \\dfrac{PL^3}{3EI}$",
+      "searchQuery": "cantilever tip deflection PL^3/(3EI) point load"
+    },
+    {
+      "id": "mohrs-circle-in-plane-shear",
+      "title": "Plane stress: $\\sigma_x = 100\\,\\mathrm{MPa}$, $\\sigma_y = 20\\,\\mathrm{MPa}$, $\\tau_{xy} = 30\\,\\mathrm{MPa}$. What is the maximum in-plane shear stress, in MPa?",
+      "body": "$50\\,\\mathrm{MPa}$, the radius of Mohr's circle\n\nCenter $\\sigma_{\\mathrm{avg}} = (\\sigma_x + \\sigma_y)/2 = 60\\,\\mathrm{MPa}$; $R = \\sqrt{\\left(\\tfrac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2} = \\sqrt{40^2 + 30^2} = 50\\,\\mathrm{MPa}$. Principal stresses: $60 \\pm 50 = 110$ and $10\\,\\mathrm{MPa}$.\n\nWatch out: both principal stresses are tensile, so the absolute maximum shear (out of plane, with $\\sigma_3 = 0$) is $110/2 = 55\\,\\mathrm{MPa}$.",
+      "answer": "50",
+      "acceptedAnswers": [
+        "50 MPa"
+      ],
+      "answerDisplay": "$50\\,\\mathrm{MPa}$",
+      "searchQuery": "Mohr's circle maximum in-plane shear stress radius plane stress"
+    },
+    {
+      "id": "euler-buckling-load",
+      "title": "Euler critical load of a long, slender column of length $L$ with both ends pinned?",
+      "body": "$P_{\\mathrm{cr}} = \\dfrac{\\pi^2 EI}{L^2}$, with $I$ the **smallest** moment of inertia\n\nIt buckles about the weak axis. Other end conditions: $P_{\\mathrm{cr}} = \\pi^2EI/(KL)^2$ with $K = 2$ (fixed–free), $0.7$ (fixed–pinned), $0.5$ (fixed–fixed).\n\nWatch out: valid only if $\\sigma_{\\mathrm{cr}} = P_{\\mathrm{cr}}/A$ stays below the proportional limit (elastic buckling).",
+      "answer": "pi^2EI/L^2",
+      "acceptedAnswers": [
+        "(pi^2EI)/L^2",
+        "pi^2EI/(L^2)",
+        "(pi^2)EI/L^2",
+        "(pi^2EI)/(L^2)"
+      ],
+      "answerDisplay": "$P_{\\mathrm{cr}} = \\dfrac{\\pi^2 EI}{L^2}$",
+      "searchQuery": "Euler critical buckling load pinned column pi^2 EI/L^2"
+    },
+    {
+      "id": "normal-stress-numeric",
+      "title": "A $20\\,\\mathrm{mm}$ diameter rod carries an axial load of $30\\,\\mathrm{kN}$. Average normal stress, in MPa to 3 significant figures?",
+      "body": "$\\sigma \\approx 95.5\\,\\mathrm{MPa}$\n\n$\\sigma = \\dfrac{P}{A} = \\dfrac{30{,}000\\,\\mathrm{N}}{\\pi(10\\,\\mathrm{mm})^2} = \\dfrac{30{,}000}{314.2} = 95.5\\,\\mathrm{MPa}$.\n\nTip: with N and mm the result is already in $\\mathrm{N/mm^2} = \\mathrm{MPa}$.",
+      "answer": "95.5",
+      "acceptedAnswers": [
+        "95.5 MPa",
+        "95.49"
+      ],
+      "answerDisplay": "$\\sigma \\approx 95.5\\,\\mathrm{MPa}$",
+      "searchQuery": "average normal stress axial load circular rod P/A MPa"
+    },
+    {
+      "id": "double-shear-bolt",
+      "title": "A $12\\,\\mathrm{mm}$ diameter bolt in **double shear** carries $40\\,\\mathrm{kN}$. Average shear stress, in MPa to 3 significant figures?",
+      "body": "$\\tau \\approx 177\\,\\mathrm{MPa}$\n\nTwo cross sections resist the load, so each carries $V = P/2 = 20\\,\\mathrm{kN}$. $\\tau = \\dfrac{V}{A} = \\dfrac{20{,}000}{\\pi(6)^2} = 177\\,\\mathrm{MPa}$.\n\nWatch out: forgetting the factor of 2 doubles the stress, a classic error.",
+      "answer": "177",
+      "acceptedAnswers": [
+        "177 MPa",
+        "176.8"
+      ],
+      "answerDisplay": "$\\tau \\approx 177\\,\\mathrm{MPa}$",
+      "searchQuery": "bolt double shear average shear stress V/A numeric"
+    },
+    {
+      "id": "bearing-stress-numeric",
+      "title": "A $16\\,\\mathrm{mm}$ bolt passes through a $10\\,\\mathrm{mm}$ thick plate and transmits $32\\,\\mathrm{kN}$. Bearing stress on the plate, in MPa?",
+      "body": "$\\sigma_b = 200\\,\\mathrm{MPa}$\n\nBearing stress uses the **projected** area, diameter times thickness: $\\sigma_b = \\dfrac{P}{dt} = \\dfrac{32{,}000}{(16)(10)} = 200\\,\\mathrm{MPa}$.\n\nWatch out: it is a contact (compressive) stress, not a shear stress.",
+      "answer": "200",
+      "acceptedAnswers": [
+        "200 MPa"
+      ],
+      "answerDisplay": "$\\sigma_b = 200\\,\\mathrm{MPa}$",
+      "searchQuery": "bearing stress bolt plate projected area P/(d t)"
+    },
+    {
+      "id": "factor-of-safety-area",
+      "title": "A bar must carry $60\\,\\mathrm{kN}$ in tension with an allowable stress of $150\\,\\mathrm{MPa}$. What is the minimum required area, in mm²?",
+      "body": "$A = 400\\,\\mathrm{mm^2}$\n\n$A_{\\min} = \\dfrac{P}{\\sigma_{\\mathrm{allow}}} = \\dfrac{60{,}000}{150} = 400\\,\\mathrm{mm^2}$.\n\nThe allowable stress comes from the **factor of safety**: $\\sigma_{\\mathrm{allow}} = \\sigma_{\\mathrm{fail}}/FS$.\n\nExample: yield strength $300\\,\\mathrm{MPa}$ and $FS = 2$ give $\\sigma_{\\mathrm{allow}} = 150\\,\\mathrm{MPa}$.",
+      "answer": "400",
+      "acceptedAnswers": [
+        "400 mm^2",
+        "400 mm2"
+      ],
+      "answerDisplay": "$400\\,\\mathrm{mm^2}$",
+      "searchQuery": "required area allowable stress factor of safety axial bar"
+    },
+    {
+      "id": "normal-strain-numeric",
+      "title": "A $2\\,\\mathrm{m}$ rod elongates $3\\,\\mathrm{mm}$ under load. What is the average normal strain, as a decimal?",
+      "body": "$\\varepsilon = 0.0015$\n\n$\\varepsilon = \\dfrac{\\delta}{L} = \\dfrac{3\\,\\mathrm{mm}}{2000\\,\\mathrm{mm}} = 0.0015 = 1500\\,\\mu\\varepsilon$.\n\nWatch out: use the same length unit in the numerator and denominator; strain is dimensionless.",
+      "answer": "0.0015",
+      "acceptedAnswers": [
+        "1.5e-3",
+        "1500 microstrain",
+        "1.5*10^-3"
+      ],
+      "answerDisplay": "$\\varepsilon = 0.0015$",
+      "searchQuery": "normal strain delta/L numeric rod elongation microstrain"
+    },
+    {
+      "id": "shear-strain-numeric",
+      "title": "The top of a $50\\,\\mathrm{mm}$ tall block is displaced $0.1\\,\\mathrm{mm}$ sideways relative to its fixed base. Shear strain $\\gamma$, in rad?",
+      "body": "$\\gamma = 0.002\\,\\mathrm{rad}$\n\nFor small angles, $\\gamma \\approx \\tan\\gamma = \\dfrac{0.1}{50} = 0.002\\,\\mathrm{rad}$.\n\nKey idea: shear strain is the change in an originally right angle, measured in radians.",
+      "answer": "0.002",
+      "acceptedAnswers": [
+        "2e-3",
+        "2*10^-3"
+      ],
+      "answerDisplay": "$\\gamma = 0.002\\,\\mathrm{rad}$",
+      "searchQuery": "shear strain small angle displacement over height radians"
+    },
+    {
+      "id": "stress-concentration-factor",
+      "title": "What is the stress concentration factor $K$, and roughly what is it for a small circular hole in a wide plate in uniaxial tension?",
+      "body": "$K = \\dfrac{\\sigma_{\\max}}{\\sigma_{\\mathrm{avg}}}$; about $K \\approx 3$ at the hole.\n\nStress peaks at holes, notches and fillets. $\\sigma_{\\mathrm{avg}}$ is found from the net or nominal section, and $K$ is read from charts of geometry.\n\nWatch out: for ductile materials under static loads, local yielding relieves the peak; for brittle materials or fatigue loading, $K$ must be used.",
+      "searchQuery": "stress concentration factor circular hole plate K = 3 sigma max over nominal"
+    },
+    {
+      "id": "offset-yield-method",
+      "title": "A material has no clear yield point. How is its yield strength found?",
+      "body": "By the **offset method**: draw a line parallel to the elastic slope, offset by $0.2\\%$ strain; its intersection with the curve is the yield strength.\n\nThe offset line is $\\varepsilon = 0.002 + \\sigma/E$. It is used for aluminum and high-strength steels, which yield gradually.\n\nKey idea: the yield strength so defined leaves about $0.2\\%$ permanent strain after unloading.",
+      "searchQuery": "0.2% offset yield strength method stress strain curve"
+    },
+    {
+      "id": "percent-elongation",
+      "title": "A tensile specimen with gauge length $50\\,\\mathrm{mm}$ is $62\\,\\mathrm{mm}$ long after fracture. What is the percent elongation?",
+      "body": "$24\\%$\n\n$\\%EL = \\dfrac{L_f - L_0}{L_0}\\times 100 = \\dfrac{12}{50}\\times 100 = 24\\%$.\n\nTip: percent elongation measures **ductility**; a value of about $5\\%$ or more is usually called ductile.",
+      "answer": "24",
+      "acceptedAnswers": [
+        "24%",
+        "24 percent"
+      ],
+      "answerDisplay": "$24\\%$",
+      "searchQuery": "percent elongation ductility measure Lf - L0 over L0"
+    },
+    {
+      "id": "percent-reduction-area",
+      "title": "A $10\\,\\mathrm{mm}$ diameter bar necks to $6\\,\\mathrm{mm}$ at fracture. What is the percent reduction in area?",
+      "body": "$64\\%$\n\n$\\%RA = \\dfrac{A_0 - A_f}{A_0}\\times 100 = \\left(1 - \\dfrac{6^2}{10^2}\\right)\\times 100 = 64\\%$.\n\nWatch out: area scales with the diameter squared; $40\\%$ diameter reduction is not a $40\\%$ area reduction.",
+      "answer": "64",
+      "acceptedAnswers": [
+        "64%",
+        "64 percent"
+      ],
+      "answerDisplay": "$64\\%$",
+      "searchQuery": "percent reduction in area ductility necking fracture diameter"
+    },
+    {
+      "id": "modulus-of-resilience",
+      "title": "Steel has $\\sigma_Y = 250\\,\\mathrm{MPa}$ and $E = 200\\,\\mathrm{GPa}$. What is its modulus of resilience, in $\\mathrm{MJ/m^3}$ to 3 significant figures?",
+      "body": "$u_r \\approx 0.156\\,\\mathrm{MJ/m^3}$\n\n$u_r = \\dfrac{\\sigma_Y^2}{2E} = \\dfrac{(250)^2}{2(200{,}000)} = 0.156\\,\\mathrm{MPa} = 0.156\\,\\mathrm{MJ/m^3}$.\n\nKey idea: it is the area under the elastic part of the curve, the energy per unit volume stored up to yield.",
+      "answer": "0.156",
+      "acceptedAnswers": [
+        "0.156 MJ/m^3",
+        "0.15625"
+      ],
+      "answerDisplay": "$0.156\\,\\mathrm{MJ/m^3}$",
+      "searchQuery": "modulus of resilience sigma_Y^2/(2E) strain energy density"
+    },
+    {
+      "id": "modulus-of-toughness",
+      "title": "What does the modulus of toughness measure, and how does it differ from strength?",
+      "body": "The **total area** under the stress–strain curve, up to fracture: energy per unit volume absorbed before failing.\n\nA tough material combines strength and ductility. A very strong but brittle material can have low toughness.\n\nWatch out: toughness is not hardness or strength; compare the whole area, not just the peak.",
+      "searchQuery": "modulus of toughness area under stress strain curve energy to fracture"
+    },
+    {
+      "id": "strain-hardening-unloading",
+      "title": "After yielding a ductile steel bar and unloading, what path does the stress–strain curve follow, and what happens to the yield stress on reloading?",
+      "body": "Unloading follows a line **parallel to the elastic slope**, leaving a permanent strain; the yield stress on reloading is higher.\n\nStrain hardening raises the yield stress to the highest stress previously reached, but reduces ductility.\n\nTip: the recovered elastic strain equals $\\sigma/E$ at the unloading point.",
+      "searchQuery": "strain hardening unloading parallel elastic slope permanent set yield increase"
+    },
+    {
+      "id": "creep-definition",
+      "title": "What is creep?",
+      "body": "Time-dependent permanent strain under **constant stress**, usually at high temperature.\n\nIt happens even below the yield stress, and it can cause failure of turbine blades, boilers and prestressed members.\n\nWatch out: it differs from fatigue, which involves repeated load cycles.",
+      "searchQuery": "creep definition constant stress high temperature time-dependent strain"
+    },
+    {
+      "id": "fatigue-definition",
+      "title": "What is fatigue failure, and what is the endurance limit?",
+      "body": "Fracture under **repeated** load cycles at stresses below the static strength; the endurance limit is the stress amplitude that can be applied indefinitely.\n\nPlotted on an S–N curve, steels flatten at the endurance limit, while aluminum alloys show no definite limit.\n\nWatch out: stress concentrations strongly reduce fatigue life.",
+      "searchQuery": "fatigue failure endurance limit S-N curve steel aluminum"
+    },
+    {
+      "id": "isotropic-elastic-constants",
+      "title": "How many independent elastic constants does a linear, isotropic material have, and which are commonly used?",
+      "body": "Two, usually $E$ and $\\nu$; $G$ and the bulk modulus follow from them.\n\n$G = \\dfrac{E}{2(1+\\nu)}$ and $K = \\dfrac{E}{3(1-2\\nu)}$. Anisotropic materials such as wood and composites need more constants.\n\nKey idea: measure $E$ and $\\nu$ in a tension test; $G$ then follows.",
+      "searchQuery": "isotropic material independent elastic constants E nu G relation"
+    },
+    {
+      "id": "volumetric-strain-axial",
+      "title": "A bar is under uniaxial stress with axial strain $\\varepsilon = 0.001$ and $\\nu = 0.3$. What is the volumetric strain, as a decimal?",
+      "body": "$e = 0.0004$\n\n$e = \\varepsilon_x + \\varepsilon_y + \\varepsilon_z = \\varepsilon(1 - 2\\nu) = 0.001(1 - 0.6) = 0.0004$.\n\nWatch out: at $\\nu = 0.5$ the volume doesn't change at all, since $1 - 2\\nu = 0$.",
+      "answer": "0.0004",
+      "acceptedAnswers": [
+        "4e-4",
+        "4*10^-4"
+      ],
+      "answerDisplay": "$e = 0.0004$",
+      "searchQuery": "volumetric strain uniaxial 1-2nu axial strain Poisson dilatation"
+    },
+    {
+      "id": "two-segment-deformation",
+      "title": "A steel rod ($E = 200\\,\\mathrm{GPa}$) carries $20\\,\\mathrm{kN}$ axial load: $1\\,\\mathrm{m}$ with $A = 200\\,\\mathrm{mm^2}$, then $2\\,\\mathrm{m}$ with $A = 100\\,\\mathrm{mm^2}$. Total elongation, in mm?",
+      "body": "$\\delta = 2.5\\,\\mathrm{mm}$\n\n$\\delta = \\Sigma\\dfrac{PL}{AE}$: the first segment gives $\\dfrac{(20{,}000)(1000)}{(200)(200{,}000)} = 0.5\\,\\mathrm{mm}$ and the second $\\dfrac{(20{,}000)(2000)}{(100)(200{,}000)} = 2\\,\\mathrm{mm}$.\n\nTip: the thinner segment dominates the elongation; stress in it is twice as high.",
+      "answer": "2.5",
+      "acceptedAnswers": [
+        "2.5 mm"
+      ],
+      "answerDisplay": "$\\delta = 2.5\\,\\mathrm{mm}$",
+      "searchQuery": "axial deformation two segments different areas sum PL/AE"
+    },
+    {
+      "id": "indeterminate-bar-reaction",
+      "title": "A uniform bar is fixed to rigid walls at both ends, length $1\\,\\mathrm{m}$. A $30\\,\\mathrm{kN}$ axial load acts $0.4\\,\\mathrm{m}$ from the left wall. Left reaction magnitude, in kN?",
+      "body": "$F_A = 18\\,\\mathrm{kN}$\n\nEquilibrium: $F_A + F_B = 30$. Compatibility (total elongation zero): $F_A(0.4) = F_B(0.6)$, so $F_A = 30(0.6/1.0) = 18\\,\\mathrm{kN}$ and $F_B = 12\\,\\mathrm{kN}$.\n\nKey idea: the load nearer a wall goes mostly into that wall.",
+      "answer": "18",
+      "acceptedAnswers": [
+        "18 kN"
+      ],
+      "answerDisplay": "$F_A = 18\\,\\mathrm{kN}$",
+      "searchQuery": "statically indeterminate axial bar fixed ends compatibility reaction"
+    },
+    {
+      "id": "indeterminate-superposition",
+      "title": "How does the superposition (force) method solve a statically indeterminate axial member?",
+      "body": "Remove a redundant support, compute the displacement it would cause, then apply the redundant force that **restores zero displacement**.\n\nEquilibrium alone has too many unknowns. The compatibility equation adds one equation per redundant.\n\nWatch out: signs; the redundant's displacement must cancel the displacement from the loads.",
+      "searchQuery": "superposition method indeterminate axial member compatibility redundant"
+    },
+    {
+      "id": "free-thermal-expansion",
+      "title": "A $10\\,\\mathrm{m}$ steel rail ($\\alpha = 12\\times 10^{-6}/{}^\\circ\\mathrm{C}$) is free to expand and warms by $40\\,^\\circ\\mathrm{C}$. Elongation, in mm?",
+      "body": "$\\delta_T = 4.8\\,\\mathrm{mm}$\n\n$\\delta_T = \\alpha\\,\\Delta T\\,L = (12\\times 10^{-6})(40)(10{,}000\\,\\mathrm{mm}) = 4.8\\,\\mathrm{mm}$.\n\nKey idea: a free member grows without stress; stress arises only if the growth is restrained.",
+      "answer": "4.8",
+      "acceptedAnswers": [
+        "4.8 mm"
+      ],
+      "answerDisplay": "$\\delta_T = 4.8\\,\\mathrm{mm}$",
+      "searchQuery": "free thermal expansion delta = alpha delta T L steel rail"
+    },
+    {
+      "id": "thermal-gap-stress",
+      "title": "A $2\\,\\mathrm{m}$ steel bar ($E = 200\\,\\mathrm{GPa}$, $\\alpha = 12\\times 10^{-6}/{}^\\circ\\mathrm{C}$) has a $0.5\\,\\mathrm{mm}$ gap to a rigid wall and is heated $50\\,^\\circ\\mathrm{C}$. Stress, in MPa?",
+      "body": "$70\\,\\mathrm{MPa}$, compressive\n\nFree expansion is $\\alpha\\,\\Delta T\\,L = 1.2\\,\\mathrm{mm}$. After the $0.5\\,\\mathrm{mm}$ gap closes, $0.7\\,\\mathrm{mm}$ is blocked: $\\varepsilon = 0.7/2000$, so $\\sigma = 200{,}000(0.00035) = 70\\,\\mathrm{MPa}$.\n\nWatch out: subtract the gap; using the full thermal strain gives $120\\,\\mathrm{MPa}$.",
+      "answer": "70",
+      "acceptedAnswers": [
+        "70 MPa",
+        "-70",
+        "-70 MPa"
+      ],
+      "answerDisplay": "$70\\,\\mathrm{MPa}$ (compression)",
+      "searchQuery": "thermal stress with gap rigid wall steel bar heated"
+    },
+    {
+      "id": "parallel-bars-stress-ratio",
+      "title": "A steel bar ($E = 200\\,\\mathrm{GPa}$) and an aluminum bar ($E = 70\\,\\mathrm{GPa}$) are bonded in parallel and share the same strain. Stress ratio $\\sigma_s/\\sigma_a$ to 3 significant figures?",
+      "body": "$\\dfrac{\\sigma_s}{\\sigma_a} = 2.86$\n\nEqual strain means $\\sigma_s/E_s = \\sigma_a/E_a$, so $\\sigma_s/\\sigma_a = E_s/E_a = 200/70 = 2.86$.\n\nKey idea: in parallel members, the stiffer material carries more stress, and the load splits in proportion to $AE$.",
+      "answer": "2.86",
+      "acceptedAnswers": [
+        "2.857",
+        "200/70"
+      ],
+      "answerDisplay": "$2.86$",
+      "searchQuery": "composite parallel bars equal strain stress ratio modulus steel aluminum"
+    },
+    {
+      "id": "axial-strain-energy",
+      "title": "What is the elastic strain energy stored in a uniform bar with constant axial force $P$?",
+      "body": "$U = \\dfrac{P^2L}{2AE}$\n\nIt is the work done: $U = \\tfrac{1}{2}P\\delta$ with $\\delta = PL/(AE)$. Per unit volume it is $\\sigma^2/(2E)$.\n\nWatch out: strain energy is quadratic in load; it is not additive across load cases.",
+      "answer": "P^2L/(2AE)",
+      "acceptedAnswers": [
+        "P^2L/2AE",
+        "(P^2L)/(2AE)"
+      ],
+      "answerDisplay": "$U = \\dfrac{P^2L}{2AE}$",
+      "searchQuery": "strain energy axial bar U = P^2 L/(2AE)"
+    },
+    {
+      "id": "generalized-hookes-law-numeric",
+      "title": "Plane stress: $\\sigma_x = 100\\,\\mathrm{MPa}$, $\\sigma_y = 50\\,\\mathrm{MPa}$, $E = 200\\,\\mathrm{GPa}$, $\\nu = 0.3$. Strain $\\varepsilon_x$ in microstrain ($10^{-6}$)?",
+      "body": "$\\varepsilon_x = 425\\times 10^{-6}$\n\n$\\varepsilon_x = \\dfrac{1}{E}\\left(\\sigma_x - \\nu\\sigma_y\\right) = \\dfrac{100 - 0.3(50)}{200{,}000} = 425\\times 10^{-6}$.\n\nWatch out: the transverse stress $\\sigma_y$ reduces $\\varepsilon_x$ through the Poisson effect.",
+      "answer": "425",
+      "acceptedAnswers": [
+        "425e-6",
+        "425 microstrain",
+        "0.000425"
+      ],
+      "answerDisplay": "$425\\times 10^{-6}$",
+      "searchQuery": "generalized Hooke's law plane stress strain epsilon_x numeric"
+    },
+    {
+      "id": "plane-stress-out-of-plane-strain",
+      "title": "Under plane stress with $\\sigma_x = 100\\,\\mathrm{MPa}$, $\\sigma_y = 50\\,\\mathrm{MPa}$, $E = 200\\,\\mathrm{GPa}$, $\\nu = 0.3$, what is the out-of-plane strain $\\varepsilon_z$ in microstrain?",
+      "body": "$\\varepsilon_z = -225\\times 10^{-6}$\n\n$\\sigma_z = 0$, but $\\varepsilon_z = -\\dfrac{\\nu}{E}(\\sigma_x + \\sigma_y) = -\\dfrac{0.3(150)}{200{,}000} = -225\\times 10^{-6}$.\n\nWatch out: zero stress in a direction does not mean zero strain in it.",
+      "answer": "-225",
+      "acceptedAnswers": [
+        "-225e-6",
+        "-225 microstrain",
+        "-0.000225"
+      ],
+      "answerDisplay": "$-225\\times 10^{-6}$",
+      "searchQuery": "plane stress out of plane strain epsilon_z nonzero Poisson"
+    },
+    {
+      "id": "torsion-stress-numeric",
+      "title": "A solid $40\\,\\mathrm{mm}$ diameter shaft carries $T = 500\\,\\mathrm{N \\cdot m}$. Maximum shear stress, in MPa to 3 significant figures?",
+      "body": "$\\tau_{\\max} \\approx 39.8\\,\\mathrm{MPa}$\n\n$\\tau_{\\max} = \\dfrac{Tc}{J} = \\dfrac{16T}{\\pi d^3} = \\dfrac{16(500{,}000\\,\\mathrm{N \\cdot mm})}{\\pi(40)^3} = 39.8\\,\\mathrm{MPa}$.\n\nTip: convert $\\mathrm{N \\cdot m}$ to $\\mathrm{N \\cdot mm}$ first.",
+      "answer": "39.8",
+      "acceptedAnswers": [
+        "39.8 MPa",
+        "39.79"
+      ],
+      "answerDisplay": "$\\tau_{\\max} \\approx 39.8\\,\\mathrm{MPa}$",
+      "searchQuery": "torsion formula tau = Tc/J solid shaft maximum shear stress numeric"
+    },
+    {
+      "id": "shaft-power-torque",
+      "title": "A shaft transmits $10\\,\\mathrm{kW}$ at $1500\\,\\mathrm{rpm}$. What is the torque, in N·m to 3 significant figures?",
+      "body": "$T \\approx 63.7\\,\\mathrm{N \\cdot m}$\n\n$\\omega = 2\\pi(1500)/60 = 157.1\\,\\mathrm{rad/s}$, and $T = \\dfrac{P}{\\omega} = \\dfrac{10{,}000\\,\\mathrm{W}}{157.1} = 63.7\\,\\mathrm{N \\cdot m}$.\n\nWatch out: $P = T\\omega$ needs $\\omega$ in $\\mathrm{rad/s}$, not rpm, and $P$ in watts.",
+      "answer": "63.7",
+      "acceptedAnswers": [
+        "63.7 N*m",
+        "63.66"
+      ],
+      "answerDisplay": "$T \\approx 63.7\\,\\mathrm{N \\cdot m}$",
+      "searchQuery": "shaft power torque P = T omega rpm to rad/s"
+    },
+    {
+      "id": "internal-torque-segments",
+      "title": "A shaft fixed at C carries torques at B and the free end A, both in the same sense: $200\\,\\mathrm{N \\cdot m}$ at A and $300\\,\\mathrm{N \\cdot m}$ at B. Internal torque in segment BC, in N·m?",
+      "body": "$T_{BC} = 500\\,\\mathrm{N \\cdot m}$\n\nCut the shaft in BC and keep the free-end side: the internal torque balances all applied torques on that side, $200 + 300 = 500\\,\\mathrm{N \\cdot m}$. Segment AB carries $200\\,\\mathrm{N \\cdot m}$.\n\nTip: work from the free end, so the support reaction isn't needed.",
+      "answer": "500",
+      "acceptedAnswers": [
+        "500 N*m"
+      ],
+      "answerDisplay": "$500\\,\\mathrm{N \\cdot m}$",
+      "searchQuery": "internal torque shaft segments method of sections multiple torques"
+    },
+    {
+      "id": "indeterminate-shaft-reaction",
+      "title": "A uniform shaft is fixed at both ends. A torque of $900\\,\\mathrm{N \\cdot m}$ acts at $L/3$ from end A. Reaction torque at A, in N·m?",
+      "body": "$T_A = 600\\,\\mathrm{N \\cdot m}$\n\nEquilibrium: $T_A + T_B = 900$. Compatibility: the twist of A to the load equals that of B to the load, so $T_A(L/3) = T_B(2L/3)$, giving $T_A = 600$ and $T_B = 300\\,\\mathrm{N \\cdot m}$.\n\nKey idea: the shorter segment is stiffer in torsion, so it takes the larger reaction.",
+      "answer": "600",
+      "acceptedAnswers": [
+        "600 N*m"
+      ],
+      "answerDisplay": "$T_A = 600\\,\\mathrm{N \\cdot m}$",
+      "searchQuery": "statically indeterminate shaft fixed ends torque reaction compatibility"
+    },
+    {
+      "id": "thin-walled-tube-torsion",
+      "title": "A thin-walled tube has mean enclosed area $A_m = 2500\\,\\mathrm{mm^2}$, wall thickness $t = 2\\,\\mathrm{mm}$ and torque $T = 500\\,\\mathrm{N \\cdot m}$. Average shear stress, in MPa?",
+      "body": "$\\tau = 50\\,\\mathrm{MPa}$\n\n$\\tau_{\\mathrm{avg}} = \\dfrac{T}{2A_mt} = \\dfrac{500{,}000}{2(2500)(2)} = 50\\,\\mathrm{MPa}$.\n\nWatch out: $A_m$ is the area enclosed by the wall's midline, not the metal area.",
+      "answer": "50",
+      "acceptedAnswers": [
+        "50 MPa"
+      ],
+      "answerDisplay": "$\\tau = 50\\,\\mathrm{MPa}$",
+      "searchQuery": "thin-walled tube torsion shear stress T/(2 Am t) Bredt"
+    },
+    {
+      "id": "shaft-design-diameter",
+      "title": "A solid shaft carries $T = 1000\\,\\mathrm{N \\cdot m}$ with an allowable shear stress of $65\\,\\mathrm{MPa}$. Minimum diameter, in mm to 3 significant figures?",
+      "body": "$d \\approx 42.8\\,\\mathrm{mm}$\n\n$\\tau = \\dfrac{16T}{\\pi d^3}$, so $d^3 = \\dfrac{16(10^6)}{\\pi(65)} = 78{,}360\\,\\mathrm{mm^3}$ and $d = 42.8\\,\\mathrm{mm}$.\n\nTip: diameter appears cubed, so a $10\\%$ larger $d$ cuts stress by about $25\\%$.",
+      "answer": "42.8",
+      "acceptedAnswers": [
+        "42.8 mm"
+      ],
+      "answerDisplay": "$d \\approx 42.8\\,\\mathrm{mm}$",
+      "searchQuery": "shaft design minimum diameter allowable shear stress torsion"
+    },
+    {
+      "id": "hollow-shaft-j-ratio",
+      "title": "A hollow shaft has inner diameter $d_i = d_o/2$. What fraction of a solid shaft's $J$ (same outer diameter) does it keep, as a decimal?",
+      "body": "$J/J_{\\mathrm{solid}} = 0.9375$\n\n$\\dfrac{J}{J_{\\mathrm{solid}}} = 1 - \\left(\\dfrac{d_i}{d_o}\\right)^4 = 1 - \\dfrac{1}{16} = \\dfrac{15}{16}$, while the material (and weight) is reduced by $25\\%$.\n\nKey idea: material near the center works little in torsion, so hollow shafts are efficient.",
+      "answer": "0.9375",
+      "acceptedAnswers": [
+        "15/16",
+        "93.75%"
+      ],
+      "answerDisplay": "$0.9375$",
+      "searchQuery": "hollow shaft polar moment ratio solid shaft efficiency d_i d_o"
+    },
+    {
+      "id": "torsion-noncircular",
+      "title": "Why do the circular-shaft torsion formulas fail for a square bar?",
+      "body": "Cross sections of non-circular bars **warp**; plane sections no longer stay plane.\n\nCircular shafts have axisymmetry, so sections rotate as rigid disks and shear strain varies linearly with radius. In a square bar, the shear stress is zero at the corners and maximum at mid-sides.\n\nWatch out: do not apply $\\tau = Tc/J$ to non-circular sections.",
+      "searchQuery": "torsion non-circular sections warping square bar shear stress"
+    },
+    {
+      "id": "twist-numeric",
+      "title": "A $40\\,\\mathrm{mm}$ diameter shaft ($G = 80\\,\\mathrm{GPa}$), $L = 1.5\\,\\mathrm{m}$, carries $T = 500\\,\\mathrm{N \\cdot m}$. Angle of twist, in rad to 3 significant figures?",
+      "body": "$\\phi \\approx 0.0373\\,\\mathrm{rad}$\n\n$J = \\dfrac{\\pi(40)^4}{32} = 2.513\\times 10^5\\,\\mathrm{mm^4}$, so $\\phi = \\dfrac{TL}{GJ} = \\dfrac{(500{,}000)(1500)}{(80{,}000)(2.513\\times 10^5)} = 0.0373\\,\\mathrm{rad} = 2.14^\\circ$.\n\nWatch out: $\\phi$ is in radians; convert to degrees by $\\times\\, 180/\\pi$.",
+      "answer": "0.0373",
+      "acceptedAnswers": [
+        "0.0373 rad"
+      ],
+      "answerDisplay": "$\\phi \\approx 0.0373\\,\\mathrm{rad}$",
+      "searchQuery": "angle of twist numeric TL/GJ shaft radians"
+    },
+    {
+      "id": "neutral-axis-centroid",
+      "title": "Where is the neutral axis of a beam in pure bending of linear-elastic material?",
+      "body": "Through the **centroid** of the cross section.\n\nNo net axial force means $\\int \\sigma\\,dA = 0$, and since $\\sigma$ varies linearly with $y$, that requires $y$ to be measured from the centroid.\n\nWatch out: for composite sections of different materials, use the transformed section's centroid.",
+      "searchQuery": "neutral axis through centroid pure bending beam linear elastic"
+    },
+    {
+      "id": "section-modulus-definition",
+      "title": "What is the section modulus $S$, and how does it give the maximum bending stress?",
+      "body": "$S = \\dfrac{I}{c}$, so $\\sigma_{\\max} = \\dfrac{M}{S}$\n\n$c$ is the distance from the neutral axis to the extreme fiber. A larger $S$ means a stronger section in bending.\n\nTip: compare beams by $S$ for strength and by $I$ for stiffness.",
+      "answer": "I/c",
+      "acceptedAnswers": [
+        "S = I/c"
+      ],
+      "answerDisplay": "$S = \\dfrac{I}{c}$",
+      "searchQuery": "section modulus S = I/c maximum bending stress M/S"
+    },
+    {
+      "id": "rectangle-section-modulus",
+      "title": "What is the section modulus of a $b \\times h$ rectangle for bending about its centroidal axis parallel to $b$?",
+      "body": "$S = \\dfrac{bh^2}{6}$\n\n$S = \\dfrac{I}{c} = \\dfrac{bh^3/12}{h/2} = \\dfrac{bh^2}{6}$.\n\nTip: $h$ is the depth in the loaded direction; depth enters squared.",
+      "answer": "bh^2/6",
+      "acceptedAnswers": [
+        "(bh^2)/6",
+        "1/6 bh^2"
+      ],
+      "answerDisplay": "$S = \\dfrac{bh^2}{6}$",
+      "searchQuery": "rectangular section modulus bh^2/6 bending"
+    },
+    {
+      "id": "circle-section-modulus",
+      "title": "What is the section modulus of a solid circular section of diameter $d$?",
+      "body": "$S = \\dfrac{\\pi d^3}{32}$\n\n$S = \\dfrac{I}{c} = \\dfrac{\\pi d^4/64}{d/2} = \\dfrac{\\pi d^3}{32}$.\n\nWatch out: do not mix up with $J/c = \\pi d^3/16$, the torsion section modulus.",
+      "answer": "pi*d^3/32",
+      "acceptedAnswers": [
+        "(pi*d^3)/32",
+        "pi/32*d^3"
+      ],
+      "answerDisplay": "$S = \\dfrac{\\pi d^3}{32}$",
+      "searchQuery": "circular section modulus pi d^3/32 beam bending"
+    },
+    {
+      "id": "bending-stress-numeric",
+      "title": "A rectangular beam, $50\\,\\mathrm{mm}$ wide and $100\\,\\mathrm{mm}$ deep, carries $M = 5\\,\\mathrm{kN \\cdot m}$. Maximum bending stress, in MPa?",
+      "body": "$\\sigma_{\\max} = 60\\,\\mathrm{MPa}$\n\n$S = \\dfrac{bh^2}{6} = \\dfrac{(50)(100)^2}{6} = 83{,}333\\,\\mathrm{mm^3}$, so $\\sigma_{\\max} = \\dfrac{5\\times 10^6\\,\\mathrm{N \\cdot mm}}{83{,}333} = 60\\,\\mathrm{MPa}$.\n\nWatch out: the depth is the dimension in the plane of bending.",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 MPa"
+      ],
+      "answerDisplay": "$\\sigma_{\\max} = 60\\,\\mathrm{MPa}$",
+      "searchQuery": "bending stress rectangular beam M/S numeric MPa"
+    },
+    {
+      "id": "ss-beam-bending-stress-numeric",
+      "title": "A simply supported beam, span $4\\,\\mathrm{m}$, carries $10\\,\\mathrm{kN}$ at midspan. Its section modulus is $100\\times 10^3\\,\\mathrm{mm^3}$. Maximum bending stress, in MPa?",
+      "body": "$\\sigma_{\\max} = 100\\,\\mathrm{MPa}$\n\n$M_{\\max} = \\dfrac{PL}{4} = 10\\,\\mathrm{kN \\cdot m}$, so $\\sigma_{\\max} = \\dfrac{10\\times 10^6}{100\\times 10^3} = 100\\,\\mathrm{MPa}$.\n\nTip: find $M_{\\max}$ first, then use $M/S$.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 MPa"
+      ],
+      "answerDisplay": "$\\sigma_{\\max} = 100\\,\\mathrm{MPa}$",
+      "searchQuery": "simply supported beam bending stress midspan load section modulus"
+    },
+    {
+      "id": "radius-of-curvature-numeric",
+      "title": "A beam carries $M = 4\\,\\mathrm{kN \\cdot m}$ with $EI = 2\\times 10^{12}\\,\\mathrm{N \\cdot mm^2}$. Radius of curvature, in m?",
+      "body": "$\\rho = 500\\,\\mathrm{m}$\n\n$\\dfrac{1}{\\rho} = \\dfrac{M}{EI} = \\dfrac{4\\times 10^6}{2\\times 10^{12}} = 2\\times 10^{-6}\\,\\mathrm{mm^{-1}}$, so $\\rho = 5\\times 10^5\\,\\mathrm{mm} = 500\\,\\mathrm{m}$.\n\nKey idea: a stiffer beam (larger $EI$) curves less under the same moment.",
+      "answer": "500",
+      "acceptedAnswers": [
+        "500 m"
+      ],
+      "answerDisplay": "$\\rho = 500\\,\\mathrm{m}$",
+      "searchQuery": "radius of curvature 1/rho = M/EI beam numeric"
+    },
+    {
+      "id": "bending-assumptions",
+      "title": "What kinematic assumption underlies the flexure formula, and what does it imply for strain?",
+      "body": "**Plane sections remain plane** and perpendicular to the axis; strain varies linearly: $\\varepsilon = -y/\\rho$.\n\nCombined with Hooke's law, linear strain gives linear stress, which leads to $\\sigma = -My/I$.\n\nWatch out: this assumption fails near concentrated loads and in deep, short beams.",
+      "searchQuery": "flexure assumptions plane sections remain plane linear strain bending"
+    },
+    {
+      "id": "transformed-section",
+      "title": "How does the transformed-section method handle a beam made of two materials?",
+      "body": "Replace one material with an equivalent one by multiplying its width by the **modular ratio** $n = E_1/E_2$.\n\nThen use the usual flexure formula, and convert the stress back at the end: stress in the original material is $n$ times the stress computed in the transformed region.\n\nTip: the neutral axis goes through the centroid of the transformed section, not the original one.",
+      "searchQuery": "transformed section method composite beam modular ratio n = E1/E2"
+    },
+    {
+      "id": "asymmetric-section-stress",
+      "title": "For a T-shaped section in bending, why can the maximum tensile and compressive bending stresses differ?",
+      "body": "The neutral axis through the centroid is **not** equidistant from the top and bottom fibers.\n\nStress is proportional to distance $c$ from the neutral axis, so $\\sigma = Mc/I$ is larger on the side farther from the axis.\n\nTip: this matters for cast iron, which is weak in tension; place the larger distance on the compression side.",
+      "searchQuery": "T-section bending stress tension compression different neutral axis"
+    },
+    {
+      "id": "shape-factor-rectangle",
+      "title": "What is the shape factor, $M_p/M_Y$, of a rectangular section?",
+      "body": "$1.5$\n\n$M_Y = \\sigma_Y\\dfrac{bh^2}{6}$ and the fully plastic moment is $M_p = \\sigma_Y\\dfrac{bh^2}{4}$, so the ratio is $1.5$.\n\nKey idea: a rectangular section has $50\\%$ extra moment capacity beyond first yield.",
+      "answer": "1.5",
+      "acceptedAnswers": [
+        "3/2"
+      ],
+      "answerDisplay": "$1.5$",
+      "searchQuery": "shape factor rectangle plastic moment yield moment 1.5"
+    },
+    {
+      "id": "circular-section-max-shear",
+      "title": "What is the maximum transverse shear stress in a solid circular section of area $A$ carrying shear $V$?",
+      "body": "$\\tau_{\\max} = \\dfrac{4V}{3A}$, at the neutral axis\n\nThis is $\\tfrac{4}{3}$ of the average shear stress, compared with $\\tfrac{3}{2}$ for a rectangle.\n\nWatch out: the formula assumes a uniform shear across the width at the neutral axis, which is only approximate for a circle.",
+      "answer": "4V/(3A)",
+      "acceptedAnswers": [
+        "4V/3A",
+        "(4/3)V/A",
+        "4/3 V/A"
+      ],
+      "answerDisplay": "$\\tau_{\\max} = \\dfrac{4V}{3A}$",
+      "searchQuery": "circular section maximum shear stress 4V/(3A) transverse shear"
+    },
+    {
+      "id": "shear-flow-fastener-spacing",
+      "title": "A built-up beam has $V = 10\\,\\mathrm{kN}$, $Q = 2\\times 10^5\\,\\mathrm{mm^3}$ and $I = 4\\times 10^7\\,\\mathrm{mm^4}$ at a joint. Each fastener resists $1\\,\\mathrm{kN}$. Spacing, in mm?",
+      "body": "$s = 20\\,\\mathrm{mm}$\n\nShear flow $q = \\dfrac{VQ}{I} = \\dfrac{(10{,}000)(2\\times 10^5)}{4\\times 10^7} = 50\\,\\mathrm{N/mm}$. Spacing $s = \\dfrac{F_{\\mathrm{fastener}}}{q} = \\dfrac{1000}{50} = 20\\,\\mathrm{mm}$.\n\nKey idea: $q$ is the shear force per unit length that the fasteners must carry across the joint.",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 mm"
+      ],
+      "answerDisplay": "$s = 20\\,\\mathrm{mm}$",
+      "searchQuery": "shear flow q = VQ/I fastener spacing built-up beam"
+    },
+    {
+      "id": "ibeam-shear-web",
+      "title": "In a wide-flange beam, which part carries most of the transverse shear, and which most of the bending moment?",
+      "body": "The **web** carries most of the shear; the **flanges** carry most of the bending moment.\n\nThe flanges are far from the neutral axis, so they provide most of $I$. The web is continuous between the flanges, so shear stress is nearly uniform there.\n\nTip: for design, estimate shear stress as $V/(t_w d)$, using only the web area.",
+      "searchQuery": "I-beam wide flange web carries shear flanges carry bending"
+    },
+    {
+      "id": "complementary-shear",
+      "title": "An element's top face carries shear stress $\\tau$. What shear stresses act on its side faces?",
+      "body": "Equal magnitude $\\tau$ on the perpendicular faces; all four point toward or away from the corners together.\n\nMoment equilibrium of the element requires the pairs to balance. This is why a longitudinal shear stress exists in a beam, equal to the transverse one.\n\nKey idea: longitudinal shear stress is what holds layers of a beam together, and is the reason for glued joints and nail spacing.",
+      "searchQuery": "complementary shear stress equal perpendicular faces element equilibrium"
+    },
+    {
+      "id": "rect-shear-numeric",
+      "title": "A rectangular beam section, $100\\,\\mathrm{mm}$ wide by $150\\,\\mathrm{mm}$ deep, carries $V = 30\\,\\mathrm{kN}$. Maximum shear stress, in MPa?",
+      "body": "$\\tau_{\\max} = 3\\,\\mathrm{MPa}$\n\n$A = 15{,}000\\,\\mathrm{mm^2}$, so $\\tau_{\\max} = \\dfrac{1.5V}{A} = \\dfrac{1.5(30{,}000)}{15{,}000} = 3\\,\\mathrm{MPa}$.\n\nWatch out: the average, $V/A = 2\\,\\mathrm{MPa}$, understates the maximum.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3 MPa"
+      ],
+      "answerDisplay": "$\\tau_{\\max} = 3\\,\\mathrm{MPa}$",
+      "searchQuery": "rectangular beam maximum shear stress 1.5V/A numeric"
+    },
+    {
+      "id": "hoop-stress-thin-cylinder",
+      "title": "A thin-walled cylinder has internal radius $r$, wall thickness $t$ and gauge pressure $p$. What is the hoop stress?",
+      "body": "$\\sigma_h = \\dfrac{pr}{t}$\n\nCut the cylinder along its length: the pressure force $2rLp$ is resisted by two wall sections, $2\\sigma_h tL$.\n\nKey idea: hoop stress is the larger principal stress; vessels fail by splitting along their length.",
+      "answer": "pr/t",
+      "acceptedAnswers": [
+        "sigma = pr/t"
+      ],
+      "answerDisplay": "$\\sigma_h = \\dfrac{pr}{t}$",
+      "searchQuery": "thin-walled cylinder hoop stress pr/t"
+    },
+    {
+      "id": "longitudinal-stress-thin-cylinder",
+      "title": "For a thin-walled cylinder with closed ends, what is the longitudinal (axial) stress?",
+      "body": "$\\sigma_l = \\dfrac{pr}{2t}$\n\nCut it across: pressure force $p\\pi r^2$ acts on the end area, resisted by the wall area $2\\pi rt$.\n\nKey idea: the longitudinal stress is half the hoop stress.",
+      "answer": "pr/(2t)",
+      "acceptedAnswers": [
+        "pr/2t"
+      ],
+      "answerDisplay": "$\\sigma_l = \\dfrac{pr}{2t}$",
+      "searchQuery": "thin-walled cylinder longitudinal stress pr/(2t) closed ends"
+    },
+    {
+      "id": "sphere-stress-thin",
+      "title": "What is the stress in the wall of a thin-walled spherical vessel of radius $r$, thickness $t$, pressure $p$?",
+      "body": "$\\sigma = \\dfrac{pr}{2t}$, the same in every direction\n\nA sphere splits across any diameter, giving the same equation as the cylinder's longitudinal stress. It is half the hoop stress of a cylinder with the same $r$, $t$ and $p$.\n\nTip: this is why pressure vessels often have spherical heads or spherical shapes.",
+      "answer": "pr/(2t)",
+      "acceptedAnswers": [
+        "pr/2t"
+      ],
+      "answerDisplay": "$\\sigma = \\dfrac{pr}{2t}$",
+      "searchQuery": "thin-walled sphere stress pr/(2t) spherical pressure vessel"
+    },
+    {
+      "id": "hoop-stress-numeric",
+      "title": "A thin-walled cylinder with inner radius $500\\,\\mathrm{mm}$ and $t = 5\\,\\mathrm{mm}$ holds $2\\,\\mathrm{MPa}$ gauge pressure. Hoop stress, in MPa?",
+      "body": "$\\sigma_h = 200\\,\\mathrm{MPa}$\n\n$\\sigma_h = \\dfrac{pr}{t} = \\dfrac{(2)(500)}{5} = 200\\,\\mathrm{MPa}$, with $\\sigma_l = 100\\,\\mathrm{MPa}$.\n\nWatch out: use the internal radius and gauge (not absolute) pressure.",
+      "answer": "200",
+      "acceptedAnswers": [
+        "200 MPa"
+      ],
+      "answerDisplay": "$\\sigma_h = 200\\,\\mathrm{MPa}$",
+      "searchQuery": "hoop stress numeric thin cylinder pr/t MPa"
+    },
+    {
+      "id": "thin-wall-criterion",
+      "title": "The thin-wall pressure vessel formulas apply when the ratio $r/t$ is at least about what value?",
+      "body": "$r/t \\ge 10$\n\nThen the stress is nearly uniform through the thickness, and the radial stress ($\\sigma_r$ from $0$ to $-p$) is small compared with $\\sigma_h$.\n\nWatch out: for thick walls, stresses vary through the thickness (Lamé equations).",
+      "answer": "10",
+      "acceptedAnswers": [
+        "r/t >= 10",
+        "r/t = 10"
+      ],
+      "answerDisplay": "$r/t \\ge 10$",
+      "searchQuery": "thin-walled pressure vessel criterion r/t 10"
+    },
+    {
+      "id": "cylinder-absolute-max-shear",
+      "title": "A thin cylinder has $\\sigma_h = 200\\,\\mathrm{MPa}$ and $\\sigma_l = 100\\,\\mathrm{MPa}$, with negligible radial stress. Absolute maximum shear stress, in MPa?",
+      "body": "$\\tau_{\\mathrm{abs}} = 100\\,\\mathrm{MPa}$\n\nPrincipal stresses are $200$, $100$ and about $0$. $\\tau_{\\mathrm{abs}} = \\dfrac{\\sigma_{\\max} - \\sigma_{\\min}}{2} = \\dfrac{200 - 0}{2} = 100\\,\\mathrm{MPa}$.\n\nWatch out: the in-plane maximum shear is only $(200 - 100)/2 = 50\\,\\mathrm{MPa}$.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 MPa"
+      ],
+      "answerDisplay": "$\\tau_{\\mathrm{abs}} = 100\\,\\mathrm{MPa}$",
+      "searchQuery": "thin cylinder absolute maximum shear stress principal stresses three dimensional"
+    },
+    {
+      "id": "pure-shear-principal",
+      "title": "An element is in pure shear $\\tau = 40\\,\\mathrm{MPa}$. What is the larger principal stress, in MPa?",
+      "body": "$\\sigma_1 = +40\\,\\mathrm{MPa}$, with $\\sigma_2 = -40\\,\\mathrm{MPa}$, at $45^\\circ$\n\nMohr's circle is centered at the origin with radius $\\tau$, so the principal stresses are $\\pm\\tau$ on planes at $45^\\circ$ to the shear planes.\n\nKey idea: this is why brittle shafts crack along $45^\\circ$ helices in torsion.",
+      "answer": "40",
+      "acceptedAnswers": [
+        "40 MPa",
+        "+40"
+      ],
+      "answerDisplay": "$\\sigma_1 = 40\\,\\mathrm{MPa}$",
+      "searchQuery": "pure shear principal stresses plus minus tau 45 degrees Mohr"
+    },
+    {
+      "id": "principal-angle-numeric",
+      "title": "Plane stress: $\\sigma_x = 100$, $\\sigma_y = 20$, $\\tau_{xy} = 30\\,\\mathrm{MPa}$ (positive per Hibbeler). Angle from the $x$ axis to the major principal plane, in degrees?",
+      "body": "$\\theta_p \\approx 18.4^\\circ$ counterclockwise\n\n$\\tan 2\\theta_p = \\dfrac{2\\tau_{xy}}{\\sigma_x - \\sigma_y} = \\dfrac{60}{80} = 0.75$, so $2\\theta_p = 36.9^\\circ$ and $\\theta_p = 18.4^\\circ$.\n\nWatch out: check which of the two planes holds $\\sigma_1$ by substituting into the transformation equation.",
+      "answer": "18.4",
+      "acceptedAnswers": [
+        "18.4 degrees",
+        "18.43"
+      ],
+      "answerDisplay": "$\\theta_p \\approx 18.4^\\circ$",
+      "searchQuery": "principal plane angle tan 2 theta = 2 tau/(sigma x - sigma y) numeric"
+    },
+    {
+      "id": "stress-transformation-numeric",
+      "title": "Uniaxial-type plane stress: $\\sigma_x = 80\\,\\mathrm{MPa}$, $\\sigma_y = 20\\,\\mathrm{MPa}$, $\\tau_{xy} = 0$. Normal stress on a plane rotated $30^\\circ$ from the $x$ axis, in MPa?",
+      "body": "$\\sigma_{x'} = 65\\,\\mathrm{MPa}$\n\n$\\sigma_{x'} = \\dfrac{\\sigma_x + \\sigma_y}{2} + \\dfrac{\\sigma_x - \\sigma_y}{2}\\cos 2\\theta + \\tau_{xy}\\sin 2\\theta = 50 + 30\\cos 60^\\circ = 65\\,\\mathrm{MPa}$.\n\nTip: the angle in the equation is doubled.",
+      "answer": "65",
+      "acceptedAnswers": [
+        "65 MPa"
+      ],
+      "answerDisplay": "$\\sigma_{x'} = 65\\,\\mathrm{MPa}$",
+      "searchQuery": "stress transformation equation normal stress rotated plane numeric"
+    },
+    {
+      "id": "mohr-circle-angle-doubling",
+      "title": "On Mohr's circle, how do element rotations relate to circle rotations?",
+      "body": "An element rotated by $\\theta$ corresponds to a radius rotated by $2\\theta$, in the **same direction**.\n\nThe $x$ and $y$ faces of an element are $90^\\circ$ apart, so they sit at opposite ends of a diameter, $180^\\circ$ apart on the circle.\n\nWatch out: sign conventions for $\\tau$ differ among books; follow one consistently.",
+      "searchQuery": "Mohr's circle rotation 2 theta element versus circle angle doubling"
+    },
+    {
+      "id": "absolute-max-shear-3d-numeric",
+      "title": "Plane stress with principal stresses $80\\,\\mathrm{MPa}$ and $20\\,\\mathrm{MPa}$. What is the absolute maximum shear stress, in MPa?",
+      "body": "$\\tau_{\\mathrm{abs}} = 40\\,\\mathrm{MPa}$\n\nWith $\\sigma_3 = 0$, the three principal stresses are $80$, $20$ and $0$. The largest difference is $80 - 0$, so $\\tau_{\\mathrm{abs}} = 40\\,\\mathrm{MPa}$, not the in-plane $30\\,\\mathrm{MPa}$.\n\nWatch out: when both in-plane principal stresses have the same sign, the out-of-plane circle is the largest.",
+      "answer": "40",
+      "acceptedAnswers": [
+        "40 MPa"
+      ],
+      "answerDisplay": "$\\tau_{\\mathrm{abs}} = 40\\,\\mathrm{MPa}$",
+      "searchQuery": "absolute maximum shear stress plane stress both principal stresses same sign"
+    },
+    {
+      "id": "eccentric-axial-numeric",
+      "title": "A section has $A = 2000\\,\\mathrm{mm^2}$, $S = 20\\times 10^3\\,\\mathrm{mm^3}$, and a $40\\,\\mathrm{kN}$ compressive load $25\\,\\mathrm{mm}$ off the centroid. Maximum compressive stress, in MPa?",
+      "body": "$\\sigma_{\\max} = 70\\,\\mathrm{MPa}$ (compression)\n\nAxial: $P/A = 20\\,\\mathrm{MPa}$. The eccentricity creates $M = Pe = 1\\,\\mathrm{kN \\cdot m}$, so bending is $M/S = 50\\,\\mathrm{MPa}$. On the loaded side $20 + 50 = 70\\,\\mathrm{MPa}$ compression; on the other side the stress is $30\\,\\mathrm{MPa}$ tension.\n\nTip: superpose axial and bending stresses by sign at each fiber.",
+      "answer": "70",
+      "acceptedAnswers": [
+        "70 MPa"
+      ],
+      "answerDisplay": "$70\\,\\mathrm{MPa}$ (compression)",
+      "searchQuery": "eccentric axial load combined axial and bending stress column numeric"
+    },
+    {
+      "id": "bending-torsion-principal",
+      "title": "At the top surface of a shaft in bending and torsion, $\\sigma_x = 80\\,\\mathrm{MPa}$, $\\sigma_y = 0$, $\\tau_{xy} = 30\\,\\mathrm{MPa}$. Larger principal stress, in MPa?",
+      "body": "$\\sigma_1 = 90\\,\\mathrm{MPa}$\n\nCenter $= 40\\,\\mathrm{MPa}$ and $R = \\sqrt{40^2 + 30^2} = 50\\,\\mathrm{MPa}$, so $\\sigma_1 = 40 + 50 = 90\\,\\mathrm{MPa}$ and $\\sigma_2 = -10\\,\\mathrm{MPa}$.\n\nKey idea: the critical element on a loaded shaft is at the surface, where both $Mc/I$ and $Tc/J$ peak.",
+      "answer": "90",
+      "acceptedAnswers": [
+        "90 MPa"
+      ],
+      "answerDisplay": "$\\sigma_1 = 90\\,\\mathrm{MPa}$",
+      "searchQuery": "shaft combined bending and torsion principal stress Mohr numeric"
+    },
+    {
+      "id": "uniaxial-max-shear",
+      "title": "A bar in uniaxial tension carries $\\sigma = 300\\,\\mathrm{MPa}$. What is the maximum shear stress, and on what plane?",
+      "body": "$\\tau_{\\max} = 150\\,\\mathrm{MPa}$, on planes at $45^\\circ$ to the axis\n\nMohr's circle has radius $\\sigma/2$. Ductile metals yield in tension along slip lines at about $45^\\circ$.\n\nKey idea: yielding in a ductile material is driven by shear, not by tension directly.",
+      "searchQuery": "uniaxial tension maximum shear stress sigma/2 45 degree plane"
+    },
+    {
+      "id": "tresca-theory",
+      "title": "State the maximum shear stress (Tresca) yield criterion.",
+      "body": "Yielding occurs when the maximum shear stress reaches $\\tau_Y = \\sigma_Y/2$, i.e., when $|\\sigma_{\\max} - \\sigma_{\\min}| = \\sigma_Y$.\n\nUse all three principal stresses, including a zero in plane stress.\n\nWatch out: if both in-plane principal stresses have the same sign, include $\\sigma_3 = 0$ in the comparison.",
+      "searchQuery": "Tresca maximum shear stress theory yield criterion"
+    },
+    {
+      "id": "von-mises-numeric",
+      "title": "Plane stress principal stresses are $\\sigma_1 = 100\\,\\mathrm{MPa}$ and $\\sigma_2 = -100\\,\\mathrm{MPa}$. What is the von Mises equivalent stress, in MPa to 3 significant figures?",
+      "body": "$\\sigma' \\approx 173\\,\\mathrm{MPa}$\n\n$\\sigma' = \\sqrt{\\sigma_1^2 - \\sigma_1\\sigma_2 + \\sigma_2^2} = \\sqrt{10^4 + 10^4 + 10^4} = 173\\,\\mathrm{MPa}$. Yielding occurs when $\\sigma' = \\sigma_Y$.\n\nTip: this is pure shear with $\\tau = 100\\,\\mathrm{MPa}$, so $\\sigma' = \\sqrt{3}\\,\\tau$.",
+      "answer": "173",
+      "acceptedAnswers": [
+        "173 MPa",
+        "173.2"
+      ],
+      "answerDisplay": "$\\sigma' \\approx 173\\,\\mathrm{MPa}$",
+      "searchQuery": "von Mises equivalent stress plane stress numeric sqrt(s1^2 - s1 s2 + s2^2)"
+    },
+    {
+      "id": "yield-in-pure-shear",
+      "title": "According to von Mises, what is the shear yield stress $\\tau_Y$ as a fraction of $\\sigma_Y$, to 3 significant figures?",
+      "body": "$\\tau_Y = \\dfrac{\\sigma_Y}{\\sqrt{3}} \\approx 0.577\\,\\sigma_Y$\n\nTresca predicts $\\tau_Y = 0.5\\,\\sigma_Y$, which is more conservative. Experimental values for ductile metals fall between, close to $0.577$.\n\nKey idea: von Mises is usually the better match to ductile test data.",
+      "answer": "0.577",
+      "acceptedAnswers": [
+        "0.58",
+        "1/sqrt(3)"
+      ],
+      "answerDisplay": "$0.577$",
+      "searchQuery": "von Mises shear yield stress 0.577 sigma_Y versus Tresca 0.5"
+    },
+    {
+      "id": "max-normal-stress-brittle",
+      "title": "Which failure theory is used for brittle materials, and what does it state?",
+      "body": "The **maximum normal stress** theory: failure occurs when the largest principal stress reaches the ultimate strength, $\\sigma_1 = \\sigma_{\\mathrm{ult}}$.\n\nUse $\\sigma_{\\mathrm{ult}}$ in tension for $\\sigma_1$ and the compressive ultimate for the most compressive principal stress.\n\nWatch out: brittle materials are much stronger in compression, so tension and compression limits differ.",
+      "searchQuery": "maximum normal stress theory brittle failure ultimate strength principal stress"
+    },
+    {
+      "id": "von-mises-factor-of-safety",
+      "title": "A steel with $\\sigma_Y = 350\\,\\mathrm{MPa}$ has von Mises equivalent stress $173\\,\\mathrm{MPa}$. Factor of safety against yielding, to 3 significant figures?",
+      "body": "$FS \\approx 2.02$\n\n$FS = \\dfrac{\\sigma_Y}{\\sigma'} = \\dfrac{350}{173.2} = 2.02$.\n\nTip: the factor of safety is a ratio of strengths, so it has no units.",
+      "answer": "2.02",
+      "acceptedAnswers": [
+        "2.0"
+      ],
+      "answerDisplay": "$FS \\approx 2.02$",
+      "searchQuery": "factor of safety von Mises yield numeric ratio"
+    },
+    {
+      "id": "beam-curvature-equation",
+      "title": "What differential equation relates beam deflection $v(x)$ to bending moment, for small deflections?",
+      "body": "$EI\\dfrac{d^2v}{dx^2} = M(x)$\n\nIntegrate once for the slope and twice for the deflection. The integration constants come from boundary conditions.\n\nWatch out: with $v$ positive upward and $M$ positive for sagging, the sign is as shown; check your text's convention.",
+      "searchQuery": "beam deflection differential equation EI v'' = M double integration"
+    },
+    {
+      "id": "ss-udl-deflection",
+      "title": "Maximum deflection of a simply supported beam of length $L$ with a uniform load $w$?",
+      "body": "$\\delta_{\\max} = \\dfrac{5wL^4}{384EI}$, at midspan\n\nDeflection scales with $L^4$ for distributed loads. Compare the midspan point load, $PL^3/(48EI)$.\n\nTip: remember $5/384$ for uniform load and $1/48$ for a central point load.",
+      "answer": "5wL^4/(384EI)",
+      "acceptedAnswers": [
+        "5wL^4/384EI",
+        "(5wL^4)/(384EI)"
+      ],
+      "answerDisplay": "$\\delta_{\\max} = \\dfrac{5wL^4}{384EI}$",
+      "searchQuery": "simply supported beam uniform load deflection 5wL^4/(384EI)"
+    },
+    {
+      "id": "cantilever-udl-deflection",
+      "title": "Tip deflection of a cantilever of length $L$ with a uniform load $w$ over its whole length?",
+      "body": "$\\delta_{\\max} = \\dfrac{wL^4}{8EI}$\n\nCompared with a tip point load $PL^3/(3EI)$, the uniform load $wL$ gives $\\tfrac{3}{8}$ of the tip deflection that the same total load would cause at the tip.\n\nKey idea: loads near the free end cause more deflection.",
+      "answer": "wL^4/(8EI)",
+      "acceptedAnswers": [
+        "wL^4/8EI",
+        "(wL^4)/(8EI)"
+      ],
+      "answerDisplay": "$\\delta_{\\max} = \\dfrac{wL^4}{8EI}$",
+      "searchQuery": "cantilever uniform load tip deflection wL^4/(8EI)"
+    },
+    {
+      "id": "cantilever-deflection-numeric",
+      "title": "A cantilever, $L = 1.5\\,\\mathrm{m}$, with $EI = 8\\times 10^{11}\\,\\mathrm{N \\cdot mm^2}$ carries $P = 2\\,\\mathrm{kN}$ at its tip. Tip deflection, in mm to 3 significant figures?",
+      "body": "$\\delta \\approx 2.81\\,\\mathrm{mm}$\n\n$\\delta = \\dfrac{PL^3}{3EI} = \\dfrac{(2000)(1500)^3}{3(8\\times 10^{11})} = \\dfrac{6.75\\times 10^{12}}{2.4\\times 10^{12}} = 2.81\\,\\mathrm{mm}$.\n\nWatch out: convert $L$ to mm so units match $EI$ in $\\mathrm{N \\cdot mm^2}$.",
+      "answer": "2.81",
+      "acceptedAnswers": [
+        "2.81 mm",
+        "2.8125"
+      ],
+      "answerDisplay": "$\\delta \\approx 2.81\\,\\mathrm{mm}$",
+      "searchQuery": "cantilever tip deflection numeric PL^3/3EI mm"
+    },
+    {
+      "id": "ss-udl-deflection-numeric",
+      "title": "A simply supported beam, $L = 4\\,\\mathrm{m}$, $EI = 8\\times 10^{11}\\,\\mathrm{N \\cdot mm^2}$, carries $w = 5\\,\\mathrm{N/mm}$ ($5\\,\\mathrm{kN/m}$). Midspan deflection, in mm to 3 significant figures?",
+      "body": "$\\delta \\approx 20.8\\,\\mathrm{mm}$\n\n$\\delta = \\dfrac{5wL^4}{384EI} = \\dfrac{5(5)(4000)^4}{384(8\\times 10^{11})} = \\dfrac{6.4\\times 10^{15}}{3.072\\times 10^{14}} = 20.8\\,\\mathrm{mm}$.\n\nTip: $5\\,\\mathrm{kN/m} = 5\\,\\mathrm{N/mm}$.",
+      "answer": "20.8",
+      "acceptedAnswers": [
+        "20.8 mm",
+        "20.83"
+      ],
+      "answerDisplay": "$\\delta \\approx 20.8\\,\\mathrm{mm}$",
+      "searchQuery": "simply supported beam uniform load midspan deflection numeric mm"
+    },
+    {
+      "id": "deflection-boundary-conditions",
+      "title": "What are the boundary conditions for deflection at a pin or roller, a fixed support, and a free end?",
+      "body": "Pin or roller: $v = 0$. Fixed: $v = 0$ and $v' = 0$. Free end: $M = 0$ and $V = 0$.\n\nEach integration constant needs one condition. Continuity of $v$ and $v'$ at interior points supplies more when the moment function changes between segments.\n\nTip: a free end has no deflection condition, but zero moment and shear.",
+      "searchQuery": "beam deflection boundary conditions pin fixed free end"
+    },
+    {
+      "id": "slope-ss-udl",
+      "title": "Maximum end slope of a simply supported beam with uniform load $w$ (length $L$)?",
+      "body": "$\\theta_{\\max} = \\dfrac{wL^3}{24EI}$, at the supports\n\nBy symmetry the slope is zero at midspan, where the deflection is maximum, and largest in magnitude at the ends.\n\nKey idea: the maximum deflection is at the point of zero slope.",
+      "answer": "wL^3/(24EI)",
+      "acceptedAnswers": [
+        "wL^3/24EI",
+        "(wL^3)/(24EI)"
+      ],
+      "answerDisplay": "$\\theta_{\\max} = \\dfrac{wL^3}{24EI}$",
+      "searchQuery": "simply supported beam uniform load end slope wL^3/(24EI)"
+    },
+    {
+      "id": "propped-cantilever-reaction",
+      "title": "A cantilever of length $L$ with uniform load $w$ is propped at its free end by a rigid support. What is the prop reaction?",
+      "body": "$R = \\dfrac{3wL}{8}$\n\nFree deflection $wL^4/(8EI)$ is cancelled by the prop's upward deflection $RL^3/(3EI)$: $R = \\dfrac{3wL}{8}$.\n\nKey idea: statically indeterminate beams use compatibility of deflection.",
+      "answer": "3wL/8",
+      "acceptedAnswers": [
+        "(3wL)/8",
+        "3/8 wL"
+      ],
+      "answerDisplay": "$R = \\dfrac{3wL}{8}$",
+      "searchQuery": "propped cantilever uniform load reaction 3wL/8 indeterminate beam"
+    },
+    {
+      "id": "slenderness-ratio",
+      "title": "What is the slenderness ratio of a column, and what is the radius of gyration $r$?",
+      "body": "Slenderness ratio $= \\dfrac{KL}{r}$, with $r = \\sqrt{I/A}$ (use the smaller $r$).\n\nLarger slenderness means lower critical stress. Short columns fail by crushing or yielding; long ones by buckling.\n\nWatch out: $K$ is the effective-length factor; $KL$ is the effective length.",
+      "searchQuery": "column slenderness ratio KL/r radius of gyration buckling"
+    },
+    {
+      "id": "euler-critical-stress",
+      "title": "Write the Euler critical stress in terms of the slenderness ratio.",
+      "body": "$\\sigma_{\\mathrm{cr}} = \\dfrac{\\pi^2E}{(KL/r)^2}$\n\nIt follows from $P_{\\mathrm{cr}} = \\pi^2EI/(KL)^2$ divided by $A$, using $I = Ar^2$.\n\nKey idea: $\\sigma_{\\mathrm{cr}}$ depends only on $E$ and the slenderness, not on yield strength.",
+      "answer": "pi^2E/(KL/r)^2",
+      "acceptedAnswers": [
+        "(pi^2E)/(KL/r)^2"
+      ],
+      "answerDisplay": "$\\sigma_{\\mathrm{cr}} = \\dfrac{\\pi^2E}{(KL/r)^2}$",
+      "searchQuery": "Euler critical stress pi^2 E/(KL/r)^2 slenderness"
+    },
+    {
+      "id": "euler-numeric-pinned",
+      "title": "A pinned-pinned steel column ($E = 200\\,\\mathrm{GPa}$), $I = 1.0\\times 10^6\\,\\mathrm{mm^4}$ about the weak axis, $L = 2\\,\\mathrm{m}$. Euler critical load, in kN to 3 significant figures?",
+      "body": "$P_{\\mathrm{cr}} \\approx 493\\,\\mathrm{kN}$\n\n$P_{\\mathrm{cr}} = \\dfrac{\\pi^2EI}{L^2} = \\dfrac{\\pi^2(200{,}000)(10^6)}{(2000)^2} = 4.93\\times 10^5\\,\\mathrm{N}$.\n\nWatch out: use the weak-axis $I$ and consistent units.",
+      "answer": "493",
+      "acceptedAnswers": [
+        "493 kN",
+        "493.5"
+      ],
+      "answerDisplay": "$P_{\\mathrm{cr}} \\approx 493\\,\\mathrm{kN}$",
+      "searchQuery": "Euler buckling load numeric pinned column steel kN"
+    },
+    {
+      "id": "euler-numeric-fixed-free",
+      "title": "The same column ($E = 200\\,\\mathrm{GPa}$, $I = 1.0\\times 10^6\\,\\mathrm{mm^4}$, $L = 2\\,\\mathrm{m}$) is fixed at the base and free at the top ($K = 2$). Critical load, in kN to 3 significant figures?",
+      "body": "$P_{\\mathrm{cr}} \\approx 123\\,\\mathrm{kN}$\n\n$P_{\\mathrm{cr}} = \\dfrac{\\pi^2EI}{(KL)^2} = \\dfrac{\\pi^2(200{,}000)(10^6)}{(4000)^2} = 1.23\\times 10^5\\,\\mathrm{N}$, one-quarter of the pinned value.\n\nKey idea: $K = 2$ doubles the effective length, so the load drops by a factor of 4.",
+      "answer": "123",
+      "acceptedAnswers": [
+        "123 kN",
+        "123.4"
+      ],
+      "answerDisplay": "$P_{\\mathrm{cr}} \\approx 123\\,\\mathrm{kN}$",
+      "searchQuery": "Euler buckling fixed-free column K = 2 critical load numeric"
+    },
+    {
+      "id": "euler-validity-slenderness",
+      "title": "For steel with $E = 200\\,\\mathrm{GPa}$ and proportional limit $250\\,\\mathrm{MPa}$, what is the smallest slenderness ratio $KL/r$ for which Euler's formula is valid? Give 3 significant figures.",
+      "body": "$KL/r \\approx 88.9$\n\nSet $\\sigma_{\\mathrm{cr}} = \\dfrac{\\pi^2E}{(KL/r)^2} \\le \\sigma_{\\mathrm{pl}}$, so $\\dfrac{KL}{r} \\ge \\pi\\sqrt{\\dfrac{E}{\\sigma_{\\mathrm{pl}}}} = \\pi\\sqrt{800} = 88.9$.\n\nWatch out: below this slenderness, buckling is inelastic and Euler overestimates the capacity.",
+      "answer": "88.9",
+      "acceptedAnswers": [
+        "88.86"
+      ],
+      "answerDisplay": "$KL/r \\approx 88.9$",
+      "searchQuery": "Euler formula validity minimum slenderness ratio proportional limit steel"
+    },
+    {
+      "id": "buckling-is-instability",
+      "title": "Why is column buckling called a stability failure rather than a strength failure?",
+      "body": "It occurs at stresses **below yield**, when the straight shape becomes unstable and a small sideways disturbance grows.\n\nDeflection grows suddenly and without warning, and imperfections or eccentric loads reduce the actual capacity below the Euler value.\n\nTip: increasing $EI$ or reducing the effective length, e.g., by bracing, is the effective fix; a stronger steel doesn't help an elastic column.",
+      "searchQuery": "column buckling instability stability failure below yield imperfections"
+    }
+  ]
+}

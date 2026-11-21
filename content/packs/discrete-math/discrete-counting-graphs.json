@@ -1,0 +1,712 @@
+{
+  "id": "discrete-counting-graphs",
+  "title": "Counting, Graphs & Recurrences",
+  "course": "Discrete Mathematics",
+  "description": "Sum and product rules, permutations and combinations, the binomial theorem, pigeonhole, inclusion–exclusion, discrete probability, recurrences, graph terms, trees, Euler and Hamilton paths, coloring and planarity.",
+  "cards": [
+    {
+      "id": "sum-rule",
+      "title": "State the **sum rule** of counting.",
+      "body": "If a task can be done in $n_1$ ways **or** in $n_2$ ways, with no way in common, there are $n_1 + n_2$ ways to do it.\n\nExample: choosing one dessert from $4$ cakes or $3$ pies gives $4 + 3 = 7$ options.\nWatch out: if the two lists overlap, you must correct for the double count (inclusion–exclusion).",
+      "searchQuery": "sum rule counting principle"
+    },
+    {
+      "id": "product-rule",
+      "title": "State the **product rule** of counting.",
+      "body": "If a procedure has two successive steps with $n_1$ choices for the first and $n_2$ for the second (whatever the first choice was), there are $n_1 n_2$ outcomes.\n\nExample: $5$ shirts and $3$ pants give $5 \\cdot 3 = 15$ outfits.\nTip: \"and\" suggests multiply, \"or\" suggests add.",
+      "searchQuery": "product rule counting principle multiplication"
+    },
+    {
+      "id": "license-plate-count",
+      "title": "A plate has $3$ letters followed by $3$ digits, with repetition allowed. How many plates are possible?",
+      "body": "17576000\n\nBy the product rule: $26^3 \\cdot 10^3 = 17576 \\cdot 1000 = 17{,}576{,}000$.\n\nTip: count each position independently when repetition is allowed.",
+      "answer": "17576000",
+      "acceptedAnswers": [
+        "26^3*10^3"
+      ],
+      "searchQuery": "license plate counting problem 26^3 times 10^3"
+    },
+    {
+      "id": "division-rule",
+      "title": "State the **division rule** of counting.",
+      "body": "If a count overcounts so that each distinct outcome is counted exactly $d$ times, the number of distinct outcomes is $n/d$.\n\nExample: seating $4$ people around a round table counts each arrangement $4$ times (once per rotation), giving $4!/4 = 6$.\nKey idea: it is the reason for dividing by factorials in combinations.",
+      "searchQuery": "division rule counting overcount each outcome d times"
+    },
+    {
+      "id": "binary-strings-length-8",
+      "title": "How many binary strings of length $8$ are there?",
+      "body": "256\n\nEach of the $8$ positions is $0$ or $1$ independently: $2^8 = 256$.\n\nExample: length $3$ gives $2^3 = 8$ strings, from $000$ to $111$.",
+      "answer": "256",
+      "acceptedAnswers": [
+        "2^8"
+      ],
+      "searchQuery": "number of binary strings of length n 2^n"
+    },
+    {
+      "id": "binary-strings-start-end",
+      "title": "How many binary strings of length $8$ start with $1$ and end with $0$?",
+      "body": "64\n\nThe first and last bits are fixed, leaving $6$ free positions: $2^6 = 64$.\n\nTip: fix the constrained positions first, then count the free ones.",
+      "answer": "64",
+      "acceptedAnswers": [
+        "2^6"
+      ],
+      "searchQuery": "binary strings fixed first and last bit count free positions"
+    },
+    {
+      "id": "permutation-formula",
+      "title": "Write the formula for $P(n, r)$, the number of $r$-permutations of $n$ distinct objects.",
+      "body": "$P(n, r) = \\dfrac{n!}{(n - r)!} = n(n-1)\\cdots(n-r+1)$\n\nIt counts **ordered** selections of $r$ distinct items from $n$, without repetition.\n\nExample: $P(5, 2) = 5 \\cdot 4 = 20$.",
+      "searchQuery": "permutation formula n factorial over n minus r factorial"
+    },
+    {
+      "id": "permutation-compute",
+      "title": "How many ways can a president, vice president and treasurer be chosen from $10$ people (no one holds two offices)?",
+      "body": "720\n\n$P(10, 3) = 10 \\cdot 9 \\cdot 8 = 720$.\n\nWhy: the offices are distinct, so order matters.",
+      "answer": "720",
+      "searchQuery": "permutations choose president vice president treasurer 10 people"
+    },
+    {
+      "id": "combination-formula",
+      "title": "Write the formula for $\\binom{n}{k}$, the number of $k$-element subsets of an $n$-element set.",
+      "body": "$\\binom{n}{k} = \\dfrac{n!}{k!\\,(n-k)!}$\n\nIt counts **unordered** selections: $P(n, k)/k!$.\n\nExample: $\\binom{5}{2} = \\dfrac{5 \\cdot 4}{2} = 10$.",
+      "searchQuery": "combination formula n choose k"
+    },
+    {
+      "id": "combination-compute",
+      "title": "How many $3$-person committees can be formed from $8$ people?",
+      "body": "56\n\n$\\binom{8}{3} = \\dfrac{8 \\cdot 7 \\cdot 6}{3 \\cdot 2 \\cdot 1} = 56$.\n\nTip: cancel before multiplying; use $\\binom{n}{k} = \\binom{n}{n-k}$ to keep numbers small.",
+      "answer": "56",
+      "searchQuery": "combinations 8 choose 3 committee"
+    },
+    {
+      "id": "banana-arrangements",
+      "title": "How many distinct arrangements of the letters of BANANA are there?",
+      "body": "60\n\n$\\dfrac{6!}{3!\\,2!\\,1!} = \\dfrac{720}{12} = 60$.\n\nWhy: BANANA has $3$ A's, $2$ N's and $1$ B; swapping equal letters does not change the word, so divide out those orderings.\nKey idea: with repeated objects, divide $n!$ by the factorial of each multiplicity.",
+      "answer": "60",
+      "searchQuery": "arrangements of letters BANANA permutations with repeated letters"
+    },
+    {
+      "id": "committee-men-women",
+      "title": "From $5$ men and $4$ women, how many committees of $2$ men and $1$ woman can be formed?",
+      "body": "40\n\n$\\binom{5}{2} \\cdot \\binom{4}{1} = 10 \\cdot 4 = 40$.\n\nTip: pick each group separately, then multiply by the product rule.",
+      "answer": "40",
+      "searchQuery": "committee selection men and women combinations product rule"
+    },
+    {
+      "id": "binomial-symmetry",
+      "title": "What is the symmetry identity for binomial coefficients?",
+      "body": "$\\binom{n}{k} = \\binom{n}{n-k}$\n\nChoosing the $k$ items to include is the same as choosing the $n - k$ to leave out.\n\nExample: $\\binom{10}{8} = \\binom{10}{2} = 45$.",
+      "searchQuery": "binomial coefficient symmetry n choose k equals n choose n-k"
+    },
+    {
+      "id": "circular-arrangements",
+      "title": "In how many ways can $6$ people sit around a round table if rotations of the same seating count as identical?",
+      "body": "120\n\n$(6 - 1)! = 5! = 120$.\n\nWhy: the $6$ rotations of any seating are the same arrangement, so $6!/6 = 120$.\nWatch out: reflections count as different unless the problem says otherwise.",
+      "answer": "120",
+      "acceptedAnswers": [
+        "5!"
+      ],
+      "searchQuery": "circular permutations 6 people round table (n-1)!"
+    },
+    {
+      "id": "permutation-vs-combination",
+      "title": "How do you decide between a permutation and a combination in a counting problem?",
+      "body": "Ask whether **order matters**: if rearranging the chosen items gives a different outcome, use permutations; if not, use combinations.\n\nExample: awarding gold, silver and bronze is a permutation; picking $3$ finalists is a combination.\nKey idea: $\\binom{n}{k} = P(n, k)/k!$.",
+      "searchQuery": "permutation versus combination order matters"
+    },
+    {
+      "id": "full-house-count",
+      "title": "How many $5$-card poker hands are a full house (three cards of one rank and two of another)?",
+      "body": "$3744$\n\nPick the rank and suits of the triple, then a different rank and suits for the pair: $13\\binom{4}{3} \\cdot 12\\binom{4}{2} = 13 \\cdot 4 \\cdot 12 \\cdot 6 = 3744$.\n\nWatch out: the two ranks play different roles (kings over twos is not twos over kings), so choose them in order: $13 \\cdot 12$, not $\\binom{13}{2}$.\nTip: build the hand step by step and multiply (the product rule).",
+      "answer": "3744",
+      "searchQuery": "number of full house poker hands combinatorics 3744"
+    },
+    {
+      "id": "combinations-with-repetition",
+      "title": "How many ways are there to choose $r$ items from $n$ types, with repetition allowed and order ignored?",
+      "body": "$\\binom{n + r - 1}{r}$\n\nThis is the **stars and bars** count: $r$ stars separated by $n - 1$ bars.\n\nExample: $4$ scoops from $3$ flavors: $\\binom{6}{4} = 15$.",
+      "searchQuery": "combinations with repetition stars and bars formula"
+    },
+    {
+      "id": "nonnegative-solutions",
+      "title": "How many solutions in **nonnegative** integers does $x + y + z = 10$ have?",
+      "body": "66\n\nStars and bars with $10$ stars and $2$ bars: $\\binom{10 + 3 - 1}{2} = \\binom{12}{2} = 66$.\n\nKey idea: $x_1 + \\cdots + x_k = n$ has $\\binom{n + k - 1}{k - 1}$ nonnegative solutions.",
+      "answer": "66",
+      "searchQuery": "nonnegative integer solutions x+y+z=10 stars and bars"
+    },
+    {
+      "id": "positive-solutions",
+      "title": "How many solutions in **positive** integers does $x + y + z = 10$ have?",
+      "body": "36\n\nSet $x' = x - 1$, etc. Then $x' + y' + z' = 7$ in nonnegative integers: $\\binom{9}{2} = 36$.\n\nTip: subtract the required minimum from each variable first, then apply stars and bars.",
+      "answer": "36",
+      "searchQuery": "positive integer solutions x+y+z=10 stars and bars"
+    },
+    {
+      "id": "adjacent-arrangement",
+      "title": "In how many ways can $8$ people stand in a line if two particular people must stand next to each other?",
+      "body": "10080\n\nGlue the pair into one block: $7$ objects give $7!$ orders, and the pair can be ordered $2$ ways. So $2 \\cdot 7! = 10080$.\n\nTip: for \"must be adjacent\", treat the group as a single item.",
+      "answer": "10080",
+      "acceptedAnswers": [
+        "2*7!"
+      ],
+      "searchQuery": "arrangements two people must be adjacent glue block counting"
+    },
+    {
+      "id": "binomial-theorem",
+      "title": "State the **binomial theorem** for $(x + y)^n$.",
+      "body": "$(x + y)^n = \\displaystyle\\sum_{k=0}^{n} \\binom{n}{k} x^{n-k} y^k$\n\nThe coefficient of $x^{n-k} y^k$ is the number of ways to pick $y$ from exactly $k$ of the $n$ factors.\n\nExample: $(x + y)^3 = x^3 + 3x^2y + 3xy^2 + y^3$.",
+      "searchQuery": "binomial theorem expansion (x+y)^n formula"
+    },
+    {
+      "id": "binomial-coefficient-extract",
+      "title": "What is the coefficient of $x^3 y^2$ in the expansion of $(x + y)^5$?",
+      "body": "10\n\nIt is $\\binom{5}{2} = \\binom{5}{3} = 10$.\n\nTip: the exponents on $x$ and $y$ must add up to $n = 5$.",
+      "answer": "10",
+      "searchQuery": "coefficient of x^3 y^2 in (x+y)^5 binomial theorem"
+    },
+    {
+      "id": "binomial-coefficient-scaled",
+      "title": "What is the coefficient of $x^2$ in the expansion of $(1 + 2x)^4$?",
+      "body": "24\n\nThe $x^2$ term is $\\binom{4}{2} \\cdot 1^2 \\cdot (2x)^2 = 6 \\cdot 4x^2 = 24x^2$.\n\nWatch out: the constant $2$ is raised to the same power as $x$, so it contributes $2^2 = 4$.",
+      "answer": "24",
+      "searchQuery": "coefficient in (1+2x)^4 binomial expansion"
+    },
+    {
+      "id": "binomial-row-sum",
+      "title": "What is $\\displaystyle\\sum_{k=0}^{7} \\binom{7}{k}$?",
+      "body": "128\n\nSet $x = y = 1$ in the binomial theorem: $\\sum_k \\binom{n}{k} = 2^n$, so the sum is $2^7 = 128$.\n\nKey idea: each row of Pascal's triangle sums to a power of $2$, the number of subsets of an $n$-set.",
+      "answer": "128",
+      "acceptedAnswers": [
+        "2^7"
+      ],
+      "searchQuery": "sum of binomial coefficients row of Pascal's triangle 2^n"
+    },
+    {
+      "id": "pascal-identity",
+      "title": "State **Pascal's identity** for $\\binom{n}{k}$.",
+      "body": "$\\binom{n}{k} = \\binom{n-1}{k-1} + \\binom{n-1}{k}$\n\nWhy: fix one element. Subsets of size $k$ either contain it (choose $k-1$ others) or don't (choose $k$ from the rest).\n\nKey idea: it builds Pascal's triangle, where each entry is the sum of the two above it.",
+      "searchQuery": "Pascal's identity binomial coefficients proof"
+    },
+    {
+      "id": "alternating-binomial-sum",
+      "title": "What is $\\displaystyle\\sum_{k=0}^{n} (-1)^k \\binom{n}{k}$ for $n \\ge 1$?",
+      "body": "0\n\nSet $x = 1$, $y = -1$ in the binomial theorem: $(1 - 1)^n = 0$.\n\nKey idea: a nonempty set has as many even-size subsets as odd-size subsets.",
+      "searchQuery": "alternating sum of binomial coefficients equals zero"
+    },
+    {
+      "id": "hockey-stick-compute",
+      "title": "Evaluate $\\binom{3}{3} + \\binom{4}{3} + \\binom{5}{3} + \\binom{6}{3}$.",
+      "body": "35\n\nHockey-stick identity: $\\sum_{i=k}^{n} \\binom{i}{k} = \\binom{n+1}{k+1}$, so the sum is $\\binom{7}{4} = 35$.\n\nCheck: $1 + 4 + 10 + 20 = 35$.",
+      "answer": "35",
+      "acceptedAnswers": [
+        "C(7,4)"
+      ],
+      "searchQuery": "hockey stick identity binomial coefficients sum"
+    },
+    {
+      "id": "pigeonhole-basic",
+      "title": "State the **pigeonhole principle**.",
+      "body": "If $n + 1$ or more objects are placed into $n$ boxes, some box contains at least two objects.\n\nExample: among any $13$ people, two share a birth month.\nWatch out: it guarantees a shared box exists but not which one.",
+      "searchQuery": "pigeonhole principle statement"
+    },
+    {
+      "id": "pigeonhole-generalized",
+      "title": "Among $100$ people, what is the largest number you can guarantee were born in the same month?",
+      "body": "9\n\nBy the generalized pigeonhole principle, some month holds at least $\\lceil 100/12 \\rceil = \\lceil 8.33 \\rceil = 9$ people.\n\nKey idea: $N$ objects in $k$ boxes force some box to hold at least $\\lceil N/k \\rceil$.",
+      "answer": "9",
+      "searchQuery": "generalized pigeonhole principle ceiling N over k"
+    },
+    {
+      "id": "pigeonhole-socks",
+      "title": "A drawer holds many socks in $4$ colors. What is the minimum number you must draw to be certain of two of the same color?",
+      "body": "5\n\nWith $4$ socks you could have one of each color, but a 5th sock must repeat a color.\n\nTip: worst case first: draw as many as possible with no match, then add one.",
+      "answer": "5",
+      "searchQuery": "pigeonhole principle socks minimum draws guarantee pair"
+    },
+    {
+      "id": "pigeonhole-sum-eleven",
+      "title": "What is the least number of integers you must pick from $\\{1, 2, \\dots, 10\\}$ to guarantee two of them sum to $11$?",
+      "body": "6\n\nThe numbers pair into $5$ boxes with sum $11$: $\\{1,10\\}, \\{2,9\\}, \\{3,8\\}, \\{4,7\\}, \\{5,6\\}$. Picking $6$ numbers forces two into one box.\n\nPicking $5$ (one from each pair) can avoid it, so $6$ is the least.",
+      "answer": "6",
+      "searchQuery": "pigeonhole principle pairs sum to 11 choose integers 1 to 10"
+    },
+    {
+      "id": "inclusion-exclusion-two",
+      "title": "State inclusion–exclusion for two finite sets: $|A \\cup B| = \\,?$",
+      "body": "$|A| + |B| - |A \\cap B|$\n\nElements in both sets are counted twice by $|A| + |B|$, so subtract them once.\n\nExample: if $30$ students take math, $20$ take physics and $8$ take both, then $30 + 20 - 8 = 42$ take at least one.",
+      "searchQuery": "inclusion exclusion principle two sets formula"
+    },
+    {
+      "id": "inclusion-exclusion-2-or-3",
+      "title": "How many integers from $1$ to $100$ are divisible by $2$ or by $3$?",
+      "body": "67\n\n$\\lfloor 100/2 \\rfloor + \\lfloor 100/3 \\rfloor - \\lfloor 100/6 \\rfloor = 50 + 33 - 16 = 67$.\n\nWhy: multiples of both $2$ and $3$ are multiples of $\\operatorname{lcm}(2,3) = 6$.",
+      "answer": "67",
+      "searchQuery": "integers 1 to 100 divisible by 2 or 3 inclusion exclusion"
+    },
+    {
+      "id": "inclusion-exclusion-three",
+      "title": "State inclusion–exclusion for three finite sets: $|A \\cup B \\cup C| = \\,?$",
+      "body": "$|A| + |B| + |C| - |A \\cap B| - |A \\cap C| - |B \\cap C| + |A \\cap B \\cap C|$\n\nSingles are added, pairwise overlaps subtracted, and the triple overlap added back.\n\nKey idea: signs alternate with the size of the intersection.",
+      "searchQuery": "inclusion exclusion principle three sets formula"
+    },
+    {
+      "id": "inclusion-exclusion-2-3-5",
+      "title": "How many integers from $1$ to $100$ are divisible by at least one of $2, 3, 5$?",
+      "body": "74\n\nSingles: $50 + 33 + 20 = 103$. Pairs: $16 + 10 + 6 = 32$. Triple: $\\lfloor 100/30 \\rfloor = 3$.\n\nTotal: $103 - 32 + 3 = 74$.",
+      "answer": "74",
+      "searchQuery": "integers 1 to 100 divisible by 2 3 or 5 inclusion exclusion"
+    },
+    {
+      "id": "derangement-four",
+      "title": "A **derangement** is a permutation with no fixed point. How many derangements of $4$ objects are there?",
+      "body": "9\n\n$D_4 = 4!\\left(1 - 1 + \\tfrac{1}{2!} - \\tfrac{1}{3!} + \\tfrac{1}{4!}\\right) = 24 - 24 + 12 - 4 + 1 = 9$.\n\nExample: with $4$ hats returned at random, $9$ of the $24$ ways give nobody their own hat.\nKey idea: the formula comes from inclusion–exclusion on permutations that fix a given point.",
+      "answer": "9",
+      "searchQuery": "derangements of 4 objects subfactorial inclusion exclusion"
+    },
+    {
+      "id": "equally-likely-probability",
+      "title": "For a finite sample space of equally likely outcomes, what is $P(E)$?",
+      "body": "$P(E) = \\dfrac{|E|}{|S|}$\n\nThe number of favorable outcomes divided by the total number of outcomes.\n\nExample: rolling an even number on a fair die: $\\dfrac{3}{6} = \\dfrac{1}{2}$.\nWatch out: this only works when all outcomes are equally likely.",
+      "searchQuery": "probability equally likely outcomes favorable over total"
+    },
+    {
+      "id": "probability-doubles",
+      "title": "Two fair dice are rolled. What is the probability of doubles (both dice show the same number)? (fraction in lowest terms)",
+      "body": "$\\frac{1}{6}$\n\nOf the $36$ equally likely ordered outcomes, $6$ are doubles: $(1,1), (2,2), \\dots, (6,6)$. So $P = \\frac{6}{36} = \\frac{1}{6}$.\n\nTip: whatever the first die shows, the second matches it with probability $\\frac{1}{6}$.",
+      "answer": "1/6",
+      "answerDisplay": "$\\dfrac{1}{6}$",
+      "searchQuery": "probability of rolling doubles with two dice"
+    },
+    {
+      "id": "probability-complement-coins",
+      "title": "A fair coin is flipped $3$ times. What is the probability of at least one head? (fraction)",
+      "body": "7/8\n\nUse the complement rule: $P(\\text{no heads}) = 1/8$, since only $TTT$ has none out of $8$ outcomes. So $P = 1 - 1/8 = 7/8$.\n\nTip: for \"at least one\", compute $1 - P(\\text{none})$.",
+      "answer": "7/8",
+      "acceptedAnswers": [
+        "0.875"
+      ],
+      "answerDisplay": "$\\dfrac{7}{8}$",
+      "searchQuery": "probability at least one head three coin flips complement rule"
+    },
+    {
+      "id": "expected-fixed-points",
+      "title": "A permutation of $n$ objects is chosen uniformly at random. What is the expected number of fixed points?",
+      "body": "$1$\n\nLet $X_i = 1$ if object $i$ stays in place, so $P(X_i = 1) = \\frac{1}{n}$. By **linearity of expectation**, $E[X] = \\sum_{i=1}^{n} E[X_i] = n \\cdot \\frac{1}{n} = 1$.\n\nKey idea: linearity holds even though the $X_i$ are not independent.\nExample: in the hat-check problem, however many people check hats, on average exactly one gets their own hat back.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one"
+      ],
+      "searchQuery": "expected number of fixed points random permutation linearity of expectation"
+    },
+    {
+      "id": "recurrence-definition",
+      "title": "What two ingredients determine a sequence defined by a **recurrence relation**?",
+      "body": "A rule expressing $a_n$ in terms of earlier terms, plus **initial conditions** giving the first terms.\n\nExample: $a_n = a_{n-1} + 2$ with $a_0 = 1$ gives $1, 3, 5, 7, \\dots$.\nWatch out: without initial conditions, a recurrence has infinitely many solutions.",
+      "searchQuery": "recurrence relation initial conditions definition"
+    },
+    {
+      "id": "fibonacci-tenth",
+      "title": "With $F_1 = F_2 = 1$ and $F_n = F_{n-1} + F_{n-2}$, what is $F_{10}$?",
+      "body": "55\n\nThe sequence is $1, 1, 2, 3, 5, 8, 13, 21, 34, 55$.\n\nWatch out: check the indexing convention; with $F_0 = 0$, $F_1 = 1$ the values are the same, $F_{10} = 55$.",
+      "answer": "55",
+      "searchQuery": "Fibonacci sequence 10th term 55"
+    },
+    {
+      "id": "hanoi-moves",
+      "title": "What is the minimum number of moves to solve the Tower of Hanoi with $6$ disks?",
+      "body": "63\n\n$H_n = 2H_{n-1} + 1$ with $H_1 = 1$, which solves to $H_n = 2^n - 1$. So $H_6 = 2^6 - 1 = 63$.\n\nWhy: move $n - 1$ disks aside, move the largest disk, then move the $n - 1$ disks back on top.",
+      "answer": "63",
+      "acceptedAnswers": [
+        "2^6-1"
+      ],
+      "searchQuery": "Tower of Hanoi minimum moves 2^n - 1 recurrence"
+    },
+    {
+      "id": "characteristic-equation",
+      "title": "What is the characteristic equation of $a_n = c_1 a_{n-1} + c_2 a_{n-2}$?",
+      "body": "$r^2 - c_1 r - c_2 = 0$\n\nIt comes from trying $a_n = r^n$ and dividing by $r^{n-2}$.\n\nExample: $a_n = a_{n-1} + 6a_{n-2}$ gives $r^2 - r - 6 = 0$.\nKey idea: the roots determine the form of the general solution.",
+      "searchQuery": "characteristic equation linear homogeneous recurrence second order"
+    },
+    {
+      "id": "recurrence-distinct-roots",
+      "title": "If the characteristic equation of a second-order linear homogeneous recurrence has distinct roots $r_1, r_2$, what is the general solution?",
+      "body": "$a_n = \\alpha r_1^n + \\beta r_2^n$\n\nThe constants $\\alpha, \\beta$ are fixed by the two initial conditions.\n\nExample: for $r_1 = 3$, $r_2 = -2$: $a_n = \\alpha 3^n + \\beta(-2)^n$.",
+      "searchQuery": "linear recurrence distinct roots general solution alpha r1^n"
+    },
+    {
+      "id": "recurrence-repeated-root",
+      "title": "If the characteristic equation has a **repeated** root $r$, what is the general solution?",
+      "body": "$a_n = (\\alpha + \\beta n)\\, r^n$\n\nThe extra factor $n$ supplies the second independent solution.\n\nExample: $a_n = 4a_{n-1} - 4a_{n-2}$ has $r^2 - 4r + 4 = (r-2)^2$, so $a_n = (\\alpha + \\beta n)2^n$.\nWatch out: writing $\\alpha r^n + \\beta r^n$ gives only one free constant.",
+      "searchQuery": "recurrence repeated root general solution alpha plus beta n"
+    },
+    {
+      "id": "first-order-recurrence-value",
+      "title": "If $a_n = 3a_{n-1}$ and $a_0 = 2$, what is $a_4$?",
+      "body": "162\n\nThe sequence is $2, 6, 18, 54, 162$, so $a_n = 2 \\cdot 3^n$ and $a_4 = 2 \\cdot 81 = 162$.\n\nTip: for $a_n = c\\,a_{n-1}$, the closed form is $a_n = a_0 c^n$.",
+      "answer": "162",
+      "searchQuery": "first order recurrence a_n = 3 a_(n-1) closed form"
+    },
+    {
+      "id": "recurrence-solve-roots",
+      "title": "Solve $a_n = a_{n-1} + 6a_{n-2}$: what are the roots of its characteristic equation?",
+      "body": "$r = 3$ and $r = -2$\n\n$r^2 - r - 6 = (r - 3)(r + 2) = 0$, so $a_n = \\alpha 3^n + \\beta(-2)^n$.\n\nExample: with $a_0 = 1$, $a_1 = 4$, solving $\\alpha + \\beta = 1$ and $3\\alpha - 2\\beta = 4$ gives $\\alpha = 1.2$, $\\beta = -0.2$.",
+      "searchQuery": "solve a_n = a_(n-1) + 6 a_(n-2) characteristic roots 3 and -2"
+    },
+    {
+      "id": "inhomogeneous-recurrence-value",
+      "title": "If $a_0 = 1$ and $a_n = 2a_{n-1} + 3$, what is $a_3$?",
+      "body": "29\n\n$a_1 = 2 \\cdot 1 + 3 = 5$, $a_2 = 2 \\cdot 5 + 3 = 13$, $a_3 = 2 \\cdot 13 + 3 = 29$.\n\nTip: for small $n$, just iterate the recurrence rather than solving it.",
+      "answer": "29",
+      "searchQuery": "iterate recurrence a_n = 2a_(n-1) + 3 compute terms"
+    },
+    {
+      "id": "no-consecutive-zeros",
+      "title": "How many binary strings of length $5$ have no two consecutive $0$s?",
+      "body": "13\n\nLet $a_n$ be the count. A valid string ends in $1$ (any valid string of length $n-1$ before it) or ends in $10$ (any valid string of length $n-2$ before it). So $a_n = a_{n-1} + a_{n-2}$ with $a_1 = 2$, $a_2 = 3$.\n\nThe values are $2, 3, 5, 8, 13$.",
+      "answer": "13",
+      "searchQuery": "binary strings no two consecutive zeros Fibonacci recurrence"
+    },
+    {
+      "id": "simple-graph-definition",
+      "title": "What is a **simple graph** $G = (V, E)$?",
+      "body": "A set $V$ of vertices and a set $E$ of edges, each edge an unordered pair of **distinct** vertices.\n\nSo there are no loops and no parallel edges.\n\nKey idea: a multigraph allows parallel edges; a pseudograph also allows loops.",
+      "searchQuery": "simple graph definition vertices edges no loops no multiple edges"
+    },
+    {
+      "id": "handshaking-lemma",
+      "title": "State the **handshaking lemma** for an undirected graph with edge set $E$.",
+      "body": "$\\displaystyle\\sum_{v \\in V} \\deg(v) = 2|E|$\n\nEvery edge contributes $1$ to the degree of each of its two endpoints.\n\nExample: a triangle has degrees $2, 2, 2$ with sum $6 = 2 \\cdot 3$.",
+      "searchQuery": "handshaking lemma sum of degrees equals twice number of edges"
+    },
+    {
+      "id": "handshaking-seven-edges",
+      "title": "A graph has $7$ edges. What is the sum of the degrees of all its vertices?",
+      "body": "14\n\nBy the handshaking lemma, the sum of degrees is $2 \\cdot 7 = 14$.\n\nTip: a degree-sum question is almost always a handshaking question.",
+      "answer": "14",
+      "searchQuery": "sum of degrees graph with 7 edges handshaking"
+    },
+    {
+      "id": "complete-graph-edges",
+      "title": "How many edges does the complete graph $K_8$ have?",
+      "body": "28\n\n$|E(K_n)| = \\binom{n}{2}$, so $\\binom{8}{2} = 28$.\n\nWhy: every pair of the $8$ vertices is joined by exactly one edge.\nCheck: each vertex has degree $7$, and $8 \\cdot 7 / 2 = 28$.",
+      "answer": "28",
+      "searchQuery": "complete graph K8 number of edges n choose 2"
+    },
+    {
+      "id": "odd-degree-vertices-even",
+      "title": "How many vertices of odd degree can an undirected graph have?",
+      "body": "An **even** number (possibly zero).\n\nThe degree sum is $2|E|$, which is even; even-degree vertices contribute an even amount, so the odd-degree vertices must pair up.\n\nExample: a graph cannot have exactly $3$ vertices of odd degree.",
+      "searchQuery": "number of vertices of odd degree is even handshaking corollary"
+    },
+    {
+      "id": "regular-graph-edges",
+      "title": "A $3$-regular graph (every vertex has degree $3$) has $10$ vertices. How many edges does it have?",
+      "body": "15\n\nThe degree sum is $10 \\cdot 3 = 30$, so $|E| = 30/2 = 15$.\n\nWatch out: no $3$-regular graph has an odd number of vertices, since $3n$ would be odd.",
+      "answer": "15",
+      "searchQuery": "3-regular graph 10 vertices number of edges handshaking"
+    },
+    {
+      "id": "bipartite-definition",
+      "title": "What is a **bipartite graph**, and how can you recognize one by its cycles?",
+      "body": "A graph whose vertices split into two sets so that every edge joins the two sets.\n\nA graph is bipartite exactly when it has **no odd cycle**.\n\nExample: even cycles and trees are bipartite; the triangle $K_3$ is not.",
+      "searchQuery": "bipartite graph definition no odd cycles"
+    },
+    {
+      "id": "complete-bipartite-edges",
+      "title": "How many edges does the complete bipartite graph $K_{3,4}$ have?",
+      "body": "12\n\nEvery one of the $3$ vertices on one side joins every one of the $4$ on the other: $3 \\cdot 4 = 12$.\n\nKey idea: $|E(K_{m,n})| = mn$.",
+      "answer": "12",
+      "acceptedAnswers": [
+        "3*4"
+      ],
+      "searchQuery": "complete bipartite graph K3,4 number of edges"
+    },
+    {
+      "id": "walk-trail-path-cycle",
+      "title": "How do a **walk**, a **trail**, a **path** and a **cycle** differ?",
+      "body": "Walk: any vertex-edge sequence. Trail: no repeated edge. Path: no repeated vertex. Cycle: a closed path of length at least $3$ (in a simple graph) that repeats no vertex except the start/end.\n\nKey idea: every path is a trail, and every trail is a walk.",
+      "searchQuery": "walk trail path cycle circuit difference graph theory"
+    },
+    {
+      "id": "directed-degree-sum",
+      "title": "In a directed graph, how does the sum of in-degrees compare with the sum of out-degrees?",
+      "body": "They are equal, and both equal $|E|$.\n\nEach directed edge contributes exactly $1$ to the out-degree of its tail and $1$ to the in-degree of its head.\n\nWatch out: this is the directed analogue of handshaking, which has a factor of $2$ only for undirected graphs.",
+      "searchQuery": "directed graph sum of in-degrees equals sum of out-degrees number of edges"
+    },
+    {
+      "id": "connected-graph-def",
+      "title": "When is an undirected graph **connected**?",
+      "body": "When there is a path between every pair of vertices.\n\nOtherwise it splits into **connected components**, the maximal connected pieces.\n\nExample: a graph with two separate triangles has $2$ components.",
+      "searchQuery": "connected graph definition connected components"
+    },
+    {
+      "id": "subgraph-vs-induced",
+      "title": "What is the difference between a subgraph and an **induced subgraph** of $G$?",
+      "body": "A subgraph uses some of the vertices and some of the edges among them. An induced subgraph on a vertex set $S$ keeps **all** edges of $G$ between vertices of $S$.\n\nExample: deleting one edge of a triangle gives a subgraph that is not induced.",
+      "searchQuery": "subgraph versus induced subgraph graph theory"
+    },
+    {
+      "id": "graph-isomorphism-invariants",
+      "title": "Two graphs have the same number of vertices, edges and degree sequence. Must they be isomorphic?",
+      "body": "No.\n\nThese invariants are **necessary** for isomorphism but not sufficient. To show non-isomorphism, find an invariant that differs; to show isomorphism, exhibit a bijection preserving adjacency.\n\nExample: a $6$-cycle and two disjoint triangles are both $2$-regular on $6$ vertices, but one is connected and the other is not.",
+      "searchQuery": "graph isomorphism invariants degree sequence not sufficient"
+    },
+    {
+      "id": "adjacency-square-diagonal",
+      "title": "For a simple graph with adjacency matrix $A$, what does the diagonal entry $(A^2)_{ii}$ equal?",
+      "body": "The degree of vertex $i$\n\n$(A^2)_{ii}$ counts walks of length $2$ that start and end at $i$. Each one goes out along an edge and straight back, so there is exactly one per neighbor.\n\nExample: in a triangle $K_3$, every diagonal entry of $A^2$ is $2$.\nKey idea: in general, $(A^k)_{ij}$ counts the walks of length $k$ from $i$ to $j$.",
+      "answer": "degree of vertex i",
+      "acceptedAnswers": [
+        "degree",
+        "deg(i)",
+        "degree of i",
+        "deg(v_i)"
+      ],
+      "answerDisplay": "$\\deg(v_i)$, the degree of vertex $i$",
+      "searchQuery": "adjacency matrix squared diagonal entry equals vertex degree"
+    },
+    {
+      "id": "min-edges-connected",
+      "title": "What is the minimum number of edges in a connected graph with $10$ vertices?",
+      "body": "9\n\nA connected graph on $n$ vertices needs at least $n - 1$ edges, and a tree attains that bound.\n\nKey idea: fewer than $n - 1$ edges leaves the graph disconnected.",
+      "answer": "9",
+      "searchQuery": "minimum edges connected graph n minus 1"
+    },
+    {
+      "id": "complement-edge-count",
+      "title": "A graph with $6$ vertices has $5$ edges. How many edges does its complement have?",
+      "body": "10\n\n$G$ and its complement together contain every pair: $\\binom{6}{2} = 15$. So the complement has $15 - 5 = 10$ edges.\n\nKey idea: $|E(G)| + |E(\\overline{G})| = \\binom{n}{2}$.",
+      "answer": "10",
+      "searchQuery": "graph complement number of edges n choose 2 minus edges"
+    },
+    {
+      "id": "tree-definition",
+      "title": "What is a **tree** in graph theory?",
+      "body": "A connected graph with no cycles.\n\nExample: a path on $n$ vertices and a star $K_{1,n-1}$ are trees.\n\nKey idea: removing any edge of a tree disconnects it, and adding any edge creates a cycle.",
+      "searchQuery": "tree graph theory definition connected acyclic"
+    },
+    {
+      "id": "tree-edge-count",
+      "title": "How many edges does a tree with $12$ vertices have?",
+      "body": "11\n\nA tree with $n$ vertices has exactly $n - 1$ edges.\n\nWhy: start with $n$ isolated vertices; each added edge must join two components (no cycles), and it takes $n - 1$ joins to get one component.",
+      "answer": "11",
+      "searchQuery": "tree with n vertices has n minus 1 edges"
+    },
+    {
+      "id": "tree-equivalent-conditions",
+      "title": "For a graph $G$ with $n$ vertices, name two conditions equivalent to $G$ being a tree.",
+      "body": "For example: $G$ is connected with $n - 1$ edges, or there is a **unique path** between every pair of vertices.\n\nAlso equivalent: $G$ is acyclic with $n - 1$ edges.\n\nWatch out: having $n - 1$ edges alone is not enough; the graph must also be connected (or acyclic).",
+      "searchQuery": "tree equivalent characterizations unique path n-1 edges"
+    },
+    {
+      "id": "tree-leaves-minimum",
+      "title": "How many leaves (degree-$1$ vertices) must a tree with at least $2$ vertices have?",
+      "body": "At least $2$.\n\nThe endpoints of a longest path cannot have any other neighbor, or the path could be extended or a cycle would appear.\n\nExample: a path has exactly $2$ leaves; a star on $n$ vertices has $n - 1$.",
+      "searchQuery": "every tree has at least two leaves proof"
+    },
+    {
+      "id": "tree-count-leaves",
+      "title": "A tree has $2$ vertices of degree $3$ and all other vertices are leaves. How many leaves does it have?",
+      "body": "4\n\nLet there be $L$ leaves, so $n = L + 2$ and $|E| = L + 1$. The degree sum is $2 \\cdot 3 + L = 2(L + 1)$, giving $L = 4$.\n\nCheck: the tree has $6$ vertices and $5$ edges, and degrees $3+3+4\\cdot 1 = 10 = 2 \\cdot 5$.",
+      "answer": "4",
+      "searchQuery": "tree degree sequence number of leaves handshaking n-1 edges"
+    },
+    {
+      "id": "spanning-tree-definition",
+      "title": "What is a **spanning tree** of a connected graph $G$?",
+      "body": "A subgraph that is a tree and contains every vertex of $G$.\n\nIt has exactly $|V| - 1$ edges.\n\nKey idea: a graph has a spanning tree if and only if it is connected.",
+      "searchQuery": "spanning tree definition connected graph subgraph"
+    },
+    {
+      "id": "cayley-formula",
+      "title": "By Cayley's formula, how many labeled trees are there on $5$ vertices?",
+      "body": "125\n\nThere are $n^{n-2}$ labeled trees on $n$ vertices, and $5^3 = 125$.\n\nExample: $n = 3$ gives $3^1 = 3$ trees, namely the three paths that choose which vertex is in the middle.",
+      "answer": "125",
+      "acceptedAnswers": [
+        "5^3"
+      ],
+      "searchQuery": "Cayley's formula labeled trees n^(n-2)"
+    },
+    {
+      "id": "full-mary-tree-vertices",
+      "title": "A full $3$-ary tree has $4$ internal vertices. How many vertices does it have in total?",
+      "body": "13\n\nA full $m$-ary tree with $i$ internal vertices has $n = mi + 1$ vertices: $3 \\cdot 4 + 1 = 13$.\n\nWhy: every vertex except the root is a child of an internal vertex, giving $mi$ non-root vertices.",
+      "answer": "13",
+      "searchQuery": "full m-ary tree internal vertices total vertices n = mi + 1"
+    },
+    {
+      "id": "full-binary-tree-leaves",
+      "title": "A full binary tree has $10$ internal vertices. How many leaves does it have?",
+      "body": "11\n\nFor a full $m$-ary tree with $i$ internal vertices, the number of leaves is $(m - 1)i + 1$. With $m = 2$: $10 + 1 = 11$.\n\nKey idea: a full binary tree always has exactly one more leaf than internal vertices.",
+      "answer": "11",
+      "searchQuery": "full binary tree leaves equals internal vertices plus one"
+    },
+    {
+      "id": "kruskal-algorithm",
+      "title": "How does **Kruskal's algorithm** build a minimum spanning tree?",
+      "body": "Sort the edges by weight, then add each edge in order unless it would form a cycle.\n\nStop when $|V| - 1$ edges have been chosen.\n\nExample: in a triangle with weights $1, 2, 3$, it picks the edges of weight $1$ and $2$ and rejects $3$.\nTip: a cycle check is a union-find test on components.",
+      "searchQuery": "Kruskal's algorithm minimum spanning tree steps"
+    },
+    {
+      "id": "prim-algorithm",
+      "title": "How does **Prim's algorithm** build a minimum spanning tree?",
+      "body": "Start from any vertex and repeatedly add the cheapest edge joining the current tree to a vertex outside it.\n\nStop when all vertices are included.\n\nKey idea: Prim grows one tree; Kruskal merges a forest of trees.",
+      "searchQuery": "Prim's algorithm minimum spanning tree steps"
+    },
+    {
+      "id": "bfs-vs-dfs",
+      "title": "What data structure drives breadth-first search, and what does BFS find in an unweighted graph?",
+      "body": "A **queue**; BFS finds shortest paths (fewest edges) from the start vertex.\n\nDepth-first search uses a stack (or recursion) and explores one branch as far as possible before backtracking.\n\nKey idea: BFS explores level by level.",
+      "searchQuery": "breadth first search queue shortest path unweighted graph"
+    },
+    {
+      "id": "binary-tree-max-vertices",
+      "title": "What is the maximum number of vertices in a binary tree of height $4$ (height = edges on the longest root-to-leaf path)?",
+      "body": "31\n\nLevel $i$ has at most $2^i$ vertices, so the total is $1 + 2 + 4 + 8 + 16 = 2^5 - 1 = 31$.\n\nKey idea: height $h$ allows at most $2^{h+1} - 1$ vertices.",
+      "answer": "31",
+      "acceptedAnswers": [
+        "2^5-1"
+      ],
+      "searchQuery": "maximum vertices binary tree of height h 2^(h+1)-1"
+    },
+    {
+      "id": "dijkstra-algorithm",
+      "title": "What does **Dijkstra's algorithm** compute, and what restriction does it have on edge weights?",
+      "body": "Shortest paths from one source vertex to all others; edge weights must be **nonnegative**.\n\nIt repeatedly finalizes the unvisited vertex with the smallest tentative distance and relaxes its outgoing edges.\n\nWatch out: with negative edge weights it can give wrong answers.",
+      "searchQuery": "Dijkstra's algorithm shortest path nonnegative weights"
+    },
+    {
+      "id": "euler-circuit-criterion",
+      "title": "When does a connected graph have an **Euler circuit**?",
+      "body": "Exactly when **every vertex has even degree**.\n\nAn Euler circuit is a closed trail that uses every edge exactly once.\n\nWhy: each time the circuit enters a vertex it must leave by a different, unused edge, so edges at each vertex pair up.",
+      "searchQuery": "Euler circuit condition all vertices even degree"
+    },
+    {
+      "id": "euler-trail-criterion",
+      "title": "When does a connected graph have an Euler trail that is **not** closed?",
+      "body": "Exactly when it has **exactly two** vertices of odd degree.\n\nThe trail must start at one odd vertex and end at the other.\n\nExample: a path graph on $3$ vertices has two odd vertices (the ends) and a trail through both edges.",
+      "searchQuery": "Euler path exactly two odd degree vertices"
+    },
+    {
+      "id": "complete-graph-euler",
+      "title": "For which $n \\ge 3$ does the complete graph $K_n$ have an Euler circuit (answer: odd or even $n$)?",
+      "body": "odd\n\nIn $K_n$ every vertex has degree $n - 1$, which is even exactly when $n$ is odd.\n\nExample: $K_5$ has an Euler circuit; $K_4$ (all degrees $3$) does not.",
+      "answer": "odd",
+      "acceptedAnswers": [
+        "n odd",
+        "odd n"
+      ],
+      "searchQuery": "complete graph K_n Euler circuit n odd"
+    },
+    {
+      "id": "konigsberg-bridges",
+      "title": "Why is there no walk crossing each of the seven Konigsberg bridges exactly once?",
+      "body": "All four land masses have **odd** degree ($3, 3, 3, 5$), but an Euler trail allows at most two odd vertices.\n\nEuler's analysis of this problem (1736) founded graph theory.",
+      "searchQuery": "Konigsberg bridges problem Euler odd degree vertices"
+    },
+    {
+      "id": "hamilton-cycle-definition",
+      "title": "What is a **Hamilton cycle**, and how does it differ from an Euler circuit?",
+      "body": "A cycle that visits every **vertex** exactly once; an Euler circuit uses every **edge** exactly once.\n\nWatch out: Euler circuits have a simple degree test, but no simple necessary-and-sufficient test is known for Hamilton cycles.",
+      "searchQuery": "Hamilton cycle definition versus Euler circuit"
+    },
+    {
+      "id": "dirac-theorem",
+      "title": "State **Dirac's theorem** on Hamilton cycles.",
+      "body": "If a simple graph has $n \\ge 3$ vertices and every vertex has degree at least $n/2$, then it has a Hamilton cycle.\n\nWatch out: the condition is sufficient, not necessary; a cycle $C_n$ is Hamiltonian with all degrees $2$.",
+      "searchQuery": "Dirac's theorem Hamilton cycle degree at least n/2"
+    },
+    {
+      "id": "ore-theorem",
+      "title": "State **Ore's theorem** on Hamilton cycles.",
+      "body": "If a simple graph has $n \\ge 3$ vertices and $\\deg(u) + \\deg(v) \\ge n$ for every pair of nonadjacent vertices $u, v$, then it has a Hamilton cycle.\n\nKey idea: it generalizes Dirac's theorem, which gives $\\deg(u) + \\deg(v) \\ge n$ automatically.",
+      "searchQuery": "Ore's theorem Hamilton cycle degree sum nonadjacent vertices"
+    },
+    {
+      "id": "hamilton-cycles-complete-graph",
+      "title": "How many distinct Hamilton cycles does $K_6$ have (a cycle and its reverse count as the same)?",
+      "body": "60\n\nFix a starting vertex: there are $5!$ orders of the others. Each cycle is counted twice, once per direction, so $5!/2 = 60$.\n\nKey idea: $K_n$ has $(n-1)!/2$ Hamilton cycles for $n \\ge 3$.",
+      "answer": "60",
+      "acceptedAnswers": [
+        "5!/2"
+      ],
+      "searchQuery": "number of Hamilton cycles in complete graph (n-1)!/2"
+    },
+    {
+      "id": "chromatic-number-definition",
+      "title": "What is the **chromatic number** $\\chi(G)$ of a graph?",
+      "body": "The least number of colors needed to color the vertices so that no two adjacent vertices share a color.\n\nSuch an assignment is a **proper coloring**.\n\nExample: a triangle needs $3$ colors, so $\\chi(K_3) = 3$.",
+      "searchQuery": "chromatic number definition proper vertex coloring"
+    },
+    {
+      "id": "chromatic-complete-graph",
+      "title": "What is $\\chi(K_5)$?",
+      "body": "5\n\nEvery pair of vertices in $K_n$ is adjacent, so all $n$ vertices need different colors: $\\chi(K_n) = n$.\n\nKey idea: a graph containing $K_r$ as a subgraph has $\\chi \\ge r$.",
+      "answer": "5",
+      "searchQuery": "chromatic number of complete graph K5"
+    },
+    {
+      "id": "chromatic-bipartite",
+      "title": "What is the chromatic number of a bipartite graph that has at least one edge?",
+      "body": "2\n\nColor one side with one color and the other side with a second color; the edge forces at least $2$.\n\nKey idea: $\\chi(G) \\le 2$ exactly when $G$ is bipartite.",
+      "answer": "2",
+      "searchQuery": "chromatic number bipartite graph equals 2"
+    },
+    {
+      "id": "chromatic-odd-cycle",
+      "title": "What is $\\chi(C_5)$, the chromatic number of a $5$-cycle?",
+      "body": "3\n\nTwo colors would have to alternate around the cycle, which fails for an odd length. Three colors suffice.\n\nKey idea: odd cycles have $\\chi = 3$ and even cycles have $\\chi = 2$.",
+      "answer": "3",
+      "searchQuery": "chromatic number of odd cycle C5"
+    },
+    {
+      "id": "four-color-theorem",
+      "title": "State the **four color theorem**.",
+      "body": "Every planar graph can be properly colored with at most $4$ colors.\n\nEquivalently, any map can be colored with $4$ colors so that regions sharing a border differ.\n\nKey idea: it was the first major theorem proved with essential computer assistance (1976).",
+      "searchQuery": "four color theorem planar graph 4 colors"
+    },
+    {
+      "id": "greedy-coloring-bound",
+      "title": "What upper bound does greedy coloring give for $\\chi(G)$ in terms of the maximum degree $\\Delta$?",
+      "body": "$\\chi(G) \\le \\Delta + 1$\n\nWhen coloring a vertex, at most $\\Delta$ neighbors have colors, so one of $\\Delta + 1$ colors is free.\n\nKey idea: Brooks' theorem sharpens this to $\\chi \\le \\Delta$ unless $G$ is a complete graph or an odd cycle.",
+      "searchQuery": "greedy coloring chromatic number at most max degree plus one"
+    },
+    {
+      "id": "eulers-formula-planar",
+      "title": "What is **Euler's formula** for a connected planar graph with $v$ vertices, $e$ edges and $f$ faces?",
+      "body": "$v - e + f = 2$\n\nThe count of faces includes the unbounded outer face.\n\nExample: a triangle has $v = 3$, $e = 3$ and $f = 2$ (inside and outside): $3 - 3 + 2 = 2$.\nKey idea: a planar graph can be drawn in the plane with no edges crossing.",
+      "searchQuery": "Euler's formula planar graph v - e + f = 2"
+    },
+    {
+      "id": "planar-faces-compute",
+      "title": "A connected planar graph has $8$ vertices and $12$ edges. How many faces does a planar drawing have?",
+      "body": "6\n\n$f = 2 - v + e = 2 - 8 + 12 = 6$.\n\nExample: the cube graph has exactly these numbers: $6$ faces.",
+      "answer": "6",
+      "searchQuery": "number of faces planar graph Euler's formula 8 vertices 12 edges"
+    },
+    {
+      "id": "planar-edge-bound",
+      "title": "What upper bound on $e$ holds for a simple connected planar graph with $v \\ge 3$ vertices?",
+      "body": "$e \\le 3v - 6$\n\nEvery face is bounded by at least $3$ edges and each edge borders at most $2$ faces, so $3f \\le 2e$; combine with Euler's formula.\n\nTip: use it to show a graph is nonplanar when $e > 3v - 6$.",
+      "searchQuery": "planar graph edge bound e <= 3v - 6"
+    },
+    {
+      "id": "k5-nonplanar",
+      "title": "Use the edge bound to show $K_5$ is not planar.",
+      "body": "$K_5$ has $v = 5$ and $e = 10$, but a planar graph with $5$ vertices has $e \\le 3 \\cdot 5 - 6 = 9$.\n\nSince $10 > 9$, $K_5$ cannot be planar.\n\nWatch out: the bound only proves nonplanarity; passing it does not prove planarity.",
+      "searchQuery": "K5 not planar proof edge bound 3v-6"
+    },
+    {
+      "id": "k33-nonplanar",
+      "title": "Why is $K_{3,3}$ not planar? (Hint: use the sharper bound for bipartite graphs.)",
+      "body": "A simple connected bipartite planar graph with $v \\ge 3$ has $e \\le 2v - 4$ (no triangles, so faces have $\\ge 4$ edges).\n\nFor $K_{3,3}$: $v = 6$, $e = 9 > 2 \\cdot 6 - 4 = 8$, so it is not planar.\n\nKey idea: $K_{3,3}$ passes $e \\le 3v - 6$ (as $9 \\le 12$), so it needed the sharper bound.",
+      "searchQuery": "K3,3 not planar bipartite edge bound 2v-4"
+    },
+    {
+      "id": "kuratowski-theorem",
+      "title": "State **Kuratowski's theorem** for planarity.",
+      "body": "A graph is planar if and only if it contains no subgraph that is a subdivision of $K_5$ or $K_{3,3}$.\n\nA subdivision replaces edges by paths through new degree-$2$ vertices.\n\nKey idea: $K_5$ and $K_{3,3}$ are the two basic nonplanar graphs.",
+      "searchQuery": "Kuratowski's theorem planar graph subdivision K5 K3,3"
+    }
+  ]
+}

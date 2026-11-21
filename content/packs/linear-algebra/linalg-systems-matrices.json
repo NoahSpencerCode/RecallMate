@@ -1,0 +1,776 @@
+{
+  "id": "linalg-systems-matrices",
+  "title": "Systems, Matrices & Determinants",
+  "course": "Linear Algebra",
+  "description": "Gaussian elimination, echelon forms, matrix algebra, inverses, elementary matrices, LU factorization, determinants and their properties, and Cramer’s rule.",
+  "cards": [
+    {
+      "id": "solution-count-possibilities",
+      "title": "How many solutions can a system of linear equations have?",
+      "body": "None, exactly one, or **infinitely many**.\n\nIf $\\mathbf{x}_1 \\neq \\mathbf{x}_2$ both solve $A\\mathbf{x} = \\mathbf{b}$, then so does every $\\mathbf{x}_1 + t(\\mathbf{x}_2 - \\mathbf{x}_1)$, because $A(\\mathbf{x}_2 - \\mathbf{x}_1) = \\mathbf{0}$.\n\nKey idea: So a linear system can never have exactly two solutions.",
+      "searchQuery": "number of solutions linear system none one infinitely many"
+    },
+    {
+      "id": "consistent-system-term",
+      "title": "What is a linear system that has at least one solution called?",
+      "body": "Consistent.\n\nA system with no solution is **inconsistent**.\n\nKey idea: Consistent covers both cases: exactly one solution and infinitely many.",
+      "answer": "consistent",
+      "searchQuery": "consistent linear system definition at least one solution"
+    },
+    {
+      "id": "homogeneous-always-consistent",
+      "title": "Why is a homogeneous system $A\\mathbf{x} = \\mathbf{0}$ always consistent?",
+      "body": "Because $\\mathbf{x} = \\mathbf{0}$ always solves it (the **trivial solution**).\n\nKey idea: The real question for a homogeneous system is whether it has a nontrivial solution, which happens exactly when it has at least one free variable.",
+      "searchQuery": "homogeneous system always consistent trivial solution"
+    },
+    {
+      "id": "parallel-lines-solutions",
+      "title": "A system of two linear equations in $x$ and $y$ graphs as two distinct parallel lines. How many solutions does it have?",
+      "body": "None: the system is **inconsistent**.\n\nRow reduction produces a row $[\\,0\\ \\ 0 \\mid c\\,]$ with $c \\neq 0$.\n\nKey idea: Lines that cross give exactly one solution; two equations for the same line give infinitely many.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "none",
+        "zero",
+        "no solutions",
+        "no solution"
+      ],
+      "searchQuery": "parallel lines linear system no solution inconsistent"
+    },
+    {
+      "id": "augmented-matrix-of-system",
+      "title": "Write the augmented matrix of the system $x + 2y = 5$, $3x - y = 1$.",
+      "body": "$\\left[\\begin{array}{cc|c} 1 & 2 & 5 \\\\ 3 & -1 & 1 \\end{array}\\right]$\n\nOne **row per equation**: the coefficients of $x$ and $y$, then the constant. Dropping the last column leaves the coefficient matrix.\n\nWatch out: the term $-y$ contributes the entry $-1$, so mind the signs.",
+      "searchQuery": "augmented matrix of a linear system"
+    },
+    {
+      "id": "elementary-row-operations",
+      "title": "What are the three elementary row operations?",
+      "body": "Swap two rows (interchange), multiply a row by a **nonzero constant** (scaling), and add a multiple of one row to another row (replacement).\n\nEach can be undone by an operation of the same type, so none changes the solution set.\n\nWatch out: Scaling by $0$ is not allowed because it can't be undone.",
+      "searchQuery": "three elementary row operations swap scale replacement"
+    },
+    {
+      "id": "row-equivalent-solution-sets",
+      "title": "If the augmented matrices of two linear systems are row equivalent, how do their solution sets compare?",
+      "body": "They are **identical**.\n\nEvery elementary row operation is reversible, so no solution is gained or lost along the way.\n\nKey idea: That is why solving a system by row reducing its augmented matrix is valid.",
+      "searchQuery": "row equivalent augmented matrices same solution set"
+    },
+    {
+      "id": "homogeneous-more-unknowns",
+      "title": "A homogeneous linear system has $3$ equations and $5$ unknowns. How many solutions does it have?",
+      "body": "**Infinitely many**.\n\nThere are at most $3$ pivots for $5$ variables, so at least $2$ variables are free, and the system is consistent because $\\mathbf{x} = \\mathbf{0}$ works.\n\nKey idea: Any homogeneous system with more unknowns than equations has nontrivial solutions.",
+      "answer": "infinitely many",
+      "acceptedAnswers": [
+        "infinite",
+        "infinitely many solutions",
+        "infinity",
+        "an infinite number"
+      ],
+      "searchQuery": "homogeneous system more unknowns than equations nontrivial solutions"
+    },
+    {
+      "id": "more-equations-than-unknowns",
+      "title": "Can a linear system with more equations than unknowns have exactly one solution?",
+      "body": "Yes.\n\nExample: $x = 1$, $y = 2$, $x + y = 3$ has the unique solution $(1, 2)$.\nWatch out: **Overdetermined** systems are often inconsistent, but not always.",
+      "searchQuery": "overdetermined linear system unique solution"
+    },
+    {
+      "id": "general-solution-structure",
+      "title": "If $\\mathbf{p}$ is one solution of $A\\mathbf{x} = \\mathbf{b}$, what is the set of all its solutions?",
+      "body": "All vectors $\\mathbf{p} + \\mathbf{v}_h$, where $\\mathbf{v}_h$ is any solution of $A\\mathbf{x} = \\mathbf{0}$.\n\nKey idea: The solution set of $A\\mathbf{x} = \\mathbf{b}$ is the **homogeneous** solution set shifted by $\\mathbf{p}$: parallel to it, but not through the origin when $\\mathbf{b} \\neq \\mathbf{0}$.",
+      "searchQuery": "solution set of Ax=b particular plus homogeneous solution"
+    },
+    {
+      "id": "echelon-form-conditions",
+      "title": "What conditions define row echelon form?",
+      "body": "Zero rows at the bottom; each leading entry is right of the one above; zeros below each leading entry.\n\n1. Any rows of all zeros are at the bottom.\n2. Each leading entry (the first nonzero entry of a row) is in a column to the right of the leading entry above it.\n3. All entries below a leading entry are zero.\n\nKey idea: the leading entries are the **pivots**, and together they form a staircase.",
+      "searchQuery": "row echelon form conditions leading entry pivots"
+    },
+    {
+      "id": "rref-extra-conditions",
+      "title": "What two extra conditions turn row echelon form into reduced row echelon form?",
+      "body": "Every leading entry is $1$, and each leading $1$ is the **only nonzero entry** in its column.\n\nKey idea: So Gauss–Jordan elimination also clears the entries above each pivot, not just below.",
+      "searchQuery": "reduced row echelon form conditions leading 1"
+    },
+    {
+      "id": "rref-uniqueness",
+      "title": "Is the reduced row echelon form of a matrix unique? Is a row echelon form?",
+      "body": "The **reduced echelon form** is unique; an echelon form is not.\n\nKey idea: Different sequences of row operations can give different echelon forms, but they all have the same pivot positions and all reduce to the same RREF.",
+      "searchQuery": "reduced row echelon form unique echelon form not unique"
+    },
+    {
+      "id": "pivot-position-definition",
+      "title": "What is a pivot position of a matrix?",
+      "body": "A position that holds a leading $1$ in the reduced echelon form of the matrix.\n\nA **pivot column** is a column that contains a pivot position.\n\nKey idea: Pivot positions are the same in every echelon form, so any echelon form reveals them.",
+      "searchQuery": "pivot position pivot column definition linear algebra"
+    },
+    {
+      "id": "basic-vs-free-variables",
+      "title": "In a consistent linear system, which variables are free variables?",
+      "body": "The variables whose columns contain no pivot.\n\nVariables in pivot columns are **basic**: you solve for them in terms of the free ones, which can take any value.\n\nKey idea: So a consistent system with a free variable has infinitely many solutions.",
+      "searchQuery": "basic variables free variables pivot columns"
+    },
+    {
+      "id": "inconsistent-row",
+      "title": "Row reducing an augmented matrix produces the row $\\left[\\begin{array}{ccc|c} 0 & 0 & 0 & 5 \\end{array}\\right]$. What does this tell you?",
+      "body": "The system is **inconsistent**: it has no solution.\n\nThe row says $0x_1 + 0x_2 + 0x_3 = 5$, i.e., $0 = 5$. Equivalently, the augmented column is a pivot column.\n\nWatch out: A row of all zeros, last entry included, is harmless.",
+      "searchQuery": "augmented matrix row 0 0 0 nonzero inconsistent system"
+    },
+    {
+      "id": "unique-solution-pivot-test",
+      "title": "A linear system is consistent. In terms of pivots, when is its solution unique?",
+      "body": "When every column of the coefficient matrix is a pivot column, so there are **no free variables**.\n\nKey idea: Full test: the system is consistent iff the augmented column has no pivot; then the solution is unique iff there are no free variables, and there are infinitely many otherwise.",
+      "searchQuery": "unique solution consistent system pivot every column"
+    },
+    {
+      "id": "consistent-for-every-b",
+      "title": "For an $m \\times n$ matrix $A$, when is $A\\mathbf{x} = \\mathbf{b}$ consistent for every $\\mathbf{b}$ in $\\mathbb{R}^m$?",
+      "body": "Exactly when $A$ has a **pivot position in every row**.\n\nThen no echelon form of $[A \\mid \\mathbf{b}]$ can contain a row $[\\,0\\ \\cdots\\ 0 \\mid c\\,]$ with $c \\neq 0$. Equivalently, the columns of $A$ span $\\mathbb{R}^m$.\n\nWatch out: Check the pivots of $A$, not of the augmented matrix.",
+      "searchQuery": "Ax=b consistent for every b pivot in every row"
+    },
+    {
+      "id": "back-substitution-example",
+      "title": "Solve by back substitution: $x + 2y - z = 3$, $y + 2z = 5$, $3z = 6$. What is $x$?",
+      "body": "$x = 3$.\n\nWork from the **bottom up**: $z = 2$, then $y = 5 - 2(2) = 1$, then $x = 3 - 2(1) + 2 = 3$.\n\nKey idea: A system already in echelon (triangular) form needs no more elimination.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "x=3"
+      ],
+      "answerDisplay": "$x = 3$",
+      "searchQuery": "back substitution triangular system example"
+    },
+    {
+      "id": "consistency-parameter-h",
+      "title": "For what value of $h$ is the system $x + 3y = 2$, $2x + 6y = h$ consistent?",
+      "body": "$h = 4$.\n\n$R_2 - 2R_1$ leaves the row $0 = h - 4$.\n\nKey idea: For $h = 4$ both equations describe the **same line** (infinitely many solutions); for any other $h$ the lines are parallel and there is no solution.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "h=4"
+      ],
+      "answerDisplay": "$h = 4$",
+      "searchQuery": "linear system consistent parameter h row reduce"
+    },
+    {
+      "id": "unique-solution-parameter-k",
+      "title": "For what value of $k$ does the system $x + ky = 1$, $2x + 4y = 3$ fail to have a unique solution?",
+      "body": "$k = 2$.\n\n$R_2 - 2R_1$ gives $(4 - 2k)\\,y = 1$. If $k \\neq 2$, solve for $y$ and then $x$: exactly one solution.\n\nKey idea: If $k = 2$, the row reads $0 = 1$, so there is **no solution** at all.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "k=2"
+      ],
+      "answerDisplay": "$k = 2$",
+      "searchQuery": "linear system parameter k no unique solution"
+    },
+    {
+      "id": "free-variable-count",
+      "title": "A consistent system has $6$ unknowns, and an echelon form of its coefficient matrix has $4$ pivots. How many free variables does it have?",
+      "body": "$2$.\n\nEach non-pivot column gives a **free variable**: $6 - 4 = 2$.\n\nKey idea: The general solution is a particular solution plus arbitrary combinations of $2$ direction vectors, one per free variable.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "free variables count non-pivot columns"
+    },
+    {
+      "id": "parametric-vector-form",
+      "title": "An augmented matrix reduces to $\\left[\\begin{array}{ccc|c} 1 & 0 & -2 & 3 \\\\ 0 & 1 & 1 & 4 \\end{array}\\right]$. Write the solution set in parametric vector form.",
+      "body": "$\\mathbf{x} = \\begin{pmatrix} 3 \\\\ 4 \\\\ 0 \\end{pmatrix} + t\\begin{pmatrix} 2 \\\\ -1 \\\\ 1 \\end{pmatrix}$, $t \\in \\mathbb{R}$\n\n$x_3 = t$ is free, so $x_1 = 3 + 2t$ and $x_2 = 4 - t$.\n\nKey idea: The fixed vector is a **particular solution**; the direction vector solves the homogeneous system.",
+      "searchQuery": "parametric vector form solution set reduced matrix"
+    },
+    {
+      "id": "gauss-vs-gauss-jordan",
+      "title": "How does Gauss–Jordan elimination differ from Gaussian elimination?",
+      "body": "Gaussian elimination stops at an echelon form and finishes with back substitution; Gauss–Jordan keeps going to the **reduced echelon form**.\n\nTip: Gauss–Jordan also clears the entries above each pivot, so the solution can be read off directly, but it costs more arithmetic on large systems.",
+      "searchQuery": "Gauss-Jordan versus Gaussian elimination"
+    },
+    {
+      "id": "elimination-cost",
+      "title": "Solving an $n \\times n$ system by Gaussian elimination takes on the order of how many arithmetic operations?",
+      "body": "$O(n^3)$, about $\\tfrac{2}{3}n^3$ flops.\n\nThe **elimination phase** dominates; back substitution needs only $O(n^2)$.\n\nKey idea: So doubling $n$ multiplies the work by about $8$.",
+      "answer": "n^3",
+      "acceptedAnswers": [
+        "O(n^3)",
+        "2n^3/3",
+        "(2/3)n^3",
+        "n cubed"
+      ],
+      "answerDisplay": "$O(n^3)$",
+      "searchQuery": "Gaussian elimination operation count n cubed"
+    },
+    {
+      "id": "rank-by-row-reduction",
+      "title": "What is the rank of $\\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 1 & 0 & 1 \\end{pmatrix}$?",
+      "body": "$2$.\n\n$R_2 - 2R_1$ is a zero row, and $R_3 - R_1 = (0, -2, -2)$ gives a second pivot.\n\nKey idea: The rank is the **number of pivots** in an echelon form.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "rank of matrix number of pivots row reduction"
+    },
+    {
+      "id": "matrix-product-size",
+      "title": "$A$ is $3 \\times 4$ and $B$ is $4 \\times 2$. What size is $AB$?",
+      "body": "$3 \\times 2$.\n\nThe **inner dimensions** must match ($4 = 4$), and the outer ones give the size: $(m \\times n)(n \\times p)$ is $m \\times p$.\n\nWatch out: Here $BA$ is undefined, since $2 \\neq 3$.",
+      "answer": "3x2",
+      "acceptedAnswers": [
+        "3 by 2"
+      ],
+      "answerDisplay": "$3 \\times 2$",
+      "searchQuery": "matrix product dimensions m by n times n by p"
+    },
+    {
+      "id": "matrix-vector-column-view",
+      "title": "How is $A\\mathbf{x}$ expressed in terms of the columns $\\mathbf{a}_1, \\dots, \\mathbf{a}_n$ of $A$?",
+      "body": "$A\\mathbf{x} = x_1\\mathbf{a}_1 + x_2\\mathbf{a}_2 + \\cdots + x_n\\mathbf{a}_n$\n\nA matrix times a vector is a **linear combination of the columns**, weighted by the entries of $\\mathbf{x}$.\n\nKey idea: So $A\\mathbf{x} = \\mathbf{b}$ asks whether $\\mathbf{b}$ is a combination of the columns of $A$.",
+      "searchQuery": "matrix vector product linear combination of columns"
+    },
+    {
+      "id": "product-entry-row-column",
+      "title": "$A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$ and $B = \\begin{pmatrix} 0 & 1 \\\\ 5 & -2 \\end{pmatrix}$. What is the $(2,1)$ entry of $AB$?",
+      "body": "$20$.\n\n**Row 2** of $A$ times column 1 of $B$: $3 \\cdot 0 + 4 \\cdot 5 = 20$.\n\nTip: in general, $(AB)_{ij} = \\sum_k a_{ik}b_{kj}$.",
+      "answer": "20",
+      "searchQuery": "matrix product entry row times column"
+    },
+    {
+      "id": "product-columns",
+      "title": "If $B = [\\,\\mathbf{b}_1\\ \\cdots\\ \\mathbf{b}_p\\,]$, what is column $j$ of $AB$?",
+      "body": "$A\\mathbf{b}_j$.\n\nSo every column of $AB$ is a **linear combination** of the columns of $A$.\n\nKey idea: Likewise, row $i$ of $AB$ is row $i$ of $A$ times $B$.",
+      "searchQuery": "columns of matrix product AB column j"
+    },
+    {
+      "id": "matrix-multiplication-not-commutative",
+      "title": "For square matrices of the same size, is $AB = BA$ always true?",
+      "body": "No, matrix multiplication is **not commutative**.\n\nExample: With $A = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$ and $B = \\begin{pmatrix} 0 & 0 \\\\ 1 & 0 \\end{pmatrix}$: $AB = \\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}$ but $BA = \\begin{pmatrix} 0 & 0 \\\\ 0 & 1 \\end{pmatrix}$.",
+      "searchQuery": "matrix multiplication not commutative counterexample"
+    },
+    {
+      "id": "zero-product-trap",
+      "title": "If $AB = 0$ (the zero matrix), must $A = 0$ or $B = 0$?",
+      "body": "No.\n\nExample: $\\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}\\begin{pmatrix} 1 & -1 \\\\ -1 & 1 \\end{pmatrix} = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}$.\nWatch out: For the same reason $AB = AC$ does not imply $B = C$; you can cancel $A$ only when $A$ is **invertible**.",
+      "searchQuery": "AB equals zero does not imply A or B zero"
+    },
+    {
+      "id": "square-of-sum-trap",
+      "title": "Expand $(A + B)^2$ for $n \\times n$ matrices $A$ and $B$.",
+      "body": "$A^2 + AB + BA + B^2$.\n\nIt equals $A^2 + 2AB + B^2$ **only when** $AB = BA$.\n\nWatch out: Likewise $(A + B)(A - B) = A^2 - AB + BA - B^2$, not $A^2 - B^2$.",
+      "searchQuery": "expand (A+B)^2 noncommuting matrices"
+    },
+    {
+      "id": "transpose-of-product",
+      "title": "For matrices $A$ and $B$ whose product is defined, $(AB)^T = \\,?$",
+      "body": "$B^TA^T$: the same factors in **reverse order**.\n\nCheck sizes: if $A$ is $m \\times n$ and $B$ is $n \\times p$, then $(AB)^T$ is $p \\times m$, and only $B^TA^T$ has that shape.\n\nTip: this mirrors $(AB)^{-1} = B^{-1}A^{-1}$.",
+      "answer": "B^T A^T",
+      "acceptedAnswers": [
+        "BTAT",
+        "B'A'"
+      ],
+      "answerDisplay": "$B^TA^T$",
+      "searchQuery": "transpose of a product reverses order"
+    },
+    {
+      "id": "symmetric-matrix-term",
+      "title": "What is a square matrix with $A^T = A$ called?",
+      "body": "Symmetric.\n\nThe entries mirror across the main diagonal: $a_{ij} = a_{ji}$.\n\nKey idea: If instead $A^T = -A$, the matrix is **skew-symmetric**, which forces every diagonal entry to be $0$.",
+      "answer": "symmetric",
+      "acceptedAnswers": [
+        "symmetric matrix"
+      ],
+      "searchQuery": "symmetric matrix A transpose equals A"
+    },
+    {
+      "id": "ata-is-symmetric",
+      "title": "Why is $A^TA$ symmetric for every matrix $A$?",
+      "body": "$(A^TA)^T = A^T(A^T)^T = A^TA$.\n\nThis works for any $m \\times n$ matrix $A$, and $A^TA$ is $n \\times n$.\n\nKey idea: The same argument shows that $AA^T$ ($m \\times m$) is **symmetric**.",
+      "searchQuery": "A transpose A is symmetric proof"
+    },
+    {
+      "id": "product-of-symmetric-matrices",
+      "title": "$A$ and $B$ are symmetric $n \\times n$ matrices. When is $AB$ symmetric?",
+      "body": "**Exactly when** $AB = BA$.\n\n$(AB)^T = B^TA^T = BA$, so $AB$ is symmetric iff $BA = AB$.\n\nKey idea: The sum $A + B$, by contrast, is always symmetric.",
+      "searchQuery": "product of symmetric matrices symmetric when AB=BA"
+    },
+    {
+      "id": "trace-compute",
+      "title": "What is the trace of $\\begin{pmatrix} 4 & 1 & 0 \\\\ 2 & -3 & 5 \\\\ 7 & 1 & 6 \\end{pmatrix}$?",
+      "body": "$7$.\n\nThe trace is the **sum of the diagonal entries**: $4 + (-3) + 6 = 7$.\n\nWatch out: It is defined only for square matrices, and it is linear: $\\operatorname{tr}(A + B) = \\operatorname{tr}A + \\operatorname{tr}B$.",
+      "answer": "7",
+      "searchQuery": "trace of a matrix sum of diagonal entries"
+    },
+    {
+      "id": "trace-of-product",
+      "title": "Which identity holds for all $n \\times n$ matrices: $\\operatorname{tr}(AB) = \\operatorname{tr}(BA)$ or $\\operatorname{tr}(AB) = \\operatorname{tr}A \\cdot \\operatorname{tr}B$?",
+      "body": "$\\operatorname{tr}(AB) = \\operatorname{tr}(BA)$.\n\nBoth sides equal $\\sum_{i,j} a_{ij}b_{ji}$, even when $AB \\neq BA$.\n\nWatch out: The product version **fails**: for $A = B = I_2$, $\\operatorname{tr}(I_2 I_2) = 2$ but $\\operatorname{tr}I_2 \\cdot \\operatorname{tr}I_2 = 4$.",
+      "searchQuery": "trace of AB equals trace of BA"
+    },
+    {
+      "id": "diagonal-matrix-power",
+      "title": "$D = \\begin{pmatrix} 2 & 0 \\\\ 0 & -1 \\end{pmatrix}$. What is $D^5$?",
+      "body": "$\\begin{pmatrix} 32 & 0 \\\\ 0 & -1 \\end{pmatrix}$\n\nPowers of a diagonal matrix act **entry by entry** on the diagonal: $D^k = \\operatorname{diag}(d_1^k, \\dots, d_n^k)$.\n\nKey idea: Diagonal matrices of the same size always commute with each other.",
+      "searchQuery": "power of a diagonal matrix entry by entry"
+    },
+    {
+      "id": "nilpotent-index",
+      "title": "$N = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}$. What is the smallest $k$ with $N^k = 0$?",
+      "body": "$k = 3$.\n\nEach multiplication by $N$ pushes the 1s one diagonal further up: $N^2$ has a single $1$ in the top-right corner, and $N^3 = 0$.\n\nKey idea: A matrix with $N^k = 0$ for some $k$ is called **nilpotent**.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "k=3"
+      ],
+      "answerDisplay": "$k = 3$",
+      "searchQuery": "nilpotent matrix smallest k with N^k = 0"
+    },
+    {
+      "id": "outer-product-expansion",
+      "title": "For $A$ ($m \\times n$) and $B$ ($n \\times p$), how can $AB$ be written as a sum of column-times-row products?",
+      "body": "$AB = \\sum_{k=1}^{n} \\mathbf{a}_k \\mathbf{r}_k$, where $\\mathbf{a}_k$ is column $k$ of $A$ and $\\mathbf{r}_k$ is row $k$ of $B$.\n\nEach term is an $m \\times p$ **outer product** of rank at most $1$.\n\nKey idea: This column–row view is the idea behind the SVD and low-rank approximation.",
+      "searchQuery": "matrix product as sum of outer products"
+    },
+    {
+      "id": "invertible-definition",
+      "title": "What does it mean for an $n \\times n$ matrix $A$ to be invertible?",
+      "body": "There is an $n \\times n$ matrix $C$ with $CA = I$ and $AC = I$.\n\nSuch a $C$ is **unique** and is written $A^{-1}$.\n\nKey idea: Only square matrices can have a two-sided inverse like this.",
+      "searchQuery": "invertible matrix definition inverse CA=I AC=I"
+    },
+    {
+      "id": "singular-matrix-term",
+      "title": "What is a square matrix that has no inverse called?",
+      "body": "**Singular** (noninvertible).\n\nKey idea: A square matrix is singular exactly when $\\det A = 0$, when it has fewer than $n$ pivots, and when $A\\mathbf{x} = \\mathbf{0}$ has a nontrivial solution.",
+      "answer": "singular",
+      "acceptedAnswers": [
+        "noninvertible",
+        "non-invertible",
+        "not invertible",
+        "degenerate"
+      ],
+      "searchQuery": "singular matrix definition noninvertible determinant zero"
+    },
+    {
+      "id": "inverse-2x2-formula",
+      "title": "What is the inverse of $\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, when it exists?",
+      "body": "$\\dfrac{1}{ad - bc}\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$, which requires $ad - bc \\neq 0$.\n\nTip: **Swap the diagonal entries**, negate the off-diagonal ones, and divide by the determinant.\nWatch out: If $ad - bc = 0$, the matrix is singular.",
+      "searchQuery": "inverse of 2x2 matrix formula ad-bc"
+    },
+    {
+      "id": "inverse-2x2-example",
+      "title": "Find $\\begin{pmatrix} 4 & 2 \\\\ 3 & 1 \\end{pmatrix}^{-1}$.",
+      "body": "$\\begin{pmatrix} -\\tfrac{1}{2} & 1 \\\\ \\tfrac{3}{2} & -2 \\end{pmatrix}$\n\nThe **determinant** is $4 \\cdot 1 - 2 \\cdot 3 = -2$, so the inverse is $-\\tfrac{1}{2}\\begin{pmatrix} 1 & -2 \\\\ -3 & 4 \\end{pmatrix}$.\n\nTip: multiply the matrix by your answer; you should get $I$.",
+      "searchQuery": "inverse of 2x2 matrix worked example"
+    },
+    {
+      "id": "inverse-of-product",
+      "title": "For invertible $n \\times n$ matrices $A$ and $B$, $(AB)^{-1} = \\,?$",
+      "body": "$B^{-1}A^{-1}$, in **reverse order**.\n\nCheck: $(AB)(B^{-1}A^{-1}) = A(BB^{-1})A^{-1} = AA^{-1} = I$.\n\nMnemonic: Socks and shoes: what goes on last comes off first.",
+      "answer": "B^-1 A^-1",
+      "acceptedAnswers": [
+        "B^(-1)A^(-1)",
+        "inv(B)inv(A)"
+      ],
+      "answerDisplay": "$B^{-1}A^{-1}$",
+      "searchQuery": "inverse of a product reverses order"
+    },
+    {
+      "id": "inverse-of-transpose",
+      "title": "If $A$ is invertible, is $A^T$ invertible, and what is $(A^T)^{-1}$?",
+      "body": "Yes: $(A^T)^{-1} = (A^{-1})^T$.\n\nProof: $A^T(A^{-1})^T = (A^{-1}A)^T = I^T = I$.\n\nKey idea: Inverting and transposing can be done in **either order**.",
+      "searchQuery": "inverse of transpose equals transpose of inverse"
+    },
+    {
+      "id": "inverse-of-scalar-multiple",
+      "title": "$A$ is invertible and $k \\neq 0$. $(kA)^{-1} = \\,?$",
+      "body": "$\\tfrac{1}{k}A^{-1}$.\n\nCheck: $(kA)\\left(\\tfrac{1}{k}A^{-1}\\right) = \\tfrac{k}{k}AA^{-1} = I$.\n\nWatch out: A **common slip** is writing $kA^{-1}$.",
+      "answer": "(1/k)A^-1",
+      "acceptedAnswers": [
+        "A^-1/k",
+        "1/k A^-1",
+        "(1/k)A^(-1)",
+        "k^-1 A^-1"
+      ],
+      "answerDisplay": "$\\tfrac{1}{k}A^{-1}$",
+      "searchQuery": "inverse of scalar multiple kA"
+    },
+    {
+      "id": "inverse-by-row-reduction",
+      "title": "How do you find $A^{-1}$ by row reduction?",
+      "body": "**Row reduce** $[A \\mid I]$. If the left block becomes $I$, the right block is $A^{-1}$: $[A \\mid I] \\to [I \\mid A^{-1}]$.\n\nIf the left block can't reach $I$ (fewer than $n$ pivots), $A$ is not invertible.\n\nWhy: It works because the same row operations, whose product is $E_k \\cdots E_1 = A^{-1}$, act on both blocks.",
+      "searchQuery": "find inverse by row reduction augmented identity"
+    },
+    {
+      "id": "solve-with-inverse",
+      "title": "$A^{-1} = \\begin{pmatrix} 2 & -5 \\\\ -1 & 3 \\end{pmatrix}$. Solve $A\\mathbf{x} = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$. What is $x_1$?",
+      "body": "$x_1 = -3$ (and $x_2 = 2$).\n\n$\\mathbf{x} = A^{-1}\\mathbf{b} = \\begin{pmatrix} 2 - 5 \\\\ -1 + 3 \\end{pmatrix}$.\n\nWatch out: Multiply by $A^{-1}$ **on the left**; $\\mathbf{b}A^{-1}$ isn't even defined.",
+      "answer": "-3",
+      "acceptedAnswers": [
+        "x1=-3"
+      ],
+      "answerDisplay": "$x_1 = -3$",
+      "searchQuery": "solve Ax=b using inverse matrix multiply on left"
+    },
+    {
+      "id": "inverse-vs-elimination-cost",
+      "title": "In numerical work, why solve $A\\mathbf{x} = \\mathbf{b}$ by elimination rather than by computing $A^{-1}\\mathbf{b}$?",
+      "body": "Computing $A^{-1}$ takes about **three times as many operations** as elimination, and the answer is often less accurate.\n\nKey idea: Elimination (or an LU factorization) delivers $\\mathbf{x}$ directly; $A^{-1}$ is mainly a tool for theory and formulas.",
+      "searchQuery": "solve linear system elimination versus computing inverse"
+    },
+    {
+      "id": "invertible-pivot-count",
+      "title": "How many pivot positions must an $n \\times n$ matrix have to be invertible?",
+      "body": "$n$: **one in every row and every column**.\n\nThen $A$ is row equivalent to $I_n$, and $A\\mathbf{x} = \\mathbf{b}$ has exactly one solution for every $\\mathbf{b}$.\n\nKey idea: With fewer than $n$ pivots, $A$ is singular.",
+      "answer": "n",
+      "acceptedAnswers": [
+        "n pivots"
+      ],
+      "searchQuery": "invertible matrix n pivot positions"
+    },
+    {
+      "id": "nontrivial-solution-singular",
+      "title": "A square matrix $A$ has $A\\mathbf{x} = \\mathbf{0}$ for some $\\mathbf{x} \\neq \\mathbf{0}$. Can $A$ be invertible?",
+      "body": "No.\n\nWhy: If $A^{-1}$ existed, then $\\mathbf{x} = A^{-1}\\mathbf{0} = \\mathbf{0}$ would be the only solution.\nKey idea: A nontrivial solution means a **free variable**, so fewer than $n$ pivots.",
+      "searchQuery": "nontrivial null space implies singular matrix"
+    },
+    {
+      "id": "one-sided-inverse-square",
+      "title": "$A$ and $C$ are $n \\times n$ matrices with $CA = I$. Must $AC = I$ as well?",
+      "body": "Yes: for square matrices, a one-sided inverse is **automatically two-sided**.\n\n$CA = I$ forces $A\\mathbf{x} = \\mathbf{0}$ to have only the trivial solution, so $A$ is invertible and $C = A^{-1}$.\n\nWatch out: For non-square matrices this fails: a $3 \\times 2$ matrix can have a left inverse but never a right inverse.",
+      "searchQuery": "one-sided inverse square matrix CA=I implies AC=I"
+    },
+    {
+      "id": "inverse-of-diagonal",
+      "title": "What is the inverse of $\\begin{pmatrix} 2 & 0 & 0 \\\\ 0 & -1 & 0 \\\\ 0 & 0 & 4 \\end{pmatrix}$?",
+      "body": "$\\begin{pmatrix} \\tfrac{1}{2} & 0 & 0 \\\\ 0 & -1 & 0 \\\\ 0 & 0 & \\tfrac{1}{4} \\end{pmatrix}$\n\n**Invert each diagonal entry**.\n\nKey idea: A diagonal matrix is invertible exactly when none of its diagonal entries is $0$.",
+      "searchQuery": "inverse of a diagonal matrix reciprocals"
+    },
+    {
+      "id": "sum-of-invertibles-trap",
+      "title": "If $A$ and $B$ are invertible $n \\times n$ matrices, must $A + B$ be invertible?",
+      "body": "No.\n\nExample: $A = I$ and $B = -I$ are invertible, but $A + B = 0$.\nWatch out: Even when $A + B$ is invertible, $(A + B)^{-1} \\neq A^{-1} + B^{-1}$ in general.",
+      "searchQuery": "sum of invertible matrices not always invertible"
+    },
+    {
+      "id": "triangular-inverse",
+      "title": "Is the inverse of an invertible upper triangular matrix also upper triangular?",
+      "body": "Yes, and its diagonal entries are the **reciprocals** $1/u_{ii}$.\n\nWhy: Reducing $[U \\mid I]$ only scales rows and adds multiples of lower rows to higher ones, so the right block stays upper triangular.\nKey idea: The same holds for lower triangular matrices.",
+      "searchQuery": "inverse of upper triangular matrix triangular"
+    },
+    {
+      "id": "nilpotent-inverse-trick",
+      "title": "$N$ is a square matrix with $N^2 = 0$. What is $(I - N)^{-1}$?",
+      "body": "$I + N$.\n\nCheck: $(I - N)(I + N) = I - N^2 = I$.\n\nKey idea: It's the **geometric series** $1 + x + x^2 + \\cdots$ for $1/(1 - x)$, which stops because $N^2 = 0$.",
+      "answer": "I + N",
+      "acceptedAnswers": [
+        "N + I"
+      ],
+      "answerDisplay": "$I + N$",
+      "searchQuery": "inverse of I minus N when N squared zero"
+    },
+    {
+      "id": "elementary-matrix-definition",
+      "title": "What is an elementary matrix?",
+      "body": "A matrix obtained by performing a **single elementary row operation** on an identity matrix.\n\nMultiplying $EA$ performs that same row operation on $A$.\n\nKey idea: There is one kind for each row operation: interchange, scaling and replacement.",
+      "searchQuery": "elementary matrix definition one row operation identity"
+    },
+    {
+      "id": "elementary-matrix-replacement",
+      "title": "Which $3 \\times 3$ elementary matrix $E$ makes $EA$ add $-4$ times row 1 to row 3 of $A$?",
+      "body": "$E = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ -4 & 0 & 1 \\end{pmatrix}$\n\nTip: **Apply the row operation** to $I_3$.\nWatch out: The $-4$ lands in row 3 (the row being changed), column 1 (the row being added).",
+      "searchQuery": "elementary matrix add multiple of row 1 to row 3"
+    },
+    {
+      "id": "elementary-matrix-inverse",
+      "title": "What is the inverse of the elementary matrix $E = \\begin{pmatrix} 1 & 0 \\\\ 5 & 1 \\end{pmatrix}$?",
+      "body": "$E^{-1} = \\begin{pmatrix} 1 & 0 \\\\ -5 & 1 \\end{pmatrix}$\n\n$E$ adds $5$ times row 1 to row 2, so its inverse subtracts it again.\n\nKey idea: Every elementary matrix is invertible, and its inverse is the elementary matrix of the **reverse operation**.",
+      "searchQuery": "inverse of elementary matrix reverse row operation"
+    },
+    {
+      "id": "right-multiplication-columns",
+      "title": "$E$ is the identity with rows 1 and 2 swapped. What does $AE$ do to $A$?",
+      "body": "It swaps **columns** 1 and 2 of $A$.\n\nMultiplying on the left ($EA$) acts on rows; multiplying on the right ($AE$) acts on columns.\n\nWhy: Here the columns of $AE$ are $A\\mathbf{e}_2, A\\mathbf{e}_1, A\\mathbf{e}_3, \\dots$, that is, $\\mathbf{a}_2, \\mathbf{a}_1, \\mathbf{a}_3, \\dots$",
+      "searchQuery": "right multiplication by elementary matrix swaps columns"
+    },
+    {
+      "id": "invertible-as-elementary-product",
+      "title": "Why is every invertible matrix a product of elementary matrices?",
+      "body": "Because $A$ **row reduces to** $I$: $E_k \\cdots E_2E_1A = I$, so $A = E_1^{-1}E_2^{-1} \\cdots E_k^{-1}$.\n\nEach $E_i^{-1}$ is itself elementary.\n\nKey idea: Conversely, every product of elementary matrices is invertible.",
+      "searchQuery": "invertible matrix product of elementary matrices"
+    },
+    {
+      "id": "permutation-matrix-inverse",
+      "title": "$P$ is a permutation matrix (the identity with its rows reordered). What is $P^{-1}$?",
+      "body": "$P^{-1} = P^T$.\n\nEach row and column of $P$ has a single $1$, so $P^TP = I$.\n\nKey idea: $PA$ **reorders the rows** of $A$, and $P^T$ puts them back.",
+      "answer": "P^T",
+      "acceptedAnswers": [
+        "PT",
+        "P'",
+        "transpose of P",
+        "the transpose"
+      ],
+      "answerDisplay": "$P^T$",
+      "searchQuery": "permutation matrix inverse equals transpose"
+    },
+    {
+      "id": "lu-factorization-form",
+      "title": "In an LU factorization $A = LU$, what kind of matrices are $L$ and $U$?",
+      "body": "$L$ is **unit lower triangular** ($1$s on its diagonal), and $U$ is an upper triangular echelon form of $A$.\n\nKey idea: $U$ is the result of Gaussian elimination, and $L$ records the multipliers used to get there.",
+      "searchQuery": "LU factorization unit lower triangular upper triangular"
+    },
+    {
+      "id": "lu-multiplier-entry",
+      "title": "Elimination on $A$ with no row swaps uses the step $R_3 \\to R_3 - 4R_1$. In $A = LU$, what is the entry $\\ell_{31}$ of $L$?",
+      "body": "$\\ell_{31} = 4$.\n\nThe multiplier you subtract goes into $L$ with the **same sign**, in the position it zeroed out.\n\nWatch out: don't enter $-4$. That is the entry of the elimination matrix $E$, while $L = E^{-1}$ carries $+4$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "l31=4"
+      ],
+      "answerDisplay": "$\\ell_{31} = 4$",
+      "searchQuery": "LU factorization multiplier entry sign"
+    },
+    {
+      "id": "lu-2x2-example",
+      "title": "Find the LU factorization of $A = \\begin{pmatrix} 2 & 1 \\\\ 6 & 8 \\end{pmatrix}$.",
+      "body": "$L = \\begin{pmatrix} 1 & 0 \\\\ 3 & 1 \\end{pmatrix}$, $U = \\begin{pmatrix} 2 & 1 \\\\ 0 & 5 \\end{pmatrix}$\n\nThe step $R_2 \\to R_2 - 3R_1$ turns $A$ into $U$, and its **multiplier** $3$ goes into $L$.\n\nTip: multiply $LU$ to check that you get $A$.",
+      "searchQuery": "LU factorization 2x2 worked example multiplier"
+    },
+    {
+      "id": "lu-solve-two-triangular",
+      "title": "Given $A = LU$, how do you solve $A\\mathbf{x} = \\mathbf{b}$?",
+      "body": "Solve $L\\mathbf{y} = \\mathbf{b}$ by **forward substitution**, then $U\\mathbf{x} = \\mathbf{y}$ by back substitution.\n\nEach triangular solve costs only $O(n^2)$.\n\nKey idea: Factoring is the $O(n^3)$ part, so once $A = LU$ is known, every new right-hand side $\\mathbf{b}$ is cheap.",
+      "searchQuery": "solve Ax=b with LU forward back substitution"
+    },
+    {
+      "id": "lu-existence-no-swaps",
+      "title": "When does an invertible matrix $A$ have an LU factorization without row exchanges?",
+      "body": "When elimination never meets a **zero pivot**; equivalently, when every leading principal minor (the determinant of each top-left $k \\times k$ block) is nonzero.\n\nTip: Otherwise, reorder the rows first: $PA = LU$ always works for a suitable permutation matrix $P$.",
+      "searchQuery": "LU factorization without row exchanges zero pivot"
+    },
+    {
+      "id": "partial-pivoting",
+      "title": "In partial pivoting, which row is swapped into the pivot position?",
+      "body": "The row whose entry in the pivot column has the **largest absolute value** (among the pivot row and the rows below it).\n\nThis keeps every multiplier at most $1$ in absolute value, which limits the growth of roundoff error.\n\nKey idea: the swaps are recorded in a permutation matrix $P$, giving $PA = LU$.",
+      "searchQuery": "partial pivoting largest absolute value pivot row"
+    },
+    {
+      "id": "ldu-factorization",
+      "title": "In the factorization $A = LDU$, with $L$ and $U$ having $1$s on their diagonals, what are the diagonal entries of $D$?",
+      "body": "The **pivots** of $A$.\n\nFactor each pivot out of its row of $U$ in $A = LU$.\n\nKey idea: For a symmetric $A$ that needs no row exchanges, this becomes $A = LDL^T$.",
+      "searchQuery": "LDU factorization diagonal entries pivots"
+    },
+    {
+      "id": "det-from-lu",
+      "title": "$A = LU$ with $L$ unit lower triangular and $U = \\begin{pmatrix} 2 & 7 & 1 \\\\ 0 & -3 & 4 \\\\ 0 & 0 & 5 \\end{pmatrix}$. What is $\\det A$?",
+      "body": "$-30$.\n\n$\\det A = \\det L \\cdot \\det U = 1 \\cdot 2(-3)(5)$.\n\nTip: This is how software computes determinants: factor, **multiply the pivots**, and flip the sign once per row swap if $PA = LU$.",
+      "answer": "-30",
+      "searchQuery": "determinant from LU factorization product of pivots"
+    },
+    {
+      "id": "det-2x2-compute",
+      "title": "What is $\\det\\begin{pmatrix} 5 & 3 \\\\ 4 & 2 \\end{pmatrix}$?",
+      "body": "$-2$.\n\nKey idea: $\\det\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = ad - bc = 5 \\cdot 2 - 3 \\cdot 4 = -2$: the **main-diagonal product** minus the off-diagonal product.",
+      "answer": "-2",
+      "searchQuery": "determinant of 2x2 matrix ad minus bc"
+    },
+    {
+      "id": "cofactor-definition",
+      "title": "What is the $(i, j)$ cofactor $C_{ij}$ of a square matrix $A$?",
+      "body": "$C_{ij} = (-1)^{i+j}\\det A_{ij}$, where $A_{ij}$ is $A$ with row $i$ and column $j$ deleted.\n\nCofactor expansion along row $i$: $\\det A = a_{i1}C_{i1} + a_{i2}C_{i2} + \\cdots + a_{in}C_{in}$.\n\nKey idea: expanding along **any row or column** gives the same value.",
+      "searchQuery": "cofactor definition sign minor cofactor expansion"
+    },
+    {
+      "id": "cofactor-sign",
+      "title": "In a cofactor expansion of a $4 \\times 4$ determinant, is the sign attached to position $(2, 3)$ positive or negative?",
+      "body": "Negative: $(-1)^{2+3} = -1$.\n\nMnemonic: The signs form a **checkerboard** with $+$ at position $(1, 1)$ and wherever $i + j$ is even.",
+      "answer": "negative",
+      "acceptedAnswers": [
+        "-",
+        "minus",
+        "-1",
+        "neg"
+      ],
+      "searchQuery": "cofactor expansion sign checkerboard pattern"
+    },
+    {
+      "id": "det-3x3-compute",
+      "title": "What is $\\det\\begin{pmatrix} 2 & 0 & 1 \\\\ 1 & 3 & 2 \\\\ 1 & 1 & 2 \\end{pmatrix}$?",
+      "body": "$6$.\n\nTip: **Expand along row 1** (the $0$ saves a term): $2\\begin{vmatrix} 3 & 2 \\\\ 1 & 2 \\end{vmatrix} - 0 + 1\\begin{vmatrix} 1 & 3 \\\\ 1 & 1 \\end{vmatrix} = 2(4) + 1(-2) = 6$.",
+      "answer": "6",
+      "searchQuery": "determinant of 3x3 matrix cofactor expansion"
+    },
+    {
+      "id": "det-triangular",
+      "title": "What is $\\det\\begin{pmatrix} 3 & 8 & -2 \\\\ 0 & -1 & 7 \\\\ 0 & 0 & 4 \\end{pmatrix}$?",
+      "body": "$-12$.\n\nThe determinant of a triangular matrix (upper or lower) is the **product of its diagonal entries**: $3(-1)(4)$.\n\nKey idea: The entries off the diagonal don't matter.",
+      "answer": "-12",
+      "searchQuery": "determinant of triangular matrix diagonal product"
+    },
+    {
+      "id": "det-row-swap",
+      "title": "$\\det A = 4$. $B$ is $A$ with two rows swapped. What is $\\det B$?",
+      "body": "$-4$.\n\nKey idea: Each row interchange **flips the sign** of the determinant, so swapping the rows back restores it.",
+      "answer": "-4",
+      "searchQuery": "determinant row swap changes sign"
+    },
+    {
+      "id": "det-row-scale",
+      "title": "$\\det A = 4$. $B$ is $A$ with one row multiplied by $3$. What is $\\det B$?",
+      "body": "$12$.\n\nScaling a single row by $k$ **multiplies the determinant** by $k$.\n\nWatch out: Scaling the whole $n \\times n$ matrix multiplies it by $k^n$.",
+      "answer": "12",
+      "searchQuery": "determinant scaling one row by k"
+    },
+    {
+      "id": "det-row-replacement",
+      "title": "$\\det A = 4$. $B$ is $A$ after adding $5$ times row 1 to row 3. What is $\\det B$?",
+      "body": "$4$, unchanged.\n\nRow replacement **never changes** the determinant.\n\nKey idea: That is what makes computing determinants by row reduction practical.",
+      "answer": "4",
+      "searchQuery": "determinant unchanged by row replacement"
+    },
+    {
+      "id": "det-by-row-reduction",
+      "title": "You reduce $A$ to an echelon form $U$ using only row replacements and $r$ row swaps. How is $\\det A$ related to $U$?",
+      "body": "$\\det A = (-1)^r \\times$ (the product of the diagonal entries of $U$).\n\nReplacements leave the determinant alone, and **each swap flips its sign**.\n\nWatch out: If you also scale a row by $k$, divide by $k$ to compensate.",
+      "searchQuery": "determinant via row reduction swaps and pivots"
+    },
+    {
+      "id": "det-cofactor-cost",
+      "title": "Why is cofactor expansion impractical for computing large determinants?",
+      "body": "It takes on the order of $n!$ operations, while row reduction takes about $\\tfrac{2}{3}n^3$.\n\nFor $n = 25$, $25! \\approx 1.6 \\times 10^{25}$, versus roughly $10^4$ operations for elimination.\n\nKey idea: **Cofactor expansion** is practical only for small or very sparse matrices.",
+      "searchQuery": "cofactor expansion cost factorial versus elimination"
+    },
+    {
+      "id": "det-equal-rows",
+      "title": "Two rows of a square matrix $A$ are identical. What is $\\det A$?",
+      "body": "$0$.\n\nSwapping the **two equal rows** leaves $A$ unchanged but negates $\\det A$, so $\\det A = -\\det A$.\n\nKey idea: A zero row, or one row a multiple of another, also gives $0$.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero"
+      ],
+      "searchQuery": "determinant with two equal rows is zero"
+    },
+    {
+      "id": "det-invertibility-test",
+      "title": "A square matrix $A$ is invertible if and only if $\\det A$ is what?",
+      "body": "Nonzero.\n\nWhy: Row reduction to an echelon form $U$ changes the determinant only by nonzero factors, and $\\det U$, the **product of its diagonal entries**, is $0$ exactly when a pivot is missing.",
+      "answer": "nonzero",
+      "acceptedAnswers": [
+        "non-zero",
+        "not zero",
+        "not 0",
+        "≠0",
+        "!=0"
+      ],
+      "searchQuery": "determinant nonzero if and only if invertible"
+    },
+    {
+      "id": "det-scalar-multiple",
+      "title": "$A$ is $3 \\times 3$ with $\\det A = 5$. What is $\\det(2A)$?",
+      "body": "$40$.\n\n$\\det(kA) = k^n\\det A$ for an $n \\times n$ matrix, because each of the $n$ rows is multiplied by $k$: $2^3 \\cdot 5 = 40$.\n\nWatch out: The **common wrong answer** is $10$.",
+      "answer": "40",
+      "searchQuery": "determinant of scalar multiple det(kA) = k^n det A"
+    },
+    {
+      "id": "det-of-product",
+      "title": "$A$ and $B$ are $n \\times n$ with $\\det A = 3$ and $\\det B = -2$. What is $\\det(AB)$?",
+      "body": "$-6$.\n\n$\\det(AB) = \\det A \\cdot \\det B$.\n\nKey idea: So $\\det(AB) = \\det(BA)$, **even though** $AB \\neq BA$ in general.",
+      "answer": "-6",
+      "searchQuery": "determinant of a product multiplicative"
+    },
+    {
+      "id": "det-of-inverse",
+      "title": "$A$ is invertible with $\\det A = 3$. What is $\\det(A^{-1})$?",
+      "body": "$\\tfrac{1}{3}$.\n\nWhy: From $AA^{-1} = I$: $\\det A \\cdot \\det(A^{-1}) = \\det I = 1$.\nKey idea: **This also shows** that $\\det A$ can't be $0$ when $A$ is invertible.",
+      "answer": "1/3",
+      "acceptedAnswers": [
+        "3^-1"
+      ],
+      "answerDisplay": "$\\tfrac{1}{3}$",
+      "searchQuery": "determinant of inverse reciprocal of determinant"
+    },
+    {
+      "id": "det-of-transpose",
+      "title": "How is $\\det(A^T)$ related to $\\det A$?",
+      "body": "They are equal.\n\nKey idea: So **every row rule** for determinants also holds for columns: swapping two columns flips the sign, a zero column gives $0$, and you can expand along any column.",
+      "searchQuery": "determinant of transpose equals determinant"
+    },
+    {
+      "id": "det-sum-trap",
+      "title": "Is $\\det(A + B) = \\det A + \\det B$ for all $n \\times n$ matrices?",
+      "body": "No.\n\nExample: For $A = B = I_2$: $\\det(2I_2) = 4$, but $\\det I_2 + \\det I_2 = 2$.\nKey idea: The determinant is **multiplicative, not additive**; it is linear in each row separately, not in the whole matrix.",
+      "searchQuery": "determinant of a sum not sum of determinants"
+    },
+    {
+      "id": "det-combined-rules",
+      "title": "$A$ is $3 \\times 3$ with $\\det A = 2$. What is $\\det(3A^{-1})$?",
+      "body": "$\\tfrac{27}{2}$.\n\n$\\det(3A^{-1}) = 3^3\\det(A^{-1}) = 27 \\cdot \\tfrac{1}{2}$.\n\nTip: **Pull the scalar out** as $k^n$ first, then use $\\det(A^{-1}) = 1/\\det A$.",
+      "answer": "27/2",
+      "acceptedAnswers": [
+        "13.5"
+      ],
+      "answerDisplay": "$\\tfrac{27}{2}$",
+      "searchQuery": "determinant of scalar times inverse matrix"
+    },
+    {
+      "id": "det-parallelogram-area",
+      "title": "What is the area of the parallelogram spanned by $\\begin{pmatrix} 3 \\\\ 1 \\end{pmatrix}$ and $\\begin{pmatrix} 1 \\\\ 4 \\end{pmatrix}$?",
+      "body": "$11$.\n\nArea $= \\left|\\det\\begin{pmatrix} 3 & 1 \\\\ 1 & 4 \\end{pmatrix}\\right| = |12 - 1|$.\n\nWatch out: Take the **absolute value**: the sign only records orientation.\nKey idea: In $\\mathbb{R}^3$, $|\\det|$ of three column vectors is the volume of the parallelepiped they span.",
+      "answer": "11",
+      "searchQuery": "area of parallelogram determinant absolute value"
+    },
+    {
+      "id": "det-area-scaling",
+      "title": "$T(\\mathbf{x}) = A\\mathbf{x}$ on $\\mathbb{R}^2$ with $\\det A = -3$. A region $R$ has area $5$. What is the area of $T(R)$?",
+      "body": "$15$.\n\nA linear map scales every area by $|\\det A|$: $5 \\cdot |-3| = 15$.\n\nWatch out: The negative sign means $T$ reverses **orientation**, as a reflection does; areas are never negative.",
+      "answer": "15",
+      "searchQuery": "linear map scales area by absolute determinant"
+    },
+    {
+      "id": "det-skew-symmetric-odd",
+      "title": "Why is every $3 \\times 3$ skew-symmetric matrix ($A^T = -A$) singular?",
+      "body": "$\\det A = \\det(A^T) = \\det(-A) = (-1)^3\\det A = -\\det A$, so $\\det A = 0$.\n\nKey idea: The argument works for **every odd** $n$.\nWatch out: For even $n$ it fails: $\\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$ has determinant $1$.",
+      "searchQuery": "skew-symmetric matrix odd size determinant zero"
+    },
+    {
+      "id": "det-block-triangular",
+      "title": "For square blocks $A$ and $D$, what is $\\det\\begin{pmatrix} A & B \\\\ 0 & D \\end{pmatrix}$?",
+      "body": "$\\det A \\cdot \\det D$.\n\n**Block triangular** works like triangular, and $B$ doesn't matter.\n\nWatch out: But for a full block matrix, $\\det\\begin{pmatrix} A & B \\\\ C & D \\end{pmatrix} \\neq \\det A\\det D - \\det B\\det C$ in general.",
+      "searchQuery": "determinant of block triangular matrix"
+    },
+    {
+      "id": "cramers-rule",
+      "title": "State Cramer's rule for $A\\mathbf{x} = \\mathbf{b}$, where $A$ is $n \\times n$ and invertible.",
+      "body": "$x_i = \\dfrac{\\det A_i(\\mathbf{b})}{\\det A}$, where $A_i(\\mathbf{b})$ is $A$ with column $i$ replaced by $\\mathbf{b}$.\n\nTip: It needs $n + 1$ determinants, far more work than one elimination when $n$ is large, so it is **mainly a theoretical tool**.",
+      "searchQuery": "Cramer's rule formula determinants"
+    },
+    {
+      "id": "cramers-rule-example",
+      "title": "Use Cramer's rule on $3x + 2y = 7$, $x - y = 4$. What is $y$?",
+      "body": "$y = -1$.\n\n$\\det A = 3(-1) - 2(1) = -5$, and replacing column 2 with $\\mathbf{b}$ gives $\\det\\begin{pmatrix} 3 & 7 \\\\ 1 & 4 \\end{pmatrix} = 5$, so $y = 5/(-5)$.\n\nWatch out: **replace the column** of the variable you want, not a row.\nTip: check in the original equations with $x = 3$ and $y = -1$: $3(3) + 2(-1) = 7$ and $3 - (-1) = 4$.",
+      "answer": "-1",
+      "acceptedAnswers": [
+        "y=-1"
+      ],
+      "answerDisplay": "$y = -1$",
+      "searchQuery": "Cramer's rule worked example 2x2 system"
+    },
+    {
+      "id": "adjugate-definition",
+      "title": "What is the adjugate $\\operatorname{adj}A$ of a square matrix $A$?",
+      "body": "The **transpose** of the matrix of cofactors: $(\\operatorname{adj}A)_{ij} = C_{ji}$.\n\nWatch out: Don't forget the transpose.\nKey idea: The adjugate gives the inverse formula $A^{-1} = \\dfrac{1}{\\det A}\\operatorname{adj}A$.",
+      "searchQuery": "adjugate matrix transpose of cofactor matrix"
+    },
+    {
+      "id": "a-times-adjugate",
+      "title": "For any square matrix $A$, $A\\,\\operatorname{adj}A = \\,?$",
+      "body": "$(\\det A)\\,I$, whether or not $A$ is invertible.\n\nThe diagonal entries are cofactor expansions of $\\det A$.\n\nWhy: Each off-diagonal entry is the expansion of a matrix with **two equal rows**, so it is $0$.",
+      "answer": "det(A) I",
+      "acceptedAnswers": [
+        "(det A) I",
+        "det A I",
+        "|A| I"
+      ],
+      "answerDisplay": "$(\\det A)\\,I$",
+      "searchQuery": "A times adjugate equals determinant times identity"
+    },
+    {
+      "id": "integer-inverse-unit-det",
+      "title": "A matrix $A$ with integer entries has $\\det A = \\pm 1$. Why are the entries of $A^{-1}$ integers too?",
+      "body": "Because $A^{-1} = \\dfrac{1}{\\det A}\\operatorname{adj}A = \\pm\\operatorname{adj}A$, and the cofactors of an integer matrix are **integers**.\n\nKey idea: Conversely, if $A$ and $A^{-1}$ both have integer entries, then $\\det A \\cdot \\det(A^{-1}) = 1$ with both factors integers, which forces $\\det A = \\pm 1$.",
+      "searchQuery": "integer matrix determinant plus or minus one inverse"
+    }
+  ]
+}

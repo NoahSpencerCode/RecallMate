@@ -3,10 +3,12 @@ import { StyleSheet, View } from 'react-native';
 
 import { CategoryIcon } from '@/components/CategoryIcon';
 import { PressableScale } from '@/components/PressableScale';
+import { RichText } from '@/components/rich/RichText';
 import { Text } from '@/components/Text';
 import type { PackSummary } from '@/features/packs/api';
 import { categoryLook } from '@/features/packs/categories';
 import { daysBetween, describeDue, type ISODate } from '@/lib/dates';
+import { plainText } from '@/lib/rich';
 import { memoryStatus } from '@/lib/schedule';
 import { fonts, radii, spacing, useTheme } from '@/theme';
 
@@ -35,13 +37,13 @@ export function MemoryRow({ memory, today, pack }: MemoryRowProps) {
       onPress={() => router.push({ pathname: '/memory/[id]', params: { id: memory.id } })}
       scaleTo={0.98}
       accessibilityRole="button"
-      accessibilityLabel={`${memory.title}. ${pill.text}`}
+      accessibilityLabel={`${plainText(memory.title)}. ${pill.text}`}
       style={[styles.row, { backgroundColor: colors.surface, borderColor: colors.border }]}>
       <CategoryIcon look={look} size={40} />
       <View style={styles.middle}>
-        <Text variant="bodyStrong" numberOfLines={2}>
+        <RichText variant="bodyStrong" numberOfLines={2} inline>
           {memory.title}
-        </Text>
+        </RichText>
         <Text variant="caption" tone="subtle" numberOfLines={1}>
           {pack ? pack.title : 'Your card'}
           {memory.answer ? ' · Typed answer' : ''}

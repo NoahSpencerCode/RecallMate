@@ -1,0 +1,906 @@
+{
+  "id": "biochem-metabolism",
+  "title": "Metabolism & Bioenergetics",
+  "course": "Biochemistry",
+  "description": "Free energy and ATP, glycolysis, gluconeogenesis, pyruvate dehydrogenase, the citric acid cycle, oxidative phosphorylation, the pentose phosphate pathway, glycogen, fatty acids, the urea cycle and metabolic regulation.",
+  "cards": [
+    {
+      "id": "bioen-dg-equation",
+      "title": "Which equation gives the actual free energy change $\\Delta G$ of a reaction from $\\Delta G^{\\circ\\prime}$ and the mass-action ratio $Q$?",
+      "body": "$\\Delta G = \\Delta G^{\\circ\\prime} + RT\\ln Q$\n\nAt equilibrium $\\Delta G = 0$ and $Q = K'_{eq}$, which gives $\\Delta G^{\\circ\\prime} = -RT\\ln K'_{eq}$.\n\nWhy: $\\Delta G$ decides the direction under cellular conditions; $\\Delta G^{\\circ\\prime}$ only describes the standard state.\nWatch out: a reaction with a positive $\\Delta G^{\\circ\\prime}$ can still run forward if $Q$ is small enough.",
+      "searchQuery": "delta G equals delta G standard prime plus RT ln Q"
+    },
+    {
+      "id": "bioen-standard-state",
+      "title": "What conditions define the biochemical standard state used for $\\Delta G^{\\circ\\prime}$?",
+      "body": "pH $7.0$, $25\\,^\\circ\\mathrm{C}$, $1\\,\\mathrm{M}$ for all solutes and $1\\,\\mathrm{atm}$ for gases, with water taken as $1$ (its concentration is absorbed into the constant).\n\nThe prime means $[\\ce{H+}] = 10^{-7}\\,\\mathrm{M}$ rather than $1\\,\\mathrm{M}$ as in chemistry's standard state.\n\nWatch out: real cells have very different concentrations, so $\\Delta G^{\\circ\\prime}$ is a reference value, not what happens in the cell.",
+      "searchQuery": "biochemical standard state pH 7 delta G naught prime"
+    },
+    {
+      "id": "bioen-keq-from-dg",
+      "title": "A reaction has $\\Delta G^{\\circ\\prime} = +5.7\\,\\mathrm{kJ/mol}$ at $25\\,^\\circ\\mathrm{C}$ ($RT = 2.48\\,\\mathrm{kJ/mol}$). What is $K'_{eq}$, to the nearest power of ten? (number only)",
+      "body": "0.1\n\n$\\ln K'_{eq} = -\\dfrac{5.7}{2.48} = -2.3$, so $K'_{eq} = e^{-2.3} \\approx 0.1$.\n\nKey idea: a positive $\\Delta G^{\\circ\\prime}$ means $K'_{eq} < 1$, so reactants are favored at equilibrium.\nTip: at $25\\,^\\circ\\mathrm{C}$, every $5.7\\,\\mathrm{kJ/mol}$ of $\\Delta G^{\\circ\\prime}$ changes $K'_{eq}$ by a factor of $10$.",
+      "answer": "0.1",
+      "acceptedAnswers": [
+        "10^-1",
+        "1e-1",
+        "1/10"
+      ],
+      "searchQuery": "standard free energy change to equilibrium constant positive delta G"
+    },
+    {
+      "id": "bioen-atp-dg",
+      "title": "What is the standard free energy of ATP hydrolysis to ADP + $\\mathrm{P_i}$, $\\Delta G^{\\circ\\prime}$, in kJ/mol? (number with sign)",
+      "body": "-30.5\n\nThe value is about $-7.3\\,\\mathrm{kcal/mol}$. Inside cells, with ATP high and ADP and $\\mathrm{P_i}$ low, the actual $\\Delta G$ is more negative, about $-50$ to $-65\\,\\mathrm{kJ/mol}$.\n\nWhy: ATP is kept far from equilibrium, which makes it a strong driver of coupled reactions.",
+      "answer": "-30.5",
+      "acceptedAnswers": [
+        "-30",
+        "-31"
+      ],
+      "searchQuery": "ATP hydrolysis standard free energy -30.5 kJ/mol"
+    },
+    {
+      "id": "bioen-atp-why-high-energy",
+      "title": "Why does ATP hydrolysis release so much free energy?",
+      "body": "Products are more stable than ATP, for three reasons:\n\n- Relief of electrostatic repulsion among the negative charges on the phosphate chain\n- Better resonance stabilization of the released $\\mathrm{P_i}$ (and of ADP)\n- Stronger solvation of the products\n\nWatch out: the \"high-energy bond\" is a misnomer; the energy comes from the whole reaction, not from the bond breaking by itself.",
+      "searchQuery": "why ATP hydrolysis releases energy charge repulsion resonance stabilization"
+    },
+    {
+      "id": "bioen-pep-highest",
+      "title": "Which has the largest standard free energy of hydrolysis: PEP, 1,3-bisphosphoglycerate, creatine phosphate or ATP?",
+      "body": "Phosphoenolpyruvate (PEP)\n\nApproximate $\\Delta G^{\\circ\\prime}$ of hydrolysis in kJ/mol: PEP $-61.9$, 1,3-BPG $-49.3$, creatine phosphate $-43.1$, ATP $-30.5$, glucose 6-phosphate $-13.8$.\n\nWhy: PEP releases enol-to-keto tautomerization energy once the phosphate leaves, which is why pyruvate kinase can make ATP.\nKey idea: ATP sits in the middle, so it can accept a phosphate from higher donors and donate to lower ones.",
+      "answer": "PEP",
+      "acceptedAnswers": [
+        "phosphoenolpyruvate"
+      ],
+      "searchQuery": "phosphoenolpyruvate highest phosphoryl transfer potential"
+    },
+    {
+      "id": "bioen-coupling-calc",
+      "title": "Glucose + $\\mathrm{P_i} \\to$ G6P has $\\Delta G^{\\circ\\prime} = +13.8$; ATP hydrolysis has $-30.5\\,\\mathrm{kJ/mol}$. Find $\\Delta G^{\\circ\\prime}$ for glucose + ATP $\\to$ G6P + ADP (kJ/mol).",
+      "body": "-16.7\n\nFree energies of coupled reactions **add**: $+13.8 + (-30.5) = -16.7\\,\\mathrm{kJ/mol}$.\n\nWhy: the shared intermediate (the phosphoryl group) lets the favorable reaction pay for the unfavorable one.\nExample: this is exactly what hexokinase does in step 1 of glycolysis.",
+      "answer": "-16.7",
+      "searchQuery": "coupled reactions free energies add hexokinase glucose ATP G6P"
+    },
+    {
+      "id": "bioen-redox-dg",
+      "title": "$\\Delta E^{\\circ\\prime}$ for NADH $\\to \\tfrac{1}{2}\\ce{O2}$ is $1.14\\,\\mathrm{V}$ ($n = 2$, $F = 96.5\\,\\mathrm{kJ/(V \\cdot mol)}$). What is $\\Delta G^{\\circ\\prime}$ in kJ/mol? (nearest integer)",
+      "body": "-220\n\n$\\Delta G^{\\circ\\prime} = -nF\\Delta E^{\\circ\\prime} = -2 \\times 96.5 \\times 1.14 = -220\\,\\mathrm{kJ/mol}$.\n\nKey idea: this is enough for the electron transport chain to pump protons for roughly $2.5$ ATP per NADH.\nWatch out: do not forget $n$, the number of electrons transferred.",
+      "answer": "-220",
+      "acceptedAnswers": [
+        "-219",
+        "-221"
+      ],
+      "searchQuery": "delta G = -nF delta E NADH oxygen redox free energy"
+    },
+    {
+      "id": "bioen-redox-potentials",
+      "title": "Which direction do electrons flow between two redox couples, and what are the standard reduction potentials of $\\ce{NAD+}/\\mathrm{NADH}$ and $\\tfrac12\\ce{O2}/\\ce{H2O}$?",
+      "body": "Electrons flow from the couple with the **more negative** $E^{\\circ\\prime}$ to the **more positive** one.\n\n$E^{\\circ\\prime}(\\ce{NAD+}/\\mathrm{NADH}) = -0.32\\,\\mathrm{V}$ and $E^{\\circ\\prime}(\\tfrac12\\ce{O2}/\\ce{H2O}) = +0.82\\,\\mathrm{V}$.\n\nWhy: NADH is a strong electron donor, and oxygen is a strong acceptor, so the whole chain runs downhill.",
+      "searchQuery": "standard reduction potential NAD+/NADH -0.32 oxygen +0.82"
+    },
+    {
+      "id": "bioen-nonequilibrium-steps",
+      "title": "Why are the regulated steps of a pathway almost always reactions that are far from equilibrium?",
+      "body": "Their $\\Delta G$ is large and negative ($Q \\ll K'_{eq}$), so changing enzyme activity changes the pathway flux directly.\n\nNear-equilibrium reactions simply follow substrate levels, and enzyme changes there have little effect on net flux.\n\nExample: hexokinase, PFK-1 and pyruvate kinase are the far-from-equilibrium steps of glycolysis.\nKey idea: **irreversible steps** are the control points.",
+      "searchQuery": "metabolic regulation far from equilibrium steps flux control"
+    },
+    {
+      "id": "bioen-energy-charge",
+      "title": "Cells have $[\\mathrm{ATP}]:[\\mathrm{ADP}]:[\\mathrm{AMP}]$ in the ratio $4:1:0$. What is the adenylate energy charge? (one decimal)",
+      "body": "0.9\n\nEnergy charge $= \\frac{[\\mathrm{ATP}] + \\tfrac12[\\mathrm{ADP}]}{[\\mathrm{ATP}] + [\\mathrm{ADP}] + [\\mathrm{AMP}]} = \\frac{4 + 0.5}{5} = 0.9$.\n\nWhy: the cell holds it near $0.8$ to $0.95$; adenylate kinase ($\\ce{2ADP <=> ATP + AMP}$) converts falling ATP into a larger relative rise in AMP, which signals low energy.\nKey idea: ATP-using pathways slow down and ATP-making ones speed up as the charge falls.",
+      "answer": "0.9",
+      "searchQuery": "adenylate energy charge formula ATP ADP AMP"
+    },
+    {
+      "id": "bioen-ppi-hydrolysis",
+      "title": "Why does hydrolysis of ATP to AMP + PP$_i$ drive biosynthetic reactions so strongly?",
+      "body": "Inorganic pyrophosphatase hydrolyzes PP$_i$ to 2 P$_i$ ($\\Delta G^{\\circ\\prime} \\approx -19\\,\\mathrm{kJ/mol}$), which keeps $[\\mathrm{PP_i}]$ low and makes the overall step essentially **irreversible**.\n\nThe cell effectively spends two high-energy phosphoanhydride bonds.\n\nExample: fatty acid activation, amino acid activation and DNA polymerization all use this trick.\nWatch out: for ATP $\\to$ AMP + PP$_i$ people count it as costing 2 ATP equivalents.",
+      "searchQuery": "ATP to AMP pyrophosphate pyrophosphatase irreversible biosynthesis"
+    },
+    {
+      "id": "gly-overall-equation",
+      "title": "What is the net equation of glycolysis, from glucose to pyruvate, including the carriers?",
+      "body": "$\\ce{Glucose + 2NAD+ + 2ADP + 2P_i -> 2 pyruvate + 2NADH + 2H+ + 2ATP + 2H2O}$\n\nTwo ATP are spent early and four are made later, so the net gain is $2\\,\\mathrm{ATP}$.\n\nWhy: the $\\ce{NADH}$ must be reoxidized (by the electron transport chain, or by fermentation) or glycolysis stalls from lack of $\\ce{NAD+}$.",
+      "searchQuery": "glycolysis net equation glucose 2 pyruvate 2 ATP 2 NADH"
+    },
+    {
+      "id": "gly-hexokinase-g6p",
+      "title": "What regulates hexokinase, the enzyme that traps glucose in most tissues as glucose 6-phosphate?",
+      "body": "**Product inhibition** by glucose 6-phosphate.\n\nHexokinase also has a low $K_m$ for glucose (about $0.1\\,\\mathrm{mM}$), so it works near saturation even when blood glucose is low.\n\nWhy: if downstream steps slow, G6P builds up and shuts off more glucose entering glycolysis.\nWatch out: this contrasts with liver glucokinase, which is not inhibited by G6P.",
+      "searchQuery": "hexokinase product inhibition glucose 6-phosphate low Km"
+    },
+    {
+      "id": "gly-glucokinase",
+      "title": "Which liver and pancreatic $\\beta$-cell isozyme phosphorylates glucose only when blood glucose is high ($K_m \\approx 10\\,\\mathrm{mM}$)?",
+      "body": "Glucokinase (hexokinase IV)\n\nIts high $K_m$ and sigmoidal kinetics mean its rate tracks blood glucose after a meal. It is not inhibited by G6P, but a regulatory protein sequesters it in the nucleus when glucose is low.\n\nWhy: this lets the liver take up and store glucose only when there is excess, and lets the $\\beta$-cell sense glucose to release insulin.\nExample: loss-of-function mutations in glucokinase cause MODY2 diabetes.",
+      "answer": "glucokinase",
+      "acceptedAnswers": [
+        "hexokinase IV",
+        "hexokinase 4",
+        "GCK"
+      ],
+      "searchQuery": "glucokinase liver high Km hexokinase IV blood glucose sensor"
+    },
+    {
+      "id": "gly-pfk1-committed",
+      "title": "Which enzyme catalyzes the committed, rate-limiting step of glycolysis: fructose 6-phosphate + ATP $\\to$ fructose 1,6-bisphosphate + ADP?",
+      "body": "Phosphofructokinase-1 (PFK-1)\n\nIt is the most important control point of glycolysis because the product, fructose 1,6-bisphosphate, is committed to the glycolytic pathway (G6P can still enter the pentose phosphate pathway or glycogen).\n\nKey idea: its reaction is far from equilibrium, with $\\Delta G^{\\circ\\prime} \\approx -14\\,\\mathrm{kJ/mol}$.",
+      "answer": "phosphofructokinase-1",
+      "acceptedAnswers": [
+        "PFK-1",
+        "PFK1",
+        "phosphofructokinase",
+        "PFK",
+        "phosphofructokinase 1"
+      ],
+      "searchQuery": "phosphofructokinase-1 committed step glycolysis"
+    },
+    {
+      "id": "gly-pfk1-regulators",
+      "title": "Which metabolites activate and which inhibit PFK-1?",
+      "body": "Activated by **AMP** and **fructose 2,6-bisphosphate**; inhibited by **ATP** and **citrate** (and by low pH in muscle).\n\nWhy: ATP is both a substrate and, at high levels, an allosteric inhibitor that lowers the enzyme's affinity for F6P; AMP reverses that.\nExample: citrate signals plenty of biosynthetic precursors and ATP from the citric acid cycle.\nTip: remember ATP and citrate say \"enough energy\" (inhibit); AMP says \"low energy\" (activate).",
+      "searchQuery": "PFK-1 allosteric regulation AMP fructose 2,6-bisphosphate ATP citrate"
+    },
+    {
+      "id": "gly-f26bp",
+      "title": "How do insulin and glucagon change the level of fructose 2,6-bisphosphate (F2,6BP) in the liver?",
+      "body": "Insulin **raises** it; glucagon **lowers** it.\n\nThe bifunctional enzyme PFK-2/FBPase-2 makes and breaks F2,6BP. Glucagon $\\to$ cAMP $\\to$ PKA phosphorylation favors the phosphatase (FBPase-2) activity, so F2,6BP falls.\n\nWhy: F2,6BP activates PFK-1 and inhibits FBPase-1, so a fall turns glycolysis off and gluconeogenesis on.\nKey idea: this is a **reciprocal** control of the two opposing pathways.",
+      "searchQuery": "fructose 2,6-bisphosphate PFK-2 FBPase-2 glucagon insulin liver"
+    },
+    {
+      "id": "gly-aldolase",
+      "title": "Which enzyme splits fructose 1,6-bisphosphate into DHAP and glyceraldehyde 3-phosphate?",
+      "body": "Aldolase\n\nIt reverses an aldol condensation. In animal class I aldolases a lysine forms a Schiff base with the ketose.\n\nWhy: triose phosphate isomerase then converts DHAP to G3P, so one glucose gives **two** G3P and the rest of glycolysis runs twice.\nWatch out: this reaction has a positive standard free energy but proceeds because G3P is removed rapidly.",
+      "answer": "aldolase",
+      "acceptedAnswers": [
+        "fructose bisphosphate aldolase",
+        "fructose-1,6-bisphosphate aldolase"
+      ],
+      "searchQuery": "aldolase fructose 1,6-bisphosphate DHAP glyceraldehyde 3-phosphate"
+    },
+    {
+      "id": "gly-gapdh",
+      "title": "Which glycolytic enzyme makes the first NADH, converting glyceraldehyde 3-phosphate to 1,3-bisphosphoglycerate with $\\mathrm{P_i}$?",
+      "body": "Glyceraldehyde 3-phosphate dehydrogenase (GAPDH)\n\nA cysteine thiol attacks the aldehyde; oxidation by $\\ce{NAD+}$ gives an energy-rich thioester, which phosphorolysis converts to the acyl phosphate.\n\nWhy: this is oxidation coupled to phosphorylation of an inorganic phosphate, without ATP.\nWatch out: arsenate can substitute for $\\mathrm{P_i}$, giving an unstable product that hydrolyzes at once and so skipping ATP formation at the next step.",
+      "answer": "GAPDH",
+      "acceptedAnswers": [
+        "glyceraldehyde 3-phosphate dehydrogenase",
+        "glyceraldehyde-3-phosphate dehydrogenase",
+        "G3PDH"
+      ],
+      "searchQuery": "GAPDH glyceraldehyde 3-phosphate dehydrogenase NADH 1,3-bisphosphoglycerate"
+    },
+    {
+      "id": "gly-pgk-substrate-level",
+      "title": "Phosphoglycerate kinase transfers a phosphate from 1,3-bisphosphoglycerate to ADP. What type of ATP synthesis is this?",
+      "body": "Substrate-level phosphorylation\n\nThe high-energy acyl phosphate of 1,3-BPG ($\\Delta G^{\\circ\\prime}$ of hydrolysis about $-49\\,\\mathrm{kJ/mol}$) pays for making ATP directly, without a proton gradient.\n\nWhy: because two 1,3-BPG form per glucose, this step makes $2$ ATP and exactly repays the $2$ ATP spent in the investment phase.\nKey idea: the reaction is readily reversible, and gluconeogenesis uses the same enzyme.",
+      "answer": "substrate-level phosphorylation",
+      "acceptedAnswers": [
+        "substrate level phosphorylation",
+        "substrate-level"
+      ],
+      "searchQuery": "phosphoglycerate kinase substrate-level phosphorylation 1,3-bisphosphoglycerate"
+    },
+    {
+      "id": "gly-enolase",
+      "title": "Which glycolytic enzyme dehydrates 2-phosphoglycerate to phosphoenolpyruvate and is inhibited by fluoride?",
+      "body": "Enolase\n\nRemoving water traps the phosphate in an enol form, raising its phosphoryl transfer potential from about $-17\\,\\mathrm{kJ/mol}$ (2-PG) to $-62$ (PEP).\n\nExample: fluoride is added to blood collection tubes to stop glycolysis in the sample.\nKey idea: this is not an oxidation; the energy is **redistributed within the molecule**.",
+      "answer": "enolase",
+      "searchQuery": "enolase 2-phosphoglycerate to phosphoenolpyruvate fluoride inhibition"
+    },
+    {
+      "id": "gly-pyruvate-kinase-reg",
+      "title": "How is liver pyruvate kinase regulated by fructose 1,6-bisphosphate, ATP, alanine and glucagon?",
+      "body": "F1,6BP **activates** (feed-forward); ATP and alanine **inhibit**; glucagon-driven phosphorylation by PKA **inactivates** it.\n\nWhy: F1,6BP from PFK-1 says glycolytic flux is running, while alanine and ATP say there is no need for more.\nExample: shutting off liver pyruvate kinase in fasting lets PEP flow into gluconeogenesis rather than back to pyruvate.",
+      "searchQuery": "pyruvate kinase regulation fructose 1,6-bisphosphate alanine glucagon phosphorylation"
+    },
+    {
+      "id": "gly-irreversible-steps",
+      "title": "Which three glycolytic reactions are essentially irreversible and must be bypassed in gluconeogenesis?",
+      "body": "Hexokinase (or glucokinase), phosphofructokinase-1 and pyruvate kinase.\n\nEach has a large negative $\\Delta G$ in the cell, while the other seven steps operate near equilibrium and are shared with gluconeogenesis.\n\nKey idea: the bypass enzymes are pyruvate carboxylase and PEPCK, fructose 1,6-bisphosphatase, and glucose 6-phosphatase.",
+      "searchQuery": "three irreversible steps glycolysis hexokinase PFK-1 pyruvate kinase"
+    },
+    {
+      "id": "gly-lactate-dehydrogenase",
+      "title": "What is the metabolic purpose of lactate dehydrogenase in anaerobic muscle?",
+      "body": "It regenerates $\\ce{NAD+}$ so that glyceraldehyde 3-phosphate dehydrogenase can keep running.\n\n$\\ce{Pyruvate + NADH + H+ <=> lactate + NAD+}$\n\nWhy: without $\\ce{NAD+}$, glycolysis, the only ATP source when oxygen is short, would halt.\nWatch out: LDH makes no ATP; it only recycles $\\ce{NAD+}$ so the ATP of glycolysis can continue.",
+      "searchQuery": "lactate dehydrogenase regenerates NAD+ anaerobic glycolysis"
+    },
+    {
+      "id": "gly-alcohol-fermentation-tpp",
+      "title": "Which coenzyme does pyruvate decarboxylase need to convert pyruvate to acetaldehyde in yeast?",
+      "body": "Thiamine pyrophosphate (TPP)\n\nTPP, from vitamin $\\mathrm{B_1}$, stabilizes the carbanion formed on decarboxylation. Alcohol dehydrogenase then reduces acetaldehyde to ethanol with NADH.\n\nWhy: this is the same cofactor class used by pyruvate dehydrogenase, $\\alpha$-ketoglutarate dehydrogenase and transketolase.\nWatch out: animals lack pyruvate decarboxylase, so they cannot ferment glucose to ethanol.",
+      "answer": "TPP",
+      "acceptedAnswers": [
+        "thiamine pyrophosphate",
+        "thiamine diphosphate",
+        "TDP",
+        "vitamin B1",
+        "thiamine"
+      ],
+      "searchQuery": "pyruvate decarboxylase thiamine pyrophosphate yeast ethanol"
+    },
+    {
+      "id": "gly-galactose-galt",
+      "title": "Classic galactosemia is caused by a deficiency of which enzyme of the Leloir pathway?",
+      "body": "Galactose 1-phosphate uridylyltransferase (GALT)\n\nGALT swaps UMP from UDP-glucose onto galactose 1-phosphate, giving UDP-galactose and glucose 1-phosphate.\n\nWhy: galactose 1-phosphate accumulates and is toxic; galactitol builds up and causes cataracts.\nExample: infants fail to thrive after drinking milk, so they are treated with a galactose-free diet.",
+      "answer": "galactose 1-phosphate uridylyltransferase",
+      "acceptedAnswers": [
+        "GALT",
+        "galactose-1-phosphate uridylyltransferase",
+        "Gal-1-P uridylyltransferase"
+      ],
+      "searchQuery": "classic galactosemia GALT deficiency Leloir pathway"
+    },
+    {
+      "id": "gly-fructose-liver",
+      "title": "Why does fructose enter glycolysis faster than glucose in the liver?",
+      "body": "Fructokinase makes fructose 1-phosphate and aldolase B splits it to DHAP and glyceraldehyde, which bypasses the PFK-1 control point.\n\nSo fructose is not regulated by the energy state of the cell, and heavy intake can overload lipogenesis.\n\nExample: **hereditary fructose intolerance** (aldolase B deficiency) traps phosphate as fructose 1-phosphate, causing hypoglycemia and liver damage.",
+      "searchQuery": "fructose metabolism liver fructokinase aldolase B bypasses PFK-1"
+    },
+    {
+      "id": "gng-pyruvate-carboxylase",
+      "title": "Which biotin-dependent mitochondrial enzyme converts pyruvate to oxaloacetate and is activated by acetyl-CoA?",
+      "body": "Pyruvate carboxylase\n\n$\\ce{Pyruvate + HCO3- + ATP -> oxaloacetate + ADP + P_i}$\n\nWhy: high acetyl-CoA (as in fasting, when fat is oxidized) both turns on this enzyme and shuts down pyruvate dehydrogenase, directing pyruvate toward glucose.\nKey idea: it is also an **anaplerotic** reaction that refills citric acid cycle intermediates.",
+      "answer": "pyruvate carboxylase",
+      "acceptedAnswers": [
+        "PC"
+      ],
+      "searchQuery": "pyruvate carboxylase biotin acetyl-CoA activation gluconeogenesis"
+    },
+    {
+      "id": "gng-pepck",
+      "title": "Which enzyme converts oxaloacetate to phosphoenolpyruvate, using GTP and releasing $\\ce{CO2}$?",
+      "body": "PEP carboxykinase (PEPCK)\n\n$\\ce{OAA + GTP -> PEP + CO2 + GDP}$\n\nThe $\\ce{CO2}$ added by pyruvate carboxylase is removed here, so the pair drives the unfavorable conversion of pyruvate to PEP.\nWhy: PEPCK exists in mitochondria and the cytosol; PEPCK transcription is induced by glucagon and cortisol.",
+      "answer": "PEPCK",
+      "acceptedAnswers": [
+        "phosphoenolpyruvate carboxykinase",
+        "PEP carboxykinase",
+        "PCK"
+      ],
+      "searchQuery": "PEPCK phosphoenolpyruvate carboxykinase oxaloacetate GTP gluconeogenesis"
+    },
+    {
+      "id": "gng-fbpase1",
+      "title": "Which enzyme reverses the PFK-1 step in gluconeogenesis, hydrolyzing fructose 1,6-bisphosphate to fructose 6-phosphate?",
+      "body": "Fructose 1,6-bisphosphatase (FBPase-1)\n\nIt is inhibited by **AMP** and by **fructose 2,6-bisphosphate**, the same molecules that activate PFK-1.\n\nKey idea: the reciprocal regulation prevents a **futile cycle** in which ATP is burned by both enzymes at once.",
+      "answer": "fructose 1,6-bisphosphatase",
+      "acceptedAnswers": [
+        "FBPase-1",
+        "FBPase",
+        "FBPase1",
+        "fructose-1,6-bisphosphatase",
+        "fructose bisphosphatase"
+      ],
+      "searchQuery": "fructose 1,6-bisphosphatase gluconeogenesis AMP fructose 2,6-bisphosphate inhibition"
+    },
+    {
+      "id": "gng-g6pase",
+      "title": "Which enzyme, found in the ER lumen of the liver and kidney, releases free glucose in the last step of gluconeogenesis?",
+      "body": "Glucose 6-phosphatase\n\nIt hydrolyzes G6P to glucose and $\\mathrm{P_i}$, so the cell can export glucose into the blood.\n\nWhy: muscle lacks this enzyme, so muscle glycogen cannot raise blood glucose.\nExample: in von Gierke disease (type I glycogen storage disease), G6Pase deficiency causes severe fasting hypoglycemia and a large liver.",
+      "answer": "glucose 6-phosphatase",
+      "acceptedAnswers": [
+        "G6Pase",
+        "glucose-6-phosphatase"
+      ],
+      "searchQuery": "glucose 6-phosphatase liver kidney ER von Gierke disease"
+    },
+    {
+      "id": "gng-cost",
+      "title": "How many ATP equivalents (ATP + GTP) does it cost to make one glucose from two pyruvate, counting only the nucleotide triphosphates? (number only)",
+      "body": "6\n\nTwo pyruvate carboxylase steps use $2$ ATP, two PEPCK steps use $2$ GTP and two phosphoglycerate kinase steps (in reverse) use $2$ ATP.\n\nCompare: glycolysis nets only $2$ ATP, so the cycle between glucose and pyruvate is strongly net negative in energy.\nWhy: this difference ($6$ vs $2$) is what makes the pathway irreversible overall.",
+      "answer": "6",
+      "searchQuery": "gluconeogenesis energy cost 6 ATP equivalents per glucose"
+    },
+    {
+      "id": "gng-cori-cycle",
+      "title": "What is the Cori cycle?",
+      "body": "Muscle makes lactate by glycolysis; the blood carries it to the liver, which turns it back into glucose by gluconeogenesis and returns it to the muscle.\n\nThe liver spends $6$ ATP equivalents to make a glucose that gives the muscle only $2$ ATP.\n\nWhy: it moves the metabolic burden of lactate and some of the ATP cost from muscle to the liver, which has oxygen to spare.\nCompare: the **glucose-alanine cycle** does similar work and also carries amino nitrogen to the liver.",
+      "searchQuery": "Cori cycle lactate muscle liver gluconeogenesis"
+    },
+    {
+      "id": "pdh-coenzyme-count",
+      "title": "How many distinct coenzymes does the pyruvate dehydrogenase complex use (TPP, lipoamide, CoA, FAD, NAD$^+$)? (number only)",
+      "body": "5\n\nE1 (pyruvate dehydrogenase) uses **TPP**, E2 (dihydrolipoyl transacetylase) uses **lipoamide** and **CoA**, and E3 (dihydrolipoyl dehydrogenase) uses **FAD** and $\\ce{NAD+}$.\n\nMnemonic: \"Tender Loving Care For Nancy\": TPP, Lipoate, CoA, FAD, NAD.\nKey idea: the $\\alpha$-ketoglutarate dehydrogenase complex uses the same five, with its own E1 and E2.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "five"
+      ],
+      "searchQuery": "pyruvate dehydrogenase complex five coenzymes E1 E2 E3"
+    },
+    {
+      "id": "pdh-regulation",
+      "title": "How is the pyruvate dehydrogenase complex turned off by phosphorylation, and what turns that on?",
+      "body": "**PDH kinase** phosphorylates E1 and inactivates it; **PDH phosphatase** reverses this.\n\nKinase is activated by ATP, acetyl-CoA and NADH, and inhibited by pyruvate and ADP. The phosphatase is stimulated by $\\ce{Ca^2+}$ and, in some tissues, by insulin.\n\nWhy: plenty of ATP and acetyl-CoA means the cell can spare pyruvate for gluconeogenesis or fat synthesis.",
+      "searchQuery": "pyruvate dehydrogenase kinase phosphatase regulation acetyl-CoA NADH"
+    },
+    {
+      "id": "pdh-no-fat-to-glucose",
+      "title": "Why can animals not convert fatty acids (even-chain) into glucose?",
+      "body": "The pyruvate dehydrogenase reaction is irreversible, so acetyl-CoA cannot go back to pyruvate.\n\nEach turn of the citric acid cycle also releases two $\\ce{CO2}$ for each two carbons entering as acetyl-CoA, so there is no net carbon for oxaloacetate.\n\nWhy: plants and bacteria can, using the **glyoxylate cycle**.\nWatch out: glycerol and odd-chain fatty acids (propionyl-CoA) can supply glucose carbons.",
+      "searchQuery": "animals cannot convert fatty acids to glucose pyruvate dehydrogenase irreversible"
+    },
+    {
+      "id": "pdh-beriberi-arsenite",
+      "title": "Why do thiamine deficiency (beriberi) and arsenite poisoning both impair pyruvate dehydrogenase?",
+      "body": "Thiamine is needed to make TPP, and arsenite binds the **dithiol** of reduced lipoamide.\n\nEither block lets pyruvate build up and be diverted to lactate, causing lactic acidosis, mainly in the nervous system and heart that rely on glucose oxidation.\n\nExample: alcohol use disorder, with poor intake of thiamine, leads to Wernicke-Korsakoff syndrome.",
+      "searchQuery": "thiamine deficiency beriberi arsenite pyruvate dehydrogenase lipoamide"
+    },
+    {
+      "id": "tca-citrate-synthase",
+      "title": "Which enzyme condenses acetyl-CoA with oxaloacetate to form citrate in the first step of the citric acid cycle?",
+      "body": "Citrate synthase\n\nIt has a large negative $\\Delta G^{\\circ\\prime}$ (about $-32\\,\\mathrm{kJ/mol}$), which pulls the cycle forward and also drives malate dehydrogenase, which is unfavorable by itself.\n\nWhy: it is inhibited by ATP, NADH, succinyl-CoA and citrate, and its rate depends on the available oxaloacetate.",
+      "answer": "citrate synthase",
+      "acceptedAnswers": [
+        "citrate synthetase"
+      ],
+      "searchQuery": "citrate synthase first step citric acid cycle acetyl-CoA oxaloacetate"
+    },
+    {
+      "id": "tca-aconitase-fluoroacetate",
+      "title": "Which enzyme isomerizes citrate to isocitrate through cis-aconitate and is blocked by fluorocitrate?",
+      "body": "Aconitase\n\nIt contains an $\\ce{Fe-S}$ cluster that binds citrate. The enzyme moves the hydroxyl group from C3 to C2.\n\nWhy: citrate is a tertiary alcohol and cannot be oxidized directly, so it is isomerized to the secondary alcohol isocitrate first.\nExample: fluoroacetate is converted by the cell to fluorocitrate, which blocks aconitase; this \"lethal synthesis\" makes it a potent poison.",
+      "answer": "aconitase",
+      "acceptedAnswers": [
+        "aconitate hydratase"
+      ],
+      "searchQuery": "aconitase citrate to isocitrate fluorocitrate inhibition"
+    },
+    {
+      "id": "tca-isocitrate-dehydrogenase",
+      "title": "Which citric acid cycle enzyme makes the first NADH and the first $\\ce{CO2}$, converting isocitrate to $\\alpha$-ketoglutarate?",
+      "body": "Isocitrate dehydrogenase\n\nIt is a major control point: **ADP** and $\\ce{Ca^2+}$ activate it; **ATP** and **NADH** inhibit it.\n\nWhy: the cycle speeds up when energy is needed and slows when the cell is energy-rich.\nWatch out: the mitochondrial form uses $\\ce{NAD+}$; the cytosolic and peroxisomal forms use $\\ce{NADP+}$ and supply NADPH.",
+      "answer": "isocitrate dehydrogenase",
+      "acceptedAnswers": [
+        "IDH"
+      ],
+      "searchQuery": "isocitrate dehydrogenase regulation ADP ATP NADH citric acid cycle"
+    },
+    {
+      "id": "tca-akg-dehydrogenase",
+      "title": "Which citric acid cycle enzyme complex, resembling pyruvate dehydrogenase, converts $\\alpha$-ketoglutarate to succinyl-CoA?",
+      "body": "$\\alpha$-Ketoglutarate dehydrogenase complex\n\nIt uses the same five cofactors as PDH and releases the second $\\ce{CO2}$ and the second NADH of the cycle.\n\nWhy: it is inhibited by its products **succinyl-CoA** and **NADH**, and by ATP, but unlike PDH it is not regulated by phosphorylation.",
+      "answer": "alpha-ketoglutarate dehydrogenase",
+      "acceptedAnswers": [
+        "alpha-ketoglutarate dehydrogenase complex",
+        "oxoglutarate dehydrogenase",
+        "2-oxoglutarate dehydrogenase",
+        "KGDH",
+        "OGDH",
+        "α-ketoglutarate dehydrogenase"
+      ],
+      "searchQuery": "alpha-ketoglutarate dehydrogenase complex succinyl-CoA citric acid cycle"
+    },
+    {
+      "id": "tca-succinyl-coa-synthetase",
+      "title": "Succinyl-CoA synthetase makes which nucleotide triphosphate by substrate-level phosphorylation in most animal tissues?",
+      "body": "GTP (some tissues make ATP instead)\n\nThe thioester energy of succinyl-CoA drives phosphorylation of the enzyme's histidine, and the phosphate then moves to GDP.\n\nKey idea: this is the cycle's only direct nucleotide triphosphate output, and nucleoside diphosphate kinase can convert GTP to ATP.",
+      "answer": "GTP",
+      "acceptedAnswers": [
+        "guanosine triphosphate"
+      ],
+      "searchQuery": "succinyl-CoA synthetase GTP substrate-level phosphorylation"
+    },
+    {
+      "id": "tca-sdh-malonate",
+      "title": "Which dicarboxylate is a classic competitive inhibitor of succinate dehydrogenase?",
+      "body": "Malonate\n\nIt resembles succinate but has no CH$_2$-CH$_2$ unit to dehydrogenate, so it binds the active site and blocks it.\n\nWhy: succinate dehydrogenase is the only citric acid cycle enzyme embedded in the inner mitochondrial membrane; it is **Complex II** of the electron transport chain, with covalently bound FAD.\nKey idea: it makes $\\ce{FADH2}$ rather than NADH.",
+      "answer": "malonate",
+      "acceptedAnswers": [
+        "malonic acid"
+      ],
+      "searchQuery": "malonate competitive inhibitor succinate dehydrogenase complex II"
+    },
+    {
+      "id": "tca-malate-dehydrogenase-pull",
+      "title": "Malate dehydrogenase has a large positive $\\Delta G^{\\circ\\prime}$ ($+29.7\\,\\mathrm{kJ/mol}$). Why does it still run forward in the cycle?",
+      "body": "The next enzyme, citrate synthase, consumes oxaloacetate in a very favorable reaction, keeping $[\\mathrm{OAA}]$ extremely low.\n\nWhy: a low product concentration makes $Q$ small, so the actual $\\Delta G$ is near zero or negative.\nKey idea: this is an example of an unfavorable step **pulled** by a favorable one, as in many metabolic pathways.\nWatch out: this is why $[\\mathrm{OAA}]$ in the mitochondria is so low (micromolar or lower).",
+      "searchQuery": "malate dehydrogenase positive delta G pulled by citrate synthase oxaloacetate"
+    },
+    {
+      "id": "tca-per-turn-nadh",
+      "title": "How many NADH are produced in one turn of the citric acid cycle (per acetyl-CoA)? (number only)",
+      "body": "3\n\nOne turn also gives $1\\,\\ce{FADH2}$, $1$ GTP (or ATP) and $2\\,\\ce{CO2}$.\n\nWhy: the NADH come from isocitrate dehydrogenase, $\\alpha$-ketoglutarate dehydrogenase and malate dehydrogenase; $\\ce{FADH2}$ from succinate dehydrogenase.\nTip: per glucose, double everything the cycle gives: $6$ NADH, $2$ $\\ce{FADH2}$ and $2$ GTP.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "citric acid cycle products per turn 3 NADH 1 FADH2 1 GTP"
+    },
+    {
+      "id": "tca-carbon-fate",
+      "title": "In a single turn of the cycle, do the two $\\ce{CO2}$ released come from the entering acetyl group?",
+      "body": "No. They come from the oxaloacetate-derived carbons; the acetyl carbons become part of the 4-carbon intermediates.\n\nThe acetyl carbons are released as $\\ce{CO2}$ only in later turns, because succinate is symmetric and scrambles the two ends.\n\nWhy: succinate is symmetric, so the two ends of the 4-carbon unit are scrambled and acetyl-derived carbons can be lost in later turns.",
+      "searchQuery": "citric acid cycle carbon fate acetyl CoA carbons released later turns CO2"
+    },
+    {
+      "id": "tca-anaplerotic",
+      "title": "What do \"anaplerotic\" reactions do for the citric acid cycle?",
+      "body": "They **replenish** intermediates that are withdrawn for biosynthesis.\n\nThe main one is pyruvate carboxylase ($\\text{pyruvate} \\to \\text{oxaloacetate}$); glutamate dehydrogenase and transaminases supply $\\alpha$-ketoglutarate, and propionyl-CoA gives succinyl-CoA.\n\nWhy: the cycle is **amphibolic**; citrate goes to fatty acids, $\\alpha$-KG and OAA to amino acids, succinyl-CoA to heme. Without refilling, the cycle would stall.",
+      "searchQuery": "anaplerotic reactions citric acid cycle replenish intermediates amphibolic"
+    },
+    {
+      "id": "tca-glyoxylate-enzyme",
+      "title": "Which enzyme of the glyoxylate cycle cleaves isocitrate into succinate and glyoxylate, bypassing the $\\ce{CO2}$-releasing steps?",
+      "body": "Isocitrate lyase\n\nMalate synthase then joins glyoxylate with a second acetyl-CoA to form malate.\n\nWhy: in plant seeds and some bacteria, this lets two acetyl-CoA make one net 4-carbon unit, so fats can be converted to carbohydrate.\nWatch out: animals lack isocitrate lyase and malate synthase.",
+      "answer": "isocitrate lyase",
+      "acceptedAnswers": [
+        "ICL"
+      ],
+      "searchQuery": "glyoxylate cycle isocitrate lyase malate synthase plants"
+    },
+    {
+      "id": "tca-succinate-fumarase",
+      "title": "What is the stereochemical hallmark of the fumarase reaction in the citric acid cycle?",
+      "body": "It adds water across the trans double bond of fumarate to give only **L-malate**.\n\nThe enzyme is stereospecific: it never makes D-malate, and it uses the same active site in both directions.\n\nKey idea: the sequence succinate $\\to$ fumarate $\\to$ malate $\\to$ oxaloacetate is the same dehydrogenation, hydration, dehydrogenation logic that fatty acid $\\beta$-oxidation uses.",
+      "searchQuery": "fumarase fumarate to L-malate stereospecific hydration"
+    },
+    {
+      "id": "etc-complex-i",
+      "title": "Which classic inhibitor of Complex I (NADH-Q oxidoreductase) blocks electron transfer to ubiquinone?",
+      "body": "Rotenone\n\nComplex I passes electrons from NADH through FMN and a chain of $\\ce{Fe-S}$ clusters to ubiquinone, and pumps $4\\,\\ce{H+}$ per electron pair.\n\nExample: rotenone is a plant-derived insecticide and fish poison; with Complex I blocked, NADH-linked oxidation stops but succinate can still feed in at Complex II.",
+      "answer": "rotenone",
+      "acceptedAnswers": [
+        "amytal",
+        "piericidin A"
+      ],
+      "searchQuery": "rotenone complex I inhibitor NADH-Q oxidoreductase"
+    },
+    {
+      "id": "etc-complex-ii-no-pump",
+      "title": "Does Complex II (succinate dehydrogenase) pump protons?",
+      "body": "No\n\nIt passes electrons from succinate through FAD and $\\ce{Fe-S}$ clusters to ubiquinone, but the free energy change is too small to drive proton pumping.\n\nWhy: because $\\ce{FADH2}$ electrons enter at Q and skip Complex I, they support fewer protons pumped, so they give less ATP than NADH.\nWatch out: this is why FADH2-linked oxidation yields about $1.5$ ATP versus $2.5$ for NADH.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "it does not",
+        "doesn't"
+      ],
+      "searchQuery": "complex II succinate dehydrogenase does not pump protons FADH2"
+    },
+    {
+      "id": "etc-complex-iii-antimycin",
+      "title": "Which inhibitor blocks Complex III (cytochrome $bc_1$) at the $Q_i$ site?",
+      "body": "Antimycin A\n\nComplex III oxidizes ubiquinol and reduces cytochrome $c$ through the **Q cycle**, which releases $4\\,\\ce{H+}$ on the intermembrane side per net $\\mathrm{QH_2}$ oxidized, while $2\\,\\ce{H+}$ are taken from the matrix.\n\nWhy: its cytochromes and Rieske $\\ce{Fe-S}$ center are one-electron carriers, while Q can carry two, so the Q cycle splits the flow.",
+      "answer": "antimycin A",
+      "acceptedAnswers": [
+        "antimycin"
+      ],
+      "searchQuery": "antimycin A complex III inhibitor Q cycle cytochrome bc1"
+    },
+    {
+      "id": "etc-complex-iv-cyanide",
+      "title": "Which poison binds the heme $a_3$-$\\ce{Cu_B}$ center of cytochrome $c$ oxidase and stops electron flow to oxygen?",
+      "body": "Cyanide (also CO and azide)\n\nComplex IV transfers four electrons from cytochrome $c$ to $\\ce{O2}$ to form $2\\,\\ce{H2O}$ and pumps protons: $4\\,\\mathrm{cyt}\\,c_{red} + 4\\,\\ce{H+} + \\ce{O2} \\to 4\\,\\mathrm{cyt}\\,c_{ox} + 2\\,\\ce{H2O}$.\n\nWhy: oxygen is reduced fully to water without releasing partially reduced intermediates (superoxide, peroxide) because all four electrons are delivered at one site.",
+      "answer": "cyanide",
+      "acceptedAnswers": [
+        "CN-",
+        "cyanide ion",
+        "azide",
+        "carbon monoxide",
+        "CO"
+      ],
+      "searchQuery": "cyanide inhibits cytochrome c oxidase complex IV heme a3"
+    },
+    {
+      "id": "etc-ubiquinone",
+      "title": "Which mobile, lipid-soluble carrier shuttles electrons from Complexes I and II to Complex III?",
+      "body": "Ubiquinone (coenzyme Q, $\\mathrm{Q}$)\n\nIts isoprenoid tail keeps it in the inner membrane, and it can carry two electrons and two protons as $\\mathrm{QH_2}$, passing through the semiquinone radical.\n\nCompare: cytochrome $c$ is the mobile **water-soluble** carrier between Complexes III and IV, carrying one electron at a time.",
+      "answer": "ubiquinone",
+      "acceptedAnswers": [
+        "coenzyme Q",
+        "CoQ",
+        "Q",
+        "coenzyme Q10",
+        "CoQ10",
+        "ubiquinol"
+      ],
+      "searchQuery": "ubiquinone coenzyme Q mobile electron carrier electron transport chain"
+    },
+    {
+      "id": "etc-electron-order",
+      "title": "What is the order of electron carriers from NADH to oxygen in the mitochondrial chain?",
+      "body": "NADH $\\to$ Complex I $\\to$ Q $\\to$ Complex III $\\to$ cytochrome $c$ $\\to$ Complex IV $\\to$ $\\ce{O2}$\n\nSuccinate enters through Complex II, which feeds Q; glycerol 3-phosphate dehydrogenase and the fatty acyl-CoA dehydrogenase ETF pathway also feed Q.\n\nKey idea: electrons always flow toward carriers with higher (more positive) reduction potentials.",
+      "searchQuery": "electron transport chain order complex I Q complex III cytochrome c complex IV"
+    },
+    {
+      "id": "etc-protons-per-nadh",
+      "title": "About how many protons are pumped per NADH (and per succinate) as electrons travel through the chain to $\\ce{O2}$?",
+      "body": "About $10\\,\\ce{H+}$ per NADH and $6\\,\\ce{H+}$ per succinate (per $\\ce{FADH2}$).\n\nComplex I pumps $4$, Complex III $4$ (net, via the Q cycle) and Complex IV $2$ per electron pair.\n\nWhy: succinate skips Complex I, so it loses $4$ protons.\nWatch out: textbooks differ somewhat in these counts, so always use the numbers your course gives you.",
+      "searchQuery": "protons pumped per NADH 10 per FADH2 6 electron transport chain"
+    },
+    {
+      "id": "etc-cytochrome-c",
+      "title": "Where is cytochrome $c$ located, and what else does it do besides carrying electrons?",
+      "body": "It is a small soluble protein loosely bound to the outer face of the **inner membrane**, in the intermembrane space.\n\nWhen released into the cytosol it helps assemble the apoptosome with Apaf-1, which activates caspase-9 and begins apoptosis.\n\nWhy: its heme iron cycles between $\\ce{Fe^3+}$ and $\\ce{Fe^2+}$, one electron at a time.",
+      "searchQuery": "cytochrome c intermembrane space electron carrier apoptosis release"
+    },
+    {
+      "id": "atp-binding-change",
+      "title": "What does Boyer's binding-change mechanism propose for ATP synthase?",
+      "body": "The three $\\beta$ subunits of $\\mathrm{F_1}$ cycle through three conformations (**loose, tight, open**) as the central $\\gamma$ shaft rotates, driven by proton flow through $\\mathrm{F_o}$.\n\nThe energy is used mainly to **release** the tightly bound ATP, not to form it.\n\nWhy: ATP forms spontaneously in the tight site, where the enzyme holds ADP and $\\mathrm{P_i}$ in just the right position.\nKey idea: rotation has been directly observed under the microscope.",
+      "searchQuery": "Boyer binding change mechanism ATP synthase rotation beta subunits"
+    },
+    {
+      "id": "ox-protons-per-atp",
+      "title": "Using the common textbook count, how many protons must flow in per ATP made and exported to the cytosol? (number only)",
+      "body": "4\n\nAbout $3\\,\\ce{H+}$ pass through ATP synthase (the $\\mathrm{F_o}$ ring has $8$ c subunits in mammals, so $8/3 \\approx 2.7$), plus $1\\,\\ce{H+}$ for the phosphate carrier that brings $\\mathrm{P_i}$ in.\n\nWhy: with $10\\,\\ce{H+}$ pumped per NADH, $10/4 = 2.5$ ATP per NADH; with $6$ per $\\ce{FADH2}$, $6/4 = 1.5$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "protons per ATP 4 ATP synthase c ring phosphate carrier"
+    },
+    {
+      "id": "ox-po-ratio",
+      "title": "What is the currently used P/O ratio (ATP per oxygen atom) for NADH oxidized through the full chain? (number only)",
+      "body": "2.5\n\nFor $\\ce{FADH2}$ the value is $1.5$. Older textbooks used $3$ and $2$, giving the figures of $36$ to $38$ ATP per glucose.\n\nWatch out: the P/O ratio is not a whole number, because proton pumping and ATP synthesis are coupled through a gradient and not through a chemical intermediate.",
+      "answer": "2.5",
+      "searchQuery": "P/O ratio NADH 2.5 FADH2 1.5 oxidative phosphorylation"
+    },
+    {
+      "id": "ox-atp-per-glucose",
+      "title": "Using P/O ratios of $2.5$ (NADH) and $1.5$ ($\\ce{FADH2}$) and the malate-aspartate shuttle, how many ATP does complete oxidation of one glucose give? (number only)",
+      "body": "32\n\nGlycolysis: $2$ ATP + $2$ NADH ($5$) = $7$. Pyruvate dehydrogenase: $2$ NADH = $5$. Citric acid cycle: $6$ NADH ($15$) + $2\\,\\ce{FADH2}$ ($3$) + $2$ GTP ($2$) = $20$.\n\nTotal: $7 + 5 + 20 = 32$.\nWatch out: with the glycerol 3-phosphate shuttle, the two cytosolic NADH count as $\\ce{FADH2}$ ($3$ instead of $5$), giving $30$; older texts say $36$ or $38$.",
+      "answer": "32",
+      "acceptedAnswers": [
+        "32 ATP"
+      ],
+      "searchQuery": "ATP yield per glucose 32 aerobic respiration P/O 2.5 1.5"
+    },
+    {
+      "id": "ox-shuttles",
+      "title": "Which shuttle moves reducing equivalents into the matrix as $\\ce{FADH2}$ (in muscle and brain), costing some ATP yield?",
+      "body": "The glycerol 3-phosphate shuttle\n\nCytosolic glycerol 3-phosphate dehydrogenase uses NADH; the mitochondrial isozyme (in the inner membrane) passes electrons to Q, so they enter at the level of $\\ce{FADH2}$.\n\nCompare: the **malate-aspartate shuttle** (liver, heart) delivers NADH to the matrix at full value, but depends on the membrane potential.",
+      "answer": "glycerol 3-phosphate shuttle",
+      "acceptedAnswers": [
+        "glycerol phosphate shuttle",
+        "glycerol-3-phosphate shuttle",
+        "glycerophosphate shuttle",
+        "G3P shuttle"
+      ],
+      "searchQuery": "glycerol 3-phosphate shuttle vs malate aspartate shuttle FADH2"
+    },
+    {
+      "id": "ox-uncoupler-ucp1",
+      "title": "Which protein in brown fat mitochondria dissipates the proton gradient as heat instead of making ATP?",
+      "body": "Uncoupling protein 1 (UCP1, thermogenin)\n\nIt lets protons leak back into the matrix, so electron transport runs without ATP synthesis, and the energy is released as heat.\n\nExample: newborns and hibernating animals use it for non-shivering thermogenesis; the chemical uncoupler 2,4-dinitrophenol acts the same way and is dangerous.",
+      "answer": "UCP1",
+      "acceptedAnswers": [
+        "thermogenin",
+        "uncoupling protein 1",
+        "uncoupling protein",
+        "UCP-1",
+        "UCP"
+      ],
+      "searchQuery": "UCP1 thermogenin brown fat uncoupling protein heat"
+    },
+    {
+      "id": "ox-oligomycin",
+      "title": "Which antibiotic blocks the $\\mathrm{F_o}$ proton channel of ATP synthase?",
+      "body": "Oligomycin\n\nWith $\\mathrm{F_o}$ blocked, protons cannot re-enter; the gradient builds up and electron transport slows dramatically.\n\nWhy: this shows **tight coupling**: oxygen consumption depends on ATP synthesis. An uncoupler such as DNP restores oxygen use despite oligomycin.",
+      "answer": "oligomycin",
+      "searchQuery": "oligomycin ATP synthase Fo inhibitor respiratory control"
+    },
+    {
+      "id": "ox-respiratory-control",
+      "title": "What is respiratory (acceptor) control?",
+      "body": "The rate of oxygen consumption is set by the availability of **ADP**.\n\nWhen ATP use is low, ADP falls, ATP synthase slows, the proton gradient builds up and electron transport is held back; when work raises ADP, the chain speeds up.\n\nWhy: the ADP/ATP translocase brings ADP into the matrix in exchange for ATP, driven by the membrane potential, so the cytosolic ADP/ATP ratio signals demand.",
+      "searchQuery": "respiratory control ADP availability oxygen consumption ATP synthase"
+    },
+    {
+      "id": "ox-superoxide-dismutase",
+      "title": "Which enzyme converts superoxide ($\\ce{O2^{.-}}$), leaked from the electron transport chain, into hydrogen peroxide and oxygen?",
+      "body": "Superoxide dismutase (SOD)\n\n$\\ce{2O2^{.-} + 2H+ -> H2O2 + O2}$\n\nCatalase or glutathione peroxidase then converts $\\ce{H2O2}$ to water.\n\nWhy: a small percent of electrons leak to $\\ce{O2}$ at Complexes I and III, and unchecked reactive oxygen species damage DNA, proteins and lipids.",
+      "answer": "superoxide dismutase",
+      "acceptedAnswers": [
+        "SOD"
+      ],
+      "searchQuery": "superoxide dismutase converts superoxide to hydrogen peroxide mitochondria"
+    },
+    {
+      "id": "ppp-g6pd-regulation",
+      "title": "Which enzyme catalyzes the rate-limiting first step of the pentose phosphate pathway, controlled by the $\\ce{NADP+}/\\mathrm{NADPH}$ ratio?",
+      "body": "Glucose 6-phosphate dehydrogenase (G6PD)\n\n$\\ce{G6P + NADP+ -> 6-phosphogluconolactone + NADPH + H+}$\n\nIt is strongly inhibited by NADPH, so the pathway runs only when the cell needs NADPH (high $\\ce{NADP+}$).\n\nWhy: insulin raises G6PD expression in the liver, supporting fatty acid synthesis.",
+      "answer": "glucose 6-phosphate dehydrogenase",
+      "acceptedAnswers": [
+        "G6PD",
+        "glucose-6-phosphate dehydrogenase",
+        "G6PDH"
+      ],
+      "searchQuery": "glucose 6-phosphate dehydrogenase rate limiting pentose phosphate pathway NADPH"
+    },
+    {
+      "id": "ppp-oxidative-output",
+      "title": "How many NADPH are made per glucose 6-phosphate that passes through the oxidative phase of the pentose phosphate pathway? (number only)",
+      "body": "2\n\n$\\ce{G6P + 2NADP+ + H2O -> ribulose 5-phosphate + CO2 + 2NADPH + 2H+}$\n\nThe two oxidations are G6PD and 6-phosphogluconate dehydrogenase; the latter also releases $\\ce{CO2}$.\n\nKey idea: ribulose 5-phosphate is then isomerized to ribose 5-phosphate for nucleotides.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "pentose phosphate pathway oxidative phase 2 NADPH ribulose 5-phosphate CO2"
+    },
+    {
+      "id": "ppp-transketolase",
+      "title": "Which TPP-dependent enzyme of the non-oxidative pentose phosphate pathway transfers two-carbon units between sugars?",
+      "body": "Transketolase\n\nCompare: transaldolase moves three-carbon units and needs no cofactor (it forms a Schiff base with lysine).\n\nWhy: together they recycle pentoses into fructose 6-phosphate and glyceraldehyde 3-phosphate, so the cell can make ribose or convert it back to glycolytic intermediates as needed.\nExample: red cell transketolase activity is used as a clinical test for thiamine deficiency.",
+      "answer": "transketolase",
+      "searchQuery": "transketolase TPP pentose phosphate pathway non-oxidative two carbon transfer"
+    },
+    {
+      "id": "ppp-g6pd-deficiency",
+      "title": "Why does G6PD deficiency cause hemolytic anemia after fava beans or primaquine?",
+      "body": "Red cells have no other NADPH source, and NADPH keeps **glutathione** reduced.\n\nWithout enough reduced glutathione, oxidants (from fava beans, primaquine, infection) damage hemoglobin and membranes, and the cells lyse.\n\nWhy: it is X-linked and the most common human enzyme deficiency; it also gives some protection against malaria.\nKey idea: the failure is in antioxidant defense, not in energy supply.",
+      "searchQuery": "G6PD deficiency hemolytic anemia fava beans glutathione NADPH"
+    },
+    {
+      "id": "ppp-nadph-vs-nadh",
+      "title": "Why does the cell keep NADPH and NADH in different redox states?",
+      "body": "The cytosolic $\\ce{NADP+}/\\mathrm{NADPH}$ pool is kept **highly reduced** (NADPH high) for biosynthesis, while $\\ce{NAD+}/\\mathrm{NADH}$ is kept **oxidized** (NAD$^+$ high) for catabolism.\n\nExample: NADPH drives fatty acid and cholesterol synthesis and glutathione reduction; NAD$^+$ accepts electrons in glycolysis and the citric acid cycle.\n\nWhy: enzymes use the extra 2'-phosphate to tell the two apart.",
+      "searchQuery": "NADPH vs NADH redox state biosynthesis catabolism cytosol"
+    },
+    {
+      "id": "gly-phosphorylase",
+      "title": "Glycogen phosphorylase releases glucose 1-phosphate from glycogen. What cofactor does it need, and what does it use as the second substrate?",
+      "body": "Cofactor: **pyridoxal phosphate (PLP)**. Second substrate: inorganic phosphate ($\\mathrm{P_i}$), not ATP.\n\nIt cleaves $\\alpha(1\\rightarrow4)$ links by **phosphorolysis**, working from the non-reducing ends, and stops four residues short of a branch point.\n\nWhy: phosphorolysis saves the ATP that hydrolysis and re-phosphorylation would cost.\nKey idea: the products are glucose 1-phosphate, which phosphoglucomutase converts to G6P.",
+      "searchQuery": "glycogen phosphorylase pyridoxal phosphate phosphorolysis glucose 1-phosphate"
+    },
+    {
+      "id": "gly-debranching",
+      "title": "How does the debranching enzyme clear a branch point after phosphorylase stops?",
+      "body": "A **transferase** moves three of the four remaining residues to another chain end, and an $\\alpha(1\\rightarrow6)$-**glucosidase** then hydrolyzes the last residue, releasing free glucose.\n\nSo about $10\\%$ of glycogen's glucose is released as free glucose rather than glucose 1-phosphate.\n\nWhy: the two activities sit on one bifunctional protein.",
+      "searchQuery": "glycogen debranching enzyme transferase alpha 1,6 glucosidase"
+    },
+    {
+      "id": "gly-synthase-udp",
+      "title": "Which activated sugar donates glucose to the growing glycogen chain, and which enzyme adds it?",
+      "body": "**UDP-glucose**, added by **glycogen synthase** to a non-reducing end by an $\\alpha(1\\rightarrow4)$ link.\n\nUDP-glucose comes from glucose 1-phosphate + UTP (UDP-glucose pyrophosphorylase), and pyrophosphate hydrolysis makes this step irreversible.\n\nWatch out: synthase needs a primer; glycogenin starts a chain by self-glucosylation on a tyrosine.",
+      "searchQuery": "glycogen synthase UDP-glucose glycogenin primer synthesis"
+    },
+    {
+      "id": "gly-hormonal-control",
+      "title": "How do glucagon and epinephrine versus insulin control glycogen phosphorylase and glycogen synthase?",
+      "body": "Glucagon and epinephrine: $\\text{cAMP} \\to \\text{PKA} \\to \\text{phosphorylase kinase} \\to$ **phosphorylase a** (active), while PKA also phosphorylates and **inactivates** glycogen synthase.\n\nInsulin activates protein phosphatase 1 and inhibits GSK3, so synthase is dephosphorylated and **active** and phosphorylase is inactive.\n\nKey idea: the two enzymes are reciprocally controlled, so glycogen is never built and broken at the same time.",
+      "searchQuery": "glycogen phosphorylase synthase regulation cAMP PKA insulin phosphatase"
+    },
+    {
+      "id": "gly-liver-muscle",
+      "title": "How does the purpose of glycogen breakdown differ between liver and muscle?",
+      "body": "Liver releases free glucose to keep **blood glucose** steady (it has glucose 6-phosphatase); muscle burns glucose 6-phosphate for **its own** ATP and lacks that enzyme.\n\nMuscle phosphorylase $b$ is also activated by AMP and $\\ce{Ca^2+}$ (via phosphorylase kinase) during exercise; liver phosphorylase responds to glucagon and is inhibited by glucose.\n\nWhy: muscle responds to epinephrine, but not to glucagon, which it lacks receptors for.",
+      "searchQuery": "liver vs muscle glycogen function glucose 6-phosphatase AMP phosphorylase"
+    },
+    {
+      "id": "gly-mcardle",
+      "title": "Which glycogen storage disease is caused by deficiency of muscle glycogen phosphorylase, causing exercise intolerance and painful cramps?",
+      "body": "McArdle disease (type V)\n\nMuscle glycogen builds up, but cannot be mobilized, so exercise causes cramping and fatigue, and blood lactate does not rise during ischemic exercise.\n\nCompare: **Pompe disease** (type II) is lysosomal $\\alpha$-glucosidase deficiency, and **von Gierke disease** (type I) is glucose 6-phosphatase deficiency.",
+      "answer": "McArdle disease",
+      "acceptedAnswers": [
+        "McArdle",
+        "type V",
+        "glycogen storage disease type V",
+        "GSD V",
+        "GSD type V"
+      ],
+      "searchQuery": "McArdle disease type V muscle glycogen phosphorylase deficiency"
+    },
+    {
+      "id": "gly-synthesis-cost",
+      "title": "How many ATP equivalents are spent to add one glucose residue (starting from glucose 6-phosphate) to glycogen? (number only)",
+      "body": "1\n\nUTP is spent making UDP-glucose and is regenerated from ATP by nucleoside diphosphate kinase, so the net cost is one ATP per glucose residue. Hydrolysis of the released $\\mathrm{PP_i}$ makes the step irreversible without costing extra ATP.\n\nWhy: about $3\\%$ of the energy in a stored glucose is spent storing it, so glycogen is a very efficient fuel store.\nWatch out: some courses count the $\\mathrm{PP_i}$ hydrolysis as a second ATP equivalent; check your course's convention.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one"
+      ],
+      "searchQuery": "energy cost glycogen synthesis ATP equivalent per glucose UTP"
+    },
+    {
+      "id": "fa-activation-cost",
+      "title": "Activating a fatty acid to fatty acyl-CoA consumes how many ATP equivalents? (number only)",
+      "body": "2\n\n$\\ce{RCOO- + CoA + ATP -> RCO-CoA + AMP + PP_i}$, followed by pyrophosphatase hydrolyzing the $\\mathrm{PP_i}$.\n\nTwo phosphoanhydride bonds are spent, even though only one ATP molecule is used (it becomes AMP).\n\nWatch out: this is why the net yield of palmitate is $108 - 2 = 106$ ATP.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "fatty acid activation acyl-CoA synthetase ATP to AMP 2 ATP equivalents"
+    },
+    {
+      "id": "fa-carnitine-shuttle",
+      "title": "Which molecule carries long-chain fatty acyl groups across the inner mitochondrial membrane?",
+      "body": "Carnitine\n\nCPT-I on the outer membrane makes acylcarnitine, a translocase moves it across the inner membrane, and CPT-II regenerates acyl-CoA in the matrix.\n\nWhy: **malonyl-CoA** inhibits CPT-I, so newly made fatty acids (made in the cytosol) are not immediately burned.\nKey idea: CPT-I is the rate-limiting, regulated step of fatty acid oxidation.",
+      "answer": "carnitine",
+      "acceptedAnswers": [
+        "L-carnitine"
+      ],
+      "searchQuery": "carnitine shuttle CPT-I malonyl-CoA fatty acid oxidation mitochondria"
+    },
+    {
+      "id": "fa-beta-oxidation-steps",
+      "title": "What are the four reactions of each $\\beta$-oxidation cycle, in order?",
+      "body": "1. Oxidation by acyl-CoA dehydrogenase (makes $\\ce{FADH2}$)\n2. Hydration by enoyl-CoA hydratase\n3. Oxidation by L-3-hydroxyacyl-CoA dehydrogenase (makes NADH)\n4. Thiolysis by $\\beta$-ketothiolase, releasing acetyl-CoA\n\nWhy: each round shortens the acyl-CoA by two carbons.\nTip: oxidation, hydration, oxidation, thiolysis. The same logic, run in reverse, builds fatty acids.",
+      "searchQuery": "beta oxidation four steps acyl-CoA dehydrogenase hydratase thiolase"
+    },
+    {
+      "id": "fa-palmitate-rounds",
+      "title": "How many rounds of $\\beta$-oxidation fully cleave palmitoyl-CoA (16 carbons) into acetyl-CoA? (number only)",
+      "body": "7\n\nThe last round cleaves a 4-carbon chain into two acetyl-CoA, so $n/2 - 1 = 7$ rounds give $8$ acetyl-CoA, $7\\,\\ce{FADH2}$ and $7$ NADH.\n\nExample: for a 12-carbon fatty acid, $12/2 - 1 = 5$ rounds.",
+      "answer": "7",
+      "acceptedAnswers": [
+        "seven"
+      ],
+      "searchQuery": "palmitate beta oxidation 7 rounds 8 acetyl-CoA"
+    },
+    {
+      "id": "fa-palmitate-atp",
+      "title": "Using P/O ratios of $2.5$ and $1.5$, what is the net ATP yield from complete oxidation of one palmitate? (number only)",
+      "body": "106\n\nEight acetyl-CoA give $8 \\times 10 = 80$; $7\\,\\ce{FADH2}$ and $7$ NADH give $7 \\times (1.5 + 2.5) = 28$; subtract $2$ for activation.\n\n$80 + 28 - 2 = 106$\n\nWatch out: with the older ratios ($3$ and $2$) the answer is $129$ or $131$ ATP; always state the convention.",
+      "answer": "106",
+      "acceptedAnswers": [
+        "106 ATP"
+      ],
+      "searchQuery": "ATP yield complete oxidation palmitate 106 ATP"
+    },
+    {
+      "id": "fa-odd-chain-b12",
+      "title": "Which vitamin-derived cofactor does methylmalonyl-CoA mutase need to convert propionyl-CoA's product into succinyl-CoA?",
+      "body": "Vitamin $\\mathrm{B_{12}}$ (adenosylcobalamin)\n\nOdd-chain fatty acids end with propionyl-CoA, which is carboxylated (biotin) to methylmalonyl-CoA, racemized and then rearranged to succinyl-CoA by the mutase.\n\nExample: $\\mathrm{B_{12}}$ deficiency causes methylmalonic acid to build up, which clinicians use as a diagnostic marker.",
+      "answer": "vitamin B12",
+      "acceptedAnswers": [
+        "B12",
+        "cobalamin",
+        "adenosylcobalamin",
+        "cobalamin B12",
+        "vitamin B-12"
+      ],
+      "searchQuery": "methylmalonyl-CoA mutase vitamin B12 propionyl-CoA succinyl-CoA"
+    },
+    {
+      "id": "fa-ketogenesis-enzyme",
+      "title": "Which mitochondrial enzyme is the rate-limiting step of ketone body synthesis, condensing acetoacetyl-CoA with acetyl-CoA?",
+      "body": "HMG-CoA synthase (mitochondrial)\n\nHMG-CoA lyase then cleaves HMG-CoA into acetoacetate and acetyl-CoA; acetoacetate can be reduced to $\\beta$-hydroxybutyrate (NADH-linked) or decarboxylate to acetone.\n\nWhy: during fasting, the liver makes more acetyl-CoA from fat than the citric acid cycle can use (low oxaloacetate), so the surplus becomes ketone bodies.\nWatch out: the cytosolic isozyme makes HMG-CoA for cholesterol.",
+      "answer": "HMG-CoA synthase",
+      "acceptedAnswers": [
+        "mitochondrial HMG-CoA synthase",
+        "HMG CoA synthase",
+        "hydroxymethylglutaryl-CoA synthase",
+        "HMGCS2"
+      ],
+      "searchQuery": "HMG-CoA synthase mitochondrial ketogenesis rate-limiting ketone bodies"
+    },
+    {
+      "id": "fa-liver-no-ketone-use",
+      "title": "Why can the liver make ketone bodies but not use them?",
+      "body": "It lacks **succinyl-CoA:acetoacetate CoA transferase** (thiophorase), which activates acetoacetate to acetoacetyl-CoA.\n\nHeart, skeletal muscle and (in prolonged fasting) brain have it, so ketone bodies are exported from the liver as fuel.\n\nWhy: this keeps liver as a net supplier rather than a competing consumer.",
+      "searchQuery": "liver cannot use ketone bodies thiophorase succinyl-CoA acetoacetate CoA transferase"
+    },
+    {
+      "id": "fa-acc",
+      "title": "Which biotin-dependent enzyme catalyzes the committed step of fatty acid synthesis, making malonyl-CoA?",
+      "body": "Acetyl-CoA carboxylase (ACC)\n\n$\\ce{Acetyl-CoA + HCO3- + ATP -> malonyl-CoA + ADP + P_i}$\n\nIt is cytosolic. Malonyl-CoA is the 2-carbon donor for chain elongation and also the CPT-I inhibitor that stops fat burning.\n\nKey idea: this adds one carbon unit, as $\\ce{CO2}$, which is later lost again in the condensation.",
+      "answer": "acetyl-CoA carboxylase",
+      "acceptedAnswers": [
+        "ACC",
+        "acetyl CoA carboxylase"
+      ],
+      "searchQuery": "acetyl-CoA carboxylase committed step fatty acid synthesis malonyl-CoA biotin"
+    },
+    {
+      "id": "fa-acc-regulation",
+      "title": "How is acetyl-CoA carboxylase regulated by citrate, palmitoyl-CoA, insulin, glucagon and AMPK?",
+      "body": "**Activated** by citrate and by insulin (via dephosphorylation); **inhibited** by palmitoyl-CoA and by phosphorylation from AMPK or glucagon-induced PKA.\n\nWhy: citrate signals plenty of acetyl-CoA and ATP; palmitoyl-CoA is the end product; AMPK signals low energy.\nKey idea: the cell never makes and burns fat at once, since ACC also lowers fat oxidation by making malonyl-CoA only when fed.",
+      "searchQuery": "acetyl-CoA carboxylase regulation citrate palmitoyl-CoA AMPK insulin"
+    },
+    {
+      "id": "fa-synthase-nadph",
+      "title": "How many NADPH are used to synthesize one palmitate from acetyl-CoA and malonyl-CoA? (number only)",
+      "body": "14\n\nEach of the $7$ elongation cycles uses $2$ NADPH (one for the $\\beta$-ketoacyl reduction and one for the enoyl reduction).\n\nOverall: $\\ce{8 acetyl-CoA + 7ATP + 14NADPH -> palmitate + 8CoA + 7ADP + 14NADP+ + 6H2O + 7P_i}$.\nWhy: NADPH comes from the pentose phosphate pathway and from malic enzyme.",
+      "answer": "14",
+      "acceptedAnswers": [
+        "fourteen"
+      ],
+      "searchQuery": "palmitate synthesis 14 NADPH fatty acid synthase 7 ATP"
+    },
+    {
+      "id": "fa-citrate-shuttle",
+      "title": "How does acetyl-CoA leave the mitochondria for fatty acid synthesis in the cytosol?",
+      "body": "As **citrate**, which is exported and cleaved by **ATP-citrate lyase** into acetyl-CoA and oxaloacetate.\n\nThe oxaloacetate is reduced to malate and then oxidized by malic enzyme to pyruvate, giving NADPH.\n\nWhy: the inner membrane has no acetyl-CoA carrier, and a high citrate level means energy and carbon are in surplus.",
+      "searchQuery": "citrate shuttle ATP-citrate lyase acetyl-CoA export mitochondria fatty acid synthesis"
+    },
+    {
+      "id": "aa-transaminase-plp",
+      "title": "Which cofactor do all transaminases (aminotransferases) use to shuttle amino groups?",
+      "body": "Pyridoxal phosphate (PLP, from vitamin $\\mathrm{B_6}$)\n\nThe amino group moves from an amino acid to PLP (forming pyridoxamine phosphate), then to an $\\alpha$-keto acid, usually $\\alpha$-ketoglutarate, giving glutamate.\n\nExample: ALT converts alanine and $\\alpha$-KG to pyruvate and glutamate; AST does the same with aspartate and oxaloacetate. Elevated serum levels signal liver injury.",
+      "answer": "pyridoxal phosphate",
+      "acceptedAnswers": [
+        "PLP",
+        "vitamin B6",
+        "B6",
+        "pyridoxal 5'-phosphate",
+        "pyridoxine"
+      ],
+      "searchQuery": "transaminase pyridoxal phosphate PLP amino group transfer ALT AST"
+    },
+    {
+      "id": "aa-cps1-nag",
+      "title": "Which allosteric activator is required by carbamoyl phosphate synthetase I, the regulated first step of the urea cycle?",
+      "body": "N-Acetylglutamate (NAG)\n\n$\\ce{NH4+ + HCO3- + 2ATP -> carbamoyl phosphate + 2ADP + P_i}$ in the mitochondrial matrix.\n\nWhy: arginine stimulates NAG synthesis, so the cycle speeds up when amino acid breakdown increases.\nWatch out: CPS II, in the cytosol, makes carbamoyl phosphate for pyrimidines from glutamine and is not NAG-dependent.",
+      "answer": "N-acetylglutamate",
+      "acceptedAnswers": [
+        "NAG",
+        "acetylglutamate"
+      ],
+      "searchQuery": "carbamoyl phosphate synthetase I N-acetylglutamate urea cycle activator"
+    },
+    {
+      "id": "aa-urea-cycle-compartments",
+      "title": "Which urea cycle steps occur in the mitochondrial matrix, and which in the cytosol?",
+      "body": "**Matrix:** CPS I and ornithine transcarbamoylase (making citrulline). **Cytosol:** argininosuccinate synthetase, argininosuccinate lyase and arginase.\n\nCitrulline exits and ornithine enters through a transporter.\n\nExample: OTC deficiency, the most common urea cycle defect, is X-linked; carbamoyl phosphate spills into pyrimidine synthesis, so **orotic acid** rises in urine.",
+      "searchQuery": "urea cycle mitochondria cytosol ornithine transcarbamoylase OTC deficiency orotic acid"
+    },
+    {
+      "id": "aa-urea-cycle-cost",
+      "title": "How many high-energy phosphate bonds (ATP equivalents) does the urea cycle consume per urea made? (number only)",
+      "body": "4\n\nCPS I uses $2$ ATP, and argininosuccinate synthetase converts ATP to AMP + PP$_i$, which counts as $2$.\n\nWhy: part of the cost is returned, because the fumarate produced can form malate and then NADH in the citric acid cycle.\nKey idea: the nitrogens in urea come from $\\ce{NH4+}$ and from aspartate.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "urea cycle energy cost 4 high-energy phosphate bonds per urea"
+    },
+    {
+      "id": "aa-ketogenic-amino-acids",
+      "title": "Which two amino acids are purely ketogenic in humans?",
+      "body": "Leucine and lysine\n\nTheir carbons break down only to acetyl-CoA or acetoacetate, never to a gluconeogenic intermediate.\n\nWhy: acetyl-CoA cannot be converted to net glucose in animals.\nExample: Phe, Tyr, Trp, Ile and Thr are both glucogenic and ketogenic.",
+      "answer": "leucine and lysine",
+      "acceptedAnswers": [
+        "lysine and leucine",
+        "leu and lys",
+        "lys and leu",
+        "Leu, Lys",
+        "Lys, Leu"
+      ],
+      "searchQuery": "purely ketogenic amino acids leucine lysine"
+    },
+    {
+      "id": "reg-insulin-glucagon",
+      "title": "How do insulin and glucagon shift liver metabolism between the fed and fasting states?",
+      "body": "**Insulin (fed):** favors glycolysis, glycogen synthesis, fatty acid synthesis and storage. **Glucagon (fasting):** favors glycogenolysis, gluconeogenesis and ketogenesis through cAMP and PKA.\n\nWhy: the main control tool is phosphorylation of key enzymes, with long-term changes in gene expression (PEPCK, G6Pase up with glucagon).\nKey idea: the two hormones act reciprocally, so opposing pathways are not active together.",
+      "searchQuery": "insulin glucagon fed fasting state liver metabolism regulation"
+    },
+    {
+      "id": "reg-ampk",
+      "title": "Which kinase acts as the cell's energy sensor, activated when the AMP/ATP ratio rises?",
+      "body": "AMP-activated protein kinase (AMPK)\n\nOnce active, it phosphorylates targets to turn **on** ATP-producing pathways (glucose uptake, fatty acid oxidation) and turn **off** ATP-consuming ones (ACC and fatty acid synthesis, cholesterol synthesis).\n\nExample: exercise and the drug metformin both activate AMPK.",
+      "answer": "AMPK",
+      "acceptedAnswers": [
+        "AMP-activated protein kinase",
+        "AMP activated protein kinase"
+      ],
+      "searchQuery": "AMPK energy sensor AMP-activated protein kinase metabolism"
+    },
+    {
+      "id": "reg-hmg-coa-reductase",
+      "title": "Which enzyme is the rate-limiting step of cholesterol synthesis and the target of statin drugs?",
+      "body": "HMG-CoA reductase\n\nIt converts HMG-CoA to mevalonate using $2$ NADPH. Statins are competitive inhibitors that resemble HMG-CoA.\n\nWhy: it is controlled by cholesterol-dependent degradation, SREBP-mediated transcription and AMPK phosphorylation.\nWatch out: this is the cytosolic/ER pathway; the mitochondrial HMG-CoA made for ketogenesis is a separate pool.",
+      "answer": "HMG-CoA reductase",
+      "acceptedAnswers": [
+        "HMG CoA reductase",
+        "hydroxymethylglutaryl-CoA reductase",
+        "HMGCR"
+      ],
+      "searchQuery": "HMG-CoA reductase rate limiting cholesterol synthesis statins"
+    },
+    {
+      "id": "reg-fasting-brain-fuel",
+      "title": "During prolonged fasting, which fuel does the brain increasingly use to spare glucose and body protein?",
+      "body": "Ketone bodies ($\\beta$-hydroxybutyrate and acetoacetate)\n\nThe brain cannot burn fatty acids, which do not cross the blood-brain barrier well as albumin-bound molecules, but it can oxidize ketone bodies made by the liver.\n\nWhy: this reduces the glucose needed from gluconeogenesis, so less muscle protein is broken down.\nExample: after several days of fasting, ketones can supply a large share of the brain's energy.",
+      "answer": "ketone bodies",
+      "acceptedAnswers": [
+        "ketones",
+        "ketone",
+        "beta-hydroxybutyrate",
+        "acetoacetate"
+      ],
+      "searchQuery": "fasting brain uses ketone bodies spare glucose protein"
+    }
+  ]
+}

@@ -1,0 +1,973 @@
+{
+  "id": "eng-statics",
+  "title": "Statics",
+  "course": "Engineering Mechanics",
+  "description": "Force vectors and moments, couples and equivalent systems, FBDs and supports, trusses, frames and machines, beam shear and moment, cables, friction (wedges, screws, belts), centroids, area moments of inertia and virtual work.",
+  "cards": [
+    {
+      "id": "moment-varignon-components",
+      "title": "A force with components $F_x = 3\\,\\mathrm{kN}$ and $F_y = 4\\,\\mathrm{kN}$ acts at point $(2\\,\\mathrm{m}, 1\\,\\mathrm{m})$. Its moment about the origin in kN·m, counterclockwise positive?",
+      "body": "$M_O = +5\\,\\mathrm{kN \\cdot m}$ (counterclockwise)\n\n**Varignon's theorem**: add the moments of the components. $F_y$ has arm $x = 2\\,\\mathrm{m}$ (CCW, $+8$); $F_x$ has arm $y = 1\\,\\mathrm{m}$ (CW, $-3$).\n\n$M_O = xF_y - yF_x = 8 - 3 = 5\\,\\mathrm{kN \\cdot m}$, the $z$-component of $\\mathbf{r} \\times \\mathbf{F}$.\n\nWatch out: adding both magnitudes ($11\\,\\mathrm{kN \\cdot m}$) ignores that the two components turn opposite ways.\nExample: check with $M = Fd$: $F = 5\\,\\mathrm{kN}$ and its line of action passes $d = 1\\,\\mathrm{m}$ from $O$.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "+5",
+        "5 kN*m",
+        "+5 kN*m",
+        "5 kN-m",
+        "5 kN*m ccw",
+        "5 kN*m counterclockwise"
+      ],
+      "answerDisplay": "$+5\\,\\mathrm{kN \\cdot m}$ (counterclockwise)",
+      "searchQuery": "moment of force components Varignon theorem about origin"
+    },
+    {
+      "id": "couple-moment",
+      "title": "Equal and opposite forces $F$ act along parallel lines a perpendicular distance $d$ apart. What is their moment about any point $P$?",
+      "body": "$M = Fd$, the same about every point.\n\nThe pair (a **couple**) has zero resultant force, and its moment doesn't depend on the reference point. So a couple moment is a **free vector**: it can be applied anywhere on a rigid body with the same external effect.\n\nTwo couples are equivalent if their moments have the same magnitude and direction.\n\nKey idea: a couple causes pure rotation tendency and no net push.",
+      "answer": "Fd",
+      "acceptedAnswers": [
+        "dF",
+        "M = Fd"
+      ],
+      "answerDisplay": "$M = Fd$",
+      "searchQuery": "couple moment two equal opposite parallel forces M = Fd"
+    },
+    {
+      "id": "triangular-load-resultant",
+      "title": "A distributed load increases linearly from zero at A to $6\\,\\mathrm{kN/m}$ at B, $3\\,\\mathrm{m}$ away. How far from A does its resultant act, in meters?",
+      "body": "$2\\,\\mathrm{m}$ from A ($1\\,\\mathrm{m}$ from B)\n\nThe resultant equals the area under the load curve: $\\tfrac{1}{2}(6\\,\\mathrm{kN/m})(3\\,\\mathrm{m}) = 9\\,\\mathrm{kN}$. It acts through the **centroid** of that area.\n\nA triangle's centroid is $\\tfrac{1}{3}$ of the length from its tall end, i.e., $\\tfrac{2}{3}$ from the zero end.\n\nTip: a uniform load $w$ over length $L$ has resultant $wL$ at the midpoint.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "2 m",
+        "2 meters",
+        "2 meter",
+        "2 m from A"
+      ],
+      "answerDisplay": "$2\\,\\mathrm{m}$ from A",
+      "searchQuery": "triangular distributed load resultant location centroid"
+    },
+    {
+      "id": "free-body-diagram-rules",
+      "title": "On a free-body diagram, which forces must you show, and which must you leave off?",
+      "body": "Show every **external** force and couple on the isolated body; leave off internal forces.\n\nInclude applied loads, the weight at the center of gravity, and the reactions at every support or connection you cut away.\n\nLeave off internal forces (they cancel in pairs) and forces the body exerts on other bodies.\n\nTip: assume a sense for each unknown; a negative answer just means it acts the other way.",
+      "searchQuery": "free body diagram external forces reactions rules statics"
+    },
+    {
+      "id": "support-reactions-2d",
+      "title": "In 2D, how many reaction components does each support provide: a roller, a smooth pin, and a fixed support?",
+      "body": "Roller: 1. Pin: 2. Fixed: 3.\n\nRoller: one force normal to the surface. Pin: force components $A_x$ and $A_y$ (the member can rotate, so no moment). Fixed: $A_x$, $A_y$ and a couple moment $M_A$.\n\nKey idea: a support exerts a force for each direction of translation it prevents and a couple moment for each rotation it prevents.",
+      "searchQuery": "2D support reactions roller pin fixed support number of unknowns"
+    },
+    {
+      "id": "equilibrium-equations-2d",
+      "title": "How many independent equilibrium equations can you write for one rigid body in a 2D (coplanar) problem?",
+      "body": "3\n\n$\\Sigma F_x = 0$, $\\Sigma F_y = 0$, $\\Sigma M_O = 0$, so one 2D free-body diagram can solve at most 3 unknowns. In 3D there are 6 (three force sums, three moment sums).\n\nAlternative 2D sets: $\\Sigma F_x$, $\\Sigma M_A$, $\\Sigma M_B$ (line AB not perpendicular to $x$), or $\\Sigma M_A$, $\\Sigma M_B$, $\\Sigma M_C$ (A, B, C not collinear).\n\nWatch out: extra equations from a different point are not independent of the three you already used.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "number of equilibrium equations 2D rigid body statics"
+    },
+    {
+      "id": "two-force-member",
+      "title": "A pin-connected member has no loads between its two ends and negligible weight. What must be true of the forces at its ends?",
+      "body": "Equal, opposite and **collinear** along the line joining the two pins.\n\nThe member is therefore in pure tension or compression.\n\nFor a curved or bent two-force member, the force still acts along the straight line between the pins, not along the member.\n\nWhy: summing moments about one pin forces the other pin's force to pass through it.",
+      "searchQuery": "two-force member equal opposite collinear forces pin ends"
+    },
+    {
+      "id": "static-determinacy",
+      "title": "A 2D beam is supported by a pin at A and rollers at B and C. What is its degree of static indeterminacy?",
+      "body": "1 (indeterminate to the first degree)\n\nUnknown reactions: $2 + 1 + 1 = 4$, but equilibrium gives only 3 equations, so the degree is $4 - 3 = 1$. The extra equation comes from deformation (compatibility), as in Mechanics of Materials.\n\nWatch out: exactly 3 reactions isn't enough on its own. If they are all parallel or all concurrent, the body is improperly constrained.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one",
+        "first",
+        "1st",
+        "first degree",
+        "1st degree",
+        "degree 1",
+        "first-degree"
+      ],
+      "searchQuery": "statically indeterminate beam degree pin and two rollers"
+    },
+    {
+      "id": "truss-joints-vs-sections",
+      "title": "Truss analysis: when is the method of sections faster than the method of joints?",
+      "body": "When you need only a few member forces deep inside the truss.\n\n**Sections**: cut through no more than 3 members with unknown forces and apply all 3 equilibrium equations to one side. Take moments about the point where two unknown forces intersect.\n\n**Joints**: 2 equations ($\\Sigma F_x = 0$, $\\Sigma F_y = 0$) per pin, so start at a joint with at most 2 unknowns.\n\nTip: assume every member is in tension; a negative result means compression.",
+      "searchQuery": "truss method of sections vs method of joints when to use"
+    },
+    {
+      "id": "zero-force-member",
+      "title": "A truss joint with no external load or support connects three members, two of them collinear. What is the force in the third member?",
+      "body": "0\n\nSum forces perpendicular to the collinear pair: only the third member has a component in that direction, so its force must be $0$.\n\nAlso, an unloaded, unsupported joint with only two non-collinear members makes both of them zero-force members.\n\nWatch out: zero-force members still matter. They brace the truss and carry load if the loading changes.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero",
+        "0 N",
+        "0 kN",
+        "zero force",
+        "zero-force member"
+      ],
+      "searchQuery": "zero-force member truss three members two collinear"
+    },
+    {
+      "id": "friction-angle-incline",
+      "title": "A block on an incline is on the verge of sliding when the incline angle reaches $\\theta$. What is the coefficient of static friction?",
+      "body": "$\\mu_s = \\tan\\theta$\n\nAlong the slope: $W\\sin\\theta = \\mu_s N$; normal to it: $N = W\\cos\\theta$. Dividing gives $\\mu_s = \\tan\\theta$, independent of the weight.\n\nThis $\\theta$ is the **angle of repose**, equal to the friction angle $\\phi_s = \\tan^{-1}\\mu_s$.\n\nTip: this is the standard way to measure $\\mu_s$ experimentally.",
+      "answer": "tan(theta)",
+      "acceptedAnswers": [
+        "tan theta",
+        "sin(theta)/cos(theta)",
+        "sin theta/cos theta",
+        "mu_s = tan(theta)",
+        "mu = tan(theta)"
+      ],
+      "answerDisplay": "$\\mu_s = \\tan\\theta$",
+      "searchQuery": "angle of repose coefficient of static friction tan theta incline"
+    },
+    {
+      "id": "tipping-vs-sliding",
+      "title": "A uniform crate is pushed horizontally. How do you decide whether it slides or tips first?",
+      "body": "Find the push $P$ for each case separately; the smaller $P$ happens first.\n\n**Sliding**: static friction reaches its maximum, so $P = \\mu_s W$ (level floor).\n\n**Tipping**: the normal force and friction shift to the leading bottom corner; moments about that corner give $Ph = W\\tfrac{b}{2}$ (base width $b$, push at height $h$).\n\nWatch out: if the normal force's computed location falls outside the base, tipping governs.",
+      "searchQuery": "crate tipping versus sliding condition statics friction"
+    },
+    {
+      "id": "belt-friction",
+      "title": "A rope wrapped around a fixed drum is on the verge of slipping. How is the tight-side tension $T_2$ related to the slack-side tension $T_1$?",
+      "body": "$T_2 = T_1 e^{\\mu_s \\beta}$\n\n$\\beta$ is the contact angle in **radians** (each full wrap adds $2\\pi$), and $T_2$ is on the side toward which slipping impends.\n\nTension grows exponentially with wrap: with $\\mu_s = 0.3$, two full wraps ($\\beta = 4\\pi$) give $T_2/T_1 = e^{3.77} \\approx 43$. That is how a capstan lets one person hold a heavy load.\n\nKey idea: the result doesn't depend on the drum's radius.",
+      "searchQuery": "belt friction capstan equation T2 = T1 e^(mu beta)"
+    },
+    {
+      "id": "composite-area-centroid",
+      "title": "How do you find the centroid of a composite area that has a hole cut out of it?",
+      "body": "$\\bar{x} = \\dfrac{\\Sigma \\tilde{x} A}{\\Sigma A}$ (same for $\\bar{y}$), with the hole counted as a **negative area**.\n\n$\\tilde{x}$ is the centroid of each simple part. Subtract both the hole's $A$ and its $\\tilde{x}A$.\n\nHandy parts: rectangle at its middle, triangle at $h/3$ from its base, semicircle at $4r/(3\\pi)$ from its diameter.\n\nTip: the centroid lies on any axis of symmetry, which saves a calculation.",
+      "searchQuery": "centroid composite area with hole negative area method"
+    },
+    {
+      "id": "moment-about-axis",
+      "title": "How do you find the moment of a force $\\mathbf{F}$ about a specified axis $a$, rather than about a point?",
+      "body": "$M_a = \\mathbf{u}_a \\cdot (\\mathbf{r} \\times \\mathbf{F})$, a scalar triple product.\n\n$\\mathbf{u}_a$ is the unit vector along the axis, and $\\mathbf{r}$ runs from **any** point on the axis to **any** point on the line of action of $\\mathbf{F}$.\n\nOnly a force component perpendicular to the axis, with a line of action that misses the axis, causes rotation about it.\n\nWatch out: a force parallel to the axis, or one crossing it, has zero moment about that axis.",
+      "searchQuery": "moment of a force about an axis scalar triple product unit vector"
+    },
+    {
+      "id": "rigid-body-vs-particle",
+      "title": "When may a body be modeled as a particle in statics, and what extra equilibrium condition does a rigid-body model add?",
+      "body": "Particle: $\\Sigma \\mathbf{F} = \\mathbf{0}$ only. Rigid body: also $\\Sigma \\mathbf{M}_O = \\mathbf{0}$.\n\nA **particle** model works when size and shape don't affect the analysis, so all forces act through one point.\n\nFor a **rigid body**, size matters but deformation is neglected. Forces with different lines of action create moments, so moment equilibrium is needed too.\n\nKey idea: in 2D a particle gives 2 equations; a rigid body gives 3.",
+      "searchQuery": "particle versus rigid body equilibrium conditions statics"
+    },
+    {
+      "id": "resultant-law-of-cosines",
+      "title": "Two forces, $60\\,\\mathrm{N}$ and $80\\,\\mathrm{N}$, act on an eyebolt with $60^\\circ$ between their directions. Magnitude of their resultant, in N to 3 significant figures?",
+      "body": "$F_R \\approx 122\\,\\mathrm{N}$\n\nParallelogram law, with $\\theta$ the angle between the forces: $F_R^2 = F_1^2 + F_2^2 + 2F_1F_2\\cos\\theta = 3600 + 6400 + 4800 = 14{,}800$, so $F_R = 121.7\\,\\mathrm{N}$.\n\nWatch out: the law of cosines $c^2 = a^2 + b^2 - 2ab\\cos C$ uses the force triangle's interior angle $C = 180^\\circ - 60^\\circ = 120^\\circ$. Plugging in $60^\\circ$ gives $72.1\\,\\mathrm{N}$.",
+      "answer": "122",
+      "acceptedAnswers": [
+        "121.7",
+        "121.66",
+        "122 N"
+      ],
+      "answerDisplay": "$F_R \\approx 122\\,\\mathrm{N}$",
+      "searchQuery": "resultant of two forces parallelogram law law of cosines"
+    },
+    {
+      "id": "direction-angles-identity",
+      "title": "A force's coordinate direction angles are $\\alpha = 60^\\circ$ and $\\beta = 45^\\circ$, and $\\gamma$ is acute. What is $\\gamma$, in degrees?",
+      "body": "$\\gamma = 60^\\circ$\n\nDirection cosines satisfy $\\cos^2\\alpha + \\cos^2\\beta + \\cos^2\\gamma = 1$, so $\\cos^2\\gamma = 1 - 0.25 - 0.5 = 0.25$ and $\\cos\\gamma = \\pm 0.5$.\n\nKey idea: only two of the three angles are independent; the sign of $F_z$ decides between $\\gamma = 60^\\circ$ and $120^\\circ$.",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 degrees",
+        "60 deg",
+        "60°"
+      ],
+      "answerDisplay": "$\\gamma = 60^\\circ$",
+      "searchQuery": "coordinate direction angles cosine identity alpha beta gamma"
+    },
+    {
+      "id": "force-along-cable-components",
+      "title": "A $700\\,\\mathrm{N}$ cable force acts from A toward B, where $\\mathbf{r}_{AB} = \\{2\\mathbf{i} + 3\\mathbf{j} - 6\\mathbf{k}\\}\\,\\mathrm{m}$. What is its $z$-component, in N?",
+      "body": "$F_z = -600\\,\\mathrm{N}$\n\n$|\\mathbf{r}_{AB}| = \\sqrt{2^2 + 3^2 + 6^2} = 7\\,\\mathrm{m}$, so $\\mathbf{F} = F\\,\\dfrac{\\mathbf{r}_{AB}}{|\\mathbf{r}_{AB}|} = \\{200\\mathbf{i} + 300\\mathbf{j} - 600\\mathbf{k}\\}\\,\\mathrm{N}$.\n\nWatch out: the unit vector must point the way the force acts on the body (a cable pulls the body toward the cable's other end).",
+      "answer": "-600",
+      "acceptedAnswers": [
+        "-600 N"
+      ],
+      "answerDisplay": "$F_z = -600\\,\\mathrm{N}$",
+      "searchQuery": "force along cable position vector unit vector components"
+    },
+    {
+      "id": "projection-dot-product",
+      "title": "What is the component of $\\mathbf{F} = (300, 600, -600)\\,\\mathrm{N}$ along the unit vector $\\mathbf{u} = (\\tfrac{2}{3}, \\tfrac{2}{3}, -\\tfrac{1}{3})$, in N?",
+      "body": "$F_\\parallel = 800\\,\\mathrm{N}$\n\n$F_\\parallel = \\mathbf{F} \\cdot \\mathbf{u} = 300(\\tfrac{2}{3}) + 600(\\tfrac{2}{3}) + (-600)(-\\tfrac{1}{3}) = 200 + 400 + 200 = 800\\,\\mathrm{N}$.\n\nExample: here $F = 900\\,\\mathrm{N}$, so the perpendicular component is $\\sqrt{900^2 - 800^2} \\approx 412\\,\\mathrm{N}$ and the angle to the line is $\\cos^{-1}(800/900) \\approx 27.3^\\circ$.",
+      "answer": "800",
+      "acceptedAnswers": [
+        "800 N"
+      ],
+      "answerDisplay": "$F_\\parallel = 800\\,\\mathrm{N}$",
+      "searchQuery": "component of force along a line dot product projection"
+    },
+    {
+      "id": "linear-spring-force",
+      "title": "A linear spring ($k = 500\\,\\mathrm{N/m}$) has an unstretched length of $0.4\\,\\mathrm{m}$ and is stretched to $0.6\\,\\mathrm{m}$. What force does it exert, in N?",
+      "body": "$F = 100\\,\\mathrm{N}$\n\n$F = ks$, where $s = l - l_0 = 0.6 - 0.4 = 0.2\\,\\mathrm{m}$ is the deformation from the unstretched length: $F = (500)(0.2) = 100\\,\\mathrm{N}$.\n\nWatch out: using the stretched length gives the wrong $300\\,\\mathrm{N}$. In compression the same law applies, with the spring pushing instead of pulling.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 N"
+      ],
+      "answerDisplay": "$F = 100\\,\\mathrm{N}$",
+      "searchQuery": "linear spring force F = ks stretch from unstretched length"
+    },
+    {
+      "id": "frictionless-pulley-tension",
+      "title": "A cable passes over a frictionless pulley that turns freely on its axle. How do the cable tensions on the two sides compare?",
+      "body": "They are **equal**.\n\nMoments about the axle: $T_1 r - T_2 r = 0$, so $T_1 = T_2$. A continuous cable over any number of frictionless pulleys has the same tension everywhere.\n\nWatch out: if the cable slides over a fixed drum, the tensions differ: $T_2 = T_1 e^{\\mu_s \\beta}$ (belt friction).",
+      "answer": "equal",
+      "acceptedAnswers": [
+        "they are equal",
+        "same",
+        "T1 = T2",
+        "equal tensions"
+      ],
+      "searchQuery": "cable over frictionless pulley equal tension both sides"
+    },
+    {
+      "id": "two-cable-hanging-weight",
+      "title": "A $600\\,\\mathrm{N}$ weight hangs from two cables, each inclined $30^\\circ$ above the horizontal (symmetric). What is the tension in each cable, in N?",
+      "body": "$T = 600\\,\\mathrm{N}$ in each\n\n$\\Sigma F_y = 0$: $2T\\sin 30^\\circ = 600$, so $T = 600\\,\\mathrm{N}$. The horizontal components cancel by symmetry.\n\nWatch out: flatter cables need more tension. $T = W/(2\\sin\\theta)$ grows without bound as $\\theta \\to 0$, so a perfectly horizontal cable can't carry a load at its middle.",
+      "answer": "600",
+      "acceptedAnswers": [
+        "600 N"
+      ],
+      "answerDisplay": "$T = 600\\,\\mathrm{N}$",
+      "searchQuery": "two cables hanging weight tension symmetric angle equilibrium"
+    },
+    {
+      "id": "cross-product-components",
+      "title": "Write the components of $\\mathbf{M}_O = \\mathbf{r} \\times \\mathbf{F}$ in terms of $(r_x, r_y, r_z)$ and $(F_x, F_y, F_z)$.",
+      "body": "$M_x = r_yF_z - r_zF_y$, $M_y = r_zF_x - r_xF_z$, $M_z = r_xF_y - r_yF_x$\n\nThey come from expanding the determinant with rows $\\mathbf{i}\\ \\mathbf{j}\\ \\mathbf{k}$; $r_x\\ r_y\\ r_z$; $F_x\\ F_y\\ F_z$. The minus sign on the middle ($\\mathbf{j}$) term is built into the cyclic pattern $x \\to y \\to z$.\n\nHere $\\mathbf{r}$ runs from $O$ to any point on the line of action.\n\nWatch out: order matters, since $\\mathbf{F} \\times \\mathbf{r} = -\\mathbf{r} \\times \\mathbf{F}$.",
+      "searchQuery": "cross product components moment vector r cross F determinant"
+    },
+    {
+      "id": "moment-3d-vertical-load",
+      "title": "A vertical load $\\mathbf{F} = \\{-60\\mathbf{k}\\}\\,\\mathrm{N}$ acts at the point $(2, 3, 0)\\,\\mathrm{m}$. What is the $x$-component of its moment about the origin, in N·m?",
+      "body": "$M_x = -180\\,\\mathrm{N \\cdot m}$\n\n$M_x = r_yF_z - r_zF_y = (3)(-60) - (0)(0) = -180\\,\\mathrm{N \\cdot m}$. In full, $\\mathbf{M}_O = \\{-180\\mathbf{i} + 120\\mathbf{j}\\}\\,\\mathrm{N \\cdot m}$.\n\nTip: sign check with the right-hand rule. Positive rotation about $x$ turns $+y$ toward $+z$; this downward load at $y = 3\\,\\mathrm{m}$ turns $+y$ toward $-z$, so $M_x < 0$.",
+      "answer": "-180",
+      "acceptedAnswers": [
+        "-180 N*m",
+        "-180 N-m"
+      ],
+      "answerDisplay": "$M_x = -180\\,\\mathrm{N \\cdot m}$",
+      "searchQuery": "moment 3D vertical load x component cross product"
+    },
+    {
+      "id": "moment-zero-line-through-origin",
+      "title": "What is the moment about the origin of $\\mathbf{F} = (10, 20, 30)\\,\\mathrm{N}$ acting through the point $(1, 2, 3)\\,\\mathrm{m}$, in N·m?",
+      "body": "Zero\n\n$\\mathbf{r} = (1, 2, 3)\\,\\mathrm{m}$ points the same way as $\\mathbf{F}$, so $\\mathbf{r} \\times \\mathbf{F} = \\mathbf{0}$: the line of action passes through the origin.\n\nTip: a force has zero moment about every point on its line of action, which is why you sum moments about the point where unknown forces intersect.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero",
+        "0 N*m"
+      ],
+      "searchQuery": "moment zero force line of action through point parallel vectors"
+    },
+    {
+      "id": "principle-of-transmissibility",
+      "title": "Principle of transmissibility: where can a force on a rigid body be moved without changing its external effects?",
+      "body": "Anywhere along its **line of action**.\n\nFor external effects, a force on a rigid body is a **sliding vector**. The reactions and the motion don't change, because the force's moment about every point stays the same.\n\nWatch out: it doesn't hold for internal effects. Sliding a load along its line changes the internal forces and deformation of a real body.",
+      "searchQuery": "principle of transmissibility sliding vector rigid body"
+    },
+    {
+      "id": "wrench-handle-moment",
+      "title": "A $100\\,\\mathrm{N}$ force is applied at the end of a $0.25\\,\\mathrm{m}$ wrench handle, at $60^\\circ$ to the handle. Moment about the bolt, in N·m to 3 significant figures?",
+      "body": "$M \\approx 21.7\\,\\mathrm{N \\cdot m}$\n\n$M = Fd$ with the perpendicular distance $d = (0.25\\,\\mathrm{m})\\sin 60^\\circ = 0.2165\\,\\mathrm{m}$. Equivalently, only the force component perpendicular to the handle, $100\\sin 60^\\circ = 86.6\\,\\mathrm{N}$, turns the bolt.\n\nWatch out: force times handle length ($25\\,\\mathrm{N \\cdot m}$) is the maximum, reached only when the force is perpendicular to the handle.",
+      "answer": "21.7",
+      "acceptedAnswers": [
+        "21.65",
+        "21.7 N*m"
+      ],
+      "answerDisplay": "$M \\approx 21.7\\,\\mathrm{N \\cdot m}$",
+      "searchQuery": "moment of force wrench handle angle perpendicular distance"
+    },
+    {
+      "id": "force-couple-system-shift",
+      "title": "To move a force $\\mathbf{F}$ to a parallel line of action through point $O$ without changing its external effects, what must you add?",
+      "body": "A **couple moment** $\\mathbf{M} = \\mathbf{r} \\times \\mathbf{F}$.\n\n$\\mathbf{r}$ runs from $O$ to the original line of action. In 2D its magnitude is $Fd$, with $d$ the distance between the two lines.\n\nDoing this for every force reduces any system to a resultant force $\\mathbf{F}_R = \\Sigma\\mathbf{F}$ at $O$ plus a couple moment $\\mathbf{M}_{R_O} = \\Sigma\\mathbf{M}_O$.\n\nKey idea: the added couple equals the old force's moment about the new point.",
+      "searchQuery": "equivalent force couple system move force to a point add couple"
+    },
+    {
+      "id": "parallel-forces-resultant",
+      "title": "A beam carries downward loads of $2\\,\\mathrm{kN}$ at $x = 1\\,\\mathrm{m}$ and $6\\,\\mathrm{kN}$ at $x = 5\\,\\mathrm{m}$. At what $x$, in m, does the single equivalent resultant act?",
+      "body": "$x = 4\\,\\mathrm{m}$\n\n$F_R = 2 + 6 = 8\\,\\mathrm{kN}$ downward, and its moment about the origin must equal the loads' total moment: $8\\bar{x} = 2(1) + 6(5) = 32$, so $\\bar{x} = 4\\,\\mathrm{m}$.\n\nTip: the resultant always lies between the loads, closer to the larger one.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 m",
+        "x = 4"
+      ],
+      "answerDisplay": "$x = 4\\,\\mathrm{m}$",
+      "searchQuery": "resultant of parallel forces location moment equivalence beam"
+    },
+    {
+      "id": "single-resultant-location",
+      "title": "A coplanar force system reduces at point $O$ to $F_R = 10\\,\\mathrm{kN}$ downward and $M_{R_O} = 30\\,\\mathrm{kN \\cdot m}$ clockwise. How far from $O$, in m, does the single equivalent force act?",
+      "body": "$d = 3\\,\\mathrm{m}$, to the right of $O$\n\nThe single force must produce the same moment about $O$: $F_R\\,d = M_{R_O}$, so $d = 30/10 = 3\\,\\mathrm{m}$. A downward force turns clockwise about $O$ only if it acts to the right of $O$.\n\nKey idea: this works whenever $\\mathbf{M}_{R_O}$ is perpendicular to $\\mathbf{F}_R$, which is always true for coplanar and parallel force systems.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3 m",
+        "3 m right",
+        "3 m to the right"
+      ],
+      "answerDisplay": "$3\\,\\mathrm{m}$ to the right of $O$",
+      "searchQuery": "single equivalent resultant force location from force couple system"
+    },
+    {
+      "id": "wrench-resultant",
+      "title": "A general 3D force system can't always be replaced by a single force. What is the simplest equivalent system it can always be reduced to?",
+      "body": "A **wrench** (or screw): a resultant force plus a couple moment along the same line.\n\nSplit $\\mathbf{M}_{R_O}$ into parts parallel and perpendicular to $\\mathbf{F}_R$. The perpendicular part disappears when $\\mathbf{F}_R$ is shifted sideways, leaving $\\mathbf{M}_\\parallel$ along the line of $\\mathbf{F}_R$.\n\nKey idea: concurrent, coplanar and parallel systems have no parallel part, so they reduce to a single force (if $\\mathbf{F}_R \\ne \\mathbf{0}$).",
+      "answer": "wrench",
+      "acceptedAnswers": [
+        "screw"
+      ],
+      "searchQuery": "wrench equivalent force system 3D resultant force and collinear couple"
+    },
+    {
+      "id": "trapezoidal-load-resultant",
+      "title": "A distributed load varies linearly from $2\\,\\mathrm{kN/m}$ at A to $8\\,\\mathrm{kN/m}$ at B, $3\\,\\mathrm{m}$ away. How far from A does its resultant act, in m?",
+      "body": "$\\bar{x} = 1.8\\,\\mathrm{m}$ from A\n\nSplit the trapezoid: a rectangle, $2(3) = 6\\,\\mathrm{kN}$ at $1.5\\,\\mathrm{m}$, and a triangle, $\\tfrac{1}{2}(6)(3) = 9\\,\\mathrm{kN}$ at $2\\,\\mathrm{m}$.\n\nSo $F_R = 15\\,\\mathrm{kN}$ and $\\bar{x} = \\dfrac{6(1.5) + 9(2)}{15} = 1.8\\,\\mathrm{m}$.\n\nTip: the answer must fall between the rectangle's $1.5\\,\\mathrm{m}$ and the triangle's $2\\,\\mathrm{m}$.",
+      "answer": "1.8",
+      "acceptedAnswers": [
+        "1.8 m"
+      ],
+      "answerDisplay": "$\\bar{x} = 1.8\\,\\mathrm{m}$",
+      "searchQuery": "trapezoidal distributed load resultant and location"
+    },
+    {
+      "id": "variable-load-integral-resultant",
+      "title": "A beam load varies as $w(x) = 3x^2\\,\\mathrm{kN/m}$ from $x = 0$ to $x = 2\\,\\mathrm{m}$. At what $x$, in m, does its resultant act?",
+      "body": "$\\bar{x} = 1.5\\,\\mathrm{m}$\n\nThe resultant is the area under the load curve, $F_R = \\int_0^2 3x^2\\,dx = 8\\,\\mathrm{kN}$, acting at that area's centroid: $\\bar{x} = \\dfrac{\\int x\\,w\\,dx}{\\int w\\,dx} = \\dfrac{\\int_0^2 3x^3\\,dx}{8} = \\dfrac{12}{8} = 1.5\\,\\mathrm{m}$.\n\nTip: the load is heaviest near $x = 2$, so the resultant sits past the midpoint.",
+      "answer": "1.5",
+      "acceptedAnswers": [
+        "1.5 m",
+        "3/2"
+      ],
+      "answerDisplay": "$\\bar{x} = 1.5\\,\\mathrm{m}$",
+      "searchQuery": "distributed load integral resultant location w(x) = 3x^2"
+    },
+    {
+      "id": "moment-about-x-axis-numeric",
+      "title": "A force $\\mathbf{F} = \\{100\\mathbf{k}\\}\\,\\mathrm{N}$ acts at the point $(3, 4, 0)\\,\\mathrm{m}$. What is its moment about the $x$ axis, in N·m?",
+      "body": "$M_x = 400\\,\\mathrm{N \\cdot m}$\n\n$M_x = \\mathbf{i} \\cdot (\\mathbf{r} \\times \\mathbf{F}) = r_yF_z - r_zF_y = (4)(100) - 0 = 400\\,\\mathrm{N \\cdot m}$: the force is $4\\,\\mathrm{m}$ from the $x$ axis.\n\nExample: about the $y$ axis it is $r_zF_x - r_xF_z = -300\\,\\mathrm{N \\cdot m}$; about the $z$ axis it is zero, because $\\mathbf{F}$ is parallel to that axis.",
+      "answer": "400",
+      "acceptedAnswers": [
+        "+400",
+        "400 N*m"
+      ],
+      "answerDisplay": "$M_x = 400\\,\\mathrm{N \\cdot m}$",
+      "searchQuery": "moment of force about x axis 3D vertical force numeric"
+    },
+    {
+      "id": "angle-between-vectors-dot",
+      "title": "What is the angle between $\\mathbf{A} = (3, 4, 0)$ and $\\mathbf{B} = (4, 0, 3)$, in degrees to 3 significant figures?",
+      "body": "$61.3^\\circ$\n\n$\\cos\\theta = \\dfrac{\\mathbf{A}\\cdot\\mathbf{B}}{AB} = \\dfrac{12}{(5)(5)} = 0.48$, so $\\theta = \\cos^{-1}(0.48) = 61.3^\\circ$.\n\nKey idea: the **dot product** $\\mathbf{A}\\cdot\\mathbf{B} = AB\\cos\\theta$ gives the angle between two vectors; it is zero when they are perpendicular.",
+      "answer": "61.3",
+      "acceptedAnswers": [
+        "61.3 degrees",
+        "61.3°",
+        "61.31"
+      ],
+      "answerDisplay": "$61.3^\\circ$",
+      "searchQuery": "angle between two vectors dot product formula cos theta"
+    },
+    {
+      "id": "cross-product-magnitude-meaning",
+      "title": "Geometrically, what does the magnitude of $\\mathbf{A}\\times\\mathbf{B}$ represent?",
+      "body": "The **area of the parallelogram** spanned by $\\mathbf{A}$ and $\\mathbf{B}$: $AB\\sin\\theta$.\n\nThe direction is perpendicular to both vectors, given by the right-hand rule. The cross product is zero when the vectors are parallel.\n\nExample: for $\\mathbf{M} = \\mathbf{r}\\times\\mathbf{F}$, $rF\\sin\\theta = F\\,d$, where $d = r\\sin\\theta$ is the moment arm.",
+      "searchQuery": "cross product magnitude parallelogram area A B sin theta"
+    },
+    {
+      "id": "position-vector-magnitude",
+      "title": "Point A is at $(1, 2, 3)\\,\\mathrm{m}$ and point B at $(4, 6, 15)\\,\\mathrm{m}$. What is the distance $|\\mathbf{r}_{AB}|$, in m?",
+      "body": "$|\\mathbf{r}_{AB}| = 13\\,\\mathrm{m}$\n\n$\\mathbf{r}_{AB} = \\mathbf{r}_B - \\mathbf{r}_A = (3, 4, 12)\\,\\mathrm{m}$, so $|\\mathbf{r}_{AB}| = \\sqrt{9 + 16 + 144} = 13\\,\\mathrm{m}$.\n\nWatch out: subtract tail from head (B minus A); reversing it flips the vector's direction.",
+      "answer": "13",
+      "acceptedAnswers": [
+        "13 m"
+      ],
+      "answerDisplay": "$|\\mathbf{r}_{AB}| = 13\\,\\mathrm{m}$",
+      "searchQuery": "position vector from A to B magnitude distance 3D coordinates"
+    },
+    {
+      "id": "force-components-from-angle",
+      "title": "A $500\\,\\mathrm{N}$ force acts $30^\\circ$ above the $+x$ axis in the $xy$ plane. What is $F_x$, in N to 3 significant figures?",
+      "body": "$F_x \\approx 433\\,\\mathrm{N}$\n\n$F_x = F\\cos 30^\\circ = 500(0.866) = 433\\,\\mathrm{N}$ and $F_y = F\\sin 30^\\circ = 250\\,\\mathrm{N}$.\n\nTip: the component **adjacent** to the angle uses cosine; always check that $\\sqrt{F_x^2 + F_y^2}$ gives back $500\\,\\mathrm{N}$.",
+      "answer": "433",
+      "acceptedAnswers": [
+        "433 N",
+        "433.01"
+      ],
+      "answerDisplay": "$F_x \\approx 433\\,\\mathrm{N}$",
+      "searchQuery": "resolve force into x y components angle sine cosine"
+    },
+    {
+      "id": "three-force-body-concurrency",
+      "title": "A rigid body is in equilibrium under exactly three coplanar forces that are not parallel. What must be true of their lines of action?",
+      "body": "They must be **concurrent**: all three pass through one point.\n\nIf two lines meet at point $P$, the moment of those two forces about $P$ is zero, so the third force must also have zero moment about $P$. Its line must pass through $P$.\n\nTip: use this to find an unknown reaction direction, such as a ladder's pin force, from the other two lines.",
+      "searchQuery": "three-force member equilibrium concurrent lines of action"
+    },
+    {
+      "id": "movable-pulley-tension",
+      "title": "A $800\\,\\mathrm{N}$ weight hangs from a movable pulley supported by two vertical rope segments of one continuous rope. The pulley is ideal. Tension in the rope, in N?",
+      "body": "$T = 400\\,\\mathrm{N}$\n\nThe pulley and weight are one free body held by two rope segments of equal tension: $2T = 800$, so $T = 400\\,\\mathrm{N}$.\n\nTip: count the rope segments that pull on the movable pulley; each carries the same tension $T$.",
+      "answer": "400",
+      "acceptedAnswers": [
+        "400 N"
+      ],
+      "answerDisplay": "$T = 400\\,\\mathrm{N}$",
+      "searchQuery": "movable pulley rope tension two supporting segments equilibrium"
+    },
+    {
+      "id": "two-rope-unequal-angles",
+      "title": "A $100\\,\\mathrm{N}$ weight hangs from two ropes: A rises $30^\\circ$ above horizontal to the left, B rises $60^\\circ$ to the right. Tension in B, in N to 3 significant figures?",
+      "body": "$T_B \\approx 86.6\\,\\mathrm{N}$\n\nHorizontal: $T_A\\cos 30^\\circ = T_B\\cos 60^\\circ$, so $T_A = 0.577\\,T_B$. Vertical: $T_A\\sin 30^\\circ + T_B\\sin 60^\\circ = 100$, giving $1.155\\,T_B = 100$.\n\nSo $T_B = 86.6\\,\\mathrm{N}$ and $T_A = 50\\,\\mathrm{N}$.\n\nWatch out: the steeper rope carries more load here, even though both ropes support the weight.",
+      "answer": "86.6",
+      "acceptedAnswers": [
+        "86.6 N"
+      ],
+      "answerDisplay": "$T_B \\approx 86.6\\,\\mathrm{N}$",
+      "searchQuery": "particle equilibrium two ropes different angles tension"
+    },
+    {
+      "id": "resultant-component-method",
+      "title": "A $200\\,\\mathrm{N}$ force acts along $+x$, and a $150\\,\\mathrm{N}$ force acts $60^\\circ$ above $+x$. Resultant magnitude, in N to 3 significant figures?",
+      "body": "$F_R \\approx 304\\,\\mathrm{N}$\n\n$\\Sigma F_x = 200 + 150\\cos 60^\\circ = 275\\,\\mathrm{N}$ and $\\Sigma F_y = 150\\sin 60^\\circ = 129.9\\,\\mathrm{N}$.\n\n$F_R = \\sqrt{275^2 + 129.9^2} = 304\\,\\mathrm{N}$.\n\nTip: for three or more forces, resolve into components and add; it is faster than repeating the parallelogram law.",
+      "answer": "304",
+      "acceptedAnswers": [
+        "304 N",
+        "304.1"
+      ],
+      "answerDisplay": "$F_R \\approx 304\\,\\mathrm{N}$",
+      "searchQuery": "resultant of forces by components sum Fx Fy magnitude"
+    },
+    {
+      "id": "couple-numeric",
+      "title": "Two parallel forces of $50\\,\\mathrm{N}$, equal and opposite, act along lines $0.4\\,\\mathrm{m}$ apart. What is the couple moment magnitude, in N·m?",
+      "body": "$M = 20\\,\\mathrm{N \\cdot m}$\n\n$M = Fd = (50\\,\\mathrm{N})(0.4\\,\\mathrm{m}) = 20\\,\\mathrm{N \\cdot m}$.\n\nWatch out: $d$ is the perpendicular distance between the lines, not the distance between the points of application.",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 N*m",
+        "20 N-m"
+      ],
+      "answerDisplay": "$M = 20\\,\\mathrm{N \\cdot m}$",
+      "searchQuery": "couple moment magnitude calculation two forces distance"
+    },
+    {
+      "id": "moment-sign-convention-2d",
+      "title": "In 2D with the right-hand rule, which rotation sense is positive, and which way does the moment vector point?",
+      "body": "**Counterclockwise** is positive; the vector points out of the page, along $+z$.\n\nClockwise moments are negative and point into the page ($-z$). With the thumb along the moment vector, the fingers curl in the sense of rotation.\n\nTip: any sign convention works if you apply it consistently to every term in $\\Sigma M = 0$.",
+      "searchQuery": "moment sign convention counterclockwise positive right-hand rule 2D"
+    },
+    {
+      "id": "couples-add",
+      "title": "A body carries couples of $30\\,\\mathrm{N \\cdot m}$ counterclockwise and $12\\,\\mathrm{N \\cdot m}$ clockwise. What is the net couple moment, in N·m, counterclockwise positive?",
+      "body": "$+18\\,\\mathrm{N \\cdot m}$ (counterclockwise)\n\nCouples are free vectors, so they simply add: $30 - 12 = 18\\,\\mathrm{N \\cdot m}$. Their positions on the body don't matter.\n\nKey idea: a couple's moment adds to the moments of forces in $\\Sigma M$ but contributes nothing to $\\Sigma F$.",
+      "answer": "18",
+      "acceptedAnswers": [
+        "+18",
+        "18 N*m",
+        "+18 N*m",
+        "18 N-m"
+      ],
+      "answerDisplay": "$+18\\,\\mathrm{N \\cdot m}$ (counterclockwise)",
+      "searchQuery": "adding couple moments net couple free vectors"
+    },
+    {
+      "id": "pressure-to-line-load",
+      "title": "A uniform pressure $p = 4\\,\\mathrm{kPa}$ acts on a strip $0.5\\,\\mathrm{m}$ wide along a beam. What is the equivalent line load $w$, in kN/m?",
+      "body": "$w = 2\\,\\mathrm{kN/m}$\n\n$w = p\\,b = (4\\,\\mathrm{kN/m^2})(0.5\\,\\mathrm{m}) = 2\\,\\mathrm{kN/m}$, a force per unit length along the beam.\n\nTip: check units: pressure times width gives force per length.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "2 kN/m"
+      ],
+      "answerDisplay": "$w = 2\\,\\mathrm{kN/m}$",
+      "searchQuery": "pressure to line load distributed load tributary width"
+    },
+    {
+      "id": "simply-supported-udl-reaction",
+      "title": "A $6\\,\\mathrm{m}$ simply supported beam carries a uniform load of $4\\,\\mathrm{kN/m}$ over its full length. Each reaction, in kN?",
+      "body": "$12\\,\\mathrm{kN}$ at each support\n\nThe resultant is $wL = 24\\,\\mathrm{kN}$ at midspan. By symmetry each support carries half: $A_y = B_y = 12\\,\\mathrm{kN}$.\n\nWhy: moments about A give $B_y(6) = 24(3)$, so $B_y = 12\\,\\mathrm{kN}$.",
+      "answer": "12",
+      "acceptedAnswers": [
+        "12 kN"
+      ],
+      "answerDisplay": "$12\\,\\mathrm{kN}$",
+      "searchQuery": "simply supported beam uniform load reactions wL/2"
+    },
+    {
+      "id": "equivalent-force-systems",
+      "title": "When are two force systems acting on a rigid body statically equivalent?",
+      "body": "When they have the same resultant force $\\Sigma\\mathbf{F}$ and the same resultant moment $\\Sigma\\mathbf{M}_O$ about the same point.\n\nEquivalent systems produce the same external effects: the same reactions and the same motion tendency.\n\nExample: a $10\\,\\mathrm{kN}$ force at the end of a lever is equivalent to the same force at the pivot plus a $10\\,\\mathrm{kN}\\times d$ couple.",
+      "searchQuery": "statically equivalent force systems same resultant force and moment"
+    },
+    {
+      "id": "ball-socket-fixed-3d-reactions",
+      "title": "In 3D, how many reaction components does a ball-and-socket joint provide, and how many a fixed support?",
+      "body": "Ball-and-socket: 3 forces. Fixed support: 3 forces and 3 couple moments (6 in all).\n\nA ball-and-socket allows rotation about all axes, so it exerts no moments. A fixed support prevents all translations and rotations.\n\nKey idea: the same rule as 2D: one unknown for each motion the support prevents.",
+      "searchQuery": "3D support reactions ball and socket fixed support components"
+    },
+    {
+      "id": "cable-reaction-direction",
+      "title": "A cable supports a body. What is the direction of the force the cable exerts on the body?",
+      "body": "Along the cable, **pulling away** from the body (tension).\n\nA cable can only pull. Its line of action is the cable's own line, so it supplies one unknown, the magnitude.\n\nWatch out: a cable can't push; if your equilibrium solution gives negative tension, the assumed setup is impossible.",
+      "searchQuery": "cable force direction tension along cable free body diagram"
+    },
+    {
+      "id": "ss-beam-point-load-reaction",
+      "title": "A $6\\,\\mathrm{m}$ simply supported beam (pin at A, roller at B) has a $12\\,\\mathrm{kN}$ downward load $2\\,\\mathrm{m}$ from A. Reaction at A, in kN?",
+      "body": "$A_y = 8\\,\\mathrm{kN}$\n\n$\\Sigma M_B = 0$: $A_y(6) = 12(4)$, so $A_y = 8\\,\\mathrm{kN}$ and $B_y = 4\\,\\mathrm{kN}$.\n\nTip: the support nearer the load carries more of it. Check with $\\Sigma F_y$: $8 + 4 = 12$.",
+      "answer": "8",
+      "acceptedAnswers": [
+        "8 kN"
+      ],
+      "answerDisplay": "$A_y = 8\\,\\mathrm{kN}$",
+      "searchQuery": "simply supported beam point load reaction moments about support"
+    },
+    {
+      "id": "cantilever-fixed-end-moment",
+      "title": "A cantilever of length $3\\,\\mathrm{m}$ carries a $5\\,\\mathrm{kN}$ downward load at its free end. Magnitude of the fixed-end moment, in kN·m?",
+      "body": "$M_A = 15\\,\\mathrm{kN \\cdot m}$\n\n$\\Sigma M_A = 0$: $M_A = PL = (5)(3) = 15\\,\\mathrm{kN \\cdot m}$, with the support moment resisting the load (counterclockwise for a load acting downward at the right end).\n\nThe vertical reaction is $A_y = 5\\,\\mathrm{kN}$ upward.\n\nKey idea: a fixed support is the only 2D support that supplies a couple.",
+      "answer": "15",
+      "acceptedAnswers": [
+        "15 kN*m",
+        "15 kN-m"
+      ],
+      "answerDisplay": "$M_A = 15\\,\\mathrm{kN \\cdot m}$",
+      "searchQuery": "cantilever beam fixed end moment point load PL"
+    },
+    {
+      "id": "improper-constraints",
+      "title": "A 2D body has three reaction components. In what two geometric cases does it still fail to be in equilibrium for general loads?",
+      "body": "When the reaction lines are all **parallel**, or all **concurrent** at one point.\n\nParallel reactions can't resist a force perpendicular to them. Concurrent reactions can't resist a moment about their common point.\n\nWatch out: counting unknowns isn't enough; the supports must also be arranged so that nothing can move.",
+      "searchQuery": "improper constraints parallel concurrent reactions rigid body"
+    },
+    {
+      "id": "beam-cable-tension-numeric",
+      "title": "A uniform $4\\,\\mathrm{m}$ beam weighing $200\\,\\mathrm{N}$ is pinned at one end and held horizontal by a vertical cable at the other end. Cable tension, in N?",
+      "body": "$T = 100\\,\\mathrm{N}$\n\nWeight acts at the midpoint, $2\\,\\mathrm{m}$ from the pin. Moments about the pin: $T(4) = 200(2)$, so $T = 100\\,\\mathrm{N}$.\n\nTip: take moments about the pin to eliminate its two unknown components.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 N"
+      ],
+      "answerDisplay": "$T = 100\\,\\mathrm{N}$",
+      "searchQuery": "uniform beam weight center of gravity vertical cable tension moments about pin"
+    },
+    {
+      "id": "truss-member-count",
+      "title": "A simple plane truss, pinned and roller supported, has 8 joints. How many members does it have?",
+      "body": "13 members\n\nA simple truss satisfies $m + 3 = 2j$, where $m$ is the member count and 3 is the number of reactions. For $j = 8$: $m = 2(8) - 3 = 13$.\n\nKey idea: each joint gives 2 equations, so $2j$ equations solve $m + r$ unknowns exactly when $m + r = 2j$.",
+      "answer": "13",
+      "acceptedAnswers": [
+        "13 members"
+      ],
+      "searchQuery": "simple truss number of members m + 3 = 2j joints"
+    },
+    {
+      "id": "truss-assumptions",
+      "title": "What assumptions let you treat every truss member as a two-force member?",
+      "body": "Loads act only at joints, joints are frictionless pins, and member weights are negligible.\n\nThen each member carries only axial tension or compression, with the force along its length.\n\nWatch out: a load placed between joints on a member bends it, so it is no longer a two-force member.",
+      "searchQuery": "truss analysis assumptions pin joints loads at joints two-force members"
+    },
+    {
+      "id": "two-member-apex-force",
+      "title": "Two straight members, each inclined $45^\\circ$ to the horizontal, meet at an apex joint carrying a $10\\,\\mathrm{kN}$ downward load. Force in each member, in kN to 3 significant figures?",
+      "body": "$F \\approx 7.07\\,\\mathrm{kN}$, compression\n\nVertical equilibrium at the joint: $2F\\sin 45^\\circ = 10$, so $F = 10/(2\\cdot 0.7071) = 7.07\\,\\mathrm{kN}$.\n\nEach member pushes up on the joint, so each is in compression.\n\nTip: the horizontal components cancel by symmetry, so only $\\Sigma F_y$ is needed.",
+      "answer": "7.07",
+      "acceptedAnswers": [
+        "7.07 kN",
+        "7.07 compression"
+      ],
+      "answerDisplay": "$7.07\\,\\mathrm{kN}$ (compression)",
+      "searchQuery": "truss joint two members apex load force method of joints"
+    },
+    {
+      "id": "tension-arrow-direction",
+      "title": "On a joint's free-body diagram, which way does a member's force arrow point if the member is in tension?",
+      "body": "**Away from the joint**, along the member.\n\nA member in tension pulls on the joint; one in compression pushes toward it. Assume tension for every unknown and let the algebra's sign decide.\n\nWatch out: stay consistent; the force a member exerts on the joint at its two ends points in opposite directions.",
+      "searchQuery": "truss member tension arrow away from joint free body diagram sign"
+    },
+    {
+      "id": "zero-force-load-along-member",
+      "title": "A truss joint has two non-collinear members and an external load acting along the line of one of them. What is the force in the other member?",
+      "body": "Zero\n\nSum forces perpendicular to the loaded member's line: the external load and that member have no component there, so the other member must carry none either.\n\nTip: scan for these joints before computing; they simplify the later analysis.",
+      "searchQuery": "zero-force member joint two members load along one member"
+    },
+    {
+      "id": "triangle-truss-chord-force",
+      "title": "A triangular truss (pin A, roller C, span $8\\,\\mathrm{m}$) has apex B $3\\,\\mathrm{m}$ above AC's midpoint, loaded $12\\,\\mathrm{kN}$ down at B. Force in chord AC, in kN (tension positive)?",
+      "body": "$F_{AC} = +8\\,\\mathrm{kN}$ (tension)\n\nBy symmetry $A_y = C_y = 6\\,\\mathrm{kN}$. Member AB has $\\sin\\theta = 3/5$ and $\\cos\\theta = 4/5$. Joint A: $F_{AB}(0.6) = 6$, so $F_{AB} = 10\\,\\mathrm{kN}$ (compression).\n\nThen $F_{AC} = F_{AB}\\cos\\theta = 8\\,\\mathrm{kN}$ pulling away from A.\n\nTip: check using a section: moments about B give $F_{AC}(3) = C_y(4)$, so $F_{AC} = 8\\,\\mathrm{kN}$.",
+      "answer": "8",
+      "acceptedAnswers": [
+        "8 kN",
+        "+8",
+        "8 kN tension"
+      ],
+      "answerDisplay": "$8\\,\\mathrm{kN}$ (tension)",
+      "searchQuery": "triangular truss bottom chord force method of joints numeric"
+    },
+    {
+      "id": "truss-determinacy-count",
+      "title": "A plane truss has $m = 14$ members, $r = 3$ reactions and $j = 8$ joints. What is its degree of static indeterminacy?",
+      "body": "1\n\nCompare unknowns $m + r = 17$ with equations $2j = 16$. The excess is $17 - 16 = 1$, so it is internally or externally redundant by one.\n\nWatch out: $m + r = 2j$ is necessary for determinacy, but not sufficient; the geometry must also be stable.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one",
+        "1st",
+        "first degree"
+      ],
+      "searchQuery": "truss static indeterminacy m + r vs 2j degree"
+    },
+    {
+      "id": "frame-vs-truss",
+      "title": "What distinguishes a frame from a truss?",
+      "body": "A frame has at least one **multiforce member**, one with three or more forces or couples acting on it.\n\nSuch members carry bending and shear, so forces at their pins aren't along the member. A truss has only two-force members.\n\nTip: first spot any two-force members in a frame; they fix the direction of their pin forces.",
+      "searchQuery": "frame versus truss multiforce member two-force member"
+    },
+    {
+      "id": "pin-forces-third-law",
+      "title": "Two members of a frame are joined by a pin. How are the pin forces drawn on their separate free-body diagrams?",
+      "body": "Equal in magnitude and **opposite** in direction.\n\nThis is Newton's third law. Use one set of labels for the pair, with opposite arrows on the two members, so the unknowns aren't doubled.\n\nWatch out: both arrows must reflect the same pin; flipping only one introduces a sign error.",
+      "searchQuery": "frames pin forces Newton third law equal opposite free body diagrams"
+    },
+    {
+      "id": "load-on-pin",
+      "title": "An external load acts directly on a pin joining two members. How should you place it on the free-body diagrams?",
+      "body": "Put it on **one** member's diagram, or on the pin as a separate free body, not on both.\n\nApplying it to both members counts the load twice. If the pin is a separate body, the load and the two member forces act on it.\n\nWatch out: state which choice you made so the pin forces on the members stay consistent.",
+      "searchQuery": "frame analysis load applied at pin free body diagram double count"
+    },
+    {
+      "id": "pliers-force-numeric",
+      "title": "Pliers are gripped with $50\\,\\mathrm{N}$ at $120\\,\\mathrm{mm}$ from the pivot, and the jaw contacts the object $30\\,\\mathrm{mm}$ from the pivot. Neglecting friction, force on the object, in N?",
+      "body": "$200\\,\\mathrm{N}$\n\nMoments about the pivot for one jaw: $F_{\\mathrm{jaw}}(30) = 50(120)$, so $F_{\\mathrm{jaw}} = 200\\,\\mathrm{N}$.\n\nKey idea: a machine's mechanical advantage is the ratio of the lever arms, here $120/30 = 4$.",
+      "answer": "200",
+      "acceptedAnswers": [
+        "200 N"
+      ],
+      "answerDisplay": "$200\\,\\mathrm{N}$",
+      "searchQuery": "pliers mechanical advantage lever arms machine statics moment"
+    },
+    {
+      "id": "internal-resultants-beam",
+      "title": "What three internal resultants exist at a cut section of a 2D beam?",
+      "body": "Normal force $N$, shear force $V$ and bending moment $M$.\n\nCut the beam, draw a free-body diagram of one side, and the three equilibrium equations give $N$, $V$ and $M$ at that cut.\n\nTip: most beam problems have no axial loads, so $N = 0$ and only $V$ and $M$ matter.",
+      "searchQuery": "internal forces beam normal shear bending moment at section"
+    },
+    {
+      "id": "shear-moment-sign-convention",
+      "title": "What is the standard sign convention for positive shear $V$ and positive bending moment $M$ on a beam?",
+      "body": "Positive $V$ rotates the beam segment **clockwise**; positive $M$ is concave up (compresses the top).\n\nPositive moment makes the beam sag like a smile. On the left face of a segment, positive $V$ acts downward and positive $M$ acts clockwise.\n\nWatch out: stay with one convention; the relations $dM/dx = V$ and $dV/dx = -w$ assume it.",
+      "searchQuery": "beam sign convention positive shear and bending moment"
+    },
+    {
+      "id": "ss-beam-center-load-max-moment",
+      "title": "A simply supported beam of length $L$ carries a point load $P$ at midspan. Maximum bending moment?",
+      "body": "$M_{\\max} = \\dfrac{PL}{4}$\n\nEach reaction is $P/2$, and the moment at midspan is $\\tfrac{P}{2}\\cdot\\tfrac{L}{2} = \\dfrac{PL}{4}$.\n\nExample: $P = 10\\,\\mathrm{kN}$ and $L = 6\\,\\mathrm{m}$ give $15\\,\\mathrm{kN \\cdot m}$.",
+      "answer": "PL/4",
+      "acceptedAnswers": [
+        "(PL)/4",
+        "1/4 PL"
+      ],
+      "answerDisplay": "$M_{\\max} = \\dfrac{PL}{4}$",
+      "searchQuery": "simply supported beam center point load maximum bending moment PL/4"
+    },
+    {
+      "id": "ss-beam-udl-max-moment",
+      "title": "A simply supported beam of length $L$ carries a uniform load $w$ over its whole span. Maximum bending moment?",
+      "body": "$M_{\\max} = \\dfrac{wL^2}{8}$, at midspan\n\nEach reaction is $wL/2$. At midspan, $M = \\tfrac{wL}{2}\\cdot\\tfrac{L}{2} - \\tfrac{wL}{2}\\cdot\\tfrac{L}{4} = \\dfrac{wL^2}{8}$.\n\nExample: $w = 4\\,\\mathrm{kN/m}$ and $L = 6\\,\\mathrm{m}$ give $M_{\\max} = 18\\,\\mathrm{kN \\cdot m}$.",
+      "answer": "wL^2/8",
+      "acceptedAnswers": [
+        "(wL^2)/8",
+        "1/8 wL^2"
+      ],
+      "answerDisplay": "$M_{\\max} = \\dfrac{wL^2}{8}$",
+      "searchQuery": "simply supported beam uniform load maximum moment wL^2/8"
+    },
+    {
+      "id": "cantilever-udl-max-moment",
+      "title": "A cantilever of length $L$ carries a uniform load $w$ along its full length. Magnitude of the moment at the fixed end?",
+      "body": "$M_{\\max} = \\dfrac{wL^2}{2}$\n\nThe resultant $wL$ acts at $L/2$ from the wall, so the moment at the wall is $wL\\cdot\\tfrac{L}{2} = \\dfrac{wL^2}{2}$.\n\nKey idea: the maximum moment of a cantilever is at the support, where the shear is also greatest.",
+      "answer": "wL^2/2",
+      "acceptedAnswers": [
+        "(wL^2)/2",
+        "1/2 wL^2"
+      ],
+      "answerDisplay": "$M_{\\max} = \\dfrac{wL^2}{2}$",
+      "searchQuery": "cantilever uniform load fixed end moment wL^2/2"
+    },
+    {
+      "id": "max-moment-where-shear-zero",
+      "title": "Where along a beam, without concentrated couples, does the bending moment have a local maximum or minimum?",
+      "body": "Where the shear $V$ is zero, i.e., changes sign.\n\nSince $dM/dx = V$, the slope of the moment diagram is zero where $V = 0$. Check the ends and any point loads too.\n\nTip: find the point where $V = 0$, then compute $M$ there as the area under the shear diagram.",
+      "searchQuery": "bending moment maximum where shear zero dM/dx = V"
+    },
+    {
+      "id": "shear-diagram-point-load",
+      "title": "How does a shear diagram behave at a downward point load, and between point loads?",
+      "body": "It jumps **down** by the load's magnitude at that point and is **constant** between loads.\n\nWith no distributed load, $dV/dx = 0$, so $V$ is flat. At each reaction, the diagram jumps up.\n\nWatch out: the diagram must close back to zero at the far end of the beam; a mismatch means an arithmetic error.",
+      "searchQuery": "shear diagram jump at point load constant between loads beam"
+    },
+    {
+      "id": "couple-jump-moment-diagram",
+      "title": "An applied clockwise couple acts on a beam at a point. What happens to the bending moment diagram there, reading left to right?",
+      "body": "It jumps **up** by the couple's magnitude.\n\nA counterclockwise couple causes a downward jump. The shear diagram is unaffected, because a couple has no resultant force.\n\nWatch out: this is the opposite of how point forces affect the shear diagram: forces move $V$, couples move $M$.",
+      "searchQuery": "moment diagram jump at applied couple clockwise beam sign convention"
+    },
+    {
+      "id": "cable-flexible-assumptions",
+      "title": "What are the standard assumptions in cable analysis, and what follows from them?",
+      "body": "A cable is perfectly flexible and inextensible, so it resists **only tension**, always along its tangent.\n\nThere is no bending moment at any point. The tension changes direction along the curve, but the horizontal component is constant if loads are vertical.\n\nKey idea: the cable's shape comes from equilibrium alone; its weight or loads set the curve.",
+      "searchQuery": "cable assumptions flexible tension tangent statics"
+    },
+    {
+      "id": "cable-parabola-horizontal-load",
+      "title": "A cable carries a load uniform per horizontal length, with supports at the same level. What curve does it take, and where is the tension maximum?",
+      "body": "A **parabola**; maximum tension at the supports.\n\nThe horizontal component $H$ is constant everywhere. The vertical component grows with distance from the low point, so $T = \\sqrt{H^2 + V^2}$ is largest where the slope is steepest.\n\nWatch out: a cable hanging under its own weight is a catenary, not a parabola.",
+      "searchQuery": "suspension cable uniform horizontal load parabola maximum tension at support"
+    },
+    {
+      "id": "cable-horizontal-tension-numeric",
+      "title": "A cable between supports at the same level, $20\\,\\mathrm{m}$ apart, carries $2\\,\\mathrm{kN/m}$ (per horizontal meter) with sag $4\\,\\mathrm{m}$. Horizontal tension $H$, in kN?",
+      "body": "$H = 25\\,\\mathrm{kN}$\n\n$H = \\dfrac{wL^2}{8h} = \\dfrac{(2)(20)^2}{8(4)} = 25\\,\\mathrm{kN}$.\n\nWhy: take moments about the support of half the cable: $H h = \\tfrac{wL}{2}\\cdot\\tfrac{L}{4}$.",
+      "answer": "25",
+      "acceptedAnswers": [
+        "25 kN"
+      ],
+      "answerDisplay": "$H = 25\\,\\mathrm{kN}$",
+      "searchQuery": "cable horizontal tension wL^2/(8h) sag numeric"
+    },
+    {
+      "id": "cable-max-tension-numeric",
+      "title": "For that same cable ($w = 2\\,\\mathrm{kN/m}$, $L = 20\\,\\mathrm{m}$, sag $h = 4\\,\\mathrm{m}$, $H = 25\\,\\mathrm{kN}$), what is the maximum tension, in kN to 3 significant figures?",
+      "body": "$T_{\\max} \\approx 32.0\\,\\mathrm{kN}$\n\nAt a support the vertical component is $V = wL/2 = 20\\,\\mathrm{kN}$. Then $T_{\\max} = \\sqrt{H^2 + V^2} = \\sqrt{625 + 400} = 32.0\\,\\mathrm{kN}$.\n\nTip: the support reactions of a cable are the force components of $T_{\\max}$.",
+      "answer": "32.0",
+      "acceptedAnswers": [
+        "32.0 kN",
+        "32.02"
+      ],
+      "answerDisplay": "$T_{\\max} \\approx 32.0\\,\\mathrm{kN}$",
+      "searchQuery": "cable maximum tension at support sqrt(H^2 + V^2) numeric"
+    },
+    {
+      "id": "catenary-cable",
+      "title": "What curve does a uniform cable take when loaded only by its own weight?",
+      "body": "A **catenary**, $y = a\\cosh(x/a)$.\n\nThe load is uniform along the cable's arc length, not its horizontal length, which changes the shape from a parabola.\n\nTip: for small sag-to-span ratio the parabola is a good approximation to the catenary.",
+      "searchQuery": "catenary cable self weight curve cosh"
+    },
+    {
+      "id": "static-vs-kinetic-friction",
+      "title": "How does kinetic friction compare with the maximum static friction, and what is its formula?",
+      "body": "$F_k = \\mu_k N$, with $\\mu_k < \\mu_s$ for most surface pairs.\n\nKinetic friction acts opposite the sliding direction and is roughly independent of speed and contact area. Static friction is a variable force up to $F_{\\max} = \\mu_s N$.\n\nWatch out: static friction is only $\\mu_s N$ at the verge of slipping; below that, find it from equilibrium.",
+      "searchQuery": "kinetic friction versus static friction coefficient formula"
+    },
+    {
+      "id": "friction-below-maximum",
+      "title": "A $300\\,\\mathrm{N}$ block rests on a level floor with $\\mu_s = 0.4$. A horizontal $100\\,\\mathrm{N}$ push is applied. Friction force, in N?",
+      "body": "$F = 100\\,\\mathrm{N}$\n\nThe maximum available is $\\mu_s N = 0.4(300) = 120\\,\\mathrm{N}$. Since $100 < 120$, the block stays at rest and friction equals the push.\n\nWatch out: do not substitute $\\mu_s N = 120\\,\\mathrm{N}$; that is only the maximum, reached when slipping is imminent.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 N"
+      ],
+      "answerDisplay": "$100\\,\\mathrm{N}$",
+      "searchQuery": "static friction force below maximum equilibrium block horizontal push"
+    },
+    {
+      "id": "screw-self-locking",
+      "title": "For a square-threaded screw with lead angle $\\theta$ and friction angle $\\phi_s$, what is the self-locking condition?",
+      "body": "$\\theta \\le \\phi_s$\n\nThen the screw doesn't unwind under axial load without an applied torque. The torque to raise a load $W$ is $M = Wr\\tan(\\theta + \\phi_s)$.\n\nTip: a screw jack and a bolt are intentionally self-locking.",
+      "searchQuery": "square thread screw self-locking lead angle friction angle"
+    },
+    {
+      "id": "belt-friction-numeric",
+      "title": "A rope is wrapped half a turn ($\\beta = \\pi$) around a fixed drum with $\\mu_s = 0.25$. If the slack side holds $100\\,\\mathrm{N}$, the largest tight-side tension before slipping, in N?",
+      "body": "$T_2 \\approx 219\\,\\mathrm{N}$\n\n$T_2 = T_1e^{\\mu_s\\beta} = 100\\,e^{0.25\\pi} = 100(2.193) = 219\\,\\mathrm{N}$.\n\nWatch out: the angle must be in radians, not degrees.",
+      "answer": "219",
+      "acceptedAnswers": [
+        "219 N",
+        "219.3"
+      ],
+      "answerDisplay": "$T_2 \\approx 219\\,\\mathrm{N}$",
+      "searchQuery": "belt friction half wrap numeric T2 = T1 e^(mu beta)"
+    },
+    {
+      "id": "ladder-friction-numeric",
+      "title": "A uniform ladder of weight $200\\,\\mathrm{N}$ rests at $60^\\circ$ to the floor against a smooth wall. Required floor friction to hold it, in N to 3 significant figures?",
+      "body": "$F \\approx 57.7\\,\\mathrm{N}$\n\nMoments about the foot: $N_w L\\sin 60^\\circ = W\\tfrac{L}{2}\\cos 60^\\circ$, so $N_w = \\dfrac{W}{2\\tan 60^\\circ} = 57.7\\,\\mathrm{N}$.\n\nHorizontal equilibrium makes the floor friction equal $N_w$, so $F = 57.7\\,\\mathrm{N}$.\n\nTip: a smooth wall exerts only a horizontal force, so the floor friction must balance it.",
+      "answer": "57.7",
+      "acceptedAnswers": [
+        "57.7 N",
+        "57.74"
+      ],
+      "answerDisplay": "$F \\approx 57.7\\,\\mathrm{N}$",
+      "searchQuery": "ladder against smooth wall floor friction required numeric"
+    },
+    {
+      "id": "crate-tip-first-numeric",
+      "title": "A $500\\,\\mathrm{N}$ crate with $0.6\\,\\mathrm{m}$ base width, $\\mu_s = 0.5$, is pushed horizontally at height $0.9\\,\\mathrm{m}$. Push that first causes motion, in N to 3 significant figures?",
+      "body": "$P \\approx 167\\,\\mathrm{N}$ (tipping)\n\nSliding needs $P = \\mu_s W = 250\\,\\mathrm{N}$. Tipping needs $Ph = W(b/2)$, so $P = 500(0.3)/0.9 = 167\\,\\mathrm{N}$.\n\nThe smaller value happens first, so the crate tips.\n\nWatch out: check that the friction needed to prevent sliding ($167\\,\\mathrm{N}$) is below $\\mu_s W$.",
+      "answer": "167",
+      "acceptedAnswers": [
+        "167 N",
+        "166.7"
+      ],
+      "answerDisplay": "$167\\,\\mathrm{N}$ (tipping)",
+      "searchQuery": "crate tipping before sliding numeric friction push height"
+    },
+    {
+      "id": "triangle-centroid-numeric",
+      "title": "A triangle has vertices at $(0,0)$, $(6,0)$ and $(0,3)$, in m. What is $\\bar{x}$, in m?",
+      "body": "$\\bar{x} = 2\\,\\mathrm{m}$ (and $\\bar{y} = 1\\,\\mathrm{m}$)\n\nThe centroid of a triangle is the average of its vertices: $\\bar{x} = (0 + 6 + 0)/3 = 2\\,\\mathrm{m}$.\n\nKey idea: it also lies $h/3$ from each base.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "2 m"
+      ],
+      "answerDisplay": "$\\bar{x} = 2\\,\\mathrm{m}$",
+      "searchQuery": "triangle centroid average of vertices coordinates"
+    },
+    {
+      "id": "quarter-circle-centroid",
+      "title": "A quarter circle of radius $3\\,\\mathrm{m}$ has its straight edges on the axes. Its centroid distance from each straight edge, in m to 3 significant figures?",
+      "body": "$\\bar{x} = \\bar{y} = \\dfrac{4r}{3\\pi} \\approx 1.27\\,\\mathrm{m}$\n\n$\\dfrac{4(3)}{3\\pi} = \\dfrac{4}{\\pi} = 1.27\\,\\mathrm{m}$ from each straight edge.\n\nWatch out: for a semicircle the same $4r/(3\\pi)$ is measured from the diameter, not the center of the arc.",
+      "answer": "1.27",
+      "acceptedAnswers": [
+        "1.27 m",
+        "4/pi"
+      ],
+      "answerDisplay": "$\\dfrac{4}{\\pi} \\approx 1.27\\,\\mathrm{m}$",
+      "searchQuery": "quarter circle centroid 4r/(3 pi) area"
+    },
+    {
+      "id": "centroid-by-integration-numeric",
+      "title": "Find $\\bar{x}$, in m, for the area under $y = x^2$ from $x = 0$ to $x = 1\\,\\mathrm{m}$.",
+      "body": "$\\bar{x} = 0.75\\,\\mathrm{m}$\n\n$\\bar{x} = \\dfrac{\\int x\\,y\\,dx}{\\int y\\,dx} = \\dfrac{\\int_0^1 x^3\\,dx}{\\int_0^1 x^2\\,dx} = \\dfrac{1/4}{1/3} = \\dfrac{3}{4}$.\n\nTip: more area is near $x = 1$, so $\\bar{x} > 0.5$.",
+      "answer": "0.75",
+      "acceptedAnswers": [
+        "3/4",
+        "0.75 m"
+      ],
+      "answerDisplay": "$\\bar{x} = 0.75\\,\\mathrm{m}$",
+      "searchQuery": "centroid by integration area under y = x^2 x bar"
+    },
+    {
+      "id": "pappus-volume-torus",
+      "title": "A circle of radius $1\\,\\mathrm{m}$ has its center $3\\,\\mathrm{m}$ from an axis in its plane that it doesn't cross, and is revolved fully about it. Volume, in m³ to 3 significant figures?",
+      "body": "$V \\approx 59.2\\,\\mathrm{m^3}$\n\n**Pappus's second theorem**: $V = 2\\pi\\bar{r}A = 2\\pi(3)(\\pi\\cdot 1^2) = 6\\pi^2 = 59.2\\,\\mathrm{m^3}$.\n\nKey idea: volume equals the area times the path length of its centroid.",
+      "answer": "59.2",
+      "acceptedAnswers": [
+        "59.2 m^3",
+        "6pi^2"
+      ],
+      "answerDisplay": "$V = 6\\pi^2 \\approx 59.2\\,\\mathrm{m^3}$",
+      "searchQuery": "Pappus theorem volume of revolution torus centroid path"
+    },
+    {
+      "id": "parallel-axis-theorem",
+      "title": "State the parallel-axis theorem for the area moment of inertia about an axis a distance $d$ from the centroidal axis.",
+      "body": "$I = \\bar{I} + Ad^2$\n\n$\\bar{I}$ is about the centroidal axis parallel to the new axis, and $A$ is the area.\n\nWatch out: the theorem only works from the centroidal axis; to move between two non-centroidal axes, go through the centroid first.",
+      "answer": "Ibar + Ad^2",
+      "acceptedAnswers": [
+        "I = Ibar + Ad^2",
+        "Ī + Ad^2"
+      ],
+      "answerDisplay": "$I = \\bar{I} + Ad^2$",
+      "searchQuery": "parallel axis theorem area moment of inertia I = Ibar + A d^2"
+    },
+    {
+      "id": "circle-moment-of-inertia",
+      "title": "What is the area moment of inertia of a solid circle of diameter $d$ about a diameter?",
+      "body": "$I = \\dfrac{\\pi d^4}{64}$\n\n$I = \\dfrac{\\pi r^4}{4}$ for radius $r$. The polar moment is twice this, $J = \\dfrac{\\pi d^4}{32}$.\n\nWatch out: $\\pi d^4/64$ uses the diameter; $\\pi r^4/4$ uses the radius.",
+      "answer": "pi*d^4/64",
+      "acceptedAnswers": [
+        "(pi*d^4)/64",
+        "pi*r^4/4",
+        "pi/64*d^4"
+      ],
+      "answerDisplay": "$I = \\dfrac{\\pi d^4}{64}$",
+      "searchQuery": "circle area moment of inertia pi d^4/64 about diameter"
+    },
+    {
+      "id": "triangle-moment-of-inertia",
+      "title": "A triangle has base $b$ and height $h$. What is $\\bar{I}$ about the centroidal axis parallel to its base?",
+      "body": "$\\bar{I} = \\dfrac{bh^3}{36}$\n\nAbout the base itself, $I = \\dfrac{bh^3}{12}$. The centroid is $h/3$ above the base, so the parallel-axis theorem gives the difference: $\\tfrac{bh^3}{12} - \\tfrac{bh}{2}\\left(\\tfrac{h}{3}\\right)^2 = \\tfrac{bh^3}{36}$.\n\nTip: remember $1/12$ about the base and $1/36$ about the centroid.",
+      "answer": "bh^3/36",
+      "acceptedAnswers": [
+        "(bh^3)/36",
+        "1/36 bh^3"
+      ],
+      "answerDisplay": "$\\bar{I} = \\dfrac{bh^3}{36}$",
+      "searchQuery": "triangle moment of inertia centroidal axis bh^3/36"
+    },
+    {
+      "id": "polar-moment-sum",
+      "title": "How is the polar moment of inertia $J_O$ of an area related to $I_x$ and $I_y$?",
+      "body": "$J_O = I_x + I_y$\n\nSince $r^2 = x^2 + y^2$ for each area element, $J_O = \\int r^2\\,dA = \\int y^2\\,dA + \\int x^2\\,dA$. It is the same for any perpendicular axis pair through $O$.\n\nExample: for a circle, $I_x = I_y = \\pi r^4/4$, so $J_O = \\pi r^4/2$.",
+      "answer": "Ix + Iy",
+      "acceptedAnswers": [
+        "J = Ix + Iy",
+        "Iy + Ix"
+      ],
+      "answerDisplay": "$J_O = I_x + I_y$",
+      "searchQuery": "polar moment of inertia J = Ix + Iy perpendicular axis theorem"
+    },
+    {
+      "id": "radius-of-gyration-numeric",
+      "title": "A section has area $2000\\,\\mathrm{mm^2}$ and $I = 5\\times 10^6\\,\\mathrm{mm^4}$ about an axis. What is its radius of gyration about that axis, in mm?",
+      "body": "$k = 50\\,\\mathrm{mm}$\n\n$k = \\sqrt{I/A} = \\sqrt{5\\times 10^6/2000} = \\sqrt{2500} = 50\\,\\mathrm{mm}$.\n\nKey idea: $k$ is the distance at which the whole area, concentrated, would give the same $I$.",
+      "answer": "50",
+      "acceptedAnswers": [
+        "50 mm"
+      ],
+      "answerDisplay": "$k = 50\\,\\mathrm{mm}$",
+      "searchQuery": "radius of gyration k = sqrt(I/A) numeric"
+    },
+    {
+      "id": "product-of-inertia-symmetry",
+      "title": "When is the product of inertia $I_{xy}$ of an area zero?",
+      "body": "When either axis is an axis of **symmetry** of the area.\n\nSymmetric elements on either side of the axis cancel with opposite signs of $xy$. Axes for which $I_{xy} = 0$ are principal axes, and give the maximum and minimum moments of inertia.\n\nTip: for symmetric sections, use the symmetry axes as principal axes.",
+      "searchQuery": "product of inertia zero symmetry axis principal axes"
+    },
+    {
+      "id": "parallel-axis-numeric",
+      "title": "A $4000\\,\\mathrm{mm^2}$ area has $\\bar{I} = 2\\times 10^6\\,\\mathrm{mm^4}$ about its centroidal axis. What is $I$ about a parallel axis $30\\,\\mathrm{mm}$ away, in $10^6\\,\\mathrm{mm^4}$?",
+      "body": "$I = 5.6\\times 10^6\\,\\mathrm{mm^4}$\n\n$I = \\bar{I} + Ad^2 = 2\\times 10^6 + 4000(30)^2 = 2\\times 10^6 + 3.6\\times 10^6 = 5.6\\times 10^6\\,\\mathrm{mm^4}$.\n\nWatch out: $d$ is squared, and the answer is always larger than $\\bar{I}$.",
+      "answer": "5.6",
+      "acceptedAnswers": [
+        "5.6e6",
+        "5.6 x 10^6"
+      ],
+      "answerDisplay": "$5.6\\times 10^6\\,\\mathrm{mm^4}$",
+      "searchQuery": "parallel axis theorem numeric moment of inertia shift"
+    },
+    {
+      "id": "composite-moment-of-inertia",
+      "title": "How do you find the moment of inertia of a composite area about a given axis?",
+      "body": "Transfer each part's $\\bar{I}$ to the axis with $I = \\bar{I} + Ad^2$ and **add** them; subtract holes.\n\nAll parts must be referred to the same axis. For a composite, find the overall centroid first, then use it as the axis.\n\nWatch out: skipping $Ad^2$ for a part is the usual error.",
+      "searchQuery": "composite area moment of inertia parallel axis sum parts subtract hole"
+    },
+    {
+      "id": "virtual-work-principle",
+      "title": "State the principle of virtual work for a rigid-body system in equilibrium.",
+      "body": "The total virtual work of all active forces is zero for any virtual displacement consistent with the constraints: $\\delta U = 0$.\n\nConstraint reactions that do no work during the virtual displacement don't appear, so only the active loads and chosen displacement matter.\n\nKey idea: it solves for one unknown without taking apart a linkage.",
+      "searchQuery": "principle of virtual work equilibrium delta U = 0 constraints"
+    },
+    {
+      "id": "virtual-work-lever-numeric",
+      "title": "A lever with fulcrum carries a $100\\,\\mathrm{N}$ load $0.2\\,\\mathrm{m}$ from the pivot and is pushed by force $P$ $1.0\\,\\mathrm{m}$ on the other side. Using virtual work, find $P$, in N.",
+      "body": "$P = 20\\,\\mathrm{N}$\n\nFor a small rotation $\\delta\\theta$: $P(1.0\\,\\delta\\theta) - 100(0.2\\,\\delta\\theta) = 0$, so $P = 20\\,\\mathrm{N}$.\n\nTip: the same answer follows from moment equilibrium about the pivot.",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 N"
+      ],
+      "answerDisplay": "$P = 20\\,\\mathrm{N}$",
+      "searchQuery": "virtual work lever force numeric small rotation"
+    },
+    {
+      "id": "potential-energy-stability",
+      "title": "Using potential energy $V(\\theta)$, what are the conditions for a stable equilibrium position?",
+      "body": "$\\dfrac{dV}{d\\theta} = 0$ and $\\dfrac{d^2V}{d\\theta^2} > 0$ (a minimum of $V$).\n\nIf $d^2V/d\\theta^2 < 0$ the equilibrium is unstable; if it's $0$, check higher derivatives.\n\nExample: a ball in a bowl sits at the minimum of $V$ and is stable.",
+      "searchQuery": "potential energy stability equilibrium second derivative minimum"
+    }
+  ]
+}

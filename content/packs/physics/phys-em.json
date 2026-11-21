@@ -1,0 +1,1017 @@
+{
+  "id": "phys-em",
+  "title": "Electricity & Magnetism",
+  "course": "Physics II: E&M",
+  "description": "Charge, Coulomb's and Gauss's laws, conductors, potential, capacitors and dielectrics, current and resistivity, magnetic forces and fields, Ampère's and Faraday's laws, inductance, Maxwell's equations and EM waves.",
+  "cards": [
+    {
+      "id": "charge-quantization",
+      "title": "The net charge on any object is quantized. In terms of $e = 1.602 \\times 10^{-19}\\,\\mathrm{C}$, what values can it take?",
+      "body": "Integer multiples of $e$: $Q = ne$ with $n = 0, \\pm 1, \\pm 2, \\ldots$\n\nCharge comes in discrete units, and the **elementary charge** $e$ is the magnitude of the charge on a proton or electron.\n\nWatch out: quarks carry $\\pm\\tfrac{1}{3}e$ and $\\pm\\tfrac{2}{3}e$, but they are never found isolated, so observed net charges are still whole multiples of $e$.",
+      "searchQuery": "charge quantization elementary charge integer multiples"
+    },
+    {
+      "id": "electrons-in-microcoulomb",
+      "title": "How many electrons carry a total charge of $1.0\\,\\mu\\mathrm{C}$? Answer in units of $10^{12}$ electrons (2 significant figures).",
+      "body": "$6.2 \\times 10^{12}$ electrons.\n\n$N = \\dfrac{Q}{e} = \\dfrac{1.0 \\times 10^{-6}\\,\\mathrm{C}}{1.602 \\times 10^{-19}\\,\\mathrm{C}} \\approx 6.24 \\times 10^{12}$\n\nKey idea: a microcoulomb is already a huge number of electrons, yet it is a tiny charge in everyday terms.\nWatch out: convert $\\mu\\mathrm{C}$ to $\\mathrm{C}$ before dividing.",
+      "answer": "6.2",
+      "acceptedAnswers": [
+        "6.24"
+      ],
+      "answerDisplay": "$6.2 \\times 10^{12}$",
+      "searchQuery": "number of electrons in one microcoulomb charge"
+    },
+    {
+      "id": "touching-spheres-charge-sharing",
+      "title": "Identical conducting spheres carrying $+6.0\\,\\mu\\mathrm{C}$ and $-2.0\\,\\mu\\mathrm{C}$ touch and are then separated. What charge does each end with, in microcoulombs?",
+      "body": "$+2.0\\,\\mu\\mathrm{C}$ each.\n\nCharge is conserved: the total, $+4.0\\,\\mu\\mathrm{C}$, is shared equally because the spheres are identical.\n\nKey idea: only electrons actually move between the spheres; net charge is never created or destroyed.",
+      "answer": "2.0",
+      "acceptedAnswers": [
+        "2 uC",
+        "2 μC"
+      ],
+      "answerDisplay": "$+2.0\\,\\mu\\mathrm{C}$",
+      "searchQuery": "identical conducting spheres touch charge sharing"
+    },
+    {
+      "id": "charging-by-induction-sign",
+      "title": "A negatively charged rod is held near a neutral metal sphere. The sphere is briefly grounded, the ground is removed, then the rod is taken away. What sign of charge does the sphere keep?",
+      "body": "Positive.\n\nThe rod repels electrons in the sphere, and grounding lets some escape to Earth. Removing the ground **before** the rod keeps them from returning, so the sphere keeps a net positive charge.\n\nWatch out: the rod never touches the sphere, so induction leaves the sphere with the opposite sign; charging by contact gives the same sign.",
+      "answer": "positive",
+      "acceptedAnswers": [
+        "positive charge",
+        "+"
+      ],
+      "searchQuery": "charging by induction grounding sign of charge"
+    },
+    {
+      "id": "neutral-object-attraction",
+      "title": "Why does a charged balloon attract a small, neutral scrap of paper?",
+      "body": "The balloon **polarizes** the paper, so the side nearer the balloon carries the opposite sign.\n\nCharges in the paper's molecules shift slightly. The attraction on the near side beats the repulsion on the far side because the balloon's field is stronger closer to it.\n\nWatch out: in a uniform field a neutral object feels no net force; it takes a nonuniform field.",
+      "searchQuery": "charged balloon attracts neutral paper polarization"
+    },
+    {
+      "id": "coulomb-force-two-charges",
+      "title": "Two $+1.0\\,\\mu\\mathrm{C}$ point charges are $0.10\\,\\mathrm{m}$ apart. What is the magnitude of the electric force between them, in newtons (2 significant figures)?",
+      "body": "$0.90\\,\\mathrm{N}$, repulsive.\n\nCoulomb's law gives $F = \\dfrac{k|q_1 q_2|}{r^2}$ with $k = \\dfrac{1}{4\\pi\\varepsilon_0} = 8.99 \\times 10^9\\,\\mathrm{N\\,m^2/C^2}$. Like charges repel.\n\nExample: $F = \\dfrac{(8.99 \\times 10^9)(1.0 \\times 10^{-6})^2}{(0.10)^2}\\,\\mathrm{N} \\approx 0.899\\,\\mathrm{N}$\nWatch out: convert $\\mu\\mathrm{C}$ to $\\mathrm{C}$ ($10^{-6}$) and square the distance.",
+      "answer": "0.90",
+      "acceptedAnswers": [
+        "0.899",
+        "0.9 N"
+      ],
+      "answerDisplay": "$0.90\\,\\mathrm{N}$",
+      "searchQuery": "Coulomb law force between two point charges"
+    },
+    {
+      "id": "coulomb-force-scaling",
+      "title": "Two point charges exert a force $F$ on each other. If both charges double and their separation also doubles, what is the new force, in terms of $F$?",
+      "body": "$F$, unchanged.\n\n$F \\propto \\dfrac{q_1 q_2}{r^2}$: doubling both charges multiplies the force by $2 \\times 2 = 4$, and doubling $r$ divides it by $2^2 = 4$.\n\nTip: scale each factor separately: charges multiply, the distance divides, and it is squared.",
+      "answer": "F",
+      "acceptedAnswers": [
+        "1F",
+        "same",
+        "unchanged",
+        "the same force"
+      ],
+      "answerDisplay": "$F$",
+      "searchQuery": "Coulomb force scaling charges and distance doubled"
+    },
+    {
+      "id": "electric-field-definition",
+      "title": "How is the electric field $\\vec{E}$ at a point defined?",
+      "body": "$\\vec{E} = \\vec{F}/q_0$, the force per unit positive test charge.\n\nThe **electric field** has units of $\\mathrm{N/C}$, equivalent to $\\mathrm{V/m}$. It exists whether or not a test charge is present.\n\nWatch out: a negative charge feels a force opposite to $\\vec{E}$.",
+      "searchQuery": "electric field definition force per unit charge"
+    },
+    {
+      "id": "point-charge-field-formula",
+      "title": "What is the magnitude of the electric field at distance $r$ from a point charge $q$?",
+      "body": "$E = \\dfrac{k|q|}{r^2} = \\dfrac{|q|}{4\\pi\\varepsilon_0 r^2}$, with $k = 8.99 \\times 10^9\\,\\mathrm{N\\,m^2/C^2}$.\n\nThe field points radially away from a positive charge and toward a negative one. Doubling $r$ cuts $E$ to a quarter.\n\nWatch out: the potential of a point charge falls off as $1/r$, not $1/r^2$.",
+      "answer": "kq/r^2",
+      "acceptedAnswers": [
+        "k|q|/r^2",
+        "q/(4 pi epsilon0 r^2)",
+        "q/(4πε0r^2)",
+        "q/(4pi e0 r^2)"
+      ],
+      "answerDisplay": "$\\dfrac{k|q|}{r^2}$",
+      "searchQuery": "electric field of a point charge formula"
+    },
+    {
+      "id": "point-charge-field-numeric",
+      "title": "What is the magnitude of the electric field $0.30\\,\\mathrm{m}$ from a $+2.0\\,\\mathrm{nC}$ point charge, in $\\mathrm{N/C}$ (2 significant figures)?",
+      "body": "$2.0 \\times 10^2\\,\\mathrm{N/C}$, pointing away from the charge.\n\n$E = \\dfrac{kq}{r^2} = \\dfrac{(8.99 \\times 10^9)(2.0 \\times 10^{-9})}{(0.30)^2}\\,\\mathrm{N/C} \\approx 199.8\\,\\mathrm{N/C}$\n\nWatch out: $\\mathrm{nC}$ means $10^{-9}\\,\\mathrm{C}$.",
+      "answer": "200",
+      "acceptedAnswers": [
+        "199.8",
+        "199.7",
+        "200 N/C"
+      ],
+      "answerDisplay": "$200\\,\\mathrm{N/C}$",
+      "searchQuery": "electric field of point charge numerical example nanocoulomb"
+    },
+    {
+      "id": "electron-force-direction-field",
+      "title": "An electron sits in a uniform electric field that points due east. In which direction is the electric force on it?",
+      "body": "West.\n\n$\\vec{F} = q\\vec{E}$ with $q = -e$, so the force on a negative charge is opposite to $\\vec{E}$.\n\nExample: a proton in the same field is pushed east with the same force magnitude, but its acceleration is about 1836 times smaller because of its larger mass.",
+      "answer": "west",
+      "acceptedAnswers": [
+        "due west",
+        "w"
+      ],
+      "searchQuery": "force on electron in electric field direction"
+    },
+    {
+      "id": "electron-acceleration-in-field",
+      "title": "An electron is in a uniform field of $1.00 \\times 10^3\\,\\mathrm{N/C}$. What is the magnitude of its acceleration, in units of $10^{14}\\,\\mathrm{m/s^2}$ (3 significant figures)? Ignore gravity.",
+      "body": "$1.76 \\times 10^{14}\\,\\mathrm{m/s^2}$\n\n$a = \\dfrac{eE}{m} = \\dfrac{(1.602 \\times 10^{-19}\\,\\mathrm{C})(1.00 \\times 10^3\\,\\mathrm{N/C})}{9.109 \\times 10^{-31}\\,\\mathrm{kg}} \\approx 1.76 \\times 10^{14}\\,\\mathrm{m/s^2}$\n\nWhy: gravity is negligible: $mg \\approx 9 \\times 10^{-30}\\,\\mathrm{N}$, versus $eE \\approx 1.6 \\times 10^{-16}\\,\\mathrm{N}$.\nTip: for charged particles, use $\\vec{F} = q\\vec{E}$ and $\\vec{F} = m\\vec{a}$.",
+      "answer": "1.76",
+      "acceptedAnswers": [
+        "1.759"
+      ],
+      "answerDisplay": "$1.76 \\times 10^{14}\\,\\mathrm{m/s^2}$",
+      "searchQuery": "electron acceleration in uniform electric field eE/m"
+    },
+    {
+      "id": "zero-field-point-two-charges",
+      "title": "Charges $+q$ and $+4q$ are fixed a distance $d$ apart. How far from the $+q$ charge, on the segment between them, is the electric field zero?",
+      "body": "$d/3$ from the $+q$ charge.\n\nSet $\\dfrac{kq}{x^2} = \\dfrac{k(4q)}{(d - x)^2}$, which gives $d - x = 2x$, so $x = d/3$. The null point lies closer to the **smaller** charge.\n\nWatch out: the field is zero there but the potential is not, and a charge placed there feels no net electric force.",
+      "answer": "d/3",
+      "acceptedAnswers": [
+        "(1/3)d",
+        "1/3 d",
+        "0.33d",
+        "0.333d"
+      ],
+      "answerDisplay": "$\\dfrac{d}{3}$",
+      "searchQuery": "point where electric field is zero two like charges"
+    },
+    {
+      "id": "ring-center-field",
+      "title": "What is the electric field at the center of a uniformly charged thin ring?",
+      "body": "Zero.\n\nBy symmetry, the field contributions from opposite elements of the ring cancel at the center.\n\nExample: on the axis at distance $x$, only the axial components survive: $E = \\dfrac{kQx}{(x^2 + R^2)^{3/2}}$, which vanishes at $x = 0$.\nWatch out: the **potential** at the center is not zero; it is $kQ/R$.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero",
+        "0 N/C"
+      ],
+      "searchQuery": "electric field at center of charged ring symmetry"
+    },
+    {
+      "id": "field-lines-never-cross",
+      "title": "Why can two electric field lines never cross?",
+      "body": "The field has a single direction at each point, so lines can't cross.\n\nA field line's tangent shows the field direction; a crossing would mean two directions at once.\n\nKey idea: lines start on positive charges and end on negative ones (or at infinity), and their density shows the field strength.",
+      "searchQuery": "why electric field lines never cross"
+    },
+    {
+      "id": "electric-dipole-moment",
+      "title": "Charges $+q$ and $-q$ are separated by a distance $d$. What is the magnitude of their electric dipole moment?",
+      "body": "$p = qd$, in $\\mathrm{C\\,m}$.\n\nThe vector $\\vec{p}$ points from the negative charge to the positive one. Polar molecules such as water have permanent dipole moments, which is why they line up in an applied field.\n\nWatch out: $q$ is the magnitude of one charge, not the total (which is zero).",
+      "answer": "qd",
+      "acceptedAnswers": [
+        "dq"
+      ],
+      "answerDisplay": "$qd$",
+      "searchQuery": "electric dipole moment definition qd"
+    },
+    {
+      "id": "dipole-uniform-field-force-torque",
+      "title": "An electric dipole $\\vec{p}$ sits in a uniform field $\\vec{E}$ at angle $\\theta$ to it. What are the net force and the torque on it?",
+      "body": "Net force: zero. Torque: $\\vec{\\tau} = \\vec{p} \\times \\vec{E}$, with magnitude $pE\\sin\\theta$.\n\nThe forces on $+q$ and $-q$ are equal and opposite but act at different points, so they twist the dipole toward alignment with $\\vec{E}$.\n\nKey idea: only a nonuniform field gives a dipole a net force.",
+      "searchQuery": "electric dipole in uniform field torque net force"
+    },
+    {
+      "id": "dipole-potential-energy",
+      "title": "What is the potential energy $U$ of an electric dipole $\\vec{p}$ at angle $\\theta$ to a uniform field $\\vec{E}$?",
+      "body": "$U = -\\vec{p} \\cdot \\vec{E} = -pE\\cos\\theta$\n\nIt is lowest ($-pE$) when $\\vec{p}$ points along $\\vec{E}$, a stable equilibrium, and highest ($+pE$) when antiparallel, an unstable equilibrium.\n\nExample: flipping a dipole from aligned to antiparallel takes work $2pE$.",
+      "searchQuery": "potential energy of electric dipole in field"
+    },
+    {
+      "id": "dipole-field-falloff",
+      "title": "Far from an electric dipole (distance $r$ much larger than the charge separation), how does its field strength depend on $r$?",
+      "body": "$E \\propto 1/r^3$\n\nThe fields of $+q$ and $-q$ nearly cancel far away, leaving a faster falloff than a point charge's $1/r^2$.\n\nExample: on the dipole's axis, $E = \\dfrac{2kp}{r^3}$.",
+      "answer": "1/r^3",
+      "acceptedAnswers": [
+        "r^-3",
+        "r^(-3)",
+        "inverse cube"
+      ],
+      "answerDisplay": "$E \\propto \\dfrac{1}{r^3}$",
+      "searchQuery": "electric dipole field falloff with distance"
+    },
+    {
+      "id": "flux-through-tilted-surface",
+      "title": "A uniform $200\\,\\mathrm{N/C}$ field passes through a flat $0.50\\,\\mathrm{m^2}$ surface whose normal makes $60^\\circ$ with the field. What is the electric flux, in $\\mathrm{N\\,m^2/C}$?",
+      "body": "$50\\,\\mathrm{N\\,m^2/C}$\n\n$\\Phi_E = EA\\cos\\theta = (200)(0.50)\\cos 60^\\circ$ for a uniform field through a flat surface.\n\nWatch out: $\\theta$ is measured from the surface's **normal**, not from the surface; a field parallel to the surface gives zero flux.",
+      "answer": "50",
+      "answerDisplay": "$50\\,\\mathrm{N\\,m^2/C}$",
+      "searchQuery": "electric flux through tilted surface EA cos theta"
+    },
+    {
+      "id": "gauss-law-flux",
+      "title": "According to Gauss's law, the net electric flux through any closed surface equals what?",
+      "body": "$\\Phi_E = \\oint \\vec{E} \\cdot d\\vec{A} = \\dfrac{q_{\\text{enc}}}{\\varepsilon_0}$\n\nThe net flux through a closed surface equals the **enclosed charge** divided by $\\varepsilon_0 = 8.85 \\times 10^{-12}\\,\\mathrm{C^2/(N\\,m^2)}$. Charges outside add nothing to the net flux, and the surface's shape doesn't matter.\n\nTip: Gauss's law gives $\\vec{E}$ easily only with high symmetry (spherical, cylindrical or planar).\nWatch out: $\\vec{E}$ on the surface comes from all charges, inside and outside; only the net flux depends on $q_{\\text{enc}}$.",
+      "searchQuery": "Gauss law net electric flux enclosed charge"
+    },
+    {
+      "id": "cube-face-flux-fraction",
+      "title": "A point charge sits at the exact center of a cube. What fraction of its total electric flux passes through any one face?",
+      "body": "$\\tfrac{1}{6}$, so each face carries $\\dfrac{q}{6\\varepsilon_0}$.\n\nBy Gauss's law the total through the cube is $q/\\varepsilon_0$, and by symmetry the six faces share it equally.\n\nWatch out: Gauss's law gives the flux easily here, but not the field on a face, which isn't uniform.",
+      "answer": "1/6",
+      "acceptedAnswers": [
+        "one sixth",
+        "one-sixth",
+        "0.167"
+      ],
+      "answerDisplay": "$\\tfrac{1}{6}$",
+      "searchQuery": "point charge at center of cube flux through each face"
+    },
+    {
+      "id": "flux-sphere-numeric",
+      "title": "A closed surface encloses a net charge of $8.85\\,\\mathrm{nC}$. What is the net electric flux through it, in $\\mathrm{N\\,m^2/C}$ (3 significant figures)?",
+      "body": "$1.00 \\times 10^3\\,\\mathrm{N\\,m^2/C}$\n\nGauss's law: $\\Phi_E = \\dfrac{q_{\\text{enc}}}{\\varepsilon_0} = \\dfrac{8.85 \\times 10^{-9}\\,\\mathrm{C}}{8.85 \\times 10^{-12}\\,\\mathrm{C^2/(N\\,m^2)}}$\n\nTip: the answer is independent of the surface's shape and of where the charge sits inside.",
+      "answer": "1000",
+      "acceptedAnswers": [
+        "999.5"
+      ],
+      "answerDisplay": "$1.00 \\times 10^3\\,\\mathrm{N\\,m^2/C}$",
+      "searchQuery": "Gauss law net electric flux numerical example enclosed charge"
+    },
+    {
+      "id": "zero-flux-not-zero-field",
+      "title": "The net electric flux through a closed surface is zero. Must the electric field be zero everywhere on that surface?",
+      "body": "No.\n\nZero net flux means only that the net enclosed charge is zero; field lines can still enter through one part of the surface and leave through another.\n\nExample: any closed surface sitting in a uniform field has zero net flux but a nonzero field.\nKey idea: Gauss's law constrains the total flux, not the local field.",
+      "searchQuery": "zero net electric flux does not mean zero field"
+    },
+    {
+      "id": "line-charge-field",
+      "title": "What is the electric field at distance $r$ from an infinite line of charge with linear charge density $\\lambda$?",
+      "body": "$E = \\dfrac{\\lambda}{2\\pi\\varepsilon_0 r} = \\dfrac{2k\\lambda}{r}$, directed radially away from the line (for $\\lambda > 0$).\n\nUse a coaxial cylindrical Gaussian surface: flux passes only through its curved side, so $E(2\\pi r\\ell) = \\lambda \\ell/\\varepsilon_0$.\n\nTip: the field of a line charge falls as $1/r$; a point charge falls as $1/r^2$.",
+      "searchQuery": "electric field infinite line of charge Gauss law"
+    },
+    {
+      "id": "infinite-sheet-field",
+      "title": "What is the electric field near an infinite, uniformly charged nonconducting sheet with surface charge density $\\sigma$?",
+      "body": "$E = \\dfrac{\\sigma}{2\\varepsilon_0}$ on each side, pointing away from the sheet for $\\sigma > 0$.\n\nThe field doesn't depend on distance: the field lines are parallel, so they don't spread out. A pillbox through the sheet collects flux through both ends: $2EA = \\sigma A/\\varepsilon_0$.\n\nWatch out: a charged **conductor** has $\\sigma/\\varepsilon_0$ just outside, because its charge sits on the outer face.",
+      "searchQuery": "electric field infinite charged sheet sigma over 2 epsilon0"
+    },
+    {
+      "id": "parallel-plates-field",
+      "title": "Two large parallel plates carry surface charge densities $+\\sigma$ and $-\\sigma$. What is the electric field between them, and outside them?",
+      "body": "Between: $E = \\sigma/\\varepsilon_0$, from the $+$ plate to the $-$ plate. Outside: approximately zero.\n\nEach plate contributes $\\sigma/(2\\varepsilon_0)$; the contributions add between the plates and cancel outside. This is the field inside an ideal parallel-plate capacitor.\n\nTip: the field is uniform between the plates, so $E = \\Delta V/d$.",
+      "searchQuery": "electric field between parallel plates sigma over epsilon0"
+    },
+    {
+      "id": "charged-shell-interior-field",
+      "title": "What is the electric field everywhere inside a uniformly charged thin spherical shell?",
+      "body": "Zero.\n\nA Gaussian sphere inside the shell encloses no charge, and by symmetry $E$ would be the same everywhere on it, so $E = 0$.\n\nKey idea: outside, the shell's field is $kQ/r^2$, as if all its charge were at the center (the **shell theorem**).",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero",
+        "0 N/C"
+      ],
+      "searchQuery": "electric field inside charged spherical shell zero"
+    },
+    {
+      "id": "solid-sphere-interior-field",
+      "title": "Charge is spread uniformly through a solid insulating sphere of radius $R$. At $r = R/2$, the field is what fraction of its value at the surface?",
+      "body": "$\\tfrac{1}{2}$\n\nInside, a Gaussian sphere of radius $r$ encloses $Qr^3/R^3$, so $E = \\dfrac{kQr}{R^3}$, growing linearly from zero at the center. Outside, $E = kQ/r^2$.\n\nKey idea: outside a spherically symmetric charge, the field is the same as if all the charge were at the center.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5",
+        "half",
+        "one half",
+        "one-half"
+      ],
+      "answerDisplay": "$\\tfrac{1}{2}$",
+      "searchQuery": "field inside uniformly charged solid insulating sphere"
+    },
+    {
+      "id": "conductor-interior-field",
+      "title": "What is the electric field inside the material of a conductor in electrostatic equilibrium?",
+      "body": "Zero.\n\nIf $\\vec{E}$ weren't zero, the free charges would keep moving until it was. So in equilibrium any excess charge sits on the **surface** and the whole conductor is at one potential.\n\nKey idea: just outside the surface, $\\vec{E}$ is perpendicular to it with magnitude $\\sigma/\\varepsilon_0$.\nWatch out: this holds only in electrostatic equilibrium; while a current flows, $\\vec{E} \\neq 0$ inside the metal.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero",
+        "0 N/C",
+        "0 V/m"
+      ],
+      "searchQuery": "electric field inside conductor electrostatic equilibrium zero"
+    },
+    {
+      "id": "conductor-surface-field",
+      "title": "Just outside the surface of a conductor in electrostatic equilibrium, with local surface charge density $\\sigma$, what is the magnitude of the electric field?",
+      "body": "$E = \\dfrac{\\sigma}{\\varepsilon_0}$, perpendicular to the surface.\n\nA small Gaussian pillbox straddles the surface: flux leaves only through the outer face, because the field inside the metal is zero.\n\nWatch out: an infinite **nonconducting** sheet gives only $\\sigma/(2\\varepsilon_0)$. The conductor's value is double because its field inside is zero.",
+      "answer": "sigma/epsilon0",
+      "acceptedAnswers": [
+        "σ/ε0",
+        "sigma/e0",
+        "sigma/eps0"
+      ],
+      "answerDisplay": "$\\dfrac{\\sigma}{\\varepsilon_0}$",
+      "searchQuery": "electric field just outside conductor surface sigma over epsilon0"
+    },
+    {
+      "id": "sharp-points-charge-density",
+      "title": "On an irregularly shaped charged conductor, where are the surface charge density and the field just outside it greatest?",
+      "body": "At the sharpest points, where the radius of curvature is smallest.\n\nThe whole surface is at one potential. For a sphere, $V = kQ/R = 4\\pi k\\sigma R$, so at a common potential $\\sigma \\propto 1/R$.\n\nExample: strong fields at tips cause corona discharge, which is how lightning rods work.",
+      "searchQuery": "charge density sharp points conductor radius of curvature"
+    },
+    {
+      "id": "charge-in-conductor-cavity",
+      "title": "A point charge $+q$ sits inside an empty cavity within a neutral conductor. What charges appear on the cavity wall and on the conductor's outer surface?",
+      "body": "$-q$ on the cavity wall and $+q$ on the outer surface.\n\n$\\vec{E} = 0$ inside the metal, so a Gaussian surface within the metal around the cavity must enclose zero net charge. The conductor stays neutral overall, so the balancing $+q$ ends up on the outside.\n\nKey idea: the induced charge on the cavity wall exactly cancels the enclosed charge.",
+      "searchQuery": "charge inside conductor cavity induced charge outer surface"
+    },
+    {
+      "id": "potential-difference-definition",
+      "title": "How is the electric potential difference $\\Delta V$ between two points defined in terms of potential energy?",
+      "body": "$\\Delta V = \\dfrac{\\Delta U}{q}$: the change in potential energy per unit charge, in $\\mathrm{J/C} = \\mathrm{V}$.\n\nIt is a property of the field, independent of the test charge $q$. Equivalently, $\\Delta V = -\\displaystyle\\int \\vec{E} \\cdot d\\vec{s}$.\n\nKey idea: potential energy is $U = qV$; the same $V$ gives different $U$ for different charges.",
+      "searchQuery": "electric potential difference definition energy per unit charge"
+    },
+    {
+      "id": "point-charge-potential",
+      "title": "Taking $V = 0$ at infinity, what is the electric potential at distance $r$ from a point charge $q$?",
+      "body": "$V = \\dfrac{kq}{r} = \\dfrac{q}{4\\pi\\varepsilon_0 r}$\n\nPotential is a **scalar** that falls off as $1/r$ and is negative for negative $q$. The potentials of several charges add as ordinary numbers.\n\nWhy: $V$ and $\\vec{E}$ are linked by $E_r = -dV/dr$, so $\\vec{E}$ points toward decreasing $V$.\nWatch out: the field $E = kq/r^2$ is a vector that falls off as $1/r^2$; don't mix the two.",
+      "answer": "kq/r",
+      "acceptedAnswers": [
+        "q/(4*pi*epsilon0*r)",
+        "q/(4pi e0 r)",
+        "q/(4πε0r)"
+      ],
+      "answerDisplay": "$\\dfrac{kq}{r}$",
+      "searchQuery": "electric potential of a point charge kq/r"
+    },
+    {
+      "id": "potential-superposition-numeric",
+      "title": "Two $+1.0\\,\\mathrm{nC}$ point charges are $0.10\\,\\mathrm{m}$ apart. What is the electric potential at the midpoint, with $V = 0$ at infinity, in volts (2 significant figures)?",
+      "body": "$360\\,\\mathrm{V}$\n\nEach charge is $0.050\\,\\mathrm{m}$ away, and potentials add as numbers: $V = 2 \\cdot \\dfrac{kq}{r} = 2\\,\\dfrac{(8.99 \\times 10^9)(1.0 \\times 10^{-9})}{0.050}\\,\\mathrm{V} \\approx 360\\,\\mathrm{V}$\n\nWatch out: the **field** at the midpoint is zero, but the potential is not; for like charges the potentials add instead of canceling.",
+      "answer": "360",
+      "acceptedAnswers": [
+        "359.6",
+        "360 V"
+      ],
+      "answerDisplay": "$360\\,\\mathrm{V}$",
+      "searchQuery": "electric potential at midpoint of two like charges superposition"
+    },
+    {
+      "id": "two-charge-potential-energy",
+      "title": "What is the electric potential energy of a $+2.0\\,\\mu\\mathrm{C}$ charge and a $-3.0\\,\\mu\\mathrm{C}$ charge $0.30\\,\\mathrm{m}$ apart, in joules (2 significant figures)?",
+      "body": "$-0.18\\,\\mathrm{J}$\n\n$U = \\dfrac{kq_1q_2}{r} = \\dfrac{(8.99 \\times 10^9)(2.0 \\times 10^{-6})(-3.0 \\times 10^{-6})}{0.30}\\,\\mathrm{J} \\approx -0.180\\,\\mathrm{J}$\n\nWhy: negative means it takes $0.18\\,\\mathrm{J}$ of work to pull the charges apart to infinity.\nWatch out: unlike force, $U$ goes as $1/r$ and keeps the signs of the charges.",
+      "answer": "-0.18",
+      "acceptedAnswers": [
+        "-0.18 J",
+        "-0.1798"
+      ],
+      "answerDisplay": "$-0.18\\,\\mathrm{J}$",
+      "searchQuery": "electric potential energy two point charges joules"
+    },
+    {
+      "id": "dipole-midpoint-potential",
+      "title": "Charges $+q$ and $-q$ are fixed a distance $d$ apart. Taking $V = 0$ at infinity, what is the electric potential at the midpoint between them?",
+      "body": "Zero, yet the field there is not zero.\n\n$V = \\dfrac{kq}{d/2} + \\dfrac{k(-q)}{d/2} = 0$, but both fields point toward $-q$ and add to $E = \\dfrac{8kq}{d^2}$.\n\nKey idea: zero potential doesn't imply zero field, or vice versa.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero",
+        "0 V"
+      ],
+      "searchQuery": "potential at midpoint of electric dipole zero"
+    },
+    {
+      "id": "conducting-sphere-center-potential",
+      "title": "A conducting sphere of radius $R$ carries charge $Q$. Taking $V = 0$ at infinity, what is the potential at its center?",
+      "body": "$V = \\dfrac{kQ}{R}$, the same as at its surface.\n\nThe field inside is zero, so no work is needed to move a charge from the surface to the center; $V$ is constant throughout a conductor.\n\nWatch out: $E = 0$ inside does not mean $V = 0$.",
+      "answer": "kQ/R",
+      "acceptedAnswers": [
+        "Q/(4 pi epsilon0 R)",
+        "Q/(4πε0R)",
+        "Q/(4pi e0 R)"
+      ],
+      "answerDisplay": "$\\dfrac{kQ}{R}$",
+      "searchQuery": "potential inside charged conducting sphere"
+    },
+    {
+      "id": "electron-volt-energy",
+      "title": "An electron starts from rest and is accelerated through a potential difference of $100\\,\\mathrm{V}$. How much kinetic energy does it gain, in electron-volts?",
+      "body": "$100\\,\\mathrm{eV}$, which is $1.60 \\times 10^{-17}\\,\\mathrm{J}$.\n\nOne **electron-volt** is the energy a charge $e$ gains through $1\\,\\mathrm{V}$: $1\\,\\mathrm{eV} = 1.602 \\times 10^{-19}\\,\\mathrm{J}$. Energy conservation gives $\\Delta K = -q\\,\\Delta V$, and the electron ($q = -e$) gains energy moving toward higher potential.\n\nTip: for a charge $\\pm e$, the kinetic energy in $\\mathrm{eV}$ equals the potential difference in volts.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 eV",
+        "100 electron volts",
+        "100 electron-volts"
+      ],
+      "answerDisplay": "$100\\,\\mathrm{eV}$",
+      "searchQuery": "electron volt kinetic energy accelerated through potential difference"
+    },
+    {
+      "id": "electron-speed-from-voltage",
+      "title": "An electron starts from rest and is accelerated through $100\\,\\mathrm{V}$. What is its final speed, in units of $10^6\\,\\mathrm{m/s}$ (2 significant figures)? Use nonrelativistic mechanics.",
+      "body": "$5.9 \\times 10^6\\,\\mathrm{m/s}$\n\nEnergy conservation: $\\tfrac{1}{2}mv^2 = eV$, so $v = \\sqrt{\\dfrac{2eV}{m}} = \\sqrt{\\dfrac{2(1.602 \\times 10^{-19})(100)}{9.109 \\times 10^{-31}}}\\,\\mathrm{m/s}$\n\nWatch out: this nonrelativistic result fails when the speed approaches $c = 3.00 \\times 10^8\\,\\mathrm{m/s}$; here it is only about $2\\%$ of $c$.",
+      "answer": "5.9",
+      "acceptedAnswers": [
+        "5.93"
+      ],
+      "answerDisplay": "$5.9 \\times 10^6\\,\\mathrm{m/s}$",
+      "searchQuery": "electron speed accelerated through potential difference 100 volts"
+    },
+    {
+      "id": "work-by-field-moving-charge",
+      "title": "A $+2.0\\,\\mu\\mathrm{C}$ charge moves from a point at $50\\,\\mathrm{V}$ to a point at $10\\,\\mathrm{V}$. How much work does the electric field do on it, in microjoules?",
+      "body": "$+80\\,\\mu\\mathrm{J}$\n\n$W_{\\text{field}} = -\\Delta U = -q\\,\\Delta V = -(2.0\\,\\mu\\mathrm{C})(10\\,\\mathrm{V} - 50\\,\\mathrm{V})$. A positive charge moving to lower potential gets positive work from the field.\n\nTip: the path doesn't matter, only the endpoints; the electric force is conservative.",
+      "answer": "80",
+      "acceptedAnswers": [
+        "80 uJ",
+        "80 μJ"
+      ],
+      "answerDisplay": "$+80\\,\\mu\\mathrm{J}$",
+      "searchQuery": "work done by electric field moving charge potential difference"
+    },
+    {
+      "id": "charges-move-potential",
+      "title": "Released from rest in an electric field, does a proton move toward higher or lower electric potential? What about an electron?",
+      "body": "The proton moves toward lower potential; the electron, toward higher potential.\n\nBoth lose potential energy $U = qV$ and gain kinetic energy. Because $q < 0$ for the electron, lower $U$ means higher $V$.\n\nKey idea: positive charges fall \"downhill\" in $V$, negative charges \"uphill\"; the field always points toward lower $V$.",
+      "searchQuery": "proton electron released from rest toward higher or lower potential"
+    },
+    {
+      "id": "equipotential-field-angle",
+      "title": "What angle do electric field lines make with equipotential surfaces, in degrees?",
+      "body": "$90^\\circ$: field lines always cross equipotentials at right angles.\n\nMoving along an equipotential changes $V$ by zero, so the field does no work there. That is possible only if $\\vec{E}$ has no component along the surface.\n\nExample: a conductor's surface is an equipotential, so the field there is perpendicular to it.",
+      "answer": "90",
+      "acceptedAnswers": [
+        "90°",
+        "90 degrees",
+        "perpendicular"
+      ],
+      "answerDisplay": "$90^\\circ$",
+      "searchQuery": "electric field lines perpendicular to equipotential surfaces"
+    },
+    {
+      "id": "field-between-plates-from-voltage",
+      "title": "Two parallel plates $2.0\\,\\mathrm{mm}$ apart have a potential difference of $12\\,\\mathrm{V}$. What is the field strength between them, in $\\mathrm{V/m}$?",
+      "body": "$6.0 \\times 10^3\\,\\mathrm{V/m}$\n\nIn a uniform field, $E = \\Delta V/d = \\dfrac{12\\,\\mathrm{V}}{0.0020\\,\\mathrm{m}}$. The field points from the higher-potential plate to the lower.\n\nWatch out: convert $\\mathrm{mm}$ to $\\mathrm{m}$ first.",
+      "answer": "6000",
+      "acceptedAnswers": [
+        "6000 V/m"
+      ],
+      "answerDisplay": "$6000\\,\\mathrm{V/m}$",
+      "searchQuery": "uniform electric field from voltage and plate separation"
+    },
+    {
+      "id": "field-from-potential-gradient",
+      "title": "In a region, $V(x) = 3.0x^2$ (volts, with $x$ in meters). What is $E_x$ at $x = 2.0\\,\\mathrm{m}$, in $\\mathrm{V/m}$?",
+      "body": "$-12\\,\\mathrm{V/m}$\n\n$E_x = -\\dfrac{dV}{dx} = -6.0x = -12\\,\\mathrm{V/m}$ at $x = 2.0\\,\\mathrm{m}$.\n\nWhy: the minus sign means the field points toward $-x$, the direction in which $V$ decreases.",
+      "answer": "-12",
+      "acceptedAnswers": [
+        "-12 V/m"
+      ],
+      "answerDisplay": "$-12\\,\\mathrm{V/m}$",
+      "searchQuery": "electric field from potential gradient E = -dV/dx"
+    },
+    {
+      "id": "capacitance-from-charge-voltage",
+      "title": "A capacitor holds $6.0\\,\\mu\\mathrm{C}$ on its positive plate when the voltage across it is $3.0\\,\\mathrm{V}$. What is its capacitance, in microfarads?",
+      "body": "$2.0\\,\\mu\\mathrm{F}$\n\n$C = Q/V$, where $Q$ is the charge on either plate. $1\\,\\mathrm{F} = 1\\,\\mathrm{C/V}$.\n\nWatch out: the plates hold $+Q$ and $-Q$, so the capacitor's net charge is zero.",
+      "answer": "2.0",
+      "acceptedAnswers": [
+        "2 uF",
+        "2 μF"
+      ],
+      "answerDisplay": "$2.0\\,\\mu\\mathrm{F}$",
+      "searchQuery": "capacitance definition charge over voltage"
+    },
+    {
+      "id": "parallel-plate-capacitance",
+      "title": "What is the capacitance of an ideal parallel-plate capacitor with plate area $A$, plate separation $d$ and vacuum between the plates?",
+      "body": "$C = \\dfrac{\\varepsilon_0 A}{d}$\n\n**Capacitance** depends only on geometry, not on the charge or voltage. Doubling $A$ or halving $d$ doubles $C$; filling the gap with a dielectric multiplies $C$ by $\\kappa$.\n\nTip: bigger plates and a smaller gap store more charge per volt.\nWatch out: this assumes $d$ is much smaller than the plate dimensions, so edge effects are ignored.",
+      "searchQuery": "parallel plate capacitor capacitance formula"
+    },
+    {
+      "id": "parallel-plate-capacitance-numeric",
+      "title": "A vacuum parallel-plate capacitor has plates of area $1.00\\,\\mathrm{m^2}$ separated by $1.00\\,\\mathrm{mm}$. What is its capacitance, in nanofarads (3 significant figures)?",
+      "body": "$8.85\\,\\mathrm{nF}$\n\n$C = \\dfrac{\\varepsilon_0 A}{d} = \\dfrac{(8.85 \\times 10^{-12})(1.00)}{1.00 \\times 10^{-3}}\\,\\mathrm{F} = 8.85 \\times 10^{-9}\\,\\mathrm{F}$\n\nKey idea: even square-meter plates give only nanofarads; a farad is an enormous capacitance.",
+      "answer": "8.85",
+      "acceptedAnswers": [
+        "8.854",
+        "8.85 nF"
+      ],
+      "answerDisplay": "$8.85\\,\\mathrm{nF}$",
+      "searchQuery": "parallel plate capacitor capacitance numerical example"
+    },
+    {
+      "id": "capacitors-in-series",
+      "title": "Two $6.0\\,\\mu\\mathrm{F}$ capacitors are connected in series. What is their equivalent capacitance, in microfarads?",
+      "body": "$3.0\\,\\mu\\mathrm{F}$\n\nIn series, $\\dfrac{1}{C_{\\text{eq}}} = \\dfrac{1}{C_1} + \\dfrac{1}{C_2}$, so $C_{\\text{eq}}$ is smaller than either capacitor. Capacitors in series all carry the **same charge**.\n\nExample: in parallel, the same two capacitors would add to $12\\,\\mu\\mathrm{F}$.\nWatch out: this is the reverse of resistors, where series values add.",
+      "answer": "3.0",
+      "acceptedAnswers": [
+        "3 uF",
+        "3 μF",
+        "3 microfarads"
+      ],
+      "answerDisplay": "$3.0\\,\\mu\\mathrm{F}$",
+      "searchQuery": "capacitors in series equivalent capacitance"
+    },
+    {
+      "id": "capacitors-in-parallel",
+      "title": "A $2.0\\,\\mu\\mathrm{F}$ and a $3.0\\,\\mu\\mathrm{F}$ capacitor are connected in parallel. What is the equivalent capacitance, in microfarads?",
+      "body": "$5.0\\,\\mu\\mathrm{F}$\n\nIn parallel, $C_{\\text{eq}} = C_1 + C_2$, because the plate areas effectively add. All capacitors in parallel share the same voltage.\n\nWatch out: this is the opposite of series, where $\\dfrac{1}{C_{\\text{eq}}} = \\dfrac{1}{C_1} + \\dfrac{1}{C_2}$.",
+      "answer": "5.0",
+      "acceptedAnswers": [
+        "5 uF",
+        "5 μF"
+      ],
+      "answerDisplay": "$5.0\\,\\mu\\mathrm{F}$",
+      "searchQuery": "capacitors in parallel equivalent capacitance"
+    },
+    {
+      "id": "series-capacitor-voltage-split",
+      "title": "A $2.0\\,\\mu\\mathrm{F}$ and a $3.0\\,\\mu\\mathrm{F}$ capacitor in series are connected across a $10\\,\\mathrm{V}$ battery. What is the voltage across the $2.0\\,\\mu\\mathrm{F}$ capacitor, in volts?",
+      "body": "$6.0\\,\\mathrm{V}$\n\nSeries capacitors carry the same charge: $C_{\\text{eq}} = 1.2\\,\\mu\\mathrm{F}$, so $Q = (1.2\\,\\mu\\mathrm{F})(10\\,\\mathrm{V}) = 12\\,\\mu\\mathrm{C}$. Then $V_1 = Q/C_1 = 6.0\\,\\mathrm{V}$ and the other has $4.0\\,\\mathrm{V}$.\n\nTip: in series the **smaller** capacitance takes the larger share of the voltage, since $V = Q/C$.",
+      "answer": "6.0",
+      "acceptedAnswers": [
+        "6 V"
+      ],
+      "answerDisplay": "$6.0\\,\\mathrm{V}$",
+      "searchQuery": "capacitors in series voltage division same charge"
+    },
+    {
+      "id": "capacitor-stored-energy",
+      "title": "How much energy is stored in a capacitor of capacitance $C$ charged to a potential difference $V$?",
+      "body": "$U = \\tfrac{1}{2}CV^2$, equivalently $\\dfrac{Q^2}{2C}$ or $\\tfrac{1}{2}QV$.\n\nThe energy is stored in the electric field, with energy density $u = \\tfrac{1}{2}\\varepsilon_0 E^2$.\n\nWatch out: a battery does work $QV$ while charging, but only half is stored; the rest is dissipated as heat in the circuit.",
+      "searchQuery": "energy stored in a capacitor formula"
+    },
+    {
+      "id": "capacitor-energy-numeric",
+      "title": "How much energy does a $10\\,\\mu\\mathrm{F}$ capacitor store when charged to $100\\,\\mathrm{V}$, in joules?",
+      "body": "$0.050\\,\\mathrm{J}$\n\n$U = \\tfrac{1}{2}CV^2 = \\tfrac{1}{2}(10 \\times 10^{-6}\\,\\mathrm{F})(100\\,\\mathrm{V})^2$\n\nKey idea: $U \\propto V^2$, so charging to $200\\,\\mathrm{V}$ would store four times as much.",
+      "answer": "0.050",
+      "acceptedAnswers": [
+        "0.05 J",
+        "50 mJ"
+      ],
+      "answerDisplay": "$0.050\\,\\mathrm{J}$",
+      "searchQuery": "energy stored capacitor numerical example joules"
+    },
+    {
+      "id": "electric-field-energy-density",
+      "title": "What is the energy density (energy per unit volume) stored in an electric field of magnitude $E$ in vacuum?",
+      "body": "$u = \\tfrac{1}{2}\\varepsilon_0 E^2$, in $\\mathrm{J/m^3}$.\n\nFor a parallel-plate capacitor, $U = \\tfrac{1}{2}CV^2$ with $C = \\varepsilon_0 A/d$ and $V = Ed$ gives $\\tfrac{1}{2}\\varepsilon_0 E^2 \\cdot (Ad)$, where $Ad$ is the volume.\n\nKey idea: the energy is stored in the **field** itself, wherever $\\vec{E}$ is nonzero.",
+      "searchQuery": "electric field energy density one half epsilon0 E squared"
+    },
+    {
+      "id": "capacitor-plate-force",
+      "title": "Between the plates of a charged parallel-plate capacitor, $E = \\sigma/\\varepsilon_0$. Why is the force on one plate (charge $Q$) only $Q\\sigma/(2\\varepsilon_0)$?",
+      "body": "A plate can't push on itself: only the **other** plate's field acts on it, and that field is $\\sigma/(2\\varepsilon_0)$.\n\nThe full $\\sigma/\\varepsilon_0$ between the plates is the sum of both plates' fields. So the plates attract with $F = Q\\dfrac{\\sigma}{2\\varepsilon_0} = \\dfrac{Q^2}{2\\varepsilon_0 A}$.\n\nWatch out: using the full $E = \\sigma/\\varepsilon_0$ doubles the force.",
+      "searchQuery": "force between capacitor plates Q sigma over 2 epsilon0"
+    },
+    {
+      "id": "dielectric-constant-fills-capacitor",
+      "title": "A dielectric of dielectric constant $\\kappa$ completely fills a capacitor whose vacuum capacitance is $C_0$. What is the new capacitance?",
+      "body": "$C = \\kappa C_0$\n\nThe dielectric constant $\\kappa \\ge 1$ is a pure number characteristic of the material, with $\\kappa = 1$ for vacuum.\n\nExample: for a parallel-plate capacitor, $C = \\dfrac{\\kappa\\varepsilon_0 A}{d}$.\nWatch out: this holds when the dielectric fills the whole gap; a partial fill needs a series or parallel treatment.",
+      "answer": "kappa*C0",
+      "acceptedAnswers": [
+        "κC0",
+        "kC0",
+        "C0*kappa"
+      ],
+      "answerDisplay": "$\\kappa C_0$",
+      "searchQuery": "dielectric constant kappa capacitance C = kappa C0"
+    },
+    {
+      "id": "dielectric-increases-capacitance",
+      "title": "Why does filling a capacitor's gap with a dielectric increase its capacitance?",
+      "body": "The dielectric **polarizes**, leaving bound charge on each face opposite in sign to the nearby plate's charge.\n\nThat partly cancels the field inside, so for the same $Q$ the voltage drops by a factor $\\kappa$ and $C = Q/V$ rises by $\\kappa$.\n\nTip: a good dielectric also lets the capacitor withstand a higher voltage before breakdown.",
+      "searchQuery": "why dielectric increases capacitance polarization"
+    },
+    {
+      "id": "dielectric-isolated-capacitor",
+      "title": "A charged capacitor is disconnected from its battery; then a $\\kappa = 3$ dielectric fills the gap. Its new voltage is what fraction of the old?",
+      "body": "$\\tfrac{1}{3}$\n\nOnce disconnected, the charge $Q$ is fixed. The dielectric raises $C$ to $\\kappa C_0 = 3C_0$, so $V = Q/C$ drops to a third, and so do $E$ and $U = Q^2/(2C)$.\n\nWatch out: if the battery stays connected, $V$ is fixed instead, and $Q$ and $U$ triple.\nKey idea: ask what is held fixed, $Q$ or $V$, before predicting anything.",
+      "answer": "1/3",
+      "acceptedAnswers": [
+        "one third",
+        "one-third",
+        "third",
+        "0.33",
+        "0.333",
+        "divided by 3",
+        "factor of 1/3",
+        "1/3rd"
+      ],
+      "answerDisplay": "$\\tfrac{1}{3}$",
+      "searchQuery": "dielectric inserted isolated capacitor voltage change"
+    },
+    {
+      "id": "capacitor-battery-connected-dielectric",
+      "title": "A capacitor stays connected to a battery while a $\\kappa = 3$ dielectric fills the gap. By what factor does the stored charge change?",
+      "body": "It triples ($3\\times$).\n\nThe battery holds $V$ fixed, while $C$ rises to $3C_0$, so $Q = CV$ is three times larger. The stored energy $U = \\tfrac{1}{2}CV^2$ also triples.\n\nKey idea: with the battery connected $V$ is fixed; with the battery removed $Q$ is fixed.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3x",
+        "x3",
+        "three",
+        "3 times",
+        "three times",
+        "triples",
+        "factor of 3"
+      ],
+      "answerDisplay": "$3\\times$",
+      "searchQuery": "dielectric inserted capacitor connected to battery charge increases"
+    },
+    {
+      "id": "charge-from-steady-current",
+      "title": "A steady current of $2.0\\,\\mathrm{A}$ flows for $1.0\\,\\mathrm{min}$. How much charge passes a point in the wire, in coulombs?",
+      "body": "$120\\,\\mathrm{C}$\n\n$Q = It = (2.0\\,\\mathrm{A})(60\\,\\mathrm{s})$, since $1\\,\\mathrm{A} = 1\\,\\mathrm{C/s}$.\n\nExample: that is about $7.5 \\times 10^{20}$ electrons, each carrying $1.60 \\times 10^{-19}\\,\\mathrm{C}$.\nWatch out: convert minutes to seconds.",
+      "answer": "120",
+      "acceptedAnswers": [
+        "120 C"
+      ],
+      "answerDisplay": "$120\\,\\mathrm{C}$",
+      "searchQuery": "charge from steady current Q = It coulombs"
+    },
+    {
+      "id": "conventional-current-direction",
+      "title": "In a metal wire, how does the direction of conventional current compare with the direction in which the electrons drift?",
+      "body": "Opposite: conventional current points the way positive charges would flow, from higher to lower potential.\n\nThe mobile charges in a metal are electrons, which drift against the current direction.\n\nTip: the direction convention changes no result, because a flow of $-e$ one way is equivalent to a flow of $+e$ the other.",
+      "searchQuery": "conventional current direction versus electron drift direction"
+    },
+    {
+      "id": "drift-velocity-numeric",
+      "title": "A copper wire ($n = 8.5 \\times 10^{28}\\,\\mathrm{m^{-3}}$) of cross-section $1.0\\,\\mathrm{mm^2}$ carries $2.0\\,\\mathrm{A}$. What is the drift speed, in $\\mathrm{mm/s}$ (2 significant figures)?",
+      "body": "$0.15\\,\\mathrm{mm/s}$\n\n$I = nqv_dA$, so $v_d = \\dfrac{2.0}{(8.5 \\times 10^{28})(1.60 \\times 10^{-19})(1.0 \\times 10^{-6})}\\,\\mathrm{m/s} \\approx 1.5 \\times 10^{-4}\\,\\mathrm{m/s}$\n\nWatch out: $1\\,\\mathrm{mm^2} = 10^{-6}\\,\\mathrm{m^2}$.",
+      "answer": "0.15",
+      "acceptedAnswers": [
+        "0.147",
+        "0.15 mm/s"
+      ],
+      "answerDisplay": "$0.15\\,\\mathrm{mm/s}$",
+      "searchQuery": "drift velocity copper wire I = nqvA calculation"
+    },
+    {
+      "id": "drift-speed-instant-light",
+      "title": "Electrons in a copper wire drift at only about $10^{-4}\\,\\mathrm{m/s}$. Why does a lamp light almost instantly when you close the switch?",
+      "body": "The wire is already full of free electrons, and closing the switch sets up an electric field along the whole circuit almost at once.\n\nThe signal travels at a large fraction of light speed, so electrons everywhere start drifting together. No electron has to travel from the switch to the lamp.\n\nKey idea: the field moves fast; the electrons themselves drift slowly.",
+      "searchQuery": "electron drift speed vs lamp lights instantly"
+    },
+    {
+      "id": "ohmic-material-definition",
+      "title": "What does it mean for a material or device to be ohmic?",
+      "body": "Its current is proportional to the voltage across it, so $V = IR$ with a **constant** resistance $R$.\n\nIts $I$-$V$ graph is a straight line through the origin.\n\nExample: metals at constant temperature are ohmic; diodes and incandescent filaments are not.\nWatch out: $R = V/I$ can be computed for any device; only ohmic devices keep $R$ constant as $V$ changes.",
+      "searchQuery": "ohmic material definition Ohm law constant resistance"
+    },
+    {
+      "id": "stretched-wire-resistance",
+      "title": "A metal wire is drawn out to twice its original length at constant volume. By what factor does its resistance change?",
+      "body": "It quadruples ($4\\times$).\n\n$R = \\rho L/A$. At constant volume, doubling $L$ halves $A$, so $R = \\dfrac{\\rho(2L)}{A/2} = \\dfrac{4\\rho L}{A}$.\n\nWatch out: resistivity $\\rho$ (in $\\Omega\\,\\mathrm{m}$) belongs to the material and doesn't change when you reshape the wire; only $R$ does.\nTip: at constant volume, $R \\propto L^2$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4x",
+        "x4",
+        "four",
+        "4 times",
+        "four times",
+        "quadruples",
+        "quadruple",
+        "quadrupled",
+        "factor of 4"
+      ],
+      "searchQuery": "wire stretched resistance factor constant volume"
+    },
+    {
+      "id": "resistance-numeric-copper",
+      "title": "A copper wire has resistivity $1.68 \\times 10^{-8}\\,\\Omega\\,\\mathrm{m}$, length $10\\,\\mathrm{m}$ and cross-section $1.0\\,\\mathrm{mm^2}$. What is its resistance, in ohms (2 significant figures)?",
+      "body": "$0.17\\,\\Omega$\n\n$R = \\dfrac{\\rho L}{A} = \\dfrac{(1.68 \\times 10^{-8}\\,\\Omega\\,\\mathrm{m})(10\\,\\mathrm{m})}{1.0 \\times 10^{-6}\\,\\mathrm{m^2}} = 0.168\\,\\Omega$\n\nWatch out: $1\\,\\mathrm{mm^2} = 10^{-6}\\,\\mathrm{m^2}$, not $10^{-3}$.",
+      "answer": "0.17",
+      "acceptedAnswers": [
+        "0.168"
+      ],
+      "answerDisplay": "$0.17\\,\\Omega$",
+      "searchQuery": "resistance of copper wire R = rho L over A numerical"
+    },
+    {
+      "id": "resistance-vs-temperature",
+      "title": "How does the resistance of a typical metal change as its temperature rises, and why?",
+      "body": "It **increases**: the lattice ions vibrate more, so electrons scatter more often and drift more slowly.\n\nOver modest ranges, $\\rho \\approx \\rho_0[1 + \\alpha(T - T_0)]$, with temperature coefficient $\\alpha > 0$ for metals.\n\nWatch out: semiconductors behave the opposite way, because heating frees many more charge carriers, so their resistance usually falls.",
+      "searchQuery": "metal resistance increases with temperature why"
+    },
+    {
+      "id": "power-dissipated-heater",
+      "title": "A heater with resistance $240\\,\\Omega$ is connected to $120\\,\\mathrm{V}$. What power does it dissipate, in watts?",
+      "body": "$60\\,\\mathrm{W}$\n\n$P = \\dfrac{V^2}{R} = \\dfrac{(120\\,\\mathrm{V})^2}{240\\,\\Omega}$. Equivalent forms are $P = IV = I^2R$, with $I = 0.50\\,\\mathrm{A}$ here.\n\nWatch out: for fixed $R$, power goes as $V^2$, so halving the voltage cuts the power to a quarter.",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 W"
+      ],
+      "answerDisplay": "$60\\,\\mathrm{W}$",
+      "searchQuery": "electrical power dissipated resistor P = V squared over R"
+    },
+    {
+      "id": "magnetic-force-no-work",
+      "title": "Why can a static magnetic field never change the speed of a moving charged particle?",
+      "body": "The magnetic force is always perpendicular to the velocity, so it does no work.\n\n$\\vec{F} = q\\vec{v} \\times \\vec{B}$ gives $\\vec{F} \\cdot \\vec{v} = 0$, so the force changes only the **direction** of motion, never the speed or kinetic energy.\n\nWatch out: a charge at rest, or moving parallel to $\\vec{B}$, feels no magnetic force at all.",
+      "searchQuery": "magnetic force does no work on moving charge"
+    },
+    {
+      "id": "magnetic-force-proton-numeric",
+      "title": "A proton moves at $1.0 \\times 10^6\\,\\mathrm{m/s}$ perpendicular to a $0.50\\,\\mathrm{T}$ field. What is the magnetic force on it, in units of $10^{-14}\\,\\mathrm{N}$ (2 sig. figs.)?",
+      "body": "$8.0 \\times 10^{-14}\\,\\mathrm{N}$\n\n$F = qvB\\sin 90^\\circ = (1.602 \\times 10^{-19}\\,\\mathrm{C})(1.0 \\times 10^6\\,\\mathrm{m/s})(0.50\\,\\mathrm{T})$\n\nTip: the force is perpendicular to both $\\vec{v}$ and $\\vec{B}$, so it bends the path without changing the speed.",
+      "answer": "8.0",
+      "acceptedAnswers": [
+        "8.01"
+      ],
+      "answerDisplay": "$8.0 \\times 10^{-14}\\,\\mathrm{N}$",
+      "searchQuery": "magnetic force on proton qvB numerical example"
+    },
+    {
+      "id": "magnetic-force-direction-rhr",
+      "title": "A positive charge moves in the $+x$ direction through a magnetic field in the $+z$ direction. In which direction is the magnetic force on it? Answer with a sign and an axis letter.",
+      "body": "$-y$\n\n$\\vec{F} = q\\vec{v} \\times \\vec{B}$ with $\\hat{x} \\times \\hat{z} = -\\hat{y}$.\n\nTip: right-hand rule: point your fingers along $\\vec{v}$, curl them toward $\\vec{B}$, and your thumb gives the force on a positive charge.\nWatch out: for a negative charge, reverse the direction.",
+      "answer": "-y",
+      "acceptedAnswers": [
+        "negative y",
+        "minus y",
+        "-y direction"
+      ],
+      "answerDisplay": "$-y$",
+      "searchQuery": "magnetic force direction right hand rule velocity cross B"
+    },
+    {
+      "id": "cyclotron-radius",
+      "title": "A particle with charge $q$ and mass $m$ moves at speed $v$ perpendicular to a uniform magnetic field $B$. What is the radius of its path?",
+      "body": "$r = \\dfrac{mv}{|q|B}$\n\nThe magnetic force supplies the centripetal force: $|q|vB = \\dfrac{mv^2}{r}$. Faster or heavier particles make bigger circles.\n\nKey idea: the period $T = \\dfrac{2\\pi m}{|q|B}$ does not depend on speed, which is the principle behind the cyclotron.",
+      "answer": "mv/(qB)",
+      "acceptedAnswers": [
+        "mv/qB",
+        "mv/(Bq)",
+        "mv/Bq",
+        "mv/(|q|B)",
+        "p/(qB)",
+        "p/qB"
+      ],
+      "answerDisplay": "$\\dfrac{mv}{|q|B}$",
+      "searchQuery": "radius of charged particle circular path magnetic field"
+    },
+    {
+      "id": "cyclotron-frequency-electron",
+      "title": "An electron moves in a $1.0\\,\\mathrm{mT}$ uniform magnetic field. What is its cyclotron frequency, in megahertz (2 significant figures)?",
+      "body": "$28\\,\\mathrm{MHz}$\n\n$f = \\dfrac{|q|B}{2\\pi m} = \\dfrac{(1.602 \\times 10^{-19})(1.0 \\times 10^{-3})}{2\\pi(9.109 \\times 10^{-31})}\\,\\mathrm{Hz} \\approx 2.8 \\times 10^7\\,\\mathrm{Hz}$\n\nKey idea: the frequency doesn't depend on speed or radius, only on $B$ and the charge-to-mass ratio.",
+      "answer": "28",
+      "acceptedAnswers": [
+        "27.99"
+      ],
+      "answerDisplay": "$28\\,\\mathrm{MHz}$",
+      "searchQuery": "electron cyclotron frequency magnetic field qB over 2 pi m"
+    },
+    {
+      "id": "velocity-selector-speed",
+      "title": "In a velocity selector with perpendicular uniform fields $E$ and $B$, what speed do particles need to pass through undeflected?",
+      "body": "$v = \\dfrac{E}{B}$\n\nUndeflected motion needs the electric and magnetic forces to cancel: $qE = qvB$.\n\nWhy: the charge and mass drop out, so the selector passes any particle with that speed.\nTip: faster or slower particles feel a net force and curve out of the beam.",
+      "answer": "E/B",
+      "answerDisplay": "$\\dfrac{E}{B}$",
+      "searchQuery": "velocity selector speed E over B crossed fields"
+    },
+    {
+      "id": "force-on-wire-numeric",
+      "title": "A straight $0.50\\,\\mathrm{m}$ wire carrying $4.0\\,\\mathrm{A}$ is perpendicular to a $0.30\\,\\mathrm{T}$ field. What is the magnetic force on it, in newtons (2 significant figures)?",
+      "body": "$0.60\\,\\mathrm{N}$\n\n$F = ILB\\sin\\theta = (4.0\\,\\mathrm{A})(0.50\\,\\mathrm{m})(0.30\\,\\mathrm{T})(1)$\n\nWhy: the wire's current is a flow of moving charges, each feeling $q\\vec{v} \\times \\vec{B}$, which sums to $\\vec{F} = I\\vec{L} \\times \\vec{B}$.\nWatch out: if the wire is parallel to $\\vec{B}$, $\\sin\\theta = 0$ and the force vanishes.",
+      "answer": "0.60",
+      "acceptedAnswers": [
+        "0.6 N"
+      ],
+      "answerDisplay": "$0.60\\,\\mathrm{N}$",
+      "searchQuery": "magnetic force on current carrying wire ILB numerical"
+    },
+    {
+      "id": "loop-max-torque-numeric",
+      "title": "A flat coil of $10$ turns, each of area $0.050\\,\\mathrm{m^2}$, carries $2.0\\,\\mathrm{A}$ in a uniform $0.20\\,\\mathrm{T}$ field. What is the maximum torque on it, in $\\mathrm{N\\,m}$?",
+      "body": "$0.20\\,\\mathrm{N\\,m}$\n\n$\\tau_{\\max} = NIAB = (10)(2.0\\,\\mathrm{A})(0.050\\,\\mathrm{m^2})(0.20\\,\\mathrm{T})$\n\nKey idea: the coil's magnetic moment is $\\mu = NIA$, and $\\vec{\\tau} = \\vec{\\mu} \\times \\vec{B}$, the same form as for an electric dipole.\nWatch out: the torque is zero when the coil's plane is perpendicular to $\\vec{B}$ and maximum when parallel.",
+      "answer": "0.20",
+      "answerDisplay": "$0.20\\,\\mathrm{N\\,m}$",
+      "searchQuery": "torque on current loop in magnetic field NIAB"
+    },
+    {
+      "id": "long-wire-field",
+      "title": "What is the magnitude of the magnetic field at distance $r$ from a long, straight wire carrying current $I$?",
+      "body": "$B = \\dfrac{\\mu_0 I}{2\\pi r}$, with $\\mu_0 \\approx 4\\pi \\times 10^{-7}\\,\\mathrm{T\\,m/A}$.\n\nAmpère's law, $\\oint \\vec{B} \\cdot d\\vec{s} = \\mu_0 I_{\\text{enc}}$, around a circle of radius $r$ gives $B(2\\pi r) = \\mu_0 I$. The field lines circle the wire, and $B$ falls off as $1/r$.\n\nTip: right-hand rule: thumb along the current, fingers curl in the direction of $\\vec{B}$.",
+      "searchQuery": "magnetic field long straight wire formula"
+    },
+    {
+      "id": "long-wire-field-numeric",
+      "title": "A long straight wire carries $10\\,\\mathrm{A}$. What is the magnetic field at $5.0\\,\\mathrm{cm}$ from it, in microteslas?",
+      "body": "$40\\,\\mu\\mathrm{T}$\n\n$B = \\dfrac{\\mu_0 I}{2\\pi r} = \\dfrac{(2 \\times 10^{-7}\\,\\mathrm{T\\,m/A})(10\\,\\mathrm{A})}{0.050\\,\\mathrm{m}} = 4.0 \\times 10^{-5}\\,\\mathrm{T}$\n\nExample: that's about the size of Earth's field ($\\sim 50\\,\\mu\\mathrm{T}$).\nWatch out: convert $\\mathrm{cm}$ to $\\mathrm{m}$.",
+      "answer": "40",
+      "acceptedAnswers": [
+        "40 uT",
+        "40 μT"
+      ],
+      "answerDisplay": "$40\\,\\mu\\mathrm{T}$",
+      "searchQuery": "magnetic field near long straight wire numerical example"
+    },
+    {
+      "id": "parallel-wires-direction",
+      "title": "Two long parallel wires carry currents in the same direction. Do they attract or repel?",
+      "body": "Attract.\n\nEach wire's field at the other wire exerts a force on its current, and for parallel currents the forces point toward each other. Opposite currents repel.\n\nMnemonic: parallel currents attract; antiparallel currents repel (the reverse of like charges, which repel).",
+      "answer": "attract",
+      "acceptedAnswers": [
+        "attracts",
+        "attracted",
+        "attraction"
+      ],
+      "searchQuery": "parallel wires same direction currents attract or repel"
+    },
+    {
+      "id": "parallel-wires-force-per-length",
+      "title": "Two long parallel wires $0.10\\,\\mathrm{m}$ apart each carry $10\\,\\mathrm{A}$. What is the force per unit length between them, in units of $10^{-4}\\,\\mathrm{N/m}$ (2 sig. figs.)?",
+      "body": "$2.0 \\times 10^{-4}\\,\\mathrm{N/m}$\n\n$\\dfrac{F}{\\ell} = \\dfrac{\\mu_0 I_1 I_2}{2\\pi d} = \\dfrac{(4\\pi \\times 10^{-7})(10)(10)}{2\\pi(0.10)}\\,\\mathrm{N/m}$\n\nTip: $\\dfrac{\\mu_0}{2\\pi} = 2 \\times 10^{-7}\\,\\mathrm{T\\,m/A}$ makes quick mental arithmetic easy.",
+      "answer": "2.0",
+      "answerDisplay": "$2.0 \\times 10^{-4}\\,\\mathrm{N/m}$",
+      "searchQuery": "force per unit length between parallel current carrying wires"
+    },
+    {
+      "id": "loop-center-field-numeric",
+      "title": "A circular loop of radius $0.10\\,\\mathrm{m}$ carries $2.0\\,\\mathrm{A}$. What is the magnetic field at its center, in microteslas (3 significant figures)?",
+      "body": "$12.6\\,\\mu\\mathrm{T}$\n\nFor a single loop, $B = \\dfrac{\\mu_0 I}{2R} = \\dfrac{(4\\pi \\times 10^{-7})(2.0)}{2(0.10)}\\,\\mathrm{T} \\approx 1.26 \\times 10^{-5}\\,\\mathrm{T}$\n\nTip: for $N$ tight turns, multiply by $N$.\nWatch out: this formula is for the center only; the field off-center is more complicated.",
+      "answer": "12.6",
+      "acceptedAnswers": [
+        "12.57",
+        "12.5"
+      ],
+      "answerDisplay": "$12.6\\,\\mu\\mathrm{T}$",
+      "searchQuery": "magnetic field at center of circular current loop"
+    },
+    {
+      "id": "solenoid-field",
+      "title": "What is the magnetic field inside a long, ideal solenoid with $n$ turns per unit length carrying current $I$?",
+      "body": "$B = \\mu_0 n I$, uniform and along the axis.\n\nHere $n = N/\\ell$ is the number of turns per meter. $B$ does not depend on the radius or on where you are inside, and outside an ideal solenoid $B \\approx 0$.\n\nWhy: Ampère's law with a rectangular loop straddling the winding gives $B\\ell = \\mu_0 (n\\ell) I$.",
+      "answer": "mu0*n*I",
+      "acceptedAnswers": [
+        "u0nI",
+        "μ0nI",
+        "mu_0nI",
+        "mu0NI/L",
+        "μ0NI/L"
+      ],
+      "answerDisplay": "$\\mu_0 n I$",
+      "searchQuery": "magnetic field inside long solenoid mu0 n I"
+    },
+    {
+      "id": "solenoid-field-numeric",
+      "title": "A long solenoid has $1000$ turns per meter and carries $2.0\\,\\mathrm{A}$. What is the magnetic field inside it, in millitesla (2 significant figures)?",
+      "body": "$2.5\\,\\mathrm{mT}$\n\n$B = \\mu_0 nI = (4\\pi \\times 10^{-7}\\,\\mathrm{T\\,m/A})(1000\\,\\mathrm{m^{-1}})(2.0\\,\\mathrm{A}) \\approx 2.5 \\times 10^{-3}\\,\\mathrm{T}$\n\nWatch out: $n$ is turns per **meter**; convert if given turns per centimeter.",
+      "answer": "2.5",
+      "acceptedAnswers": [
+        "2.51",
+        "2.513"
+      ],
+      "answerDisplay": "$2.5\\,\\mathrm{mT}$",
+      "searchQuery": "magnetic field inside solenoid numerical turns per meter"
+    },
+    {
+      "id": "amperes-law-statement",
+      "title": "What does Ampère's law say about the line integral of $\\vec{B}$ around a closed loop, for steady currents?",
+      "body": "$\\oint \\vec{B} \\cdot d\\vec{s} = \\mu_0 I_{\\text{enc}}$: the circulation of $\\vec{B}$ equals $\\mu_0$ times the current through the loop.\n\nUse it to find $\\vec{B}$ when symmetry makes $B$ constant along the loop (long wire, solenoid, toroid).\n\nWatch out: $I_{\\text{enc}}$ counts only currents passing through the loop, with signs from the right-hand rule; the field itself comes from all currents.",
+      "searchQuery": "Ampere law line integral of B equals mu0 I enclosed"
+    },
+    {
+      "id": "gauss-law-magnetism",
+      "title": "What does Gauss's law for magnetism say, and what does it imply about magnetic poles?",
+      "body": "$\\oint \\vec{B} \\cdot d\\vec{A} = 0$ for every closed surface: there are **no magnetic monopoles**.\n\nMagnetic field lines form closed loops, with as many lines leaving a surface as entering it.\n\nExample: cutting a bar magnet in half gives two smaller magnets, each with its own north and south pole.",
+      "searchQuery": "Gauss law for magnetism no magnetic monopoles closed field lines"
+    },
+    {
+      "id": "magnetic-flux-numeric",
+      "title": "A uniform $0.50\\,\\mathrm{T}$ field is perpendicular to a flat loop of area $0.020\\,\\mathrm{m^2}$. What is the magnetic flux through the loop, in webers (2 significant figures)?",
+      "body": "$0.010\\,\\mathrm{Wb}$\n\n$\\Phi_B = BA\\cos\\theta = (0.50\\,\\mathrm{T})(0.020\\,\\mathrm{m^2})(1)$, with $1\\,\\mathrm{Wb} = 1\\,\\mathrm{T\\,m^2}$.\n\nWatch out: $\\theta$ is the angle between $\\vec{B}$ and the loop's **normal**; flux is zero when the field is in the loop's plane.",
+      "answer": "0.010",
+      "acceptedAnswers": [
+        "10 mWb"
+      ],
+      "answerDisplay": "$0.010\\,\\mathrm{Wb}$",
+      "searchQuery": "magnetic flux through loop BA cos theta weber"
+    },
+    {
+      "id": "faraday-law-numeric",
+      "title": "A coil of $100$ turns has the flux through each turn fall uniformly from $0.010\\,\\mathrm{Wb}$ to zero in $0.20\\,\\mathrm{s}$. What is the average induced emf magnitude, in volts?",
+      "body": "$5.0\\,\\mathrm{V}$\n\nFaraday's law: $|\\mathcal{E}| = N\\left|\\dfrac{\\Delta\\Phi_B}{\\Delta t}\\right| = (100)\\dfrac{0.010\\,\\mathrm{Wb}}{0.20\\,\\mathrm{s}}$\n\nTip: the emf scales with the number of turns because each turn contributes the same emf in series.",
+      "answer": "5.0",
+      "acceptedAnswers": [
+        "5 V"
+      ],
+      "answerDisplay": "$5.0\\,\\mathrm{V}$",
+      "searchQuery": "Faraday law induced emf coil numerical flux change"
+    },
+    {
+      "id": "lenz-law-approaching-magnet",
+      "title": "The north pole of a bar magnet is pushed toward a wire loop. Seen from the magnet's side, which way does the induced current circulate?",
+      "body": "Counterclockwise.\n\nBy Faraday's law, $\\mathcal{E} = -\\dfrac{d\\Phi_B}{dt}$. The flux through the loop, directed away from the magnet, is increasing, so the induced current makes a field pointing back toward the magnet.\n\nWhy: that face of the loop becomes a **north pole** and repels the approaching magnet, opposing the change.\nTip: a current whose field points toward you circulates counterclockwise as you see it.",
+      "answer": "counterclockwise",
+      "acceptedAnswers": [
+        "counter-clockwise",
+        "anticlockwise",
+        "anti-clockwise",
+        "ccw"
+      ],
+      "searchQuery": "Lenz law induced current direction approaching magnet"
+    },
+    {
+      "id": "lenz-law-decreasing-flux",
+      "title": "The magnetic flux through a loop is decreasing. How does the field of the induced current compare in direction with the original field inside the loop?",
+      "body": "It points in the **same** direction as the original field, opposing the decrease.\n\nLenz's law says the induced current always acts to oppose the change in flux, not the flux itself.\n\nWatch out: an increasing flux gives an induced field in the **opposite** direction. \"Opposes change\" is not \"opposes the field\".",
+      "searchQuery": "Lenz law decreasing flux induced field direction"
+    },
+    {
+      "id": "motional-emf",
+      "title": "A $0.20\\,\\mathrm{m}$ rod moves at $5.0\\,\\mathrm{m/s}$ through a $0.50\\,\\mathrm{T}$ field, with $\\vec{B}$, the rod and $\\vec{v}$ mutually perpendicular. What emf is induced across it, in volts?",
+      "body": "$0.50\\,\\mathrm{V}$\n\nMotional emf is $\\mathcal{E} = BLv = (0.50\\,\\mathrm{T})(0.20\\,\\mathrm{m})(5.0\\,\\mathrm{m/s})$.\n\nWatch out: if the rod slides on rails that close a circuit, the induced current feels a magnetic force opposing the motion (Lenz's law), so you must keep pushing to hold $v$ constant.",
+      "answer": "0.50",
+      "acceptedAnswers": [
+        "0.5 V",
+        "0.5 volts"
+      ],
+      "answerDisplay": "$0.50\\,\\mathrm{V}$",
+      "searchQuery": "motional emf rod moving magnetic field BLv"
+    },
+    {
+      "id": "generator-peak-emf",
+      "title": "A coil of $100$ turns and area $0.020\\,\\mathrm{m^2}$ rotates at $\\omega = 100\\,\\mathrm{rad/s}$ in a uniform $0.50\\,\\mathrm{T}$ field. What is the peak emf, in volts?",
+      "body": "$100\\,\\mathrm{V}$\n\nThe flux is $\\Phi = NBA\\cos\\omega t$, so $\\mathcal{E} = NBA\\omega\\sin\\omega t$ and the peak is $NBA\\omega = (100)(0.50)(0.020)(100)\\,\\mathrm{V}$.\n\nTip: doubling the rotation rate doubles both the frequency and the peak emf.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 V"
+      ],
+      "answerDisplay": "$100\\,\\mathrm{V}$",
+      "searchQuery": "AC generator peak emf NBA omega rotating coil"
+    },
+    {
+      "id": "eddy-currents-falling-magnet",
+      "title": "Why does a strong magnet fall slowly through a vertical copper tube?",
+      "body": "The changing flux induces circulating **eddy currents** in the copper, and their magnetic fields oppose the magnet's motion.\n\nBy Lenz's law the induced currents create a drag force on the magnet, and the lost mechanical energy is dissipated as heat in the tube.\n\nWatch out: copper isn't attracted to magnets; the effect appears only while the magnet is moving.",
+      "searchQuery": "magnet falling through copper tube eddy currents Lenz"
+    },
+    {
+      "id": "ideal-transformer-voltage",
+      "title": "An ideal transformer has $100$ primary turns and $500$ secondary turns. If $120\\,\\mathrm{V}$ AC is applied to the primary, what is the secondary voltage, in volts?",
+      "body": "$600\\,\\mathrm{V}$\n\nFor an ideal transformer, $\\dfrac{V_2}{V_1} = \\dfrac{N_2}{N_1}$, so $V_2 = 120\\,\\mathrm{V} \\times 5$.\n\nWhy: the same changing flux passes through both coils, so each turn has the same emf.\nWatch out: a step-up in voltage means a step-down in current ($I_2 = I_1/5$), since power is conserved; and a steady DC input induces nothing.",
+      "answer": "600",
+      "acceptedAnswers": [
+        "600 V"
+      ],
+      "answerDisplay": "$600\\,\\mathrm{V}$",
+      "searchQuery": "ideal transformer voltage turns ratio"
+    },
+    {
+      "id": "self-induced-emf-numeric",
+      "title": "A $2.0\\,\\mathrm{H}$ inductor's current rises uniformly from $0$ to $3.0\\,\\mathrm{A}$ in $0.50\\,\\mathrm{s}$. What is the magnitude of the induced emf, in volts?",
+      "body": "$12\\,\\mathrm{V}$\n\nSelf-induced emf is $\\mathcal{E} = -L\\dfrac{dI}{dt}$, so $|\\mathcal{E}| = (2.0\\,\\mathrm{H})\\dfrac{3.0\\,\\mathrm{A}}{0.50\\,\\mathrm{s}}$.\n\nKey idea: the induced emf opposes the change in current; it is the inductor's \"inertia\".",
+      "answer": "12",
+      "acceptedAnswers": [
+        "12 V"
+      ],
+      "answerDisplay": "$12\\,\\mathrm{V}$",
+      "searchQuery": "self induced emf inductor L dI/dt numerical"
+    },
+    {
+      "id": "inductor-stored-energy",
+      "title": "How much energy is stored in a $0.50\\,\\mathrm{H}$ inductor carrying $2.0\\,\\mathrm{A}$, in joules?",
+      "body": "$1.0\\,\\mathrm{J}$\n\n$U = \\tfrac{1}{2}LI^2 = \\tfrac{1}{2}(0.50\\,\\mathrm{H})(2.0\\,\\mathrm{A})^2$\n\nKey idea: the energy lives in the magnetic field, with density $u_B = \\dfrac{B^2}{2\\mu_0}$.\nWatch out: like the capacitor's $\\tfrac{1}{2}CV^2$, it goes as the **square** of the current.",
+      "answer": "1.0",
+      "acceptedAnswers": [
+        "1 J"
+      ],
+      "answerDisplay": "$1.0\\,\\mathrm{J}$",
+      "searchQuery": "energy stored in inductor one half L I squared"
+    },
+    {
+      "id": "displacement-current",
+      "title": "What term did Maxwell add to Ampère's law, and what does it say physically?",
+      "body": "The **displacement current**, $\\varepsilon_0\\dfrac{d\\Phi_E}{dt}$: a changing electric flux produces a magnetic field.\n\nThe corrected law is $\\oint \\vec{B} \\cdot d\\vec{s} = \\mu_0\\left(I_{\\text{enc}} + \\varepsilon_0\\dfrac{d\\Phi_E}{dt}\\right)$.\n\nWhy: without it, Ampère's law fails for a charging capacitor, where current flows in the wires but not between the plates.\nKey idea: changing $\\vec{B}$ makes $\\vec{E}$ (Faraday), and changing $\\vec{E}$ makes $\\vec{B}$, so waves can propagate.",
+      "searchQuery": "Maxwell displacement current Ampere Maxwell law"
+    },
+    {
+      "id": "em-wave-speed-formula",
+      "title": "In terms of $\\mu_0$ and $\\varepsilon_0$, what is the speed of electromagnetic waves in vacuum?",
+      "body": "$c = \\dfrac{1}{\\sqrt{\\mu_0\\varepsilon_0}} \\approx 3.00 \\times 10^8\\,\\mathrm{m/s}$\n\nMaxwell's equations give a wave equation whose speed depends only on the two constants of electricity and magnetism. Maxwell identified light as an electromagnetic wave.\n\nKey idea: the speed in vacuum is the same for every wavelength.",
+      "answer": "1/sqrt(mu0*epsilon0)",
+      "acceptedAnswers": [
+        "1/sqrt(epsilon0*mu0)",
+        "1/sqrt(e0*u0)",
+        "1/sqrt(u0*e0)",
+        "1/sqrt(mu0e0)"
+      ],
+      "answerDisplay": "$\\dfrac{1}{\\sqrt{\\mu_0\\varepsilon_0}}$",
+      "searchQuery": "speed of electromagnetic waves 1 over sqrt mu0 epsilon0"
+    },
+    {
+      "id": "em-wave-field-ratio-numeric",
+      "title": "In a plane electromagnetic wave in vacuum, the electric field amplitude is $300\\,\\mathrm{V/m}$. What is the magnetic field amplitude, in microteslas (2 significant figures)?",
+      "body": "$1.0\\,\\mu\\mathrm{T}$\n\nIn vacuum, $E = cB$, so $B = \\dfrac{300\\,\\mathrm{V/m}}{3.00 \\times 10^8\\,\\mathrm{m/s}} = 1.0 \\times 10^{-6}\\,\\mathrm{T}$.\n\nTip: the magnetic field of a wave is tiny compared with the electric field when both are in SI units.",
+      "answer": "1.0",
+      "answerDisplay": "$1.0\\,\\mu\\mathrm{T}$",
+      "searchQuery": "electromagnetic wave magnetic field amplitude E = cB"
+    },
+    {
+      "id": "em-wave-orientation",
+      "title": "In a vacuum electromagnetic wave, how are $\\vec{E}$, $\\vec{B}$ and the direction of propagation oriented?",
+      "body": "All three are mutually perpendicular: $\\vec{E} \\perp \\vec{B}$, and $\\vec{E} \\times \\vec{B}$ points along the direction of travel.\n\nThe wave is **transverse**, and $\\vec{E}$ and $\\vec{B}$ oscillate in phase.\n\nExample: for $\\vec{E}$ along $+y$ and $\\vec{B}$ along $+z$, the wave travels along $+x$.",
+      "searchQuery": "electromagnetic wave E B perpendicular direction of propagation"
+    }
+  ]
+}

@@ -1,0 +1,974 @@
+{
+  "id": "phys-waves-modern",
+  "title": "Waves, Optics & Modern Physics",
+  "course": "Physics II",
+  "description": "Waves, sound, standing waves, Doppler, mirrors and lenses, interference, diffraction and polarization, special relativity, photons, atomic and quantum physics, nuclear structure and radioactive decay.",
+  "cards": [
+    {
+      "id": "wave-period-frequency",
+      "title": "A wave has frequency $50\\,\\mathrm{Hz}$. What is its period, in milliseconds?",
+      "body": "$20\\,\\mathrm{ms}$\n\n$T = \\dfrac{1}{f} = \\dfrac{1}{50\\,\\mathrm{Hz}} = 0.020\\,\\mathrm{s}$\n\nKey idea: period and frequency are reciprocals, and $1\\,\\mathrm{Hz} = 1\\,\\mathrm{s^{-1}}$.\nWatch out: convert seconds to milliseconds ($1\\,\\mathrm{s} = 1000\\,\\mathrm{ms}$).",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 ms"
+      ],
+      "answerDisplay": "$20\\,\\mathrm{ms}$",
+      "searchQuery": "wave period frequency reciprocal T = 1/f"
+    },
+    {
+      "id": "transverse-vs-longitudinal",
+      "title": "How does the motion of the medium's particles differ in a transverse wave and in a longitudinal wave?",
+      "body": "Transverse: particles move **perpendicular** to the direction of wave travel. Longitudinal: they move **parallel** to it.\n\nExample: waves on a string and light are transverse; sound in a fluid is longitudinal, made of compressions and rarefactions.\n\nWatch out: in both cases the wave carries energy forward; the particles themselves only oscillate about their equilibrium positions.",
+      "searchQuery": "transverse versus longitudinal waves particle motion"
+    },
+    {
+      "id": "sound-wavelength",
+      "title": "What is the wavelength of a $343\\,\\mathrm{Hz}$ sound wave in air at $20\\,^\\circ\\mathrm{C}$, in meters?",
+      "body": "$1.00\\,\\mathrm{m}$\n\nSound travels at about $343\\,\\mathrm{m/s}$ in $20\\,^\\circ\\mathrm{C}$ air, and $\\lambda = \\dfrac{v}{f} = \\dfrac{343\\,\\mathrm{m/s}}{343\\,\\mathrm{Hz}}$.\n\nKey idea: $v = f\\lambda$ holds for every wave; the **medium** sets the speed and the **source** sets the frequency.",
+      "answer": "1.00",
+      "acceptedAnswers": [
+        "1 m",
+        "1 meter",
+        "100 cm"
+      ],
+      "answerDisplay": "$1.00\\,\\mathrm{m}$",
+      "searchQuery": "wavelength of sound in air v = f lambda"
+    },
+    {
+      "id": "wave-travel-direction-sign",
+      "title": "A wave is described by $y(x,t) = A\\sin(kx - \\omega t)$. In which direction does it travel? Answer $+x$ or $-x$.",
+      "body": "$+x$\n\nA point of constant phase satisfies $kx - \\omega t = \\text{const}$, so $x = \\dfrac{\\omega}{k}\\,t + \\text{const}$: it moves toward $+x$ at speed $v = \\omega/k$.\n\nTip: $kx - \\omega t$ travels toward $+x$; $kx + \\omega t$ travels toward $-x$.",
+      "answer": "+x",
+      "acceptedAnswers": [
+        "positive x",
+        "positive x direction",
+        "+x direction"
+      ],
+      "answerDisplay": "$+x$",
+      "searchQuery": "wave function sin(kx - omega t) direction of travel"
+    },
+    {
+      "id": "superposition-principle",
+      "title": "What does the principle of superposition say about overlapping waves?",
+      "body": "The net displacement at each point is the **sum** of the displacements the individual waves would produce there.\n\nWaves pass through one another unchanged and keep going after they overlap.\n\nExample: interference and standing waves are both consequences of superposition.\nWatch out: this holds for linear media; very intense waves can interact with each other.",
+      "searchQuery": "principle of superposition overlapping waves interference"
+    },
+    {
+      "id": "fixed-end-reflection-inversion",
+      "title": "A pulse on a string reflects from a fixed end. How does the reflected pulse compare with the incident one?",
+      "body": "It is **inverted**, upside down but otherwise the same shape.\n\nThe wall can't move, so it pulls back on the string and produces a reflected pulse that cancels the incident displacement at the wall.\n\nWatch out: at a free end the pulse is reflected without inversion.",
+      "searchQuery": "wave pulse reflection fixed end inverted"
+    },
+    {
+      "id": "string-wave-speed-formula",
+      "title": "What is the speed of a transverse wave on a stretched string with tension $T$ and linear mass density $\\mu$?",
+      "body": "$v = \\sqrt{\\dfrac{T}{\\mu}}$\n\nA tighter string or a lighter one carries waves faster. The speed depends only on the string, not on the wave's frequency or amplitude.\n\nWatch out: $\\mu$ is mass **per unit length** ($\\mathrm{kg/m}$), not the total mass.",
+      "answer": "sqrt(T/mu)",
+      "acceptedAnswers": [
+        "sqrt(T/μ)",
+        "(T/mu)^(1/2)",
+        "sqrt(F/mu)"
+      ],
+      "answerDisplay": "$\\sqrt{\\dfrac{T}{\\mu}}$",
+      "searchQuery": "wave speed on stretched string sqrt tension over linear density"
+    },
+    {
+      "id": "string-wave-speed-numeric",
+      "title": "A string under $100\\,\\mathrm{N}$ tension has linear mass density $0.010\\,\\mathrm{kg/m}$. What is the speed of a transverse wave on it, in $\\mathrm{m/s}$?",
+      "body": "$100\\,\\mathrm{m/s}$\n\n$v = \\sqrt{\\dfrac{T}{\\mu}} = \\sqrt{\\dfrac{100\\,\\mathrm{N}}{0.010\\,\\mathrm{kg/m}}} = \\sqrt{10^4}\\,\\mathrm{m/s}$\n\nTip: quadrupling the tension only doubles the speed, since $v \\propto \\sqrt{T}$.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 m/s"
+      ],
+      "answerDisplay": "$100\\,\\mathrm{m/s}$",
+      "searchQuery": "wave speed on string numerical tension linear density"
+    },
+    {
+      "id": "string-harmonic-wavelength",
+      "title": "A string of length $L$ is fixed at both ends. What is the wavelength of its $n$th harmonic?",
+      "body": "$\\lambda_n = \\dfrac{2L}{n}$ for $n = 1, 2, 3, \\ldots$\n\nBoth ends are nodes, so the string holds a whole number of half-wavelengths. That gives frequencies $f_n = \\dfrac{nv}{2L}$.\n\nTip: the wave speed on a string is $v = \\sqrt{T/\\mu}$, with tension $T$ and mass per unit length $\\mu$.",
+      "answer": "2L/n",
+      "acceptedAnswers": [
+        "(2L)/n"
+      ],
+      "answerDisplay": "$\\dfrac{2L}{n}$",
+      "searchQuery": "standing wave string fixed both ends harmonic wavelength 2L/n"
+    },
+    {
+      "id": "standing-wave-node-spacing",
+      "title": "Adjacent nodes of a standing wave are separated by what distance, in terms of the wavelength $\\lambda$?",
+      "body": "$\\dfrac{\\lambda}{2}$\n\nBetween adjacent nodes the medium makes one antinode loop, which is half a wavelength long.\n\nTip: the distance between a node and the nearest antinode is $\\lambda/4$.",
+      "answer": "lambda/2",
+      "acceptedAnswers": [
+        "λ/2",
+        "half a wavelength",
+        "half wavelength",
+        "0.5 lambda"
+      ],
+      "answerDisplay": "$\\dfrac{\\lambda}{2}$",
+      "searchQuery": "standing wave distance between adjacent nodes half wavelength"
+    },
+    {
+      "id": "string-fundamental-numeric",
+      "title": "A $0.60\\,\\mathrm{m}$ string fixed at both ends carries waves at $120\\,\\mathrm{m/s}$. What is its fundamental frequency, in hertz?",
+      "body": "$100\\,\\mathrm{Hz}$\n\nFor the fundamental, $\\lambda_1 = 2L = 1.2\\,\\mathrm{m}$, so $f_1 = \\dfrac{v}{\\lambda_1} = \\dfrac{120\\,\\mathrm{m/s}}{1.2\\,\\mathrm{m}}$.\n\nTip: the higher harmonics are $f_n = nf_1$, here $200\\,\\mathrm{Hz}$, $300\\,\\mathrm{Hz}$, and so on.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 Hz"
+      ],
+      "answerDisplay": "$100\\,\\mathrm{Hz}$",
+      "searchQuery": "fundamental frequency string fixed both ends v over 2L"
+    },
+    {
+      "id": "closed-pipe-harmonics",
+      "title": "A pipe is closed at one end and open at the other. Which harmonics of its fundamental frequency $f_1$ can it produce?",
+      "body": "Only odd harmonics: $f_1, 3f_1, 5f_1, \\ldots$, with $f_1 = \\dfrac{v}{4L}$.\n\nThe closed end is a displacement node and the open end an antinode, so the pipe fits an odd number of quarter-wavelengths.\n\nWatch out: a pipe open at both ends has **all** harmonics, with $f_1 = \\dfrac{v}{2L}$.",
+      "searchQuery": "closed pipe odd harmonics standing sound waves"
+    },
+    {
+      "id": "open-pipe-fundamental-numeric",
+      "title": "A pipe open at both ends is $0.50\\,\\mathrm{m}$ long. With $v = 343\\,\\mathrm{m/s}$, what is its fundamental frequency, in hertz?",
+      "body": "$343\\,\\mathrm{Hz}$\n\nAn open-open pipe has an antinode at each end, so $\\lambda_1 = 2L = 1.0\\,\\mathrm{m}$ and $f_1 = \\dfrac{v}{2L} = \\dfrac{343}{1.0}\\,\\mathrm{Hz}$.\n\nWatch out: a pipe closed at one end of the same length would sound an octave lower, since its $f_1 = v/(4L)$.",
+      "answer": "343",
+      "acceptedAnswers": [
+        "343 Hz"
+      ],
+      "answerDisplay": "$343\\,\\mathrm{Hz}$",
+      "searchQuery": "open pipe fundamental frequency v over 2L numerical"
+    },
+    {
+      "id": "closed-pipe-fundamental-numeric",
+      "title": "A pipe closed at one end is $0.40\\,\\mathrm{m}$ long. With $v = 343\\,\\mathrm{m/s}$, what is its fundamental frequency, in hertz (3 significant figures)?",
+      "body": "$214\\,\\mathrm{Hz}$\n\nA closed-open pipe has $\\lambda_1 = 4L = 1.6\\,\\mathrm{m}$, so $f_1 = \\dfrac{v}{4L} = \\dfrac{343}{1.6}\\,\\mathrm{Hz} \\approx 214\\,\\mathrm{Hz}$.\n\nKey idea: node at the closed end and antinode at the open end make $L$ a quarter wavelength.",
+      "answer": "214",
+      "acceptedAnswers": [
+        "214.4",
+        "214 Hz"
+      ],
+      "answerDisplay": "$214\\,\\mathrm{Hz}$",
+      "searchQuery": "closed pipe fundamental frequency v over 4L numerical"
+    },
+    {
+      "id": "beat-frequency",
+      "title": "Two tuning forks sound at $440\\,\\mathrm{Hz}$ and $444\\,\\mathrm{Hz}$ together. What is the beat frequency, in hertz?",
+      "body": "$4\\,\\mathrm{Hz}$\n\nBeats occur at the difference frequency: $f_{\\text{beat}} = |f_1 - f_2|$.\n\nWhy: the two waves drift in and out of phase, so the combined loudness rises and falls $4$ times per second.\nTip: tuners listen for beats and adjust a string until the beating slows to zero.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 Hz"
+      ],
+      "answerDisplay": "$4\\,\\mathrm{Hz}$",
+      "searchQuery": "beat frequency two tuning forks difference of frequencies"
+    },
+    {
+      "id": "intensity-inverse-square",
+      "title": "A small source radiates sound equally in all directions. If you double your distance from it, the intensity becomes what fraction of the original?",
+      "body": "$\\tfrac{1}{4}$\n\nIntensity is power per area, $I = \\dfrac{P}{4\\pi r^2}$, so $I \\propto 1/r^2$ and doubling $r$ gives $\\tfrac{1}{4}$.\n\nExample: that corresponds to a drop of about $6\\,\\mathrm{dB}$ in sound level.\nWatch out: this assumes no absorption or reflections.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25",
+        "one quarter",
+        "quarter",
+        "one fourth",
+        "one-fourth",
+        "1/4th"
+      ],
+      "answerDisplay": "$\\tfrac{1}{4}$",
+      "searchQuery": "sound intensity inverse square law doubling distance"
+    },
+    {
+      "id": "decibel-intensity-ratio",
+      "title": "A sound's intensity increases by a factor of 100. By how much does its sound level rise, in decibels?",
+      "body": "$20\\,\\mathrm{dB}$\n\nThe sound level is $\\beta = (10\\,\\mathrm{dB})\\log_{10}\\dfrac{I}{I_0}$, with $I_0 = 10^{-12}\\,\\mathrm{W/m^2}$. Every factor of $10$ in intensity adds $10\\,\\mathrm{dB}$, so $\\times 100$ adds $20\\,\\mathrm{dB}$.\n\nExample: doubling the intensity adds only about $3\\,\\mathrm{dB}$.\nWatch out: decibels are logarithmic, so $40\\,\\mathrm{dB}$ is not \"twice as intense\" as $20\\,\\mathrm{dB}$; it is $100$ times.",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 dB",
+        "+20 dB"
+      ],
+      "answerDisplay": "$20\\,\\mathrm{dB}$",
+      "searchQuery": "decibel sound level intensity factor of 100"
+    },
+    {
+      "id": "sound-level-numeric",
+      "title": "A sound has intensity $1.0 \\times 10^{-6}\\,\\mathrm{W/m^2}$. What is its sound level, in decibels? (Use $I_0 = 10^{-12}\\,\\mathrm{W/m^2}$.)",
+      "body": "$60\\,\\mathrm{dB}$\n\n$\\beta = (10\\,\\mathrm{dB})\\log_{10}\\dfrac{I}{I_0} = (10\\,\\mathrm{dB})\\log_{10}(10^6)$\n\nTip: count the powers of ten in $I/I_0$ and multiply by $10\\,\\mathrm{dB}$.",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 dB"
+      ],
+      "answerDisplay": "$60\\,\\mathrm{dB}$",
+      "searchQuery": "sound level decibels from intensity numerical"
+    },
+    {
+      "id": "doppler-passing-siren",
+      "title": "A siren approaches you at constant speed, passes you, then moves away. How does the pitch you hear compare with the emitted pitch?",
+      "body": "Higher while it approaches, lower while it recedes, dropping as it passes.\n\n$f' = f\\,\\dfrac{v \\pm v_D}{v \\mp v_S}$, where $v$ is the speed of sound and $v_D$, $v_S$ are the detector and source speeds. Use the upper signs for motion toward the other.\n\nWatch out: the pitch doesn't keep rising as the siren gets closer; it's the loudness that grows.",
+      "searchQuery": "Doppler effect passing siren pitch higher lower"
+    },
+    {
+      "id": "doppler-source-toward-numeric",
+      "title": "A $300\\,\\mathrm{Hz}$ source moves at $34\\,\\mathrm{m/s}$ straight toward a stationary listener. With $v = 340\\,\\mathrm{m/s}$, what frequency does the listener hear, in hertz (3 sig. figs.)?",
+      "body": "$333\\,\\mathrm{Hz}$\n\nFor a moving source, $f' = f\\,\\dfrac{v}{v - v_S} = (300)\\dfrac{340}{340 - 34}\\,\\mathrm{Hz} \\approx 333\\,\\mathrm{Hz}$\n\nWatch out: for an approaching source the speed is **subtracted** in the denominator; for a receding source it is added.",
+      "answer": "333",
+      "acceptedAnswers": [
+        "333.3",
+        "333 Hz"
+      ],
+      "answerDisplay": "$333\\,\\mathrm{Hz}$",
+      "searchQuery": "Doppler shift moving source toward stationary listener numerical"
+    },
+    {
+      "id": "mach-cone-half-angle",
+      "title": "A supersonic jet flies at Mach $2$. What is the half-angle of its shock cone, in degrees?",
+      "body": "$30^\\circ$\n\nThe Mach cone satisfies $\\sin\\theta = \\dfrac{v_{\\text{sound}}}{v_{\\text{source}}} = \\dfrac{1}{\\text{Mach number}} = \\dfrac{1}{2}$.\n\nKey idea: the faster the source, the narrower the cone; the shock wave you hear as a sonic boom lies along the cone.",
+      "answer": "30",
+      "acceptedAnswers": [
+        "30 degrees",
+        "30°"
+      ],
+      "answerDisplay": "$30^\\circ$",
+      "searchQuery": "Mach cone half angle sin theta = 1/Mach number"
+    },
+    {
+      "id": "law-of-reflection",
+      "title": "What does the law of reflection say about the angles of incidence and reflection?",
+      "body": "They are equal: $\\theta_r = \\theta_i$, both measured from the **normal**.\n\nThe incident ray, the reflected ray and the normal all lie in one plane.\n\nWatch out: measure angles from the normal to the surface, not from the surface itself.",
+      "searchQuery": "law of reflection angle of incidence equals angle of reflection"
+    },
+    {
+      "id": "plane-mirror-image",
+      "title": "Where does a plane mirror form the image of an object, and what are the image's properties?",
+      "body": "Behind the mirror, as far behind as the object is in front. The image is **virtual**, upright and the same size.\n\nLight only appears to come from the image; no light actually passes through it.\n\nExample: standing $2\\,\\mathrm{m}$ in front of a mirror, you see your image $4\\,\\mathrm{m}$ away.",
+      "searchQuery": "plane mirror image virtual upright same size distance"
+    },
+    {
+      "id": "mirror-focal-length",
+      "title": "A spherical mirror has radius of curvature $R$. What is its focal length (for rays near the axis)?",
+      "body": "$f = \\dfrac{R}{2}$\n\nParaxial rays parallel to the axis converge at (or appear to come from) a point halfway between the mirror and its center of curvature.\n\nTip: $f > 0$ for a concave mirror and $f < 0$ for a convex one.",
+      "answer": "R/2",
+      "acceptedAnswers": [
+        "0.5R",
+        "half R"
+      ],
+      "answerDisplay": "$\\dfrac{R}{2}$",
+      "searchQuery": "spherical mirror focal length half radius of curvature"
+    },
+    {
+      "id": "concave-mirror-numeric",
+      "title": "A concave mirror has focal length $15\\,\\mathrm{cm}$. An object is $20\\,\\mathrm{cm}$ in front of it. How far from the mirror is the image, in centimeters?",
+      "body": "$60\\,\\mathrm{cm}$, in front of the mirror: real and inverted.\n\nThe mirror equation $\\dfrac{1}{d_o} + \\dfrac{1}{d_i} = \\dfrac{1}{f}$ gives $\\dfrac{1}{d_i} = \\dfrac{1}{15} - \\dfrac{1}{20} = \\dfrac{1}{60}$, and $m = -\\dfrac{d_i}{d_o} = -3$.\n\nTip: the object lies between $f$ and $2f$, which gives an enlarged real image beyond $2f$.",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 cm"
+      ],
+      "answerDisplay": "$60\\,\\mathrm{cm}$",
+      "searchQuery": "concave mirror equation image distance numerical"
+    },
+    {
+      "id": "convex-mirror-image",
+      "title": "What kind of image does a convex mirror form of a real object?",
+      "body": "Always **virtual**, upright and reduced in size, located behind the mirror.\n\nBecause the image is smaller, the mirror shows a wide field of view.\n\nExample: this is why convex mirrors are used for vehicle side mirrors and store security.",
+      "searchQuery": "convex mirror image virtual upright reduced"
+    },
+    {
+      "id": "index-of-refraction",
+      "title": "Light travels at $2.00 \\times 10^8\\,\\mathrm{m/s}$ in a certain glass. What is the glass's index of refraction?",
+      "body": "$n = 1.50$\n\n$n = \\dfrac{c}{v} = \\dfrac{3.00 \\times 10^8\\,\\mathrm{m/s}}{2.00 \\times 10^8\\,\\mathrm{m/s}}$. Vacuum has $n = 1$ and ordinary transparent materials have $n > 1$.\n\nKey idea: entering the glass, the **frequency** stays the same while the wavelength shrinks to $\\lambda/n$.",
+      "answer": "1.50",
+      "acceptedAnswers": [
+        "3/2"
+      ],
+      "searchQuery": "index of refraction n = c/v glass"
+    },
+    {
+      "id": "snell-refraction-angle",
+      "title": "Light in air ($n = 1.00$) strikes glass ($n = 1.50$) at $30.0^\\circ$ from the normal. What is the angle of refraction from the normal, in degrees (3 significant figures)?",
+      "body": "$19.5^\\circ$ from the normal.\n\nSnell's law: $n_1\\sin\\theta_1 = n_2\\sin\\theta_2$, so $\\sin\\theta_2 = \\dfrac{(1.00)(0.500)}{1.50} = 0.333$. Light bends **toward** the normal when entering a higher-$n$ medium.\n\nWatch out: measure angles from the normal, not from the surface.",
+      "answer": "19.5",
+      "acceptedAnswers": [
+        "19.47",
+        "19.5°",
+        "19.5 degrees"
+      ],
+      "answerDisplay": "$19.5^\\circ$",
+      "searchQuery": "Snell law refraction angle air to glass"
+    },
+    {
+      "id": "critical-angle-glass-air",
+      "title": "Light inside glass ($n = 1.50$) hits a glass–air boundary. What is the critical angle for total internal reflection, in degrees (3 significant figures)?",
+      "body": "$41.8^\\circ$\n\n$\\sin\\theta_c = \\dfrac{n_2}{n_1} = \\dfrac{1.00}{1.50} = 0.667$. Total internal reflection occurs only going from higher $n$ to lower $n$, at incidence angles greater than $\\theta_c$.\n\nExample: optical fibers rely on total internal reflection.",
+      "answer": "41.8",
+      "acceptedAnswers": [
+        "41.81",
+        "41.8°",
+        "41.8 degrees"
+      ],
+      "answerDisplay": "$41.8^\\circ$",
+      "searchQuery": "critical angle total internal reflection glass air"
+    },
+    {
+      "id": "wavelength-in-glass-numeric",
+      "title": "Light of wavelength $600\\,\\mathrm{nm}$ in air enters glass with $n = 1.50$. What is its wavelength inside the glass, in nanometers?",
+      "body": "$400\\,\\mathrm{nm}$\n\n$\\lambda_n = \\dfrac{\\lambda}{n} = \\dfrac{600\\,\\mathrm{nm}}{1.50}$\n\nKey idea: the frequency doesn't change, so the wavelength shrinks along with the speed $v = c/n$.",
+      "answer": "400",
+      "acceptedAnswers": [
+        "400 nm"
+      ],
+      "answerDisplay": "$400\\,\\mathrm{nm}$",
+      "searchQuery": "wavelength of light in glass lambda over n"
+    },
+    {
+      "id": "frequency-unchanged-refraction",
+      "title": "When light passes from air into water, which one of its frequency, wavelength and speed stays the same?",
+      "body": "Its **frequency**.\n\nThe source sets the frequency, and the wave's crests can't pile up or vanish at the boundary. Speed and wavelength both drop by the factor $n$.\n\nWatch out: a light wave's color is set by its frequency, so a fish sees the same color you do.",
+      "answer": "frequency",
+      "acceptedAnswers": [
+        "f"
+      ],
+      "searchQuery": "light refraction frequency stays the same wavelength speed change"
+    },
+    {
+      "id": "prism-dispersion-reason",
+      "title": "Why does a glass prism spread white light into a spectrum?",
+      "body": "The index of refraction depends on wavelength, so each color refracts by a different amount.\n\nIn ordinary glass $n$ is larger for violet than for red, so violet bends more and red bends least.\n\nExample: this same **dispersion** forms rainbows in water droplets.",
+      "searchQuery": "prism dispersion index of refraction depends on wavelength"
+    },
+    {
+      "id": "thin-lens-image-distance",
+      "title": "An object is $30\\,\\mathrm{cm}$ in front of a converging lens with focal length $10\\,\\mathrm{cm}$. How far from the lens does the image form, in centimeters?",
+      "body": "$15\\,\\mathrm{cm}$, on the far side: real, inverted and half-size.\n\nThe thin-lens equation $\\dfrac{1}{d_o} + \\dfrac{1}{d_i} = \\dfrac{1}{f}$ gives $\\dfrac{1}{d_i} = \\dfrac{1}{10} - \\dfrac{1}{30} = \\dfrac{1}{15}$, and $m = -\\dfrac{d_i}{d_o} = -0.5$.\n\nTip: sign conventions: $d_i > 0$ means a real image, $f < 0$ for a diverging lens, and $m < 0$ means inverted.",
+      "answer": "15",
+      "acceptedAnswers": [
+        "15 cm",
+        "0.15 m"
+      ],
+      "answerDisplay": "$15\\,\\mathrm{cm}$",
+      "searchQuery": "thin lens equation image distance converging lens"
+    },
+    {
+      "id": "lens-magnification-numeric",
+      "title": "An object is $12\\,\\mathrm{cm}$ from a converging lens of focal length $8.0\\,\\mathrm{cm}$. What is the lateral magnification $m$?",
+      "body": "$m = -2.0$: the image is real, inverted and twice as large.\n\n$\\dfrac{1}{d_i} = \\dfrac{1}{8} - \\dfrac{1}{12} = \\dfrac{1}{24}$ gives $d_i = 24\\,\\mathrm{cm}$, and $m = -\\dfrac{d_i}{d_o} = -\\dfrac{24}{12}$.\n\nWatch out: the minus sign means inverted, and $|m|$ gives the size ratio.",
+      "answer": "-2",
+      "answerDisplay": "$-2.0$",
+      "searchQuery": "lens magnification m = -di/do numerical converging lens"
+    },
+    {
+      "id": "diverging-lens-image",
+      "title": "What image does a diverging lens form of a real object?",
+      "body": "Always **virtual**, upright and reduced, on the same side of the lens as the object.\n\nThe image lies between the lens and its focal point.\n\nKey idea: a diverging lens has $f < 0$ and spreads incoming parallel rays so they appear to come from the focal point.",
+      "searchQuery": "diverging lens image virtual upright reduced"
+    },
+    {
+      "id": "magnifying-glass-image",
+      "title": "A real object is placed inside the focal length of a converging lens. Describe the image.",
+      "body": "Virtual, upright and **enlarged**, on the same side of the lens as the object.\n\nThis is how a simple magnifier works: $d_o < f$ makes $d_i$ negative.\n\nExample: with $f = 10\\,\\mathrm{cm}$ and $d_o = 5\\,\\mathrm{cm}$, $d_i = -10\\,\\mathrm{cm}$ and $m = +2$.",
+      "searchQuery": "magnifying glass object inside focal length virtual enlarged image"
+    },
+    {
+      "id": "lens-power-diopters",
+      "title": "What is the optical power of a lens with focal length $25\\,\\mathrm{cm}$, in diopters?",
+      "body": "$4\\,\\mathrm{D}$\n\nPower is $P = \\dfrac{1}{f}$ with $f$ in **meters**, so $P = \\dfrac{1}{0.25\\,\\mathrm{m}} = 4\\,\\mathrm{m^{-1}} = 4\\,\\mathrm{D}$.\n\nTip: powers of thin lenses placed in contact add.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 D",
+        "4 diopters"
+      ],
+      "answerDisplay": "$4\\,\\mathrm{D}$",
+      "searchQuery": "lens power diopters 1 over focal length in meters"
+    },
+    {
+      "id": "double-slit-bright-fringes",
+      "title": "In Young's double-slit experiment (slit separation $d$, wavelength $\\lambda$), what condition gives a bright fringe at angle $\\theta$?",
+      "body": "$d\\sin\\theta = m\\lambda$, with $m = 0, \\pm 1, \\pm 2, \\ldots$\n\nThe path difference from the two slits is a whole number of wavelengths. Dark fringes satisfy $d\\sin\\theta = (m + \\tfrac{1}{2})\\lambda$.\n\nTip: for small angles the fringe spacing is $\\Delta y = \\dfrac{\\lambda L}{d}$, with $L$ the slit-to-screen distance; closer slits spread the fringes out.",
+      "searchQuery": "Young double slit bright fringe condition d sin theta = m lambda"
+    },
+    {
+      "id": "double-slit-fringe-spacing-numeric",
+      "title": "In a double-slit experiment, $\\lambda = 500\\,\\mathrm{nm}$, the slit separation is $0.25\\,\\mathrm{mm}$ and the screen is $2.0\\,\\mathrm{m}$ away. What is the fringe spacing, in millimeters?",
+      "body": "$4.0\\,\\mathrm{mm}$\n\n$\\Delta y = \\dfrac{\\lambda L}{d} = \\dfrac{(500 \\times 10^{-9}\\,\\mathrm{m})(2.0\\,\\mathrm{m})}{0.25 \\times 10^{-3}\\,\\mathrm{m}} = 4.0 \\times 10^{-3}\\,\\mathrm{m}$\n\nTip: red light ($\\lambda$ larger) gives wider spacing than blue.",
+      "answer": "4.0",
+      "answerDisplay": "$4.0\\,\\mathrm{mm}$",
+      "searchQuery": "double slit fringe spacing lambda L over d numerical"
+    },
+    {
+      "id": "reflection-phase-shift-thin-film",
+      "title": "Light reflects at a boundary where it passes from a lower-index medium into a higher-index medium. What phase shift does the reflected wave undergo?",
+      "body": "A half-cycle shift: $\\pi$ radians ($180^\\circ$).\n\nThere is no shift when it reflects off a boundary with a lower-index medium. This is the analog of a pulse on a string reflecting from a fixed versus a free end.\n\nExample: for a soap film in air, the front reflection shifts by $\\pi$ and the back one doesn't, which affects which wavelengths interfere constructively.",
+      "searchQuery": "phase shift on reflection higher index thin film interference"
+    },
+    {
+      "id": "single-slit-minima",
+      "title": "For single-slit diffraction (slit width $a$, wavelength $\\lambda$), what condition gives the dark fringes?",
+      "body": "$a\\sin\\theta = m\\lambda$, with $m = \\pm 1, \\pm 2, \\ldots$\n\nEach pair of rays from one half of the slit cancels with its partner from the other half.\n\nWatch out: $m = 0$ is the **bright** central maximum, not a minimum. Don't confuse this with the double-slit bright condition.",
+      "searchQuery": "single slit diffraction minima a sin theta = m lambda"
+    },
+    {
+      "id": "grating-first-order-angle",
+      "title": "A diffraction grating has $500$ lines per millimeter. At what angle is the first-order maximum for $600\\,\\mathrm{nm}$ light, in degrees (3 significant figures)?",
+      "body": "$17.5^\\circ$\n\nThe spacing is $d = \\dfrac{1\\,\\mathrm{mm}}{500} = 2.00\\,\\mu\\mathrm{m}$, and $d\\sin\\theta = m\\lambda$ gives $\\sin\\theta = \\dfrac{600\\,\\mathrm{nm}}{2000\\,\\mathrm{nm}} = 0.300$.\n\nWatch out: $d$ is the spacing between lines, the reciprocal of the line density.",
+      "answer": "17.5",
+      "acceptedAnswers": [
+        "17.46",
+        "17.5 degrees"
+      ],
+      "answerDisplay": "$17.5^\\circ$",
+      "searchQuery": "diffraction grating first order maximum angle lines per millimeter"
+    },
+    {
+      "id": "rayleigh-criterion",
+      "title": "What is the Rayleigh criterion for the smallest resolvable angular separation of a circular aperture of diameter $D$ at wavelength $\\lambda$?",
+      "body": "$\\theta_{\\min} = 1.22\\,\\dfrac{\\lambda}{D}$\n\nTwo point sources are just resolved when the central maximum of one diffraction pattern falls on the first minimum of the other.\n\nKey idea: a bigger aperture or a shorter wavelength gives finer resolution.",
+      "answer": "1.22*lambda/D",
+      "acceptedAnswers": [
+        "1.22λ/D"
+      ],
+      "answerDisplay": "$1.22\\,\\dfrac{\\lambda}{D}$",
+      "searchQuery": "Rayleigh criterion angular resolution 1.22 lambda over D"
+    },
+    {
+      "id": "malus-law-numeric",
+      "title": "Linearly polarized light of intensity $I_0$ meets an ideal polarizer whose axis is at $60^\\circ$ to the light's polarization. What fraction of $I_0$ is transmitted?",
+      "body": "$\\tfrac{1}{4}$\n\nMalus's law: $I = I_0\\cos^2\\theta = I_0(\\cos 60^\\circ)^2 = I_0(0.5)^2$.\n\nWatch out: the **amplitude** drops by $\\cos\\theta$, so the intensity drops by $\\cos^2\\theta$.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25",
+        "one quarter",
+        "quarter",
+        "one fourth"
+      ],
+      "answerDisplay": "$\\tfrac{1}{4}$",
+      "searchQuery": "Malus law polarizer 60 degrees transmitted fraction"
+    },
+    {
+      "id": "unpolarized-through-polarizer",
+      "title": "Unpolarized light of intensity $I_0$ passes through one ideal polarizer. What fraction of $I_0$ is transmitted?",
+      "body": "$\\tfrac{1}{2}$\n\nUnpolarized light has all polarization directions equally, and averaging $\\cos^2\\theta$ over them gives $\\tfrac{1}{2}$.\n\nTip: the transmitted light is polarized along the polarizer's axis, so a second polarizer then obeys Malus's law.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5",
+        "half",
+        "one half",
+        "one-half"
+      ],
+      "answerDisplay": "$\\tfrac{1}{2}$",
+      "searchQuery": "unpolarized light through polarizer intensity half"
+    },
+    {
+      "id": "brewster-angle-numeric",
+      "title": "Unpolarized light in air reflects from glass with $n = 1.50$. At what angle of incidence (Brewster's angle) is the reflected light completely polarized, in degrees (3 significant figures)?",
+      "body": "$56.3^\\circ$\n\n$\\tan\\theta_B = \\dfrac{n_2}{n_1} = \\dfrac{1.50}{1.00}$, so $\\theta_B = \\tan^{-1}(1.50) \\approx 56.3^\\circ$.\n\nWhy: at this angle the reflected and refracted rays are perpendicular, and the reflected light is polarized parallel to the surface.",
+      "answer": "56.3",
+      "acceptedAnswers": [
+        "56.31",
+        "56.3 degrees"
+      ],
+      "answerDisplay": "$56.3^\\circ$",
+      "searchQuery": "Brewster angle polarization by reflection glass tan theta"
+    },
+    {
+      "id": "relativity-postulates",
+      "title": "State Einstein's two postulates of special relativity.",
+      "body": "1. The laws of physics are the same in all inertial reference frames.\n2. The speed of light in vacuum, $c$, is the same for all inertial observers, regardless of the motion of the source or observer.\n\nTime dilation, length contraction and the relativity of simultaneity all follow from these two statements.\n\nKey idea: the constancy of $c$ is what forces space and time to be relative.",
+      "searchQuery": "special relativity two postulates constant speed of light"
+    },
+    {
+      "id": "lorentz-factor-formula",
+      "title": "What is the Lorentz factor $\\gamma$ in terms of the speed $v$ and the speed of light $c$?",
+      "body": "$\\gamma = \\dfrac{1}{\\sqrt{1 - v^2/c^2}}$\n\nIt equals $1$ at rest and grows without bound as $v \\to c$. Time dilation, length contraction and relativistic energy all use it.\n\nWatch out: $\\gamma \\ge 1$ always; for everyday speeds it is essentially $1$.",
+      "answer": "1/sqrt(1-v^2/c^2)",
+      "acceptedAnswers": [
+        "1/sqrt(1-(v/c)^2)",
+        "(1-v^2/c^2)^(-1/2)"
+      ],
+      "answerDisplay": "$\\dfrac{1}{\\sqrt{1 - v^2/c^2}}$",
+      "searchQuery": "Lorentz factor gamma formula 1/sqrt(1 - v^2/c^2)"
+    },
+    {
+      "id": "lorentz-factor-numeric",
+      "title": "What is the Lorentz factor $\\gamma$ at $v = 0.80c$ (3 significant figures)?",
+      "body": "$\\gamma \\approx 1.67$, exactly $\\tfrac{5}{3}$.\n\n$\\gamma = \\dfrac{1}{\\sqrt{1 - 0.64}} = \\dfrac{1}{0.60}$\n\nTip: memorize the nice triples: $0.60c \\to \\gamma = 1.25$ and $0.80c \\to \\gamma = \\tfrac{5}{3}$.",
+      "answer": "1.67",
+      "acceptedAnswers": [
+        "5/3",
+        "1.667"
+      ],
+      "answerDisplay": "$1.67$",
+      "searchQuery": "Lorentz factor at 0.8c gamma value"
+    },
+    {
+      "id": "time-dilation",
+      "title": "A spaceship's clock moves at $0.60c$ relative to you. When $4.0\\,\\mathrm{s}$ pass on that clock, how much time passes for you, in seconds?",
+      "body": "$5.0\\,\\mathrm{s}$\n\n$\\Delta t = \\gamma\\,\\Delta t_0$ with $\\gamma = \\dfrac{1}{\\sqrt{1 - v^2/c^2}} = \\dfrac{1}{\\sqrt{1 - 0.36}} = 1.25$. Moving clocks run slow.\n\nWhy: the **proper time** $\\Delta t_0$ is measured in the frame where both events happen at the same place, here the ship's.",
+      "answer": "5.0",
+      "acceptedAnswers": [
+        "5 s",
+        "5 seconds"
+      ],
+      "answerDisplay": "$5.0\\,\\mathrm{s}$",
+      "searchQuery": "time dilation moving clock gamma 0.6c"
+    },
+    {
+      "id": "muon-survival-explanation",
+      "title": "Cosmic-ray muons have a mean lifetime of about $2.2\\,\\mu\\mathrm{s}$, yet many reach the ground after traveling $10\\,\\mathrm{km}$ or more. How does relativity explain this?",
+      "body": "Time dilation: in Earth's frame the muons' clocks run slow by $\\gamma$, so they live long enough to reach the surface.\n\nWithout dilation, even at nearly $c$ a muon would travel only about $c\\tau \\approx 660\\,\\mathrm{m}$.\n\nWhy: in the muon's own frame, the atmosphere is length-contracted instead, so the trip is short. Both views agree on the outcome.",
+      "searchQuery": "cosmic ray muons reach ground time dilation length contraction"
+    },
+    {
+      "id": "length-contraction-numeric",
+      "title": "A spaceship has proper length $100\\,\\mathrm{m}$ and moves at $0.60c$ relative to you. What length do you measure for it, in meters?",
+      "body": "$80\\,\\mathrm{m}$\n\n$L = \\dfrac{L_0}{\\gamma} = \\dfrac{100\\,\\mathrm{m}}{1.25}$, where $L_0$ is the proper length, measured in the object's rest frame.\n\nWatch out: contraction gives a **shorter** length, $L_0/\\gamma$; it is time intervals that get multiplied by $\\gamma$.",
+      "answer": "80",
+      "acceptedAnswers": [
+        "80 m"
+      ],
+      "answerDisplay": "$80\\,\\mathrm{m}$",
+      "searchQuery": "length contraction moving spaceship proper length numerical"
+    },
+    {
+      "id": "length-contraction-direction",
+      "title": "Along which direction does length contraction act on a moving object?",
+      "body": "Only along the direction of relative motion.\n\nDimensions perpendicular to the motion are unchanged.\n\nExample: a meter stick moving lengthwise at $0.60c$ is measured as $0.80\\,\\mathrm{m}$; moving broadside, it remains $1\\,\\mathrm{m}$ long.",
+      "searchQuery": "length contraction only along direction of motion perpendicular unchanged"
+    },
+    {
+      "id": "simultaneity-relative",
+      "title": "Two events are simultaneous in one inertial frame and happen at different places along the line of relative motion. Are they simultaneous in a frame moving along that line? Answer yes or no.",
+      "body": "No.\n\nSimultaneity is relative: observers in relative motion disagree about the time order of events separated along the direction of motion.\n\nWatch out: events at the **same** place and time are coincident for everyone; the disagreement needs spatial separation.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "not simultaneous",
+        "nope"
+      ],
+      "searchQuery": "relativity of simultaneity different inertial frames"
+    },
+    {
+      "id": "relativistic-velocity-addition",
+      "title": "A spaceship moving at $0.80c$ fires a projectile forward at $0.80c$ relative to the ship. What is the projectile's speed relative to the original frame, in units of $c$ (3 significant figures)?",
+      "body": "$0.976c$\n\n$u = \\dfrac{u' + v}{1 + u'v/c^2} = \\dfrac{0.80c + 0.80c}{1 + 0.64} = \\dfrac{1.60}{1.64}\\,c$\n\nKey idea: speeds never simply add near $c$; the result always stays below $c$.",
+      "answer": "0.976",
+      "acceptedAnswers": [
+        "0.9756"
+      ],
+      "answerDisplay": "$0.976c$",
+      "searchQuery": "relativistic velocity addition formula 0.8c"
+    },
+    {
+      "id": "relativistic-momentum-formula",
+      "title": "What is the relativistic momentum of a particle of mass $m$ moving at speed $v$?",
+      "body": "$p = \\gamma m v$\n\nFor $v \\ll c$, $\\gamma \\approx 1$ and this reduces to the Newtonian $mv$. As $v \\to c$, $p$ grows without bound.\n\nKey idea: momentum and energy are linked by $E^2 = (pc)^2 + (mc^2)^2$.",
+      "answer": "gamma*m*v",
+      "acceptedAnswers": [
+        "γmv",
+        "m*v/sqrt(1-v^2/c^2)"
+      ],
+      "answerDisplay": "$\\gamma m v$",
+      "searchQuery": "relativistic momentum formula gamma m v"
+    },
+    {
+      "id": "electron-rest-energy",
+      "title": "What is the rest energy of an electron, in MeV (3 significant figures)?",
+      "body": "$0.511\\,\\mathrm{MeV}$\n\n$E_0 = m_ec^2 = (9.109 \\times 10^{-31}\\,\\mathrm{kg})(2.998 \\times 10^8\\,\\mathrm{m/s})^2 \\approx 8.19 \\times 10^{-14}\\,\\mathrm{J}$, which is $0.511\\,\\mathrm{MeV}$.\n\nTip: a photon with energy above $2 \\times 0.511\\,\\mathrm{MeV}$ can create an electron-positron pair.",
+      "answer": "0.511",
+      "answerDisplay": "$0.511\\,\\mathrm{MeV}$",
+      "searchQuery": "electron rest energy 0.511 MeV mc squared"
+    },
+    {
+      "id": "relativistic-kinetic-energy-numeric",
+      "title": "A particle moves at $0.60c$. What is its kinetic energy, in units of its rest energy $mc^2$?",
+      "body": "$0.25\\,mc^2$\n\n$K = (\\gamma - 1)mc^2 = (1.25 - 1)mc^2$\n\nWatch out: using $\\tfrac{1}{2}mv^2$ gives $0.18\\,mc^2$, noticeably too small at this speed.",
+      "answer": "0.25",
+      "acceptedAnswers": [
+        "1/4"
+      ],
+      "answerDisplay": "$0.25\\,mc^2$",
+      "searchQuery": "relativistic kinetic energy gamma minus one mc squared"
+    },
+    {
+      "id": "photon-energy",
+      "title": "What is the energy of a single photon of wavelength $620\\,\\mathrm{nm}$, in electron-volts (3 significant figures)?",
+      "body": "$2.00\\,\\mathrm{eV}$, about $3.20 \\times 10^{-19}\\,\\mathrm{J}$.\n\n$E = hf = \\dfrac{hc}{\\lambda}$, and $hc \\approx 1240\\,\\mathrm{eV\\,nm}$, so $E = \\dfrac{1240}{620}\\,\\mathrm{eV}$. Planck's constant is $h = 6.626 \\times 10^{-34}\\,\\mathrm{J\\,s}$.\n\nTip: shorter wavelength means more energy per photon: violet beats red.",
+      "answer": "2.00",
+      "acceptedAnswers": [
+        "2 eV",
+        "2 electron volts"
+      ],
+      "answerDisplay": "$2.00\\,\\mathrm{eV}$",
+      "searchQuery": "photon energy from wavelength E = hc/lambda eV"
+    },
+    {
+      "id": "photon-momentum",
+      "title": "What is the momentum of a photon of wavelength $\\lambda$?",
+      "body": "$p = \\dfrac{h}{\\lambda} = \\dfrac{E}{c}$\n\nA photon has zero mass but carries momentum, which is why light exerts radiation pressure and shifts the wavelength in Compton scattering.\n\nTip: this is the same relation as the de Broglie wavelength, $\\lambda = h/p$.",
+      "answer": "h/lambda",
+      "acceptedAnswers": [
+        "h/λ",
+        "E/c"
+      ],
+      "answerDisplay": "$\\dfrac{h}{\\lambda}$",
+      "searchQuery": "photon momentum p = h/lambda"
+    },
+    {
+      "id": "photoelectric-intensity",
+      "title": "In the photoelectric effect, how does doubling the light's intensity (same frequency) change the electrons' maximum kinetic energy?",
+      "body": "It doesn't change.\n\n$K_{\\max} = hf - \\phi$ depends only on the light's frequency and the metal's work function $\\phi$.\n\nWhy: doubling intensity doubles the photon rate, so twice as many electrons (twice the current) are emitted, each with the same maximum energy.\nWatch out: below the threshold frequency $f_0 = \\phi/h$, no electrons are emitted at any intensity.",
+      "searchQuery": "photoelectric effect intensity maximum kinetic energy"
+    },
+    {
+      "id": "photoelectric-classical-failures",
+      "title": "Which observations about the photoelectric effect could classical wave theory not explain?",
+      "body": "There is a **threshold frequency** below which no electrons are emitted, emission is nearly instantaneous, and $K_{\\max}$ depends on frequency, not intensity.\n\nClassical theory predicted that a bright enough light of any color would eventually eject electrons, with energy growing with intensity.\n\nKey idea: Einstein's photon picture explains all three: each electron absorbs one photon of energy $hf$.",
+      "searchQuery": "photoelectric effect classical wave theory failures threshold frequency"
+    },
+    {
+      "id": "photoelectric-kmax-numeric",
+      "title": "Light of wavelength $200\\,\\mathrm{nm}$ hits a metal with work function $4.5\\,\\mathrm{eV}$. What is the maximum photoelectron energy, in eV (2 sig. figs.)? Use $hc = 1240\\,\\mathrm{eV\\,nm}$.",
+      "body": "$1.7\\,\\mathrm{eV}$\n\nThe photon energy is $E = \\dfrac{1240}{200}\\,\\mathrm{eV} = 6.2\\,\\mathrm{eV}$, so $K_{\\max} = hf - \\phi = 6.2 - 4.5$.\n\nWatch out: electrons from deeper in the metal lose extra energy, so $K_{\\max}$ is the maximum, not the typical value.",
+      "answer": "1.7",
+      "answerDisplay": "$1.7\\,\\mathrm{eV}$",
+      "searchQuery": "photoelectric effect maximum kinetic energy numerical work function"
+    },
+    {
+      "id": "photoelectric-cutoff-wavelength",
+      "title": "A metal has work function $2.0\\,\\mathrm{eV}$. What is the longest wavelength of light that can eject electrons, in nanometers? Use $hc = 1240\\,\\mathrm{eV\\,nm}$.",
+      "body": "$620\\,\\mathrm{nm}$\n\nAt threshold the photon energy equals the work function, so $\\lambda_c = \\dfrac{hc}{\\phi} = \\dfrac{1240\\,\\mathrm{eV\\,nm}}{2.0\\,\\mathrm{eV}}$.\n\nKey idea: wavelengths **longer** than $\\lambda_c$ eject nothing, however intense.",
+      "answer": "620",
+      "acceptedAnswers": [
+        "620 nm"
+      ],
+      "answerDisplay": "$620\\,\\mathrm{nm}$",
+      "searchQuery": "photoelectric threshold wavelength work function hc over phi"
+    },
+    {
+      "id": "stopping-potential-numeric",
+      "title": "Photoelectrons leave a metal with maximum kinetic energy $2.4\\,\\mathrm{eV}$. What stopping potential, in volts, just halts the most energetic ones?",
+      "body": "$2.4\\,\\mathrm{V}$\n\nThe stopping potential satisfies $eV_s = K_{\\max}$, so $V_s = \\dfrac{2.4\\,\\mathrm{eV}}{e}$.\n\nTip: in electron-volts, $K_{\\max}$ and $V_s$ are numerically equal.",
+      "answer": "2.4",
+      "acceptedAnswers": [
+        "2.4 V"
+      ],
+      "answerDisplay": "$2.4\\,\\mathrm{V}$",
+      "searchQuery": "photoelectric stopping potential eV = K max"
+    },
+    {
+      "id": "compton-shift-90-degrees",
+      "title": "In Compton scattering, by how much does an X-ray photon's wavelength increase when it scatters through $90^\\circ$, in picometers (3 significant figures)?",
+      "body": "$2.43\\,\\mathrm{pm}$\n\n$\\Delta\\lambda = \\dfrac{h}{m_ec}(1 - \\cos\\theta)$, and at $\\theta = 90^\\circ$ the factor $(1 - \\cos\\theta)$ is $1$, leaving the Compton wavelength $h/(m_ec) = 2.43\\,\\mathrm{pm}$.\n\nWhy: the photon gives some of its energy and momentum to the electron, so its wavelength increases.",
+      "answer": "2.43",
+      "acceptedAnswers": [
+        "2.426"
+      ],
+      "answerDisplay": "$2.43\\,\\mathrm{pm}$",
+      "searchQuery": "Compton scattering wavelength shift 90 degrees Compton wavelength"
+    },
+    {
+      "id": "de-broglie-wavelength",
+      "title": "What is the de Broglie wavelength of a particle with momentum $p$?",
+      "body": "$\\lambda = \\dfrac{h}{p} = \\dfrac{h}{mv}$ (the second form is nonrelativistic).\n\nFaster or heavier means a shorter wavelength. A $0.15\\,\\mathrm{kg}$ ball at $40\\,\\mathrm{m/s}$ has $\\lambda \\approx 10^{-34}\\,\\mathrm{m}$, far too small to observe.\n\nKey idea: wave behavior such as diffraction shows up only for tiny particles like electrons and neutrons.",
+      "answer": "h/p",
+      "acceptedAnswers": [
+        "h/(mv)",
+        "h/mv"
+      ],
+      "answerDisplay": "$\\dfrac{h}{p}$",
+      "searchQuery": "de Broglie wavelength h over p matter waves"
+    },
+    {
+      "id": "electron-wavelength-150-volts",
+      "title": "An electron is accelerated from rest through $150\\,\\mathrm{V}$. What is its de Broglie wavelength, in nanometers (3 significant figures)?",
+      "body": "$0.100\\,\\mathrm{nm}$\n\n$K = eV$ gives $p = \\sqrt{2m_eeV}$, so $\\lambda = \\dfrac{h}{p} = \\dfrac{6.626 \\times 10^{-34}}{\\sqrt{2(9.109 \\times 10^{-31})(1.602 \\times 10^{-19})(150)}}\\,\\mathrm{m} \\approx 1.00 \\times 10^{-10}\\,\\mathrm{m}$\n\nExample: that is comparable to atomic spacings, so electrons diffract from crystals.",
+      "answer": "0.100",
+      "acceptedAnswers": [
+        "0.1001"
+      ],
+      "answerDisplay": "$0.100\\,\\mathrm{nm}$",
+      "searchQuery": "electron de Broglie wavelength accelerated 150 volts"
+    },
+    {
+      "id": "davisson-germer-result",
+      "title": "What did the Davisson-Germer experiment demonstrate?",
+      "body": "Electrons diffract from a nickel crystal, showing that they behave as **waves**, with a wavelength matching $\\lambda = h/p$.\n\nThe scattered intensity peaked at angles predicted by Bragg-type interference with the de Broglie wavelength.\n\nKey idea: it confirmed de Broglie's hypothesis that matter has wave properties.",
+      "searchQuery": "Davisson Germer experiment electron diffraction nickel crystal"
+    },
+    {
+      "id": "heisenberg-position-momentum",
+      "title": "What is the lower bound of the Heisenberg uncertainty principle for $\\Delta x\\,\\Delta p$? Write $\\hbar$ as hbar.",
+      "body": "$\\Delta x\\,\\Delta p \\ge \\dfrac{\\hbar}{2}$\n\nHere $\\hbar = \\dfrac{h}{2\\pi} = 1.055 \\times 10^{-34}\\,\\mathrm{J\\,s}$. Squeezing a particle into a smaller region necessarily increases the spread in its momentum.\n\nWatch out: this is not a limit of measuring instruments; it reflects the wave nature of matter.",
+      "answer": "hbar/2",
+      "acceptedAnswers": [
+        "ħ/2",
+        "h/(4pi)",
+        "h/4pi"
+      ],
+      "answerDisplay": "$\\dfrac{\\hbar}{2}$",
+      "searchQuery": "Heisenberg uncertainty principle delta x delta p hbar over 2"
+    },
+    {
+      "id": "box-energy-ratio",
+      "title": "For a particle in a one-dimensional infinite square well, what is the ratio $E_2/E_1$ of the second to the first energy level?",
+      "body": "$4$\n\nThe energies are $E_n = \\dfrac{n^2h^2}{8mL^2}$, so $E_n \\propto n^2$ and $E_2/E_1 = 2^2$.\n\nTip: the levels go as $1, 4, 9, 16, \\ldots$ times $E_1$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4x",
+        "four"
+      ],
+      "searchQuery": "particle in a box energy levels E_n proportional to n squared ratio"
+    },
+    {
+      "id": "zero-point-energy-box",
+      "title": "Why can't a particle confined to an infinite square well have zero energy?",
+      "body": "Confinement to width $L$ forces $\\Delta p \\gtrsim \\hbar/(2L)$, so the particle must have a nonzero momentum and kinetic energy.\n\nThe lowest level is $E_1 = \\dfrac{h^2}{8mL^2} > 0$, called the **zero-point energy**.\n\nKey idea: a particle that is exactly at rest in a known location would violate the uncertainty principle.",
+      "searchQuery": "zero point energy particle in a box uncertainty principle"
+    },
+    {
+      "id": "quantum-tunneling-definition",
+      "title": "What is quantum tunneling?",
+      "body": "A particle has a nonzero probability of passing through a potential barrier even when its energy is less than the barrier height.\n\nThe wave function decays exponentially inside the barrier, and the transmission probability falls steeply as the barrier gets wider or taller.\n\nExample: tunneling underlies alpha decay and the scanning tunneling microscope.",
+      "searchQuery": "quantum tunneling potential barrier probability"
+    },
+    {
+      "id": "wien-law-sun-peak",
+      "title": "Using Wien's law, $\\lambda_{\\max}T = 2.898 \\times 10^{-3}\\,\\mathrm{m\\,K}$, what is the peak wavelength of blackbody emission at $5800\\,\\mathrm{K}$, in nanometers (2 significant figures)?",
+      "body": "$500\\,\\mathrm{nm}$\n\n$\\lambda_{\\max} = \\dfrac{2.898 \\times 10^{-3}\\,\\mathrm{m\\,K}}{5800\\,\\mathrm{K}} \\approx 5.0 \\times 10^{-7}\\,\\mathrm{m}$\n\nKey idea: hotter objects peak at shorter wavelengths: red-hot, then white-hot, then blue-white.",
+      "answer": "500",
+      "acceptedAnswers": [
+        "499.7",
+        "500 nm"
+      ],
+      "answerDisplay": "$500\\,\\mathrm{nm}$",
+      "searchQuery": "Wien displacement law peak wavelength Sun 5800 K"
+    },
+    {
+      "id": "stefan-boltzmann-doubling",
+      "title": "A blackbody's absolute temperature doubles. By what factor does the total power it radiates change?",
+      "body": "$16\\times$\n\nThe Stefan-Boltzmann law gives $P = \\sigma A T^4$, so doubling $T$ multiplies $P$ by $2^4 = 16$.\n\nWatch out: $T$ must be in kelvin; doubling a Celsius temperature is not doubling $T$.",
+      "answer": "16",
+      "acceptedAnswers": [
+        "16x",
+        "sixteen",
+        "16 times"
+      ],
+      "answerDisplay": "$16\\times$",
+      "searchQuery": "Stefan Boltzmann law power proportional to T to the fourth"
+    },
+    {
+      "id": "rutherford-scattering-result",
+      "title": "What did the large-angle scattering of alpha particles in Rutherford's experiment reveal about atoms?",
+      "body": "The positive charge and nearly all the mass are concentrated in a tiny, dense **nucleus**.\n\nMost alpha particles passed straight through a thin gold foil, but a few bounced back at large angles, which the \"plum pudding\" model couldn't explain.\n\nKey idea: the nucleus is about $10^{-15}\\,\\mathrm{m}$ across, roughly $10^5$ times smaller than the atom.",
+      "searchQuery": "Rutherford gold foil experiment nucleus discovery alpha scattering"
+    },
+    {
+      "id": "line-spectra-quantized-levels",
+      "title": "Why does an atom emit and absorb light only at certain discrete wavelengths?",
+      "body": "Its energy levels are quantized, and a photon is emitted or absorbed only when its energy equals the gap between two levels: $hf = E_i - E_f$.\n\nEach element has its own set of levels, so its spectrum of lines is a fingerprint.\n\nExample: dark absorption lines in sunlight appear at the same wavelengths as the bright emission lines of the same element.",
+      "searchQuery": "atomic line spectra emission absorption quantized energy levels"
+    },
+    {
+      "id": "hydrogen-ground-state-energy",
+      "title": "What is the ground-state energy of the hydrogen atom, in eV (3 significant figures)?",
+      "body": "$-13.6\\,\\mathrm{eV}$\n\nIn the Bohr model $E_n = -\\dfrac{13.6\\,\\mathrm{eV}}{n^2}$, and $n = 1$ is the ground state.\n\nWhy: the negative sign means the electron is bound; $13.6\\,\\mathrm{eV}$ is the ionization energy needed to free it.",
+      "answer": "-13.6",
+      "acceptedAnswers": [
+        "-13.6 eV"
+      ],
+      "answerDisplay": "$-13.6\\,\\mathrm{eV}$",
+      "searchQuery": "hydrogen ground state energy -13.6 eV Bohr model"
+    },
+    {
+      "id": "hydrogen-3-to-2-photon-energy",
+      "title": "A hydrogen atom drops from $n = 3$ to $n = 2$. What is the energy of the emitted photon, in eV (3 significant figures)?",
+      "body": "$1.89\\,\\mathrm{eV}$\n\n$E = 13.6\\,\\mathrm{eV}\\left(\\dfrac{1}{2^2} - \\dfrac{1}{3^2}\\right) = 13.6 \\times 0.1389\\,\\mathrm{eV}$\n\nTip: the photon energy equals the energy-level difference, $hf = E_i - E_f$.",
+      "answer": "1.89",
+      "acceptedAnswers": [
+        "1.9",
+        "1.889"
+      ],
+      "answerDisplay": "$1.89\\,\\mathrm{eV}$",
+      "searchQuery": "hydrogen n=3 to n=2 transition photon energy Balmer"
+    },
+    {
+      "id": "hydrogen-balmer-beta-wavelength",
+      "title": "What is the wavelength of the photon emitted when hydrogen drops from $n = 4$ to $n = 2$, in nanometers (3 significant figures)? Use $hc = 1240\\,\\mathrm{eV\\,nm}$.",
+      "body": "$486\\,\\mathrm{nm}$, blue-green light.\n\n$E = 13.6\\,\\mathrm{eV}\\left(\\dfrac{1}{2^2} - \\dfrac{1}{4^2}\\right) = 2.55\\,\\mathrm{eV}$, so $\\lambda = \\dfrac{hc}{E} = \\dfrac{1240\\,\\mathrm{eV\\,nm}}{2.55\\,\\mathrm{eV}} \\approx 486\\,\\mathrm{nm}$.\n\nKey idea: this is H-beta. Balmer lines end on $n = 2$ and run from H-alpha at $656\\,\\mathrm{nm}$ down to the series limit near $365\\,\\mathrm{nm}$.",
+      "answer": "486",
+      "acceptedAnswers": [
+        "486.1",
+        "486.3",
+        "486 nm"
+      ],
+      "answerDisplay": "$486\\,\\mathrm{nm}$",
+      "searchQuery": "hydrogen Balmer H-beta line wavelength 486 nm"
+    },
+    {
+      "id": "bohr-orbit-radius-scaling",
+      "title": "In the Bohr model, the orbit radius is $r_n = n^2a_0$. What is $r_3$ in units of the Bohr radius $a_0$?",
+      "body": "$9a_0$\n\nHere $a_0 = 0.0529\\,\\mathrm{nm}$, the radius of the ground-state orbit, so $r_3 = 3^2a_0$.\n\nTip: radius goes as $n^2$ while the energy goes as $1/n^2$.",
+      "answer": "9",
+      "acceptedAnswers": [
+        "9 a0"
+      ],
+      "answerDisplay": "$9a_0$",
+      "searchQuery": "Bohr model orbit radius n squared Bohr radius"
+    },
+    {
+      "id": "orbital-quantum-number-range",
+      "title": "For principal quantum number $n$, what values can the orbital quantum number $\\ell$ take?",
+      "body": "$\\ell = 0, 1, 2, \\ldots, n - 1$\n\nThe values $\\ell = 0, 1, 2, 3$ are labeled $s, p, d, f$. For each $\\ell$, the magnetic quantum number runs $m_\\ell = -\\ell, \\ldots, +\\ell$.\n\nExample: for $n = 3$, $\\ell$ can be $0$, $1$ or $2$.",
+      "searchQuery": "orbital quantum number l allowed values 0 to n-1"
+    },
+    {
+      "id": "pauli-exclusion-principle",
+      "title": "State the Pauli exclusion principle.",
+      "body": "No two electrons in an atom can have the same set of all four quantum numbers $(n, \\ell, m_\\ell, m_s)$.\n\nEach orbital $(n, \\ell, m_\\ell)$ therefore holds at most two electrons, one with spin up and one with spin down.\n\nKey idea: this principle builds the shell structure of the periodic table.",
+      "searchQuery": "Pauli exclusion principle four quantum numbers electrons"
+    },
+    {
+      "id": "stern-gerlach-beams",
+      "title": "In the Stern–Gerlach experiment, a beam of silver atoms passes through a nonuniform magnetic field. Into how many beams does it split?",
+      "body": "$2$\n\nEach silver atom's magnetic moment comes from one unpaired electron, whose **spin** has only two possible components along the field: $m_s = +\\tfrac{1}{2}$ or $-\\tfrac{1}{2}$.\n\nKey idea: a classical magnet would spread into a continuous smear; two separate spots show that angular momentum is **quantized**.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "Stern-Gerlach experiment silver atoms two beams electron spin"
+    },
+    {
+      "id": "neutron-count-carbon-14",
+      "title": "How many neutrons are in a nucleus of carbon-14, $\\ce{^{14}_{6}C}$?",
+      "body": "$8$\n\nNeutrons: $N = A - Z = 14 - 6 = 8$, with mass number $A$ and atomic number $Z$.\n\nWatch out: the mass number counts protons plus neutrons, not just neutrons.",
+      "answer": "8",
+      "acceptedAnswers": [
+        "8 neutrons",
+        "eight"
+      ],
+      "searchQuery": "number of neutrons carbon-14 A minus Z"
+    },
+    {
+      "id": "nuclear-radius-formula",
+      "title": "Using $R = R_0A^{1/3}$ with $R_0 = 1.2\\,\\mathrm{fm}$, what is the radius of a nucleus with $A = 64$, in femtometers?",
+      "body": "$4.8\\,\\mathrm{fm}$\n\n$R = (1.2\\,\\mathrm{fm})(64)^{1/3} = (1.2\\,\\mathrm{fm})(4)$\n\nWhy: nuclear volume is proportional to $A$, so all nuclei have about the same density.",
+      "answer": "4.8",
+      "acceptedAnswers": [
+        "4.8 fm"
+      ],
+      "answerDisplay": "$4.8\\,\\mathrm{fm}$",
+      "searchQuery": "nuclear radius R0 A^(1/3) femtometers"
+    },
+    {
+      "id": "strong-force-properties",
+      "title": "What are the main properties of the strong nuclear force that binds nucleons together?",
+      "body": "It is **short-range** (a few femtometers), attractive between nucleons, and nearly independent of electric charge.\n\nAt those distances it is much stronger than the Coulomb repulsion between protons, but it falls off rapidly beyond about $2$-$3\\,\\mathrm{fm}$.\n\nWatch out: it acts equally between proton-proton, neutron-neutron and proton-neutron pairs.",
+      "searchQuery": "strong nuclear force short range attractive charge independent"
+    },
+    {
+      "id": "nuclear-binding-energy-definition",
+      "title": "What is the binding energy of a nucleus?",
+      "body": "The energy needed to separate the nucleus into its individual free protons and neutrons.\n\nIt equals the **mass defect** times $c^2$: $E_B = \\Delta m\\,c^2$, where $\\Delta m$ is the total mass of the separated nucleons minus the nucleus's mass.\n\nKey idea: a bound nucleus has less mass than its parts, and the difference is the energy released when it forms.",
+      "searchQuery": "nuclear binding energy definition mass defect"
+    },
+    {
+      "id": "mass-defect-binding-energy-numeric",
+      "title": "A nucleus's mass is $0.0300\\,\\mathrm{u}$ less than the total mass of its separated nucleons. What is its binding energy, in MeV (3 significant figures)? Use $1\\,\\mathrm{u}\\,c^2 = 931.5\\,\\mathrm{MeV}$.",
+      "body": "$27.9\\,\\mathrm{MeV}$\n\n$E_B = \\Delta m\\,c^2 = (0.0300\\,\\mathrm{u})(931.5\\,\\mathrm{MeV/u})$\n\nTip: nuclear problems are quickest in atomic mass units and MeV, using $1\\,\\mathrm{u} \\leftrightarrow 931.5\\,\\mathrm{MeV}$.",
+      "answer": "27.9",
+      "acceptedAnswers": [
+        "27.95",
+        "27.9 MeV"
+      ],
+      "answerDisplay": "$27.9\\,\\mathrm{MeV}$",
+      "searchQuery": "mass defect to binding energy 931.5 MeV per u calculation"
+    },
+    {
+      "id": "binding-energy-per-nucleon-peak",
+      "title": "Which nuclei have the highest binding energy per nucleon, and why does that matter for fission and fusion?",
+      "body": "Nuclei near iron and nickel ($A \\approx 56$-$62$, about $8.8\\,\\mathrm{MeV}$ per nucleon).\n\nHeavy nuclei release energy by **fission** into more tightly bound fragments, and light nuclei release energy by **fusion**. Either way, the products move toward the peak.\n\nKey idea: energy is released whenever nucleons end up more tightly bound per nucleon.",
+      "searchQuery": "binding energy per nucleon curve peak iron fission fusion"
+    },
+    {
+      "id": "alpha-decay-changes",
+      "title": "In alpha decay, how do the parent nucleus's atomic number $Z$ and mass number $A$ change?",
+      "body": "$Z$ decreases by $2$ and $A$ decreases by $4$.\n\nThe nucleus emits a helium-4 nucleus ($2$ protons + $2$ neutrons), for example $\\ce{^{238}_{92}U -> ^{234}_{90}Th + ^{4}_{2}He}$.\n\nTip: compare $\\beta^-$ decay, where $Z$ increases by $1$ and $A$ is unchanged. Gamma decay changes neither.",
+      "searchQuery": "alpha decay atomic number mass number change"
+    },
+    {
+      "id": "beta-minus-decay-changes",
+      "title": "In $\\beta^-$ decay, how do $Z$ and $A$ change, and which particles are emitted?",
+      "body": "$Z$ increases by $1$ and $A$ is unchanged; an electron and an antineutrino are emitted.\n\nA neutron in the nucleus changes into a proton: $\\ce{n -> p + e- + \\bar{\\nu}_e}$.\n\nExample: $\\ce{^{14}_{6}C -> ^{14}_{7}N + e- + \\bar{\\nu}_e}$",
+      "searchQuery": "beta minus decay neutron to proton electron antineutrino"
+    },
+    {
+      "id": "gamma-decay-nucleus",
+      "title": "What happens to a nucleus in gamma decay?",
+      "body": "It drops from an excited energy level to a lower one and emits a high-energy photon; $Z$ and $A$ do not change.\n\nGamma decay often follows alpha or beta decay, which can leave the daughter nucleus in an excited state.\n\nWatch out: the daughter is the same nuclide as the parent, just with less energy.",
+      "searchQuery": "gamma decay excited nucleus photon emission no change Z A"
+    },
+    {
+      "id": "radiation-penetrating-power",
+      "title": "Rank alpha, beta and gamma radiation from least to most penetrating.",
+      "body": "Alpha, then beta, then gamma.\n\nAlpha particles are stopped by paper or the outer layer of skin, betas by a few millimeters of aluminum, and gamma rays need thick lead or concrete.\n\nWhy: alphas are heavy and doubly charged, so they ionize intensely and lose energy quickly.\nWatch out: the stopping ability is reversed for ionization: alpha ionizes the most, gamma the least.",
+      "searchQuery": "alpha beta gamma radiation penetrating power shielding"
+    },
+    {
+      "id": "half-life-fraction",
+      "title": "A radioactive sample has a half-life of $5.0\\,\\mathrm{days}$. What fraction of the original nuclei remains undecayed after $15\\,\\mathrm{days}$?",
+      "body": "$\\tfrac{1}{8}$, which is $12.5\\%$.\n\n$15\\,\\mathrm{days}$ is $3$ half-lives, and $(\\tfrac{1}{2})^3 = \\tfrac{1}{8}$. In general $N = N_0 e^{-\\lambda t}$, with decay constant $\\lambda = \\dfrac{\\ln 2}{t_{1/2}}$.\n\nWatch out: after two half-lives a quarter remains, not zero.",
+      "answer": "1/8",
+      "acceptedAnswers": [
+        "0.125",
+        "12.5%",
+        "12.5 percent",
+        "one eighth",
+        "one-eighth",
+        "eighth",
+        "1/8th"
+      ],
+      "answerDisplay": "$\\tfrac{1}{8}$",
+      "searchQuery": "radioactive half-life fraction remaining after three half-lives"
+    },
+    {
+      "id": "decay-constant-from-half-life",
+      "title": "A nuclide has a half-life of $8.0\\,\\mathrm{days}$. What is its decay constant, in units of $\\mathrm{day^{-1}}$ (2 significant figures)?",
+      "body": "$0.087\\,\\mathrm{day^{-1}}$\n\n$\\lambda = \\dfrac{\\ln 2}{t_{1/2}} = \\dfrac{0.693}{8.0\\,\\mathrm{days}}$\n\nTip: the mean lifetime is $\\tau = 1/\\lambda$, longer than the half-life by a factor of $1/\\ln 2 \\approx 1.44$.",
+      "answer": "0.087",
+      "acceptedAnswers": [
+        "0.0866"
+      ],
+      "answerDisplay": "$0.087\\,\\mathrm{day^{-1}}$",
+      "searchQuery": "decay constant lambda = ln2 over half-life numerical"
+    },
+    {
+      "id": "activity-definition-becquerel",
+      "title": "What is the activity of a radioactive sample, and what is its SI unit?",
+      "body": "Activity is the decay rate, $A = \\lambda N = -\\dfrac{dN}{dt}$, measured in becquerels: $1\\,\\mathrm{Bq} = 1$ decay per second.\n\nIt falls off exponentially with time, just like $N$: $A = A_0e^{-\\lambda t}$.\n\nWatch out: the older unit is the curie, $1\\,\\mathrm{Ci} = 3.7 \\times 10^{10}\\,\\mathrm{Bq}$.",
+      "searchQuery": "radioactive activity decay rate becquerel unit"
+    },
+    {
+      "id": "carbon-dating-two-half-lives",
+      "title": "A bone contains $25\\%$ of its original carbon-14. With $t_{1/2} = 5730\\,\\mathrm{yr}$, how old is it, in years?",
+      "body": "$11{,}460$ years.\n\n$25\\% = \\left(\\tfrac{1}{2}\\right)^2$, so exactly two half-lives have passed: $2 \\times 5730\\,\\mathrm{yr}$.\n\nKey idea: living organisms keep their $\\ce{^{14}C}$ fraction constant by exchange with the air; after death it decays away.",
+      "answer": "11460",
+      "acceptedAnswers": [
+        "11460 years",
+        "11460 yr"
+      ],
+      "answerDisplay": "$11{,}460$ years",
+      "searchQuery": "carbon-14 dating 25 percent remaining two half-lives"
+    },
+    {
+      "id": "fission-energy-uranium",
+      "title": "About how much energy, in MeV, is released when one $\\ce{^{235}U}$ nucleus fissions? Round to the nearest $100\\,\\mathrm{MeV}$.",
+      "body": "About $200\\,\\mathrm{MeV}$.\n\nMost of it appears as kinetic energy of the fission fragments, with the rest carried by neutrons, gamma rays and neutrinos.\n\nExample: that is millions of times more energy per atom than a chemical reaction, which releases a few eV.",
+      "answer": "200",
+      "acceptedAnswers": [
+        "200 MeV"
+      ],
+      "answerDisplay": "$200\\,\\mathrm{MeV}$",
+      "searchQuery": "uranium-235 fission energy released per fission 200 MeV"
+    },
+    {
+      "id": "fusion-high-temperature-reason",
+      "title": "Why does nuclear fusion require extremely high temperatures?",
+      "body": "The nuclei must overcome their mutual Coulomb repulsion to get within range of the strong force, about a femtometer.\n\nAt very high temperature, thermal kinetic energies are large enough that collisions reach this distance; quantum tunneling helps at lower energies.\n\nExample: the Sun's core is about $1.5 \\times 10^7\\,\\mathrm{K}$.",
+      "searchQuery": "why fusion needs high temperature Coulomb barrier"
+    }
+  ]
+}

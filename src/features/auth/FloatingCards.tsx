@@ -15,14 +15,15 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { CategoryIcon } from '@/components/CategoryIcon';
+import { RichText } from '@/components/rich/RichText';
 import { Text } from '@/components/Text';
 import { categoryLook } from '@/features/packs/categories';
 import { fonts, radii, spacing } from '@/theme';
 
 const SAMPLES = [
-  { category: 'calculus', label: 'Calculus I', prompt: 'd/dx [sin x] = ?', answer: 'cos x', x: -26, y: 0, tilt: -7 },
+  { category: 'calculus', label: 'Calculus I', prompt: '$\\dfrac{d}{dx}\\left[\\sin x\\right] = \\,?$', answer: '$\\cos x$', x: -26, y: 0, tilt: -7 },
   { category: 'biology', label: 'Intro Biology', prompt: 'Where does the Krebs cycle happen?', answer: 'Mitochondrial matrix', x: 30, y: 104, tilt: 6 },
-  { category: 'software', label: 'Git Essentials', prompt: 'Shelve uncommitted work for later?', answer: 'git stash', x: -14, y: 216, tilt: -3 },
+  { category: 'software', label: 'Git Essentials', prompt: 'Shelve uncommitted work for later?', answer: '`git stash`', x: -14, y: 216, tilt: -3 },
 ] as const;
 
 type Collapse = SharedValue<number> | undefined;
@@ -66,13 +67,13 @@ function FloatingCard({ sample, index, collapse }: { sample: (typeof SAMPLES)[nu
             {sample.label}
           </Text>
         </View>
-        <Text style={styles.prompt} color="#150F2E">
+        <RichText style={styles.prompt} color="#150F2E" inline>
           {sample.prompt}
-        </Text>
+        </RichText>
         <View style={[styles.answer, { backgroundColor: `${look.color}1A` }]}>
-          <Text style={{ fontFamily: fonts.bold, fontSize: 13 }} color={look.color}>
+          <RichText style={{ fontFamily: fonts.bold, fontSize: 13 }} color={look.color} inline>
             {sample.answer}
-          </Text>
+          </RichText>
         </View>
       </Animated.View>
     </Animated.View>

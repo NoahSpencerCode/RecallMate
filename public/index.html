@@ -14,6 +14,22 @@
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFF6EC" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F0B1E" />
     <title>%WEB_TITLE%</title>
+    <!-- Math on cards is typeset with KaTeX (scripts/vendor-katex.mjs copies these files). -->
+    <link rel="stylesheet" href="/katex/katex.min.css" />
+    <style id="card-math">
+      /* Sit with the surrounding text: KaTeX's default is 1.21em, and headings use tight letter-spacing. */
+      .rm-math .katex {
+        font-size: 1.08em;
+        letter-spacing: normal;
+      }
+      /* Long equations scroll sideways instead of overflowing a phone screen. */
+      .rm-math .katex-display {
+        margin: 0.25em 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 2px 0;
+      }
+    </style>
     <style id="expo-reset">
       html,
       body {

@@ -1,0 +1,858 @@
+{
+  "id": "chem-equilibrium",
+  "title": "Equilibrium, Acids & Bases",
+  "course": "General Chemistry II",
+  "description": "K expressions, Q vs K, Le Chatelier, Kp vs Kc, Kw and pH, strong acids, Ka·Kb, Lewis acids, buffers, half-equivalence, Ksp and the common-ion effect.",
+  "cards": [
+    {
+      "id": "k-expression-solids",
+      "title": "Write $K_c$ for $\\ce{CaCO3(s) <=> CaO(s) + CO2(g)}$.",
+      "body": "$K_c = [\\ce{CO2}]$\n\nPure solids and pure liquids are left out of $K$: their activity is **1**.\n\nLikewise $K_p = P_{\\ce{CO2}}$, so at a given temperature the $\\ce{CO2}$ pressure is fixed no matter how much solid is present.\n\nWhy: a solid's concentration is fixed by its density, so it can't change as the reaction proceeds.\nWatch out: some solid must be present, or the system can't be at equilibrium.",
+      "answer": "[CO2]",
+      "acceptedAnswers": [
+        "Kc=[CO2]",
+        "K=[CO2]"
+      ],
+      "answerDisplay": "$K_c = [\\ce{CO2}]$",
+      "searchQuery": "equilibrium constant expression pure solids excluded CaCO3"
+    },
+    {
+      "id": "q-versus-k",
+      "title": "A reaction mixture has $Q < K$. In which direction does the reaction proceed to reach equilibrium?",
+      "body": "Forward (to the right)\n\nProducts form until $Q$ rises to equal $K$.\n\n$Q$ has the same form as $K$ but uses the **current** concentrations. If $Q > K$ the reaction runs in reverse; if $Q = K$ it is already at equilibrium.\n\nMnemonic: $Q$ is smaller than $K$, so the mixture needs more of the numerator: more products.",
+      "answer": "forward",
+      "acceptedAnswers": [
+        "right",
+        "to the right",
+        "forward direction",
+        "toward products",
+        "towards products",
+        "toward the products",
+        "products"
+      ],
+      "searchQuery": "reaction quotient Q less than K direction of shift"
+    },
+    {
+      "id": "le-chatelier-compression",
+      "title": "$\\ce{N2(g) + 3H2(g) <=> 2NH3(g)}$ is at equilibrium. Which way does it shift when the container volume is decreased?",
+      "body": "To the right, toward $\\ce{NH3}$\n\nThere are 2 mol of gas on the right and 4 mol on the left. Compression raises the pressure, and the system relieves it by making **fewer gas molecules**.\n\n$K$ stays the same; only the position of equilibrium moves.\n\nWatch out: adding an inert gas at constant volume causes no shift, because the partial pressures don't change.",
+      "searchQuery": "Le Chatelier volume decrease Haber process shift right"
+    },
+    {
+      "id": "what-changes-k",
+      "title": "Which kind of change alters the numerical value of an equilibrium constant $K$?",
+      "body": "A change in temperature\n\nFor a given balanced equation, nothing else changes $K$. Concentration, pressure or volume changes shift the position ($Q \\ne K$) but leave $K$ alone, and a catalyst speeds both directions equally.\n\nRaising $T$ **lowers** $K$ for an exothermic reaction and **raises** it for an endothermic one.\n\nKey idea: only temperature changes $K$.",
+      "answer": "temperature",
+      "acceptedAnswers": [
+        "T",
+        "temp",
+        "temperature change",
+        "change in temperature",
+        "changing temperature",
+        "changing the temperature",
+        "changing T"
+      ],
+      "searchQuery": "what changes equilibrium constant temperature only"
+    },
+    {
+      "id": "kp-kc-delta-n",
+      "title": "In $K_p = K_c(RT)^{\\Delta n}$, what is $\\Delta n$ for $\\ce{PCl5(g) <=> PCl3(g) + Cl2(g)}$?",
+      "body": "+1\n\n$\\Delta n$ is moles of **gaseous** products minus moles of gaseous reactants: $2 - 1 = +1$.\n\nUse $R = 0.08206\\,\\mathrm{L\\,atm/(mol\\,K)}$ and $T$ in kelvin.\n\nExample: for $\\ce{H2(g) + I2(g) <=> 2HI(g)}$, $\\Delta n = 0$, so $K_p = K_c$.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "+1",
+        "one"
+      ],
+      "searchQuery": "Kp Kc relationship delta n gaseous moles"
+    },
+    {
+      "id": "strong-acids-list",
+      "title": "Name the six common strong acids.",
+      "body": "$\\ce{HCl}$, $\\ce{HBr}$, $\\ce{HI}$, $\\ce{HNO3}$, $\\ce{HClO4}$ and $\\ce{H2SO4}$ (first proton only)\n\nThey ionize essentially **100%** in water, so for a monoprotic strong acid $[\\ce{H3O+}]$ equals the acid concentration.\n\nWatch out: $\\ce{HF}$ is a **weak** acid despite fluorine's electronegativity; the $\\ce{H-F}$ bond is very strong.",
+      "searchQuery": "six common strong acids list HCl HBr HI HNO3 HClO4 H2SO4"
+    },
+    {
+      "id": "kw-at-25c",
+      "title": "What is the value of $K_w$, the ion-product constant of water, at $25\\,^\\circ\\mathrm{C}$?",
+      "body": "$K_w = 1.0 \\times 10^{-14}$\n\n$K_w = [\\ce{H3O+}][\\ce{OH-}]$. In pure water both equal $1.0 \\times 10^{-7}\\,\\mathrm{M}$, so neutral pH is 7.00.\n\nWater's autoionization is endothermic, so $K_w$ grows with temperature.\n\nWatch out: at $50\\,^\\circ\\mathrm{C}$ neutral pH is about 6.6, yet the water is still **neutral** because $[\\ce{H3O+}] = [\\ce{OH-}]$.",
+      "answer": "1.0x10^-14",
+      "acceptedAnswers": [
+        "1.0e-14",
+        "1.0*10^-14",
+        "1*10^-14",
+        "10^-14"
+      ],
+      "answerDisplay": "$1.0 \\times 10^{-14}$",
+      "searchQuery": "Kw ion product of water 1.0 x 10^-14 at 25 C"
+    },
+    {
+      "id": "ph-from-hydroxide",
+      "title": "At $25\\,^\\circ\\mathrm{C}$ a solution has $[\\ce{OH-}] = 1.0 \\times 10^{-4}\\,\\mathrm{M}$. What is its pH, to two decimal places?",
+      "body": "10.00\n\n$\\mathrm{pOH} = -\\log(1.0 \\times 10^{-4}) = 4.00$, and $\\mathrm{pH} + \\mathrm{pOH} = 14.00$ at $25\\,^\\circ\\mathrm{C}$.\n\nEquivalently, $[\\ce{H3O+}] = K_w/[\\ce{OH-}] = 1.0 \\times 10^{-10}\\,\\mathrm{M}$.\n\nWatch out: 4.00 is the **pOH**, not the pH.",
+      "answer": "10.00",
+      "searchQuery": "calculate pH from hydroxide concentration pOH"
+    },
+    {
+      "id": "ka-kb-conjugate-pair",
+      "title": "Acetic acid has $K_a = 1.8 \\times 10^{-5}$. What is $K_b$ for its conjugate base, acetate ($\\ce{CH3COO-}$), at $25\\,^\\circ\\mathrm{C}$? Give two significant figures.",
+      "body": "$K_b = 5.6 \\times 10^{-10}$\n\nFor any conjugate acid-base pair, $K_aK_b = K_w = 1.0 \\times 10^{-14}$, so $K_b = (1.0 \\times 10^{-14})/(1.8 \\times 10^{-5})$.\n\nEquivalently, $\\mathrm{p}K_a + \\mathrm{p}K_b = 14.00$.\n\nKey idea: the **stronger** the acid, the **weaker** its conjugate base.",
+      "answer": "5.6x10^-10",
+      "acceptedAnswers": [
+        "5.6e-10",
+        "5.6*10^-10",
+        "5.56x10^-10",
+        "5.56e-10",
+        "5.56*10^-10"
+      ],
+      "answerDisplay": "$5.6 \\times 10^{-10}$",
+      "searchQuery": "Ka Kb conjugate pair Kw acetate Kb calculation"
+    },
+    {
+      "id": "lewis-acid-bf3",
+      "title": "In the reaction $\\ce{BF3 + NH3 -> F3B-NH3}$, which reactant acts as the Lewis acid?",
+      "body": "$\\ce{BF3}$\n\nA **Lewis acid** accepts an electron pair (here into boron's empty $2p$ orbital); $\\ce{NH3}$ donates its lone pair as the Lewis base.\n\nWatch out: no $\\ce{H+}$ moves, so this isn't a Brønsted-Lowry acid-base reaction (acid = proton donor, base = proton acceptor).",
+      "answer": "BF3",
+      "acceptedAnswers": [
+        "boron trifluoride"
+      ],
+      "answerDisplay": "$\\ce{BF3}$",
+      "searchQuery": "Lewis acid electron pair acceptor BF3 NH3"
+    },
+    {
+      "id": "henderson-hasselbalch-buffer",
+      "title": "A buffer is $0.20\\,\\mathrm{M}$ $\\ce{CH3COO-}$ and $0.10\\,\\mathrm{M}$ $\\ce{CH3COOH}$ ($\\mathrm{p}K_a = 4.74$). What is its pH, to two decimal places?",
+      "body": "5.04\n\nHenderson-Hasselbalch: $\\mathrm{pH} = \\mathrm{p}K_a + \\log\\dfrac{[\\ce{A-}]}{[\\ce{HA}]} = 4.74 + \\log 2.0 = 4.74 + 0.30$.\n\nMore base than acid puts the pH **above** the $\\mathrm{p}K_a$.\n\nWatch out: flipping the ratio gives 4.44.",
+      "answer": "5.04",
+      "searchQuery": "Henderson-Hasselbalch buffer pH calculation acetate acetic acid"
+    },
+    {
+      "id": "buffer-added-acid",
+      "title": "In an acetic acid/acetate buffer, which species reacts with added strong acid, and what does it form?",
+      "body": "Acetate: $\\ce{CH3COO- + H3O+ -> CH3COOH + H2O}$\n\nAdded $\\ce{OH-}$ is consumed by the weak acid instead: $\\ce{CH3COOH + OH- -> CH3COO- + H2O}$.\n\nOnly the ratio $[\\ce{A-}]/[\\ce{HA}]$ changes a little, so the pH barely moves.\n\nTip: buffers work best within $\\mathrm{pH} = \\mathrm{p}K_a \\pm 1$.",
+      "searchQuery": "how a buffer neutralizes added strong acid acetate"
+    },
+    {
+      "id": "half-equivalence-point",
+      "title": "In a weak acid-strong base titration, what does the pH equal at the half-equivalence point?",
+      "body": "$\\mathrm{p}K_a$ of the weak acid\n\nHalfway to equivalence, half of the $\\ce{HA}$ has become $\\ce{A-}$, so $[\\ce{HA}] = [\\ce{A-}]$ and $\\log 1 = 0$ in Henderson-Hasselbalch.\n\nThat's how $K_a$ is read from a titration curve.\n\nWatch out: at the equivalence point itself the pH is above 7, because $\\ce{A-}$ is basic.",
+      "answer": "pKa",
+      "acceptedAnswers": [
+        "pKa of the acid",
+        "pKa of the weak acid",
+        "pKa of HA",
+        "pH=pKa"
+      ],
+      "answerDisplay": "$\\mathrm{pH} = \\mathrm{p}K_a$",
+      "searchQuery": "half-equivalence point pH equals pKa weak acid titration"
+    },
+    {
+      "id": "ksp-molar-solubility",
+      "title": "For $\\ce{PbCl2(s) <=> Pb^2+(aq) + 2Cl-(aq)}$, express $K_{sp}$ in terms of the molar solubility $s$.",
+      "body": "$K_{sp} = 4s^3$\n\nDissolving $s$ mol/L gives $[\\ce{Pb^2+}] = s$ and $[\\ce{Cl-}] = 2s$, so $K_{sp} = (s)(2s)^2 = 4s^3$.\n\nWatch out: don't forget to **square the $2s$**.\nTip: compare $K_{sp}$ values directly only for salts with the same ion ratio.",
+      "answer": "4s^3",
+      "acceptedAnswers": [
+        "4s3",
+        "s(2s)^2",
+        "Ksp=4s^3"
+      ],
+      "answerDisplay": "$K_{sp} = 4s^3$",
+      "searchQuery": "Ksp molar solubility PbCl2 4s^3"
+    },
+    {
+      "id": "common-ion-effect",
+      "title": "How does dissolving $\\ce{NaCl}$ in the water change the molar solubility of $\\ce{AgCl}$, and why?",
+      "body": "It **decreases** it (the common-ion effect).\n\nExtra $\\ce{Cl-}$ pushes $\\ce{AgCl(s) <=> Ag+(aq) + Cl-(aq)}$ to the left, so less solid dissolves. $K_{sp}$ itself doesn't change.\n\nOnce the added chloride dominates, $s \\approx K_{sp}/[\\ce{Cl-}]$.\n\nKey idea: a shared ion lowers solubility.",
+      "searchQuery": "common ion effect AgCl solubility NaCl Ksp"
+    },
+    {
+      "id": "dynamic-equilibrium",
+      "title": "At dynamic equilibrium, what is equal and what stays constant?",
+      "body": "The forward and reverse **rates** are equal, so the concentrations stay constant.\n\nBoth reactions are still running; their effects cancel. That is why it is called dynamic, and why the macroscopic properties (color, pressure, pH) stop changing.\n\nWatch out: equal **rates**, not equal concentrations.",
+      "searchQuery": "dynamic equilibrium forward and reverse rates equal"
+    },
+    {
+      "id": "k-expression-general",
+      "title": "Write the equilibrium constant $K_c$ for $\\ce{aA + bB <=> cC + dD}$.",
+      "body": "$K_c = \\dfrac{[\\ce{C}]^c[\\ce{D}]^d}{[\\ce{A}]^a[\\ce{B}]^b}$\n\n**Products over reactants**, each concentration raised to its stoichiometric coefficient, all measured at equilibrium.\n\nTip: write $K$ from the balanced equation as given. Changing the coefficients changes $K$.",
+      "searchQuery": "equilibrium constant expression law of mass action products over reactants"
+    },
+    {
+      "id": "k-expression-haber",
+      "title": "Write $K_c$ for $\\ce{N2(g) + 3H2(g) <=> 2NH3(g)}$.",
+      "body": "$K_c = \\dfrac{[\\ce{NH3}]^2}{[\\ce{N2}][\\ce{H2}]^3}$\n\nEach coefficient becomes an exponent: 2 for $\\ce{NH3}$ in the numerator, 1 and 3 for the reactants below.\n\nWatch out: the **coefficient** is the exponent, not a multiplier.",
+      "answer": "[NH3]^2/([N2][H2]^3)",
+      "acceptedAnswers": [
+        "[NH3]^2/[N2][H2]^3",
+        "Kc=[NH3]^2/([N2][H2]^3)",
+        "Kc=[NH3]^2/[N2][H2]^3"
+      ],
+      "answerDisplay": "$K_c = \\dfrac{[\\ce{NH3}]^2}{[\\ce{N2}][\\ce{H2}]^3}$",
+      "searchQuery": "Kc expression Haber process ammonia synthesis"
+    },
+    {
+      "id": "k-magnitude-meaning",
+      "title": "What does $K \\gg 1$ tell you about a reaction at equilibrium, and what does $K \\ll 1$ tell you?",
+      "body": "$K \\gg 1$: **products** are favored. $K \\ll 1$: **reactants** are favored.\n\nWhen $K$ is near 1, significant amounts of both are present.\n\nWatch out: $K$ says where equilibrium lies, not how fast it gets there. A reaction with a huge $K$ can still be extremely slow.",
+      "searchQuery": "meaning of large and small equilibrium constant K products favored"
+    },
+    {
+      "id": "k-reverse-reaction",
+      "title": "A reaction has $K_c = 50$. What is $K_c$ for the reverse reaction, as a decimal?",
+      "body": "0.02\n\nReversing a reaction **inverts** $K$: $K_{\\mathrm{rev}} = 1/K_{\\mathrm{fwd}} = 1/50$.\n\nExample: a forward $K$ of $10^3$ becomes $10^{-3}$ when the equation is written backward.",
+      "answer": "0.02",
+      "acceptedAnswers": [
+        "1/50",
+        "2x10^-2"
+      ],
+      "searchQuery": "equilibrium constant of reverse reaction reciprocal"
+    },
+    {
+      "id": "k-scaled-equation",
+      "title": "$\\ce{A <=> B}$ has $K = 4.0$. What is $K$ for $\\ce{2A <=> 2B}$?",
+      "body": "16\n\nMultiplying the coefficients by $n$ raises $K$ to the **$n$th power**: $K_{\\mathrm{new}} = K^n = 4.0^2$.\n\nWhy: each concentration in the expression is raised to its coefficient, so doubling every coefficient squares the whole ratio.",
+      "answer": "16",
+      "searchQuery": "equilibrium constant when equation multiplied by factor K to the n"
+    },
+    {
+      "id": "k-combined-steps",
+      "title": "Two reactions with $K_1 = 2.0$ and $K_2 = 5.0$ are added to give an overall reaction. What is $K_{\\mathrm{overall}}$?",
+      "body": "10\n\nWhen reactions are added, their equilibrium constants **multiply**: $K = K_1K_2$.\n\nCompare: enthalpies add under Hess's law, but $K$ values multiply because $\\Delta G^\\circ = -RT\\ln K$ and the logs add.",
+      "answer": "10",
+      "searchQuery": "equilibrium constant of sum of reactions multiply K1 K2"
+    },
+    {
+      "id": "ka-expression-hf",
+      "title": "Write $K_a$ for $\\ce{HF(aq) + H2O(l) <=> H3O+(aq) + F-(aq)}$.",
+      "body": "$K_a = \\dfrac{[\\ce{H3O+}][\\ce{F-}]}{[\\ce{HF}]}$\n\nLiquid water is the solvent and is **left out** of the expression, just like a pure liquid.\n\nTip: the same form works with $[\\ce{H+}]$ in place of $[\\ce{H3O+}]$.",
+      "answer": "[H3O+][F-]/[HF]",
+      "acceptedAnswers": [
+        "Ka=[H3O+][F-]/[HF]",
+        "[H+][F-]/[HF]",
+        "Ka=[H+][F-]/[HF]"
+      ],
+      "answerDisplay": "$K_a = \\dfrac{[\\ce{H3O+}][\\ce{F-}]}{[\\ce{HF}]}$",
+      "searchQuery": "Ka expression weak acid HF water omitted"
+    },
+    {
+      "id": "k-has-no-units",
+      "title": "Does the thermodynamic equilibrium constant $K$ have units?",
+      "body": "No: it is dimensionless.\n\n$K$ is defined with activities, which are concentrations divided by the standard state (1 M for solutes, 1 bar for gases). The units cancel.\n\nMany courses still write $K_c$ and $K_p$ without units, or sometimes with them. Follow your instructor on that.\n\nKey idea: $\\Delta G^\\circ = -RT\\ln K$ only makes sense because $K$ is unitless.",
+      "searchQuery": "equilibrium constant dimensionless activities standard state units"
+    },
+    {
+      "id": "kc-from-equilibrium-data",
+      "title": "A mixture of $\\ce{N2O4(g) <=> 2NO2(g)}$ at equilibrium has $[\\ce{N2O4}] = 0.040\\,\\mathrm{M}$ and $[\\ce{NO2}] = 0.12\\,\\mathrm{M}$. What is $K_c$ (number only)?",
+      "body": "0.36\n\n$K_c = \\dfrac{[\\ce{NO2}]^2}{[\\ce{N2O4}]} = \\dfrac{(0.12)^2}{0.040} = \\dfrac{0.0144}{0.040}$.\n\nWatch out: **square** the $\\ce{NO2}$ concentration before dividing.",
+      "answer": "0.36",
+      "searchQuery": "calculate Kc from equilibrium concentrations N2O4 NO2"
+    },
+    {
+      "id": "q-calculation",
+      "title": "$\\ce{H2(g) + I2(g) <=> 2HI(g)}$ has $K_c = 50$. A mixture has $[\\ce{H2}] = [\\ce{I2}] = 0.50\\,\\mathrm{M}$ and $[\\ce{HI}] = 1.0\\,\\mathrm{M}$. What is $Q$?",
+      "body": "4\n\n$Q = \\dfrac{[\\ce{HI}]^2}{[\\ce{H2}][\\ce{I2}]} = \\dfrac{(1.0)^2}{(0.50)(0.50)} = 4.0$.\n\nSince $Q < K$ ($4 < 50$), the reaction proceeds **forward**, making more $\\ce{HI}$.",
+      "answer": "4",
+      "searchQuery": "reaction quotient Q calculation H2 I2 HI compare to K"
+    },
+    {
+      "id": "ice-table-meaning",
+      "title": "What does ICE stand for in an equilibrium calculation, and which row goes into the $K$ expression?",
+      "body": "**I**nitial, **C**hange, **E**quilibrium. The **E row** goes into $K$.\n\nThe Change row follows the stoichiometry: for $\\ce{A <=> 2B}$ it is $-x$ and $+2x$.\n\nWatch out: don't substitute the initial concentrations into $K$; that gives $Q$.",
+      "searchQuery": "ICE table initial change equilibrium method"
+    },
+    {
+      "id": "ice-hi-formation",
+      "title": "For $\\ce{H2(g) + I2(g) <=> 2HI(g)}$, suppose $K_c = 64$ (hypothetical). Starting with $1.0\\,\\mathrm{M}$ each of $\\ce{H2}$ and $\\ce{I2}$ and no HI, what is $[\\ce{HI}]$ at equilibrium, in M?",
+      "body": "1.6\n\nLet $x$ be the amount of $\\ce{H2}$ used up: $K_c = \\dfrac{(2x)^2}{(1.0 - x)^2} = 64$.\n\nThe right side is a perfect square, so take the square root: $\\dfrac{2x}{1.0 - x} = 8$, giving $x = 0.80$ and $[\\ce{HI}] = 2x = 1.6\\,\\mathrm{M}$.\n\nTip: look for perfect squares before reaching for the quadratic formula.",
+      "answer": "1.6",
+      "searchQuery": "ICE table equilibrium concentration calculation perfect square H2 I2 HI"
+    },
+    {
+      "id": "ice-small-x-approximation",
+      "title": "In an ICE problem, when may you drop $x$ from an expression like $[\\ce{A}]_0 - x$?",
+      "body": "When $K$ is small compared with $[\\ce{A}]_0$, so $x$ is under about 5% of $[\\ce{A}]_0$.\n\nA rough guide is $[\\ce{A}]_0/K > 400$. Always **check** afterward that $x/[\\ce{A}]_0 < 5\\%$; if not, solve the quadratic.\n\nWatch out: the shortcut fails for dilute solutions of fairly strong weak acids.",
+      "searchQuery": "5 percent rule small x approximation equilibrium ICE"
+    },
+    {
+      "id": "kp-expression",
+      "title": "Write $K_p$ for $\\ce{N2O4(g) <=> 2NO2(g)}$.",
+      "body": "$K_p = \\dfrac{P_{\\ce{NO2}}^2}{P_{\\ce{N2O4}}}$\n\nFor gases, use **partial pressures** (in atm or bar) in place of concentrations.\n\nTip: partial pressure is mole fraction times total pressure: $P_i = X_iP_{\\mathrm{total}}$.",
+      "answer": "P_NO2^2/P_N2O4",
+      "acceptedAnswers": [
+        "Kp=P_NO2^2/P_N2O4",
+        "PNO2^2/PN2O4",
+        "(P_NO2)^2/P_N2O4"
+      ],
+      "answerDisplay": "$K_p = \\dfrac{P_{\\ce{NO2}}^2}{P_{\\ce{N2O4}}}$",
+      "searchQuery": "Kp expression partial pressures N2O4 NO2"
+    },
+    {
+      "id": "kp-from-kc-calculation",
+      "title": "$\\ce{N2O4(g) <=> 2NO2(g)}$ has $K_c = 0.0100$ at $300\\,\\mathrm{K}$. What is $K_p$, to three significant figures? ($R = 0.08206\\,\\mathrm{L\\,atm/(mol\\,K)}$)",
+      "body": "0.246\n\n$\\Delta n = 2 - 1 = +1$, so $K_p = K_c(RT)^1 = 0.0100 \\times (0.08206 \\times 300) = 0.0100 \\times 24.6$.\n\nWatch out: use $R$ in L atm units and $T$ in kelvin, matching the pressure unit of $K_p$.",
+      "answer": "0.246",
+      "searchQuery": "convert Kc to Kp calculation delta n RT N2O4"
+    },
+    {
+      "id": "kp-versus-kc-haber",
+      "title": "For $\\ce{N2(g) + 3H2(g) <=> 2NH3(g)}$ at $500\\,\\mathrm{K}$, is $K_p$ larger or smaller than $K_c$?",
+      "body": "Smaller\n\n$\\Delta n = 2 - 4 = -2$, so $K_p = K_c(RT)^{-2}$. With $RT = 0.08206 \\times 500 \\approx 41$, $K_p \\approx K_c/1700$.\n\nTip: when $\\Delta n < 0$ and $RT > 1$, $K_p < K_c$; when $\\Delta n > 0$, $K_p > K_c$.",
+      "searchQuery": "Kp smaller than Kc negative delta n Haber"
+    },
+    {
+      "id": "equilibrium-from-either-side",
+      "title": "Can the same equilibrium mixture be reached starting from pure products instead of pure reactants?",
+      "body": "Yes, at the same temperature (and total amounts of each element).\n\nThe equilibrium composition depends on $K$ and the **total** amounts of atoms, not on which side you start from.\n\nExample: $\\ce{H2 + I2 <=> 2HI}$ gives the same equilibrium from $\\ce{H2}$ and $\\ce{I2}$ as from the right amount of $\\ce{HI}$ alone.",
+      "searchQuery": "equilibrium reached from either direction same composition"
+    },
+    {
+      "id": "le-chatelier-add-reactant",
+      "title": "$\\ce{N2(g) + 3H2(g) <=> 2NH3(g)}$ is at equilibrium. More $\\ce{N2}$ is added at constant volume. Which way does it shift?",
+      "body": "right\n\nAdding a reactant makes $Q < K$, so the reaction runs **forward** to consume part of the added $\\ce{N2}$.\n\n$K$ is unchanged, and $[\\ce{NH3}]$ rises.\n\nWatch out: the new $[\\ce{N2}]$ is still higher than before; the system only partly offsets the change.",
+      "answer": "right",
+      "acceptedAnswers": [
+        "to the right",
+        "forward",
+        "toward products",
+        "toward NH3",
+        "products"
+      ],
+      "searchQuery": "Le Chatelier add reactant shift right Haber process"
+    },
+    {
+      "id": "le-chatelier-remove-product",
+      "title": "Why is $\\ce{NH3}$ condensed to a liquid and removed in the Haber process?",
+      "body": "Removing the product keeps $Q < K$, so the reaction keeps shifting **forward**.\n\nAmmonia liquefies far more easily than $\\ce{N2}$ or $\\ce{H2}$. The unreacted gases are recycled back to the reactor.\n\nKey idea: removing a product pulls the equilibrium toward products.",
+      "searchQuery": "Haber process ammonia removal condensing shift equilibrium"
+    },
+    {
+      "id": "le-chatelier-heating-exothermic",
+      "title": "$\\ce{N2(g) + 3H2(g) <=> 2NH3(g)}$ has $\\Delta H = -92\\,\\mathrm{kJ}$. Which way does the equilibrium shift when the temperature is raised?",
+      "body": "left\n\nFor an exothermic reaction, heat acts like a **product**. Adding heat shifts the equilibrium toward the reactants, and $K$ decreases.\n\nWhy: the system absorbs the added heat by running the endothermic (reverse) direction.\n\nTip: write \"+ heat\" on the product side of an exothermic equation, then treat it like any other species.",
+      "answer": "left",
+      "acceptedAnswers": [
+        "to the left",
+        "reverse",
+        "toward reactants",
+        "reactants"
+      ],
+      "searchQuery": "Le Chatelier temperature increase exothermic reaction shifts left"
+    },
+    {
+      "id": "le-chatelier-heating-endothermic",
+      "title": "$\\ce{N2O4(g) <=> 2NO2(g)}$ is endothermic ($\\Delta H = +57\\,\\mathrm{kJ}$). What happens to the brown color and to $K$ when the mixture is heated?",
+      "body": "It darkens, and $K$ increases.\n\nHeating shifts an endothermic equilibrium **to the right**, making more brown $\\ce{NO2}$ (colorless $\\ce{N2O4}$ is consumed).\n\nKey idea: temperature is the only change that alters $K$ itself.",
+      "searchQuery": "N2O4 NO2 equilibrium heating color change endothermic"
+    },
+    {
+      "id": "le-chatelier-inert-gas-constant-p",
+      "title": "Argon is added at constant total pressure to an equilibrium mixture of $\\ce{N2(g) + 3H2(g) <=> 2NH3(g)}$. Which way does it shift?",
+      "body": "left\n\nAt constant pressure the volume grows, so the partial pressures of the reacting gases all fall.\n\nThe system opposes this by shifting toward the side with **more moles of gas**, here the reactant side (4 mol vs 2 mol).\n\nWatch out: the same argon added at constant **volume** causes no shift.",
+      "answer": "left",
+      "acceptedAnswers": [
+        "to the left",
+        "reverse",
+        "toward reactants",
+        "reactants"
+      ],
+      "searchQuery": "inert gas added constant pressure equilibrium shift more moles of gas"
+    },
+    {
+      "id": "catalyst-equilibrium-position",
+      "title": "What effect does adding a catalyst have on the position of an equilibrium?",
+      "body": "none\n\nA catalyst lowers the barrier for the forward and reverse reactions **equally**, so $K$ and the equilibrium composition are unchanged.\n\nIt only lets the system reach equilibrium sooner.",
+      "answer": "none",
+      "acceptedAnswers": [
+        "no effect",
+        "no change",
+        "nothing",
+        "no shift"
+      ],
+      "searchQuery": "catalyst effect on equilibrium position no change"
+    },
+    {
+      "id": "le-chatelier-equal-moles-of-gas",
+      "title": "$\\ce{H2(g) + I2(g) <=> 2HI(g)}$ is at equilibrium. Which way does it shift when the volume is halved?",
+      "body": "none\n\nThere are 2 mol of gas on each side, so compression raises the rates of both directions equally and $Q$ stays equal to $K$.\n\nAll concentrations double, but their ratio is unchanged.\n\nTip: check $\\Delta n_{\\mathrm{gas}}$ first. If it is zero, pressure and volume changes do nothing.",
+      "answer": "none",
+      "acceptedAnswers": [
+        "no shift",
+        "no change",
+        "neither",
+        "it doesn't shift"
+      ],
+      "searchQuery": "equal moles of gas pressure change no shift H2 I2 HI"
+    },
+    {
+      "id": "le-chatelier-add-solid",
+      "title": "$\\ce{CaCO3(s) <=> CaO(s) + CO2(g)}$ is at equilibrium. What happens to the amount of $\\ce{CO2}$ when more $\\ce{CaO(s)}$ is added?",
+      "body": "Nothing: there is no shift.\n\nA pure solid does not appear in $K$, so adding more of it leaves $Q = K$.\n\nWatch out: changing the **volume** would shift the equilibrium, because $\\ce{CO2(g)}$ is a gas.",
+      "searchQuery": "adding pure solid to equilibrium no shift Le Chatelier CaCO3"
+    },
+    {
+      "id": "le-chatelier-dilution-complex",
+      "title": "$\\ce{Fe^3+(aq) + SCN-(aq) <=> FeSCN^2+(aq)}$ (red). Which way does it shift, and what happens to the color, when water is added?",
+      "body": "Left; the red color fades.\n\nDiluting lowers every concentration, and the system partly offsets this by favoring the side with **more dissolved particles**: 2 on the left, 1 on the right.\n\nExample: adding more $\\ce{Fe^3+}$ instead shifts the equilibrium right and the solution turns a deeper red.",
+      "searchQuery": "iron thiocyanate equilibrium dilution shift left color"
+    },
+    {
+      "id": "van-t-hoff-equation",
+      "title": "Write the van't Hoff equation that gives $K_2$ at $T_2$ from $K_1$ at $T_1$.",
+      "body": "$\\ln\\dfrac{K_2}{K_1} = -\\dfrac{\\Delta H^\\circ}{R}\\left(\\dfrac{1}{T_2} - \\dfrac{1}{T_1}\\right)$\n\nIf $\\Delta H^\\circ > 0$ and $T_2 > T_1$, the right side is positive, so $K$ rises. If $\\Delta H^\\circ < 0$, $K$ falls.\n\nWatch out: use $R = 8.314\\,\\mathrm{J/(mol\\,K)}$ with $\\Delta H^\\circ$ in joules, and $T$ in kelvin.",
+      "searchQuery": "van't Hoff equation K temperature dependence enthalpy"
+    },
+    {
+      "id": "bronsted-lowry-definitions",
+      "title": "Give the Brønsted-Lowry definitions of an acid and a base.",
+      "body": "An **acid** donates a proton ($\\ce{H+}$); a **base** accepts a proton.\n\nIn $\\ce{HCl + H2O -> Cl- + H3O+}$, $\\ce{HCl}$ is the acid and $\\ce{H2O}$ is the base.\n\nKey idea: acid-base reactions are proton transfers, and every acid has a conjugate base that is one proton lighter.",
+      "searchQuery": "Bronsted-Lowry acid proton donor base proton acceptor definition"
+    },
+    {
+      "id": "conjugate-base-dihydrogen-phosphate",
+      "title": "What is the conjugate base of $\\ce{H2PO4-}$?",
+      "body": "$\\ce{HPO4^2-}$\n\nA conjugate base is the acid minus one $\\ce{H+}$: remove a proton and the charge drops by 1.\n\nCompare: $\\ce{H2PO4-}$ is also the conjugate base of $\\ce{H3PO4}$, so it is amphiprotic.",
+      "answer": "HPO4^2-",
+      "acceptedAnswers": [
+        "HPO4(2-)",
+        "HPO42-"
+      ],
+      "answerDisplay": "$\\ce{HPO4^2-}$",
+      "searchQuery": "conjugate base of H2PO4- hydrogen phosphate"
+    },
+    {
+      "id": "conjugate-acid-ammonia",
+      "title": "What is the conjugate acid of $\\ce{NH3}$?",
+      "body": "$\\ce{NH4+}$\n\nA conjugate acid is the base **plus** one $\\ce{H+}$: $\\ce{NH3 + H+ -> NH4+}$.\n\nThe conjugate acid of a weak base is a weak acid, which is why $\\ce{NH4Cl}$ solutions are slightly acidic.",
+      "answer": "NH4+",
+      "acceptedAnswers": [
+        "ammonium",
+        "NH4"
+      ],
+      "answerDisplay": "$\\ce{NH4+}$",
+      "searchQuery": "conjugate acid of ammonia ammonium ion"
+    },
+    {
+      "id": "amphiprotic-bicarbonate",
+      "title": "What does amphiprotic mean? Use the bicarbonate ion $\\ce{HCO3-}$ as the example.",
+      "body": "An amphiprotic species can **both donate and accept** a proton.\n\n$\\ce{HCO3-}$ donates: $\\ce{HCO3- -> CO3^2- + H+}$. It accepts: $\\ce{HCO3- + H+ -> H2CO3}$.\n\nExample: water is also amphiprotic ($\\ce{H3O+}$ and $\\ce{OH-}$ are its conjugates).",
+      "searchQuery": "amphiprotic species donate and accept proton bicarbonate"
+    },
+    {
+      "id": "ph-definition",
+      "title": "Define pH. By what factor does $[\\ce{H3O+}]$ change when the pH changes by 1 unit?",
+      "body": "$\\mathrm{pH} = -\\log[\\ce{H3O+}]$; a change of 1 unit is a factor of **10**.\n\nSo a pH 3 solution has 100 times the $[\\ce{H3O+}]$ of a pH 5 solution.\n\nWatch out: lower pH means **more** acidic.",
+      "searchQuery": "definition of pH negative log hydronium concentration"
+    },
+    {
+      "id": "ph-strong-acid-calculation",
+      "title": "What is the pH of $0.0025\\,\\mathrm{M}$ $\\ce{HCl}$ at $25\\,^\\circ\\mathrm{C}$, to two decimal places?",
+      "body": "2.60\n\n$\\ce{HCl}$ is a strong acid, so $[\\ce{H3O+}] = 0.0025\\,\\mathrm{M}$ and $\\mathrm{pH} = -\\log(2.5 \\times 10^{-3}) = 2.60$.\n\nTip: $-\\log(2.5 \\times 10^{-3}) = 3 - \\log 2.5 = 3 - 0.40$.",
+      "answer": "2.60",
+      "searchQuery": "pH of strong acid HCl calculation concentration"
+    },
+    {
+      "id": "ph-barium-hydroxide",
+      "title": "What is the pH of $0.010\\,\\mathrm{M}$ $\\ce{Ba(OH)2}$ at $25\\,^\\circ\\mathrm{C}$, to two decimal places?",
+      "body": "12.30\n\nEach formula unit releases two hydroxides, so $[\\ce{OH-}] = 2(0.010) = 0.020\\,\\mathrm{M}$.\n\nThen $\\mathrm{pOH} = -\\log(0.020) = 1.70$ and $\\mathrm{pH} = 14.00 - 1.70$.\n\nWatch out: forgetting the factor of 2 gives 12.00.",
+      "answer": "12.30",
+      "searchQuery": "pH of barium hydroxide solution two hydroxides per formula unit"
+    },
+    {
+      "id": "ph-very-dilute-strong-acid",
+      "title": "What is the pH of $1.0 \\times 10^{-8}\\,\\mathrm{M}$ $\\ce{HCl}$ at $25\\,^\\circ\\mathrm{C}$, to two decimal places?",
+      "body": "6.98\n\nThe acid's $10^{-8}\\,\\mathrm{M}$ is comparable to water's own $10^{-7}\\,\\mathrm{M}$, so water's autoionization **can't be ignored**.\n\nSolving $[\\ce{H3O+}] = 10^{-8} + x$ with $x(x + 10^{-8}) = 10^{-14}$ gives $[\\ce{H3O+}] \\approx 1.05 \\times 10^{-7}\\,\\mathrm{M}$.\n\nWatch out: the naive answer 8.00 would be a basic pH for an acid.",
+      "answer": "6.98",
+      "searchQuery": "pH of very dilute strong acid 1e-8 M HCl water autoionization"
+    },
+    {
+      "id": "hydronium-from-ph",
+      "title": "A solution has pH $3.20$. What is $[\\ce{H3O+}]$ in M, to two significant figures?",
+      "body": "$6.3 \\times 10^{-4}$\n\n$[\\ce{H3O+}] = 10^{-\\mathrm{pH}} = 10^{-3.20}$. Since $10^{-0.20} \\approx 0.63$, this is $0.63 \\times 10^{-3}$.\n\nTip: pH 3.20 lies between 3 and 4, so the answer must lie between $10^{-3}$ and $10^{-4}$, closer to $10^{-3}$.",
+      "answer": "6.3x10^-4",
+      "acceptedAnswers": [
+        "6.3e-4",
+        "6.3*10^-4",
+        "0.00063"
+      ],
+      "answerDisplay": "$6.3 \\times 10^{-4}$",
+      "searchQuery": "hydronium concentration from pH antilog calculation"
+    },
+    {
+      "id": "pka-from-ka",
+      "title": "A weak acid has $K_a = 1.8 \\times 10^{-5}$. What is its $\\mathrm{p}K_a$, to two decimal places?",
+      "body": "4.74\n\n$\\mathrm{p}K_a = -\\log K_a = -\\log(1.8 \\times 10^{-5}) = 5 - 0.255 = 4.74$.\n\nTip: for $K_a = a \\times 10^{-n}$, the $\\mathrm{p}K_a$ lies between $n - 1$ and $n$.",
+      "answer": "4.74",
+      "searchQuery": "calculate pKa from Ka acetic acid 4.74"
+    },
+    {
+      "id": "acid-strength-pka-comparison",
+      "title": "Which is the stronger acid: $\\ce{HF}$ ($\\mathrm{p}K_a \\approx 3.2$) or acetic acid ($\\mathrm{p}K_a = 4.74$)?",
+      "body": "$\\ce{HF}$\n\nA **lower** $\\mathrm{p}K_a$ means a larger $K_a$ and a stronger acid. The $1.5$-unit gap makes $\\ce{HF}$ roughly 30 times more acidic.\n\nWatch out: a strong-acid label is about complete ionization; both of these are weak acids.",
+      "searchQuery": "compare acid strength using pKa lower pKa stronger acid"
+    },
+    {
+      "id": "strong-bases-list",
+      "title": "Which hydroxides are the common strong bases?",
+      "body": "Group 1 hydroxides ($\\ce{LiOH}$, $\\ce{NaOH}$, $\\ce{KOH}$, ...) and the heavier group 2 hydroxides $\\ce{Ca(OH)2}$, $\\ce{Sr(OH)2}$, $\\ce{Ba(OH)2}$.\n\nThey dissociate completely in water. $\\ce{Ca(OH)2}$ is not very soluble, but what dissolves is fully dissociated.\n\nWatch out: $\\ce{NH3}$ is a **weak** base; it only partly reacts with water.",
+      "searchQuery": "common strong bases list group 1 hydroxides Ba(OH)2 Ca(OH)2"
+    },
+    {
+      "id": "pkw-at-25c",
+      "title": "At $25\\,^\\circ\\mathrm{C}$, what is $\\mathrm{p}K_w$ (that is, $\\mathrm{pH} + \\mathrm{pOH}$)?",
+      "body": "14\n\nTaking $-\\log$ of $K_w = [\\ce{H3O+}][\\ce{OH-}] = 1.0 \\times 10^{-14}$ gives $\\mathrm{pH} + \\mathrm{pOH} = 14.00$.\n\nWatch out: this sum equals 14 only near $25\\,^\\circ\\mathrm{C}$, because $K_w$ changes with temperature.",
+      "answer": "14",
+      "searchQuery": "pKw 14 pH plus pOH at 25 C"
+    },
+    {
+      "id": "ph-weak-acid-calculation",
+      "title": "What is the pH of $0.10\\,\\mathrm{M}$ acetic acid ($K_a = 1.8 \\times 10^{-5}$), to two decimal places?",
+      "body": "2.87\n\n$K_a = \\dfrac{x^2}{0.10 - x} \\approx \\dfrac{x^2}{0.10}$, so $x = \\sqrt{1.8 \\times 10^{-6}} = 1.3 \\times 10^{-3}\\,\\mathrm{M} = [\\ce{H3O+}]$.\n\nThen $\\mathrm{pH} = -\\log(1.34 \\times 10^{-3}) = 2.87$. The approximation is fine because $x$ is only 1.3% of 0.10.\n\nWatch out: a strong acid at this concentration would give pH 1.00.",
+      "answer": "2.87",
+      "searchQuery": "pH of weak acid acetic acid 0.10 M Ka calculation"
+    },
+    {
+      "id": "percent-ionization-calculation",
+      "title": "What is the percent ionization of $0.10\\,\\mathrm{M}$ acetic acid ($K_a = 1.8 \\times 10^{-5}$)? Give the percentage to two significant figures, number only.",
+      "body": "1.3\n\n$x = [\\ce{H3O+}] = 1.34 \\times 10^{-3}\\,\\mathrm{M}$, so $\\%\\ \\text{ionization} = \\dfrac{x}{[\\ce{HA}]_0} \\times 100 = \\dfrac{1.34 \\times 10^{-3}}{0.10} \\times 100$.\n\nOnly about 1 molecule in 75 is ionized: a **weak** acid stays mostly intact.",
+      "answer": "1.3",
+      "acceptedAnswers": [
+        "1.3%"
+      ],
+      "searchQuery": "percent ionization weak acid acetic acid calculation"
+    },
+    {
+      "id": "percent-ionization-dilution",
+      "title": "How does the percent ionization of a weak acid change when its solution is diluted?",
+      "body": "It **increases**.\n\nDilution shifts $\\ce{HA + H2O <=> H3O+ + A-}$ toward more dissolved particles, so a larger fraction ionizes, even though $[\\ce{H3O+}]$ itself falls.\n\nExample: acetic acid is about 1.3% ionized at $0.10\\,\\mathrm{M}$ and about 4.2% at $0.010\\,\\mathrm{M}$.",
+      "searchQuery": "weak acid dilution percent ionization increases Ostwald"
+    },
+    {
+      "id": "ph-weak-base-calculation",
+      "title": "What is the pH of $0.20\\,\\mathrm{M}$ $\\ce{NH3}$ ($K_b = 1.8 \\times 10^{-5}$) at $25\\,^\\circ\\mathrm{C}$, to two decimal places?",
+      "body": "11.28\n\n$\\ce{NH3 + H2O <=> NH4+ + OH-}$: $x = [\\ce{OH-}] = \\sqrt{(1.8 \\times 10^{-5})(0.20)} = 1.9 \\times 10^{-3}\\,\\mathrm{M}$.\n\nThen $\\mathrm{pOH} = 2.72$ and $\\mathrm{pH} = 14.00 - 2.72 = 11.28$.\n\nWatch out: the unknown $x$ is $[\\ce{OH-}]$ here, so you get **pOH** first.",
+      "answer": "11.28",
+      "searchQuery": "pH of weak base ammonia Kb calculation 0.20 M"
+    },
+    {
+      "id": "salt-ammonium-chloride-acidic",
+      "title": "Is a solution of $\\ce{NH4Cl}$ acidic, basic or neutral?",
+      "body": "acidic\n\n$\\ce{NH4+}$ is the conjugate acid of the weak base $\\ce{NH3}$, so it donates protons to water: $\\ce{NH4+ + H2O <=> NH3 + H3O+}$.\n\n$\\ce{Cl-}$ is the conjugate base of a strong acid and does nothing.\n\nTip: a salt's pH comes from the ions of **weak** acids or bases.",
+      "answer": "acidic",
+      "acceptedAnswers": [
+        "acid"
+      ],
+      "searchQuery": "ammonium chloride solution acidic hydrolysis salt"
+    },
+    {
+      "id": "salt-sodium-acetate-basic",
+      "title": "Is a solution of sodium acetate, $\\ce{CH3COONa}$, acidic, basic or neutral?",
+      "body": "basic\n\nAcetate is the conjugate base of a weak acid, so it takes protons from water: $\\ce{CH3COO- + H2O <=> CH3COOH + OH-}$.\n\n$\\ce{Na+}$ is a spectator.",
+      "answer": "basic",
+      "acceptedAnswers": [
+        "base",
+        "alkaline"
+      ],
+      "searchQuery": "sodium acetate solution basic hydrolysis conjugate base"
+    },
+    {
+      "id": "salt-neutral-choice",
+      "title": "Which of these salts gives a neutral aqueous solution: $\\ce{NH4Cl}$, $\\ce{NaF}$, $\\ce{KNO3}$ or $\\ce{Na2CO3}$?",
+      "body": "$\\ce{KNO3}$\n\nBoth $\\ce{K+}$ (from a strong base) and $\\ce{NO3-}$ (from a strong acid) are too weak as acid and base to react with water.\n\nThe others contain an ion of a weak acid or weak base: $\\ce{NH4+}$ (acidic), $\\ce{F-}$ and $\\ce{CO3^2-}$ (basic).",
+      "searchQuery": "neutral salt strong acid strong base ions KNO3 hydrolysis"
+    },
+    {
+      "id": "ph-sodium-acetate-calculation",
+      "title": "What is the pH of $0.10\\,\\mathrm{M}$ sodium acetate? ($K_a$ of acetic acid $= 1.8 \\times 10^{-5}$.) Two decimal places.",
+      "body": "8.87\n\nFirst $K_b = K_w/K_a = 5.6 \\times 10^{-10}$. Then $[\\ce{OH-}] = \\sqrt{(5.6 \\times 10^{-10})(0.10)} = 7.5 \\times 10^{-6}\\,\\mathrm{M}$.\n\n$\\mathrm{pOH} = 5.13$, so $\\mathrm{pH} = 14.00 - 5.13 = 8.87$.\n\nWatch out: use $K_b$ of the **acetate**, not the $K_a$ of the acid.",
+      "answer": "8.87",
+      "searchQuery": "pH of sodium acetate solution Kb from Ka calculation"
+    },
+    {
+      "id": "hydrolysis-fluoride-equation",
+      "title": "Write the reaction that makes aqueous $\\ce{NaF}$ slightly basic.",
+      "body": "$\\ce{F- + H2O <=> HF + OH-}$\n\nFluoride is the conjugate base of the weak acid $\\ce{HF}$, so it grabs a proton from water and releases $\\ce{OH-}$.\n\nFor this reaction $K_b = K_w/K_a(\\ce{HF})$.\n\nWatch out: $\\ce{Na+}$ does not appear; it is a spectator.",
+      "searchQuery": "fluoride ion hydrolysis equation NaF basic solution"
+    },
+    {
+      "id": "ph-strong-acid-strong-base-excess",
+      "title": "$25.0\\,\\mathrm{mL}$ of $0.100\\,\\mathrm{M}$ $\\ce{HCl}$ is mixed with $15.0\\,\\mathrm{mL}$ of $0.100\\,\\mathrm{M}$ $\\ce{NaOH}$. What is the pH, to two decimal places?",
+      "body": "1.60\n\n$2.50\\,\\mathrm{mmol}$ of $\\ce{H3O+}$ minus $1.50\\,\\mathrm{mmol}$ of $\\ce{OH-}$ leaves $1.00\\,\\mathrm{mmol}$ of acid in $40.0\\,\\mathrm{mL}$.\n\n$[\\ce{H3O+}] = 0.0250\\,\\mathrm{M}$, so $\\mathrm{pH} = 1.60$.\n\nWatch out: divide by the **total** volume, 40.0 mL, not 25.0 mL.",
+      "answer": "1.60",
+      "searchQuery": "pH after mixing strong acid and strong base excess calculation"
+    },
+    {
+      "id": "strength-versus-concentration",
+      "title": "What is the difference between a strong acid and a concentrated acid?",
+      "body": "**Strength** is how completely the acid ionizes; **concentration** is how much acid is dissolved.\n\nA dilute $\\ce{HCl}$ solution is a strong acid at low concentration. Concentrated acetic acid is a weak acid at high concentration.\n\nWatch out: don't judge the pH from the label alone; compute it from $K_a$ and the concentration.",
+      "searchQuery": "strong acid versus concentrated acid difference ionization"
+    },
+    {
+      "id": "binary-acid-strength-trends",
+      "title": "Which is the stronger acid, $\\ce{HCl}$ or $\\ce{HI}$, and what decides the trend down a group?",
+      "body": "$\\ce{HI}$\n\nDown a group the $\\ce{H-X}$ bond gets **longer and weaker**, so it breaks more easily; this outweighs the fall in electronegativity.\n\nAcross a period the opposite factor wins: $\\ce{CH4} < \\ce{NH3} < \\ce{H2O} < \\ce{HF}$ in acidity, because electronegativity stabilizes the anion.",
+      "searchQuery": "binary acid strength trend HI HCl bond strength periodic"
+    },
+    {
+      "id": "oxyacid-strength-trend",
+      "title": "Rank $\\ce{HClO}$, $\\ce{HClO2}$, $\\ce{HClO3}$ and $\\ce{HClO4}$ by acid strength.",
+      "body": "$\\ce{HClO} < \\ce{HClO2} < \\ce{HClO3} < \\ce{HClO4}$\n\nMore oxygen atoms on the central atom pull electron density away from the $\\ce{O-H}$ bond and spread the negative charge of the anion over more oxygens.\n\nKey idea: for oxyacids with the same central atom, more $\\ce{O}$ means a stronger acid.",
+      "searchQuery": "oxyacid strength trend chlorine oxoacids HClO4 strongest"
+    },
+    {
+      "id": "polyprotic-successive-ka",
+      "title": "Why is $K_{a2}$ much smaller than $K_{a1}$ for a polyprotic acid such as $\\ce{H3PO4}$?",
+      "body": "Removing a proton from a **negatively charged** ion is harder than from a neutral molecule.\n\nSo $K_{a1} \\gg K_{a2} \\gg K_{a3}$, typically by several orders of magnitude per step.\n\nTip: for most polyprotic acids, the pH comes almost entirely from the first ionization.",
+      "searchQuery": "polyprotic acid successive Ka values decrease H3PO4"
+    },
+    {
+      "id": "leveling-effect-water",
+      "title": "What is the strongest acid that can exist in water, and the strongest base?",
+      "body": "$\\ce{H3O+}$ and $\\ce{OH-}$\n\nAny stronger acid reacts completely with water to form $\\ce{H3O+}$, and any stronger base forms $\\ce{OH-}$. This is the **leveling effect**.\n\nThat's why $\\ce{HCl}$ and $\\ce{HNO3}$ look equally strong in water.",
+      "searchQuery": "leveling effect water strongest acid H3O+ strongest base OH-"
+    },
+    {
+      "id": "net-ionic-strong-acid-base",
+      "title": "Write the net ionic equation for a strong acid reacting with a strong base in water.",
+      "body": "$\\ce{H3O+ + OH- -> 2H2O}$\n\nThe other ions (for example $\\ce{Na+}$ and $\\ce{Cl-}$ from $\\ce{HCl + NaOH}$) are spectators.\n\nIt is also commonly written $\\ce{H+ + OH- -> H2O}$.",
+      "searchQuery": "net ionic equation strong acid strong base neutralization"
+    },
+    {
+      "id": "lewis-base-ammonia-complex",
+      "title": "In $\\ce{Ag+ + 2NH3 -> [Ag(NH3)2]+}$, which reactant is the Lewis base?",
+      "body": "$\\ce{NH3}$\n\nAmmonia donates a lone pair on nitrogen to $\\ce{Ag+}$, which accepts the pairs as the Lewis acid.\n\nMetal-ligand complex formation is a Lewis acid-base reaction: the metal ion is the acid and each ligand is a base.",
+      "answer": "NH3",
+      "acceptedAnswers": [
+        "ammonia"
+      ],
+      "answerDisplay": "$\\ce{NH3}$",
+      "searchQuery": "Lewis base electron pair donor ammonia silver complex ion"
+    },
+    {
+      "id": "kb-expression-ammonia",
+      "title": "Write $K_b$ for $\\ce{NH3(aq) + H2O(l) <=> NH4+(aq) + OH-(aq)}$.",
+      "body": "$K_b = \\dfrac{[\\ce{NH4+}][\\ce{OH-}]}{[\\ce{NH3}]}$\n\nAs with $K_a$, liquid water is the solvent and is left out.\n\nKey idea: $K_b$ describes a base reacting with water to give its conjugate acid and $\\ce{OH-}$.",
+      "answer": "[NH4+][OH-]/[NH3]",
+      "acceptedAnswers": [
+        "Kb=[NH4+][OH-]/[NH3]"
+      ],
+      "answerDisplay": "$K_b = \\dfrac{[\\ce{NH4+}][\\ce{OH-}]}{[\\ce{NH3}]}$",
+      "searchQuery": "Kb expression ammonia weak base equilibrium"
+    },
+    {
+      "id": "buffer-composition",
+      "title": "What two components make up a buffer?",
+      "body": "A weak acid and its conjugate base (or a weak base and its conjugate acid), both present in appreciable amounts.\n\nExamples: $\\ce{CH3COOH}$/$\\ce{CH3COO-}$ and $\\ce{NH4+}$/$\\ce{NH3}$.\n\nWatch out: a strong acid and its conjugate base (such as $\\ce{HCl}$/$\\ce{Cl-}$) is **not** a buffer.",
+      "searchQuery": "buffer solution composition weak acid conjugate base"
+    },
+    {
+      "id": "buffer-ph-after-strong-acid",
+      "title": "A $1.00\\,\\mathrm{L}$ buffer has $0.10\\,\\mathrm{mol}$ each of $\\ce{CH3COOH}$ and $\\ce{CH3COO-}$ ($\\mathrm{p}K_a = 4.74$). What is the pH after adding $0.010\\,\\mathrm{mol}$ $\\ce{HCl}$?",
+      "body": "4.65\n\nThe added $\\ce{H3O+}$ converts acetate to acetic acid: $\\ce{CH3COO-}$ drops to $0.090$ and $\\ce{CH3COOH}$ rises to $0.110$.\n\n$\\mathrm{pH} = 4.74 + \\log\\dfrac{0.090}{0.110} = 4.74 - 0.09 = 4.65$.\n\nTip: do the stoichiometry first (full reaction), then Henderson-Hasselbalch. The volume cancels in the ratio.",
+      "answer": "4.65",
+      "searchQuery": "buffer pH after adding strong acid stoichiometry Henderson-Hasselbalch"
+    },
+    {
+      "id": "buffer-ratio-one-unit-above-pka",
+      "title": "A buffer's pH is exactly 1 unit above the $\\mathrm{p}K_a$ of its acid. What is the ratio $[\\ce{A-}]/[\\ce{HA}]$?",
+      "body": "10\n\nFrom $\\mathrm{pH} = \\mathrm{p}K_a + \\log([\\ce{A-}]/[\\ce{HA}])$, a difference of $+1$ means $\\log(\\text{ratio}) = 1$.\n\nSo the ratio is 10:1, and a pH one unit **below** the $\\mathrm{p}K_a$ gives 1:10.",
+      "answer": "10",
+      "acceptedAnswers": [
+        "10:1",
+        "10/1"
+      ],
+      "searchQuery": "buffer ratio base to acid pH one unit above pKa"
+    },
+    {
+      "id": "buffer-capacity-factors",
+      "title": "What two things make a buffer resist added acid or base well?",
+      "body": "**High concentrations** of both components, and a **ratio near 1:1**, so $\\mathrm{pH} \\approx \\mathrm{p}K_a$.\n\nThe buffer is overwhelmed once one component is nearly used up.\n\nTip: choose the acid whose $\\mathrm{p}K_a$ is closest to the target pH.",
+      "searchQuery": "buffer capacity concentration ratio near one pKa"
+    },
+    {
+      "id": "buffer-selection-ph-9",
+      "title": "Which pair makes the best buffer near pH 9.2: acetic acid/acetate ($\\mathrm{p}K_a$ 4.74), $\\ce{H2CO3}$/$\\ce{HCO3-}$ (6.35), $\\ce{NH4+}$/$\\ce{NH3}$ (9.25) or $\\ce{HF}$/$\\ce{F-}$ (3.17)?",
+      "body": "$\\ce{NH4+}$/$\\ce{NH3}$\n\nIts $\\mathrm{p}K_a$ of 9.25 is closest to the target pH, so $[\\ce{NH3}] \\approx [\\ce{NH4+}]$.\n\nKey idea: pick a pair with $\\mathrm{p}K_a$ within $\\pm 1$ of the desired pH.",
+      "searchQuery": "choose buffer pair pKa closest to target pH ammonium ammonia"
+    },
+    {
+      "id": "buffer-ammonia-ph-calculation",
+      "title": "A buffer is $0.30\\,\\mathrm{M}$ $\\ce{NH3}$ and $0.20\\,\\mathrm{M}$ $\\ce{NH4Cl}$. With $\\mathrm{p}K_a(\\ce{NH4+}) = 9.25$, what is the pH, to two decimals?",
+      "body": "9.43\n\n$\\mathrm{pH} = \\mathrm{p}K_a + \\log\\dfrac{[\\ce{NH3}]}{[\\ce{NH4+}]} = 9.25 + \\log 1.5 = 9.25 + 0.18$.\n\nWatch out: the **base** is $\\ce{NH3}$, so it goes in the numerator with the $\\mathrm{p}K_a$ of the conjugate acid $\\ce{NH4+}$.",
+      "answer": "9.43",
+      "searchQuery": "ammonia ammonium buffer pH Henderson-Hasselbalch calculation"
+    },
+    {
+      "id": "buffer-dilution-effect",
+      "title": "A buffer is diluted tenfold with pure water. What happens to its pH and to its capacity?",
+      "body": "The pH stays nearly the same; the capacity drops.\n\nThe ratio $[\\ce{A-}]/[\\ce{HA}]$ is unchanged, so Henderson-Hasselbalch gives the same pH. But there is far less buffering material to absorb added acid or base.\n\nWatch out: at extreme dilution the buffer fails and water's own ions matter.",
+      "searchQuery": "dilute buffer pH unchanged capacity decreases"
+    },
+    {
+      "id": "buffer-from-partial-neutralization",
+      "title": "$0.20\\,\\mathrm{mol}$ of a weak acid $\\ce{HA}$ is mixed with $0.10\\,\\mathrm{mol}$ of $\\ce{NaOH}$. What is the pH in terms of $\\mathrm{p}K_a$?",
+      "body": "$\\mathrm{pH} = \\mathrm{p}K_a$\n\nThe hydroxide converts half of the $\\ce{HA}$ to $\\ce{A-}$, leaving $0.10\\,\\mathrm{mol}$ of each, a 1:1 buffer.\n\nThis is the same situation as the half-equivalence point of a titration.\n\nTip: weak acid plus **less than the equivalent** strong base makes a buffer.",
+      "searchQuery": "make buffer by partial neutralization weak acid with NaOH half"
+    },
+    {
+      "id": "titration-endpoint-volume",
+      "title": "How many mL of $0.125\\,\\mathrm{M}$ $\\ce{NaOH}$ neutralize $25.0\\,\\mathrm{mL}$ of $0.100\\,\\mathrm{M}$ $\\ce{HCl}$? Give the number only.",
+      "body": "20.0\n\nMoles of acid: $0.0250\\,\\mathrm{L} \\times 0.100\\,\\mathrm{M} = 2.50\\,\\mathrm{mmol}$.\n\nThe acid and base react 1:1, so the volume is $2.50\\,\\mathrm{mmol} \\div 0.125\\,\\mathrm{M} = 20.0\\,\\mathrm{mL}$.\n\nTip: $M_aV_a = M_bV_b$ works only for 1:1 stoichiometry.",
+      "answer": "20.0",
+      "searchQuery": "titration calculation volume of NaOH to neutralize HCl"
+    },
+    {
+      "id": "titration-strong-strong-equivalence",
+      "title": "What is the pH at the equivalence point of a strong acid-strong base titration at $25\\,^\\circ\\mathrm{C}$?",
+      "body": "7\n\nThe solution holds only a salt of a strong acid and a strong base (for example $\\ce{NaCl}$), whose ions don't react with water.\n\nWatch out: only for strong-strong titrations; weak acids and bases give an equivalence-point pH above or below 7.",
+      "answer": "7",
+      "searchQuery": "equivalence point pH strong acid strong base titration 7"
+    },
+    {
+      "id": "titration-weak-acid-equivalence",
+      "title": "Is the pH at the equivalence point of acetic acid titrated with $\\ce{NaOH}$ below, at or above 7?",
+      "body": "Above 7\n\nAt equivalence all the acetic acid has become acetate, a weak base: $\\ce{CH3COO- + H2O <=> CH3COOH + OH-}$.\n\nThe pH is typically about 8.5-9 for a 0.1 M solution.\n\nKey idea: the equivalence-point pH is the pH of the salt formed.",
+      "searchQuery": "weak acid strong base titration equivalence point pH above 7"
+    },
+    {
+      "id": "titration-weak-base-equivalence",
+      "title": "Is the pH at the equivalence point of $\\ce{NH3}$ titrated with $\\ce{HCl}$ below, at or above 7?",
+      "body": "Below 7\n\nAt equivalence the solution contains $\\ce{NH4+}$, a weak acid: $\\ce{NH4+ + H2O <=> NH3 + H3O+}$.\n\nKey idea: look at the conjugate species left at equivalence.",
+      "searchQuery": "weak base strong acid titration equivalence point pH below 7"
+    },
+    {
+      "id": "titration-indicator-choice",
+      "title": "Which indicator suits titrating acetic acid with $\\ce{NaOH}$: methyl orange (range 3.1-4.4) or phenolphthalein (8.2-10.0)?",
+      "body": "Phenolphthalein\n\nIts color change falls on the steep part of the curve, near the equivalence-point pH (above 7).\n\nMethyl orange changes color long before equivalence and would give a wrong end point.\n\nTip: the indicator's range should include the equivalence-point pH.",
+      "searchQuery": "indicator choice weak acid strong base titration phenolphthalein"
+    },
+    {
+      "id": "ksp-expression-calcium-phosphate",
+      "title": "Write $K_{sp}$ for $\\ce{Ca3(PO4)2(s) <=> 3Ca^2+(aq) + 2PO4^3-(aq)}$.",
+      "body": "$K_{sp} = [\\ce{Ca^2+}]^3[\\ce{PO4^3-}]^2$\n\nThe solid is left out. Each ion concentration is raised to its coefficient.\n\nWatch out: don't multiply the concentrations by the coefficients; the coefficients are exponents.",
+      "answer": "[Ca2+]^3[PO4^3-]^2",
+      "acceptedAnswers": [
+        "Ksp=[Ca2+]^3[PO4^3-]^2",
+        "[Ca2+]^3[PO43-]^2"
+      ],
+      "answerDisplay": "$K_{sp} = [\\ce{Ca^2+}]^3[\\ce{PO4^3-}]^2$",
+      "searchQuery": "Ksp expression calcium phosphate Ca3(PO4)2"
+    },
+    {
+      "id": "ksp-silver-chloride-solubility",
+      "title": "$K_{sp}(\\ce{AgCl}) = 1.8 \\times 10^{-10}$. What is its molar solubility in pure water, in M, to two significant figures?",
+      "body": "$1.3 \\times 10^{-5}$\n\nFor a 1:1 salt, $[\\ce{Ag+}] = [\\ce{Cl-}] = s$, so $K_{sp} = s^2$ and $s = \\sqrt{1.8 \\times 10^{-10}}$.\n\nTip: for a 1:1 salt, $s = \\sqrt{K_{sp}}$.",
+      "answer": "1.3x10^-5",
+      "acceptedAnswers": [
+        "1.3e-5",
+        "1.3*10^-5",
+        "0.000013"
+      ],
+      "answerDisplay": "$1.3 \\times 10^{-5}$",
+      "searchQuery": "molar solubility of AgCl from Ksp calculation"
+    },
+    {
+      "id": "ksp-mx2-solubility",
+      "title": "A salt $\\ce{MX2}$ has $K_{sp} = 4.0 \\times 10^{-12}$. What is its molar solubility $s$ in M?",
+      "body": "$1.0 \\times 10^{-4}$\n\n$\\ce{MX2(s) <=> M^2+ + 2X-}$ gives $K_{sp} = (s)(2s)^2 = 4s^3$.\n\nSo $s^3 = 1.0 \\times 10^{-12}$ and $s = 1.0 \\times 10^{-4}\\,\\mathrm{M}$.",
+      "answer": "1.0x10^-4",
+      "acceptedAnswers": [
+        "1.0e-4",
+        "1.0*10^-4",
+        "0.0001"
+      ],
+      "answerDisplay": "$1.0 \\times 10^{-4}$",
+      "searchQuery": "molar solubility from Ksp for MX2 salt cube root"
+    },
+    {
+      "id": "ksp-from-molar-solubility",
+      "title": "A salt $\\ce{MX2}$ has molar solubility $2.0 \\times 10^{-4}\\,\\mathrm{M}$. What is $K_{sp}$, to two significant figures?",
+      "body": "$3.2 \\times 10^{-11}$\n\n$[\\ce{M^2+}] = s$ and $[\\ce{X-}] = 2s$, so $K_{sp} = 4s^3 = 4(2.0 \\times 10^{-4})^3 = 4(8.0 \\times 10^{-12})$.\n\nWatch out: cube $s$ first, then multiply by 4.",
+      "answer": "3.2x10^-11",
+      "acceptedAnswers": [
+        "3.2e-11",
+        "3.2*10^-11"
+      ],
+      "answerDisplay": "$3.2 \\times 10^{-11}$",
+      "searchQuery": "calculate Ksp from molar solubility MX2 4s^3"
+    },
+    {
+      "id": "ksp-from-solubility-grams",
+      "title": "A saturated $\\ce{BaSO4}$ solution contains $2.33 \\times 10^{-3}\\,\\mathrm{g/L}$ (molar mass $233\\,\\mathrm{g/mol}$). What is $K_{sp}$?",
+      "body": "$1.0 \\times 10^{-10}$\n\nConvert first: $s = 2.33 \\times 10^{-3}\\,\\mathrm{g/L} \\div 233\\,\\mathrm{g/mol} = 1.00 \\times 10^{-5}\\,\\mathrm{M}$.\n\n$\\ce{BaSO4}$ is 1:1, so $K_{sp} = s^2 = 1.0 \\times 10^{-10}$.\n\nWatch out: convert grams per liter to **moles** per liter before using $K_{sp}$.",
+      "answer": "1.0x10^-10",
+      "acceptedAnswers": [
+        "1.0e-10",
+        "1.0*10^-10"
+      ],
+      "answerDisplay": "$1.0 \\times 10^{-10}$",
+      "searchQuery": "Ksp from solubility in grams per liter barium sulfate"
+    },
+    {
+      "id": "ksp-common-ion-calculation",
+      "title": "What is the molar solubility of $\\ce{AgCl}$ ($K_{sp} = 1.8 \\times 10^{-10}$) in $0.10\\,\\mathrm{M}$ $\\ce{NaCl}$, in M?",
+      "body": "$1.8 \\times 10^{-9}$\n\nThe chloride is essentially all from $\\ce{NaCl}$, so $[\\ce{Cl-}] \\approx 0.10\\,\\mathrm{M}$ and $s = [\\ce{Ag+}] = K_{sp}/0.10$.\n\nThat is about 7000 times less soluble than in pure water ($1.3 \\times 10^{-5}\\,\\mathrm{M}$).",
+      "answer": "1.8x10^-9",
+      "acceptedAnswers": [
+        "1.8e-9",
+        "1.8*10^-9"
+      ],
+      "answerDisplay": "$1.8 \\times 10^{-9}$",
+      "searchQuery": "AgCl solubility in NaCl solution common ion calculation"
+    },
+    {
+      "id": "ksp-precipitation-check",
+      "title": "Equal volumes of $1.0 \\times 10^{-3}\\,\\mathrm{M}$ $\\ce{AgNO3}$ and $1.0 \\times 10^{-3}\\,\\mathrm{M}$ $\\ce{NaCl}$ are mixed. Does $\\ce{AgCl}$ ($K_{sp} = 1.8 \\times 10^{-10}$) precipitate?",
+      "body": "yes\n\nMixing equal volumes halves each concentration to $5.0 \\times 10^{-4}\\,\\mathrm{M}$, so $Q_{sp} = (5.0 \\times 10^{-4})^2 = 2.5 \\times 10^{-7}$.\n\nSince $Q_{sp} > K_{sp}$ (by a factor of over 1000), solid forms.\n\nWatch out: use the concentrations **after mixing**.",
+      "answer": "yes",
+      "acceptedAnswers": [
+        "it precipitates",
+        "precipitates"
+      ],
+      "searchQuery": "will precipitate form mixing solutions Qsp compared to Ksp"
+    },
+    {
+      "id": "qsp-versus-ksp",
+      "title": "How do you use $Q_{sp}$ and $K_{sp}$ to predict whether a precipitate forms?",
+      "body": "$Q_{sp} > K_{sp}$: precipitate forms. $Q_{sp} = K_{sp}$: saturated. $Q_{sp} < K_{sp}$: no precipitate.\n\n$Q_{sp}$ is the ion product with the **current** concentrations, written like $K_{sp}$.\n\nKey idea: same logic as $Q$ vs $K$ for any equilibrium.",
+      "searchQuery": "Qsp versus Ksp precipitation prediction saturated unsaturated"
+    },
+    {
+      "id": "ksp-acid-dissolves-hydroxide",
+      "title": "Why does $\\ce{Mg(OH)2}$ dissolve more in acidic solution than in pure water?",
+      "body": "Acid removes $\\ce{OH-}$: $\\ce{OH- + H3O+ -> 2H2O}$.\n\nThat lowers $[\\ce{OH-}]$, so $\\ce{Mg(OH)2(s) <=> Mg^2+ + 2OH-}$ shifts **right** to replace it.\n\nTip: salts of weak-acid anions ($\\ce{OH-}$, $\\ce{CO3^2-}$, $\\ce{F-}$) are more soluble in acid; salts of strong-acid anions ($\\ce{Cl-}$) are not.",
+      "searchQuery": "solubility of hydroxide salts increases in acid pH effect Mg(OH)2"
+    },
+    {
+      "id": "ksp-compare-different-ratios",
+      "title": "$K_{sp}$: $\\ce{AgCl}$ $1.8 \\times 10^{-10}$; $\\ce{Ag2CrO4}$ $1.1 \\times 10^{-12}$. Which has the higher molar solubility?",
+      "body": "$\\ce{Ag2CrO4}$\n\n$\\ce{AgCl}$: $s = \\sqrt{1.8 \\times 10^{-10}} = 1.3 \\times 10^{-5}\\,\\mathrm{M}$.\n\n$\\ce{Ag2CrO4}$: $K_{sp} = 4s^3$, so $s = (2.75 \\times 10^{-13})^{1/3} = 6.5 \\times 10^{-5}\\,\\mathrm{M}$.\n\nWatch out: only compare $K_{sp}$ directly when the formulas have the same ion ratio.",
+      "searchQuery": "compare solubility from Ksp different stoichiometry Ag2CrO4 AgCl"
+    },
+    {
+      "id": "ksp-complex-ion-solubility",
+      "title": "Why does $\\ce{AgCl}$ dissolve in aqueous ammonia although it is insoluble in water?",
+      "body": "$\\ce{Ag+}$ is tied up as the complex ion $\\ce{[Ag(NH3)2]+}$.\n\n$\\ce{Ag+ + 2NH3 <=> [Ag(NH3)2]+}$ lowers $[\\ce{Ag+}]$, so $\\ce{AgCl(s) <=> Ag+ + Cl-}$ shifts right.\n\nKey idea: complex formation increases the solubility of many salts.",
+      "searchQuery": "silver chloride dissolves in ammonia complex ion formation solubility"
+    },
+    {
+      "id": "ksp-ph-of-saturated-hydroxide",
+      "title": "$K_{sp}(\\ce{Mg(OH)2}) = 5.6 \\times 10^{-12}$. What is the pH of a saturated solution at $25\\,^\\circ\\mathrm{C}$, to two decimals?",
+      "body": "10.35\n\n$K_{sp} = 4s^3$, so $s = (1.4 \\times 10^{-12})^{1/3} = 1.1 \\times 10^{-4}\\,\\mathrm{M}$.\n\nThen $[\\ce{OH-}] = 2s = 2.2 \\times 10^{-4}\\,\\mathrm{M}$, $\\mathrm{pOH} = 3.65$ and $\\mathrm{pH} = 10.35$.\n\nWatch out: the hydroxide concentration is $2s$, not $s$.",
+      "answer": "10.35",
+      "searchQuery": "pH of saturated magnesium hydroxide solution from Ksp"
+    },
+    {
+      "id": "q-greater-than-k-direction",
+      "title": "A mixture has $Q > K$. In which direction does the net reaction proceed?",
+      "body": "reverse\n\nThere are too many products relative to equilibrium, so products are consumed and reactants form until $Q$ falls to $K$.\n\nKey idea: compare $Q$ with $K$. If $Q > K$ go left; if $Q < K$ go right.",
+      "answer": "reverse",
+      "acceptedAnswers": [
+        "left",
+        "to the left",
+        "backward",
+        "toward reactants",
+        "reactants"
+      ],
+      "searchQuery": "reaction quotient Q greater than K reverse direction"
+    }
+  ]
+}

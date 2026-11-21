@@ -1,0 +1,959 @@
+{
+  "id": "stats-distributions",
+  "title": "Probability Distributions",
+  "course": "Intro Statistics",
+  "description": "Random variables and densities; binomial, geometric, hypergeometric, Poisson, uniform, exponential and normal models; normal approximations; sampling distributions, the CLT and standard error; t, chi-square and F distributions.",
+  "cards": [
+    {
+      "id": "binomial-conditions",
+      "title": "What four conditions must hold for a count $X$ to be binomial?",
+      "body": "Fixed $n$, two outcomes, independent trials, same $p$\n\n1. A fixed number of trials $n$\n2. Each trial is a success or a failure\n3. Trials are independent\n4. The success probability $p$ is the same on every trial\n\nMnemonic: **BINS**: Binary, Independent, Number fixed, Same $p$.\nWatch out: sampling without replacement from a small population breaks independence.",
+      "searchQuery": "binomial distribution four conditions BINS"
+    },
+    {
+      "id": "binomial-probability",
+      "title": "A fair coin is flipped 4 times. What is $P(\\text{exactly 2 heads})$?",
+      "body": "$\\frac{3}{8} = 0.375$\n\n$P(X = k) = \\binom{n}{k}p^k(1-p)^{n-k} = \\binom{4}{2}(0.5)^2(0.5)^2 = \\frac{6}{16}$.\n\nWhy: $\\binom{4}{2} = 6$ counts the orders, such as HHTT and HTHT.",
+      "answer": "3/8",
+      "acceptedAnswers": [
+        "0.375",
+        "6/16",
+        "37.5%"
+      ],
+      "answerDisplay": "$\\frac{3}{8}$",
+      "searchQuery": "binomial probability exactly 2 heads in 4 flips"
+    },
+    {
+      "id": "binomial-sd",
+      "title": "$X$ is binomial with $n = 100$ and $p = 0.2$. What is the standard deviation of $X$?",
+      "body": "4\n\n$\\sigma = \\sqrt{np(1-p)} = \\sqrt{100 \\cdot 0.2 \\cdot 0.8} = \\sqrt{16} = 4$, and the mean is $np = 20$.\n\nWatch out: forgetting the square root gives the variance, $16$.",
+      "answer": "4",
+      "searchQuery": "binomial standard deviation formula"
+    },
+    {
+      "id": "geometric-mean",
+      "title": "Rolling a fair die repeatedly, what is the expected number of rolls needed to get the first 6?",
+      "body": "6\n\nThe number of trials until the first success is **geometric**, with mean $\\frac{1}{p} = \\frac{1}{1/6} = 6$.\n\nTip: it assumes independent trials with the same $p$. The SD is $\\frac{\\sqrt{1-p}}{p} \\approx 5.48$.",
+      "answer": "6",
+      "searchQuery": "geometric distribution expected number of trials first success"
+    },
+    {
+      "id": "poisson-sd",
+      "title": "A Poisson random variable has mean $\\lambda = 9$. What is its standard deviation?",
+      "body": "3\n\nFor a **Poisson** distribution the mean and the variance both equal $\\lambda$, so $\\mathrm{SD} = \\sqrt{\\lambda} = \\sqrt{9} = 3$.\n\nExample: Poisson models count independent events in a fixed interval, such as calls per hour.",
+      "answer": "3",
+      "searchQuery": "Poisson standard deviation square root of lambda"
+    },
+    {
+      "id": "continuous-point-probability",
+      "title": "$X$ is a continuous random variable. What is $P(X = 3)$?",
+      "body": "0\n\nFor a continuous variable, probability is **area under the density curve**, and a single point has zero width.\n\nKey idea: that's why $P(X \\le 3) = P(X < 3)$.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero"
+      ],
+      "searchQuery": "probability of a single point continuous random variable zero"
+    },
+    {
+      "id": "uniform-mean",
+      "title": "$X$ is uniformly distributed on $[4, 10]$. What is the mean of $X$?",
+      "body": "7\n\nA continuous uniform on $[a, b]$ has mean $\\frac{a+b}{2}$, the midpoint: $\\frac{4 + 10}{2} = 7$.\n\nTip: its SD is $\\frac{b-a}{\\sqrt{12}} = \\frac{6}{\\sqrt{12}} \\approx 1.73$.",
+      "answer": "7",
+      "searchQuery": "continuous uniform distribution mean midpoint"
+    },
+    {
+      "id": "exponential-memoryless",
+      "title": "What does it mean that an exponential waiting time is memoryless?",
+      "body": "$P(X > s + t \\mid X > s) = P(X > t)$\n\nThe time already spent waiting doesn't change the distribution of the remaining wait.\n\nExample: if a part's lifetime is exponential, having already lasted $100\\,\\mathrm{h}$ doesn't change the chance it lasts $50\\,\\mathrm{h}$ more.\nKey idea: the exponential is the only continuous distribution with this property.",
+      "searchQuery": "exponential distribution memoryless property"
+    },
+    {
+      "id": "normal-90th-percentile",
+      "title": "What $z$-score marks the 90th percentile of the standard normal distribution?",
+      "body": "$z \\approx 1.28$\n\nFind the $z$ with area $0.90$ to its left (a $z$-table, or `invNorm(0.90)` $= 1.2816$).\n\nTip: for any normal, the 90th percentile is $\\mu + 1.28\\sigma$, and by symmetry the 10th is $\\mu - 1.28\\sigma$.",
+      "answer": "1.28",
+      "acceptedAnswers": [
+        "1.282",
+        "1.2816",
+        "z=1.28"
+      ],
+      "searchQuery": "z-score 90th percentile standard normal 1.28"
+    },
+    {
+      "id": "success-failure-condition",
+      "title": "What is the success-failure condition, and what does it justify?",
+      "body": "$np \\ge 10$ and $n(1-p) \\ge 10$\n\nThat is, at least 10 expected successes and 10 expected failures. This is OpenIntro's threshold; some texts use 5 or 15.\n\nKey idea: when it holds, the binomial count and the sample proportion $\\hat{p}$ are **approximately normal**.",
+      "searchQuery": "success-failure condition np 10 normal approximation"
+    },
+    {
+      "id": "central-limit-theorem",
+      "title": "What does the Central Limit Theorem say about the sampling distribution of $\\bar{x}$?",
+      "body": "$\\bar{x}$ is approximately normal with mean $\\mu$ and SD $\\frac{\\sigma}{\\sqrt{n}}$, whatever the population's shape.\n\nThis needs independent observations and a large enough $n$.\n\nTip: $n \\ge 30$ is usually enough unless the population is strongly skewed or has extreme outliers.\nWatch out: the data themselves don't become normal, only the sampling distribution of $\\bar{x}$.",
+      "searchQuery": "central limit theorem sampling distribution of sample mean"
+    },
+    {
+      "id": "standard-error-of-mean",
+      "title": "A population has $\\sigma = 20$. What is the standard error of $\\bar{x}$ for random samples of size $n = 100$?",
+      "body": "2\n\n$\\mathrm{SE} = \\frac{\\sigma}{\\sqrt{n}} = \\frac{20}{\\sqrt{100}} = 2$\n\nKey idea: sample means vary less than individual values, but precision improves only with $\\sqrt{n}$.",
+      "answer": "2",
+      "searchQuery": "standard error of the mean sigma over root n"
+    },
+    {
+      "id": "t-degrees-of-freedom",
+      "title": "A one-sample $t$ procedure uses a sample of size $n = 25$. How many degrees of freedom does it have?",
+      "body": "24\n\n$\\mathrm{df} = n - 1 = 24$\n\nThe $t$ distribution is bell-shaped and centered at $0$ like $N(0, 1)$, but its heavier tails account for estimating $\\sigma$ with $s$.\n\nTip: as df grows, $t$ approaches the standard normal.",
+      "answer": "24",
+      "acceptedAnswers": [
+        "df=24",
+        "24 df"
+      ],
+      "searchQuery": "one-sample t degrees of freedom n minus 1"
+    },
+    {
+      "id": "chi-square-shape",
+      "title": "What does a chi-square ($\\chi^2$) distribution look like, and how does it change as its degrees of freedom increase?",
+      "body": "It takes only nonnegative values and is **right-skewed**.\n\nAs df increases, the center shifts right, the spread grows, and the shape becomes more symmetric (closer to normal).\n\nKey idea: its mean equals its df.",
+      "searchQuery": "chi-square distribution shape degrees of freedom"
+    },
+    {
+      "id": "discrete-vs-continuous",
+      "title": "Is the time it takes a runner to finish a mile a discrete or a continuous random variable?",
+      "body": "Continuous\n\nTime can take any value in an interval, so its probabilities come from areas under a density curve.\n\nExample: a discrete variable takes separate, countable values, such as the number of laps completed.",
+      "answer": "continuous",
+      "acceptedAnswers": [
+        "continuous random variable"
+      ],
+      "searchQuery": "discrete or continuous random variable mile time"
+    },
+    {
+      "id": "density-can-exceed-one",
+      "title": "Can a probability density function $f(x)$ take values greater than $1$?",
+      "body": "Yes\n\nA density is not a probability; only **areas** under it are. The uniform density on $[0, 0.5]$ is $f(x) = 2$ there, and its total area is still $2 \\times 0.5 = 1$.\n\nKey idea: a density just has to be nonnegative with total area $1$.",
+      "answer": "yes",
+      "searchQuery": "probability density function greater than 1"
+    },
+    {
+      "id": "cdf-interval-probability",
+      "title": "A random variable has CDF values $F(2) = 0.3$ and $F(5) = 0.8$. What is $P(2 < X \\le 5)$?",
+      "body": "0.5\n\n$F(x) = P(X \\le x)$, so $P(a < X \\le b) = F(b) - F(a) = 0.8 - 0.3 = 0.5$.\n\nTip: every CDF rises from $0$ to $1$ and never decreases.",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "1/2",
+        "50%"
+      ],
+      "searchQuery": "CDF interval probability F(b) minus F(a)"
+    },
+    {
+      "id": "pdf-normalizing-constant",
+      "title": "$f(x) = cx^2$ for $0 \\le x \\le 3$ (and $0$ elsewhere) is a probability density. What is $c$?",
+      "body": "$\\frac{1}{9}$\n\nThe total area must be $1$: $\\int_0^3 cx^2\\,dx = c \\cdot \\frac{3^3}{3} = 9c = 1$, so $c = \\frac{1}{9}$.\n\nKey idea: normalizing a density means making the area equal $1$.",
+      "answer": "1/9",
+      "acceptedAnswers": [
+        "c=1/9",
+        "0.111",
+        "0.1111"
+      ],
+      "answerDisplay": "$\\frac{1}{9}$",
+      "searchQuery": "find constant so density integrates to 1"
+    },
+    {
+      "id": "pdf-expected-value",
+      "title": "$X$ has density $f(x) = 2x$ for $0 \\le x \\le 1$. What is $E(X)$?",
+      "body": "$\\frac{2}{3}$\n\n$E(X) = \\int x f(x)\\,dx = \\int_0^1 2x^2\\,dx = \\frac{2}{3}$\n\nWhy: the mean sits right of $0.5$ because the density piles up near $1$.",
+      "answer": "2/3",
+      "acceptedAnswers": [
+        "0.667",
+        "0.6667"
+      ],
+      "answerDisplay": "$\\frac{2}{3}$",
+      "searchQuery": "expected value continuous density 2x"
+    },
+    {
+      "id": "pdf-interval-probability",
+      "title": "$X$ has density $f(x) = 2x$ for $0 \\le x \\le 1$. What is $P(X \\le 0.5)$?",
+      "body": "$\\frac{1}{4}$\n\n$P(X \\le 0.5) = \\int_0^{0.5} 2x\\,dx = (0.5)^2 = 0.25$\n\nWatch out: not $0.5$. The density is small near $0$, so less than half the area lies left of the midpoint.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25",
+        "25%"
+      ],
+      "answerDisplay": "$\\frac{1}{4}$",
+      "searchQuery": "probability from density 2x integral"
+    },
+    {
+      "id": "median-from-cdf",
+      "title": "A continuous $X$ has CDF $F(x) = x^2$ for $0 \\le x \\le 1$. What is its median? Round to 3 decimal places.",
+      "body": "$\\frac{1}{\\sqrt{2}} \\approx 0.707$\n\nThe **median** $m$ solves $F(m) = 0.5$: $m^2 = 0.5$, so $m = \\sqrt{0.5} \\approx 0.707$.\n\nTip: this is the density $f(x) = 2x$, which is left-skewed, so the median exceeds the mean $\\frac{2}{3}$.",
+      "answer": "0.707",
+      "acceptedAnswers": [
+        "1/sqrt(2)",
+        "sqrt(0.5)",
+        "sqrt(2)/2",
+        "sqrt(1/2)"
+      ],
+      "answerDisplay": "$\\frac{1}{\\sqrt{2}} \\approx 0.707$",
+      "searchQuery": "median from CDF solve F(m) = 0.5"
+    },
+    {
+      "id": "binomial-mean-guessing",
+      "title": "A quiz has 20 multiple-choice questions with 4 choices each. A student guesses randomly on every one. What is the expected number correct?",
+      "body": "5\n\nThe number correct is binomial with $n = 20$ and $p = \\frac{1}{4}$, so $E(X) = np = 20 \\times 0.25 = 5$.\n\nTip: the SD is $\\sqrt{np(1-p)} = \\sqrt{3.75} \\approx 1.94$.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "five"
+      ],
+      "searchQuery": "expected correct guessing multiple choice binomial mean"
+    },
+    {
+      "id": "binomial-pmf-formula",
+      "title": "Write the binomial probability $P(X = k)$ for $n$ trials with success probability $p$.",
+      "body": "$P(X = k) = \\binom{n}{k}p^k(1-p)^{n-k}$, for $k = 0, 1, \\ldots, n$\n\n$p^k(1-p)^{n-k}$ is the probability of one particular sequence with $k$ successes, and $\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$ counts how many such sequences there are.",
+      "searchQuery": "binomial probability mass function formula"
+    },
+    {
+      "id": "not-binomial-without-replacement",
+      "title": "Five cards are dealt from a standard 52-card deck, and $X$ is the number of hearts. Why is $X$ not binomial?",
+      "body": "The draws aren't independent: without replacement, the chance of a heart changes after each card ($\\frac{13}{52}$ first, then $\\frac{12}{51}$ or $\\frac{13}{51}$).\n\n$X$ is **hypergeometric**.\n\nTip: a binomial model is a fair approximation only when the sample is a small fraction (under about 10%) of the population.",
+      "searchQuery": "hypergeometric vs binomial cards without replacement"
+    },
+    {
+      "id": "binomial-at-most-one",
+      "title": "$X$ is binomial with $n = 5$ and $p = 0.2$. What is $P(X \\le 1)$? Round to 4 decimal places.",
+      "body": "0.7373\n\n$P(X \\le 1) = P(X = 0) + P(X = 1) = 0.8^5 + 5(0.2)(0.8^4) = 0.32768 + 0.4096 = 0.73728$\n\nWatch out: \"at most 1\" includes $0$. Forgetting $P(X = 0)$ is the usual slip.",
+      "answer": "0.7373",
+      "acceptedAnswers": [
+        "73.73%"
+      ],
+      "searchQuery": "binomial at most one success n=5 p=0.2"
+    },
+    {
+      "id": "binomial-free-throws",
+      "title": "A player makes 80% of free throws, independently. In 3 attempts, what is $P(\\text{exactly 2 made})$?",
+      "body": "0.384\n\n$\\binom{3}{2}(0.8)^2(0.2)^1 = 3 \\times 0.64 \\times 0.2 = 0.384$\n\nWhy: the factor $3$ counts which of the three shots is the miss.",
+      "answer": "0.384",
+      "acceptedAnswers": [
+        "48/125",
+        "38.4%"
+      ],
+      "searchQuery": "binomial probability free throws exactly 2 of 3"
+    },
+    {
+      "id": "binomial-skew",
+      "title": "Is the binomial distribution with $n = 10$ and $p = 0.1$ right-skewed, left-skewed, or symmetric?",
+      "body": "Right-skewed\n\nThe mean is $np = 1$, so the probability piles up at $0$, $1$ and $2$ with a long tail toward $10$.\n\nTip: a binomial is symmetric when $p = 0.5$, left-skewed when $p > 0.5$, and looks more normal as $n$ grows.",
+      "answer": "right-skewed",
+      "acceptedAnswers": [
+        "right",
+        "right skewed",
+        "skewed right",
+        "skewed to the right",
+        "positively skewed",
+        "positive skew"
+      ],
+      "searchQuery": "binomial distribution skewness small p"
+    },
+    {
+      "id": "discrete-cdf-complement",
+      "title": "$X$ is a binomial count. To find $P(X \\ge 3)$ from cumulative probabilities, you compute $1 - P(X \\le k)$. What is $k$?",
+      "body": "2\n\nFor whole-number counts, $X \\ge 3$ is the complement of $X \\le 2$.\n\nWatch out: using $1 - P(X \\le 3)$ wrongly drops $P(X = 3)$. For continuous variables the distinction doesn't matter.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "k=2",
+        "two"
+      ],
+      "searchQuery": "P(X at least 3) complement discrete cumulative"
+    },
+    {
+      "id": "bernoulli-variance",
+      "title": "A Bernoulli variable is $1$ with probability $p$ and $0$ otherwise. What is its variance?",
+      "body": "$p(1-p)$\n\n$E(X) = p$ and $E(X^2) = p$ (since $X^2 = X$), so $\\operatorname{Var}(X) = p - p^2 = p(1-p)$, often written $pq$ with $q = 1 - p$.\n\nKey idea: a binomial is a sum of $n$ independent Bernoullis, hence its variance $np(1-p)$.",
+      "answer": "p(1-p)",
+      "acceptedAnswers": [
+        "p-p^2",
+        "(1-p)p",
+        "pq"
+      ],
+      "answerDisplay": "$p(1-p)$",
+      "searchQuery": "Bernoulli variance p(1-p)"
+    },
+    {
+      "id": "binomial-vs-geometric",
+      "title": "What is the key difference between a binomial setting and a geometric setting?",
+      "body": "A binomial fixes the number of trials $n$ and counts the **successes**; a geometric has no fixed $n$ and counts the **trials** until the first success.\n\nBoth need independent trials with the same $p$.\n\nExample: \"how many heads in 10 flips?\" is binomial; \"how many flips until the first head?\" is geometric.",
+      "searchQuery": "binomial vs geometric setting difference"
+    },
+    {
+      "id": "geometric-pmf",
+      "title": "Each trial succeeds with probability $p = 0.2$, independently. What is the probability that the first success comes on trial 3?",
+      "body": "0.128\n\nGeometric: $P(X = k) = (1-p)^{k-1}p$, so $P(X = 3) = 0.8^2 \\times 0.2 = 0.128$: two failures, then a success.\n\nWhy: only one order is possible, so there's no binomial coefficient.",
+      "answer": "0.128",
+      "acceptedAnswers": [
+        "16/125",
+        "12.8%"
+      ],
+      "searchQuery": "geometric distribution probability first success on trial 3"
+    },
+    {
+      "id": "geometric-tail",
+      "title": "Each attempt succeeds with probability $0.25$, independently. What is the probability that more than 4 attempts are needed for the first success? Round to 4 decimal places.",
+      "body": "0.3164\n\nNeeding more than 4 attempts means the first 4 all fail: $P(X > 4) = 0.75^4 = 0.31640625$.\n\nKey idea: in general, $P(X > k) = (1-p)^k$ for a geometric count of trials.",
+      "answer": "0.3164",
+      "acceptedAnswers": [
+        "81/256",
+        "31.64%"
+      ],
+      "searchQuery": "geometric tail probability more than 4 attempts"
+    },
+    {
+      "id": "geometric-variance",
+      "title": "$X$ counts the trials up to and including the first success, with $p = 0.2$. What is $\\operatorname{Var}(X)$?",
+      "body": "20\n\n$\\operatorname{Var}(X) = \\frac{1-p}{p^2} = \\frac{0.8}{0.04} = 20$, and the mean is $\\frac{1}{p} = 5$.\n\nTip: the SD, $\\sqrt{20} \\approx 4.47$, is nearly as large as the mean: waiting times vary a lot.",
+      "answer": "20",
+      "searchQuery": "geometric distribution variance (1-p)/p^2"
+    },
+    {
+      "id": "geometric-failures-convention",
+      "title": "Some texts define a geometric $X$ as the number of failures before the first success. What is its mean?",
+      "body": "$\\frac{1-p}{p}$\n\nThat count is the number of trials minus 1, so its mean is $\\frac{1}{p} - 1 = \\frac{1-p}{p}$ and its values start at $0$, not $1$. The variance, $\\frac{1-p}{p^2}$, is unchanged.\n\nWatch out: check which convention your course or software uses.",
+      "answer": "(1-p)/p",
+      "acceptedAnswers": [
+        "1/p-1",
+        "q/p"
+      ],
+      "answerDisplay": "$\\frac{1-p}{p}$",
+      "searchQuery": "geometric number of failures before first success mean"
+    },
+    {
+      "id": "geometric-memoryless",
+      "title": "Which discrete distribution is memoryless, so that past failures don't change the distribution of the number of trials still needed?",
+      "body": "The **geometric** distribution\n\n$P(X > s + t \\mid X > s) = (1-p)^t = P(X > t)$\n\nPast failures don't make a success \"due\": after 5 tails in a row, a fair coin still has $P(\\text{heads}) = 0.5$.\nKey idea: it's the discrete counterpart of the exponential.",
+      "answer": "geometric",
+      "acceptedAnswers": [
+        "geometric distribution"
+      ],
+      "searchQuery": "memoryless discrete distribution geometric"
+    },
+    {
+      "id": "hypergeometric-probability",
+      "title": "A box of 10 parts has 4 defective. You draw 3 without replacement. What is $P(\\text{exactly 1 defective})$?",
+      "body": "0.5\n\nHypergeometric: $\\frac{\\binom{4}{1}\\binom{6}{2}}{\\binom{10}{3}} = \\frac{4 \\times 15}{120} = 0.5$\n\nWhy: choose 1 of the 4 defective and 2 of the 6 good parts, out of all ways to choose 3 of the 10.",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "1/2",
+        "60/120",
+        "50%"
+      ],
+      "searchQuery": "hypergeometric probability defective parts without replacement"
+    },
+    {
+      "id": "hypergeometric-mean",
+      "title": "A box of 10 parts has 4 defective. You draw 3 without replacement. What is the expected number of defective parts drawn?",
+      "body": "1.2\n\nThe hypergeometric mean is $n\\frac{K}{N}$, with $K$ defective among $N$ parts: $3 \\times \\frac{4}{10} = 1.2$, the same as a binomial with $p = 0.4$.\n\nTip: sampling without replacement shrinks the variance, not the mean.",
+      "answer": "1.2",
+      "acceptedAnswers": [
+        "6/5"
+      ],
+      "searchQuery": "hypergeometric mean n K over N"
+    },
+    {
+      "id": "ten-percent-condition",
+      "title": "When sampling without replacement, what is the 10% condition, and why does it matter?",
+      "body": "The sample should be at most 10% of the population ($n \\le 0.1N$).\n\nThen the draws are nearly independent, so binomial models and standard errors like $\\frac{\\sigma}{\\sqrt{n}}$ remain accurate even though sampling is without replacement.",
+      "searchQuery": "10 percent condition sampling without replacement independence"
+    },
+    {
+      "id": "negative-binomial-mean",
+      "title": "On average, how many rolls of a fair die does it take to get two 6s?",
+      "body": "12\n\nThe number of trials needed for the $r$th success is **negative binomial** with mean $\\frac{r}{p} = \\frac{2}{1/6} = 12$.\n\nWhy: it's a sum of $r$ independent geometric waits, each with mean $\\frac{1}{p} = 6$.",
+      "answer": "12",
+      "acceptedAnswers": [
+        "twelve"
+      ],
+      "searchQuery": "negative binomial expected rolls for two sixes"
+    },
+    {
+      "id": "poisson-pmf-formula",
+      "title": "Write the Poisson probability $P(X = k)$ for a count with mean $\\lambda$.",
+      "body": "$P(X = k) = \\dfrac{e^{-\\lambda}\\lambda^k}{k!}$, for $k = 0, 1, 2, \\ldots$\n\nUnlike the binomial, there's no upper limit on $k$.\n\nKey idea: both the mean and the variance equal $\\lambda$.",
+      "searchQuery": "Poisson probability mass function formula"
+    },
+    {
+      "id": "poisson-zero",
+      "title": "A Poisson count has mean $\\lambda = 2$. What is $P(X = 0)$? Round to 4 decimal places.",
+      "body": "0.1353\n\n$P(X = 0) = \\dfrac{e^{-2}2^0}{0!} = e^{-2} \\approx 0.1353$\n\nTip: in general, the chance of no events is $e^{-\\lambda}$.",
+      "answer": "0.1353",
+      "acceptedAnswers": [
+        "e^-2",
+        "e^(-2)",
+        "13.53%"
+      ],
+      "answerDisplay": "$e^{-2} \\approx 0.1353$",
+      "searchQuery": "Poisson probability of zero events e to the minus lambda"
+    },
+    {
+      "id": "poisson-exact-count",
+      "title": "A Poisson count has mean $\\lambda = 3$. What is $P(X = 2)$? Round to 4 decimal places.",
+      "body": "0.2240\n\n$P(X = 2) = \\dfrac{e^{-3}3^2}{2!} = 4.5e^{-3} \\approx 0.2240$\n\nWatch out: don't forget the $k!$ in the denominator.",
+      "answer": "0.2240",
+      "acceptedAnswers": [
+        "22.4%"
+      ],
+      "searchQuery": "Poisson probability exactly 2 events lambda 3"
+    },
+    {
+      "id": "poisson-rescale-rate",
+      "title": "Emails arrive as a Poisson process averaging 12 per hour. What is the mean number of emails in a $15\\,\\mathrm{min}$ window?",
+      "body": "3\n\nScale the rate to the interval: $\\lambda = 12 \\times \\frac{15}{60} = 3$, so $P(X = k) = \\frac{e^{-3}3^k}{k!}$ for that window.\n\nTip: always match $\\lambda$ to the interval in the question.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "Poisson rate rescale to interval length"
+    },
+    {
+      "id": "poisson-sum",
+      "title": "$X \\sim \\text{Poisson}(2)$ and $Y \\sim \\text{Poisson}(3)$ are independent. $X + Y$ is Poisson with what mean?",
+      "body": "5\n\nIndependent Poisson counts add: $X + Y \\sim \\text{Poisson}(\\lambda_1 + \\lambda_2) = \\text{Poisson}(5)$.\n\nExample: 2 calls per hour on one line and 3 on another make 5 per hour in total.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "lambda=5",
+        "λ=5"
+      ],
+      "searchQuery": "sum of independent Poisson random variables"
+    },
+    {
+      "id": "poisson-approximates-binomial",
+      "title": "A binomial has $n = 500$ and $p = 0.004$. What mean $\\lambda$ should a Poisson approximation use?",
+      "body": "$\\lambda = 2$\n\nWith many trials and a small $p$, the binomial is close to Poisson with $\\lambda = np = 500 \\times 0.004 = 2$.\n\nExample: exact $P(X = 0) = 0.1348$ versus $e^{-2} = 0.1353$.\nTip: one common rule for using it: $n \\ge 100$ and $np \\le 10$.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "lambda=2",
+        "λ=2"
+      ],
+      "answerDisplay": "$\\lambda = 2$",
+      "searchQuery": "Poisson approximation to binomial lambda equals np"
+    },
+    {
+      "id": "poisson-assumptions",
+      "title": "What conditions make a count of events in an interval follow a Poisson distribution?",
+      "body": "Events occur independently, one at a time, at a constant average rate, so the expected count depends only on the interval's length.\n\nExample: customers arriving at random through a steady afternoon fit.\nWatch out: arrivals in bursts or at a changing rate (rush hour) don't fit.",
+      "searchQuery": "Poisson distribution assumptions independent events constant rate"
+    },
+    {
+      "id": "poisson-overdispersion",
+      "title": "Weekly accident counts have mean $4$ and variance $11$. Is a Poisson model a good fit?",
+      "body": "No\n\nA Poisson's variance equals its mean, so a variance far above the mean (**overdispersion**) points to clustering or a rate that varies.\n\nTip: a negative binomial model often fits such counts better.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "not a good fit"
+      ],
+      "searchQuery": "Poisson overdispersion variance greater than mean"
+    },
+    {
+      "id": "poisson-process-gaps",
+      "title": "In a Poisson process with rate $\\lambda$, what distribution do the waiting times between events follow?",
+      "body": "Exponential, with mean $\\frac{1}{\\lambda}$\n\nThe counts in an interval are Poisson; the gaps between events are **exponential**.\n\nExample: at 6 calls per hour, the average gap is $\\frac{1}{6}$ hour, or $10\\,\\mathrm{min}$.",
+      "answer": "exponential",
+      "acceptedAnswers": [
+        "exponential distribution"
+      ],
+      "searchQuery": "Poisson process waiting time between events exponential"
+    },
+    {
+      "id": "uniform-density-height",
+      "title": "$X$ is uniform on $[2, 6]$. What is the height of its density $f(x)$ on that interval?",
+      "body": "$\\frac{1}{4}$\n\nA uniform density on $[a, b]$ is flat at $\\frac{1}{b-a}$, so the rectangle's area is $1$: $\\frac{1}{6-2} = 0.25$.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25"
+      ],
+      "answerDisplay": "$\\frac{1}{4}$",
+      "searchQuery": "uniform density height 1 over b minus a"
+    },
+    {
+      "id": "uniform-interval-probability",
+      "title": "$X$ is uniform on $[0, 20]$. What is $P(5 < X < 12)$?",
+      "body": "0.35\n\nFor a uniform, probability is the interval's share of the total length: $\\frac{12 - 5}{20 - 0} = \\frac{7}{20} = 0.35$.",
+      "answer": "0.35",
+      "acceptedAnswers": [
+        "7/20",
+        "35%"
+      ],
+      "searchQuery": "uniform distribution interval probability length share"
+    },
+    {
+      "id": "uniform-variance",
+      "title": "$X$ is uniform on $[0, 6]$. What is $\\operatorname{Var}(X)$?",
+      "body": "3\n\n$\\operatorname{Var}(X) = \\frac{(b-a)^2}{12} = \\frac{36}{12} = 3$, so $\\sigma = \\sqrt{3} \\approx 1.73$.\n\nWhy: the 12 comes from $\\int_0^1 \\left(x - \\tfrac{1}{2}\\right)^2 dx = \\frac{1}{12}$ for the uniform on $[0, 1]$.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "uniform distribution variance (b-a)^2/12"
+    },
+    {
+      "id": "exponential-survival-function",
+      "title": "For an exponential waiting time with rate $\\lambda$, what is $P(X > t)$?",
+      "body": "$P(X > t) = e^{-\\lambda t}$ for $t \\ge 0$\n\nThe density is $f(x) = \\lambda e^{-\\lambda x}$ and the CDF is $F(t) = 1 - e^{-\\lambda t}$.\n\nKey idea: the mean and the SD are both $\\frac{1}{\\lambda}$.",
+      "searchQuery": "exponential distribution survival function e^(-lambda t)"
+    },
+    {
+      "id": "exponential-rate-to-mean",
+      "title": "Customers arrive at a rate of $\\lambda = 4$ per hour, with exponential times between arrivals. What is the mean time between arrivals, in minutes?",
+      "body": "$15\\,\\mathrm{min}$\n\nThe exponential mean is $\\frac{1}{\\lambda} = \\frac{1}{4}$ hour $= 15\\,\\mathrm{min}$.\n\nWatch out: a rate (events per time) and a mean wait (time per event) are reciprocals. Mixing them up is the classic slip.",
+      "answer": "15",
+      "acceptedAnswers": [
+        "15 min",
+        "15 minutes"
+      ],
+      "answerDisplay": "$15\\,\\mathrm{min}$",
+      "searchQuery": "exponential rate to mean waiting time reciprocal"
+    },
+    {
+      "id": "exponential-exceed-mean",
+      "title": "Bulb lifetimes are exponential with mean $1000\\,\\mathrm{h}$. What fraction of bulbs last longer than the mean? Round to 3 decimal places.",
+      "body": "$e^{-1} \\approx 0.368$\n\n$P(X > 1000) = e^{-1000/1000} = e^{-1} \\approx 0.368$\n\nWatch out: not $0.5$. The distribution is right-skewed, so the median is below the mean and most bulbs fail before the mean lifetime.",
+      "answer": "0.368",
+      "acceptedAnswers": [
+        "e^-1",
+        "e^(-1)",
+        "1/e",
+        "36.8%"
+      ],
+      "answerDisplay": "$e^{-1} \\approx 0.368$",
+      "searchQuery": "exponential probability exceeding the mean e^-1"
+    },
+    {
+      "id": "exponential-cdf-worked",
+      "title": "Waiting times are exponential with rate $\\lambda = 0.5$ per minute. What is the probability you wait at most $3\\,\\mathrm{min}$? Round to 4 decimal places.",
+      "body": "0.7769\n\n$P(X \\le 3) = 1 - e^{-\\lambda t} = 1 - e^{-1.5} \\approx 1 - 0.2231 = 0.7769$\n\nTip: the mean wait is $\\frac{1}{\\lambda} = 2\\,\\mathrm{min}$.",
+      "answer": "0.7769",
+      "acceptedAnswers": [
+        "1-e^-1.5",
+        "1-e^(-1.5)",
+        "77.69%"
+      ],
+      "answerDisplay": "$1 - e^{-1.5} \\approx 0.7769$",
+      "searchQuery": "exponential CDF probability wait at most 3 minutes"
+    },
+    {
+      "id": "exponential-median",
+      "title": "Repair times are exponential with mean $10\\,\\mathrm{min}$. What is the median repair time, in minutes? Round to 2 decimal places.",
+      "body": "$10\\ln 2 \\approx 6.93\\,\\mathrm{min}$\n\nSolve $1 - e^{-m/10} = 0.5$ to get $m = 10\\ln 2$.\n\nKey idea: in general the median is $\\frac{\\ln 2}{\\lambda}$, below the mean $\\frac{1}{\\lambda}$ because of the long right tail.",
+      "answer": "6.93",
+      "acceptedAnswers": [
+        "10ln2",
+        "10ln(2)",
+        "6.93 min",
+        "6.93 minutes"
+      ],
+      "answerDisplay": "$10\\ln 2 \\approx 6.93\\,\\mathrm{min}$",
+      "searchQuery": "exponential distribution median ln 2 over lambda"
+    },
+    {
+      "id": "exponential-memoryless-worked",
+      "title": "Waits at a help desk are exponential with mean $5\\,\\mathrm{min}$. You've already waited $3\\,\\mathrm{min}$. What is your expected additional wait, in minutes?",
+      "body": "$5\\,\\mathrm{min}$\n\nThe exponential is **memoryless**, so the remaining wait has the same distribution as a fresh one, with mean $5\\,\\mathrm{min}$.\n\nWatch out: answering $5 - 3 = 2$ is the classic mistake.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "5 min",
+        "5 minutes"
+      ],
+      "answerDisplay": "$5\\,\\mathrm{min}$",
+      "searchQuery": "exponential memoryless expected additional wait"
+    },
+    {
+      "id": "normal-variance-notation",
+      "title": "Using the notation $N(\\mu, \\sigma^2)$, $X \\sim N(100, 25)$. What is the standard deviation of $X$?",
+      "body": "5\n\nIn $N(\\mu, \\sigma^2)$ the second number is the **variance**, so $\\sigma = \\sqrt{25} = 5$.\n\nWatch out: many intro texts write $N(\\mu, \\sigma)$ instead, so always check which convention is in use.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "sigma=5",
+        "σ=5"
+      ],
+      "searchQuery": "normal distribution notation N(mu, sigma squared) standard deviation"
+    },
+    {
+      "id": "normal-inflection-points",
+      "title": "Where are the inflection points of a normal density curve with mean $\\mu$ and standard deviation $\\sigma$?",
+      "body": "At $x = \\mu - \\sigma$ and $x = \\mu + \\sigma$\n\nThere the curve switches from bending down (around the peak) to bending up (toward the tails).\n\nTip: this lets you read $\\sigma$ off a sketch.",
+      "searchQuery": "normal curve inflection points mu plus minus sigma"
+    },
+    {
+      "id": "normal-pdf-formula",
+      "title": "Write the density of the normal distribution with mean $\\mu$ and standard deviation $\\sigma$.",
+      "body": "$f(x) = \\dfrac{1}{\\sigma\\sqrt{2\\pi}}\\, e^{-(x-\\mu)^2/(2\\sigma^2)}$\n\nIt's symmetric about $\\mu$, and the constant $\\frac{1}{\\sigma\\sqrt{2\\pi}}$ makes the total area $1$.\n\nWatch out: it has no elementary antiderivative, which is why normal probabilities come from tables or software.",
+      "searchQuery": "normal distribution density function formula"
+    },
+    {
+      "id": "std-normal-below-1-96",
+      "title": "$Z$ is standard normal. What is $P(Z < 1.96)$? Round to 3 decimal places.",
+      "body": "0.975\n\nThat leaves $0.025$ above $1.96$ and, by symmetry, $0.025$ below $-1.96$, so $P(-1.96 < Z < 1.96) = 0.95$.\n\nKey idea: that's why 95% intervals use $z^* = 1.96$.",
+      "answer": "0.975",
+      "acceptedAnswers": [
+        "97.5%"
+      ],
+      "searchQuery": "standard normal P(Z < 1.96) 0.975"
+    },
+    {
+      "id": "std-normal-above-1-645",
+      "title": "$Z$ is standard normal. What is $P(Z > 1.645)$? Round to 2 decimal places.",
+      "body": "0.05\n\n$P(Z > 1.645) = 1 - 0.95 = 0.05$, so $1.645$ is the 95th percentile of $Z$.\n\nTip: it's the cutoff for a one-sided test at $\\alpha = 0.05$ and the $z^*$ for 90% confidence.",
+      "answer": "0.05",
+      "acceptedAnswers": [
+        "5%",
+        "1/20"
+      ],
+      "searchQuery": "standard normal P(Z > 1.645) 0.05"
+    },
+    {
+      "id": "std-normal-below-neg-1",
+      "title": "$Z$ is standard normal. What is $P(Z < -1)$? Round to 4 decimal places.",
+      "body": "0.1587\n\nBy symmetry, $P(Z < -1) = P(Z > 1) = 1 - 0.8413 = 0.1587$.\n\nTip: tables give left-tail areas. For a right tail, subtract from $1$.",
+      "answer": "0.1587",
+      "acceptedAnswers": [
+        "15.87%"
+      ],
+      "searchQuery": "standard normal P(Z < -1) 0.1587"
+    },
+    {
+      "id": "normal-right-tail",
+      "title": "Battery lifetimes are normal with mean $500\\,\\mathrm{h}$ and SD $40\\,\\mathrm{h}$. What proportion last more than $560\\,\\mathrm{h}$? Round to 4 decimal places.",
+      "body": "0.0668\n\n$z = \\frac{560 - 500}{40} = 1.5$, and $P(Z > 1.5) = 1 - 0.9332 = 0.0668$.\n\nTip: standardize first, then take the right-tail area.",
+      "answer": "0.0668",
+      "acceptedAnswers": [
+        "6.68%"
+      ],
+      "searchQuery": "normal right tail probability battery lifetime z-score"
+    },
+    {
+      "id": "normal-between",
+      "title": "Systolic blood pressures are normal with mean $120\\,\\mathrm{mmHg}$ and SD $16\\,\\mathrm{mmHg}$. What proportion lie between $112$ and $136\\,\\mathrm{mmHg}$? Round to 4 decimal places.",
+      "body": "0.5328\n\nThe $z$-scores are $\\frac{112 - 120}{16} = -0.5$ and $\\frac{136 - 120}{16} = 1$.\n\nSubtract the two left-tail areas: $P(-0.5 < Z < 1) = \\Phi(1) - \\Phi(-0.5) = 0.8413 - 0.3085 = 0.5328$.",
+      "answer": "0.5328",
+      "acceptedAnswers": [
+        "53.28%"
+      ],
+      "searchQuery": "normal probability between two values blood pressure"
+    },
+    {
+      "id": "normal-percentile-value",
+      "title": "Test scores are normal with mean $500$ and SD $100$. What score marks the 75th percentile? Round to the nearest whole number.",
+      "body": "567\n\nThe 75th percentile of $Z$ is about $0.674$, so $x = \\mu + z\\sigma = 500 + 0.674(100) \\approx 567$.\n\nTip: work backward: find $z$ from the area, then unstandardize.",
+      "answer": "567",
+      "searchQuery": "normal 75th percentile value unstandardize"
+    },
+    {
+      "id": "normal-iqr",
+      "title": "Test scores are normal with SD $100$. About how wide is their IQR? Round to the nearest whole number.",
+      "body": "135\n\nThe quartiles are at $z = \\pm 0.674$, so $\\mathrm{IQR} = 2(0.674)\\sigma \\approx 1.35\\sigma = 1.35(100) \\approx 135$.\n\nTip: that gives a rough normality check: for normal data, $\\frac{\\mathrm{IQR}}{s}$ is close to $1.35$.",
+      "answer": "135",
+      "acceptedAnswers": [
+        "134.9",
+        "135 points",
+        "about 135"
+      ],
+      "searchQuery": "IQR of normal distribution 1.35 sigma"
+    },
+    {
+      "id": "normal-solve-sigma",
+      "title": "A normal population has mean $50$, and 10% of its values exceed $70$. What is $\\sigma$? Round to 1 decimal place.",
+      "body": "15.6\n\n$70$ is the 90th percentile, so $\\frac{70 - 50}{\\sigma} = 1.2816$ and $\\sigma = \\frac{20}{1.2816} \\approx 15.6$.\n\nTip: using $z = 1.28$ gives the same rounded answer.",
+      "answer": "15.6",
+      "acceptedAnswers": [
+        "sigma=15.6",
+        "σ=15.6"
+      ],
+      "searchQuery": "solve for sigma normal 10 percent exceed 70"
+    },
+    {
+      "id": "normal-difference",
+      "title": "Independent $X$ and $Y$ are normal: $X$ has mean $60$ and SD $8$; $Y$ has mean $50$ and SD $6$. What is $P(X > Y)$? Round to 4 decimal places.",
+      "body": "0.8413\n\n$D = X - Y$ is normal with mean $10$ and SD $\\sqrt{8^2 + 6^2} = 10$, so $P(D > 0) = P\\left(Z > \\frac{0 - 10}{10}\\right) = P(Z > -1) = 0.8413$.\n\nKey idea: sums and differences of independent normals are normal.",
+      "answer": "0.8413",
+      "acceptedAnswers": [
+        "84.13%"
+      ],
+      "searchQuery": "difference of independent normal variables probability X greater than Y"
+    },
+    {
+      "id": "normal-probability-plot",
+      "title": "On a normal probability (Q-Q) plot, what pattern suggests the data are approximately normal?",
+      "body": "Points lying close to a straight line\n\nSystematic curvature signals skewness, and points peeling away at both ends signal heavier tails than normal or outliers.\n\nTip: judge the overall pattern, not small wiggles.",
+      "searchQuery": "normal probability plot Q-Q plot straight line"
+    },
+    {
+      "id": "continuity-correction",
+      "title": "With a continuity correction, $P(X \\le 45)$ for a binomial $X$ is approximated by $P(Y < c)$ for a normal $Y$. What is $c$?",
+      "body": "$45.5$\n\nEach whole number $k$ is a bar from $k - 0.5$ to $k + 0.5$, so include all of the bar at $45$.\n\nTip: likewise $P(X \\ge 45)$ uses $44.5$, and $P(X < 45) = P(X \\le 44)$ uses $44.5$.",
+      "answer": "45.5",
+      "acceptedAnswers": [
+        "c=45.5"
+      ],
+      "searchQuery": "continuity correction binomial normal approximation 45.5"
+    },
+    {
+      "id": "normal-approx-binomial",
+      "title": "A fair coin is flipped $100$ times. Using the normal approximation with continuity correction, what is $P(\\text{at least 60 heads})$? Round to 4 decimal places.",
+      "body": "0.0287\n\n$\\mu = np = 50$ and $\\sigma = \\sqrt{100(0.5)(0.5)} = 5$, so $P(X \\ge 60) \\approx P\\left(Z > \\frac{59.5 - 50}{5}\\right) = P(Z > 1.9) = 0.0287$.\n\nWatch out: the exact binomial answer is $0.0284$; skipping the correction gives $P(Z > 2) = 0.0228$.",
+      "answer": "0.0287",
+      "acceptedAnswers": [
+        "2.87%"
+      ],
+      "searchQuery": "normal approximation binomial at least 60 heads continuity correction"
+    },
+    {
+      "id": "sampling-distribution-definition",
+      "title": "What is the sampling distribution of a statistic?",
+      "body": "The distribution of the statistic's values over **all possible random samples** of the same size from the same population.\n\nIt shows how much $\\bar{x}$ or $\\hat{p}$ varies from sample to sample.\n\nKey idea: its standard deviation is the statistic's **standard error**.",
+      "searchQuery": "sampling distribution of a statistic definition"
+    },
+    {
+      "id": "xbar-sampling-mean",
+      "title": "Random samples are drawn from a population with mean $\\mu$. What is the mean of the sampling distribution of $\\bar{x}$?",
+      "body": "$\\mu$\n\n$E(\\bar{x}) = \\mu$ for every sample size, so $\\bar{x}$ is an **unbiased** estimator of $\\mu$.\n\nTip: larger samples shrink the spread, $\\frac{\\sigma}{\\sqrt{n}}$, but don't move the center.",
+      "answer": "mu",
+      "acceptedAnswers": [
+        "μ",
+        "population mean"
+      ],
+      "answerDisplay": "$\\mu$",
+      "searchQuery": "mean of sampling distribution of sample mean unbiased"
+    },
+    {
+      "id": "sample-sd-biased",
+      "title": "The sample SD $s$ slightly underestimates $\\sigma$ on average. As the sample size $n$ grows, does that bias shrink toward $0$?",
+      "body": "Yes\n\nThe square root is concave, so on average $s$ slightly underestimates $\\sigma$ even though $E(s^2) = \\sigma^2$.\n\nTip: the bias vanishes as $n$ grows, so it is usually ignored in practice.",
+      "answer": "yes",
+      "acceptedAnswers": [
+        "yes it does",
+        "it shrinks",
+        "shrinks"
+      ],
+      "searchQuery": "bias of sample standard deviation shrinks as n grows"
+    },
+    {
+      "id": "p-hat-sd",
+      "title": "The true proportion is $p = 0.4$ and samples have size $n = 150$. What is the standard deviation of $\\hat{p}$?",
+      "body": "0.04\n\n$\\sigma_{\\hat{p}} = \\sqrt{\\dfrac{p(1-p)}{n}} = \\sqrt{\\dfrac{0.4 \\times 0.6}{150}} = \\sqrt{0.0016} = 0.04$\n\nTip: the sampling distribution of $\\hat{p}$ is centered at $p = 0.4$.",
+      "answer": "0.04",
+      "acceptedAnswers": [
+        "1/25",
+        "4%"
+      ],
+      "searchQuery": "standard deviation of sample proportion p-hat"
+    },
+    {
+      "id": "normal-population-xbar",
+      "title": "If the population is exactly normal, how large must $n$ be for $\\bar{x}$ to have a normal sampling distribution?",
+      "body": "Any size, even $n = 1$\n\nA mean of independent normal values is exactly normal, with mean $\\mu$ and SD $\\frac{\\sigma}{\\sqrt{n}}$.\n\nKey idea: the CLT's large-$n$ requirement is only for populations that aren't normal.",
+      "searchQuery": "sample mean from normal population sampling distribution any n"
+    },
+    {
+      "id": "clt-probability",
+      "title": "A population has mean $100$ and SD $15$. For random samples of $n = 36$, what is $P(\\bar{x} > 104)$? Round to 4 decimal places.",
+      "body": "0.0548\n\nBy the CLT, $\\bar{x}$ is approximately normal with $\\mathrm{SE} = \\frac{15}{\\sqrt{36}} = 2.5$, so $z = \\frac{104 - 100}{2.5} = 1.6$ and $P(Z > 1.6) = 0.0548$.\n\nWatch out: dividing by $\\sigma = 15$ instead of the SE is the usual trap.",
+      "answer": "0.0548",
+      "acceptedAnswers": [
+        "5.48%"
+      ],
+      "searchQuery": "central limit theorem probability sample mean greater than 104"
+    },
+    {
+      "id": "lln-vs-clt",
+      "title": "How does the Law of Large Numbers differ from the Central Limit Theorem?",
+      "body": "The **LLN** says $\\bar{x}$ gets close to $\\mu$ as $n$ grows. The **CLT** says the sampling distribution of $\\bar{x}$ is approximately normal for large $n$, with SD $\\frac{\\sigma}{\\sqrt{n}}$.\n\nKey idea: LLN: where $\\bar{x}$ ends up. CLT: the shape of its sample-to-sample variation.",
+      "searchQuery": "law of large numbers vs central limit theorem"
+    },
+    {
+      "id": "se-vs-sd",
+      "title": "What is the difference between a standard deviation and a standard error?",
+      "body": "The SD measures how much **individual observations** vary; the standard error measures how much a **statistic**, such as $\\bar{x}$, varies from sample to sample.\n\nFor the mean, $\\mathrm{SE} = \\frac{\\sigma}{\\sqrt{n}}$, estimated by $\\frac{s}{\\sqrt{n}}$.\n\nTip: more data shrink the SE, not the SD.",
+      "searchQuery": "standard error vs standard deviation difference"
+    },
+    {
+      "id": "bias-vs-variability",
+      "title": "A survey uses a biased sampling method. Will a larger sample size reduce the bias?",
+      "body": "No\n\nA larger $n$ reduces **variability** (the spread of the sampling distribution) but leaves its center in the wrong place.\n\nKey idea: bias is fixed by better sampling, such as random selection, not by more data.",
+      "answer": "no",
+      "searchQuery": "larger sample size does not fix bias"
+    },
+    {
+      "id": "finite-population-correction",
+      "title": "Sampling $n$ items without replacement from a population of $N$, what factor corrects the standard error of $\\bar{x}$?",
+      "body": "$\\sqrt{\\dfrac{N-n}{N-1}}$, the finite population correction: $\\mathrm{SE} = \\dfrac{\\sigma}{\\sqrt{n}}\\sqrt{\\dfrac{N-n}{N-1}}$\n\nIt matters only when the sample is a sizable share of the population (a common rule: more than 5%).\n\nTip: if $n = N$, it's $0$: a census has no sampling error.",
+      "searchQuery": "finite population correction factor standard error"
+    },
+    {
+      "id": "clt-skewed-population",
+      "title": "Which population needs a larger sample before $\\bar{x}$ is close to normal: a symmetric one or a strongly skewed one?",
+      "body": "The strongly skewed one\n\nThe CLT works faster when the population is already close to normal.\n\nTip: heavy skew or outliers can require $n$ well above $30$, while a roughly symmetric population without outliers needs far fewer.",
+      "answer": "strongly skewed",
+      "acceptedAnswers": [
+        "skewed",
+        "skewed one",
+        "strongly skewed one",
+        "skewed population"
+      ],
+      "searchQuery": "which population needs larger sample for CLT skewed"
+    },
+    {
+      "id": "p-hat-normal-check",
+      "title": "$p = 0.1$ and $n = 50$. By the success-failure condition, is the sampling distribution of $\\hat{p}$ approximately normal?",
+      "body": "No\n\nThe expected number of successes is $np = 50 \\times 0.1 = 5 < 10$, so the distribution of $\\hat{p}$ is still noticeably right-skewed.\n\nTip: it would take $n \\ge 100$ to get $np \\ge 10$.",
+      "answer": "no",
+      "searchQuery": "success-failure check p-hat normal p 0.1 n 50"
+    },
+    {
+      "id": "se-population-size",
+      "title": "When the population is much larger than the sample, does the standard error of $\\bar{x}$ depend much on the population size?",
+      "body": "No\n\n$\\mathrm{SE} = \\frac{\\sigma}{\\sqrt{n}}$ depends on $n$, not $N$: a random sample of 1,000 is about as precise for a city of 100,000 as for a country of 300 million.\n\nTip: $N$ matters only through the finite population correction, when $n$ is a sizable share of $N$.",
+      "answer": "no",
+      "searchQuery": "standard error does not depend on population size"
+    },
+    {
+      "id": "se-difference-of-means",
+      "title": "Independent samples: $\\sigma_1 = 6$, $n_1 = 36$ and $\\sigma_2 = 8$, $n_2 = 16$. What is the SD of $\\bar{x}_1 - \\bar{x}_2$? Round to 3 decimal places.",
+      "body": "$\\sqrt{5} \\approx 2.236$\n\nVariances add for independent statistics: $\\sqrt{\\dfrac{\\sigma_1^2}{n_1} + \\dfrac{\\sigma_2^2}{n_2}} = \\sqrt{\\dfrac{36}{36} + \\dfrac{64}{16}} = \\sqrt{1 + 4}$.\n\nWatch out: subtracting the variances, or adding the two SEs to get $1 + 2 = 3$, are the traps.",
+      "answer": "2.236",
+      "acceptedAnswers": [
+        "sqrt(5)",
+        "sqrt5"
+      ],
+      "answerDisplay": "$\\sqrt{5} \\approx 2.236$",
+      "searchQuery": "standard error of difference of two sample means"
+    },
+    {
+      "id": "t-vs-z",
+      "title": "When making inferences about a mean, when do you use the $t$ distribution instead of $z$?",
+      "body": "When $\\sigma$ is unknown and you estimate it with the sample SD $s$, which is almost always.\n\nFor normal data, $\\frac{\\bar{x} - \\mu}{s/\\sqrt{n}}$ has a $t$ distribution with $n - 1$ df.\n\nWhy: its heavier tails reflect the extra uncertainty from estimating $\\sigma$.",
+      "searchQuery": "when to use t distribution instead of z"
+    },
+    {
+      "id": "t-critical-df9",
+      "title": "What is $t^*$ for a 95% confidence interval with 9 degrees of freedom? Round to 3 decimal places.",
+      "body": "2.262\n\nIt leaves $0.025$ in each tail of the $t$ distribution with 9 df (from a $t$ table, or `invT(0.975, 9)`).\n\nTip: compare $z^* = 1.96$. Small samples need wider intervals.",
+      "answer": "2.262",
+      "acceptedAnswers": [
+        "t*=2.262"
+      ],
+      "searchQuery": "t critical value 95 percent confidence 9 degrees of freedom"
+    },
+    {
+      "id": "t-star-vs-z-star",
+      "title": "For the same confidence level, is the critical value $t^*$ larger or smaller than $z^*$?",
+      "body": "Larger, for any finite df\n\nThe $t$ distribution has heavier tails, so you must go farther out to capture the same central area: for 95%, $t^* = 2.776$ with 4 df versus $z^* = 1.96$.\n\nTip: the gap closes as df grows.",
+      "answer": "larger",
+      "acceptedAnswers": [
+        "bigger",
+        "greater",
+        "t* is larger"
+      ],
+      "searchQuery": "t critical value larger than z critical value"
+    },
+    {
+      "id": "t-variance",
+      "title": "A $t$ distribution has $\\nu = 10$ degrees of freedom. What is its variance?",
+      "body": "1.25\n\nFor $\\nu > 2$, $\\operatorname{Var}(T) = \\dfrac{\\nu}{\\nu - 2} = \\dfrac{10}{8} = 1.25$\n\nWhy: more than the standard normal's $1$ because of the heavier tails. It approaches $1$ as $\\nu$ grows.",
+      "answer": "1.25",
+      "acceptedAnswers": [
+        "5/4"
+      ],
+      "searchQuery": "t distribution variance nu over nu minus 2"
+    },
+    {
+      "id": "chi-square-construction",
+      "title": "How is a chi-square random variable with $k$ degrees of freedom built from standard normals?",
+      "body": "As a sum of squares, $Z_1^2 + Z_2^2 + \\cdots + Z_k^2$, of $k$ independent standard normals.\n\nWhy: that's why it is never negative and why its mean is $k$. Each $Z_i^2$ has mean $\\operatorname{Var}(Z_i) = 1$.",
+      "searchQuery": "chi-square distribution sum of squared standard normals"
+    },
+    {
+      "id": "chi-square-sd",
+      "title": "A chi-square distribution has 8 degrees of freedom. What is its standard deviation?",
+      "body": "4\n\nA chi-square with $k$ df has mean $k$ and variance $2k$, so here the variance is $16$ and the SD is $\\sqrt{16} = 4$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "chi-square standard deviation 2k variance"
+    },
+    {
+      "id": "chi-square-critical-df1",
+      "title": "What is the upper 5% critical value of a chi-square distribution with 1 df? Round to 3 decimal places.",
+      "body": "3.841\n\nWith 1 df, $\\chi^2 = Z^2$, so the cutoff is the square of $z^* = 1.95996$: $P(Z^2 > 3.841) = P(|Z| > 1.96) = 0.05$.\n\nKey idea: that's why $3.841 \\approx 1.96^2$.",
+      "answer": "3.841",
+      "searchQuery": "chi-square critical value 1 degree of freedom 3.841"
+    },
+    {
+      "id": "sample-variance-chi-square",
+      "title": "For a random sample of size $n$ from a normal population, $\\frac{(n-1)s^2}{\\sigma^2}$ has a chi-square distribution with how many df?",
+      "body": "$n - 1$\n\nOne degree of freedom is used up by estimating $\\mu$ with $\\bar{x}$.\n\nWatch out: this result underlies intervals and tests for $\\sigma^2$, which, unlike $t$ procedures, are very sensitive to non-normal data.",
+      "answer": "n-1",
+      "acceptedAnswers": [
+        "df=n-1",
+        "n minus 1",
+        "n minus one"
+      ],
+      "answerDisplay": "$n - 1$",
+      "searchQuery": "(n-1)s^2 over sigma^2 chi-square degrees of freedom"
+    },
+    {
+      "id": "f-distribution",
+      "title": "What is an $F$ distribution, and where is it used?",
+      "body": "The ratio of two independent chi-squares, each divided by its df: $F = \\dfrac{U/d_1}{V/d_2}$, with $(d_1, d_2)$ degrees of freedom.\n\nIt's nonnegative and right-skewed.\n\nTip: it's used in ANOVA and to compare two variances with $F = \\frac{s_1^2}{s_2^2}$.",
+      "searchQuery": "F distribution definition ratio of chi-squares ANOVA"
+    },
+    {
+      "id": "identify-poisson",
+      "title": "Typos occur independently at a steady average rate. Which distribution best models the number of typos on a page?",
+      "body": "Poisson\n\nIt counts events in a fixed interval (here, a page) with no fixed upper limit, at a constant average rate $\\lambda$.\n\nTip: estimate $\\lambda$ by the mean number of typos per page.",
+      "answer": "Poisson",
+      "acceptedAnswers": [
+        "Poisson distribution"
+      ],
+      "searchQuery": "which distribution typos per page Poisson"
+    },
+    {
+      "id": "identify-geometric",
+      "title": "Each applicant is qualified with probability $0.3$, independently. Which distribution models the number of interviews up to and including the first qualified applicant?",
+      "body": "Geometric, with $p = 0.3$ and mean $\\frac{1}{0.3} \\approx 3.33$ interviews.\n\nYou count trials until the first success, so the number of trials isn't fixed and the binomial doesn't apply.",
+      "answer": "geometric",
+      "acceptedAnswers": [
+        "geometric distribution"
+      ],
+      "searchQuery": "which distribution trials until first qualified applicant geometric"
+    },
+    {
+      "id": "identify-uniform",
+      "title": "A bus comes exactly every $15\\,\\mathrm{min}$, and you arrive at a random time. Which distribution describes your wait?",
+      "body": "Uniform on $[0, 15]$ minutes\n\nEvery point in the cycle is equally likely, so the density is flat at $\\frac{1}{15}$ and the mean wait is $7.5\\,\\mathrm{min}$.\n\nWatch out: if buses instead arrived as a Poisson process, the wait would be exponential.",
+      "answer": "uniform",
+      "acceptedAnswers": [
+        "uniform distribution",
+        "continuous uniform"
+      ],
+      "searchQuery": "bus every 15 minutes random arrival wait uniform"
+    },
+    {
+      "id": "identify-binomial",
+      "title": "3% of chips in a large production run are defective. Which distribution models the number of defective chips in a random sample of 20?",
+      "body": "Binomial, with $n = 20$ and $p = 0.03$ (mean $np = 0.6$).\n\nThere's a fixed number of trials with the same defect rate, and the run is large enough (10% condition) that the draws are nearly independent.",
+      "answer": "binomial",
+      "acceptedAnswers": [
+        "binomial distribution"
+      ],
+      "searchQuery": "defective chips sample of 20 binomial distribution"
+    },
+    {
+      "id": "poisson-normal-approximation",
+      "title": "For a large mean $\\lambda$, which continuous distribution approximates a Poisson count?",
+      "body": "A normal distribution with mean $\\lambda$ and SD $\\sqrt{\\lambda}$\n\nA Poisson with a whole-number mean $\\lambda$ is a sum of $\\lambda$ independent $\\text{Poisson}(1)$ counts, so the CLT applies.\n\nTip: the approximation improves as $\\lambda$ grows.",
+      "answer": "normal",
+      "acceptedAnswers": [
+        "normal distribution",
+        "Gaussian"
+      ],
+      "searchQuery": "normal approximation to Poisson large lambda"
+    }
+  ]
+}

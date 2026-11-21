@@ -1,0 +1,999 @@
+{
+  "id": "trig-identities",
+  "title": "Trig Identities",
+  "course": "Precalculus",
+  "description": "Reciprocal, Pythagorean, even/odd and cofunction identities; sum, difference, double- and half-angle formulas; product-to-sum; proof strategy.",
+  "cards": [
+    {
+      "id": "reciprocal-secant",
+      "title": "$\\sec\\theta$ is the reciprocal of which trig function?",
+      "body": "$\\cos\\theta$: $\\sec\\theta = \\dfrac{1}{\\cos\\theta}$.\n\nLikewise $\\csc\\theta = \\frac{1}{\\sin\\theta}$ and $\\cot\\theta = \\frac{1}{\\tan\\theta} = \\frac{\\cos\\theta}{\\sin\\theta}$.\n\nWatch out: $\\sec$ is not $\\frac{1}{\\sin}$.\nMnemonic: each reciprocal pair has exactly one \"co\": cos-**sec**, sin-**csc**, tan-**cot**.",
+      "searchQuery": "secant reciprocal of cosine identity",
+      "answer": "cosine",
+      "acceptedAnswers": [
+        "cos",
+        "cos theta",
+        "cos(theta)",
+        "cos x",
+        "cosine function"
+      ]
+    },
+    {
+      "id": "pythagorean-cot-csc",
+      "title": "Complete the Pythagorean identity: $1 + \\cot^2\\theta = \\,?$",
+      "body": "$\\csc^2\\theta$\n\nDivide $\\sin^2\\theta + \\cos^2\\theta = 1$ through by $\\sin^2\\theta$ to get $1 + \\cot^2\\theta = \\csc^2\\theta$. Dividing by $\\cos^2\\theta$ instead gives $\\tan^2\\theta + 1 = \\sec^2\\theta$.\n\nMnemonic: **tan** goes with **sec**, **cot** goes with **csc**.",
+      "searchQuery": "1 plus cot squared equals csc squared identity",
+      "answer": "csc^2 theta",
+      "acceptedAnswers": [
+        "csc^2(theta)",
+        "csc^2",
+        "(csc theta)^2",
+        "(csc(theta))^2",
+        "1/sin^2 theta",
+        "1/sin^2(theta)"
+      ],
+      "answerDisplay": "$\\csc^2\\theta$"
+    },
+    {
+      "id": "pythagorean-find-cosine",
+      "title": "If $\\sin\\theta = \\frac{3}{5}$ and $\\theta$ is in Quadrant II, what is $\\cos\\theta$?",
+      "body": "$-\\dfrac{4}{5}$\n\n$\\cos^2\\theta = 1 - \\sin^2\\theta = 1 - \\frac{9}{25} = \\frac{16}{25}$, so $\\cos\\theta = \\pm\\frac{4}{5}$. Cosine is negative in QII, so $\\cos\\theta = -\\frac{4}{5}$.\n\nKey idea: the identity gives the **size**; the quadrant picks the sign.",
+      "searchQuery": "find cosine from sine quadrant II Pythagorean identity",
+      "answer": "-4/5",
+      "acceptedAnswers": [
+        "-0.8"
+      ],
+      "answerDisplay": "$-\\dfrac{4}{5}$"
+    },
+    {
+      "id": "even-odd-simplify",
+      "title": "Use even/odd identities to simplify $\\sin(-\\theta)\\sec(-\\theta)$.",
+      "body": "$-\\tan\\theta$\n\n$\\sin$ is odd, so $\\sin(-\\theta) = -\\sin\\theta$; $\\sec$ is even, so $\\sec(-\\theta) = \\sec\\theta$. The product is $-\\sin\\theta \\cdot \\frac{1}{\\cos\\theta} = -\\tan\\theta$.\n\nWhy: replacing $\\theta$ by $-\\theta$ flips the $y$-coordinate of the unit-circle point but not the $x$-coordinate.\nTip: only **cos** and **sec** are even; the other four are odd.",
+      "searchQuery": "even odd trig identities simplify sin(-theta) sec(-theta)",
+      "answer": "-tan theta",
+      "acceptedAnswers": [
+        "-tan(theta)",
+        "-tan",
+        "-(tan theta)",
+        "-sin theta/cos theta",
+        "-sin(theta)/cos(theta)"
+      ],
+      "answerDisplay": "$-\\tan\\theta$"
+    },
+    {
+      "id": "cofunction-tangent",
+      "title": "Cofunction identity: $\\tan\\left(\\frac{\\pi}{2} - \\theta\\right) = \\,?$",
+      "body": "$\\cot\\theta$\n\nCofunctions of complementary angles are equal: $\\sin\\left(\\frac{\\pi}{2} - \\theta\\right) = \\cos\\theta$, $\\tan\\left(\\frac{\\pi}{2} - \\theta\\right) = \\cot\\theta$, $\\sec\\left(\\frac{\\pi}{2} - \\theta\\right) = \\csc\\theta$.\n\nWhy: in a right triangle, the leg opposite one acute angle is the leg adjacent to the other.",
+      "searchQuery": "cofunction identity tan pi/2 minus theta equals cot",
+      "answer": "cot theta",
+      "acceptedAnswers": [
+        "cot(theta)",
+        "cot",
+        "cotangent",
+        "1/tan theta",
+        "1/tan(theta)"
+      ],
+      "answerDisplay": "$\\cot\\theta$"
+    },
+    {
+      "id": "proving-identities-strategy",
+      "title": "What is the standard strategy for proving a trig identity?",
+      "body": "Transform **one side**, usually the more complicated one, step by step until it matches the other. You may also simplify each side separately to a common form.\n\nGo-to moves: rewrite everything in $\\sin$ and $\\cos$, combine fractions, factor, use Pythagorean identities, or multiply by a conjugate such as $1 + \\sin\\theta$.\n\nWatch out: never apply an operation across the equals sign; that assumes what you are trying to prove.",
+      "searchQuery": "strategy for proving trigonometric identities"
+    },
+    {
+      "id": "sum-difference-sin-cos",
+      "title": "State the sum and difference formulas for $\\sin(A \\pm B)$ and $\\cos(A \\pm B)$.",
+      "body": "$\\sin(A \\pm B) = \\sin A\\cos B \\pm \\cos A\\sin B$ and $\\cos(A \\pm B) = \\cos A\\cos B \\mp \\sin A\\sin B$\n\nThe sine formula keeps the sign; the cosine formula uses the **opposite** sign ($\\mp$).\n\nWatch out: $\\sin(A + B) \\ne \\sin A + \\sin B$.\nMnemonic: sine mixes (sin-cos, cos-sin) and keeps the sign; cosine matches (cos-cos, sin-sin) and flips it.",
+      "searchQuery": "sine cosine sum and difference formulas sin(A+B) cos(A-B)"
+    },
+    {
+      "id": "cos-15-degrees",
+      "title": "Use a difference formula to find the exact value of $\\cos 15^\\circ$.",
+      "body": "$\\dfrac{\\sqrt{6} + \\sqrt{2}}{4} \\approx 0.966$\n\n$\\cos(45^\\circ - 30^\\circ) = \\cos 45^\\circ\\cos 30^\\circ + \\sin 45^\\circ\\sin 30^\\circ = \\frac{\\sqrt{2}}{2}\\cdot\\frac{\\sqrt{3}}{2} + \\frac{\\sqrt{2}}{2}\\cdot\\frac{1}{2} = \\frac{\\sqrt{6} + \\sqrt{2}}{4}$.\n\nWatch out: note the **plus** sign; $\\cos(A - B)$ adds the sine product.",
+      "searchQuery": "exact value cos 15 degrees difference formula",
+      "answer": "(sqrt(6)+sqrt(2))/4",
+      "acceptedAnswers": [
+        "(sqrt6+sqrt2)/4",
+        "(sqrt(2)+sqrt(6))/4",
+        "(sqrt2+sqrt6)/4",
+        "sqrt(6)/4+sqrt(2)/4",
+        "sqrt(2+sqrt(3))/2",
+        "sqrt(2+sqrt3)/2"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{6} + \\sqrt{2}}{4}$"
+    },
+    {
+      "id": "tan-sum-difference",
+      "title": "State the sum and difference formulas for $\\tan(A \\pm B)$.",
+      "body": "$\\tan(A \\pm B) = \\dfrac{\\tan A \\pm \\tan B}{1 \\mp \\tan A\\tan B}$\n\nThe numerator sign matches the operation; the denominator sign is the **opposite**.\n\nExample: $\\tan 75^\\circ = \\tan(45^\\circ + 30^\\circ) = \\frac{1 + \\sqrt{3}/3}{1 - \\sqrt{3}/3} = 2 + \\sqrt{3}$.",
+      "searchQuery": "tangent sum and difference formula tan(A+B)"
+    },
+    {
+      "id": "sin-double-angle-value",
+      "title": "$\\cos\\theta = -\\frac{5}{13}$ with $\\theta$ in Quadrant III. Find the exact value of $\\sin 2\\theta$.",
+      "body": "$\\dfrac{120}{169}$\n\n$\\sin\\theta < 0$ in QIII, so $\\sin\\theta = -\\sqrt{1 - \\frac{25}{169}} = -\\frac{12}{13}$. Then $\\sin 2\\theta = 2\\sin\\theta\\cos\\theta = 2\\left(-\\frac{12}{13}\\right)\\left(-\\frac{5}{13}\\right) = \\frac{120}{169}$.\n\nTip: sanity check: positive makes sense, since $2\\theta$ lies between $2\\pi$ and $3\\pi$.\nWatch out: forgetting the sign of $\\sin\\theta$ gives $-\\frac{120}{169}$.",
+      "searchQuery": "sin 2 theta given cos theta quadrant III double angle",
+      "answer": "120/169",
+      "answerDisplay": "$\\dfrac{120}{169}$"
+    },
+    {
+      "id": "cos-double-angle-forms",
+      "title": "Give all three forms of the double-angle formula for $\\cos 2\\theta$.",
+      "body": "$\\cos 2\\theta = \\cos^2\\theta - \\sin^2\\theta = 2\\cos^2\\theta - 1 = 1 - 2\\sin^2\\theta$\n\nThe last two come from substituting $\\sin^2\\theta + \\cos^2\\theta = 1$.\n\nTip: pick the form that uses what you know. Only $\\cos\\theta$ known: $2\\cos^2\\theta - 1$. Only $\\sin\\theta$ known: $1 - 2\\sin^2\\theta$.",
+      "searchQuery": "cos 2 theta double angle formula three forms"
+    },
+    {
+      "id": "cos-double-angle-value",
+      "title": "If $\\sin\\theta = \\frac{1}{4}$, what is $\\cos 2\\theta$?",
+      "body": "$\\dfrac{7}{8}$\n\nUse the sine-only form: $\\cos 2\\theta = 1 - 2\\sin^2\\theta = 1 - 2\\cdot\\frac{1}{16} = 1 - \\frac{1}{8} = \\frac{7}{8}$.\n\nKey idea: no quadrant information is needed, because only $\\sin^2\\theta$ appears.",
+      "searchQuery": "cos 2 theta from sin theta double angle value",
+      "answer": "7/8",
+      "acceptedAnswers": [
+        "0.875"
+      ],
+      "answerDisplay": "$\\dfrac{7}{8}$"
+    },
+    {
+      "id": "tan-double-angle",
+      "title": "State the double-angle formula for $\\tan 2\\theta$ in terms of $\\tan\\theta$.",
+      "body": "$\\tan 2\\theta = \\dfrac{2\\tan\\theta}{1 - \\tan^2\\theta}$\n\nIt is the $\\tan(A + B)$ formula with $A = B = \\theta$.\n\nExample: $\\tan\\theta = \\frac{1}{2}$ gives $\\tan 2\\theta = \\frac{1}{1 - 1/4} = \\frac{4}{3}$.",
+      "searchQuery": "tan 2 theta double angle formula"
+    },
+    {
+      "id": "power-reducing",
+      "title": "Power-reducing formulas: write $\\sin^2\\theta$ and $\\cos^2\\theta$ in terms of $\\cos 2\\theta$.",
+      "body": "$\\sin^2\\theta = \\dfrac{1 - \\cos 2\\theta}{2}$ and $\\cos^2\\theta = \\dfrac{1 + \\cos 2\\theta}{2}$\n\nThey are the $\\cos 2\\theta$ formulas solved for $\\sin^2\\theta$ and $\\cos^2\\theta$. Replacing $\\theta$ with $\\frac{\\theta}{2}$ gives the half-angle formulas.\n\nMnemonic: **sine** gets the **minus**.",
+      "searchQuery": "power reducing formulas sin squared cos squared"
+    },
+    {
+      "id": "half-angle-sign",
+      "title": "In $\\sin\\frac{\\theta}{2} = \\pm\\sqrt{\\frac{1 - \\cos\\theta}{2}}$, what decides the $\\pm$ sign?",
+      "body": "The quadrant of $\\frac{\\theta}{2}$, **not** the quadrant of $\\theta$.\n\nExample: $\\theta = 300^\\circ$ (QIV) gives $\\frac{\\theta}{2} = 150^\\circ$ (QII), where sine is positive: $\\sin 150^\\circ = +\\sqrt{\\frac{1 - 1/2}{2}} = \\frac{1}{2}$.\n\nTip: the same rule holds for $\\cos\\frac{\\theta}{2} = \\pm\\sqrt{\\frac{1 + \\cos\\theta}{2}}$.",
+      "searchQuery": "half-angle formula sign quadrant of theta over 2"
+    },
+    {
+      "id": "product-to-sum",
+      "title": "Product-to-sum: rewrite $\\sin A\\cos B$ as a sum of sines.",
+      "body": "$\\sin A\\cos B = \\dfrac{1}{2}\\left[\\sin(A + B) + \\sin(A - B)\\right]$\n\nWhy: add the expansions of $\\sin(A + B)$ and $\\sin(A - B)$; the $\\cos A\\sin B$ terms cancel, leaving $2\\sin A\\cos B$.",
+      "searchQuery": "product to sum identity sin A cos B"
+    },
+    {
+      "id": "quotient-identity-tan",
+      "title": "Write $\\tan\\theta$ and $\\cot\\theta$ in terms of $\\sin\\theta$ and $\\cos\\theta$.",
+      "body": "$\\tan\\theta = \\dfrac{\\sin\\theta}{\\cos\\theta}$ and $\\cot\\theta = \\dfrac{\\cos\\theta}{\\sin\\theta}$\n\nThese are the **quotient identities**. They are $\\frac{y}{x}$ and $\\frac{x}{y}$ for the unit-circle point $(x, y)$.\n\nTip: when a proof gets stuck, rewrite every function in terms of sine and cosine.",
+      "searchQuery": "quotient identities tangent cotangent sine cosine"
+    },
+    {
+      "id": "csc-from-sine",
+      "title": "If $\\sin\\theta = -\\frac{2}{3}$, what is $\\csc\\theta$?",
+      "body": "$-\\dfrac{3}{2}$\n\n$\\csc\\theta = \\frac{1}{\\sin\\theta} = \\frac{1}{-2/3} = -\\frac{3}{2}$.\n\nWatch out: the reciprocal keeps the **sign**; it does not flip it.",
+      "searchQuery": "cosecant reciprocal of sine value",
+      "answer": "-3/2",
+      "acceptedAnswers": [
+        "-1.5"
+      ],
+      "answerDisplay": "$-\\dfrac{3}{2}$"
+    },
+    {
+      "id": "tan-from-sin-cos",
+      "title": "If $\\sin\\theta = \\frac{5}{13}$ and $\\cos\\theta = -\\frac{12}{13}$, what is $\\tan\\theta$?",
+      "body": "$-\\dfrac{5}{12}$\n\n$\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta} = \\frac{5/13}{-12/13} = -\\frac{5}{12}$.\n\nTip: sanity check: $\\theta$ is in QII, where tangent is negative.",
+      "searchQuery": "tangent from sine and cosine quotient identity",
+      "answer": "-5/12",
+      "answerDisplay": "$-\\dfrac{5}{12}$"
+    },
+    {
+      "id": "pythagorean-basic-derivation",
+      "title": "Why does $\\sin^2\\theta + \\cos^2\\theta = 1$ hold for every angle $\\theta$?",
+      "body": "The point $(\\cos\\theta, \\sin\\theta)$ lies on the unit circle $x^2 + y^2 = 1$, so substituting gives the identity.\n\nFor an acute angle it is also the **Pythagorean theorem** in a right triangle with hypotenuse $1$.\n\nKey idea: every Pythagorean identity comes from this one by dividing through by $\\sin^2\\theta$ or $\\cos^2\\theta$.",
+      "searchQuery": "why sin squared plus cos squared equals one unit circle"
+    },
+    {
+      "id": "pythagorean-tan-sec",
+      "title": "Complete the Pythagorean identity: $\\tan^2\\theta + 1 = \\,?$",
+      "body": "$\\sec^2\\theta$\n\nDivide $\\sin^2\\theta + \\cos^2\\theta = 1$ by $\\cos^2\\theta$: $\\tan^2\\theta + 1 = \\sec^2\\theta$.\n\nWatch out: it is $\\tan^2\\theta + 1$, not $\\tan^2\\theta - 1$.",
+      "searchQuery": "tan squared plus 1 equals sec squared identity",
+      "answer": "sec^2 theta",
+      "acceptedAnswers": [
+        "sec^2(theta)",
+        "sec^2",
+        "(sec theta)^2",
+        "(sec(theta))^2",
+        "1/cos^2 theta",
+        "1/cos^2(theta)"
+      ],
+      "answerDisplay": "$\\sec^2\\theta$"
+    },
+    {
+      "id": "pythagorean-find-tan",
+      "title": "If $\\sec\\theta = -\\frac{13}{5}$ and $\\theta$ is in Quadrant II, what is $\\tan\\theta$?",
+      "body": "$-\\dfrac{12}{5}$\n\n$\\tan^2\\theta = \\sec^2\\theta - 1 = \\frac{169}{25} - 1 = \\frac{144}{25}$, so $\\tan\\theta = \\pm\\frac{12}{5}$. Tangent is negative in QII.\n\nTip: this is a $5\\text{-}12\\text{-}13$ triangle with signs set by the quadrant.",
+      "searchQuery": "find tangent from secant quadrant II identity",
+      "answer": "-12/5",
+      "acceptedAnswers": [
+        "-2.4"
+      ],
+      "answerDisplay": "$-\\dfrac{12}{5}$"
+    },
+    {
+      "id": "pythagorean-find-sin-qiii",
+      "title": "If $\\cos\\theta = -\\frac{8}{17}$ and $\\theta$ is in Quadrant III, what is $\\sin\\theta$?",
+      "body": "$-\\dfrac{15}{17}$\n\n$\\sin^2\\theta = 1 - \\frac{64}{289} = \\frac{225}{289}$, so $\\sin\\theta = \\pm\\frac{15}{17}$. Sine is negative in QIII.\n\nTip: recognize the $8\\text{-}15\\text{-}17$ triple to skip the arithmetic.",
+      "searchQuery": "find sine from cosine quadrant III Pythagorean",
+      "answer": "-15/17",
+      "answerDisplay": "$-\\dfrac{15}{17}$"
+    },
+    {
+      "id": "pythagorean-find-csc",
+      "title": "If $\\cot\\theta = \\frac{3}{4}$ and $\\theta$ is in Quadrant III, what is $\\csc\\theta$?",
+      "body": "$-\\dfrac{5}{4}$\n\n$\\csc^2\\theta = 1 + \\cot^2\\theta = 1 + \\frac{9}{16} = \\frac{25}{16}$, so $\\csc\\theta = \\pm\\frac{5}{4}$. Sine, and so cosecant, is negative in QIII.\n\nTip: sanity check: $\\cot\\theta > 0$ in QIII, which is consistent.",
+      "searchQuery": "find cosecant from cotangent quadrant III identity",
+      "answer": "-5/4",
+      "acceptedAnswers": [
+        "-1.25"
+      ],
+      "answerDisplay": "$-\\dfrac{5}{4}$"
+    },
+    {
+      "id": "simplify-1-minus-cos-sq",
+      "title": "Simplify $\\dfrac{1 - \\cos^2\\theta}{\\sin\\theta}$ for $\\sin\\theta \\ne 0$.",
+      "body": "$\\sin\\theta$\n\n$1 - \\cos^2\\theta = \\sin^2\\theta$, so the fraction is $\\frac{\\sin^2\\theta}{\\sin\\theta} = \\sin\\theta$.\n\nTip: $1 - \\cos^2\\theta$ and $1 - \\sin^2\\theta$ are the two rearrangements of the Pythagorean identity.",
+      "searchQuery": "simplify 1 minus cos squared over sin",
+      "answer": "sin theta",
+      "acceptedAnswers": [
+        "sin(theta)",
+        "sin",
+        "sin x"
+      ],
+      "answerDisplay": "$\\sin\\theta$"
+    },
+    {
+      "id": "simplify-sec-sq-minus-1",
+      "title": "Simplify $\\sec^2\\theta - 1$.",
+      "body": "$\\tan^2\\theta$\n\nRearrange $\\tan^2\\theta + 1 = \\sec^2\\theta$.\n\nWatch out: it is $\\tan^2\\theta$, not $\\tan\\theta$.",
+      "searchQuery": "simplify sec squared minus 1 tan squared",
+      "answer": "tan^2 theta",
+      "acceptedAnswers": [
+        "tan^2(theta)",
+        "tan^2",
+        "(tan theta)^2",
+        "(tan(theta))^2"
+      ],
+      "answerDisplay": "$\\tan^2\\theta$"
+    },
+    {
+      "id": "simplify-product-conj",
+      "title": "Simplify $(1 - \\sin\\theta)(1 + \\sin\\theta)$.",
+      "body": "$\\cos^2\\theta$\n\nIt is a difference of squares: $1 - \\sin^2\\theta = \\cos^2\\theta$.\n\nTip: this product is why multiplying by $1 + \\sin\\theta$ (a **conjugate**) clears $1 - \\sin\\theta$ from a denominator.",
+      "searchQuery": "simplify (1 - sin)(1 + sin) difference of squares",
+      "answer": "cos^2 theta",
+      "acceptedAnswers": [
+        "cos^2(theta)",
+        "cos^2",
+        "(cos theta)^2",
+        "(cos(theta))^2"
+      ],
+      "answerDisplay": "$\\cos^2\\theta$"
+    },
+    {
+      "id": "simplify-tan-cos",
+      "title": "Simplify $\\tan\\theta\\cos\\theta$.",
+      "body": "$\\sin\\theta$\n\n$\\tan\\theta\\cos\\theta = \\frac{\\sin\\theta}{\\cos\\theta}\\cdot\\cos\\theta = \\sin\\theta$.\n\nTip: rewrite in sine and cosine, then cancel.",
+      "searchQuery": "simplify tan theta cos theta",
+      "answer": "sin theta",
+      "acceptedAnswers": [
+        "sin(theta)",
+        "sin",
+        "sin x"
+      ],
+      "answerDisplay": "$\\sin\\theta$"
+    },
+    {
+      "id": "even-odd-list",
+      "title": "Which of the six trig functions are even, and which are odd?",
+      "body": "**Even**: $\\cos$ and $\\sec$. **Odd**: $\\sin$, $\\csc$, $\\tan$ and $\\cot$.\n\nEven means $f(-\\theta) = f(\\theta)$; odd means $f(-\\theta) = -f(\\theta)$.\n\nMnemonic: cosine is the only \"co\" that is even, and its reciprocal secant goes with it.",
+      "searchQuery": "even and odd trig functions list"
+    },
+    {
+      "id": "cos-negative-angle-value",
+      "title": "Exact value of $\\cos\\left(-\\frac{\\pi}{3}\\right)$?",
+      "body": "$\\dfrac{1}{2}$\n\nCosine is **even**: $\\cos\\left(-\\frac{\\pi}{3}\\right) = \\cos\\frac{\\pi}{3} = \\frac{1}{2}$.\nKey idea: for an **even** function, $f(-x) = f(x)$, so the sign of the angle drops out.",
+      "searchQuery": "cos of negative pi/3 even function",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\dfrac{1}{2}$"
+    },
+    {
+      "id": "sin-negative-angle-value",
+      "title": "Exact value of $\\sin\\left(-\\frac{\\pi}{6}\\right)$?",
+      "body": "$-\\dfrac{1}{2}$\n\nSine is **odd**: $\\sin\\left(-\\frac{\\pi}{6}\\right) = -\\sin\\frac{\\pi}{6} = -\\frac{1}{2}$.\n\nTip: sanity check: $-\\frac{\\pi}{6}$ ends in QIV, where sine is negative.",
+      "searchQuery": "sin of negative pi/6 odd function",
+      "answer": "-1/2",
+      "acceptedAnswers": [
+        "-0.5"
+      ],
+      "answerDisplay": "$-\\dfrac{1}{2}$"
+    },
+    {
+      "id": "tan-negative-60",
+      "title": "Exact value of $\\tan(-60^\\circ)$?",
+      "body": "$-\\sqrt{3}$\n\nTangent is **odd**: $\\tan(-60^\\circ) = -\\tan 60^\\circ = -\\sqrt{3}$.\nTip: for an **odd** function, pull the minus sign out front.",
+      "searchQuery": "tan of negative 60 degrees odd",
+      "answer": "-sqrt(3)",
+      "acceptedAnswers": [
+        "-sqrt3"
+      ],
+      "answerDisplay": "$-\\sqrt{3}$"
+    },
+    {
+      "id": "even-odd-why",
+      "title": "Why is cosine even but sine odd, in terms of the unit circle?",
+      "body": "Replacing $\\theta$ by $-\\theta$ **reflects** the terminal point across the $x$-axis, from $(x, y)$ to $(x, -y)$.\n\nThe $x$-coordinate (cosine) stays the same, so cosine is even. The $y$-coordinate (sine) changes sign, so sine is odd. Tangent $\\frac{y}{x}$ flips sign, so it is odd.\nMnemonic: cosine is the $x$-coordinate, and a reflection across the $x$-axis leaves $x$ alone.",
+      "searchQuery": "why cosine even sine odd unit circle reflection"
+    },
+    {
+      "id": "simplify-even-odd-expression",
+      "title": "Simplify $\\cos(-x)\\tan(-x)$.",
+      "body": "$-\\sin x$\n\n$\\cos(-x) = \\cos x$ and $\\tan(-x) = -\\tan x$, so the product is $-\\cos x\\cdot\\frac{\\sin x}{\\cos x} = -\\sin x$.\nTip: remove the negative angles first, then simplify.",
+      "searchQuery": "simplify cos(-x) tan(-x) even odd",
+      "answer": "-sin x",
+      "acceptedAnswers": [
+        "-sin(x)",
+        "-sin"
+      ],
+      "answerDisplay": "$-\\sin x$"
+    },
+    {
+      "id": "cofunction-sine",
+      "title": "Cofunction identity: $\\sin\\left(\\frac{\\pi}{2} - \\theta\\right) = \\,?$",
+      "body": "$\\cos\\theta$\n\nThe sine of an angle equals the cosine of its **complement**. That is where the name \"cosine\" comes from.\n\nExample: $\\sin 60^\\circ = \\cos 30^\\circ = \\frac{\\sqrt{3}}{2}$.",
+      "searchQuery": "cofunction identity sin pi/2 minus theta equals cos",
+      "answer": "cos theta",
+      "acceptedAnswers": [
+        "cos(theta)",
+        "cos",
+        "cosine",
+        "cos x"
+      ],
+      "answerDisplay": "$\\cos\\theta$"
+    },
+    {
+      "id": "cofunction-degrees",
+      "title": "$\\sin 70^\\circ = \\cos x^\\circ$ with $x$ acute. Find $x$.",
+      "body": "$20$\n\n$\\sin\\theta = \\cos(90^\\circ - \\theta)$, so $\\sin 70^\\circ = \\cos 20^\\circ$.\n\nWatch out: complementary angles sum to $90^\\circ$, not $180^\\circ$.",
+      "searchQuery": "sin 70 equals cos of complement degrees",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 degrees",
+        "20°"
+      ],
+      "answerDisplay": "$20$"
+    },
+    {
+      "id": "cofunction-solve",
+      "title": "If $\\sin 3x = \\cos 2x$ with $x$ acute (in degrees), find $x$.",
+      "body": "$18^\\circ$\n\n$\\cos 2x = \\sin(90^\\circ - 2x)$, so $3x = 90^\\circ - 2x$ and $x = 18^\\circ$.\n\nTip: sanity check: $\\sin 54^\\circ = \\cos 36^\\circ$ (both $\\approx 0.809$).\nTip: for acute angles, $\\sin A = \\cos B$ means $A + B = 90^\\circ$.",
+      "searchQuery": "solve sin 3x = cos 2x acute angle cofunction",
+      "answer": "18",
+      "acceptedAnswers": [
+        "18 degrees",
+        "18°"
+      ],
+      "answerDisplay": "$18^\\circ$"
+    },
+    {
+      "id": "cofunction-cos-sec",
+      "title": "Cofunction identity: $\\sec\\left(\\frac{\\pi}{2} - \\theta\\right) = \\,?$",
+      "body": "$\\csc\\theta$\n\n$\\sec\\left(\\frac{\\pi}{2} - \\theta\\right) = \\frac{1}{\\cos\\left(\\frac{\\pi}{2} - \\theta\\right)} = \\frac{1}{\\sin\\theta} = \\csc\\theta$.\n\nKey idea: the three cofunction pairs are sin-cos, tan-cot and sec-csc.",
+      "searchQuery": "cofunction identity sec pi/2 minus theta equals csc",
+      "answer": "csc theta",
+      "acceptedAnswers": [
+        "csc(theta)",
+        "csc",
+        "cosecant",
+        "1/sin theta",
+        "1/sin(theta)"
+      ],
+      "answerDisplay": "$\\csc\\theta$"
+    },
+    {
+      "id": "sin-75-degrees",
+      "title": "Exact value of $\\sin 75^\\circ$?",
+      "body": "$\\dfrac{\\sqrt{6} + \\sqrt{2}}{4}$\n\n$\\sin(45^\\circ + 30^\\circ) = \\frac{\\sqrt{2}}{2}\\cdot\\frac{\\sqrt{3}}{2} + \\frac{\\sqrt{2}}{2}\\cdot\\frac{1}{2} = \\frac{\\sqrt{6} + \\sqrt{2}}{4} \\approx 0.966$.\n\nTip: sanity check: $\\sin 75^\\circ = \\cos 15^\\circ$, the same value as in the earlier card.",
+      "searchQuery": "exact value sin 75 degrees sum formula",
+      "answer": "(sqrt(6)+sqrt(2))/4",
+      "acceptedAnswers": [
+        "(sqrt6+sqrt2)/4",
+        "(sqrt(2)+sqrt(6))/4",
+        "(sqrt2+sqrt6)/4",
+        "sqrt(6)/4+sqrt(2)/4"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{6} + \\sqrt{2}}{4}$"
+    },
+    {
+      "id": "cos-75-degrees",
+      "title": "Exact value of $\\cos 75^\\circ$?",
+      "body": "$\\dfrac{\\sqrt{6} - \\sqrt{2}}{4}$\n\n$\\cos(45^\\circ + 30^\\circ) = \\cos 45^\\circ\\cos 30^\\circ - \\sin 45^\\circ\\sin 30^\\circ = \\frac{\\sqrt{6}}{4} - \\frac{\\sqrt{2}}{4}$.\n\nTip: sanity check: $\\approx 0.259$, small because $75^\\circ$ is close to $90^\\circ$.\nWatch out: the sum formula for cosine has a **minus** sign.",
+      "searchQuery": "exact value cos 75 degrees sum formula",
+      "answer": "(sqrt(6)-sqrt(2))/4",
+      "acceptedAnswers": [
+        "(sqrt6-sqrt2)/4",
+        "sqrt(6)/4-sqrt(2)/4"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{6} - \\sqrt{2}}{4}$"
+    },
+    {
+      "id": "tan-15-degrees",
+      "title": "Exact value of $\\tan 15^\\circ$?",
+      "body": "$2 - \\sqrt{3}$\n\n$\\tan(45^\\circ - 30^\\circ) = \\frac{1 - \\sqrt{3}/3}{1 + \\sqrt{3}/3} = \\frac{3 - \\sqrt{3}}{3 + \\sqrt{3}} = \\frac{(3 - \\sqrt{3})^2}{6} = 2 - \\sqrt{3}$.\n\nTip: sanity check: $\\approx 0.268$, and $\\tan 75^\\circ = 2 + \\sqrt{3}$ is its reciprocal.",
+      "searchQuery": "exact value tan 15 degrees difference formula",
+      "answer": "2-sqrt(3)",
+      "acceptedAnswers": [
+        "2-sqrt3",
+        "-sqrt(3)+2",
+        "-sqrt3+2"
+      ],
+      "answerDisplay": "$2 - \\sqrt{3}$"
+    },
+    {
+      "id": "sin-pi-over-12",
+      "title": "Exact value of $\\sin\\frac{\\pi}{12}$?",
+      "body": "$\\dfrac{\\sqrt{6} - \\sqrt{2}}{4}$\n\n$\\frac{\\pi}{12} = 15^\\circ = 45^\\circ - 30^\\circ$, so $\\sin 15^\\circ = \\sin 45^\\circ\\cos 30^\\circ - \\cos 45^\\circ\\sin 30^\\circ = \\frac{\\sqrt{6} - \\sqrt{2}}{4} \\approx 0.259$.\n\nTip: $\\sin 15^\\circ = \\cos 75^\\circ$.",
+      "searchQuery": "exact value sin pi/12 15 degrees",
+      "answer": "(sqrt(6)-sqrt(2))/4",
+      "acceptedAnswers": [
+        "(sqrt6-sqrt2)/4",
+        "sqrt(6)/4-sqrt(2)/4"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{6} - \\sqrt{2}}{4}$"
+    },
+    {
+      "id": "cos-105-degrees",
+      "title": "Exact value of $\\cos 105^\\circ$?",
+      "body": "$\\dfrac{\\sqrt{2} - \\sqrt{6}}{4}$\n\n$\\cos(60^\\circ + 45^\\circ) = \\frac{1}{2}\\cdot\\frac{\\sqrt{2}}{2} - \\frac{\\sqrt{3}}{2}\\cdot\\frac{\\sqrt{2}}{2} = \\frac{\\sqrt{2} - \\sqrt{6}}{4} \\approx -0.259$.\n\nTip: sanity check: $105^\\circ$ is in QII, so the cosine is negative.",
+      "searchQuery": "exact value cos 105 degrees sum formula",
+      "answer": "(sqrt(2)-sqrt(6))/4",
+      "acceptedAnswers": [
+        "(sqrt2-sqrt6)/4",
+        "sqrt(2)/4-sqrt(6)/4",
+        "-(sqrt(6)-sqrt(2))/4",
+        "-(sqrt6-sqrt2)/4"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{2} - \\sqrt{6}}{4}$"
+    },
+    {
+      "id": "sum-collapse-sin",
+      "title": "Evaluate $\\sin 20^\\circ\\cos 10^\\circ + \\cos 20^\\circ\\sin 10^\\circ$ exactly.",
+      "body": "$\\dfrac{1}{2}$\n\nIt is the right side of $\\sin(A + B)$ with $A = 20^\\circ$ and $B = 10^\\circ$, so it equals $\\sin 30^\\circ = \\frac{1}{2}$.\n\nTip: spot the pattern in reverse; many exam problems hide a sum formula.",
+      "searchQuery": "evaluate sin 20 cos 10 plus cos 20 sin 10",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\dfrac{1}{2}$"
+    },
+    {
+      "id": "difference-collapse-cos",
+      "title": "Evaluate $\\cos 80^\\circ\\cos 20^\\circ + \\sin 80^\\circ\\sin 20^\\circ$ exactly.",
+      "body": "$\\dfrac{1}{2}$\n\nThe plus sign marks $\\cos(A - B)$ with $A = 80^\\circ$ and $B = 20^\\circ$: $\\cos 60^\\circ = \\frac{1}{2}$.\n\nWatch out: with a **plus** between the products it is $\\cos(A - B)$, not $\\cos(A + B)$.",
+      "searchQuery": "evaluate cos 80 cos 20 plus sin 80 sin 20",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\dfrac{1}{2}$"
+    },
+    {
+      "id": "tan-sum-collapse",
+      "title": "Evaluate $\\dfrac{\\tan 20^\\circ + \\tan 25^\\circ}{1 - \\tan 20^\\circ\\tan 25^\\circ}$ exactly.",
+      "body": "$1$\n\nIt matches $\\tan(A + B)$ with $A = 20^\\circ$ and $B = 25^\\circ$, so it equals $\\tan 45^\\circ = 1$.\nTip: recognize the $\\tan(A + B)$ pattern before computing any tangent values.",
+      "searchQuery": "evaluate tan 20 plus tan 25 over 1 minus product",
+      "answer": "1",
+      "answerDisplay": "$1$"
+    },
+    {
+      "id": "cos-sum-given-values",
+      "title": "$\\sin A = \\frac{3}{5}$ and $\\cos B = \\frac{5}{13}$ with $A$ and $B$ both acute. Find $\\cos(A + B)$.",
+      "body": "$-\\dfrac{16}{65}$\n\nAcute angles give $\\cos A = \\frac{4}{5}$ and $\\sin B = \\frac{12}{13}$. Then $\\cos(A + B) = \\cos A\\cos B - \\sin A\\sin B = \\frac{20}{65} - \\frac{36}{65} = -\\frac{16}{65}$.\n\nTip: sanity check: $A \\approx 36.9^\\circ$ and $B \\approx 67.4^\\circ$ sum to about $104^\\circ$, so the cosine is slightly negative.",
+      "searchQuery": "cos(A+B) given sin A and cos B acute angles",
+      "answer": "-16/65",
+      "answerDisplay": "$-\\dfrac{16}{65}$"
+    },
+    {
+      "id": "sin-sum-given-values",
+      "title": "$\\sin A = \\frac{3}{5}$ and $\\cos B = \\frac{5}{13}$ with $A$ and $B$ both acute. Find $\\sin(A + B)$.",
+      "body": "$\\dfrac{63}{65}$\n\nWith $\\cos A = \\frac{4}{5}$ and $\\sin B = \\frac{12}{13}$: $\\sin(A + B) = \\sin A\\cos B + \\cos A\\sin B = \\frac{15}{65} + \\frac{48}{65} = \\frac{63}{65}$.\n\nTip: sanity check: the angle is about $104^\\circ$, whose sine is about $0.97$.",
+      "searchQuery": "sin(A+B) given sin A and cos B acute angles",
+      "answer": "63/65",
+      "answerDisplay": "$\\dfrac{63}{65}$"
+    },
+    {
+      "id": "tan-sum-given-tans",
+      "title": "If $\\tan A = 2$ and $\\tan B = 3$, what is $\\tan(A + B)$?",
+      "body": "$-1$\n\n$\\tan(A + B) = \\frac{2 + 3}{1 - 2\\cdot 3} = \\frac{5}{-5} = -1$.\n\nTip: sanity check: $A + B \\approx 63.4^\\circ + 71.6^\\circ = 135^\\circ$, and $\\tan 135^\\circ = -1$.",
+      "searchQuery": "tan(A+B) given tan A and tan B",
+      "answer": "-1",
+      "answerDisplay": "$-1$"
+    },
+    {
+      "id": "shift-sin-half-pi",
+      "title": "Simplify $\\sin\\left(x + \\frac{\\pi}{2}\\right)$.",
+      "body": "$\\cos x$\n\n$\\sin x\\cos\\frac{\\pi}{2} + \\cos x\\sin\\frac{\\pi}{2} = \\sin x\\cdot 0 + \\cos x\\cdot 1 = \\cos x$.\n\nKey idea: shifting sine left by $\\frac{\\pi}{2}$ turns it into cosine.",
+      "searchQuery": "sin(x + pi/2) simplify cos x",
+      "answer": "cos x",
+      "acceptedAnswers": [
+        "cos(x)",
+        "cos"
+      ],
+      "answerDisplay": "$\\cos x$"
+    },
+    {
+      "id": "shift-cos-pi",
+      "title": "Simplify $\\cos(x + \\pi)$.",
+      "body": "$-\\cos x$\n\n$\\cos x\\cos\\pi - \\sin x\\sin\\pi = -\\cos x$.\n\nWhy: adding $\\pi$ is a half-turn, which negates both coordinates of the point.",
+      "searchQuery": "cos(x + pi) simplify negative cosine",
+      "answer": "-cos x",
+      "acceptedAnswers": [
+        "-cos(x)",
+        "-cos"
+      ],
+      "answerDisplay": "$-\\cos x$"
+    },
+    {
+      "id": "sin-pi-minus-x",
+      "title": "Simplify $\\sin(\\pi - x)$.",
+      "body": "$\\sin x$\n\n$\\sin\\pi\\cos x - \\cos\\pi\\sin x = 0 - (-1)\\sin x = \\sin x$.\n\nWatch out: $\\cos(\\pi - x) = -\\cos x$; only sine keeps its sign.",
+      "searchQuery": "sin(pi - x) simplify supplementary angle",
+      "answer": "sin x",
+      "acceptedAnswers": [
+        "sin(x)",
+        "sin"
+      ],
+      "answerDisplay": "$\\sin x$"
+    },
+    {
+      "id": "sin-sum-wrong",
+      "title": "Is $\\sin(A + B) = \\sin A + \\sin B$ always true? Give a counterexample.",
+      "body": "**No.** Take $A = B = \\frac{\\pi}{2}$ (radians): $\\sin(A + B) = \\sin\\pi = 0$, but $\\sin A + \\sin B = 1 + 1 = 2$.\n\nSine does not **distribute** over addition, and neither do the other trig functions. The correct rule is $\\sin(A + B) = \\sin A\\cos B + \\cos A\\sin B$.\n\nWatch out: the same trap applies to $\\cos(A + B)$ and $\\tan(A + B)$.",
+      "searchQuery": "sin(A+B) does not equal sin A plus sin B"
+    },
+    {
+      "id": "cos-difference-derivation",
+      "title": "Why does the formula for $\\cos(A - B)$ come from the unit circle?",
+      "body": "Take the points $P = (\\cos A, \\sin A)$ and $Q = (\\cos B, \\sin B)$. Their squared distance expands to $2 - 2(\\cos A\\cos B + \\sin A\\sin B)$.\n\nRotating the picture so $Q$ sits at $(1, 0)$ gives the same chord, with squared length $2 - 2\\cos(A - B)$. Equating the two gives $\\cos(A - B) = \\cos A\\cos B + \\sin A\\sin B$.\n\nKey idea: rotation does not change distance. The other sum and difference formulas follow from this one.",
+      "searchQuery": "derive cos(A-B) formula unit circle distance"
+    },
+    {
+      "id": "sin-double-angle-formula",
+      "title": "State the double-angle formula for sine.",
+      "body": "$\\sin 2\\theta = 2\\sin\\theta\\cos\\theta$\n\nIt is $\\sin(A + B)$ with $A = B = \\theta$: $\\sin\\theta\\cos\\theta + \\cos\\theta\\sin\\theta$.\n\nWatch out: $\\sin 2\\theta \\ne 2\\sin\\theta$; try $\\theta = 30^\\circ$: $\\sin 60^\\circ \\approx 0.866$ but $2\\sin 30^\\circ = 1$.",
+      "searchQuery": "sin 2 theta double angle formula"
+    },
+    {
+      "id": "sin-double-angle-from-tan",
+      "title": "If $\\tan\\theta = \\frac{3}{4}$ with $\\theta$ acute, find $\\sin 2\\theta$.",
+      "body": "$\\dfrac{24}{25}$\n\nA $3\\text{-}4\\text{-}5$ triangle gives $\\sin\\theta = \\frac{3}{5}$ and $\\cos\\theta = \\frac{4}{5}$, so $\\sin 2\\theta = 2\\cdot\\frac{3}{5}\\cdot\\frac{4}{5} = \\frac{24}{25}$.\n\nTip: draw the right triangle first when you are given a tangent.",
+      "searchQuery": "sin 2 theta from tan theta acute",
+      "answer": "24/25",
+      "acceptedAnswers": [
+        "0.96"
+      ],
+      "answerDisplay": "$\\dfrac{24}{25}$"
+    },
+    {
+      "id": "cos-double-angle-from-cos",
+      "title": "If $\\cos\\theta = \\frac{3}{5}$, what is $\\cos 2\\theta$?",
+      "body": "$-\\dfrac{7}{25}$\n\nUse $\\cos 2\\theta = 2\\cos^2\\theta - 1 = 2\\cdot\\frac{9}{25} - 1 = -\\frac{7}{25}$.\n\nTip: sanity check: $\\theta \\approx 53.1^\\circ$, so $2\\theta \\approx 106.3^\\circ$, which is in QII, so cosine is negative.",
+      "searchQuery": "cos 2 theta from cos theta double angle value",
+      "answer": "-7/25",
+      "acceptedAnswers": [
+        "-0.28"
+      ],
+      "answerDisplay": "$-\\dfrac{7}{25}$"
+    },
+    {
+      "id": "tan-double-angle-value",
+      "title": "If $\\tan\\theta = \\frac{3}{4}$, what is $\\tan 2\\theta$?",
+      "body": "$\\dfrac{24}{7}$\n\n$\\tan 2\\theta = \\frac{2\\cdot\\frac{3}{4}}{1 - \\frac{9}{16}} = \\frac{3/2}{7/16} = \\frac{24}{7}$.\n\nTip: sanity check: $\\sin 2\\theta = \\frac{24}{25}$ and $\\cos 2\\theta = \\frac{7}{25}$ for acute $\\theta$, whose ratio is $\\frac{24}{7}$.",
+      "searchQuery": "tan 2 theta from tan theta value 3/4",
+      "answer": "24/7",
+      "answerDisplay": "$\\dfrac{24}{7}$"
+    },
+    {
+      "id": "double-collapse-sin",
+      "title": "Evaluate $2\\sin 15^\\circ\\cos 15^\\circ$ exactly.",
+      "body": "$\\dfrac{1}{2}$\n\n$2\\sin\\theta\\cos\\theta = \\sin 2\\theta$, so this is $\\sin 30^\\circ = \\frac{1}{2}$.\nTip: $2\\sin\\theta\\cos\\theta$ is a **double angle** in disguise.",
+      "searchQuery": "evaluate 2 sin 15 cos 15 double angle",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\dfrac{1}{2}$"
+    },
+    {
+      "id": "double-collapse-cos",
+      "title": "Evaluate $\\cos^2 22.5^\\circ - \\sin^2 22.5^\\circ$ exactly.",
+      "body": "$\\dfrac{\\sqrt{2}}{2}$\n\n$\\cos^2\\theta - \\sin^2\\theta = \\cos 2\\theta$, so this is $\\cos 45^\\circ = \\frac{\\sqrt{2}}{2}$.\nTip: a difference of squares of cosine and sine is $\\cos 2\\theta$.",
+      "searchQuery": "evaluate cos squared 22.5 minus sin squared 22.5",
+      "answer": "sqrt(2)/2",
+      "acceptedAnswers": [
+        "sqrt2/2",
+        "1/sqrt(2)",
+        "1/sqrt2",
+        "(sqrt(2))/2",
+        "(sqrt2)/2"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{2}}{2}$"
+    },
+    {
+      "id": "double-collapse-tan",
+      "title": "Evaluate $\\dfrac{2\\tan 15^\\circ}{1 - \\tan^2 15^\\circ}$ exactly.",
+      "body": "$\\dfrac{\\sqrt{3}}{3}$\n\nIt matches $\\tan 2\\theta$ with $\\theta = 15^\\circ$, so it equals $\\tan 30^\\circ = \\frac{\\sqrt{3}}{3} = \\frac{1}{\\sqrt{3}}$.\nTip: $\\frac{2\\tan\\theta}{1 - \\tan^2\\theta}$ is the $\\tan 2\\theta$ pattern.",
+      "searchQuery": "evaluate 2 tan 15 over 1 minus tan squared 15",
+      "answer": "sqrt(3)/3",
+      "acceptedAnswers": [
+        "sqrt3/3",
+        "1/sqrt(3)",
+        "1/sqrt3",
+        "(sqrt(3))/3",
+        "(sqrt3)/3"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{3}}{3}$"
+    },
+    {
+      "id": "double-collapse-one-minus",
+      "title": "Evaluate $1 - 2\\sin^2\\frac{\\pi}{12}$ exactly.",
+      "body": "$\\dfrac{\\sqrt{3}}{2}$\n\n$1 - 2\\sin^2\\theta = \\cos 2\\theta$, so with $\\theta = \\frac{\\pi}{12}$ this is $\\cos\\frac{\\pi}{6} = \\frac{\\sqrt{3}}{2}$.\nTip: $1 - 2\\sin^2\\theta$ is one of the three forms of $\\cos 2\\theta$.",
+      "searchQuery": "evaluate 1 minus 2 sin squared pi/12",
+      "answer": "sqrt(3)/2",
+      "acceptedAnswers": [
+        "sqrt3/2",
+        "(sqrt(3))/2",
+        "(sqrt3)/2"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{3}}{2}$"
+    },
+    {
+      "id": "half-angle-cos-tan-formulas",
+      "title": "State the half-angle formulas for $\\cos\\frac{\\theta}{2}$ and $\\tan\\frac{\\theta}{2}$.",
+      "body": "$\\cos\\frac{\\theta}{2} = \\pm\\sqrt{\\dfrac{1 + \\cos\\theta}{2}}$ and $\\tan\\frac{\\theta}{2} = \\dfrac{\\sin\\theta}{1 + \\cos\\theta} = \\dfrac{1 - \\cos\\theta}{\\sin\\theta}$\n\nThe $\\pm$ is set by the quadrant of $\\frac{\\theta}{2}$. The two tangent forms need **no** sign choice.\n\nMnemonic: cosine gets the **plus** under the root; sine gets the minus.",
+      "searchQuery": "half-angle formulas cosine tangent"
+    },
+    {
+      "id": "cos-22-5-degrees",
+      "title": "Exact value of $\\cos 22.5^\\circ$?",
+      "body": "$\\dfrac{\\sqrt{2 + \\sqrt{2}}}{2} \\approx 0.924$\n\n$22.5^\\circ$ is half of $45^\\circ$ and lies in QI, so $\\cos 22.5^\\circ = +\\sqrt{\\frac{1 + \\cos 45^\\circ}{2}} = \\sqrt{\\frac{1 + \\sqrt{2}/2}{2}} = \\frac{\\sqrt{2 + \\sqrt{2}}}{2}$.\n\nTip: sanity check: it should be a bit under $\\cos 0 = 1$ and above $\\cos 45^\\circ \\approx 0.707$.",
+      "searchQuery": "exact value cos 22.5 degrees half angle",
+      "answer": "sqrt(2+sqrt(2))/2",
+      "acceptedAnswers": [
+        "sqrt(2+sqrt2)/2",
+        "(sqrt(2+sqrt(2)))/2",
+        "(sqrt(2+sqrt2))/2"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{2 + \\sqrt{2}}}{2}$"
+    },
+    {
+      "id": "tan-22-5-degrees",
+      "title": "Exact value of $\\tan 22.5^\\circ$?",
+      "body": "$\\sqrt{2} - 1 \\approx 0.414$\n\n$\\tan\\frac{\\theta}{2} = \\frac{\\sin\\theta}{1 + \\cos\\theta}$ with $\\theta = 45^\\circ$: $\\frac{\\sqrt{2}/2}{1 + \\sqrt{2}/2} = \\frac{\\sqrt{2}}{2 + \\sqrt{2}} = \\sqrt{2} - 1$ after rationalizing.\n\nTip: the sine-over-one-plus-cosine form avoids a square root and a sign choice.",
+      "searchQuery": "exact value tan 22.5 degrees half angle",
+      "answer": "sqrt(2)-1",
+      "acceptedAnswers": [
+        "sqrt2-1",
+        "-1+sqrt(2)",
+        "-1+sqrt2"
+      ],
+      "answerDisplay": "$\\sqrt{2} - 1$"
+    },
+    {
+      "id": "half-angle-given-cos",
+      "title": "$\\cos\\theta = -\\frac{7}{25}$ with $\\theta$ in Quadrant II. Find $\\cos\\frac{\\theta}{2}$.",
+      "body": "$\\dfrac{3}{5}$\n\n$\\theta$ is between $90^\\circ$ and $180^\\circ$, so $\\frac{\\theta}{2}$ is between $45^\\circ$ and $90^\\circ$ (QI), and cosine is positive. Then $\\cos\\frac{\\theta}{2} = \\sqrt{\\frac{1 - 7/25}{2}} = \\sqrt{\\frac{9}{25}} = \\frac{3}{5}$.\n\nKey idea: halving the angle halves its quadrant range.",
+      "searchQuery": "cos theta over 2 given cos theta quadrant II half angle",
+      "answer": "3/5",
+      "acceptedAnswers": [
+        "0.6"
+      ],
+      "answerDisplay": "$\\dfrac{3}{5}$"
+    },
+    {
+      "id": "half-angle-given-sin",
+      "title": "$\\cos\\theta = -\\frac{7}{25}$ with $\\theta$ in Quadrant II. Find $\\sin\\frac{\\theta}{2}$.",
+      "body": "$\\dfrac{4}{5}$\n\n$\\frac{\\theta}{2}$ is in QI, so sine is positive: $\\sin\\frac{\\theta}{2} = \\sqrt{\\frac{1 + 7/25}{2}} = \\sqrt{\\frac{16}{25}} = \\frac{4}{5}$.\n\nTip: sanity check: with the earlier card, $\\left(\\frac{3}{5}\\right)^2 + \\left(\\frac{4}{5}\\right)^2 = 1$.",
+      "searchQuery": "sin theta over 2 given cos theta quadrant II half angle",
+      "answer": "4/5",
+      "acceptedAnswers": [
+        "0.8"
+      ],
+      "answerDisplay": "$\\dfrac{4}{5}$"
+    },
+    {
+      "id": "half-angle-given-tan",
+      "title": "$\\cos\\theta = -\\frac{7}{25}$ with $\\theta$ in Quadrant II. Find $\\tan\\frac{\\theta}{2}$.",
+      "body": "$\\dfrac{4}{3}$\n\nIn QII, $\\sin\\theta = \\frac{24}{25}$. Then $\\tan\\frac{\\theta}{2} = \\frac{\\sin\\theta}{1 + \\cos\\theta} = \\frac{24/25}{18/25} = \\frac{4}{3}$.\n\nTip: sanity check: it equals $\\frac{\\sin(\\theta/2)}{\\cos(\\theta/2)} = \\frac{4/5}{3/5}$.",
+      "searchQuery": "tan theta over 2 given cos theta quadrant II",
+      "answer": "4/3",
+      "answerDisplay": "$\\dfrac{4}{3}$"
+    },
+    {
+      "id": "half-angle-derivation",
+      "title": "How do the half-angle formulas follow from the double-angle formulas?",
+      "body": "Start from $\\cos 2\\alpha = 1 - 2\\sin^2\\alpha$ and solve for $\\sin^2\\alpha$: $\\sin^2\\alpha = \\frac{1 - \\cos 2\\alpha}{2}$. Now let $\\alpha = \\frac{\\theta}{2}$, so $2\\alpha = \\theta$.\n\nTaking square roots gives $\\sin\\frac{\\theta}{2} = \\pm\\sqrt{\\frac{1 - \\cos\\theta}{2}}$. The $\\cos 2\\alpha = 2\\cos^2\\alpha - 1$ form gives the cosine formula the same way.\n\nKey idea: half-angle formulas are **power-reducing formulas** with $\\theta$ renamed.",
+      "searchQuery": "derive half angle formula from double angle"
+    },
+    {
+      "id": "sin-squared-15-degrees",
+      "title": "Exact value of $\\sin^2 15^\\circ$?",
+      "body": "$\\dfrac{2 - \\sqrt{3}}{4}$\n\nUse $\\sin^2\\theta = \\frac{1 - \\cos 2\\theta}{2}$: $\\frac{1 - \\cos 30^\\circ}{2} = \\frac{1 - \\sqrt{3}/2}{2} = \\frac{2 - \\sqrt{3}}{4} \\approx 0.067$.\n\nTip: sanity check: $\\sin 15^\\circ \\approx 0.259$, and $0.259^2 \\approx 0.067$.",
+      "searchQuery": "exact value sin squared 15 degrees power reducing",
+      "answer": "(2-sqrt(3))/4",
+      "acceptedAnswers": [
+        "(2-sqrt3)/4",
+        "1/2-sqrt(3)/4",
+        "1/2-sqrt3/4"
+      ],
+      "answerDisplay": "$\\dfrac{2 - \\sqrt{3}}{4}$"
+    },
+    {
+      "id": "power-reduce-sin-fourth",
+      "title": "Write $\\sin^4 x$ using only first powers of cosines of multiples of $x$.",
+      "body": "$\\sin^4 x = \\dfrac{3 - 4\\cos 2x + \\cos 4x}{8}$\n\nSquare the power-reducing formula: $\\sin^4 x = \\left(\\frac{1 - \\cos 2x}{2}\\right)^2 = \\frac{1 - 2\\cos 2x + \\cos^2 2x}{4}$. Then reduce $\\cos^2 2x = \\frac{1 + \\cos 4x}{2}$.\n\nTip: sanity check: at $x = 0$ both sides are $0$, and at $x = \\frac{\\pi}{2}$ both are $1$.\nTip: repeat the power-reducing step until no powers remain; this is how you prepare integrals.",
+      "searchQuery": "power reduction sin to the fourth x formula"
+    },
+    {
+      "id": "cos-from-double-angle",
+      "title": "If $\\cos 2\\theta = \\frac{1}{3}$ with $\\theta$ acute, find $\\cos\\theta$.",
+      "body": "$\\dfrac{\\sqrt{6}}{3}$\n\n$\\cos^2\\theta = \\frac{1 + \\cos 2\\theta}{2} = \\frac{4/3}{2} = \\frac{2}{3}$. For acute $\\theta$ cosine is positive, so $\\cos\\theta = \\sqrt{\\frac{2}{3}} = \\frac{\\sqrt{6}}{3} \\approx 0.816$.\n\nWatch out: $\\cos\\theta \\ne \\frac{1}{6}$; halving the angle does not halve the cosine.",
+      "searchQuery": "cos theta from cos 2 theta acute power reducing",
+      "answer": "sqrt(6)/3",
+      "acceptedAnswers": [
+        "sqrt6/3",
+        "sqrt(2/3)",
+        "sqrt(2)/sqrt(3)",
+        "(sqrt(6))/3",
+        "(sqrt6)/3"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{6}}{3}$"
+    },
+    {
+      "id": "average-sin-squared",
+      "title": "What is the average value of $\\sin^2 x$ over one full period?",
+      "body": "$\\dfrac{1}{2}$\n\n$\\sin^2 x = \\frac{1 - \\cos 2x}{2}$, and $\\cos 2x$ averages to $0$ over a period, leaving $\\frac{1}{2}$.\n\nKey idea: $\\sin^2 x$ and $\\cos^2 x$ both oscillate around $\\frac{1}{2}$ and sum to $1$ at every $x$.",
+      "searchQuery": "average value of sin squared over one period",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5",
+        "half"
+      ],
+      "answerDisplay": "$\\dfrac{1}{2}$"
+    },
+    {
+      "id": "cos-triple-angle",
+      "title": "Express $\\cos 3\\theta$ in terms of $\\cos\\theta$.",
+      "body": "$\\cos 3\\theta = 4\\cos^3\\theta - 3\\cos\\theta$\n\nWrite $\\cos 3\\theta = \\cos(2\\theta + \\theta) = \\cos 2\\theta\\cos\\theta - \\sin 2\\theta\\sin\\theta$. Substitute $2\\cos^2\\theta - 1$ and $2\\sin\\theta\\cos\\theta$, then replace $\\sin^2\\theta$ by $1 - \\cos^2\\theta$.\n\nTip: sanity check: $\\theta = 0$ gives $4 - 3 = 1$, and $\\theta = 60^\\circ$ gives $4\\cdot\\frac{1}{8} - \\frac{3}{2} = -1 = \\cos 180^\\circ$.",
+      "searchQuery": "triple angle formula cos 3 theta"
+    },
+    {
+      "id": "sin-triple-angle",
+      "title": "Express $\\sin 3\\theta$ in terms of $\\sin\\theta$.",
+      "body": "$\\sin 3\\theta = 3\\sin\\theta - 4\\sin^3\\theta$\n\nWrite $\\sin 3\\theta = \\sin(2\\theta + \\theta) = \\sin 2\\theta\\cos\\theta + \\cos 2\\theta\\sin\\theta$ and substitute the double-angle formulas.\n\nTip: sanity check: $\\theta = 30^\\circ$ gives $\\frac{3}{2} - 4\\cdot\\frac{1}{8} = 1 = \\sin 90^\\circ$.",
+      "searchQuery": "triple angle formula sin 3 theta"
+    },
+    {
+      "id": "product-sum-cos-cos",
+      "title": "Product-to-sum: rewrite $\\cos A\\cos B$ as a sum of cosines.",
+      "body": "$\\cos A\\cos B = \\dfrac{1}{2}\\left[\\cos(A - B) + \\cos(A + B)\\right]$\n\nWhy: add $\\cos(A - B) = \\cos A\\cos B + \\sin A\\sin B$ and $\\cos(A + B) = \\cos A\\cos B - \\sin A\\sin B$; the sine terms cancel.",
+      "searchQuery": "product to sum identity cos A cos B"
+    },
+    {
+      "id": "product-sum-sin-sin",
+      "title": "Product-to-sum: rewrite $\\sin A\\sin B$ as a sum of cosines.",
+      "body": "$\\sin A\\sin B = \\dfrac{1}{2}\\left[\\cos(A - B) - \\cos(A + B)\\right]$\n\nWhy: **subtract** $\\cos(A + B)$ from $\\cos(A - B)$; the cosine terms cancel and $2\\sin A\\sin B$ remains.\n\nWatch out: the order is $A - B$ first, then $A + B$; reversing it flips the sign.",
+      "searchQuery": "product to sum identity sin A sin B"
+    },
+    {
+      "id": "product-sum-cos-sin",
+      "title": "Product-to-sum: rewrite $\\cos A\\sin B$ as a sum of sines.",
+      "body": "$\\cos A\\sin B = \\dfrac{1}{2}\\left[\\sin(A + B) - \\sin(A - B)\\right]$\n\nWhy: subtract the expansions of $\\sin(A - B)$ from $\\sin(A + B)$; the $\\sin A\\cos B$ terms cancel.\n\nTip: you rarely need to memorize this; swap $A$ and $B$ in the $\\sin A\\cos B$ formula.",
+      "searchQuery": "product to sum identity cos A sin B"
+    },
+    {
+      "id": "sum-to-product-sines",
+      "title": "Sum-to-product: rewrite $\\sin A + \\sin B$ as a product.",
+      "body": "$\\sin A + \\sin B = 2\\sin\\dfrac{A + B}{2}\\cos\\dfrac{A - B}{2}$\n\nWhy: in $\\sin x\\cos y = \\frac{1}{2}[\\sin(x + y) + \\sin(x - y)]$, set $x = \\frac{A + B}{2}$ and $y = \\frac{A - B}{2}$.\n\nExample: $\\sin 75^\\circ + \\sin 15^\\circ = 2\\sin 45^\\circ\\cos 30^\\circ$.",
+      "searchQuery": "sum to product identity sin A plus sin B"
+    },
+    {
+      "id": "sum-to-product-cosines",
+      "title": "Sum-to-product: rewrite $\\cos A + \\cos B$ as a product.",
+      "body": "$\\cos A + \\cos B = 2\\cos\\dfrac{A + B}{2}\\cos\\dfrac{A - B}{2}$\n\nWhy: set $x = \\frac{A + B}{2}$ and $y = \\frac{A - B}{2}$ in $\\cos x\\cos y = \\frac{1}{2}[\\cos(x - y) + \\cos(x + y)]$.\n\nWatch out: the difference version is $\\cos A - \\cos B = -2\\sin\\frac{A + B}{2}\\sin\\frac{A - B}{2}$, with a minus sign out front.",
+      "searchQuery": "sum to product identity cos A plus cos B"
+    },
+    {
+      "id": "sum-to-product-cos-difference",
+      "title": "Sum-to-product: rewrite $\\cos A - \\cos B$ as a product.",
+      "body": "$\\cos A - \\cos B = -2\\sin\\dfrac{A + B}{2}\\sin\\dfrac{A - B}{2}$\n\nWhy: it comes from $\\sin x\\sin y = \\frac{1}{2}[\\cos(x - y) - \\cos(x + y)]$ with $x = \\frac{A + B}{2}$ and $y = \\frac{A - B}{2}$.\n\nTip: sanity check: $A = 0$ and $B = 90^\\circ$ gives $1 - 0 = 1$, and $-2\\sin 45^\\circ\\sin(-45^\\circ) = 1$.",
+      "searchQuery": "sum to product identity cos A minus cos B"
+    },
+    {
+      "id": "sum-to-product-sin-difference",
+      "title": "Sum-to-product: rewrite $\\sin A - \\sin B$ as a product.",
+      "body": "$\\sin A - \\sin B = 2\\cos\\dfrac{A + B}{2}\\sin\\dfrac{A - B}{2}$\n\nWhy: it comes from $\\cos x\\sin y = \\frac{1}{2}[\\sin(x + y) - \\sin(x - y)]$ with $x = \\frac{A + B}{2}$ and $y = \\frac{A - B}{2}$.\n\nTip: sanity check: $A = 90^\\circ$ and $B = 0$ gives $1$, and $2\\cos 45^\\circ\\sin 45^\\circ = 1$.",
+      "searchQuery": "sum to product identity sin A minus sin B"
+    },
+    {
+      "id": "evaluate-sin-75-plus-sin-15",
+      "title": "Evaluate $\\sin 75^\\circ + \\sin 15^\\circ$ exactly.",
+      "body": "$\\dfrac{\\sqrt{6}}{2}$\n\n$2\\sin\\frac{75^\\circ + 15^\\circ}{2}\\cos\\frac{75^\\circ - 15^\\circ}{2} = 2\\sin 45^\\circ\\cos 30^\\circ = 2\\cdot\\frac{\\sqrt{2}}{2}\\cdot\\frac{\\sqrt{3}}{2} = \\frac{\\sqrt{6}}{2} \\approx 1.225$.\n\nTip: sanity check: $0.966 + 0.259 \\approx 1.225$.",
+      "searchQuery": "evaluate sin 75 plus sin 15 sum to product",
+      "answer": "sqrt(6)/2",
+      "acceptedAnswers": [
+        "sqrt6/2",
+        "(sqrt(6))/2",
+        "(sqrt6)/2"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{6}}{2}$"
+    },
+    {
+      "id": "evaluate-cos-75-cos-15",
+      "title": "Evaluate $\\cos 75^\\circ\\cos 15^\\circ$ exactly.",
+      "body": "$\\dfrac{1}{4}$\n\n$\\cos A\\cos B = \\frac{1}{2}[\\cos(A - B) + \\cos(A + B)] = \\frac{1}{2}[\\cos 60^\\circ + \\cos 90^\\circ] = \\frac{1}{2}\\cdot\\frac{1}{2} = \\frac{1}{4}$.\n\nShortcut: $\\cos 75^\\circ = \\sin 15^\\circ$, so this is $\\sin 15^\\circ\\cos 15^\\circ = \\frac{1}{2}\\sin 30^\\circ$.\nTip: complementary angles let you swap cosine for sine and use the double-angle formula.",
+      "searchQuery": "evaluate cos 75 cos 15 product to sum",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25"
+      ],
+      "answerDisplay": "$\\dfrac{1}{4}$"
+    },
+    {
+      "id": "evaluate-sin-105-cos-15",
+      "title": "Evaluate $\\sin 105^\\circ\\cos 15^\\circ$ exactly.",
+      "body": "$\\dfrac{2 + \\sqrt{3}}{4}$\n\n$\\sin A\\cos B = \\frac{1}{2}[\\sin(A + B) + \\sin(A - B)] = \\frac{1}{2}[\\sin 120^\\circ + \\sin 90^\\circ] = \\frac{1}{2}\\left(\\frac{\\sqrt{3}}{2} + 1\\right) = \\frac{2 + \\sqrt{3}}{4}$.\n\nTip: sanity check: $0.966 \\times 0.966 \\approx 0.933$, and $\\frac{2 + 1.732}{4} \\approx 0.933$.",
+      "searchQuery": "evaluate sin 105 cos 15 product to sum",
+      "answer": "(2+sqrt(3))/4",
+      "acceptedAnswers": [
+        "(2+sqrt3)/4",
+        "1/2+sqrt(3)/4",
+        "1/2+sqrt3/4"
+      ],
+      "answerDisplay": "$\\dfrac{2 + \\sqrt{3}}{4}$"
+    },
+    {
+      "id": "evaluate-cos-75-minus-cos-15",
+      "title": "Evaluate $\\cos 75^\\circ - \\cos 15^\\circ$ exactly.",
+      "body": "$-\\dfrac{\\sqrt{2}}{2}$\n\n$-2\\sin\\frac{75^\\circ + 15^\\circ}{2}\\sin\\frac{75^\\circ - 15^\\circ}{2} = -2\\sin 45^\\circ\\sin 30^\\circ = -2\\cdot\\frac{\\sqrt{2}}{2}\\cdot\\frac{1}{2} = -\\frac{\\sqrt{2}}{2}$.\n\nTip: sanity check: $0.259 - 0.966 \\approx -0.707$.",
+      "searchQuery": "evaluate cos 75 minus cos 15 sum to product",
+      "answer": "-sqrt(2)/2",
+      "acceptedAnswers": [
+        "-sqrt2/2",
+        "-1/sqrt(2)",
+        "-1/sqrt2",
+        "-(sqrt(2)/2)",
+        "-(sqrt2)/2"
+      ],
+      "answerDisplay": "$-\\dfrac{\\sqrt{2}}{2}$"
+    },
+    {
+      "id": "double-angle-in-tan-forms",
+      "title": "Write $\\sin 2\\theta$ and $\\cos 2\\theta$ in terms of $\\tan\\theta$.",
+      "body": "$\\sin 2\\theta = \\dfrac{2\\tan\\theta}{1 + \\tan^2\\theta}$ and $\\cos 2\\theta = \\dfrac{1 - \\tan^2\\theta}{1 + \\tan^2\\theta}$\n\nWhy: divide numerator and denominator of $\\frac{2\\sin\\theta\\cos\\theta}{\\sin^2\\theta + \\cos^2\\theta}$ by $\\cos^2\\theta$.\n\nTip: sanity check: $\\tan\\theta = \\frac{3}{4}$ gives $\\frac{3/2}{25/16} = \\frac{24}{25}$, matching $\\sin 2\\theta$.",
+      "searchQuery": "sin 2 theta cos 2 theta in terms of tan theta"
+    },
+    {
+      "id": "prove-sec-minus-cos",
+      "title": "Prove that $\\sec\\theta - \\cos\\theta = \\sin\\theta\\tan\\theta$.",
+      "body": "Start with the left side and write it over a common denominator: $\\frac{1}{\\cos\\theta} - \\cos\\theta = \\frac{1 - \\cos^2\\theta}{\\cos\\theta} = \\frac{\\sin^2\\theta}{\\cos\\theta}$.\n\nSplit it as $\\sin\\theta \\cdot \\frac{\\sin\\theta}{\\cos\\theta} = \\sin\\theta\\tan\\theta$, which is the right side.\n\nTip: convert to sine and cosine, **combine fractions**, then use $1 - \\cos^2\\theta = \\sin^2\\theta$.",
+      "searchQuery": "prove identity sec theta minus cos theta"
+    },
+    {
+      "id": "prove-tan-plus-cot",
+      "title": "Prove that $\\tan x + \\cot x = \\sec x\\csc x$.",
+      "body": "Write the left side in sines and cosines and add: $\\frac{\\sin x}{\\cos x} + \\frac{\\cos x}{\\sin x} = \\frac{\\sin^2 x + \\cos^2 x}{\\sin x\\cos x} = \\frac{1}{\\sin x\\cos x}$.\n\nThat is $\\frac{1}{\\cos x}\\cdot\\frac{1}{\\sin x} = \\sec x\\csc x$.\n\nKey idea: the **Pythagorean identity** turns the numerator into $1$.",
+      "searchQuery": "prove identity tan x plus cot x equals sec x csc x"
+    },
+    {
+      "id": "simplify-sin-csc-minus-sin",
+      "title": "Simplify $\\sin x(\\csc x - \\sin x)$.",
+      "body": "$\\cos^2 x$\n\nDistribute: $\\sin x\\csc x - \\sin^2 x = 1 - \\sin^2 x = \\cos^2 x$.\nTip: $\\sin x\\csc x = 1$, since they are reciprocals.",
+      "searchQuery": "simplify sin x times csc x minus sin x",
+      "answer": "cos^2 x",
+      "acceptedAnswers": [
+        "cos^2(x)",
+        "cos^2",
+        "(cos x)^2",
+        "(cos(x))^2"
+      ],
+      "answerDisplay": "$\\cos^2 x$"
+    },
+    {
+      "id": "simplify-two-fractions",
+      "title": "Simplify $\\dfrac{\\cos x}{1 + \\sin x} + \\dfrac{1 + \\sin x}{\\cos x}$.",
+      "body": "$2\\sec x$\n\nCommon denominator: $\\frac{\\cos^2 x + (1 + \\sin x)^2}{\\cos x(1 + \\sin x)} = \\frac{2 + 2\\sin x}{\\cos x(1 + \\sin x)} = \\frac{2}{\\cos x}$.\n\nTip: expand and use $\\sin^2 x + \\cos^2 x = 1$; the factor $1 + \\sin x$ then cancels.",
+      "searchQuery": "simplify cos x over 1 plus sin x plus 1 plus sin x over cos x",
+      "answer": "2sec x",
+      "acceptedAnswers": [
+        "2sec(x)",
+        "2/cos x",
+        "2/cos(x)"
+      ],
+      "answerDisplay": "$2\\sec x$"
+    },
+    {
+      "id": "simplify-sin2x-over-sinx",
+      "title": "Simplify $\\dfrac{\\sin 2x}{\\sin x}$ for $\\sin x \\ne 0$.",
+      "body": "$2\\cos x$\n\n$\\frac{2\\sin x\\cos x}{\\sin x} = 2\\cos x$.\nWatch out: you may cancel $\\sin x$ only because $\\sin x \\ne 0$.",
+      "searchQuery": "simplify sin 2x over sin x",
+      "answer": "2cos x",
+      "acceptedAnswers": [
+        "2cos(x)"
+      ],
+      "answerDisplay": "$2\\cos x$"
+    },
+    {
+      "id": "simplify-1-minus-cos-2x",
+      "title": "Simplify $\\dfrac{1 - \\cos 2x}{\\sin 2x}$ where it is defined.",
+      "body": "$\\tan x$\n\nUse $1 - \\cos 2x = 2\\sin^2 x$ and $\\sin 2x = 2\\sin x\\cos x$: $\\frac{2\\sin^2 x}{2\\sin x\\cos x} = \\frac{\\sin x}{\\cos x} = \\tan x$.\n\nTip: choose the double-angle form of $\\cos 2x$ that cancels the constant $1$.",
+      "searchQuery": "simplify 1 minus cos 2x over sin 2x tan x",
+      "answer": "tan x",
+      "acceptedAnswers": [
+        "tan(x)",
+        "tan"
+      ],
+      "answerDisplay": "$\\tan x$"
+    },
+    {
+      "id": "simplify-sincos-tancot",
+      "title": "Simplify $\\sin x\\cos x(\\tan x + \\cot x)$.",
+      "body": "$1$\n\nSince $\\tan x + \\cot x = \\frac{1}{\\sin x\\cos x}$, the product is $\\sin x\\cos x \\cdot \\frac{1}{\\sin x\\cos x} = 1$.\n\nTip: sanity check: at $x = \\frac{\\pi}{4}$, $\\frac{1}{2}(1 + 1) = 1$.",
+      "searchQuery": "simplify sin x cos x times tan x plus cot x",
+      "answer": "1",
+      "answerDisplay": "$1$"
+    },
+    {
+      "id": "identity-vs-equation",
+      "title": "What is the difference between a trig identity and a conditional equation, such as $\\sin\\theta = \\cos\\theta$?",
+      "body": "An **identity** is true for every angle where both sides are defined. A **conditional equation** is true only for certain angles.\n\nExample: $\\sin^2\\theta + \\cos^2\\theta = 1$ is an identity, but $\\sin\\theta = \\cos\\theta$ holds only at $\\theta = \\frac{\\pi}{4} + k\\pi$ (radians).\n\nTip: you prove an identity, but you solve an equation.",
+      "searchQuery": "trig identity versus conditional equation difference"
+    },
+    {
+      "id": "identity-domain",
+      "title": "Is $\\tan\\theta\\cot\\theta = 1$ true for every real $\\theta$?",
+      "body": "**No.** It holds only where both functions are defined. At $\\theta = 0$, $\\cot\\theta$ is undefined, and at $\\theta = \\frac{\\pi}{2}$, $\\tan\\theta$ is undefined.\n\nIdentities are statements about the values where both sides make sense.\n\nWatch out: cancelling a factor such as $\\sin\\theta$ silently assumes it is not zero.",
+      "searchQuery": "is tan theta cot theta equal to 1 domain restrictions"
+    },
+    {
+      "id": "test-false-identity",
+      "title": "How can you quickly show that a proposed trig identity is false?",
+      "body": "Substitute **one** convenient angle where both sides are defined and show they differ. One counterexample is enough.\n\nExample: to test $\\sin 2x = 2\\sin x$, use $x = 30^\\circ$: $\\sin 60^\\circ \\approx 0.866$, but $2\\sin 30^\\circ = 1$.\n\nWatch out: agreement at one angle does not prove an identity; it only fails to disprove it.",
+      "searchQuery": "counterexample to disprove trig identity test value"
+    },
+    {
+      "id": "sine-product-difference",
+      "title": "Simplify $\\sin(A + B)\\sin(A - B)$ in terms of $\\sin A$ and $\\sin B$.",
+      "body": "$\\sin^2 A - \\sin^2 B$\n\nExpand: $(\\sin A\\cos B)^2 - (\\cos A\\sin B)^2 = \\sin^2 A(1 - \\sin^2 B) - (1 - \\sin^2 A)\\sin^2 B = \\sin^2 A - \\sin^2 B$.\n\nTip: sanity check: $A = 90^\\circ$ and $B = 30^\\circ$ give $\\sin 120^\\circ\\sin 60^\\circ = \\frac{3}{4}$ and $1 - \\frac{1}{4} = \\frac{3}{4}$.",
+      "searchQuery": "sin(A+B) sin(A-B) equals sin squared A minus sin squared B"
+    },
+    {
+      "id": "cosine-product-difference",
+      "title": "Simplify $\\cos(A + B)\\cos(A - B)$ in terms of $\\cos A$ and $\\sin B$.",
+      "body": "$\\cos^2 A - \\sin^2 B$\n\nExpand: $\\cos^2 A\\cos^2 B - \\sin^2 A\\sin^2 B = \\cos^2 A(1 - \\sin^2 B) - (1 - \\cos^2 A)\\sin^2 B = \\cos^2 A - \\sin^2 B$.\n\nTip: sanity check: $A = 0$ and $B = 90^\\circ$ give $\\cos 90^\\circ\\cos(-90^\\circ) = 0$ and $1 - 1 = 0$.",
+      "searchQuery": "cos(A+B) cos(A-B) equals cos squared A minus sin squared B"
+    },
+    {
+      "id": "sin-22-5-degrees",
+      "title": "Exact value of $\\sin 22.5^\\circ$?",
+      "body": "$\\dfrac{\\sqrt{2 - \\sqrt{2}}}{2} \\approx 0.383$\n\n$22.5^\\circ$ is half of $45^\\circ$ and lies in QI, so $\\sin 22.5^\\circ = +\\sqrt{\\frac{1 - \\cos 45^\\circ}{2}} = \\sqrt{\\frac{1 - \\sqrt{2}/2}{2}} = \\frac{\\sqrt{2 - \\sqrt{2}}}{2}$.\n\nTip: sanity check: $\\sin^2 22.5^\\circ + \\cos^2 22.5^\\circ = \\frac{2 - \\sqrt{2}}{4} + \\frac{2 + \\sqrt{2}}{4} = 1$.\nWatch out: the minus under the root belongs to **sine**; cosine gets the plus.",
+      "searchQuery": "exact value sin 22.5 degrees half angle",
+      "answer": "sqrt(2-sqrt(2))/2",
+      "acceptedAnswers": [
+        "sqrt(2-sqrt2)/2",
+        "(sqrt(2-sqrt(2)))/2",
+        "(sqrt(2-sqrt2))/2"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{2 - \\sqrt{2}}}{2}$"
+    }
+  ]
+}

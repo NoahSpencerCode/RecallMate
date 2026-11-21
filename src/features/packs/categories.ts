@@ -17,6 +17,14 @@ const looks: Record<string, CategoryLook> = {
   chemistry: { color: '#13B5B5', gradient: ['#16C2C2', '#38B6FF'], icon: 'flask-outline' },
   physics: { color: '#F2A900', gradient: ['#FFD23F', '#FF9F1C'], icon: 'atom' },
   statistics: { color: '#FF8A1C', gradient: ['#FFB020', '#FF6B57'], icon: 'chart-bell-curve' },
+  'linear-algebra': { color: '#5B6CFF', gradient: ['#6C7BFF', '#3F51D9'], icon: 'matrix' },
+  'differential-equations': { color: '#8E5CF7', gradient: ['#A86BFF', '#6C4DFF'], icon: 'chart-bell-curve-cumulative' },
+  'organic-chemistry': { color: '#0FA3A3', gradient: ['#12B5A6', '#1D8FD1'], icon: 'molecule' },
+  biochemistry: { color: '#2BB673', gradient: ['#3CCB7F', '#13A89E'], icon: 'test-tube' },
+  'anatomy-physiology': { color: '#F0506E', gradient: ['#FF6B81', '#E8457C'], icon: 'heart-pulse' },
+  microbiology: { color: '#5DAA1E', gradient: ['#7CC23A', '#2FA56A'], icon: 'bacteria-outline' },
+  'discrete-math': { color: '#E0569B', gradient: ['#F06BAA', '#B24DD8'], icon: 'graph-outline' },
+  'machine-learning': { color: '#3B82F6', gradient: ['#4F9BFF', '#7B61FF'], icon: 'robot-outline' },
 };
 
 /** Look for cards the student wrote themselves. */

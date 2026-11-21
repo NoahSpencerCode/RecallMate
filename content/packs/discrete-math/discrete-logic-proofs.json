@@ -1,0 +1,645 @@
+{
+  "id": "discrete-logic-proofs",
+  "title": "Logic, Sets & Proofs",
+  "course": "Discrete Mathematics",
+  "description": "Propositional logic and truth tables, equivalences, quantifiers, rules of inference, direct, contrapositive, contradiction and induction proofs, sets, functions, relations, partial orders and modular arithmetic.",
+  "cards": [
+    {
+      "id": "prop-definition",
+      "title": "Which kind of sentence counts as a **proposition** in logic?",
+      "body": "A declarative sentence that is either true or false, but not both.\n\nQuestions, commands and open sentences like \"$x + 1 = 5$\" (truth depends on $x$) are **not** propositions.\n\nExample: \"$2 + 3 = 5$\" is a (true) proposition; \"Close the door\" is not.\nKey idea: a proposition has exactly one truth value.",
+      "searchQuery": "proposition definition propositional logic"
+    },
+    {
+      "id": "truth-table-rows",
+      "title": "How many rows does a truth table have for a compound proposition with $4$ distinct variables?",
+      "body": "16\n\nEach variable is independently true or false, so $n$ variables give $2^n$ rows.\n\nExample: $p, q, r$ give $2^3 = 8$ rows.\nTip: list rows in binary-counting order so none are missed or repeated.",
+      "answer": "16",
+      "acceptedAnswers": ["2^4"],
+      "answerDisplay": "$2^4 = 16$",
+      "searchQuery": "truth table number of rows 2^n variables"
+    },
+    {
+      "id": "conjunction-true",
+      "title": "When is the conjunction $p \\land q$ true?",
+      "body": "Exactly when **both** $p$ and $q$ are true.\n\nIf either one is false, the conjunction is false.\n\nExample: $T \\land F$ is $F$.\nKey idea: $\\land$ is \"and\".",
+      "searchQuery": "conjunction truth table logical and"
+    },
+    {
+      "id": "disjunction-false",
+      "title": "When is the inclusive disjunction $p \\lor q$ false?",
+      "body": "Only when **both** $p$ and $q$ are false.\n\nIt is true if at least one of them is true, including when both are.\n\nWatch out: in logic $\\lor$ is inclusive; the exclusive version is $p \\oplus q$.",
+      "searchQuery": "disjunction truth table inclusive or"
+    },
+    {
+      "id": "xor-true",
+      "title": "When is the exclusive or $p \\oplus q$ true?",
+      "body": "Exactly when one of $p, q$ is true and the other is false.\n\nEquivalently, $p \\oplus q$ is true when $p$ and $q$ have **different** truth values.\n\nExample: $T \\oplus T$ is $F$, while $T \\lor T$ is $T$.",
+      "searchQuery": "exclusive or XOR truth table"
+    },
+    {
+      "id": "conditional-false-case",
+      "title": "In which single case is the conditional $p \\to q$ false?",
+      "body": "When $p$ is true and $q$ is false.\n\nIn the other three rows ($TT$, $FT$, $FF$) the conditional is true.\n\nExample: \"If you pass, I'll buy lunch\" is broken only if you pass and I don't buy lunch.\nWatch out: a false hypothesis never makes $p \\to q$ false.",
+      "searchQuery": "conditional statement truth table false case"
+    },
+    {
+      "id": "conditional-as-or",
+      "title": "Which expression using only $\\neg$ and $\\lor$ is equivalent to $p \\to q$?",
+      "body": "$\\neg p \\lor q$\n\nBoth are false only when $p$ is true and $q$ is false.\n\nWhy: either the hypothesis fails ($\\neg p$) or the conclusion holds ($q$).\nTip: rewrite conditionals this way before applying De Morgan's laws.",
+      "searchQuery": "implication equivalent not p or q"
+    },
+    {
+      "id": "vacuous-truth",
+      "title": "If $p$ is false, what is the truth value of $p \\to q$ (true or false)?",
+      "body": "true\n\nWhen the hypothesis is false, the conditional is **vacuously true**, whatever $q$ is.\n\nExample: \"If $1 = 2$, then $3 = 7$\" is a true statement.\nWatch out: this convention keeps $p \\to q \\equiv \\neg p \\lor q$ consistent.",
+      "answer": "true",
+      "acceptedAnswers": ["T", "1"],
+      "searchQuery": "vacuous truth conditional false hypothesis"
+    },
+    {
+      "id": "converse-def",
+      "title": "What is the **converse** of $p \\to q$?",
+      "body": "$q \\to p$\n\nIt swaps the hypothesis and the conclusion.\n\nExample: the converse of \"If it rains, the street is wet\" is \"If the street is wet, it rains\".\nWatch out: the converse is **not** equivalent to the original.",
+      "searchQuery": "converse of a conditional statement"
+    },
+    {
+      "id": "inverse-def",
+      "title": "What is the **inverse** of $p \\to q$?",
+      "body": "$\\neg p \\to \\neg q$\n\nIt negates both parts but keeps their order.\n\nWhy: the inverse is the contrapositive of the converse, so it is equivalent to the converse, not to the original.",
+      "searchQuery": "inverse of a conditional statement logic"
+    },
+    {
+      "id": "contrapositive-def",
+      "title": "What is the **contrapositive** of $p \\to q$?",
+      "body": "$\\neg q \\to \\neg p$\n\nIt is **logically equivalent** to $p \\to q$.\n\nWhy: $\\neg q \\to \\neg p \\equiv \\neg\\neg q \\lor \\neg p \\equiv q \\lor \\neg p \\equiv \\neg p \\lor q$.\nTip: when a direct proof of $p \\to q$ is awkward, prove the contrapositive instead.",
+      "searchQuery": "contrapositive logically equivalent conditional"
+    },
+    {
+      "id": "converse-not-equivalent",
+      "title": "Is the converse $q \\to p$ logically equivalent to $p \\to q$?",
+      "body": "No.\n\nThey differ when $p$ and $q$ have different truth values. With $p = F$, $q = T$: $p \\to q$ is true but $q \\to p$ is false.\n\nExample: \"Every square is a rectangle\" is true, but its converse \"every rectangle is a square\" is false.\nWatch out: assuming the converse is a classic exam error.",
+      "searchQuery": "converse not equivalent to conditional statement"
+    },
+    {
+      "id": "biconditional-true",
+      "title": "When is the biconditional $p \\leftrightarrow q$ true?",
+      "body": "When $p$ and $q$ have the **same** truth value.\n\nIt is true on $TT$ and $FF$, and false on $TF$ and $FT$.\n\nKey idea: read it as \"$p$ if and only if $q$\".",
+      "searchQuery": "biconditional truth table if and only if"
+    },
+    {
+      "id": "biconditional-two-conditionals",
+      "title": "Write $p \\leftrightarrow q$ using two conditionals and a conjunction.",
+      "body": "$(p \\to q) \\land (q \\to p)$\n\nBoth directions must hold.\n\nWhy: the conjunction is true exactly when the two conditionals are both true, that is, when $p$ and $q$ agree.\nTip: to prove \"$p$ iff $q$\" you prove both conditionals.",
+      "searchQuery": "biconditional equivalent two conditionals"
+    },
+    {
+      "id": "only-if-translation",
+      "title": "How is \"$p$ only if $q$\" written symbolically?",
+      "body": "$p \\to q$\n\n\"Only if\" introduces the necessary condition: if $p$ holds, then $q$ must hold.\n\nExample: \"You pass only if you study\" means pass $\\to$ study.\nWatch out: it is **not** $q \\to p$.",
+      "searchQuery": "p only if q translation conditional"
+    },
+    {
+      "id": "sufficient-condition",
+      "title": "\"$p$ is sufficient for $q$\" translates to which conditional?",
+      "body": "$p \\to q$\n\nKnowing $p$ is enough to guarantee $q$.\n\nExample: being in Paris is sufficient for being in France.\nMnemonic: **S**ufficient goes at the **S**tart of the arrow.",
+      "searchQuery": "sufficient condition conditional statement logic"
+    },
+    {
+      "id": "necessary-condition",
+      "title": "\"$p$ is necessary for $q$\" translates to which conditional?",
+      "body": "$q \\to p$\n\nIf $q$ is true, then $p$ had to be true.\n\nExample: being in France is necessary for being in Paris.\nWatch out: the necessary condition is the conclusion of the arrow, not the hypothesis.",
+      "searchQuery": "necessary condition conditional statement logic"
+    },
+    {
+      "id": "tautology-def",
+      "title": "What is a **tautology**?",
+      "body": "A compound proposition that is true for every assignment of truth values to its variables.\n\nExample: $p \\lor \\neg p$ is a tautology.\n\nKey idea: its truth-table column is all $T$.",
+      "searchQuery": "tautology definition propositional logic"
+    },
+    {
+      "id": "contradiction-def",
+      "title": "What is a **contradiction** in propositional logic?",
+      "body": "A compound proposition that is false for every assignment of truth values.\n\nExample: $p \\land \\neg p$.\n\nWhy: the negation of a contradiction is a tautology.",
+      "searchQuery": "contradiction definition propositional logic"
+    },
+    {
+      "id": "de-morgan-and",
+      "title": "State De Morgan's law for $\\neg(p \\land q)$.",
+      "body": "$\\neg(p \\land q) \\equiv \\neg p \\lor \\neg q$\n\nNegating an \"and\" gives an \"or\" of the negations.\n\nExample: \"not (tall and fast)\" means \"not tall or not fast\".\nMnemonic: flip the connective, negate each piece.",
+      "searchQuery": "De Morgan's law negation of conjunction"
+    },
+    {
+      "id": "de-morgan-or",
+      "title": "State De Morgan's law for $\\neg(p \\lor q)$.",
+      "body": "$\\neg(p \\lor q) \\equiv \\neg p \\land \\neg q$\n\nNegating an \"or\" gives an \"and\" of the negations.\n\nExample: \"not (rain or snow)\" means \"no rain and no snow\".\nWatch out: forgetting to flip $\\lor$ to $\\land$ is the usual slip.",
+      "searchQuery": "De Morgan's law negation of disjunction"
+    },
+    {
+      "id": "negation-of-conditional",
+      "title": "What is $\\neg(p \\to q)$ equivalent to?",
+      "body": "$p \\land \\neg q$\n\nA conditional fails only when the hypothesis is true and the conclusion is false.\n\nWhy: $\\neg(\\neg p \\lor q) \\equiv \\neg\\neg p \\land \\neg q \\equiv p \\land \\neg q$.\nWatch out: the negation of a conditional is **not** another conditional.",
+      "searchQuery": "negation of implication equivalent p and not q"
+    },
+    {
+      "id": "distributive-law-logic",
+      "title": "Distribute: $p \\land (q \\lor r) \\equiv\\,?$",
+      "body": "$(p \\land q) \\lor (p \\land r)$\n\n$\\land$ distributes over $\\lor$, and likewise $\\lor$ distributes over $\\land$: $p \\lor (q \\land r) \\equiv (p \\lor q) \\land (p \\lor r)$.\n\nTip: both distributive laws hold, unlike ordinary arithmetic where only multiplication distributes over addition.",
+      "searchQuery": "distributive laws propositional logic"
+    },
+    {
+      "id": "absorption-law",
+      "title": "Simplify $p \\lor (p \\land q)$.",
+      "body": "$p$\n\nThis is an **absorption law**; the dual is $p \\land (p \\lor q) \\equiv p$.\n\nWhy: if $p$ is true the whole thing is true; if $p$ is false, then $p \\land q$ is false too, so the result is false.",
+      "searchQuery": "absorption law logic p or p and q"
+    },
+    {
+      "id": "excluded-middle-name",
+      "title": "What is the name of the law $p \\lor \\neg p \\equiv \\mathbf{T}$?",
+      "body": "law of excluded middle\n\nEvery proposition is either true or its negation is true.\n\nThe companion law $p \\land \\neg p \\equiv \\mathbf{F}$ is the law of **non-contradiction**.",
+      "answer": "excluded middle",
+      "acceptedAnswers": ["law of excluded middle", "law of the excluded middle", "excluded middle law"],
+      "searchQuery": "law of excluded middle propositional logic"
+    },
+    {
+      "id": "conditional-true-rows",
+      "title": "In how many of the $4$ rows of its truth table is $p \\to q$ true?",
+      "body": "3\n\nThe conditional is false only on the row $p = T$, $q = F$.\n\nKey idea: a conditional is true in most rows, so it is a weak statement compared with $p \\land q$ (true in $1$ row).",
+      "answer": "3",
+      "searchQuery": "conditional truth table three true rows"
+    },
+    {
+      "id": "count-assignments-false",
+      "title": "Among the $16$ truth assignments to $p, q, r, s$, how many make $p \\to q$ false?",
+      "body": "4\n\n$p \\to q$ is false only when $p = T$ and $q = F$.\n\nThe other two variables $r$ and $s$ are free: $2 \\times 2 = 4$ assignments.\nTip: fix the variables that decide the outcome, then multiply by $2$ for each free one.",
+      "answer": "4",
+      "searchQuery": "count truth assignments conditional false free variables"
+    },
+    {
+      "id": "exportation-law",
+      "title": "Which statement is equivalent to $(p \\land q) \\to r$?",
+      "body": "$p \\to (q \\to r)$\n\nThis is the **exportation** law: move a conjunct from the hypothesis into a nested conditional.\n\nWhy: $\\neg(p \\land q) \\lor r \\equiv \\neg p \\lor \\neg q \\lor r \\equiv \\neg p \\lor (\\neg q \\lor r)$.",
+      "searchQuery": "exportation law logic equivalence conditional"
+    },
+    {
+      "id": "conditional-not-associative",
+      "title": "Is $\\to$ associative, that is, $(p \\to q) \\to r \\equiv p \\to (q \\to r)$?",
+      "body": "No.\n\nTake $p = q = r = F$. Then $(F \\to F) \\to F = T \\to F = F$, but $F \\to (F \\to F) = F \\to T = T$.\n\nWatch out: always parenthesize chained conditionals; $\\land$ and $\\lor$ are associative, $\\to$ is not.",
+      "searchQuery": "implication not associative counterexample logic"
+    },
+    {
+      "id": "evaluate-compound",
+      "title": "Let $p = T$ and $q = F$. What is the truth value of $(p \\lor q) \\to \\neg p$ (true or false)?",
+      "body": "false\n\nHere $p \\lor q = T$ and $\\neg p = F$, so the conditional is $T \\to F$, which is false.\n\nTip: evaluate the innermost parts first, then work outward.",
+      "answer": "false",
+      "acceptedAnswers": ["F", "0"],
+      "searchQuery": "evaluate compound proposition truth value conditional"
+    },
+    {
+      "id": "universal-quantifier",
+      "title": "What does $\\forall x\\, P(x)$ assert?",
+      "body": "$P(x)$ is true for **every** $x$ in the domain.\n\nIt is false as soon as one element makes $P$ false.\n\nExample: $\\forall x \\in \\mathbb{R}\\ (x^2 \\ge 0)$ is true.\nWatch out: the truth of a quantified statement depends on the domain.",
+      "searchQuery": "universal quantifier for all meaning"
+    },
+    {
+      "id": "existential-quantifier",
+      "title": "What does $\\exists x\\, P(x)$ assert?",
+      "body": "There is **at least one** $x$ in the domain for which $P(x)$ is true.\n\nOne witness is enough to prove it.\n\nExample: $\\exists x \\in \\mathbb{Z}\\ (x^2 = 9)$ is true, witnessed by $x = 3$.",
+      "searchQuery": "existential quantifier there exists meaning"
+    },
+    {
+      "id": "negate-forall",
+      "title": "What is $\\neg\\,\\forall x\\, P(x)$ equivalent to?",
+      "body": "$\\exists x\\, \\neg P(x)$\n\n\"Not everything has the property\" means \"something lacks it\".\n\nExample: \"Not every bird flies\" is \"some bird does not fly\".\nMnemonic: push the $\\neg$ inside and swap the quantifier.",
+      "searchQuery": "negation of universal quantifier equivalent exists not"
+    },
+    {
+      "id": "negate-exists",
+      "title": "What is $\\neg\\,\\exists x\\, P(x)$ equivalent to?",
+      "body": "$\\forall x\\, \\neg P(x)$\n\n\"There is no $x$ with the property\" means \"every $x$ lacks it\".\n\nExample: \"No integer satisfies $x^2 = 2$\" is \"for all integers, $x^2 \\ne 2$\".",
+      "searchQuery": "negation of existential quantifier equivalent for all not"
+    },
+    {
+      "id": "quantifier-order",
+      "title": "Over the integers, which of $\\forall x\\,\\exists y\\,(x + y = 0)$ and $\\exists y\\,\\forall x\\,(x + y = 0)$ is true?",
+      "body": "Only the first one: $\\forall x\\,\\exists y\\,(x + y = 0)$.\n\nIn the first, $y$ may depend on $x$ (take $y = -x$). In the second, one fixed $y$ would have to work for every $x$, which is impossible.\n\nWatch out: swapping $\\forall$ and $\\exists$ changes the meaning.",
+      "searchQuery": "order of quantifiers for all there exists matters"
+    },
+    {
+      "id": "empty-domain-quantifiers",
+      "title": "Over an **empty** domain, what are the truth values of $\\forall x\\, P(x)$ and $\\exists x\\, P(x)$?",
+      "body": "$\\forall x\\, P(x)$ is true (vacuously); $\\exists x\\, P(x)$ is false.\n\nThere is no element to violate $P$, and no element to witness it.\n\nExample: \"Every unicorn in this room is purple\" is vacuously true if the room has no unicorns.",
+      "searchQuery": "empty domain universal quantifier vacuously true"
+    },
+    {
+      "id": "translate-all-are",
+      "title": "Which formula says \"every $A$ is a $B$\"?",
+      "body": "$\\forall x\\,(A(x) \\to B(x))$\n\nThe universal quantifier pairs with a **conditional**.\n\nWatch out: $\\forall x\\,(A(x) \\land B(x))$ would claim that *everything* is both $A$ and $B$.",
+      "searchQuery": "translate all A are B universal quantifier conditional"
+    },
+    {
+      "id": "translate-some-are",
+      "title": "Which formula says \"some $A$ is a $B$\"?",
+      "body": "$\\exists x\\,(A(x) \\land B(x))$\n\nThe existential quantifier pairs with a **conjunction**.\n\nWatch out: $\\exists x\\,(A(x) \\to B(x))$ is far too weak; it is true whenever some element is not an $A$.",
+      "searchQuery": "translate some A are B existential quantifier conjunction"
+    },
+    {
+      "id": "counterexample-forall",
+      "title": "How do you disprove a statement of the form $\\forall x\\, P(x)$?",
+      "body": "Exhibit a single **counterexample**: one $x$ in the domain with $P(x)$ false.\n\nThis works because $\\neg\\forall x\\, P(x) \\equiv \\exists x\\, \\neg P(x)$.\n\nExample: \"every prime is odd\" fails at $x = 2$.\nWatch out: examples never prove a universal claim; one counterexample always disproves it.",
+      "searchQuery": "counterexample disprove universal statement"
+    },
+    {
+      "id": "forall-over-or",
+      "title": "Does $\\forall x\\,(P(x) \\lor Q(x))$ imply $\\forall x\\,P(x) \\lor \\forall x\\,Q(x)$?",
+      "body": "No.\n\nOver the integers let $P(x)$ be \"$x$ is even\" and $Q(x)$ be \"$x$ is odd\". Every integer is even or odd, but not all are even and not all are odd.\n\nKey idea: $\\forall$ distributes over $\\land$, but not over $\\lor$.",
+      "searchQuery": "universal quantifier distribute over disjunction counterexample"
+    },
+    {
+      "id": "rule-modus-ponens",
+      "title": "Name the rule of inference: from $p \\to q$ and $p$, conclude $q$.",
+      "body": "modus ponens\n\nThe tautology behind it is $(p \\land (p \\to q)) \\to q$.\n\nExample: \"If it rains, the ground is wet. It rains. So the ground is wet.\"",
+      "answer": "modus ponens",
+      "searchQuery": "modus ponens rule of inference"
+    },
+    {
+      "id": "rule-modus-tollens",
+      "title": "Name the rule of inference: from $p \\to q$ and $\\neg q$, conclude $\\neg p$.",
+      "body": "modus tollens\n\nThe tautology behind it is $(\\neg q \\land (p \\to q)) \\to \\neg p$.\n\nExample: \"If it rained, the ground is wet. The ground is dry. So it did not rain.\"\nWhy: it is modus ponens applied to the contrapositive $\\neg q \\to \\neg p$.",
+      "answer": "modus tollens",
+      "searchQuery": "modus tollens rule of inference"
+    },
+    {
+      "id": "rule-hypothetical-syllogism",
+      "title": "What does the **hypothetical syllogism** rule conclude from $p \\to q$ and $q \\to r$?",
+      "body": "$p \\to r$\n\nConditionals chain together.\n\nExample: \"If I study, I learn. If I learn, I pass.\" So \"if I study, I pass\".",
+      "searchQuery": "hypothetical syllogism rule of inference"
+    },
+    {
+      "id": "rule-disjunctive-syllogism",
+      "title": "What does the **disjunctive syllogism** rule conclude from $p \\lor q$ and $\\neg p$?",
+      "body": "$q$\n\nIf one of two options is ruled out, the other must hold.\n\nExample: \"The answer is $3$ or $5$. It is not $3$. So it is $5$.\"",
+      "searchQuery": "disjunctive syllogism rule of inference"
+    },
+    {
+      "id": "fallacy-affirm-conclusion",
+      "title": "Why is \"$p \\to q$ and $q$, therefore $p$\" an invalid argument?",
+      "body": "It **affirms the conclusion** (the fallacy of the converse).\n\nWith $p = F$ and $q = T$, both premises are true but $p$ is false.\n\nExample: \"If it rains, the street is wet. The street is wet. So it rained.\" (A hose could have done it.)",
+      "searchQuery": "fallacy of affirming the conclusion"
+    },
+    {
+      "id": "fallacy-deny-hypothesis",
+      "title": "Why is \"$p \\to q$ and $\\neg p$, therefore $\\neg q$\" an invalid argument?",
+      "body": "It **denies the hypothesis** (the fallacy of the inverse).\n\nWith $p = F$ and $q = T$, both premises are true but $\\neg q$ is false.\n\nWatch out: this looks like modus tollens, but modus tollens negates the conclusion, not the hypothesis.",
+      "searchQuery": "fallacy of denying the hypothesis"
+    },
+    {
+      "id": "rule-resolution",
+      "title": "What does the **resolution** rule conclude from $p \\lor q$ and $\\neg p \\lor r$?",
+      "body": "$q \\lor r$\n\nOne of $p, \\neg p$ is false, so the clause containing it forces the other literal.\n\nWhy: if $p$ is true then $r$ holds; if $p$ is false then $q$ holds.\nKey idea: resolution is the engine of SAT solvers and automated theorem provers.",
+      "searchQuery": "resolution rule of inference clauses"
+    },
+    {
+      "id": "rule-universal-instantiation",
+      "title": "What does **universal instantiation** allow you to conclude from $\\forall x\\, P(x)$?",
+      "body": "$P(c)$ for any particular element $c$ of the domain.\n\nExample: from \"all humans are mortal\" infer \"Socrates is mortal\".\n\nWatch out: the reverse step, universal **generalization**, is only valid when $c$ was an arbitrary element, not a special one.",
+      "searchQuery": "universal instantiation universal generalization rules"
+    },
+    {
+      "id": "proof-direct",
+      "title": "How does a **direct proof** of $p \\to q$ proceed?",
+      "body": "Assume $p$ is true, then reason step by step until you reach $q$.\n\nExample: if $n$ is odd, write $n = 2k + 1$; then $n^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$ is odd.\nTip: start by unpacking the definitions in the hypothesis.",
+      "searchQuery": "direct proof method assume hypothesis"
+    },
+    {
+      "id": "proof-contrapositive-method",
+      "title": "How does a proof by **contrapositive** of $p \\to q$ proceed?",
+      "body": "Assume $\\neg q$ and show $\\neg p$.\n\nSince $\\neg q \\to \\neg p$ is equivalent to $p \\to q$, this proves the original statement.\n\nTip: use it when the conclusion $q$ is easier to negate than the hypothesis is to exploit, such as \"$n$ is even\".",
+      "searchQuery": "proof by contrapositive method"
+    },
+    {
+      "id": "proof-contradiction-method",
+      "title": "How does a proof by **contradiction** of a statement $p$ proceed?",
+      "body": "Assume $\\neg p$ and derive a contradiction (some statement and its negation).\n\nThen $\\neg p$ is impossible, so $p$ is true.\n\nWatch out: to prove $p \\to q$ this way, assume $p \\land \\neg q$, not just $\\neg q$.",
+      "searchQuery": "proof by contradiction method"
+    },
+    {
+      "id": "proof-square-even",
+      "title": "Using the contrapositive, how do you prove: if $n^2$ is even, then $n$ is even?",
+      "body": "Prove: if $n$ is odd, then $n^2$ is odd.\n\nWrite $n = 2k + 1$. Then $n^2 = 2(2k^2 + 2k) + 1$, which is odd.\n\nWhy: a direct attack starting from $n^2 = 2m$ gives no easy way to extract $n$.\nKey idea: this lemma drives the proof that $\\sqrt{2}$ is irrational.",
+      "searchQuery": "if n squared is even then n is even proof contrapositive"
+    },
+    {
+      "id": "proof-sqrt2-irrational",
+      "title": "In the classic contradiction proof that $\\sqrt{2}$ is irrational, what do you assume and what contradiction do you reach?",
+      "body": "Assume $\\sqrt{2} = a/b$ in lowest terms; you reach \"$a$ and $b$ are both even\".\n\nFrom $a^2 = 2b^2$, $a^2$ is even, so $a$ is even. Write $a = 2c$; then $b^2 = 2c^2$, so $b$ is even too.\n\nBoth even contradicts lowest terms, so $\\sqrt{2}$ is irrational.",
+      "searchQuery": "proof square root of 2 irrational contradiction"
+    },
+    {
+      "id": "proof-infinite-primes",
+      "title": "In Euclid's proof that there are infinitely many primes, what number is built from the assumed finite list $p_1, \\dots, p_k$?",
+      "body": "$N = p_1 p_2 \\cdots p_k + 1$\n\n$N > 1$, so it has a prime divisor. But dividing $N$ by any $p_i$ leaves remainder $1$, so that prime is not on the list: contradiction.\n\nWatch out: $N$ itself need not be prime; the proof only needs a prime **divisor** of $N$.",
+      "searchQuery": "Euclid proof infinitely many primes p1 pk plus 1"
+    },
+    {
+      "id": "induction-structure",
+      "title": "What are the two steps of **mathematical induction** for proving $P(n)$ for all $n \\ge n_0$?",
+      "body": "Base case: show $P(n_0)$. Inductive step: show $P(k) \\to P(k+1)$ for every $k \\ge n_0$.\n\nTogether they give $P(n_0), P(n_0+1), \\dots$ like falling dominoes.\n\nWatch out: the assumption $P(k)$ is the **inductive hypothesis**; assuming it is not circular because you only prove $P(k+1)$ from it.",
+      "searchQuery": "mathematical induction base case inductive step"
+    },
+    {
+      "id": "induction-sum-100",
+      "title": "Using $\\sum_{i=1}^{n} i = \\dfrac{n(n+1)}{2}$ (provable by induction), what is $1 + 2 + \\cdots + 100$?",
+      "body": "5050\n\n$\\dfrac{100 \\cdot 101}{2} = 5050$.\n\nWhy: inductive step: $\\dfrac{k(k+1)}{2} + (k+1) = \\dfrac{(k+1)(k+2)}{2}$.\nExample: $n = 4$ gives $1+2+3+4 = 10 = \\dfrac{4 \\cdot 5}{2}$.",
+      "answer": "5050",
+      "acceptedAnswers": ["100*101/2"],
+      "searchQuery": "sum of first n integers induction proof formula"
+    },
+    {
+      "id": "strong-vs-weak-induction",
+      "title": "How does **strong induction** differ from ordinary induction in its inductive step?",
+      "body": "It assumes $P(j)$ is true for **all** $j$ with $n_0 \\le j \\le k$, not just $P(k)$, and proves $P(k+1)$.\n\nThe two forms are equivalent in power, but strong induction is more convenient when $P(k+1)$ depends on several earlier cases.\n\nExample: every integer $n \\ge 2$ is a product of primes; the factors of $n$ may be much smaller than $n - 1$.",
+      "searchQuery": "strong induction versus weak induction"
+    },
+    {
+      "id": "induction-horses-flaw",
+      "title": "In the false induction \"proof\" that all horses have the same color, which step actually fails?",
+      "body": "The inductive step from $k = 1$ to $k = 2$.\n\nThe argument splits a group into two overlapping sets of $k$ horses, but when $k + 1 = 2$ the two sets share no horse, so the colors are never linked.\n\nKey idea: an inductive step must work for **every** $k \\ge$ the base case, including the first one.",
+      "searchQuery": "all horses same color induction fallacy"
+    },
+    {
+      "id": "well-ordering-principle",
+      "title": "State the **well-ordering principle**.",
+      "body": "Every nonempty set of nonnegative integers has a least element.\n\nIt is equivalent to mathematical induction and is often used to argue by a \"smallest counterexample\".\n\nWatch out: it fails for the nonnegative reals or rationals, where sets like $\\{x : x > 0\\}$ have no least element.",
+      "searchQuery": "well-ordering principle nonnegative integers least element"
+    },
+    {
+      "id": "constructive-vs-nonconstructive",
+      "title": "What is the difference between a constructive and a nonconstructive existence proof?",
+      "body": "A constructive proof **exhibits** the object; a nonconstructive proof shows it must exist without producing it.\n\nExample: to show irrational $a, b$ exist with $a^b$ rational, take $a = b = \\sqrt{2}$ if $\\sqrt{2}^{\\sqrt{2}}$ is rational. Otherwise take $a = \\sqrt{2}^{\\sqrt{2}}$, $b = \\sqrt{2}$, giving $a^b = 2$.\n\nThat proof never says which case holds.",
+      "searchQuery": "constructive versus nonconstructive existence proof"
+    },
+    {
+      "id": "induction-sum-odds",
+      "title": "The sum of the first $n$ odd positive integers is $n^2$ (provable by induction). What is $1 + 3 + 5 + \\cdots + 19$ (the first $10$ odd numbers)?",
+      "body": "100\n\nThe sum is $10^2 = 100$.\n\nWhy: inductive step: $k^2 + (2k + 1) = (k + 1)^2$.\nTip: the $n$th odd number is $2n - 1$, so $19$ is the $10$th.",
+      "answer": "100",
+      "acceptedAnswers": ["10^2"],
+      "searchQuery": "sum of first n odd numbers equals n squared induction"
+    },
+    {
+      "id": "induction-geometric-sum",
+      "title": "Using $\\sum_{i=0}^{n} 2^i = 2^{n+1} - 1$ (provable by induction), what is $1 + 2 + 4 + \\cdots + 128$?",
+      "body": "255\n\n$128 = 2^7$, so $n = 7$ and the sum is $2^8 - 1 = 255$.\n\nWhy: inductive step: $(2^{k+1} - 1) + 2^{k+1} = 2^{k+2} - 1$.\nExample: $1 + 2 + 4 + 8 = 15 = 2^4 - 1$.",
+      "answer": "255",
+      "acceptedAnswers": ["2^8-1"],
+      "searchQuery": "geometric series powers of 2 sum induction 2^(n+1) - 1"
+    },
+    {
+      "id": "set-duplicates-cardinality",
+      "title": "What is $|\\{1, 2, 2, 3\\}|$?",
+      "body": "3\n\nA set ignores repeated elements and order, so $\\{1, 2, 2, 3\\} = \\{1, 2, 3\\}$.\n\nWatch out: $|A|$ counts distinct elements only.",
+      "answer": "3",
+      "searchQuery": "set cardinality duplicates ignored distinct elements"
+    },
+    {
+      "id": "empty-set-subset",
+      "title": "Is the empty set $\\emptyset$ a subset of every set?",
+      "body": "Yes: $\\emptyset \\subseteq A$ for every set $A$.\n\nWhy: $\\forall x\\,(x \\in \\emptyset \\to x \\in A)$ is vacuously true because $x \\in \\emptyset$ is always false.\n\nWatch out: $\\emptyset \\subseteq A$ is always true, but $\\emptyset \\in A$ only if $\\emptyset$ is listed as an element.",
+      "searchQuery": "empty set subset of every set vacuous proof"
+    },
+    {
+      "id": "set-containing-empty-set",
+      "title": "What is $|\\{\\emptyset\\}|$?",
+      "body": "1\n\n$\\{\\emptyset\\}$ is a set with exactly one element, namely the empty set.\n\nWatch out: $|\\emptyset| = 0$, but $\\{\\emptyset\\}$ is not empty; it is a box containing an empty box.",
+      "answer": "1",
+      "searchQuery": "cardinality of set containing empty set"
+    },
+    {
+      "id": "power-set-size",
+      "title": "A set $A$ has $5$ elements. How many elements does its power set $\\mathcal{P}(A)$ have?",
+      "body": "32\n\n$|\\mathcal{P}(A)| = 2^{|A|} = 2^5 = 32$.\n\nWhy: each element is either in or out of a subset, giving $2$ choices per element.\nExample: $\\mathcal{P}(\\{a, b\\}) = \\{\\emptyset, \\{a\\}, \\{b\\}, \\{a, b\\}\\}$ has $4$ elements.",
+      "answer": "32",
+      "acceptedAnswers": ["2^5"],
+      "searchQuery": "power set cardinality 2^n subsets"
+    },
+    {
+      "id": "cartesian-product-size",
+      "title": "If $|A| = 3$ and $|B| = 4$, what is $|A \\times B|$?",
+      "body": "12\n\n$|A \\times B| = |A| \\cdot |B|$, since $A \\times B$ is the set of ordered pairs $(a, b)$.\n\nExample: $\\{1, 2\\} \\times \\{x\\} = \\{(1, x), (2, x)\\}$.\nWatch out: $A \\times B \\ne B \\times A$ in general, because pairs are ordered.",
+      "answer": "12",
+      "acceptedAnswers": ["3*4"],
+      "searchQuery": "cartesian product cardinality ordered pairs"
+    },
+    {
+      "id": "set-difference-def",
+      "title": "Define the set difference $A \\setminus B$.",
+      "body": "$A \\setminus B = \\{x : x \\in A \\land x \\notin B\\}$\n\nThe elements of $A$ that are not in $B$.\n\nExample: $\\{1, 2, 3\\} \\setminus \\{2, 5\\} = \\{1, 3\\}$.\nWatch out: $A \\setminus B \\ne B \\setminus A$ in general.",
+      "searchQuery": "set difference definition A minus B"
+    },
+    {
+      "id": "symmetric-difference",
+      "title": "What is the symmetric difference $\\{1, 2, 3\\} \\oplus \\{3, 4\\}$?",
+      "body": "$\\{1, 2, 4\\}$\n\n$A \\oplus B = (A \\setminus B) \\cup (B \\setminus A)$: elements in exactly one of the two sets.\n\nKey idea: it is the set analogue of exclusive or.",
+      "searchQuery": "symmetric difference of sets definition example"
+    },
+    {
+      "id": "set-de-morgan",
+      "title": "State De Morgan's law for the complement of $A \\cap B$.",
+      "body": "$\\overline{A \\cap B} = \\overline{A} \\cup \\overline{B}$\n\nThe dual law is $\\overline{A \\cup B} = \\overline{A} \\cap \\overline{B}$.\n\nWhy: $x \\notin A \\cap B$ means $x \\notin A$ or $x \\notin B$, the set form of $\\neg(p \\land q) \\equiv \\neg p \\lor \\neg q$.",
+      "searchQuery": "De Morgan's laws sets complement of intersection"
+    },
+    {
+      "id": "prove-subset-method",
+      "title": "How do you prove $A \\subseteq B$ directly?",
+      "body": "Take an **arbitrary** $x \\in A$ and show that $x \\in B$.\n\nThis proves $\\forall x\\,(x \\in A \\to x \\in B)$.\n\nExample: to show $A \\cap B \\subseteq A$, let $x \\in A \\cap B$; then $x \\in A$ and $x \\in B$, so $x \\in A$.\nWatch out: do not pick a specific $x$; that would not cover all of $A$.",
+      "searchQuery": "how to prove a set is a subset arbitrary element"
+    },
+    {
+      "id": "prove-set-equality",
+      "title": "How do you prove two sets are equal, $A = B$, by an element argument?",
+      "body": "Show both inclusions: $A \\subseteq B$ and $B \\subseteq A$.\n\nThis is the set version of proving a biconditional by proving both conditionals.\n\nTip: when a chain of \"iff\" steps with set-builder membership works, it proves both inclusions at once.",
+      "searchQuery": "prove set equality double inclusion"
+    },
+    {
+      "id": "function-definition",
+      "title": "What conditions make a relation from $A$ to $B$ a **function** $f : A \\to B$?",
+      "body": "Every element of $A$ is assigned **exactly one** element of $B$.\n\nSo each input has an output, and never two different outputs.\n\nExample: $x \\mapsto \\pm\\sqrt{x}$ is not a function, because $4$ would have two outputs.\nKey idea: $A$ is the domain and $B$ is the codomain.",
+      "searchQuery": "function definition domain codomain exactly one output"
+    },
+    {
+      "id": "injective-def",
+      "title": "What does it mean for $f : A \\to B$ to be **injective** (one-to-one)?",
+      "body": "Different inputs give different outputs: $f(a) = f(b) \\Rightarrow a = b$.\n\nExample: $f(x) = 2x + 1$ on $\\mathbb{Z}$ is injective; $f(x) = x^2$ on $\\mathbb{Z}$ is not, since $f(-1) = f(1)$.\nTip: to prove injectivity, assume $f(a) = f(b)$ and deduce $a = b$.",
+      "searchQuery": "injective function definition one-to-one"
+    },
+    {
+      "id": "surjective-def",
+      "title": "What does it mean for $f : A \\to B$ to be **surjective** (onto)?",
+      "body": "Every element of the codomain is hit: for every $b \\in B$ there is some $a \\in A$ with $f(a) = b$.\n\nExample: $f(x) = 2x$ from $\\mathbb{Z}$ to $\\mathbb{Z}$ is not onto, because odd numbers are never reached.\nKey idea: surjective means range = codomain.",
+      "searchQuery": "surjective function definition onto codomain"
+    },
+    {
+      "id": "bijective-inverse",
+      "title": "When does a function $f : A \\to B$ have an inverse function $f^{-1} : B \\to A$?",
+      "body": "Exactly when $f$ is a **bijection** (both injective and surjective).\n\nInjective makes each output come from one input; surjective makes sure every element of $B$ has one.\n\nWatch out: $f^{-1}$ means the inverse function, not $1/f$.",
+      "searchQuery": "bijection inverse function exists injective surjective"
+    },
+    {
+      "id": "count-functions",
+      "title": "How many functions are there from a $3$-element set to a $2$-element set?",
+      "body": "8\n\nEach of the $3$ inputs independently picks one of $2$ outputs: $2^3 = 8$.\n\nKey idea: there are $|B|^{|A|}$ functions from $A$ to $B$.\nWatch out: do not swap the base and exponent; $3^2 = 9$ counts functions the other way.",
+      "answer": "8",
+      "acceptedAnswers": ["2^3"],
+      "searchQuery": "number of functions from A to B |B|^|A|"
+    },
+    {
+      "id": "count-bijections",
+      "title": "How many bijections are there from a $4$-element set to itself?",
+      "body": "24\n\nChoose images one input at a time: $4 \\cdot 3 \\cdot 2 \\cdot 1 = 4! = 24$.\n\nKey idea: bijections between two $n$-element sets number $n!$.",
+      "answer": "24",
+      "acceptedAnswers": ["4!"],
+      "searchQuery": "number of bijections n factorial permutations"
+    },
+    {
+      "id": "function-composition-eval",
+      "title": "Let $f(x) = 2x + 1$ and $g(x) = x^2$. What is $(f \\circ g)(3)$?",
+      "body": "19\n\n$(f \\circ g)(3) = f(g(3)) = f(9) = 2 \\cdot 9 + 1 = 19$.\n\nWatch out: apply $g$ first. The other order gives $(g \\circ f)(3) = g(7) = 49$.",
+      "answer": "19",
+      "searchQuery": "function composition f of g evaluate order"
+    },
+    {
+      "id": "floor-negative",
+      "title": "What is $\\lfloor -2.5 \\rfloor$?",
+      "body": "-3\n\nThe floor is the **greatest integer less than or equal to** the number, and $-3 \\le -2.5 < -2$.\n\nWatch out: floor does not just drop the decimal part for negatives. $\\lceil -2.5 \\rceil = -2$.",
+      "answer": "-3",
+      "searchQuery": "floor function negative number -2.5 greatest integer"
+    },
+    {
+      "id": "relation-definition",
+      "title": "What is a **binary relation** from a set $A$ to a set $B$?",
+      "body": "Any subset $R \\subseteq A \\times B$ of ordered pairs.\n\nWe write $a \\mathrel{R} b$ when $(a, b) \\in R$. A relation **on** $A$ is a subset of $A \\times A$.\n\nExample: \"$<$\" on $\\mathbb{Z}$ is the set of pairs $(a, b)$ with $a < b$.",
+      "searchQuery": "binary relation definition subset of cartesian product"
+    },
+    {
+      "id": "reflexive-def",
+      "title": "What does it mean for a relation $R$ on $A$ to be **reflexive**?",
+      "body": "$(a, a) \\in R$ for every $a \\in A$.\n\nExample: $\\le$ on $\\mathbb{Z}$ is reflexive; $<$ is not.\n\nWatch out: a single $a$ with $(a, a) \\notin R$ breaks reflexivity.",
+      "searchQuery": "reflexive relation definition example"
+    },
+    {
+      "id": "transitive-def",
+      "title": "What does it mean for a relation $R$ on $A$ to be **transitive**?",
+      "body": "Whenever $(a, b) \\in R$ and $(b, c) \\in R$, then $(a, c) \\in R$.\n\nExample: $<$ and \"divides\" are transitive; \"is a parent of\" is not (a grandparent is not a parent).\nTip: to disprove it, find $a, b, c$ with $a \\mathrel{R} b$, $b \\mathrel{R} c$ but not $a \\mathrel{R} c$.",
+      "searchQuery": "transitive relation definition example"
+    },
+    {
+      "id": "antisymmetric-def",
+      "title": "What does it mean for a relation $R$ on $A$ to be **antisymmetric**?",
+      "body": "If $(a, b) \\in R$ and $(b, a) \\in R$, then $a = b$.\n\nExample: $\\le$ on $\\mathbb{Z}$ is antisymmetric but not symmetric.\n\nWatch out: antisymmetric is **not** the opposite of symmetric. Equality is both, and some relations are neither.",
+      "searchQuery": "antisymmetric relation definition vs symmetric"
+    },
+    {
+      "id": "equivalence-relation-def",
+      "title": "What three properties make a relation an **equivalence relation**?",
+      "body": "Reflexive, symmetric and transitive.\n\nExample: congruence modulo $n$ on $\\mathbb{Z}$ is an equivalence relation.\n\nKey idea: equivalence relations formalize \"having the same ___\", such as the same remainder.",
+      "searchQuery": "equivalence relation reflexive symmetric transitive"
+    },
+    {
+      "id": "equivalence-classes-partition",
+      "title": "How do the equivalence classes of an equivalence relation on $A$ divide up $A$?",
+      "body": "They form a **partition**: every element lies in exactly one class, and any two classes are either equal or disjoint.\n\nExample: congruence mod $3$ splits $\\mathbb{Z}$ into the classes of remainders $0$, $1$ and $2$.\nKey idea: $[a] = [b]$ exactly when $a \\mathrel{R} b$.",
+      "searchQuery": "equivalence classes partition set"
+    },
+    {
+      "id": "count-relations",
+      "title": "How many binary relations are there on a $3$-element set?",
+      "body": "512\n\nA relation is any subset of $A \\times A$, which has $3^2 = 9$ pairs, so there are $2^9 = 512$ subsets.\n\nKey idea: on an $n$-element set there are $2^{n^2}$ relations.",
+      "answer": "512",
+      "acceptedAnswers": ["2^9"],
+      "searchQuery": "number of binary relations on a set 2^(n^2)"
+    },
+    {
+      "id": "partial-order-def",
+      "title": "What three properties make a relation a **partial order**?",
+      "body": "Reflexive, antisymmetric and transitive.\n\nExample: $\\le$ on $\\mathbb{Z}$, $\\subseteq$ on a family of sets, and divisibility on positive integers.\n\nKey idea: a set with a partial order is called a **poset**.",
+      "searchQuery": "partial order definition reflexive antisymmetric transitive poset"
+    },
+    {
+      "id": "total-order-def",
+      "title": "When is a partial order a **total order**?",
+      "body": "When every two elements $a, b$ are comparable: $a \\preceq b$ or $b \\preceq a$.\n\nExample: $\\le$ on $\\mathbb{Z}$ is total. $\\subseteq$ on subsets of $\\{1, 2\\}$ is not, because $\\{1\\}$ and $\\{2\\}$ are incomparable.",
+      "searchQuery": "total order definition comparable elements"
+    },
+    {
+      "id": "divisibility-poset",
+      "title": "Is divisibility ($a \\mid b$) on the positive integers a total order?",
+      "body": "No, it is only a partial order.\n\nFor example, $2 \\nmid 3$ and $3 \\nmid 2$, so $2$ and $3$ are incomparable.\n\nWhy: it is reflexive ($a \\mid a$), antisymmetric (on positive integers $a \\mid b$ and $b \\mid a$ force $a = b$) and transitive.",
+      "searchQuery": "divisibility partial order not total incomparable"
+    },
+    {
+      "id": "hasse-diagram",
+      "title": "What is left out when you draw a **Hasse diagram** of a finite poset?",
+      "body": "Loops and edges implied by transitivity; arrows are replaced by upward direction.\n\nOnly the \"covering\" relations $a \\prec b$ (nothing strictly between) are drawn, with $a$ below $b$.\n\nExample: in divisibility on $\\{1, 2, 4\\}$ you draw $1$-$2$ and $2$-$4$ but not $1$-$4$.",
+      "searchQuery": "Hasse diagram poset covering relation transitivity omitted"
+    },
+    {
+      "id": "maximal-vs-greatest",
+      "title": "What is the difference between a **maximal** element and a **greatest** element of a poset?",
+      "body": "Maximal: nothing is strictly above it. Greatest: it is above (or equal to) every element.\n\nExample: under divisibility on $\\{2, 3, 4, 6\\}$, both $4$ and $6$ are maximal, but there is no greatest element.\n\nKey idea: a greatest element is maximal, but a maximal element need not be greatest.",
+      "searchQuery": "maximal element versus greatest element poset"
+    },
+    {
+      "id": "congruence-definition",
+      "title": "What does $a \\equiv b \\pmod{n}$ mean?",
+      "body": "$n$ divides $a - b$, so $a$ and $b$ leave the same remainder on division by $n$.\n\nExample: $17 \\equiv 2 \\pmod{5}$ because $5 \\mid 15$.\n\nWatch out: $\\equiv$ is a relation between integers; \"$a \\bmod n$\" denotes the remainder, a single value in $\\{0, \\dots, n-1\\}$.",
+      "searchQuery": "congruence modulo n definition divides a minus b"
+    },
+    {
+      "id": "congruence-arithmetic",
+      "title": "If $a \\equiv b$ and $c \\equiv d \\pmod{n}$, what can you say about $a + c$ and $ac$?",
+      "body": "$a + c \\equiv b + d$ and $ac \\equiv bd \\pmod{n}$.\n\nSo you can reduce numbers mod $n$ at any step of a sum or product.\n\nExample: $(14 \\cdot 23) \\bmod 5 = (4 \\cdot 3) \\bmod 5 = 2$.\nWatch out: you cannot cancel a common factor in general. $2 \\cdot 1 \\equiv 2 \\cdot 4 \\pmod 6$, but $1 \\not\\equiv 4$.",
+      "searchQuery": "modular arithmetic addition multiplication congruence properties"
+    },
+    {
+      "id": "negative-mod",
+      "title": "What is $-7 \\bmod 5$ (the remainder in $\\{0, 1, 2, 3, 4\\}$)?",
+      "body": "3\n\n$-7 = (-2)\\cdot 5 + 3$, and the remainder must be nonnegative and less than $5$.\n\nWatch out: many programming languages return $-2$ for `-7 % 5`; in discrete math the remainder is never negative.",
+      "answer": "3",
+      "searchQuery": "negative number modulo remainder -7 mod 5"
+    },
+    {
+      "id": "gcd-compute",
+      "title": "What is $\\gcd(48, 18)$?",
+      "body": "6\n\nThe Euclidean algorithm: $\\gcd(48, 18) = \\gcd(18, 12) = \\gcd(12, 6) = \\gcd(6, 0) = 6$.\n\nTip: check by prime factorization: $48 = 2^4 \\cdot 3$ and $18 = 2 \\cdot 3^2$, so the gcd is $2 \\cdot 3 = 6$.",
+      "answer": "6",
+      "searchQuery": "gcd of 48 and 18 Euclidean algorithm"
+    },
+    {
+      "id": "euclid-recurrence",
+      "title": "What identity powers the Euclidean algorithm for $\\gcd(a, b)$ with $b > 0$?",
+      "body": "$\\gcd(a, b) = \\gcd(b,\\ a \\bmod b)$\n\nRepeat until the remainder is $0$; the last nonzero remainder is the gcd.\n\nWhy: any common divisor of $a$ and $b$ also divides $a - qb = a \\bmod b$, and vice versa.",
+      "searchQuery": "Euclidean algorithm gcd a b equals gcd b a mod b"
+    },
+    {
+      "id": "bezout-identity",
+      "title": "What does **Bezout's identity** say about $\\gcd(a, b)$?",
+      "body": "There exist integers $s, t$ with $\\gcd(a, b) = sa + tb$.\n\nExample: $6 = \\gcd(48, 18) = (-1)\\cdot 48 + 3 \\cdot 18$.\n\nKey idea: the extended Euclidean algorithm finds $s$ and $t$; this is how modular inverses are computed.",
+      "searchQuery": "Bezout's identity gcd linear combination"
+    },
+    {
+      "id": "modular-inverse-compute",
+      "title": "What is the inverse of $3$ modulo $7$, as a number in $\\{1, \\dots, 6\\}$?",
+      "body": "5\n\n$3 \\cdot 5 = 15 = 2 \\cdot 7 + 1$, so $3 \\cdot 5 \\equiv 1 \\pmod 7$.\n\nKey idea: $a$ has an inverse mod $n$ exactly when $\\gcd(a, n) = 1$.",
+      "answer": "5",
+      "searchQuery": "modular inverse of 3 mod 7 gcd 1"
+    },
+    {
+      "id": "fermat-little-compute",
+      "title": "Compute $3^{100} \\bmod 7$.",
+      "body": "4\n\nFermat's little theorem: $3^6 \\equiv 1 \\pmod 7$. Since $100 = 6 \\cdot 16 + 4$, $3^{100} \\equiv 3^4 = 81 \\equiv 4$.\n\nKey idea: for prime $p$ and $p \\nmid a$, $a^{p-1} \\equiv 1 \\pmod p$, so exponents reduce mod $p - 1$.",
+      "answer": "4",
+      "searchQuery": "Fermat's little theorem 3^100 mod 7"
+    }
+  ]
+}

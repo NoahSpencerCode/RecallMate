@@ -1,0 +1,1032 @@
+{
+  "id": "trig-triangles",
+  "title": "Triangles & Inverse Trig",
+  "course": "Precalculus",
+  "description": "SOH-CAH-TOA, special right triangles, elevation and bearing problems, laws of sines and cosines, the SSA ambiguous case, area and Heron's formula, and inverse trig values, ranges and compositions.",
+  "cards": [
+    {
+      "id": "sohcahtoa-sine",
+      "title": "A right triangle has legs $5$ and $12$. What is $\\sin\\theta$ for the angle $\\theta$ opposite the leg of length $5$? Give an exact fraction.",
+      "body": "$\\sin\\theta = \\dfrac{5}{13}$\n\nThe hypotenuse is $\\sqrt{5^2 + 12^2} = \\sqrt{169} = 13$, so $\\sin\\theta = \\frac{\\text{opp}}{\\text{hyp}} = \\frac{5}{13}$.\n\nThe other ratios are $\\cos\\theta = \\frac{12}{13}$ and $\\tan\\theta = \\frac{5}{12}$.\n\nTip: spot the $5\\text{-}12\\text{-}13$ **Pythagorean triple** to skip the square root.",
+      "answer": "5/13",
+      "answerDisplay": "$\\dfrac{5}{13}$",
+      "searchQuery": "right triangle sine opposite over hypotenuse 5 12 13"
+    },
+    {
+      "id": "special-right-triangles",
+      "title": "What are the side ratios of a $45^\\circ\\text{-}45^\\circ\\text{-}90^\\circ$ triangle and a $30^\\circ\\text{-}60^\\circ\\text{-}90^\\circ$ triangle?",
+      "body": "$45^\\circ\\text{-}45^\\circ\\text{-}90^\\circ$: $1 : 1 : \\sqrt{2}$, so the hypotenuse is $\\sqrt{2}$ times a leg.\n\nThe ratios are $1 : 1 : \\sqrt{2}$ for the first triangle and $1 : \\sqrt{3} : 2$ for the second, listed opposite the $30^\\circ$, $60^\\circ$ and $90^\\circ$ angles.\n\nIn the $30^\\circ\\text{-}60^\\circ\\text{-}90^\\circ$ triangle the **short leg** is half the hypotenuse, and the long leg is $\\sqrt{3}$ times the short leg.\n\nMnemonic: the largest side faces the largest angle, and $1 < \\sqrt{3} < 2$.",
+      "searchQuery": "special right triangles 45-45-90 30-60-90 side ratios"
+    },
+    {
+      "id": "thirty-sixty-ninety-leg",
+      "title": "A $30^\\circ\\text{-}60^\\circ\\text{-}90^\\circ$ triangle has hypotenuse $10$. Exact length of the leg opposite the $60^\\circ$ angle?",
+      "body": "$5\\sqrt{3} \\approx 8.66$\n\nThe short leg (opposite $30^\\circ$) is half the hypotenuse, $5$. The long leg (opposite $60^\\circ$) is $\\sqrt{3}$ times that: $5\\sqrt{3}$.\n\nTip: sanity check: $\\sin 60^\\circ = \\frac{5\\sqrt{3}}{10} = \\frac{\\sqrt{3}}{2}$.\nWatch out: the leg opposite $60^\\circ$ is the **long** one, not the short one.",
+      "answer": "5sqrt(3)",
+      "acceptedAnswers": [
+        "5sqrt3",
+        "sqrt(75)",
+        "sqrt75"
+      ],
+      "answerDisplay": "$5\\sqrt{3}$",
+      "searchQuery": "30-60-90 triangle long leg from hypotenuse 10"
+    },
+    {
+      "id": "angle-of-elevation",
+      "title": "On level ground $50\\,\\mathrm{m}$ from a tower's base, the angle of elevation to its top is $60^\\circ$. Exact height of the tower, in meters?",
+      "body": "$50\\sqrt{3}\\,\\mathrm{m} \\approx 86.6\\,\\mathrm{m}$\n\n$\\tan 60^\\circ = \\frac{h}{50}$, so $h = 50\\tan 60^\\circ = 50\\sqrt{3}\\,\\text{m}$, about $86.6\\,\\text{m}$.\n\nWatch out: elevation and depression angles are measured from the **horizontal**, never the vertical.",
+      "answer": "50sqrt(3)",
+      "acceptedAnswers": [
+        "50sqrt3",
+        "50sqrt(3) m",
+        "50sqrt3 m",
+        "50sqrt(3) meters",
+        "50sqrt3 meters"
+      ],
+      "answerDisplay": "$50\\sqrt{3}\\,\\mathrm{m}$",
+      "searchQuery": "angle of elevation tower height tan 60 degrees"
+    },
+    {
+      "id": "law-of-sines",
+      "title": "State the law of sines and the given-part cases it solves.",
+      "body": "$\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C}$: each side over the sine of its opposite angle.\n\nUse it for AAS, ASA and SSA, because you need an angle paired with its opposite side. For ASA, first get the third angle from $A + B + C = 180^\\circ$.\n\nWatch out: SSA can be **ambiguous**; check for two triangles.\nTip: write the ratio with the sine in the denominator when solving for a side, and the side in the denominator when solving for an angle.",
+      "searchQuery": "law of sines formula when to use"
+    },
+    {
+      "id": "law-of-cosines",
+      "title": "State the law of cosines and the given-part cases it solves.",
+      "body": "$c^2 = a^2 + b^2 - 2ab\\cos C$, where $C$ is the angle between sides $a$ and $b$.\n\nUse it for **SAS** (find the third side) and **SSS** (find an angle: $\\cos C = \\frac{a^2 + b^2 - c^2}{2ab}$).\n\nKey idea: with $C = 90^\\circ$, $\\cos C = 0$ and it becomes the Pythagorean theorem.\nWatch out: the angle $C$ must be the one **between** sides $a$ and $b$.",
+      "searchQuery": "law of cosines formula SAS SSS"
+    },
+    {
+      "id": "law-of-cosines-angle",
+      "title": "A triangle has sides $5$, $7$ and $8$. Find the angle opposite the side of length $7$, in degrees.",
+      "body": "$60^\\circ$\n\nPut the side opposite the unknown angle alone on the left: $7^2 = 5^2 + 8^2 - 2(5)(8)\\cos\\theta$, so $49 = 89 - 80\\cos\\theta$, $\\cos\\theta = \\frac{40}{80} = \\frac{1}{2}$, and $\\theta = 60^\\circ$.\n\nTip: the side opposite the angle you want is the one that stands alone.",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 degrees",
+        "60 degree",
+        "60°",
+        "60 deg"
+      ],
+      "answerDisplay": "$60^\\circ$",
+      "searchQuery": "law of cosines find angle triangle sides 5 7 8"
+    },
+    {
+      "id": "ssa-ambiguous-case",
+      "title": "SSA with acute angle $A$, opposite side $a$ and adjacent side $b$: when do you get $0$, $1$ or $2$ triangles?",
+      "body": "Compare $a$ with the height $h = b\\sin A$.\n\nCompare $a$ with the height $h = b\\sin A$.\n\n- $a < h$: no triangle\n- $a = h$: one right triangle\n- $h < a < b$: **two triangles**\n- $a \\ge b$: exactly one triangle\n\nWatch out: if $A$ is obtuse, there is one triangle when $a > b$ and none otherwise.",
+      "searchQuery": "SSA ambiguous case number of triangles height b sin A"
+    },
+    {
+      "id": "ssa-triangle-count",
+      "title": "Given $A = 30^\\circ$, $a = 6$ and $b = 10$, how many triangles are possible?",
+      "body": "$2$\n\n$h = b\\sin A = 10 \\cdot \\frac{1}{2} = 5$, and $h < a < b$ since $5 < 6 < 10$. Law of sines: $\\sin B = \\frac{10\\sin 30^\\circ}{6} = \\frac{5}{6}$, so $B \\approx 56.4^\\circ$ or $B \\approx 123.6^\\circ$.\n\nTip: sanity check: both work, because $30^\\circ + 123.6^\\circ < 180^\\circ$.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two",
+        "2 triangles",
+        "two triangles"
+      ],
+      "searchQuery": "SSA how many triangles A 30 a 6 b 10"
+    },
+    {
+      "id": "area-sas",
+      "title": "Area of a triangle with sides $8$ and $5$ and an included angle of $30^\\circ$?",
+      "body": "$10$ square units\n\n$\\text{Area} = \\frac{1}{2}ab\\sin C$, where $C$ is the angle **between** sides $a$ and $b$: $\\frac{1}{2} \\cdot 8 \\cdot 5 \\cdot \\sin 30^\\circ = 20 \\cdot \\frac{1}{2} = 10$.\n\nWatch out: if the angle is not the included one, find the included angle first.",
+      "answer": "10",
+      "acceptedAnswers": [
+        "10 square units"
+      ],
+      "searchQuery": "triangle area one half a b sin C SAS"
+    },
+    {
+      "id": "herons-formula",
+      "title": "Use Heron's formula: what is the area of a triangle with sides $5$, $5$ and $6$?",
+      "body": "$12$ square units\n\n$\\text{Area} = \\sqrt{s(s - a)(s - b)(s - c)}$ with **semiperimeter** $s = \\frac{a + b + c}{2} = 8$: $\\sqrt{8 \\cdot 3 \\cdot 3 \\cdot 2} = \\sqrt{144} = 12$.\n\nTip: sanity check: the height to the base $6$ is $\\sqrt{5^2 - 3^2} = 4$, and $\\frac{1}{2} \\cdot 6 \\cdot 4 = 12$.",
+      "answer": "12",
+      "acceptedAnswers": [
+        "12 square units"
+      ],
+      "searchQuery": "Heron's formula area triangle sides 5 5 6"
+    },
+    {
+      "id": "inverse-trig-domains",
+      "title": "Why is $\\arcsin 2$ undefined, while $\\arctan 2$ exists?",
+      "body": "$\\arcsin$ and $\\arccos$ accept only inputs in $[-1, 1]$, because sine and cosine never output anything outside $[-1, 1]$.\n\n**Tangent** takes every real value, so $\\arctan x$ is defined for all real $x$ (for example $\\arctan 2 \\approx 1.107$ rad).\n\nKey idea: the domain of an inverse function is the range of the original.",
+      "searchQuery": "why arcsin 2 undefined arctan defined domain"
+    },
+    {
+      "id": "inverse-trig-ranges",
+      "title": "What are the principal ranges of $\\arcsin$, $\\arccos$ and $\\arctan$?",
+      "body": "$\\arcsin$: $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$. $\\arccos$: $[0, \\pi]$. $\\arctan$: $\\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$.\n\nEach is an interval where the function is one-to-one and hits all its values.\n\nThe $\\arctan$ endpoints are **open** because $\\tan x$ has vertical asymptotes at $x = \\pm\\frac{\\pi}{2}$.\n\nMnemonic: arcsin and arctan give angles in QIV/QI; arccos gives QI/QII.",
+      "searchQuery": "principal ranges arcsin arccos arctan"
+    },
+    {
+      "id": "arccos-negative-input",
+      "title": "Exact value of $\\arccos\\left(-\\frac{1}{2}\\right)$, in radians?",
+      "body": "$\\dfrac{2\\pi}{3}$\n\n$\\arccos$ returns angles in $[0, \\pi]$, so a negative input lands in QII: $\\pi - \\frac{\\pi}{3} = \\frac{2\\pi}{3}$.\n\nWatch out: $\\frac{4\\pi}{3}$ has cosine $-\\frac{1}{2}$ but lies outside $[0, \\pi]$. And $-\\frac{\\pi}{3}$ is wrong because $\\arccos(-x) = \\pi - \\arccos x$, not $-\\arccos x$.",
+      "answer": "2pi/3",
+      "acceptedAnswers": [
+        "(2pi)/3",
+        "2/3pi",
+        "(2/3)pi"
+      ],
+      "answerDisplay": "$\\dfrac{2\\pi}{3}$",
+      "searchQuery": "arccos of negative one half exact value radians"
+    },
+    {
+      "id": "arcsin-of-sin-trap",
+      "title": "Exact value of $\\arcsin\\left(\\sin\\frac{5\\pi}{6}\\right)$, in radians?",
+      "body": "$\\dfrac{\\pi}{6}$\n\n$\\sin\\frac{5\\pi}{6} = \\frac{1}{2}$, and $\\arcsin$ must return an angle in $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$, so $\\arcsin\\frac{1}{2} = \\frac{\\pi}{6}$, not $\\frac{5\\pi}{6}$.\n\nWatch out: $\\arcsin(\\sin x) = x$ only when $x$ is already in $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$.",
+      "answer": "pi/6",
+      "answerDisplay": "$\\dfrac{\\pi}{6}$",
+      "searchQuery": "arcsin of sin 5pi/6 principal value trap"
+    },
+    {
+      "id": "tan-of-arcsin",
+      "title": "Exact value of $\\tan\\left(\\arcsin\\left(-\\frac{3}{5}\\right)\\right)$?",
+      "body": "$-\\dfrac{3}{4}$\n\nLet $\\theta = \\arcsin\\left(-\\frac{3}{5}\\right)$, so $\\sin\\theta = -\\frac{3}{5}$ with $\\theta$ in $\\left[-\\frac{\\pi}{2}, 0\\right]$ (QIV).\n\nCosine is positive there, $\\cos\\theta = \\frac{4}{5}$ (a $3\\text{-}4\\text{-}5$ triangle), so $\\tan\\theta = \\frac{-3/5}{4/5} = -\\frac{3}{4}$.\n\nTip: draw the triangle, then fix signs from the range of the inverse.",
+      "answer": "-3/4",
+      "acceptedAnswers": [
+        "-0.75"
+      ],
+      "answerDisplay": "$-\\dfrac{3}{4}$",
+      "searchQuery": "tan of arcsin negative 3/5 exact value"
+    },
+    {
+      "id": "sohcahtoa-definitions",
+      "title": "For an acute angle $\\theta$ in a right triangle, what side ratios does SOH-CAH-TOA give for $\\sin\\theta$, $\\cos\\theta$ and $\\tan\\theta$?",
+      "body": "$\\sin\\theta = \\dfrac{\\text{opposite}}{\\text{hypotenuse}}$, $\\cos\\theta = \\dfrac{\\text{adjacent}}{\\text{hypotenuse}}$, $\\tan\\theta = \\dfrac{\\text{opposite}}{\\text{adjacent}}$\n\n**Opposite** and **adjacent** mean the legs across from and next to $\\theta$; the hypotenuse is the side across from the right angle.\n\nMnemonic: SOH-CAH-TOA: Sine = Opposite/Hypotenuse, Cosine = Adjacent/Hypotenuse, Tangent = Opposite/Adjacent.",
+      "searchQuery": "SOH CAH TOA sine cosine tangent right triangle ratios"
+    },
+    {
+      "id": "reciprocal-ratios-right-triangle",
+      "title": "In a right triangle, what side ratios give $\\csc\\theta$, $\\sec\\theta$ and $\\cot\\theta$?",
+      "body": "$\\csc\\theta = \\dfrac{\\text{hyp}}{\\text{opp}}$, $\\sec\\theta = \\dfrac{\\text{hyp}}{\\text{adj}}$, $\\cot\\theta = \\dfrac{\\text{adj}}{\\text{opp}}$\n\nEach flips a SOH-CAH-TOA ratio: $\\csc$ flips $\\sin$, $\\sec$ flips $\\cos$, $\\cot$ flips $\\tan$.\n\nExample: in a $3\\text{-}4\\text{-}5$ triangle with $\\theta$ opposite the $3$, $\\sec\\theta = \\frac{5}{4}$.\nWatch out: $\\sec$ pairs with $\\cos$ (adjacent), not with $\\sin$.",
+      "searchQuery": "cosecant secant cotangent right triangle ratios"
+    },
+    {
+      "id": "solve-a-triangle-meaning",
+      "title": "What does it mean to solve a triangle?",
+      "body": "Find all six parts: the three side lengths and the three angle measures.\n\nYou start from three known parts, at least one of them a **side**, and fill in the rest with $A + B + C = 180^\\circ$, right-triangle ratios, or the laws of sines and cosines.\n\nKey idea: AAA data fixes the shape but not the size, so it cannot be solved.",
+      "searchQuery": "solve a triangle meaning find all sides and angles"
+    },
+    {
+      "id": "trig-ratios-similar-triangles",
+      "title": "Why does $\\sin\\theta$ in a right triangle depend only on $\\theta$, not on the size of the triangle?",
+      "body": "All right triangles with acute angle $\\theta$ are similar (AA), so their sides are proportional.\n\nScaling a triangle by $k$ multiplies the opposite side and the hypotenuse both by $k$, leaving $\\frac{\\text{opp}}{\\text{hyp}}$ unchanged.\n\nKey idea: **similar triangles** have equal side ratios, so one value per angle is enough.",
+      "searchQuery": "why trig ratios depend only on angle similar triangles"
+    },
+    {
+      "id": "acute-sine-cosine-bounds",
+      "title": "For an acute angle $\\theta$ of a right triangle, why are $\\sin\\theta$ and $\\cos\\theta$ between $0$ and $1$, while $\\tan\\theta$ can be any positive number?",
+      "body": "Each leg is shorter than the hypotenuse, so $\\frac{\\text{leg}}{\\text{hyp}} < 1$.\n\n$\\tan\\theta = \\frac{\\text{opp}}{\\text{adj}}$ compares two legs, and either can be longer: it is below $1$ for $\\theta < 45^\\circ$, equal to $1$ at $45^\\circ$, and grows without bound as $\\theta$ approaches $90^\\circ$.\n\nKey idea: the hypotenuse is the longest side, which caps sine and cosine at $1$.",
+      "searchQuery": "why sine cosine between 0 and 1 acute angle tangent any positive"
+    },
+    {
+      "id": "complementary-angles-sine-cosine",
+      "title": "In right triangle $ABC$ with $C = 90^\\circ$, $\\sin A = 0.6$. What is $\\cos B$?",
+      "body": "$0.6$\n\n$A$ and $B$ are **complementary**, and the leg opposite $A$ is the leg adjacent to $B$: $\\sin A = \\frac{a}{c} = \\cos B$.\n\nWhy: that is the \"co\" in cosine: the sine of the complementary angle.",
+      "answer": "0.6",
+      "acceptedAnswers": [
+        "3/5"
+      ],
+      "searchQuery": "sine of angle equals cosine of complementary angle right triangle"
+    },
+    {
+      "id": "sine-from-tangent",
+      "title": "$\\theta$ is acute and $\\tan\\theta = \\frac{8}{15}$. What is $\\sin\\theta$, as an exact fraction?",
+      "body": "$\\dfrac{8}{17}$\n\nDraw a right triangle with opposite side $8$ and adjacent side $15$. The hypotenuse is $\\sqrt{8^2 + 15^2} = \\sqrt{289} = 17$, so $\\sin\\theta = \\frac{8}{17}$ (and $\\cos\\theta = \\frac{15}{17}$).\n\nTip: whenever one ratio is given, draw the triangle and find the missing side.",
+      "answer": "8/17",
+      "answerDisplay": "$\\dfrac{8}{17}$",
+      "searchQuery": "sine from tangent 8/15 right triangle exact fraction"
+    },
+    {
+      "id": "pythagorean-triples",
+      "title": "Name the four primitive Pythagorean triples with hypotenuse at most $25$.",
+      "body": "$3\\text{-}4\\text{-}5$, $5\\text{-}12\\text{-}13$, $8\\text{-}15\\text{-}17$ and $7\\text{-}24\\text{-}25$\n\nMultiples work too ($6\\text{-}8\\text{-}10$, $10\\text{-}24\\text{-}26$).\n\nExample: legs $15$ and $20$ are $5$ times $3$ and $4$, so the hypotenuse is $25$ with no square root.\nTip: **primitive** means the three numbers share no common factor.",
+      "searchQuery": "primitive Pythagorean triples hypotenuse at most 25"
+    },
+    {
+      "id": "find-adjacent-leg-cosine",
+      "title": "A right triangle has hypotenuse $20$ and an acute angle of $35^\\circ$. How long is the leg adjacent to that angle, to $2$ decimal places?",
+      "body": "$\\approx 16.38$\n\n$\\cos 35^\\circ = \\frac{\\text{adj}}{20}$, so $\\text{adj} = 20\\cos 35^\\circ \\approx 20(0.81915) \\approx 16.38$.\n\nTip: pick the ratio that links the side you know to the side you want; here adjacent and hypotenuse mean **cosine**.",
+      "answer": "16.38",
+      "searchQuery": "find adjacent leg using cosine hypotenuse 20 angle 35 degrees"
+    },
+    {
+      "id": "find-hypotenuse-sine",
+      "title": "In a right triangle, the leg opposite a $40^\\circ$ angle is $12$. Find the hypotenuse to $2$ decimal places.",
+      "body": "$\\approx 18.67$\n\n$\\sin 40^\\circ = \\frac{12}{h}$, so $h = \\frac{12}{\\sin 40^\\circ} \\approx \\frac{12}{0.64279} \\approx 18.67$.\n\nWatch out: $12\\sin 40^\\circ \\approx 7.71$ is shorter than the leg, and a hypotenuse is always the **longest** side.",
+      "answer": "18.67",
+      "searchQuery": "find hypotenuse using sine opposite leg 12 angle 40 degrees"
+    },
+    {
+      "id": "find-angle-arctan",
+      "title": "A right triangle has legs $3$ (opposite $\\theta$) and $7$ (adjacent to $\\theta$). Find $\\theta$ in degrees, to the nearest tenth.",
+      "body": "$\\approx 23.2^\\circ$\n\n$\\tan\\theta = \\frac{3}{7}$, so $\\theta = \\tan^{-1}\\left(\\frac{3}{7}\\right) \\approx 23.2^\\circ$ (calculator in degree mode).\n\nTip: to find an **angle**, apply the inverse of whichever ratio the known sides form.",
+      "answer": "23.2",
+      "acceptedAnswers": [
+        "23.2 degrees",
+        "23.2°",
+        "23.2 deg"
+      ],
+      "answerDisplay": "$23.2^\\circ$",
+      "searchQuery": "find angle using arctan opposite 3 adjacent 7 degrees"
+    },
+    {
+      "id": "calculator-radian-mode-trap",
+      "title": "You solve a right triangle with legs $1$ and $2$ and your calculator gives $\\tan^{-1}(0.5) = 0.4636$, but the answer key says $26.6$. What went wrong?",
+      "body": "The calculator was in radian mode, so it returned the angle in radians.\n\n$\\tan^{-1}(0.5) \\approx 0.4636$ rad, which is $26.57^\\circ$. The calculator was in **radian mode**.\n\nSwitch to degree mode, or convert with $0.4636 \\cdot \\frac{180}{\\pi} \\approx 26.6$.\n\nTip: sanity-check the size: a slope of $0.5$ should be a gentle angle, not a number below $1$ degree.",
+      "searchQuery": "calculator radian mode tan inverse 0.4636 degrees"
+    },
+    {
+      "id": "forty-five-leg-from-hypotenuse",
+      "title": "A $45^\\circ\\text{-}45^\\circ\\text{-}90^\\circ$ triangle has hypotenuse $8$. Exact length of each leg?",
+      "body": "$4\\sqrt{2}$\n\nEach leg is $\\frac{\\text{hyp}}{\\sqrt{2}} = \\frac{8}{\\sqrt{2}} = \\frac{8\\sqrt{2}}{2} = 4\\sqrt{2} \\approx 5.66$.\n\nWatch out: multiplying by $\\sqrt{2}$ goes the other way, from leg to hypotenuse.",
+      "answer": "4sqrt(2)",
+      "acceptedAnswers": [
+        "4sqrt2",
+        "8/sqrt(2)",
+        "8/sqrt2",
+        "sqrt(32)",
+        "sqrt32"
+      ],
+      "answerDisplay": "$4\\sqrt{2}$",
+      "searchQuery": "45-45-90 triangle leg from hypotenuse 8"
+    },
+    {
+      "id": "thirty-sixty-ninety-from-long-leg",
+      "title": "In a $30^\\circ\\text{-}60^\\circ\\text{-}90^\\circ$ triangle, the leg opposite the $60^\\circ$ angle is $9$. Exact length of the hypotenuse?",
+      "body": "$6\\sqrt{3}$\n\nThe long leg is $\\sqrt{3}$ times the short leg, so the short leg is $\\frac{9}{\\sqrt{3}} = 3\\sqrt{3}$, and the hypotenuse is twice that: $6\\sqrt{3} \\approx 10.39$.\n\nTip: sanity check: $\\sin 60^\\circ = \\frac{9}{6\\sqrt{3}} = \\frac{\\sqrt{3}}{2}$.",
+      "answer": "6sqrt(3)",
+      "acceptedAnswers": [
+        "6sqrt3",
+        "18/sqrt(3)",
+        "18/sqrt3",
+        "sqrt(108)",
+        "sqrt108"
+      ],
+      "answerDisplay": "$6\\sqrt{3}$",
+      "searchQuery": "30-60-90 triangle hypotenuse from long leg 9"
+    },
+    {
+      "id": "square-diagonal",
+      "title": "Exact length of the diagonal of a square with side $7$?",
+      "body": "$7\\sqrt{2}$\n\nThe diagonal splits the square into two $45^\\circ\\text{-}45^\\circ\\text{-}90^\\circ$ triangles with legs $7$, so the diagonal is a hypotenuse: $7\\sqrt{2} \\approx 9.90$.\n\nTip: a square's diagonal is $\\sqrt{2}$ times its side.",
+      "answer": "7sqrt(2)",
+      "acceptedAnswers": [
+        "7sqrt2",
+        "sqrt(98)",
+        "sqrt98"
+      ],
+      "answerDisplay": "$7\\sqrt{2}$",
+      "searchQuery": "diagonal of a square side 7 45-45-90"
+    },
+    {
+      "id": "equilateral-triangle-height",
+      "title": "Exact height of an equilateral triangle with side $6$?",
+      "body": "$3\\sqrt{3}$\n\nThe altitude splits it into two $30^\\circ\\text{-}60^\\circ\\text{-}90^\\circ$ triangles with hypotenuse $6$ and short leg $3$; the height is the long leg, $3\\sqrt{3} \\approx 5.20$.\n\nTip: in general the height is $\\frac{\\sqrt{3}}{2}s$.",
+      "answer": "3sqrt(3)",
+      "acceptedAnswers": [
+        "3sqrt3",
+        "sqrt(27)",
+        "sqrt27"
+      ],
+      "answerDisplay": "$3\\sqrt{3}$",
+      "searchQuery": "height of equilateral triangle side 6 30-60-90"
+    },
+    {
+      "id": "equilateral-triangle-area",
+      "title": "Exact area of an equilateral triangle with side $4$?",
+      "body": "$4\\sqrt{3}$\n\n$A = \\frac{\\sqrt{3}}{4}s^2 = \\frac{\\sqrt{3}}{4} \\cdot 16 = 4\\sqrt{3} \\approx 6.93$.\n\nWhy: it is $\\frac{1}{2}ab\\sin C$ with $a = b = s$ and $C = 60^\\circ$.",
+      "answer": "4sqrt(3)",
+      "acceptedAnswers": [
+        "4sqrt3",
+        "sqrt(48)",
+        "sqrt48"
+      ],
+      "answerDisplay": "$4\\sqrt{3}$",
+      "searchQuery": "area of equilateral triangle side 4 sqrt3/4 s squared"
+    },
+    {
+      "id": "angle-of-depression-definition",
+      "title": "What is an angle of depression, and how does it compare with the angle of elevation looking back up?",
+      "body": "It's the angle below the horizontal from an observer's eye down to an object.\n\nIt equals the angle of elevation from the object back up to the observer, because the two horizontal lines are parallel (**alternate interior angles**).\n\nWatch out: measuring from the vertical gives the complement instead.",
+      "searchQuery": "angle of depression definition equals angle of elevation"
+    },
+    {
+      "id": "angle-of-depression-distance",
+      "title": "From the top of a $120\\,\\mathrm{m}$ cliff, the angle of depression to a boat is $25^\\circ$. How far is the boat from the cliff's base, to the nearest meter?",
+      "body": "$\\approx 257\\,\\mathrm{m}$\n\nThe angle of elevation from the boat is also $25^\\circ$, so $\\tan 25^\\circ = \\frac{120}{d}$ and $d = \\frac{120}{\\tan 25^\\circ} \\approx 257\\,\\text{m}$.\n\nWatch out: $120\\tan 25^\\circ \\approx 56$ treats $25^\\circ$ as the angle at the clifftop, measured from the vertical.",
+      "answer": "257",
+      "acceptedAnswers": [
+        "257 m",
+        "257 meters"
+      ],
+      "answerDisplay": "$257\\,\\mathrm{m}$",
+      "searchQuery": "angle of depression cliff 120 m boat distance 25 degrees"
+    },
+    {
+      "id": "ladder-angle-with-ground",
+      "title": "A $6\\,\\mathrm{m}$ ladder leans against a wall with its foot $2\\,\\mathrm{m}$ from the wall. What angle does it make with the ground, in degrees to the nearest tenth?",
+      "body": "$\\approx 70.5^\\circ$\n\nThe ladder is the hypotenuse and the $2\\,\\text{m}$ gap is the side adjacent to the ground angle, so $\\cos\\theta = \\frac{2}{6}$ and $\\theta = \\cos^{-1}\\left(\\frac{1}{3}\\right) \\approx 70.5^\\circ$.\n\nTip: sketch the triangle and label which side is the hypotenuse before picking a ratio.",
+      "answer": "70.5",
+      "acceptedAnswers": [
+        "70.5 degrees",
+        "70.5°",
+        "70.5 deg"
+      ],
+      "answerDisplay": "$70.5^\\circ$",
+      "searchQuery": "ladder against wall angle with ground cos inverse 2/6"
+    },
+    {
+      "id": "sun-elevation-from-shadow",
+      "title": "A $15\\,\\mathrm{m}$ pole casts a $20\\,\\mathrm{m}$ shadow on level ground. What is the sun's angle of elevation, in degrees to the nearest tenth?",
+      "body": "$\\approx 36.9^\\circ$\n\n$\\tan\\theta = \\frac{\\text{pole}}{\\text{shadow}} = \\frac{15}{20} = 0.75$, so $\\theta = \\tan^{-1}(0.75) \\approx 36.9^\\circ$.\n\nTip: sanity check: it is a $3\\text{-}4\\text{-}5$ triangle scaled by $5$, so $\\sin\\theta = \\frac{3}{5}$ exactly.",
+      "answer": "36.9",
+      "acceptedAnswers": [
+        "36.9 degrees",
+        "36.9°",
+        "36.9 deg"
+      ],
+      "answerDisplay": "$36.9^\\circ$",
+      "searchQuery": "sun angle of elevation pole shadow 15 m 20 m"
+    },
+    {
+      "id": "roof-pitch-angle",
+      "title": "A roof rises $6$ inches for every $12$ inches of horizontal run. What angle does it make with the horizontal, in degrees to the nearest tenth?",
+      "body": "$\\approx 26.6^\\circ$\n\nRise over run is the tangent: $\\theta = \\tan^{-1}\\left(\\frac{6}{12}\\right) = \\tan^{-1}(0.5) \\approx 26.6^\\circ$.\n\nWatch out: $\\sin^{-1}(0.5) = 30^\\circ$ would treat the $12$ inches as the sloped length rather than the horizontal run.",
+      "answer": "26.6",
+      "acceptedAnswers": [
+        "26.6 degrees",
+        "26.6°",
+        "26.6 deg"
+      ],
+      "answerDisplay": "$26.6^\\circ$",
+      "searchQuery": "roof pitch angle rise 6 run 12 arctan"
+    },
+    {
+      "id": "slope-angle-of-inclination",
+      "title": "A line has slope $2$. What angle does it make with the positive $x$-axis, in degrees to the nearest tenth?",
+      "body": "$\\approx 63.4^\\circ$\n\nSlope is rise over run, the tangent of the angle of inclination: $m = \\tan\\theta$, so $\\theta = \\tan^{-1} 2 \\approx 63.4^\\circ$.\n\nTip: a slope of $1$ gives $45^\\circ$; steeper lines make larger angles.",
+      "answer": "63.4",
+      "acceptedAnswers": [
+        "63.4 degrees",
+        "63.4°",
+        "63.4 deg"
+      ],
+      "answerDisplay": "$63.4^\\circ$",
+      "searchQuery": "angle of inclination of a line slope 2 arctan"
+    },
+    {
+      "id": "two-angles-of-elevation-height",
+      "title": "From a point on level ground, the top of a tower is at elevation $30^\\circ$; from $20\\,\\mathrm{m}$ closer, it's at $60^\\circ$. Exact height of the tower, in meters?",
+      "body": "$10\\sqrt{3}\\,\\mathrm{m} \\approx 17.3\\,\\mathrm{m}$\n\nWith $x$ the distance from the closer point: $h = x\\tan 60^\\circ = x\\sqrt{3}$ and $h = (x + 20)\\tan 30^\\circ = \\frac{x + 20}{\\sqrt{3}}$. So $3x = x + 20$, $x = 10$ and $h = 10\\sqrt{3}$ m, about $17.3$ m.\n\nTip: the two points and the top form a $30^\\circ\\text{-}120^\\circ\\text{-}30^\\circ$ triangle, so the near sight line is $20$ and $h = 20\\sin 60^\\circ$.",
+      "answer": "10sqrt(3)",
+      "acceptedAnswers": [
+        "10sqrt3",
+        "10sqrt(3) m",
+        "10sqrt3 m",
+        "sqrt(300)",
+        "sqrt300"
+      ],
+      "answerDisplay": "$10\\sqrt{3}\\,\\mathrm{m}$",
+      "searchQuery": "two angles of elevation 30 and 60 tower height 20 m closer"
+    },
+    {
+      "id": "chord-length-central-angle",
+      "title": "In a circle of radius $9$, a chord subtends a central angle of $120^\\circ$. Exact length of the chord?",
+      "body": "$9\\sqrt{3}$\n\nThe line from the center bisecting the angle splits the isosceles triangle into two right triangles with hypotenuse $9$ and angle $60^\\circ$, so half the chord is $9\\sin 60^\\circ = \\frac{9\\sqrt{3}}{2}$.\n\nKey idea: in general, a chord is $2r\\sin\\frac{\\theta}{2}$ long.",
+      "answer": "9sqrt(3)",
+      "acceptedAnswers": [
+        "9sqrt3",
+        "sqrt(243)",
+        "sqrt243"
+      ],
+      "answerDisplay": "$9\\sqrt{3}$",
+      "searchQuery": "chord length central angle 120 degrees radius 9"
+    },
+    {
+      "id": "bearing-quadrant-notation",
+      "title": "What does the bearing N $40^\\circ$ E mean, and what is it as a bearing measured clockwise from north?",
+      "body": "Face north, then turn $40^\\circ$ toward east; measured clockwise from north, that's $040^\\circ$.\n\nQuadrant bearings start from N or S and turn by an acute angle toward E or W.\n\nClockwise-from-north bearings are written with three digits, from $000^\\circ$ up to $360^\\circ$.\n\nTip: N $40^\\circ$ E is a **bearing** of $040^\\circ$.",
+      "searchQuery": "bearing N 40 E meaning clockwise from north"
+    },
+    {
+      "id": "bearing-south-west-conversion",
+      "title": "Convert the bearing S $30^\\circ$ W to a bearing measured clockwise from north, in degrees.",
+      "body": "$210^\\circ$\n\nSouth is $180^\\circ$ clockwise from north, and turning from south toward west keeps going clockwise: $180^\\circ + 30^\\circ = 210^\\circ$.\n\nTip: sanity check: southwest bearings fall between $180^\\circ$ and $270^\\circ$.",
+      "answer": "210",
+      "acceptedAnswers": [
+        "210 degrees",
+        "210°",
+        "210 deg"
+      ],
+      "answerDisplay": "$210^\\circ$",
+      "searchQuery": "convert bearing S 30 W to clockwise from north"
+    },
+    {
+      "id": "return-bearing",
+      "title": "A plane flies out on a bearing of $070^\\circ$. On what bearing must it fly to return straight to its start?",
+      "body": "$250^\\circ$\n\nThe way back is the opposite direction, $180^\\circ$ around: $070^\\circ + 180^\\circ = 250^\\circ$.\n\nTip: if adding $180^\\circ$ would pass $360^\\circ$, subtract $180^\\circ$ instead.",
+      "answer": "250",
+      "acceptedAnswers": [
+        "250 degrees",
+        "250°",
+        "250 deg"
+      ],
+      "answerDisplay": "$250^\\circ$",
+      "searchQuery": "return bearing back bearing add 180 degrees"
+    },
+    {
+      "id": "law-of-sines-derivation",
+      "title": "Why is the law of sines true? Sketch the derivation.",
+      "body": "Drop the altitude $h$ from $C$ to side $c$. The two right triangles it forms give $h = b\\sin A$ and $h = a\\sin B$.\n\nSo $b\\sin A = a\\sin B$, which rearranges to $\\frac{a}{\\sin A} = \\frac{b}{\\sin B}$. An altitude from another vertex brings in $\\frac{c}{\\sin C}$.\n\nKey idea: it is just \"height computed two ways\".",
+      "searchQuery": "law of sines derivation altitude proof"
+    },
+    {
+      "id": "law-of-sines-aas",
+      "title": "In triangle $ABC$, $A = 40^\\circ$, $B = 60^\\circ$ and $a = 10$. Find $b$ to $2$ decimal places.",
+      "body": "$b \\approx 13.47$\n\n$\\frac{b}{\\sin 60^\\circ} = \\frac{10}{\\sin 40^\\circ}$, so $b = \\frac{10\\sin 60^\\circ}{\\sin 40^\\circ} \\approx \\frac{8.6603}{0.64279} \\approx 13.47$.\n\nTip: sanity check: $B > A$, so $b$ must be longer than $a$.",
+      "answer": "13.47",
+      "searchQuery": "law of sines AAS find side A 40 B 60 a 10"
+    },
+    {
+      "id": "law-of-sines-asa",
+      "title": "In triangle $ABC$, $A = 50^\\circ$, $C = 70^\\circ$ and $b = 12$. Find $a$ to $2$ decimal places.",
+      "body": "$a \\approx 10.61$\n\nThe angle opposite the known side is missing, so find it first: $B = 180^\\circ - 50^\\circ - 70^\\circ = 60^\\circ$. Then $a = \\frac{12\\sin 50^\\circ}{\\sin 60^\\circ} \\approx 10.61$.\n\nTip: always find the angle opposite the given side first.",
+      "answer": "10.61",
+      "searchQuery": "law of sines ASA find side A 50 C 70 b 12"
+    },
+    {
+      "id": "law-of-sines-find-sine",
+      "title": "In triangle $ABC$, $a = 8$, $b = 5$ and $\\sin A = 0.8$. What is $\\sin B$?",
+      "body": "$0.5$\n\nLaw of sines: $\\sin B = \\frac{b\\sin A}{a} = \\frac{5(0.8)}{8} = 0.5$.\n\nTip: sanity check: since $b < a$, $B$ is smaller than $A$, so $B$ cannot be obtuse: $B = 30^\\circ$.",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "1/2"
+      ],
+      "searchQuery": "law of sines find sin B a 8 b 5 sin A 0.8"
+    },
+    {
+      "id": "law-of-sines-surveying",
+      "title": "Points $A$ and $B$ are $500\\,\\mathrm{m}$ apart on a straight shore. A buoy $C$ has $\\angle CAB = 62^\\circ$ and $\\angle CBA = 48^\\circ$. Find $AC$ to the nearest meter.",
+      "body": "$AC \\approx 395\\,\\mathrm{m}$\n\nFirst $C = 180^\\circ - 62^\\circ - 48^\\circ = 70^\\circ$, the angle opposite the known $500\\,\\text{m}$ side. $AC$ is opposite $B$, so $AC = \\frac{500\\sin 48^\\circ}{\\sin 70^\\circ} \\approx 395\\,\\text{m}$.\n\nExample: surveyors use this **triangulation** for distances they cannot measure directly.",
+      "answer": "395",
+      "acceptedAnswers": [
+        "395 m",
+        "395 meters"
+      ],
+      "answerDisplay": "$395\\,\\mathrm{m}$",
+      "searchQuery": "law of sines surveying buoy distance triangulation"
+    },
+    {
+      "id": "extended-law-of-sines",
+      "title": "In any triangle, the common ratio $\\frac{a}{\\sin A}$ from the law of sines equals what length?",
+      "body": "$2R$, the diameter of the triangle's circumscribed circle.\n\nThis is the **extended law of sines**: $\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R$.\n\nCheck with a right triangle: $C = 90^\\circ$ gives $c = 2R$, and the hypotenuse is indeed a diameter of the circumcircle.\nTip: any side with its opposite angle gives the circumradius.",
+      "answer": "2R",
+      "acceptedAnswers": [
+        "diameter of the circumcircle",
+        "circumcircle diameter",
+        "diameter of the circumscribed circle",
+        "circumdiameter",
+        "twice the circumradius"
+      ],
+      "answerDisplay": "$2R$",
+      "searchQuery": "extended law of sines circumscribed circle diameter 2R"
+    },
+    {
+      "id": "longest-side-largest-angle",
+      "title": "In any triangle, which angle is opposite the longest side?",
+      "body": "The largest angle.\n\nLikewise, the shortest side faces the smallest angle. It also means only the angle opposite the longest side can be **obtuse**.\n\nTip: use it to sanity-check every solved triangle.",
+      "answer": "largest angle",
+      "acceptedAnswers": [
+        "largest",
+        "biggest angle",
+        "biggest",
+        "greatest angle",
+        "the largest one"
+      ],
+      "searchQuery": "longest side opposite largest angle triangle"
+    },
+    {
+      "id": "ssa-no-triangle",
+      "title": "Given $A = 40^\\circ$, $a = 3$ and $b = 10$, how many triangles are possible?",
+      "body": "$0$\n\nThe height is $h = b\\sin A = 10\\sin 40^\\circ \\approx 6.43$, and $a = 3$ is too short to reach the third side.\n\nThe law of sines agrees: $\\sin B = \\frac{10\\sin 40^\\circ}{3} \\approx 2.14 > 1$, which no angle has.\nWatch out: a sine above $1$ means no triangle, not a calculator error.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "none",
+        "zero",
+        "no triangles",
+        "no triangle",
+        "0 triangles"
+      ],
+      "searchQuery": "SSA no triangle A 40 a 3 b 10 height"
+    },
+    {
+      "id": "ssa-one-triangle-long-side",
+      "title": "Given $A = 35^\\circ$, $a = 12$ and $b = 8$, how many triangles are possible?",
+      "body": "$1$\n\nWith $A$ acute and $a \\ge b$, there is exactly one triangle. $\\sin B = \\frac{8\\sin 35^\\circ}{12} \\approx 0.382$ gives $B \\approx 22.5^\\circ$ or $157.5^\\circ$, but $35^\\circ + 157.5^\\circ > 180^\\circ$, so only the acute $B$ works.\nTip: when $a \\ge b$ with $A$ acute, skip the supplement; it always overshoots $180^\\circ$.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one",
+        "1 triangle",
+        "one triangle"
+      ],
+      "searchQuery": "SSA one triangle A 35 a 12 b 8 a greater than b"
+    },
+    {
+      "id": "ssa-right-triangle-boundary",
+      "title": "Given $A = 30^\\circ$, $a = 6$ and $b = 12$, how many triangles are possible?",
+      "body": "$1$, a right triangle.\n\nHere $a$ equals the height exactly: $h = b\\sin A = 12 \\cdot \\frac{1}{2} = 6$. So $\\sin B = \\frac{12\\sin 30^\\circ}{6} = 1$, $B = 90^\\circ$, and side $a$ touches the third side's line at just one point.\nKey idea: $a = b\\sin A$ is the boundary between no triangle and two triangles.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one",
+        "1 triangle",
+        "one triangle",
+        "1 right triangle",
+        "one right triangle"
+      ],
+      "searchQuery": "SSA right triangle boundary A 30 a 6 b 12"
+    },
+    {
+      "id": "ssa-obtuse-given-angle",
+      "title": "Given $A = 120^\\circ$, $a = 5$ and $b = 8$, how many triangles are possible?",
+      "body": "$0$\n\nAn obtuse angle is the largest angle, so the side opposite it must be the longest side. Here $a = 5 < b = 8$, so no triangle exists.\n\nKey idea: with $A$ obtuse, $a > b$ gives one triangle and $a \\le b$ gives none.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "none",
+        "zero",
+        "no triangles",
+        "no triangle",
+        "0 triangles"
+      ],
+      "searchQuery": "SSA obtuse angle A 120 a 5 b 8 no triangle"
+    },
+    {
+      "id": "ssa-two-triangles-angles",
+      "title": "$A = 40^\\circ$, $a = 8$ and $b = 11$ give two triangles. What are the two possible values of $B$, to the nearest tenth of a degree?",
+      "body": "$B \\approx 62.1^\\circ$ or $B \\approx 117.9^\\circ$\n\n$\\sin B = \\frac{11\\sin 40^\\circ}{8} \\approx 0.8838$. The calculator returns $62.1^\\circ$; its supplement $180^\\circ - 62.1^\\circ = 117.9^\\circ$ has the same sine and still fits, since $40^\\circ + 117.9^\\circ < 180^\\circ$.\n\nThen $C \\approx 77.9^\\circ$ or $22.1^\\circ$.\nWatch out: when $a$ is between the height and $b$, always test the supplementary angle.",
+      "searchQuery": "SSA two triangles A 40 a 8 b 11 two possible B"
+    },
+    {
+      "id": "ssa-why-two-triangles",
+      "title": "Why can SSA data produce two different triangles?",
+      "body": "The side opposite the given angle can swing like a compass arm and meet the line of the third side at two points.\n\nThose two positions give angles $B$ and $180^\\circ - B$, which have the same sine, so the law of sines cannot tell them apart.\n\nKey idea: SAS and SSS fix the shape, so they never do this.",
+      "searchQuery": "why SSA ambiguous case two triangles supplementary angles"
+    },
+    {
+      "id": "law-of-cosines-sas-side",
+      "title": "In triangle $ABC$, $b = 3$, $c = 8$ and $A = 60^\\circ$. Find $a$ exactly.",
+      "body": "$a = 7$\n\n$a^2 = b^2 + c^2 - 2bc\\cos A = 9 + 64 - 2(3)(8)\\left(\\frac{1}{2}\\right) = 73 - 24 = 49$, so $a = 7$.\n\nTip: the law of sines cannot start this SAS problem, since no angle is paired with its opposite side yet.",
+      "answer": "7",
+      "searchQuery": "law of cosines SAS find side b 3 c 8 A 60"
+    },
+    {
+      "id": "law-of-cosines-largest-angle",
+      "title": "A triangle has sides $8$, $10$ and $13$. Find its largest angle, in degrees to the nearest tenth.",
+      "body": "$\\approx 91.8^\\circ$\n\nThe largest angle is opposite the longest side, $13$: $\\cos C = \\frac{8^2 + 10^2 - 13^2}{2(8)(10)} = \\frac{-5}{160} = -0.03125$, so $C = \\cos^{-1}(-0.03125) \\approx 91.8^\\circ$.\n\nTip: sanity check: the negative cosine already tells you it is obtuse.",
+      "answer": "91.8",
+      "acceptedAnswers": [
+        "91.8 degrees",
+        "91.8°",
+        "91.8 deg"
+      ],
+      "answerDisplay": "$91.8^\\circ$",
+      "searchQuery": "law of cosines largest angle sides 8 10 13"
+    },
+    {
+      "id": "classify-triangle-by-sides",
+      "title": "A triangle has sides $4$, $6$ and $9$. Is it acute, right or obtuse?",
+      "body": "Obtuse.\n\nCompare the square of the longest side with the sum of the other two squares: $9^2 = 81 > 4^2 + 6^2 = 52$.\n\nBy the law of cosines, $c^2 > a^2 + b^2$ means $\\cos C < 0$, so $C > 90^\\circ$. Equal means right; less means acute.\nTip: this test needs no angle, only the three side lengths.",
+      "answer": "obtuse",
+      "acceptedAnswers": [
+        "obtuse triangle"
+      ],
+      "searchQuery": "classify triangle acute right obtuse by sides 4 6 9"
+    },
+    {
+      "id": "law-of-cosines-obtuse-angle",
+      "title": "Solving a triangle, you get $\\cos C = -0.25$. Find $C$ in degrees, to the nearest tenth.",
+      "body": "$\\approx 104.5^\\circ$\n\nA negative cosine means an **obtuse** angle, and $\\cos^{-1}$ returns values from $0^\\circ$ to $180^\\circ$, so the calculator lands on the correct obtuse angle directly.\n\nTip: $C = \\cos^{-1}(-0.25) \\approx 104.5^\\circ$ needs no extra adjustment.",
+      "answer": "104.5",
+      "acceptedAnswers": [
+        "104.5 degrees",
+        "104.5°",
+        "104.5 deg"
+      ],
+      "answerDisplay": "$104.5^\\circ$",
+      "searchQuery": "inverse cosine of negative 0.25 obtuse angle degrees"
+    },
+    {
+      "id": "law-of-cosines-no-ambiguity",
+      "title": "Why does finding an angle with the law of cosines never have an ambiguous case, unlike the law of sines?",
+      "body": "Triangle angles lie between $0^\\circ$ and $180^\\circ$, where cosine is one-to-one, so each cosine value matches exactly one angle.\n\nSine is not one-to-one there: $\\sin B = \\sin(180^\\circ - B)$, so a sine value below $1$ fits both an acute and an obtuse angle.\n\nTip: when you can choose, find angles with the law of cosines.",
+      "searchQuery": "why law of cosines no ambiguous case cosine one to one"
+    },
+    {
+      "id": "sss-largest-angle-first",
+      "title": "Solving an SSS triangle, which angle should you find first with the law of cosines, and why?",
+      "body": "The largest angle, opposite the longest side.\n\nIt is the only angle that can be obtuse, and the law of cosines handles obtuse angles correctly.\n\nThe other two angles must then be acute, so the law of sines finds them safely even though $\\sin^{-1}$ only returns angles up to $90^\\circ$.\nTip: finding the largest angle first removes any ambiguity.",
+      "searchQuery": "SSS solve triangle find largest angle first law of cosines"
+    },
+    {
+      "id": "triangle-inequality-law-of-cosines",
+      "title": "Can a triangle have sides $3$, $4$ and $8$?",
+      "body": "No.\n\nThe triangle inequality fails: $3 + 4 < 8$. The law of cosines flags it too: $\\cos C = \\frac{3^2 + 4^2 - 8^2}{2(3)(4)} = -\\frac{39}{24} = -1.625$, outside $[-1, 1]$, so no such angle exists.\n\nKey idea: two sides must sum to **more** than the third.",
+      "searchQuery": "triangle inequality sides 3 4 8 impossible triangle"
+    },
+    {
+      "id": "ships-bearings-law-of-cosines",
+      "title": "Two ships leave a port: one sails $30\\,\\mathrm{km}$ on bearing $040^\\circ$, the other $50\\,\\mathrm{km}$ on bearing $100^\\circ$. How far apart are they, to the nearest km?",
+      "body": "$\\approx 44\\,\\mathrm{km}$\n\nThe angle between their paths is $100^\\circ - 40^\\circ = 60^\\circ$, so $d^2 = 30^2 + 50^2 - 2(30)(50)\\cos 60^\\circ = 3400 - 1500 = 1900$ and $d = \\sqrt{1900} \\approx 43.6$, which rounds to $44$ km.\n\nTip: subtract the bearings to get the angle between the two legs.",
+      "answer": "44",
+      "acceptedAnswers": [
+        "44 km",
+        "44 kilometers"
+      ],
+      "answerDisplay": "$44\\,\\mathrm{km}$",
+      "searchQuery": "two ships bearings law of cosines distance apart"
+    },
+    {
+      "id": "parallelogram-longer-diagonal",
+      "title": "A parallelogram has sides $5$ and $8$ meeting at a $60^\\circ$ angle. Exact length of its longer diagonal?",
+      "body": "$\\sqrt{129}$\n\nThe longer diagonal is opposite the parallelogram's obtuse angle, $120^\\circ$: $d^2 = 5^2 + 8^2 - 2(5)(8)\\cos 120^\\circ = 89 + 40 = 129$.\n\nTip: sanity check: the shorter diagonal is opposite the $60^\\circ$ angle: $89 - 40 = 49$, so it is $7$.",
+      "answer": "sqrt(129)",
+      "acceptedAnswers": [
+        "sqrt129"
+      ],
+      "answerDisplay": "$\\sqrt{129}$",
+      "searchQuery": "parallelogram longer diagonal law of cosines 5 8 60 degrees"
+    },
+    {
+      "id": "choose-law-sas",
+      "title": "You know two sides of a triangle and the angle between them. Which law finds the third side?",
+      "body": "The law of cosines.\n\nSAS gives no angle paired with its opposite side, so the law of sines has nothing to start from. $c^2 = a^2 + b^2 - 2ab\\cos C$ uses exactly the two sides and the included angle.\nTip: SAS and SSS go to the law of cosines; AAS, ASA and SSA go to the law of sines.",
+      "answer": "law of cosines",
+      "acceptedAnswers": [
+        "cosines",
+        "cosine law",
+        "law of cosine",
+        "cosine rule"
+      ],
+      "searchQuery": "which law to use SAS two sides included angle law of cosines"
+    },
+    {
+      "id": "choose-law-two-angles",
+      "title": "You know two angles of a triangle and one side. Which law finds the other two sides?",
+      "body": "The law of sines.\n\nThe third angle is $180^\\circ$ minus the other two, so every angle is known and the given side is paired with its opposite angle. Then $\\frac{a}{\\sin A} = \\frac{b}{\\sin B}$ gives each missing side, with no ambiguity.\nTip: ASA and AAS are the two cases the law of sines solves with no ambiguity.",
+      "answer": "law of sines",
+      "acceptedAnswers": [
+        "sines",
+        "sine law",
+        "law of sine",
+        "sine rule"
+      ],
+      "searchQuery": "which law to use two angles and a side law of sines"
+    },
+    {
+      "id": "aaa-does-not-determine",
+      "title": "Why can't you solve a triangle given only its three angles?",
+      "body": "Angles fix the shape but not the size: every scaled copy, a similar triangle, has the same three angles.\n\nYou need at least one side length to set the scale. That is also why AAA is not a congruence condition.\n\nKey idea: angles fix **shape**; a side fixes **size**.",
+      "searchQuery": "AAA does not determine a triangle similar triangles"
+    },
+    {
+      "id": "area-formula-derivation",
+      "title": "Why is the area of a triangle $\\frac{1}{2}ab\\sin C$?",
+      "body": "Take side $a$ as the base. The altitude to it cuts off a right triangle with hypotenuse $b$ and angle $C$, so the height is $b\\sin C$.\n\nThen $\\text{Area} = \\frac{1}{2} \\cdot \\text{base} \\cdot \\text{height} = \\frac{1}{2}ab\\sin C$.\n\nTip: sanity check: if $C$ is obtuse, the height is $b\\sin(180^\\circ - C)$, which is the same number.",
+      "searchQuery": "why triangle area is one half a b sin C derivation"
+    },
+    {
+      "id": "area-obtuse-included-angle",
+      "title": "Area of a triangle with sides $6$ and $10$ and an included angle of $150^\\circ$?",
+      "body": "$15$ square units\n\n$\\frac{1}{2}(6)(10)\\sin 150^\\circ = 30 \\cdot \\frac{1}{2} = 15$.\n\nKey idea: since $\\sin 150^\\circ = \\sin 30^\\circ$, a $150^\\circ$ included angle gives the same area as a $30^\\circ$ one between the same two sides.",
+      "answer": "15",
+      "acceptedAnswers": [
+        "15 square units"
+      ],
+      "searchQuery": "triangle area obtuse included angle 150 degrees sides 6 10"
+    },
+    {
+      "id": "area-maximum-two-sides",
+      "title": "Two sides of a triangle are $9$ and $12$. What is the largest possible area?",
+      "body": "$54$ square units\n\n$\\text{Area} = \\frac{1}{2}(9)(12)\\sin C = 54\\sin C$, and $\\sin C \\le 1$ with equality at $C = 90^\\circ$.\n\nSo the maximum is $54$, reached when the two sides are **perpendicular**.\nKey idea: for fixed sides, area is largest when the included angle is $90^\\circ$.",
+      "answer": "54",
+      "acceptedAnswers": [
+        "54 square units"
+      ],
+      "searchQuery": "maximum area triangle two sides 9 and 12"
+    },
+    {
+      "id": "area-find-included-angle",
+      "title": "A triangle has sides $8$ and $10$ and area $20$. If the included angle is acute, what is it in degrees?",
+      "body": "$30^\\circ$\n\n$20 = \\frac{1}{2}(8)(10)\\sin C = 40\\sin C$, so $\\sin C = \\frac{1}{2}$ and $C = 30^\\circ$.\n\nWatch out: the obtuse angle $150^\\circ$ gives the same area, which is why the problem has to say acute.",
+      "answer": "30",
+      "acceptedAnswers": [
+        "30 degrees",
+        "30°",
+        "30 deg"
+      ],
+      "answerDisplay": "$30^\\circ$",
+      "searchQuery": "find included angle from triangle area 20 sides 8 10"
+    },
+    {
+      "id": "herons-formula-13-14-15",
+      "title": "Use Heron's formula: what is the area of a triangle with sides $13$, $14$ and $15$?",
+      "body": "$84$ square units\n\n$s = \\frac{13 + 14 + 15}{2} = 21$, so $\\text{Area} = \\sqrt{21 \\cdot 8 \\cdot 7 \\cdot 6} = \\sqrt{7056} = 84$.\n\nWatch out: $s$ is the **semiperimeter**; using the full perimeter, $42$, gives nonsense.",
+      "answer": "84",
+      "acceptedAnswers": [
+        "84 square units"
+      ],
+      "searchQuery": "Heron's formula triangle 13 14 15 area 84"
+    },
+    {
+      "id": "herons-formula-exact-radical",
+      "title": "Exact area of a triangle with sides $7$, $8$ and $9$?",
+      "body": "$12\\sqrt{5}$\n\nHeron's formula with $s = \\frac{7 + 8 + 9}{2} = 12$: $\\sqrt{12 \\cdot 5 \\cdot 4 \\cdot 3} = \\sqrt{720} = \\sqrt{144 \\cdot 5} = 12\\sqrt{5} \\approx 26.83$.\n\nTip: reach for Heron's formula whenever you know all three sides and no angles.",
+      "answer": "12sqrt(5)",
+      "acceptedAnswers": [
+        "12sqrt5",
+        "sqrt(720)",
+        "sqrt720"
+      ],
+      "answerDisplay": "$12\\sqrt{5}$",
+      "searchQuery": "Heron's formula exact radical sides 7 8 9"
+    },
+    {
+      "id": "parallelogram-area-sine",
+      "title": "Area of a parallelogram with sides $5$ and $8$ and an angle of $30^\\circ$ between them?",
+      "body": "$20$ square units\n\nA diagonal splits it into two congruent triangles, each with area $\\frac{1}{2}(5)(8)\\sin 30^\\circ = 10$. So the parallelogram's area is $ab\\sin\\theta = 40 \\cdot \\frac{1}{2} = 20$.\nTip: the area is base times height, and the height is $b\\sin\\theta$.",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 square units"
+      ],
+      "searchQuery": "parallelogram area ab sin theta sides 5 8 30 degrees"
+    },
+    {
+      "id": "regular-hexagon-area",
+      "title": "Exact area of a regular hexagon with side $4$?",
+      "body": "$24\\sqrt{3}$\n\nA regular hexagon splits into $6$ equilateral triangles with side $4$, each with area $\\frac{\\sqrt{3}}{4} \\cdot 4^2 = 4\\sqrt{3}$.\n\nTotal: $6 \\cdot 4\\sqrt{3} = 24\\sqrt{3} \\approx 41.57$.\nTip: for side $s$, a regular hexagon has area $\\frac{3\\sqrt{3}}{2}s^2$.",
+      "answer": "24sqrt(3)",
+      "acceptedAnswers": [
+        "24sqrt3",
+        "sqrt(1728)",
+        "sqrt1728"
+      ],
+      "answerDisplay": "$24\\sqrt{3}$",
+      "searchQuery": "regular hexagon area side 4 six equilateral triangles"
+    },
+    {
+      "id": "arcsin-negative-half",
+      "title": "Exact value of $\\arcsin\\left(-\\frac{1}{2}\\right)$, in radians?",
+      "body": "$-\\dfrac{\\pi}{6}$\n\n$\\arcsin$ returns angles in $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$, and $\\sin\\left(-\\frac{\\pi}{6}\\right) = -\\frac{1}{2}$.\n\nWatch out: $\\frac{7\\pi}{6}$ also has sine $-\\frac{1}{2}$ but is **outside** the principal range.\nKey idea: a negative input to $\\arcsin$ gives a negative angle.",
+      "searchQuery": "arcsin of negative one half exact value radians",
+      "answer": "-pi/6",
+      "acceptedAnswers": [
+        "-(pi/6)",
+        "-1/6pi",
+        "-(1/6)pi",
+        "(-pi)/6"
+      ],
+      "answerDisplay": "$-\\dfrac{\\pi}{6}$"
+    },
+    {
+      "id": "arccos-sqrt3-over-2",
+      "title": "Exact value of $\\arccos\\frac{\\sqrt{3}}{2}$, in radians?",
+      "body": "$\\dfrac{\\pi}{6}$\n\n$\\cos\\frac{\\pi}{6} = \\frac{\\sqrt{3}}{2}$, and $\\frac{\\pi}{6}$ is in the principal range $[0, \\pi]$ of $\\arccos$.\n\nTip: read the unit-circle table backward: find the $x$-coordinate, then read the angle.",
+      "searchQuery": "arccos of sqrt3 over 2 exact value radians",
+      "answer": "pi/6",
+      "acceptedAnswers": [
+        "(pi)/6",
+        "1/6pi",
+        "(1/6)pi"
+      ],
+      "answerDisplay": "$\\dfrac{\\pi}{6}$"
+    },
+    {
+      "id": "arctan-negative-one",
+      "title": "Exact value of $\\arctan(-1)$, in radians?",
+      "body": "$-\\dfrac{\\pi}{4}$\n\n$\\tan\\left(-\\frac{\\pi}{4}\\right) = -1$, and $-\\frac{\\pi}{4}$ lies in the principal range $\\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$.\n\nWatch out: $\\frac{3\\pi}{4}$ also has tangent $-1$ but is **outside** that range.",
+      "searchQuery": "arctan of negative 1 exact value radians",
+      "answer": "-pi/4",
+      "acceptedAnswers": [
+        "-(pi/4)",
+        "-1/4pi",
+        "-(1/4)pi",
+        "(-pi)/4"
+      ],
+      "answerDisplay": "$-\\dfrac{\\pi}{4}$"
+    },
+    {
+      "id": "arctan-sqrt3-degrees",
+      "title": "Find $\\tan^{-1}\\left(\\sqrt{3}\\right)$ in degrees.",
+      "body": "$60^\\circ$\n\n$\\tan 60^\\circ = \\sqrt{3}$, and $60^\\circ$ is in the principal range $(-90^\\circ, 90^\\circ)$.\n\nWatch out: $\\tan^{-1}$ means the **inverse function** (arctangent), not the reciprocal $\\frac{1}{\\tan}$.",
+      "searchQuery": "inverse tangent of sqrt 3 degrees",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 degrees",
+        "60°",
+        "60 deg"
+      ],
+      "answerDisplay": "$60^\\circ$"
+    },
+    {
+      "id": "cos-of-arcsin",
+      "title": "Exact value of $\\cos\\left(\\arcsin\\frac{5}{13}\\right)$?",
+      "body": "$\\dfrac{12}{13}$\n\nLet $\\theta = \\arcsin\\frac{5}{13}$, an acute angle with opposite side $5$ and hypotenuse $13$. The adjacent side is $12$, so $\\cos\\theta = \\frac{12}{13}$.\n\nTip: sketch the right triangle instead of using identities.",
+      "searchQuery": "cos of arcsin 5/13 right triangle composition",
+      "answer": "12/13",
+      "answerDisplay": "$\\dfrac{12}{13}$"
+    },
+    {
+      "id": "sin-of-arccos-negative",
+      "title": "Exact value of $\\sin\\left(\\arccos\\left(-\\frac{4}{5}\\right)\\right)$?",
+      "body": "$\\dfrac{3}{5}$\n\n$\\theta = \\arccos\\left(-\\frac{4}{5}\\right)$ is in QII (range $[0, \\pi]$), where sine is **positive**. Then $\\sin\\theta = \\sqrt{1 - \\frac{16}{25}} = \\frac{3}{5}$.\n\nWatch out: the answer is never negative here, since $\\arccos$ never returns a QIII or QIV angle.",
+      "searchQuery": "sin of arccos negative 4/5 composition quadrant II",
+      "answer": "3/5",
+      "acceptedAnswers": [
+        "0.6"
+      ],
+      "answerDisplay": "$\\dfrac{3}{5}$"
+    },
+    {
+      "id": "arccos-of-cos-trap",
+      "title": "Exact value of $\\arccos\\left(\\cos\\frac{7\\pi}{6}\\right)$, in radians?",
+      "body": "$\\dfrac{5\\pi}{6}$\n\n$\\cos\\frac{7\\pi}{6} = -\\frac{\\sqrt{3}}{2}$, and the angle in $[0, \\pi]$ with that cosine is $\\frac{5\\pi}{6}$.\n\nKey idea: $\\arccos(\\cos x) = x$ only for $x$ in $[0, \\pi]$; otherwise find the **equivalent angle** in that range.",
+      "searchQuery": "arccos of cos 7pi/6 principal value",
+      "answer": "5pi/6",
+      "acceptedAnswers": [
+        "(5pi)/6",
+        "5/6pi",
+        "(5/6)pi"
+      ],
+      "answerDisplay": "$\\dfrac{5\\pi}{6}$"
+    },
+    {
+      "id": "arctan-of-tan-trap",
+      "title": "Exact value of $\\arctan\\left(\\tan\\frac{3\\pi}{4}\\right)$, in radians?",
+      "body": "$-\\dfrac{\\pi}{4}$\n\n$\\tan\\frac{3\\pi}{4} = -1$, and $\\arctan(-1) = -\\frac{\\pi}{4}$, the angle in $\\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$ with that tangent.\n\nWatch out: $\\arctan(\\tan x) = x$ only when $x$ is already in $\\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$.",
+      "searchQuery": "arctan of tan 3pi/4 principal value",
+      "answer": "-pi/4",
+      "acceptedAnswers": [
+        "-(pi/4)",
+        "-1/4pi",
+        "-(1/4)pi",
+        "(-pi)/4"
+      ],
+      "answerDisplay": "$-\\dfrac{\\pi}{4}$"
+    },
+    {
+      "id": "cos-of-arctan-negative",
+      "title": "Exact value of $\\cos\\left(\\arctan\\left(-\\frac{5}{12}\\right)\\right)$?",
+      "body": "$\\dfrac{12}{13}$\n\n$\\theta = \\arctan\\left(-\\frac{5}{12}\\right)$ is in QIV, where cosine is positive. With legs $5$ and $12$ the hypotenuse is $13$, so $\\cos\\theta = \\frac{12}{13}$.\n\nKey idea: $\\arctan$ angles always have positive cosine.",
+      "searchQuery": "cos of arctan negative 5/12 composition",
+      "answer": "12/13",
+      "answerDisplay": "$\\dfrac{12}{13}$"
+    },
+    {
+      "id": "sin-arcsin-domain",
+      "title": "For which $x$ is $\\sin(\\arcsin x) = x$ true?",
+      "body": "For every $x$ in $[-1, 1]$, the domain of $\\arcsin$.\n\nOutside that interval $\\arcsin x$ does not exist, so the expression is undefined. For example $\\sin(\\arcsin 2)$ is not $2$.\n\nKey idea: an inverse undoes the function **in one direction** only; $\\sin(\\arcsin x) = x$, but $\\arcsin(\\sin x) = x$ needs a restricted $x$.",
+      "searchQuery": "sin of arcsin x equals x domain restriction"
+    },
+    {
+      "id": "arcsin-plus-arccos",
+      "title": "Evaluate $\\arcsin\\frac{1}{3} + \\arccos\\frac{1}{3}$ exactly, in radians.",
+      "body": "$\\dfrac{\\pi}{2}$\n\nFor every $x$ in $[-1, 1]$, $\\arcsin x + \\arccos x = \\frac{\\pi}{2}$, because $\\cos\\left(\\frac{\\pi}{2} - \\theta\\right) = \\sin\\theta$.\n\nTip: this is the **cofunction identity** written with inverses.",
+      "searchQuery": "arcsin x plus arccos x equals pi over 2",
+      "answer": "pi/2",
+      "acceptedAnswers": [
+        "(pi)/2",
+        "1/2pi",
+        "(1/2)pi",
+        "0.5pi"
+      ],
+      "answerDisplay": "$\\dfrac{\\pi}{2}$"
+    },
+    {
+      "id": "inverse-notation-trap",
+      "title": "Is $\\sin^{-1}x$ the same as $\\dfrac{1}{\\sin x}$?",
+      "body": "**No.** $\\sin^{-1}x$ means the inverse function $\\arcsin x$. The reciprocal $\\frac{1}{\\sin x}$ is $\\csc x$, also written $(\\sin x)^{-1}$.\n\nExample: $\\sin^{-1}(0.5) = 30^\\circ$, but $\\frac{1}{\\sin 30^\\circ} = 2$.\n\nWatch out: the notation is inconsistent with $\\sin^2 x = (\\sin x)^2$; the $-1$ exponent on the function name means inverse.",
+      "searchQuery": "sin inverse notation versus reciprocal csc arcsin"
+    },
+    {
+      "id": "sin-double-arcsin",
+      "title": "Exact value of $\\sin\\left(2\\arcsin\\frac{3}{5}\\right)$?",
+      "body": "$\\dfrac{24}{25}$\n\nLet $\\theta = \\arcsin\\frac{3}{5}$, so $\\sin\\theta = \\frac{3}{5}$ and $\\cos\\theta = \\frac{4}{5}$. Then $\\sin 2\\theta = 2\\sin\\theta\\cos\\theta = 2\\cdot\\frac{3}{5}\\cdot\\frac{4}{5} = \\frac{24}{25}$.\n\nTip: name the inverse-trig piece $\\theta$, draw its triangle, then apply the identity.",
+      "searchQuery": "sin of 2 arcsin 3/5 double angle composition",
+      "answer": "24/25",
+      "acceptedAnswers": [
+        "0.96"
+      ],
+      "answerDisplay": "$\\dfrac{24}{25}$"
+    },
+    {
+      "id": "tan-from-cos-triangle",
+      "title": "A right triangle has hypotenuse $17$ and acute angle $\\theta$ with $\\cos\\theta = \\frac{8}{17}$. Find $\\tan\\theta$.",
+      "body": "$\\dfrac{15}{8}$\n\nThe adjacent side is $8$, so the opposite side is $\\sqrt{17^2 - 8^2} = \\sqrt{225} = 15$. Then $\\tan\\theta = \\frac{\\text{opp}}{\\text{adj}} = \\frac{15}{8}$.\n\nTip: $8\\text{-}15\\text{-}17$ is a Pythagorean triple.",
+      "searchQuery": "tangent from cosine right triangle 8 15 17",
+      "answer": "15/8",
+      "acceptedAnswers": [
+        "1.875"
+      ],
+      "answerDisplay": "$\\dfrac{15}{8}$"
+    },
+    {
+      "id": "ladder-height-wall",
+      "title": "A $10\\,\\text{m}$ ladder makes a $75^\\circ$ angle with level ground. How high up the wall does it reach, to the nearest tenth of a meter?",
+      "body": "$9.7\\,\\text{m}$\n\nThe ladder is the hypotenuse and the height is opposite the $75^\\circ$ angle: $h = 10\\sin 75^\\circ \\approx 10(0.9659) \\approx 9.7$.\n\nWatch out: using cosine would give the horizontal distance, about $2.6\\,\\text{m}$.",
+      "searchQuery": "ladder height on wall sine 75 degrees 10 m",
+      "answer": "9.7",
+      "acceptedAnswers": [
+        "9.7 m",
+        "9.7 meters"
+      ],
+      "answerDisplay": "$9.7\\,\\text{m}$"
+    },
+    {
+      "id": "kite-string-height",
+      "title": "A kite string $50\\,\\text{m}$ long is taut at an angle of elevation of $40^\\circ$. How high is the kite, to the nearest tenth of a meter?",
+      "body": "$32.1\\,\\text{m}$\n\nThe string is the hypotenuse, and the height is opposite the angle: $h = 50\\sin 40^\\circ \\approx 50(0.6428) \\approx 32.1$.\n\nTip: ignore sag and treat the string as a straight line.",
+      "searchQuery": "kite string angle of elevation height sine 40 degrees",
+      "answer": "32.1",
+      "acceptedAnswers": [
+        "32.1 m",
+        "32.1 meters"
+      ],
+      "answerDisplay": "$32.1\\,\\text{m}$"
+    },
+    {
+      "id": "bearing-east-component",
+      "title": "A plane flies $100\\,\\text{km}$ on a bearing of $060^\\circ$. Exactly how far east of its start is it?",
+      "body": "$50\\sqrt{3}\\,\\text{km} \\approx 86.6\\,\\text{km}$\n\nA bearing is measured clockwise from north, so the eastward part is $d\\sin(\\text{bearing}) = 100\\sin 60^\\circ = 50\\sqrt{3}$. The northward part is $100\\cos 60^\\circ = 50$.\n\nWatch out: on a bearing, **sine** gives east and cosine gives north, the reverse of the math-class angle.",
+      "searchQuery": "bearing east component distance sine 060 degrees",
+      "answer": "50sqrt(3)",
+      "acceptedAnswers": [
+        "50sqrt3",
+        "50sqrt(3) km",
+        "50sqrt3 km",
+        "sqrt(7500)",
+        "sqrt7500"
+      ],
+      "answerDisplay": "$50\\sqrt{3}\\,\\text{km}$"
+    },
+    {
+      "id": "law-of-sines-obtuse-angle",
+      "title": "In triangle $ABC$, $A = 100^\\circ$, $B = 30^\\circ$ and $a = 12$. Find $b$ to $2$ decimal places.",
+      "body": "$b \\approx 6.09$\n\nThe angle $A$ is obtuse and paired with $a$: $b = \\frac{12\\sin 30^\\circ}{\\sin 100^\\circ} = \\frac{6}{0.9848} \\approx 6.09$.\n\nTip: sanity check: $A$ is the largest angle, so $a = 12$ must be the longest side.\nTip: $\\sin 100^\\circ = \\sin 80^\\circ$, so a calculator handles obtuse angles directly.",
+      "searchQuery": "law of sines obtuse angle A 100 B 30 a 12 find b",
+      "answer": "6.09"
+    },
+    {
+      "id": "sss-smallest-angle",
+      "title": "A triangle has sides $7$, $8$ and $9$. Find its smallest angle, in degrees to the nearest tenth.",
+      "body": "$48.2^\\circ$\n\nThe smallest angle is opposite the shortest side, $7$: $\\cos\\theta = \\frac{8^2 + 9^2 - 7^2}{2(8)(9)} = \\frac{96}{144} = \\frac{2}{3}$, so $\\theta = \\cos^{-1}\\left(\\frac{2}{3}\\right) \\approx 48.2^\\circ$.\n\nTip: sanity check: the angles must sum to $180^\\circ$; the other two are about $58.4^\\circ$ and $73.4^\\circ$.",
+      "searchQuery": "smallest angle triangle sides 7 8 9 law of cosines",
+      "answer": "48.2",
+      "acceptedAnswers": [
+        "48.2 degrees",
+        "48.2°",
+        "48.2 deg"
+      ],
+      "answerDisplay": "$48.2^\\circ$"
+    },
+    {
+      "id": "circumradius-from-side-angle",
+      "title": "A triangle has side $a = 6$ opposite angle $A = 30^\\circ$. What is the radius $R$ of its circumscribed circle?",
+      "body": "$6$\n\nBy the extended law of sines, $\\frac{a}{\\sin A} = 2R$, so $2R = \\frac{6}{1/2} = 12$ and $R = 6$.\n\nTip: any side and its opposite angle give the circumradius.",
+      "searchQuery": "circumradius triangle side 6 angle 30 extended law of sines",
+      "answer": "6",
+      "answerDisplay": "$6$"
+    },
+    {
+      "id": "arctan-sum-three",
+      "title": "Evaluate $\\arctan 1 + \\arctan 2 + \\arctan 3$ exactly, in radians.",
+      "body": "$\\pi$\n\nFirst, $\\tan(\\arctan 2 + \\arctan 3) = \\frac{2 + 3}{1 - 6} = -1$, and the sum lies in $\\left(\\frac{\\pi}{2}, \\pi\\right)$, so it is $\\frac{3\\pi}{4}$. Adding $\\arctan 1 = \\frac{\\pi}{4}$ gives $\\pi$.\n\nWatch out: the sum formula alone gives $-1$, so use the quadrant to choose $\\frac{3\\pi}{4}$ rather than $-\\frac{\\pi}{4}$.",
+      "searchQuery": "arctan 1 plus arctan 2 plus arctan 3 equals pi",
+      "answer": "pi",
+      "answerDisplay": "$\\pi$"
+    },
+    {
+      "id": "inverse-sine-angle-degrees",
+      "title": "Find the acute angle $\\theta$ with $\\sin\\theta = 0.3$, in degrees to the nearest tenth.",
+      "body": "$17.5^\\circ$\n\n$\\theta = \\sin^{-1}(0.3) \\approx 17.46^\\circ$, which rounds to $17.5^\\circ$. Use degree mode.\n\nTip: sanity check: $\\sin 30^\\circ = 0.5$, so a sine of $0.3$ should give an angle below $30^\\circ$.",
+      "searchQuery": "inverse sine of 0.3 degrees calculator acute angle",
+      "answer": "17.5",
+      "acceptedAnswers": [
+        "17.5 degrees",
+        "17.5°",
+        "17.5 deg"
+      ],
+      "answerDisplay": "$17.5^\\circ$"
+    },
+    {
+      "id": "arccos-range-reason",
+      "title": "Why does $\\arccos$ return angles in $[0, \\pi]$ rather than the interval used by $\\arcsin$?",
+      "body": "Cosine is one-to-one on $[0, \\pi]$ and takes every value in $[-1, 1]$ there. On $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ it is **not** one-to-one, since $\\cos(-x) = \\cos x$.\n\nKey idea: the principal range must cover all outputs exactly once, so each inverse picks a different interval.",
+      "searchQuery": "why arccos range 0 to pi one to one cosine"
+    }
+  ]
+}

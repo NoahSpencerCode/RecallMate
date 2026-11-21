@@ -1,0 +1,959 @@
+{
+  "id": "calc-series",
+  "title": "Sequences & Series",
+  "course": "Calculus II",
+  "description": "Geometric and p-series, divergence, integral, comparison, alternating and ratio tests, intervals of convergence, Taylor and Maclaurin series, remainders.",
+  "cards": [
+    {
+      "id": "sequence-limit-definition",
+      "title": "Definition of $\\lim_{n \\to \\infty} a_n = L$ (epsilon form)?",
+      "body": "For every $\\varepsilon > 0$ there is an $N$ such that $|a_n - L| < \\varepsilon$ for all $n > N$\n\nIn words: the terms eventually stay within any chosen distance of $L$. A sequence that has such an $L$ **converges**; otherwise it diverges.\n\nKey idea: only the tail of the sequence matters. Changing finitely many terms does not change the limit.",
+      "searchQuery": "definition of limit of a sequence epsilon N"
+    },
+    {
+      "id": "sequence-limit-rational",
+      "title": "$\\lim_{n \\to \\infty} \\frac{3n^2 + 1}{n^2 + 5n} = \\,?$",
+      "body": "$3$\n\nDivide the top and bottom by $n^2$: $\\frac{3 + 1/n^2}{1 + 5/n} \\to \\frac{3}{1} = 3$.\n\nTip: for a rational expression in $n$ with equal degrees, the limit is the ratio of the leading coefficients.",
+      "answer": "3",
+      "answerDisplay": "$3$",
+      "searchQuery": "limit of rational sequence leading terms"
+    },
+    {
+      "id": "sequence-limit-nth-root-of-n",
+      "title": "$\\lim_{n \\to \\infty} n^{1/n} = \\,?$",
+      "body": "$1$\n\nWrite $n^{1/n} = e^{(\\ln n)/n}$. Since $\\frac{\\ln n}{n} \\to 0$, the limit is $e^0 = 1$.\n\nWatch out: this is an $\\infty^0$ form. Take logs to resolve it, rather than guessing.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "limit of n^(1/n) equals 1"
+    },
+    {
+      "id": "sequence-limit-one-minus-two-over-n",
+      "title": "$\\lim_{n \\to \\infty} \\left(1 - \\frac{2}{n}\\right)^n = \\,?$",
+      "body": "$e^{-2}$\n\nUse the general rule $\\left(1 + \\frac{k}{n}\\right)^n \\to e^k$ with $k = -2$.\n\nWhy: the log of the term is $n\\ln\\left(1 - \\frac{2}{n}\\right) \\approx n \\cdot \\left(-\\frac{2}{n}\\right) = -2$.\nWatch out: this is a $1^\\infty$ form, so the answer is not $1$ (or $0$).",
+      "answer": "e^-2",
+      "acceptedAnswers": [
+        "e^(-2)",
+        "1/e^2",
+        "0.135"
+      ],
+      "answerDisplay": "$e^{-2}$",
+      "searchQuery": "limit (1 - 2/n)^n equals e^-2"
+    },
+    {
+      "id": "geometric-sequence-converges-for-r",
+      "title": "For which values of $r$ does the sequence $\\{r^n\\}$ converge?",
+      "body": "$-1 < r \\le 1$\n\nFor $|r| < 1$ the limit is $0$, and for $r = 1$ it is $1$. For $r > 1$ the terms blow up, and for $r \\le -1$ they oscillate or grow in size.\n\nWatch out: this is the sequence $r^n$. The geometric series $\\sum r^n$ needs the stricter condition $|r| < 1$.",
+      "answer": "-1 < r <= 1",
+      "acceptedAnswers": [
+        "(-1,1]",
+        "-1<r≤1"
+      ],
+      "answerDisplay": "$-1 < r \\le 1$",
+      "searchQuery": "when does r^n converge geometric sequence"
+    },
+    {
+      "id": "sequence-squeeze-sin-n-over-n",
+      "title": "$\\lim_{n \\to \\infty} \\frac{\\sin n}{n} = \\,?$",
+      "body": "$0$\n\nSqueeze: $-\\frac{1}{n} \\le \\frac{\\sin n}{n} \\le \\frac{1}{n}$, and both bounds tend to $0$.\n\nTip: a bounded numerator over a denominator that grows without bound always gives limit $0$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "squeeze theorem sequence sin n over n limit"
+    },
+    {
+      "id": "sequence-factorial-beats-exponential",
+      "title": "$\\lim_{n \\to \\infty} \\frac{2^n}{n!} = \\,?$",
+      "body": "$0$\n\nOnce $n > 2$ each new factor in $n!$ is bigger than the factor $2$ added to $2^n$, so the ratio shrinks. In fact $\\sum \\frac{2^n}{n!}$ converges, so its terms must tend to $0$.\n\nKey idea: factorials grow faster than any exponential.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "limit 2^n over n! factorial grows faster"
+    },
+    {
+      "id": "sequence-growth-hierarchy",
+      "title": "Order these by growth as $n \\to \\infty$, slowest to fastest: $n!$, $\\ln n$, $2^n$, $n^3$, $n^n$.",
+      "body": "$\\ln n \\ll n^3 \\ll 2^n \\ll n! \\ll n^n$\n\nEach term eventually dominates the ones before it: any ratio of an earlier term to a later one tends to $0$.\n\nMnemonic: log, polynomial, exponential, factorial, then $n^n$.\nTip: this hierarchy decides most sequence limits, and many series tests.",
+      "searchQuery": "growth rates of sequences ln n n^p a^n n! n^n"
+    },
+    {
+      "id": "monotone-bounded-theorem",
+      "title": "Monotonic Sequence Theorem: what guarantees that a sequence converges?",
+      "body": "It is **bounded** and **monotonic** (always increasing, or always decreasing)\n\nThe theorem says such a sequence has a limit, but it does not tell you what the limit is.\n\nExample: $a_n = \\left(1 + \\frac1n\\right)^n$ is increasing and bounded above by $3$, so it converges (to $e$).\nWatch out: bounded alone is not enough. $(-1)^n$ is bounded but diverges.",
+      "searchQuery": "monotonic sequence theorem bounded monotone converges"
+    },
+    {
+      "id": "recursive-sequence-limit",
+      "title": "The sequence $a_1 = \\sqrt{2}$, $a_{n+1} = \\sqrt{2 + a_n}$ converges. What is its limit?",
+      "body": "$2$\n\nIf $a_n \\to L$, then $L = \\sqrt{2 + L}$. Squaring gives $L^2 - L - 2 = 0$, so $L = 2$ or $L = -1$. All terms are positive, so $L = 2$.\n\nWatch out: first show the sequence converges (it is increasing and bounded above by $2$). Solving $L = \\sqrt{2 + L}$ only finds the limit if one exists.",
+      "answer": "2",
+      "answerDisplay": "$2$",
+      "searchQuery": "limit of recursively defined sequence sqrt(2+a_n)"
+    },
+    {
+      "id": "geometric-series-sum",
+      "title": "$\\sum_{n=1}^{\\infty} \\left(\\frac{2}{3}\\right)^n = \\,?$",
+      "body": "$2$\n\nThis is geometric with $r = \\frac23$, so the sum is $\\frac{\\text{first term}}{1 - r} = \\frac{2/3}{1/3} = 2$. It converges only when $|r| < 1$.\n\nWatch out: the first term is $\\frac23$, not $1$. Starting at $n = 0$ would give $3$.",
+      "answer": "2",
+      "answerDisplay": "$2$",
+      "searchQuery": "geometric series sum 2/3 first term over 1 minus r"
+    },
+    {
+      "id": "divergence-test",
+      "title": "Test for Divergence: what does $\\lim a_n \\ne 0$ tell you about $\\sum a_n$? What does $\\lim a_n = 0$ tell you?",
+      "body": "If $\\lim a_n \\ne 0$ (or does not exist), $\\sum a_n$ **diverges**. If $\\lim a_n = 0$, nothing: the series may or may not converge.\n\nThe harmonic series $\\sum \\frac1n$ has terms tending to $0$, yet it diverges.\n\nKey idea: the test can prove divergence, never convergence.",
+      "searchQuery": "test for divergence nth term test limit not zero"
+    },
+    {
+      "id": "partial-sums-definition",
+      "title": "What does it mean for $\\sum_{n=1}^{\\infty} a_n$ to converge to $S$?",
+      "body": "The sequence of partial sums $s_N = \\sum_{n=1}^{N} a_n$ converges to $S$\n\nA series is just the limit of its partial sums. If that limit does not exist, the series diverges.\n\nWatch out: a sequence and a series are different objects. $a_n \\to 0$ says the terms shrink, which is not the same as $\\sum a_n$ converging.",
+      "searchQuery": "series convergence definition sequence of partial sums"
+    },
+    {
+      "id": "telescoping-series-n-n-plus-1",
+      "title": "$\\sum_{n=1}^{\\infty} \\frac{1}{n(n + 1)} = \\,?$",
+      "body": "$1$\n\nPartial fractions give $\\frac{1}{n(n + 1)} = \\frac1n - \\frac{1}{n + 1}$. The partial sum telescopes to $s_N = 1 - \\frac{1}{N + 1}$, which tends to $1$.\n\nTip: for a telescoping series, write out the first few terms and see what cancels.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "telescoping series 1/(n(n+1)) sum equals 1"
+    },
+    {
+      "id": "telescoping-series-n-squared-minus-1",
+      "title": "$\\sum_{n=2}^{\\infty} \\frac{1}{n^2 - 1} = \\,?$",
+      "body": "$\\frac34$\n\nWrite $\\frac{1}{n^2 - 1} = \\frac12\\left(\\frac{1}{n - 1} - \\frac{1}{n + 1}\\right)$. Terms two steps apart cancel, leaving $\\frac12\\left(1 + \\frac12\\right) = \\frac34$.\n\nWatch out: here two terms survive at the front, $1$ and $\\frac12$, not just one.",
+      "answer": "3/4",
+      "acceptedAnswers": [
+        "0.75"
+      ],
+      "answerDisplay": "$\\frac{3}{4}$",
+      "searchQuery": "telescoping series 1/(n^2-1) starting at n=2"
+    },
+    {
+      "id": "geometric-series-alternating-ratio",
+      "title": "$\\sum_{n=0}^{\\infty} 3\\left(-\\frac{1}{4}\\right)^n = \\,?$",
+      "body": "$\\frac{12}{5}$\n\nThe first term is $3$ and $r = -\\frac14$, so the sum is $\\frac{3}{1 - (-1/4)} = \\frac{3}{5/4} = \\frac{12}{5}$.\n\nWatch out: $1 - r = 1 + \\frac14$. A negative ratio adds to the denominator.",
+      "answer": "12/5",
+      "acceptedAnswers": [
+        "2.4"
+      ],
+      "answerDisplay": "$\\frac{12}{5}$",
+      "searchQuery": "geometric series negative ratio 3(-1/4)^n sum"
+    },
+    {
+      "id": "geometric-series-formula",
+      "title": "When does $\\sum_{n=0}^{\\infty} ar^n$ converge, and what is its sum?",
+      "body": "It converges when $|r| < 1$, with sum $\\frac{a}{1 - r}$\n\nFor $|r| \\ge 1$ (with $a \\ne 0$) the terms do not tend to $0$, so the series diverges.\n\nWhy: $s_N = a\\frac{1 - r^{N+1}}{1 - r}$, and $r^{N+1} \\to 0$ exactly when $|r| < 1$.\nTip: the sum is the first term divided by $1 - r$.",
+      "searchQuery": "geometric series formula a/(1-r) convergence |r|<1"
+    },
+    {
+      "id": "repeating-decimal-as-fraction",
+      "title": "Write $0.454545\\ldots$ as a fraction in lowest terms.",
+      "body": "$\\frac{5}{11}$\n\nIt equals $0.45 + 0.0045 + \\cdots$, a geometric series with first term $0.45$ and $r = 0.01$. The sum is $\\frac{0.45}{0.99} = \\frac{45}{99} = \\frac{5}{11}$.\n\nTip: for a repeating block of $k$ digits, use $r = 10^{-k}$.",
+      "answer": "5/11",
+      "answerDisplay": "$\\frac{5}{11}$",
+      "searchQuery": "repeating decimal 0.4545 as fraction geometric series"
+    },
+    {
+      "id": "geometric-series-x-convergence",
+      "title": "For which $x$ does $\\sum_{n=0}^{\\infty} x^n$ converge?",
+      "body": "$|x| < 1$, and then the sum is $\\frac{1}{1 - x}$\n\nAt $x = 1$ and $x = -1$ the terms do not tend to $0$, so both endpoints diverge.\n\nKey idea: this is the simplest power series, with radius of convergence $1$.",
+      "answer": "-1 < x < 1",
+      "acceptedAnswers": [
+        "|x|<1",
+        "(-1,1)"
+      ],
+      "answerDisplay": "$-1 < x < 1$",
+      "searchQuery": "for which x does geometric series x^n converge"
+    },
+    {
+      "id": "harmonic-series-diverges",
+      "title": "Does the harmonic series $\\sum_{n=1}^{\\infty} \\frac{1}{n}$ converge or diverge?",
+      "body": "Diverges\n\nGroup terms: $\\frac13 + \\frac14 > \\frac12$, $\\frac15 + \\cdots + \\frac18 > \\frac12$, and so on. Each group adds more than $\\frac12$, so the partial sums are unbounded.\n\nWatch out: the terms tend to $0$, but that is not enough for convergence. The partial sums grow like $\\ln N$, very slowly.",
+      "answer": "diverges",
+      "acceptedAnswers": [
+        "diverge",
+        "divergent",
+        "it diverges"
+      ],
+      "searchQuery": "harmonic series diverges proof grouping"
+    },
+    {
+      "id": "divergence-test-example",
+      "title": "Does $\\sum_{n=1}^{\\infty} \\frac{n}{2n + 1}$ converge or diverge?",
+      "body": "Diverges\n\nThe terms tend to $\\frac12$, not $0$, so the Test for Divergence applies.\n\nTip: check $\\lim a_n$ first. It takes one line, and it settles many series.",
+      "answer": "diverges",
+      "acceptedAnswers": [
+        "diverge",
+        "divergent",
+        "it diverges"
+      ],
+      "searchQuery": "test for divergence n/(2n+1) series"
+    },
+    {
+      "id": "series-linearity",
+      "title": "$\\sum a_n = 3$ and $\\sum b_n = 5$ (both convergent). Find $\\sum (2a_n - b_n)$.",
+      "body": "$1$\n\nConvergent series can be added and scaled term by term: $2(3) - 5 = 1$.\n\nWatch out: this needs both series to converge. If one converges and one diverges, the combined series diverges.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "linearity of convergent series sum 2a_n minus b_n"
+    },
+    {
+      "id": "geometric-series-shifted-start",
+      "title": "$\\sum_{n=3}^{\\infty} \\left(\\frac{1}{2}\\right)^n = \\,?$",
+      "body": "$\\frac14$\n\nThe first term is $\\left(\\frac12\\right)^3 = \\frac18$ and $r = \\frac12$, so the sum is $\\frac{1/8}{1/2} = \\frac14$.\n\nTip: always use the first term actually present in the sum, not $r^0$.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25"
+      ],
+      "answerDisplay": "$\\frac{1}{4}$",
+      "searchQuery": "geometric series starting at n=3 sum first term"
+    },
+    {
+      "id": "sum-of-two-geometric-series",
+      "title": "$\\sum_{n=1}^{\\infty} \\frac{2^n + 3^n}{6^n} = \\,?$",
+      "body": "$\\frac32$\n\nSplit it into $\\sum \\left(\\frac13\\right)^n + \\sum \\left(\\frac12\\right)^n$. They sum to $\\frac{1/3}{2/3} + \\frac{1/2}{1/2} = \\frac12 + 1 = \\frac32$.\n\nTip: split a sum into two geometric series whenever each piece has its own ratio.",
+      "answer": "3/2",
+      "acceptedAnswers": [
+        "1.5"
+      ],
+      "answerDisplay": "$\\frac{3}{2}$",
+      "searchQuery": "sum of two geometric series (2^n+3^n)/6^n"
+    },
+    {
+      "id": "p-series",
+      "title": "Does $\\sum_{n=1}^{\\infty} \\frac{1}{\\sqrt{n}}$ converge or diverge?",
+      "body": "Diverges\n\nIt is a **p-series** with $p = \\frac12$. The series $\\sum \\frac{1}{n^p}$ converges if $p > 1$ and diverges if $p \\le 1$.\n\nExample: $p = 1$ is the harmonic series, which diverges. $\\sum \\frac{1}{n^2}$ ($p = 2$) converges.",
+      "answer": "diverges",
+      "acceptedAnswers": [
+        "diverge",
+        "divergent",
+        "it diverges"
+      ],
+      "searchQuery": "p-series test 1/sqrt n diverges p less than 1"
+    },
+    {
+      "id": "integral-test-conditions",
+      "title": "Integral Test: what must $f$ satisfy for $\\sum f(n)$ and $\\int_1^{\\infty} f(x)\\,dx$ to converge or diverge together?",
+      "body": "$f$ must be continuous, positive and decreasing on $[1, \\infty)$ (eventually decreasing is enough)\n\nWhen these hold, the series and the improper integral behave the same way.\n\nWatch out: the integral's value is not the sum. $\\int_1^{\\infty} \\frac{dx}{x^2} = 1$, but $\\sum \\frac{1}{n^2} = \\frac{\\pi^2}{6} \\approx 1.645$.",
+      "searchQuery": "integral test conditions positive continuous decreasing"
+    },
+    {
+      "id": "basel-problem",
+      "title": "$\\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\,?$",
+      "body": "$\\frac{\\pi^2}{6}$\n\nEuler proved this in 1735 (the Basel problem). The partial sums reach about $1.645$.\n\nWatch out: the integral test shows that this series converges, but not what it converges to.",
+      "answer": "pi^2/6",
+      "acceptedAnswers": [
+        "(pi^2)/6"
+      ],
+      "answerDisplay": "$\\frac{\\pi^2}{6}$",
+      "searchQuery": "Basel problem sum 1/n^2 equals pi^2/6"
+    },
+    {
+      "id": "integral-test-n-ln-n",
+      "title": "Does $\\sum_{n=2}^{\\infty} \\frac{1}{n \\ln n}$ converge or diverge?",
+      "body": "Diverges\n\nThe function $\\frac{1}{x \\ln x}$ is positive, continuous and decreasing for $x \\ge 2$. With $u = \\ln x$, $\\int_2^{\\infty} \\frac{dx}{x\\ln x} = \\ln(\\ln x)\\Big|_2^{\\infty} = \\infty$.\n\nKey idea: this series diverges even more slowly than the harmonic series.",
+      "answer": "diverges",
+      "acceptedAnswers": [
+        "diverge",
+        "divergent",
+        "it diverges"
+      ],
+      "searchQuery": "integral test 1/(n ln n) series diverges"
+    },
+    {
+      "id": "integral-test-n-ln-squared",
+      "title": "Does $\\sum_{n=2}^{\\infty} \\frac{1}{n(\\ln n)^2}$ converge or diverge?",
+      "body": "Converges\n\nThe function is positive, continuous and decreasing for $x \\ge 2$. With $u = \\ln x$, $\\int_2^{\\infty} \\frac{dx}{x(\\ln x)^2} = \\left[-\\frac{1}{\\ln x}\\right]_2^{\\infty} = \\frac{1}{\\ln 2}$, which is finite.\n\nTip: compare with the previous card. A single extra power of $\\ln n$ in the denominator flips the verdict.",
+      "answer": "converges",
+      "acceptedAnswers": [
+        "converge",
+        "convergent",
+        "it converges"
+      ],
+      "searchQuery": "integral test 1/(n (ln n)^2) converges"
+    },
+    {
+      "id": "integral-test-n-e-to-minus-n-squared",
+      "title": "Does $\\sum_{n=1}^{\\infty} n e^{-n^2}$ converge or diverge?",
+      "body": "Converges\n\nThe function $xe^{-x^2}$ is positive and decreasing for $x \\ge 1$. Then $\\int_1^{\\infty} xe^{-x^2}\\,dx = \\left[-\\frac12 e^{-x^2}\\right]_1^{\\infty} = \\frac{1}{2e}$, which is finite.\n\nWatch out: check that $f$ is decreasing. Here $f'(x) = e^{-x^2}(1 - 2x^2) < 0$ once $x > \\frac{1}{\\sqrt{2}}$.",
+      "answer": "converges",
+      "acceptedAnswers": [
+        "converge",
+        "convergent",
+        "it converges"
+      ],
+      "searchQuery": "integral test n e^(-n^2) series converges"
+    },
+    {
+      "id": "integral-test-remainder-bounds",
+      "title": "Integral Test remainder: for $f$ positive, continuous and decreasing, what bounds does $R_n = S - S_n$ satisfy?",
+      "body": "$\\int_{n+1}^{\\infty} f(x)\\,dx \\le R_n \\le \\int_n^{\\infty} f(x)\\,dx$\n\nThe tail $\\sum_{k=n+1}^{\\infty} f(k)$ is squeezed between right-endpoint and left-endpoint rectangle sums for the integral.\n\nTip: the upper bound is the quick one for error estimates.",
+      "searchQuery": "integral test remainder estimate bounds R_n"
+    },
+    {
+      "id": "integral-test-remainder-example",
+      "title": "Using $S_{10}$ for $\\sum \\frac{1}{n^2}$, what upper bound does the integral test give for the error $R_{10}$?",
+      "body": "$\\frac{1}{10}$\n\n$R_{10} \\le \\int_{10}^{\\infty} \\frac{dx}{x^2} = \\frac{1}{10}$. The lower bound is $\\int_{11}^{\\infty} \\frac{dx}{x^2} = \\frac{1}{11}$.\n\nWatch out: the upper bound starts the integral at $n = 10$, not $n = 11$.",
+      "answer": "1/10",
+      "acceptedAnswers": [
+        "0.1"
+      ],
+      "answerDisplay": "$\\frac{1}{10}$",
+      "searchQuery": "integral test error bound S10 sum 1/n^2"
+    },
+    {
+      "id": "p-series-constant-multiple",
+      "title": "Does $\\sum_{n=1}^{\\infty} \\frac{5}{n^{2/3}}$ converge or diverge?",
+      "body": "Diverges\n\nIt is $5\\sum \\frac{1}{n^{2/3}}$, a constant times a p-series with $p = \\frac23 \\le 1$.\n\nKey idea: a nonzero constant multiple never changes convergence or divergence.",
+      "answer": "diverges",
+      "acceptedAnswers": [
+        "diverge",
+        "divergent",
+        "it diverges"
+      ],
+      "searchQuery": "p-series with constant multiple 5/n^(2/3) diverges"
+    },
+    {
+      "id": "direct-comparison-test",
+      "title": "Direct Comparison: $0 \\le a_n \\le b_n$ for all $n$ and $\\sum b_n$ converges. What can you conclude about $\\sum a_n$?",
+      "body": "$\\sum a_n$ **converges** (smaller than a convergent series)\n\nIf instead $\\sum a_n$ diverges, then $\\sum b_n$ diverges too. A series smaller than a divergent one, or bigger than a convergent one, proves nothing.\n\nExample: $\\frac{1}{n^2 + 1} < \\frac{1}{n^2}$, so $\\sum \\frac{1}{n^2 + 1}$ converges.",
+      "answer": "converges",
+      "acceptedAnswers": [
+        "converge",
+        "convergent",
+        "it converges"
+      ],
+      "searchQuery": "direct comparison test series 0 less than a_n less than b_n"
+    },
+    {
+      "id": "limit-comparison-test",
+      "title": "Limit Comparison Test: $a_n, b_n > 0$ and $\\lim \\frac{a_n}{b_n} = c$. For which $c$ do $\\sum a_n$ and $\\sum b_n$ share the same fate?",
+      "body": "Any finite $c > 0$ ($0 < c < \\infty$): both converge or both diverge\n\nIt rescues cases where direct comparison points the wrong way. Here $\\frac{1}{2^n - 1} > \\frac{1}{2^n}$, but the ratio tends to $1$ and $\\sum \\frac{1}{2^n}$ converges.\n\nExample: so $\\sum \\frac{1}{2^n - 1}$ converges too.",
+      "searchQuery": "limit comparison test finite positive limit same fate"
+    },
+    {
+      "id": "comparison-diverges-root-minus-one",
+      "title": "Does $\\sum_{n=2}^{\\infty} \\frac{1}{\\sqrt{n} - 1}$ converge or diverge?",
+      "body": "Diverges\n\nFor $n \\ge 2$, $\\sqrt{n} - 1 < \\sqrt{n}$, so $\\frac{1}{\\sqrt{n} - 1} > \\frac{1}{\\sqrt{n}}$. The smaller series $\\sum \\frac{1}{\\sqrt{n}}$ is a divergent p-series ($p = \\frac12$).\n\nTip: to prove divergence, compare with a smaller divergent series.",
+      "answer": "diverges",
+      "acceptedAnswers": [
+        "diverge",
+        "divergent",
+        "it diverges"
+      ],
+      "searchQuery": "direct comparison divergence 1/(sqrt n - 1)"
+    },
+    {
+      "id": "comparison-cos-squared",
+      "title": "Does $\\sum_{n=1}^{\\infty} \\frac{\\cos^2 n}{n^2}$ converge or diverge?",
+      "body": "Converges\n\nSince $0 \\le \\cos^2 n \\le 1$, we have $0 \\le \\frac{\\cos^2 n}{n^2} \\le \\frac{1}{n^2}$, and $\\sum \\frac{1}{n^2}$ converges.\n\nTip: bound a wiggly numerator such as $\\sin n$ or $\\cos n$ by $1$.",
+      "answer": "converges",
+      "acceptedAnswers": [
+        "converge",
+        "convergent",
+        "it converges"
+      ],
+      "searchQuery": "direct comparison cos^2 n over n^2 converges"
+    },
+    {
+      "id": "comparison-n-over-n-cubed-plus-1",
+      "title": "Does $\\sum_{n=1}^{\\infty} \\frac{n}{n^3 + 1}$ converge or diverge?",
+      "body": "Converges\n\nDropping the $+1$ makes the denominator smaller, so the fraction gets bigger: $\\frac{n}{n^3 + 1} < \\frac{n}{n^3} = \\frac{1}{n^2}$. The p-series with $p = 2$ converges.\n\nTip: to prove convergence, compare with a larger convergent series. Dropping a positive term from a denominator always enlarges the fraction.",
+      "answer": "converges",
+      "acceptedAnswers": [
+        "converge",
+        "convergent",
+        "it converges"
+      ],
+      "searchQuery": "comparison test n/(n^3+1) converges"
+    },
+    {
+      "id": "comparison-ln-n-over-n",
+      "title": "Does $\\sum_{n=3}^{\\infty} \\frac{\\ln n}{n}$ converge or diverge?",
+      "body": "Diverges\n\nFor $n \\ge 3$, $\\ln n > 1$, so $\\frac{\\ln n}{n} > \\frac{1}{n}$. The harmonic series diverges, so this one does too.\n\nKey idea: $\\ln n$ grows without bound, so it can only make a divergent series more divergent.",
+      "answer": "diverges",
+      "acceptedAnswers": [
+        "diverge",
+        "divergent",
+        "it diverges"
+      ],
+      "searchQuery": "comparison test ln n over n diverges"
+    },
+    {
+      "id": "limit-comparison-diverges",
+      "title": "Does $\\sum_{n=1}^{\\infty} \\frac{n^2 + 1}{n^3 + n + 2}$ converge or diverge?",
+      "body": "Diverges\n\nCompare with $b_n = \\frac1n$. The ratio $\\frac{a_n}{b_n} = \\frac{n^3 + n}{n^3 + n + 2} \\to 1$, a finite positive limit, and $\\sum \\frac1n$ diverges.\n\nTip: compare with the ratio of the leading terms, here $\\frac{n^2}{n^3} = \\frac1n$.",
+      "answer": "diverges",
+      "acceptedAnswers": [
+        "diverge",
+        "divergent",
+        "it diverges"
+      ],
+      "searchQuery": "limit comparison test (n^2+1)/(n^3+n+2) diverges"
+    },
+    {
+      "id": "limit-comparison-choose-b",
+      "title": "To test $\\sum \\frac{2n + 1}{n^3 + 4}$ by limit comparison, which simple $b_n$ is the natural choice?",
+      "body": "$b_n = \\frac{1}{n^2}$\n\nThe leading terms give $\\frac{2n}{n^3} = \\frac{2}{n^2}$. The ratio $\\frac{a_n}{b_n} \\to 2$, and $\\sum \\frac{1}{n^2}$ converges, so the series converges.\n\nTip: keep only the dominant term in the numerator and the denominator, and drop constant factors.",
+      "answer": "1/n^2",
+      "acceptedAnswers": [
+        "n^-2",
+        "n^(-2)"
+      ],
+      "answerDisplay": "$\\frac{1}{n^2}$",
+      "searchQuery": "limit comparison choose b_n (2n+1)/(n^3+4)"
+    },
+    {
+      "id": "limit-comparison-zero-limit",
+      "title": "Limit Comparison with $c = \\lim \\frac{a_n}{b_n} = 0$ and $\\sum b_n$ convergent: what follows for $\\sum a_n$?",
+      "body": "$\\sum a_n$ converges\n\nWith $c = 0$, the terms $a_n$ are eventually smaller than any multiple of $b_n$. The case $c = \\infty$ with $\\sum b_n$ divergent gives divergence.\n\nWatch out: for $c = 0$ with $\\sum b_n$ divergent, or $c = \\infty$ with $\\sum b_n$ convergent, there is no conclusion.",
+      "answer": "converges",
+      "acceptedAnswers": [
+        "converge",
+        "convergent",
+        "it converges"
+      ],
+      "searchQuery": "limit comparison test c equals 0 convergent b_n"
+    },
+    {
+      "id": "alternating-series-test",
+      "title": "Alternating Series Test: $\\sum (-1)^{n-1} b_n$ with $b_n > 0$ converges if which two conditions hold?",
+      "body": "$b_{n+1} \\le b_n$ (decreasing, at least eventually) and $\\lim b_n = 0$\n\nBoth conditions are needed. If $b_n$ does not tend to $0$, the Test for Divergence already shows divergence.\n\nExample: $\\sum \\frac{(-1)^{n-1}}{\\sqrt{n}}$ converges because $\\frac{1}{\\sqrt{n}}$ decreases to $0$, even though $\\sum \\frac{1}{\\sqrt{n}}$ diverges.",
+      "searchQuery": "alternating series test conditions decreasing limit zero"
+    },
+    {
+      "id": "alternating-series-error",
+      "title": "Using $S_4$ to approximate $\\sum_{n=1}^{\\infty} \\frac{(-1)^{n-1}}{n^2}$, what error bound does the Alternating Series Estimation Theorem give?",
+      "body": "$\\frac{1}{25}$\n\nThe theorem says $|S - S_n| \\le b_{n+1}$, the size of the **first omitted term**. Here $b_5 = \\frac{1}{5^2} = \\frac{1}{25}$.\n\nWatch out: it applies only when the AST conditions hold ($b_n$ decreasing to $0$).",
+      "answer": "1/25",
+      "acceptedAnswers": [
+        "0.04"
+      ],
+      "answerDisplay": "$\\frac{1}{25}$",
+      "searchQuery": "alternating series estimation theorem error bound S4"
+    },
+    {
+      "id": "absolute-vs-conditional",
+      "title": "The alternating harmonic series $\\sum \\frac{(-1)^{n-1}}{n}$ converges. What kind of convergence is it?",
+      "body": "Conditional\n\n**Absolute convergence** means $\\sum |a_n|$ converges, and it implies $\\sum a_n$ converges. Here $\\sum |a_n| = \\sum \\frac1n$ diverges, so the convergence is conditional.\n\nExample: by contrast, $\\sum \\frac{(-1)^n}{n^2}$ converges absolutely.",
+      "answer": "conditional",
+      "acceptedAnswers": [
+        "conditionally",
+        "conditionally convergent",
+        "conditional convergence",
+        "converges conditionally"
+      ],
+      "searchQuery": "conditional convergence alternating harmonic series"
+    },
+    {
+      "id": "alternating-harmonic-sum",
+      "title": "$\\sum_{n=1}^{\\infty} \\frac{(-1)^{n-1}}{n} = \\,?$",
+      "body": "$\\ln 2$\n\nThis is the Maclaurin series of $\\ln(1 + x)$ evaluated at $x = 1$, where the series still converges.\n\nExample: the partial sums oscillate around $\\ln 2 \\approx 0.693$, with error at most the first omitted term.",
+      "answer": "ln 2",
+      "acceptedAnswers": [
+        "ln(2)"
+      ],
+      "answerDisplay": "$\\ln 2$",
+      "searchQuery": "alternating harmonic series sum ln 2"
+    },
+    {
+      "id": "alternating-series-test-fails",
+      "title": "Does $\\sum_{n=1}^{\\infty} (-1)^n \\frac{n}{n + 1}$ converge or diverge?",
+      "body": "Diverges\n\nThe terms have absolute value $\\frac{n}{n + 1} \\to 1$, so $a_n$ does not tend to $0$. The Test for Divergence applies.\n\nWatch out: the sign alternation helps only if $b_n \\to 0$. Always check that condition first.",
+      "answer": "diverges",
+      "acceptedAnswers": [
+        "diverge",
+        "divergent",
+        "it diverges"
+      ],
+      "searchQuery": "alternating series diverges n/(n+1) terms do not tend to zero"
+    },
+    {
+      "id": "alternating-ln-n-over-n",
+      "title": "Does $\\sum_{n=2}^{\\infty} (-1)^n \\frac{\\ln n}{n}$ converge or diverge?",
+      "body": "Converges (conditionally)\n\nLet $f(x) = \\frac{\\ln x}{x}$. Then $f'(x) = \\frac{1 - \\ln x}{x^2} < 0$ for $x > e$, so $b_n$ is eventually decreasing, and $b_n \\to 0$.\n\nWhy: the AST applies, but $\\sum \\frac{\\ln n}{n}$ diverges, so the convergence is only conditional.",
+      "answer": "converges",
+      "acceptedAnswers": [
+        "converge",
+        "convergent",
+        "it converges"
+      ],
+      "searchQuery": "alternating series test (-1)^n ln n / n converges"
+    },
+    {
+      "id": "alternating-series-terms-needed",
+      "title": "Fewest terms $n$ guaranteeing $|S - S_n| < 0.001$ for $\\sum_{n=1}^{\\infty} \\frac{(-1)^{n-1}}{n^2}$?",
+      "body": "$n = 31$\n\nWe need $b_{n+1} = \\frac{1}{(n + 1)^2} < 0.001$, so $(n + 1)^2 > 1000$ and $n + 1 \\ge 32$.\n\nCheck: $n = 31$ gives $b_{32} = \\frac{1}{1024} < 0.001$, while $n = 30$ gives $b_{31} = \\frac{1}{961} > 0.001$.",
+      "answer": "31",
+      "answerDisplay": "$31$",
+      "searchQuery": "alternating series how many terms error less than 0.001"
+    },
+    {
+      "id": "absolute-convergence-sin-n-over-n-squared",
+      "title": "How does $\\sum_{n=1}^{\\infty} \\frac{\\sin n}{n^2}$ converge: absolutely or conditionally?",
+      "body": "Absolutely\n\nSince $\\left|\\frac{\\sin n}{n^2}\\right| \\le \\frac{1}{n^2}$ and $\\sum \\frac{1}{n^2}$ converges, $\\sum |a_n|$ converges by comparison.\n\nTip: for series with sign changes that are not strictly alternating, test $\\sum |a_n|$ first.",
+      "answer": "absolutely",
+      "acceptedAnswers": [
+        "absolute",
+        "absolutely convergent",
+        "converges absolutely"
+      ],
+      "searchQuery": "absolute convergence sin n over n^2"
+    },
+    {
+      "id": "conditional-convergence-alternating-root",
+      "title": "$\\sum_{n=1}^{\\infty} \\frac{(-1)^n}{\\sqrt{n}}$ converges. Is the convergence absolute or conditional?",
+      "body": "Conditional\n\nThe AST gives convergence. But $\\sum \\left|\\frac{(-1)^n}{\\sqrt{n}}\\right| = \\sum \\frac{1}{\\sqrt{n}}$ is a divergent p-series ($p = \\frac12$).\n\nKey idea: alternating p-series with $0 < p \\le 1$ are conditionally convergent.",
+      "answer": "conditionally",
+      "acceptedAnswers": [
+        "conditional",
+        "conditionally convergent",
+        "conditional convergence",
+        "converges conditionally"
+      ],
+      "searchQuery": "conditionally convergent (-1)^n/sqrt n"
+    },
+    {
+      "id": "absolute-convergence-implies-convergence",
+      "title": "If $\\sum |a_n|$ converges, what follows for $\\sum a_n$?",
+      "body": "$\\sum a_n$ converges too\n\nAbsolute convergence is the stronger property. Intuitively, the negative terms cannot cancel an infinite amount of positive terms, because the total size is finite.\n\nWatch out: the converse is false. $\\sum \\frac{(-1)^{n-1}}{n}$ converges, but $\\sum \\frac1n$ does not.",
+      "answer": "converges",
+      "acceptedAnswers": [
+        "converge",
+        "convergent",
+        "it converges"
+      ],
+      "searchQuery": "absolute convergence implies convergence theorem converse false"
+    },
+    {
+      "id": "riemann-rearrangement-theorem",
+      "title": "What does the Riemann Rearrangement Theorem say about a conditionally convergent series?",
+      "body": "Its terms can be rearranged to sum to **any** real number, or to diverge\n\nBy contrast, an absolutely convergent series has the same sum under every rearrangement.\n\nKey idea: infinite sums are not always commutative. Absolute convergence is what makes reordering safe.",
+      "searchQuery": "Riemann rearrangement theorem conditionally convergent series"
+    },
+    {
+      "id": "alternating-p-series-regions",
+      "title": "For $\\sum \\frac{(-1)^{n-1}}{n^p}$, for which $p$ is it absolutely convergent, conditionally convergent, or divergent?",
+      "body": "Absolute for $p > 1$, conditional for $0 < p \\le 1$, divergent for $p \\le 0$\n\nFor $p > 0$ the terms decrease to $0$, so the AST gives convergence. The absolute series is a p-series, which converges only for $p > 1$.\n\nWatch out: for $p \\le 0$ the terms do not tend to $0$, so the Test for Divergence applies.",
+      "searchQuery": "alternating p-series convergence absolute conditional p>0"
+    },
+    {
+      "id": "ratio-test",
+      "title": "Ratio Test on $\\sum \\frac{2^n}{n!}$: what is $L = \\lim \\left|\\frac{a_{n+1}}{a_n}\\right|$?",
+      "body": "$L = 0$, so the series converges absolutely\n\nHere $\\frac{a_{n+1}}{a_n} = \\frac{2}{n + 1} \\to 0$.\n\nIf $L < 1$: absolute convergence. If $L > 1$ or $L = \\infty$: divergence. If $L = 1$: inconclusive.\n\nWatch out: $\\sum \\frac1n$ and $\\sum \\frac{1}{n^2}$ both give $L = 1$, yet one diverges and one converges.\nTip: the Root Test, $L = \\lim \\sqrt[n]{|a_n|}$, has the same verdicts.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "L = 0"
+      ],
+      "answerDisplay": "$0$",
+      "searchQuery": "ratio test 2^n/n! limit absolute convergence"
+    },
+    {
+      "id": "ratio-test-n-over-2-to-n",
+      "title": "Ratio Test on $\\sum \\frac{n}{2^n}$: what is $L = \\lim \\left|\\frac{a_{n+1}}{a_n}\\right|$?",
+      "body": "$L = \\frac12$, so the series converges absolutely\n\n$\\frac{a_{n+1}}{a_n} = \\frac{n + 1}{2^{n+1}} \\cdot \\frac{2^n}{n} = \\frac{n + 1}{2n} \\to \\frac12$.\n\nTip: for terms with $r^n$ in them, the ratio test usually returns $r$ (or $|r|$).",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "ratio test n/2^n limit L"
+    },
+    {
+      "id": "ratio-test-n-factorial-over-n-to-n",
+      "title": "Ratio Test on $\\sum \\frac{n!}{n^n}$: what is $L$?",
+      "body": "$L = \\frac1e$, so the series converges\n\n$\\frac{a_{n+1}}{a_n} = \\frac{(n + 1)!}{(n + 1)^{n+1}} \\cdot \\frac{n^n}{n!} = \\frac{n^n}{(n + 1)^n} = \\left(1 + \\frac1n\\right)^{-n} \\to \\frac1e$.\n\nKey idea: $\\left(1 + \\frac1n\\right)^n \\to e$ shows up whenever $n^n$ is in a ratio.",
+      "answer": "1/e",
+      "acceptedAnswers": [
+        "e^-1",
+        "e^(-1)"
+      ],
+      "answerDisplay": "$\\frac{1}{e}$",
+      "searchQuery": "ratio test n!/n^n limit 1/e"
+    },
+    {
+      "id": "ratio-test-inconclusive",
+      "title": "What can you conclude from the Ratio Test when $L = 1$?",
+      "body": "Nothing: the test is inconclusive\n\nUse another test, such as comparison, the integral test or the AST.\n\nWatch out: $L = 1$ occurs for every p-series, and for every rational function of $n$.",
+      "answer": "inconclusive",
+      "acceptedAnswers": [
+        "nothing",
+        "no conclusion",
+        "cannot tell"
+      ],
+      "searchQuery": "ratio test L equals 1 inconclusive"
+    },
+    {
+      "id": "ratio-test-divergence-3-to-n",
+      "title": "Does $\\sum_{n=1}^{\\infty} \\frac{3^n}{n^2}$ converge or diverge?",
+      "body": "Diverges\n\nThe ratio is $\\frac{3^{n+1}}{(n + 1)^2} \\cdot \\frac{n^2}{3^n} = 3\\left(\\frac{n}{n + 1}\\right)^2 \\to 3 > 1$.\n\nTip: the terms $\\frac{3^n}{n^2}$ do not even tend to $0$, so the Test for Divergence also works.",
+      "answer": "diverges",
+      "acceptedAnswers": [
+        "diverge",
+        "divergent",
+        "it diverges"
+      ],
+      "searchQuery": "ratio test 3^n/n^2 diverges"
+    },
+    {
+      "id": "root-test-n-over-2n-plus-1",
+      "title": "Root Test on $\\sum \\left(\\frac{n}{2n + 1}\\right)^n$: what is $L = \\lim \\sqrt[n]{|a_n|}$?",
+      "body": "$L = \\frac12$, so the series converges absolutely\n\n$\\sqrt[n]{a_n} = \\frac{n}{2n + 1} \\to \\frac12 < 1$.\n\nTip: the Root Test shines when $a_n$ is an $n$th power of something.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "root test (n/(2n+1))^n limit"
+    },
+    {
+      "id": "root-test-when-to-use",
+      "title": "When is the Root Test easier than the Ratio Test?",
+      "body": "When $a_n$ is an $n$th power, such as $(f(n))^n$\n\nTaking the $n$th root cancels the power. The Ratio Test is usually better for factorials and for terms that mix $r^n$ with polynomials.\n\nKey idea: both tests give the same verdicts, and both are inconclusive at $L = 1$.",
+      "searchQuery": "root test versus ratio test when to use"
+    },
+    {
+      "id": "ratio-test-n-factorial-squared",
+      "title": "Ratio Test on $\\sum \\frac{(n!)^2}{(2n)!}$: what is $L$?",
+      "body": "$L = \\frac14$, so the series converges\n\n$\\frac{a_{n+1}}{a_n} = \\frac{(n + 1)^2}{(2n + 2)(2n + 1)} = \\frac{n + 1}{2(2n + 1)} \\to \\frac14$.\n\nTip: expand $(2n + 2)! = (2n + 2)(2n + 1)(2n)!$ so that the common factorial cancels.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25"
+      ],
+      "answerDisplay": "$\\frac{1}{4}$",
+      "searchQuery": "ratio test (n!)^2/(2n)! limit 1/4"
+    },
+    {
+      "id": "series-test-strategy",
+      "title": "Which test do you try first for a series with factorials or exponentials, and which for a rational function of $n$?",
+      "body": "Ratio Test for factorials and exponentials. Comparison or Limit Comparison for rational functions of $n$\n\nA rational function of $n$ always gives $L = 1$ in the Ratio Test, so that test tells you nothing there. Compare it with a p-series built from the leading terms instead.\n\nTip: before anything else, check whether $a_n \\to 0$.",
+      "searchQuery": "which convergence test to use series strategy"
+    },
+    {
+      "id": "interval-of-convergence",
+      "title": "Interval of convergence of $\\sum_{n=1}^{\\infty} \\frac{(x - 3)^n}{n \\cdot 2^n}$?",
+      "body": "$[1, 5)$\n\nThe Ratio Test gives $\\frac{|x - 3|}{2} < 1$, so the center is $3$ and the **radius** is $R = 2$.\n\nEndpoints need separate checks: at $x = 5$ the series is $\\sum \\frac1n$ (diverges); at $x = 1$ it is $\\sum \\frac{(-1)^n}{n}$ (converges by the AST).\n\nWatch out: the Ratio Test is always inconclusive at the endpoints.",
+      "answer": "[1,5)",
+      "acceptedAnswers": [
+        "1<=x<5",
+        "1≤x<5"
+      ],
+      "answerDisplay": "$[1, 5)$",
+      "searchQuery": "interval of convergence (x-3)^n/(n 2^n) endpoints"
+    },
+    {
+      "id": "power-series-convergence-patterns",
+      "title": "For a power series $\\sum c_n (x - a)^n$, what are the three possible convergence patterns?",
+      "body": "Only at $x = a$ ($R = 0$), for all $x$ ($R = \\infty$), or on an interval of radius $R$ about $a$\n\nIn the third case it converges absolutely for $|x - a| < R$ and diverges for $|x - a| > R$. The endpoints must be tested separately.\n\nKey idea: the set of convergence is always an interval centered at $a$ (possibly a single point or all of $\\mathbb{R}$).",
+      "searchQuery": "radius of convergence three possibilities power series"
+    },
+    {
+      "id": "radius-n-factorial-x-n",
+      "title": "Radius of convergence of $\\sum_{n=0}^{\\infty} n!\\,x^n$?",
+      "body": "$R = 0$\n\nThe ratio is $\\left|\\frac{(n + 1)!\\,x^{n+1}}{n!\\,x^n}\\right| = (n + 1)|x| \\to \\infty$ for every $x \\ne 0$.\n\nKey idea: the series converges only at its center, $x = 0$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "radius of convergence n! x^n zero"
+    },
+    {
+      "id": "radius-exponential-series",
+      "title": "Radius of convergence of $\\sum_{n=0}^{\\infty} \\frac{x^n}{n!}$?",
+      "body": "$R = \\infty$\n\nThe ratio is $\\frac{|x|}{n + 1} \\to 0 < 1$ for every $x$.\n\nExample: this is the Maclaurin series of $e^x$, which converges for all real $x$.",
+      "answer": "inf",
+      "acceptedAnswers": [
+        "infinite"
+      ],
+      "answerDisplay": "$\\infty$",
+      "searchQuery": "radius of convergence x^n/n! infinity"
+    },
+    {
+      "id": "radius-two-to-n-x-n-over-n",
+      "title": "Radius of convergence of $\\sum_{n=1}^{\\infty} \\frac{2^n x^n}{n}$?",
+      "body": "$R = \\frac12$\n\nThe Ratio Test gives $\\left|\\frac{2^{n+1}x^{n+1}}{n + 1} \\cdot \\frac{n}{2^n x^n}\\right| \\to 2|x|$. This is below $1$ exactly when $|x| < \\frac12$.\n\nWatch out: the radius is $\\frac12$, not $2$. Solve $2|x| < 1$ for $|x|$.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "radius of convergence 2^n x^n / n"
+    },
+    {
+      "id": "interval-x-n-over-n-squared",
+      "title": "Interval of convergence of $\\sum_{n=1}^{\\infty} \\frac{x^n}{n^2}$?",
+      "body": "$[-1, 1]$\n\nThe radius is $1$. At $x = 1$ the series is $\\sum \\frac{1}{n^2}$ (converges), and at $x = -1$ it is $\\sum \\frac{(-1)^n}{n^2}$ (converges absolutely).\n\nTip: p-series with $p > 1$ at both endpoints means both endpoints are included.",
+      "answer": "[-1,1]",
+      "acceptedAnswers": [
+        "-1<=x<=1",
+        "-1≤x≤1"
+      ],
+      "answerDisplay": "$[-1, 1]$",
+      "searchQuery": "interval of convergence x^n/n^2 endpoints both converge"
+    },
+    {
+      "id": "interval-x-plus-2-over-root-n",
+      "title": "Interval of convergence of $\\sum_{n=1}^{\\infty} \\frac{(x + 2)^n}{\\sqrt{n}}$?",
+      "body": "$[-3, -1)$\n\nThe center is $-2$ and $R = 1$. At $x = -1$ the series is $\\sum \\frac{1}{\\sqrt{n}}$ (diverges). At $x = -3$ it is $\\sum \\frac{(-1)^n}{\\sqrt{n}}$ (converges by the AST).\n\nWatch out: the center is $-2$, because $x + 2 = x - (-2)$.",
+      "answer": "[-3,-1)",
+      "acceptedAnswers": [
+        "-3<=x<-1",
+        "-3≤x<-1"
+      ],
+      "answerDisplay": "$[-3, -1)$",
+      "searchQuery": "interval of convergence (x+2)^n/sqrt n"
+    },
+    {
+      "id": "power-series-term-by-term-calculus",
+      "title": "When a power series is differentiated or integrated term by term, what happens to its radius and its endpoints?",
+      "body": "The radius $R$ stays the same, but endpoint behavior can change\n\nInside $(a - R, a + R)$ the new series equals $f'$ or $\\int f$, respectively.\n\nExample: $\\sum \\frac{x^n}{n}$ converges at $x = -1$ but not at $x = 1$. Its derivative $\\sum x^{n-1}$ converges at neither.",
+      "searchQuery": "differentiate integrate power series term by term radius"
+    },
+    {
+      "id": "power-series-one-over-one-plus-x-squared",
+      "title": "Power series for $\\frac{1}{1 + x^2}$ about $0$, and its interval of convergence?",
+      "body": "$\\sum_{n=0}^{\\infty} (-1)^n x^{2n}$, for $|x| < 1$\n\nSubstitute $-x^2$ for $x$ in the geometric series $\\frac{1}{1 - x} = \\sum x^n$.\n\nTip: integrate this series term by term to get the series for $\\arctan x$.",
+      "searchQuery": "power series for 1/(1+x^2) substitution geometric"
+    },
+    {
+      "id": "maclaurin-arctan",
+      "title": "Maclaurin series for $\\arctan x$, and what does it give at $x = 1$?",
+      "body": "$\\arctan x = \\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n+1}}{2n + 1}$ for $|x| \\le 1$\n\nAt $x = 1$ it gives the Leibniz series $\\frac{\\pi}{4} = 1 - \\frac13 + \\frac15 - \\frac17 + \\cdots$.\n\nWhy: it comes from integrating $\\frac{1}{1 + x^2} = \\sum (-1)^n x^{2n}$ term by term.",
+      "searchQuery": "Maclaurin series arctan x Leibniz pi/4"
+    },
+    {
+      "id": "taylor-coefficient",
+      "title": "Taylor series of $f$ centered at $a$: what is the coefficient $c_n$ of $(x - a)^n$?",
+      "body": "$c_n = \\frac{f^{(n)}(a)}{n!}$, so $f(x) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!}(x - a)^n$\n\nWith $a = 0$ it is called a **Maclaurin series**.\n\nExample: $f(x) = \\frac{1}{1 - x}$ has $f^{(n)}(0) = n!$, so every $c_n = 1$. That is the geometric series $\\sum x^n$ for $|x| < 1$.\nWatch out: do not forget the $n!$.",
+      "answer": "f^(n)(a)/n!",
+      "acceptedAnswers": [
+        "f^n(a)/n!",
+        "f^(n)(a)/(n!)",
+        "(f^(n)(a))/n!",
+        "f(n)(a)/n!",
+        "c_n = f^(n)(a)/n!"
+      ],
+      "answerDisplay": "$\\frac{f^{(n)}(a)}{n!}$",
+      "searchQuery": "Taylor series coefficient f^(n)(a)/n! formula"
+    },
+    {
+      "id": "maclaurin-exp",
+      "title": "Maclaurin series: $e^x = \\sum_{n=0}^{\\infty} \\underline{\\hspace{1.5em}}$",
+      "body": "$\\frac{x^n}{n!} = 1 + x + \\frac{x^2}{2!} + \\frac{x^3}{3!} + \\cdots$, valid for all $x$ ($R = \\infty$)\n\nAt $x = 1$ this gives $e = \\sum \\frac{1}{n!}$.\n\nTip: substitute to build others. For example, $e^{-x^2} = \\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n}}{n!}$.",
+      "answer": "x^n/n!",
+      "acceptedAnswers": [
+        "x^n/(n!)",
+        "(x^n)/n!",
+        "(1/n!)x^n"
+      ],
+      "answerDisplay": "$\\frac{x^n}{n!}$",
+      "searchQuery": "Maclaurin series e^x x^n/n! all x"
+    },
+    {
+      "id": "maclaurin-sin-cos",
+      "title": "Maclaurin series for $\\sin x$ and $\\cos x$?",
+      "body": "$\\sin x = \\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n+1}}{(2n + 1)!}$ and $\\cos x = \\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n}}{(2n)!}$\n\n$\\sin x = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\cdots$ and $\\cos x = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} - \\cdots$. Both hold for all $x$.\n\nKey idea: $\\sin$ is odd (odd powers only) and $\\cos$ is even (even powers only). Differentiating the series of $\\sin x$ gives the series of $\\cos x$.",
+      "searchQuery": "Maclaurin series sin x and cos x"
+    },
+    {
+      "id": "maclaurin-ln",
+      "title": "Maclaurin series for $\\ln(1 + x)$, and for which $x$ does it converge?",
+      "body": "$\\ln(1 + x) = \\sum_{n=1}^{\\infty} \\frac{(-1)^{n-1} x^n}{n}$, for $-1 < x \\le 1$\n\nIt comes from integrating $\\frac{1}{1 + x} = \\sum_{n=0}^{\\infty} (-1)^n x^n$ term by term.\n\nExample: at $x = 1$ it gives $\\ln 2 = 1 - \\frac12 + \\frac13 - \\cdots$.",
+      "searchQuery": "Maclaurin series ln(1+x) interval of convergence"
+    },
+    {
+      "id": "maclaurin-geometric-series",
+      "title": "Maclaurin series: $\\frac{1}{1 - x} = \\sum_{n=0}^{\\infty} \\underline{\\hspace{1.5em}}$ for $|x| < 1$",
+      "body": "$x^n = 1 + x + x^2 + x^3 + \\cdots$\n\nThis is the geometric series with first term $1$ and ratio $x$. It is the starting point for many other series.\n\nTip: substituting $-x$ gives $\\frac{1}{1 + x}$, and substituting $x^2$ or $-x^2$ gives $\\frac{1}{1 - x^2}$ or $\\frac{1}{1 + x^2}$.",
+      "answer": "x^n",
+      "answerDisplay": "$x^n$",
+      "searchQuery": "Maclaurin series 1/(1-x) geometric x^n"
+    },
+    {
+      "id": "maclaurin-cos-x-squared",
+      "title": "General term of the Maclaurin series of $\\cos(x^2)$?",
+      "body": "$\\frac{(-1)^n x^{4n}}{(2n)!}$\n\nReplace $x$ by $x^2$ in $\\cos x = \\sum \\frac{(-1)^n x^{2n}}{(2n)!}$. The power becomes $(x^2)^{2n} = x^{4n}$.\n\nWatch out: the factorial stays $(2n)!$. Only the power of $x$ changes under the substitution.",
+      "answer": "(-1)^n x^(4n)/(2n)!",
+      "acceptedAnswers": [
+        "(-1)^n x^(4n)/((2n)!)"
+      ],
+      "answerDisplay": "$\\frac{(-1)^n x^{4n}}{(2n)!}$",
+      "searchQuery": "Maclaurin series cos(x^2) substitution general term"
+    },
+    {
+      "id": "maclaurin-coefficient-e-3x",
+      "title": "Coefficient of $x^2$ in the Maclaurin series of $e^{3x}$?",
+      "body": "$\\frac92$\n\nSubstitute $3x$ into $e^u = \\sum \\frac{u^n}{n!}$. The $n = 2$ term is $\\frac{(3x)^2}{2!} = \\frac{9}{2}x^2$.\n\nWatch out: $(3x)^2 = 9x^2$. Squaring the coefficient is the step people skip.",
+      "answer": "9/2",
+      "acceptedAnswers": [
+        "4.5"
+      ],
+      "answerDisplay": "$\\frac{9}{2}$",
+      "searchQuery": "Maclaurin series e^(3x) coefficient of x^2"
+    },
+    {
+      "id": "binomial-series",
+      "title": "Binomial series: $(1 + x)^k = \\,?$ for $|x| < 1$ and any real $k$.",
+      "body": "$\\sum_{n=0}^{\\infty} \\binom{k}{n} x^n$, where $\\binom{k}{n} = \\frac{k(k - 1)\\cdots(k - n + 1)}{n!}$\n\nIf $k$ is a nonnegative integer, the series stops and it is the ordinary binomial theorem.\n\nExample: $\\sqrt{1 + x} = 1 + \\frac{x}{2} - \\frac{x^2}{8} + \\frac{x^3}{16} - \\cdots$",
+      "searchQuery": "binomial series (1+x)^k formula radius"
+    },
+    {
+      "id": "maclaurin-x-sin-x",
+      "title": "First two nonzero terms of the Maclaurin series of $x\\sin x$?",
+      "body": "$x^2 - \\frac{x^4}{6}$\n\nMultiply the series $\\sin x = x - \\frac{x^3}{6} + \\cdots$ by $x$.\n\nTip: multiplying or dividing a known series by $x^k$ is the quickest way to build new ones.",
+      "answer": "x^2 - x^4/6",
+      "acceptedAnswers": [
+        "x^2 - (1/6)x^4"
+      ],
+      "answerDisplay": "$x^2 - \\frac{x^4}{6}$",
+      "searchQuery": "Maclaurin series x sin x first two nonzero terms"
+    },
+    {
+      "id": "derivative-from-maclaurin-series",
+      "title": "For $f(x) = e^{x^2}$, find $f^{(4)}(0)$ from its Maclaurin series.",
+      "body": "$12$\n\n$e^{x^2} = 1 + x^2 + \\frac{x^4}{2} + \\cdots$, so the coefficient of $x^4$ is $\\frac12$. Since $c_4 = \\frac{f^{(4)}(0)}{4!}$, we get $f^{(4)}(0) = 4! \\cdot \\frac12 = 12$.\n\nTip: $f^{(n)}(0) = n!\\,c_n$. This is far faster than differentiating four times.",
+      "answer": "12",
+      "answerDisplay": "$12$",
+      "searchQuery": "find fourth derivative at 0 from Maclaurin series e^(x^2)"
+    },
+    {
+      "id": "maclaurin-limit-exponential",
+      "title": "$\\lim_{x \\to 0} \\frac{e^x - 1 - x}{x^2} = \\,?$",
+      "body": "$\\frac12$\n\n$e^x - 1 - x = \\frac{x^2}{2} + \\frac{x^3}{6} + \\cdots$. Dividing by $x^2$ leaves $\\frac12 + \\frac{x}{6} + \\cdots \\to \\frac12$.\n\nTip: series replace L'Hospital's Rule, especially when it would be needed more than once.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "limit using Maclaurin series (e^x-1-x)/x^2"
+    },
+    {
+      "id": "maclaurin-limit-sine",
+      "title": "$\\lim_{x \\to 0} \\frac{\\sin x - x}{x^3} = \\,?$",
+      "body": "$-\\frac16$\n\n$\\sin x - x = -\\frac{x^3}{6} + \\frac{x^5}{120} - \\cdots$. Dividing by $x^3$ leaves $-\\frac16 + \\frac{x^2}{120} - \\cdots \\to -\\frac16$.\n\nWatch out: keep the minus sign from the $x^3$ term of $\\sin x$.",
+      "answer": "-1/6",
+      "acceptedAnswers": [
+        "-0.1667"
+      ],
+      "answerDisplay": "$-\\frac{1}{6}$",
+      "searchQuery": "limit (sin x - x)/x^3 Maclaurin series"
+    },
+    {
+      "id": "series-integral-gaussian",
+      "title": "Use the series of $e^{-x^2}$ to approximate $\\int_0^1 e^{-x^2}\\,dx$ with its first three terms.",
+      "body": "$1 - \\frac13 + \\frac1{10} = \\frac{23}{30}$\n\n$e^{-x^2} = 1 - x^2 + \\frac{x^4}{2} - \\frac{x^6}{6} + \\cdots$. Integrating from $0$ to $1$ gives $1 - \\frac13 + \\frac{1}{10} - \\frac{1}{42} + \\cdots$.\n\nKey idea: this integral has no elementary antiderivative, but term-by-term integration of the series still works.",
+      "answer": "23/30",
+      "acceptedAnswers": [
+        "0.7667"
+      ],
+      "answerDisplay": "$\\frac{23}{30}$",
+      "searchQuery": "integral e^(-x^2) 0 to 1 power series first three terms"
+    },
+    {
+      "id": "series-sum-exponential-negative-one",
+      "title": "$\\sum_{n=0}^{\\infty} \\frac{(-1)^n}{n!} = \\,?$",
+      "body": "$\\frac1e$\n\nThis is the Maclaurin series $e^x = \\sum \\frac{x^n}{n!}$ evaluated at $x = -1$.\n\nTip: spotting a known Maclaurin series at a specific $x$ is the standard way to sum such series.",
+      "answer": "1/e",
+      "acceptedAnswers": [
+        "e^-1",
+        "e^(-1)"
+      ],
+      "answerDisplay": "$\\frac{1}{e}$",
+      "searchQuery": "sum (-1)^n/n! equals 1/e"
+    },
+    {
+      "id": "series-sum-leibniz-pi-over-4",
+      "title": "$\\sum_{n=0}^{\\infty} \\frac{(-1)^n}{2n + 1} = \\,?$",
+      "body": "$\\frac{\\pi}{4}$\n\nThis is the Maclaurin series of $\\arctan x$ evaluated at $x = 1$. It converges, but very slowly.\n\nWatch out: this series is only conditionally convergent.",
+      "answer": "pi/4",
+      "answerDisplay": "$\\frac{\\pi}{4}$",
+      "searchQuery": "sum (-1)^n/(2n+1) equals pi/4 Leibniz series"
+    },
+    {
+      "id": "taylor-series-ln-at-one",
+      "title": "Taylor series of $\\ln x$ centered at $a = 1$, and where does it converge?",
+      "body": "$\\ln x = \\sum_{n=1}^{\\infty} \\frac{(-1)^{n-1}(x - 1)^n}{n}$, for $0 < x \\le 2$\n\nWrite $\\ln x = \\ln(1 + (x - 1))$ and use the Maclaurin series of $\\ln(1 + t)$ with $t = x - 1$. The condition $-1 < t \\le 1$ becomes $0 < x \\le 2$.\n\nTip: $\\ln x$ has no Maclaurin series, since it is undefined at $0$. Center it at $1$ instead.",
+      "searchQuery": "Taylor series ln x centered at 1"
+    },
+    {
+      "id": "taylor-inequality",
+      "title": "Taylor's Inequality: if $|f^{(n+1)}(x)| \\le M$ for $|x - a| \\le d$, how large can the remainder $|R_n(x)|$ be there?",
+      "body": "$|R_n(x)| \\le \\frac{M\\,|x - a|^{n+1}}{(n + 1)!}$\n\nThe bound looks like the next Taylor term. The Lagrange form is $R_n(x) = \\frac{f^{(n+1)}(z)}{(n + 1)!}(x - a)^{n+1}$ for some $z$ between $a$ and $x$.\n\nWhy: since $\\frac{|x|^{n+1}}{(n + 1)!} \\to 0$, the functions $e^x$, $\\sin x$ and $\\cos x$ equal their Maclaurin series for all $x$.",
+      "searchQuery": "Taylors inequality remainder bound M|x-a|^(n+1)/(n+1)!"
+    },
+    {
+      "id": "taylor-polynomial-and-remainder",
+      "title": "Define the Taylor polynomial $T_n(x)$ of $f$ at $a$ and the remainder $R_n(x)$.",
+      "body": "$T_n(x) = \\sum_{k=0}^{n} \\frac{f^{(k)}(a)}{k!}(x - a)^k$, and $R_n(x) = f(x) - T_n(x)$\n\n$T_n$ is the partial sum of the Taylor series. The error of the approximation $f \\approx T_n$ is exactly $R_n$.\n\nKey idea: the Taylor series converges to $f(x)$ exactly when $R_n(x) \\to 0$.",
+      "searchQuery": "Taylor polynomial definition degree n remainder R_n"
+    },
+    {
+      "id": "taylor-polynomial-sqrt-degree-2",
+      "title": "Degree-2 Taylor polynomial $T_2(x)$ of $f(x) = \\sqrt{x}$ at $a = 4$?",
+      "body": "$T_2(x) = 2 + \\frac{x - 4}{4} - \\frac{(x - 4)^2}{64}$\n\n$f(4) = 2$, $f'(x) = \\frac{1}{2\\sqrt{x}}$ so $f'(4) = \\frac14$, and $f''(x) = -\\frac{1}{4}x^{-3/2}$ so $f''(4) = -\\frac{1}{32}$.\n\nThe quadratic coefficient is $\\frac{f''(4)}{2!} = -\\frac{1}{64}$.\n\nWatch out: divide by $2!$ in the last coefficient. Using $-\\frac{1}{32}$ directly is a common slip.",
+      "searchQuery": "Taylor polynomial degree 2 sqrt x at a=4"
+    },
+    {
+      "id": "taylor-approximation-sqrt-4-1",
+      "title": "Use $T_2$ of $\\sqrt{x}$ at $a = 4$ to approximate $\\sqrt{4.1}$ (round to $4$ decimal places).",
+      "body": "$\\approx 2.0248$\n\nWith $x - 4 = 0.1$: $2 + \\frac{0.1}{4} - \\frac{0.01}{64} = 2 + 0.025 - 0.00015625 = 2.02484375$.\n\nCheck: the true value is $\\sqrt{4.1} \\approx 2.024846$, so the estimate is accurate to about $10^{-6}$.",
+      "answer": "2.0248",
+      "answerDisplay": "$2.0248$",
+      "searchQuery": "approximate sqrt 4.1 using Taylor polynomial T2"
+    },
+    {
+      "id": "taylor-polynomial-sin-degree-3",
+      "title": "Degree-$3$ Maclaurin polynomial $T_3(x)$ of $\\sin x$?",
+      "body": "$x - \\frac{x^3}{6}$\n\nTake the terms of $\\sin x = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\cdots$ up to $x^3$. There is no $x^2$ term, so $T_2 = T_1 = x$.\n\nWatch out: $3! = 6$, not $3$.",
+      "answer": "x - x^3/6",
+      "acceptedAnswers": [
+        "x - (1/6)x^3",
+        "x - x^3/3!"
+      ],
+      "answerDisplay": "$x - \\frac{x^3}{6}$",
+      "searchQuery": "Taylor polynomial degree 3 sin x at 0"
+    },
+    {
+      "id": "taylor-approximation-sin-0-1",
+      "title": "Approximate $\\sin 0.1$ (radians) with $x - \\frac{x^3}{6}$, rounded to $4$ decimal places.",
+      "body": "$\\approx 0.0998$\n\n$0.1 - \\frac{(0.1)^3}{6} = 0.1 - \\frac{0.001}{6} \\approx 0.1 - 0.000167 = 0.099833$.\n\nTip: for small $x$, $\\sin x \\approx x$ already, and the cubic term corrects the next digits.",
+      "answer": "0.0998",
+      "answerDisplay": "$0.0998$",
+      "searchQuery": "approximate sin 0.1 Taylor polynomial"
+    },
+    {
+      "id": "taylor-polynomial-degree-for-e",
+      "title": "Smallest $n$ so $T_n(1)$ approximates $e$ with error below $0.001$? (use $e < 3$)",
+      "body": "$n = 6$\n\nTaylor's Inequality with $M = 3$ gives $|R_n(1)| \\le \\frac{3}{(n + 1)!}$. We need $(n + 1)! > 3000$.\n\nCheck: $6! = 720$ is too small, so $n = 5$ fails. $7! = 5040$ works, so $n = 6$.",
+      "answer": "6",
+      "answerDisplay": "$6$",
+      "searchQuery": "degree of Taylor polynomial to approximate e error less than 0.001"
+    },
+    {
+      "id": "taylor-series-not-equal-to-function",
+      "title": "If the Maclaurin series of $f$ converges for all $x$, must it equal $f(x)$? (yes or no)",
+      "body": "No\n\nTake $f(x) = e^{-1/x^2}$ with $f(0) = 0$. Every derivative at $0$ is $0$, so its Maclaurin series is identically $0$, which differs from $f$ for $x \\ne 0$.\n\nKey idea: the series equals $f$ only when the remainder $R_n(x) \\to 0$.",
+      "answer": "no",
+      "searchQuery": "smooth function not equal to Taylor series e^(-1/x^2)"
+    },
+    {
+      "id": "alternating-taylor-error-sin",
+      "title": "Error bound when approximating $\\sin 0.5$ by $0.5 - \\frac{0.5^3}{3!}$?",
+      "body": "$\\frac{1}{3840}$\n\nAt $x = 0.5$ the series alternates with decreasing terms, so the error is at most the first omitted term: $\\frac{0.5^5}{5!} = \\frac{1/32}{120} = \\frac{1}{3840}$.\n\nTip: for alternating series, the AST bound is usually easier than Taylor's Inequality.",
+      "answer": "1/3840",
+      "acceptedAnswers": [
+        "0.00026"
+      ],
+      "answerDisplay": "$\\frac{1}{3840}$",
+      "searchQuery": "error bound approximate sin 0.5 alternating series estimation"
+    },
+    {
+      "id": "taylor-series-one-over-x-at-one",
+      "title": "Taylor series of $\\frac{1}{x}$ centered at $a = 1$, and its interval of convergence?",
+      "body": "$\\sum_{n=0}^{\\infty} (-1)^n (x - 1)^n$, for $0 < x < 2$\n\nWrite $\\frac1x = \\frac{1}{1 + (x - 1)}$ and use the geometric series with ratio $-(x - 1)$.\n\nCheck: the derivatives give $f^{(n)}(1) = (-1)^n n!$, so $c_n = (-1)^n$.",
+      "searchQuery": "Taylor series 1/x centered at 1 geometric"
+    },
+    {
+      "id": "taylor-converges-iff-remainder-zero",
+      "title": "When does the Taylor series of $f$ at $a$ converge to $f(x)$?",
+      "body": "Exactly when $\\lim_{n \\to \\infty} R_n(x) = 0$\n\nThis holds because $T_n(x) = f(x) - R_n(x)$, so $T_n(x) \\to f(x)$ if and only if $R_n(x) \\to 0$.\n\nTip: show it using Taylor's Inequality and the fact $\\frac{|x|^n}{n!} \\to 0$.",
+      "searchQuery": "Taylor series converges to f if remainder tends to zero"
+    }
+  ]
+}

@@ -1,0 +1,717 @@
+{
+  "id": "sw-os",
+  "title": "Operating Systems",
+  "course": "Operating Systems",
+  "description": "Processes vs threads, process states, fork(), system calls, CPU scheduling, race conditions, mutexes and semaphores, deadlock, paging, TLBs, page replacement.",
+  "cards": [
+    {
+      "id": "process-vs-thread",
+      "title": "What do threads of the same process share, and what does each thread have of its own?",
+      "body": "Threads share the address space and resources; each has its own program counter, registers, and stack.\n\n- **Shared**: code, data, heap, and open files.\n- **Private**: program counter, registers, and stack.\n\nWhy: processes are isolated (communication needs IPC), while threads are cheaper to create and switch.\nWatch out: a bug in one thread can corrupt the memory of the others.",
+      "searchQuery": "threads share address space own stack registers program counter"
+    },
+    {
+      "id": "process-states",
+      "title": "What are the five process states in the classic model, and what moves a running process back to ready?",
+      "body": "New, ready, running, waiting (blocked), terminated.\n\n- Running → ready: an interrupt, e.g. its time slice expires.\n- Running → waiting: it requests I/O or waits for an event.\n- Waiting → ready: the awaited event completes.\n\nKey idea: the kernel records each process's state in its **process control block (PCB)**.",
+      "searchQuery": "five process states new ready running waiting terminated"
+    },
+    {
+      "id": "fork-return-value",
+      "title": "What value does fork() return in the newly created child process?",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero"
+      ],
+      "body": "0\n\nThe parent gets the child's PID (a positive number). If `fork()` fails, the parent gets `-1` and no child is created.\n\nWhy: both processes continue from the instruction after `fork()`, each with its own copy of the address space (copy-on-write in practice).",
+      "searchQuery": "fork return value child 0 parent PID"
+    },
+    {
+      "id": "system-calls-kernel-mode",
+      "title": "Why must a user program make a system call to do I/O instead of accessing the device directly?",
+      "body": "I/O and other privileged instructions run only in **kernel mode**.\n\nA system call traps into the kernel, which switches to kernel mode (a hardware mode bit), performs the service (e.g. `read()`), then returns to user mode.\n\nWhy: this keeps buggy or malicious programs from touching hardware or other processes' memory.",
+      "searchQuery": "system call kernel mode user mode privileged instructions trap"
+    },
+    {
+      "id": "sjf-optimal",
+      "title": "Which CPU-scheduling algorithm gives the minimum average waiting time for a given set of processes?",
+      "answer": "SJF",
+      "acceptedAnswers": [
+        "shortest job first",
+        "shortest-job-first",
+        "shortest job next",
+        "SJN",
+        "SRTF",
+        "shortest remaining time first",
+        "shortest-remaining-time-first"
+      ],
+      "body": "Shortest-Job-First (SJF)\n\nRunning the shortest CPU bursts first minimizes the average waiting time. Its preemptive form is **shortest-remaining-time-first (SRTF)**.\n\nWatch out: the next burst length isn't known in advance, so it's predicted (e.g. exponential averaging of past bursts), and long jobs can starve.",
+      "searchQuery": "shortest job first minimum average waiting time scheduling"
+    },
+    {
+      "id": "round-robin-quantum",
+      "title": "Round-robin scheduling: what happens if the time quantum is very large, and if it's very small?",
+      "body": "Very large quantum: RR becomes FCFS. Very small quantum: context-switch overhead dominates.\n\nWith a huge quantum every process finishes its burst before the timer fires, so it's first-come, first-served. With a tiny quantum, the CPU spends much of its time switching.\n\nTip: Silberschatz's rule of thumb is that about 80% of CPU bursts should be shorter than the quantum.",
+      "searchQuery": "round robin time quantum too large too small FCFS context switch overhead"
+    },
+    {
+      "id": "priority-aging",
+      "title": "In priority scheduling, what technique prevents low-priority processes from starving?",
+      "answer": "aging",
+      "acceptedAnswers": [
+        "ageing",
+        "priority aging"
+      ],
+      "body": "Aging\n\nGradually raise the priority of processes that have waited a long time, so they eventually run.\n\nWhy: without it, a steady stream of higher-priority work can postpone a low-priority process indefinitely (**starvation**).",
+      "searchQuery": "priority scheduling starvation aging technique"
+    },
+    {
+      "id": "race-condition",
+      "title": "What is a race condition, and what is a critical section?",
+      "body": "A race condition's result depends on the interleaving of concurrent accesses to shared data. A critical section is the code that touches that data.\n\nExample: two threads running `count++` (load, add, store) can lose an update.\n\nKey idea: a correct critical-section solution needs **mutual exclusion**, **progress**, and **bounded waiting**.",
+      "searchQuery": "race condition critical section mutual exclusion progress bounded waiting"
+    },
+    {
+      "id": "mutex-vs-semaphore",
+      "title": "Mutex lock vs counting semaphore: what does each allow?",
+      "body": "A mutex admits one holder, who must release it; a counting semaphore admits up to $N$ threads.\n\n- **Mutex**: mutual exclusion; the thread that acquires it releases it.\n- **Counting semaphore**: an integer. `wait()` decrements it and blocks when no units remain; `signal()` increments it. Initialized to $N$, it admits up to $N$ threads, e.g. a pool of $N$ connections.\n\nWatch out: a binary semaphore (0/1) can act like a lock but has no owner.",
+      "searchQuery": "mutex vs counting semaphore difference"
+    },
+    {
+      "id": "coffman-conditions",
+      "title": "What are the four necessary conditions for deadlock (the Coffman conditions)?",
+      "body": "Mutual exclusion, hold and wait, no preemption, and circular wait.\n\nAll four must hold at once, so **deadlock prevention** breaks at least one.\n\nExample: acquiring locks in a fixed global order rules out circular wait.",
+      "searchQuery": "Coffman conditions four necessary conditions deadlock"
+    },
+    {
+      "id": "bankers-algorithm",
+      "title": "Which deadlock-avoidance algorithm grants a resource request only if the system stays in a safe state?",
+      "answer": "Banker's algorithm",
+      "acceptedAnswers": [
+        "bankers algorithm",
+        "banker algorithm",
+        "bankers' algorithm",
+        "banker's",
+        "bankers",
+        "banker"
+      ],
+      "body": "Banker's algorithm (Dijkstra)\n\nIt grants a resource request only if the system stays in a **safe state**. Avoidance requires each process to declare its maximum demand in advance.\n\nKey idea: prevention designs out one Coffman condition; detection lets deadlocks happen, finds them (e.g. a cycle in a wait-for graph), then recovers by aborting processes or preempting resources.",
+      "searchQuery": "Banker's algorithm deadlock avoidance safe state"
+    },
+    {
+      "id": "internal-vs-external-fragmentation",
+      "title": "Internal vs external fragmentation: what's the difference?",
+      "body": "Internal fragmentation wastes space inside an allocated block; external fragmentation wastes space between blocks.\n\n- **Internal**: e.g. a process using only 1 KB of its last 4 KB page.\n- **External**: enough total free memory exists, but it's split into non-contiguous holes too small to use.\n\nTip: paging eliminates external fragmentation but still has internal; variable-size contiguous allocation suffers external fragmentation (fix: compaction).",
+      "searchQuery": "internal vs external fragmentation paging compaction"
+    },
+    {
+      "id": "page-fault",
+      "title": "What triggers a page fault, and what does the OS do to handle it?",
+      "body": "A reference to a page whose page-table entry is marked invalid (not in memory).\n\n1. The OS traps and checks the reference is legal (otherwise it terminates the process).\n2. It finds a free frame or evicts a victim page.\n3. It reads the page in from disk and updates the page table.\n4. It restarts the faulting instruction.",
+      "searchQuery": "page fault handling steps invalid page table entry"
+    },
+    {
+      "id": "tlb",
+      "title": "What is the small hardware cache of recent virtual-page-to-physical-frame translations called?",
+      "answer": "TLB",
+      "acceptedAnswers": [
+        "translation lookaside buffer",
+        "translation look-aside buffer"
+      ],
+      "body": "TLB (translation lookaside buffer)\n\nA hit translates the address without reading the page table from memory; a miss walks the page table and caches the entry.\n\nWatch out: on a context switch, entries are flushed unless they're tagged with address-space IDs (**ASIDs**).",
+      "searchQuery": "TLB translation lookaside buffer address translation cache"
+    },
+    {
+      "id": "beladys-anomaly",
+      "title": "Belady's anomaly (more frames causing more page faults) is the classic weakness of which page-replacement algorithm?",
+      "answer": "FIFO",
+      "acceptedAnswers": [
+        "first in first out",
+        "first-in first-out",
+        "first-in, first-out",
+        "first in, first out"
+      ],
+      "body": "FIFO\n\nLRU and OPT are **stack algorithms**, so they never exhibit the anomaly.\n\nKey idea: OPT (evict the page used farthest in the future) gives the fewest possible faults but needs future knowledge, so it's a benchmark; LRU approximates it by evicting the page unused for the longest time.",
+      "searchQuery": "Belady's anomaly FIFO page replacement more frames more faults"
+    },
+    {
+      "id": "thrashing",
+      "title": "A process without enough frames for its working set spends more time paging than executing. What is this called?",
+      "answer": "thrashing",
+      "acceptedAnswers": [
+        "thrash"
+      ],
+      "body": "Thrashing\n\nCPU utilization collapses because the process spends more time paging than executing. A scheduler that responds by admitting more processes makes it worse.\n\nTip: give each process enough frames for its working set (working-set model, page-fault-frequency control) or lower the degree of multiprogramming.",
+      "searchQuery": "thrashing working set page faults CPU utilization"
+    },
+    {
+      "id": "kernel-definition",
+      "title": "What is the name of the core OS component that runs in privileged mode and manages the CPU, memory, and devices?",
+      "answer": "kernel",
+      "body": "The kernel\n\nIt runs in kernel mode, schedules processes, manages memory, handles interrupts, and controls device access. User programs request its services through system calls.\n\nTip: the shell, libraries, and utilities are not part of the kernel; they run in user mode.",
+      "searchQuery": "operating system kernel definition role"
+    },
+    {
+      "id": "monolithic-vs-microkernel",
+      "title": "Monolithic kernel vs microkernel: what runs inside the kernel in each design?",
+      "body": "A monolithic kernel runs most OS services in kernel space; a microkernel keeps only the bare minimum there.\n\n- **Monolithic** (Linux): file systems, drivers, and networking run in kernel mode. Fast calls, but a driver bug can crash everything.\n- **Microkernel** (e.g. Minix, QNX): only scheduling, basic memory management, and IPC are in the kernel; other services run as user processes, trading speed (more message passing) for isolation.",
+      "searchQuery": "monolithic kernel vs microkernel difference"
+    },
+    {
+      "id": "interrupt-vs-trap",
+      "title": "Interrupt vs trap (exception): what triggers each?",
+      "body": "An interrupt comes from hardware, asynchronously; a trap comes from the running instruction, synchronously.\n\n- **Interrupt**: a device (timer, disk, network card) signals the CPU at any time.\n- **Trap/exception**: caused by the current instruction, e.g. a system call, divide by zero, or page fault.\n\nKey idea: both transfer control to a kernel handler through the interrupt vector.",
+      "searchQuery": "interrupt vs trap exception difference hardware software"
+    },
+    {
+      "id": "context-switch-cost",
+      "title": "What does the OS save and restore during a context switch, and why is it considered pure overhead?",
+      "body": "It saves the running process's CPU state in its PCB and loads the next one's.\n\nThe state includes the program counter, registers, and memory-management information. No user work is done while switching, and the TLB and caches may need refilling.\n\nTip: thread switches within one process are cheaper than process switches, since the address space doesn't change.",
+      "searchQuery": "context switch what is saved PCB overhead"
+    },
+    {
+      "id": "pcb-contents",
+      "title": "What information does a process control block (PCB) hold?",
+      "body": "Everything the kernel needs to manage and resume a process.\n\n- Process state and process ID\n- Program counter and CPU registers\n- Scheduling information (priority, queue pointers)\n- Memory-management info (page tables)\n- I/O status, such as open files, and accounting data",
+      "searchQuery": "process control block PCB contents"
+    },
+    {
+      "id": "zombie-process",
+      "title": "A process has terminated, but its parent hasn't yet called `wait()` to read its exit status. What is this process called?",
+      "answer": "zombie",
+      "acceptedAnswers": [
+        "zombie process",
+        "defunct"
+      ],
+      "body": "Zombie\n\nIt has finished running and freed its memory, but its PCB entry stays in the process table so the parent can still read the exit status.\n\nWatch out: a parent that never calls `wait()` leaks process-table entries.",
+      "searchQuery": "zombie process terminated parent has not called wait"
+    },
+    {
+      "id": "orphan-process",
+      "title": "What happens to a child process whose parent terminates before it does?",
+      "body": "It becomes an orphan and is adopted by the init process (PID `1`) or another subreaper.\n\nThe adopting process periodically calls `wait()`, so when the orphan finishes it is reaped and doesn't remain a zombie.\n\nTip: daemons often deliberately orphan themselves by forking and exiting the parent.",
+      "searchQuery": "orphan process adopted by init PID 1"
+    },
+    {
+      "id": "wait-syscall",
+      "title": "What does a parent's `wait()` call do in Unix?",
+      "body": "It blocks until a child terminates, then returns that child's PID and exit status.\n\nThis **reaps** the child, removing its entry from the process table.\n\nExample: `waitpid(pid, &status, 0)` waits for one specific child.",
+      "searchQuery": "wait system call Unix parent child exit status reap"
+    },
+    {
+      "id": "exec-replaces-image",
+      "title": "What does a process's `exec()` call (e.g. `execvp`) do?",
+      "body": "It replaces the current process's program image with a new program, keeping the same PID.\n\nOn success, `exec()` doesn't return, because the old code is gone. It returns only on error.\n\nKey idea: `fork()` makes a copy of a process; `exec()` changes what program the process runs.",
+      "searchQuery": "exec system call replaces process image"
+    },
+    {
+      "id": "fork-exec-shell",
+      "title": "How does a Unix shell typically run a command such as `ls`?",
+      "body": "It calls `fork()`, the child calls `exec()` on the program, and the parent calls `wait()`.\n\n1. `fork()` creates a child copy of the shell.\n2. The child runs `execvp(\"ls\", ...)`.\n3. The shell `wait()`s for the child, then prints the next prompt.\n\nTip: between `fork()` and `exec()`, the child can redirect file descriptors, which is how `>` and `|` work.",
+      "searchQuery": "shell fork exec wait run command"
+    },
+    {
+      "id": "fork-twice-count",
+      "title": "How many times is `hi` printed? (number only)\n```c\nfork();\nfork();\nprintf(\"hi\\n\");\n```",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "body": "4\n\nThe first `fork()` makes $2$ processes, and each of them runs the second `fork()`, giving $2^2 = 4$ processes, all of which print once.\n\nTip: $n$ consecutive `fork()` calls with no conditions create $2^n$ processes in total.",
+      "searchQuery": "fork twice how many processes printed"
+    },
+    {
+      "id": "init-pid-1",
+      "title": "On Linux, which process has PID `1`, started first by the kernel and the ancestor of all user processes?",
+      "answer": "init",
+      "acceptedAnswers": [
+        "systemd",
+        "init process"
+      ],
+      "body": "`init` (on modern Linux usually `systemd`)\n\nIt starts services, and adopts orphaned processes.\n\nWatch out: PID `0` isn't a normal user process; it's the kernel's idle/scheduler task.",
+      "searchQuery": "Linux init process PID 1 systemd"
+    },
+    {
+      "id": "user-vs-kernel-threads",
+      "title": "User-level threads vs kernel-level threads: what's the main trade-off?",
+      "body": "User threads are cheap to manage but invisible to the kernel; kernel threads can run in parallel and block independently.\n\n- **User-level**: a library manages them; switching needs no system call, but one blocking system call can block the whole process, and they can't use multiple cores on their own.\n- **Kernel-level**: the OS schedules each thread, so they can run on different cores, at the cost of heavier creation and switching.",
+      "searchQuery": "user-level threads vs kernel-level threads difference"
+    },
+    {
+      "id": "many-to-one-thread-model",
+      "title": "In the many-to-one threading model, what happens when one user thread makes a blocking system call?",
+      "body": "The whole process blocks.\n\nAll user threads map to a single kernel thread, so the kernel sees one schedulable entity.\n\nWhy: it also means the threads can't run in parallel on multiple cores.\nTip: modern systems typically use one-to-one mapping (Linux, Windows).",
+      "searchQuery": "many-to-one threading model blocking system call"
+    },
+    {
+      "id": "ipc-shared-memory-vs-message-passing",
+      "title": "What are the two basic models of interprocess communication?",
+      "body": "Shared memory and message passing.\n\n- **Shared memory**: processes map a common region and read and write it directly. It's fast after setup, but needs explicit synchronization.\n- **Message passing**: the kernel carries `send` and `receive` messages (pipes, sockets). It's simpler to reason about and works across machines, but each message costs a kernel call.",
+      "searchQuery": "interprocess communication shared memory vs message passing"
+    },
+    {
+      "id": "pipe-ipc",
+      "title": "In a shell, `ls | wc -l` connects the two commands with what kind of kernel object?",
+      "answer": "pipe",
+      "acceptedAnswers": [
+        "unnamed pipe",
+        "anonymous pipe"
+      ],
+      "body": "A pipe\n\nThe output (stdout) of `ls` feeds the input (stdin) of `wc`. The kernel buffers the bytes, and a reader blocks when the pipe is empty.\n\nTip: a named pipe (FIFO) lets unrelated processes communicate through a path in the file system.",
+      "searchQuery": "Unix pipe IPC ls wc shell pipeline"
+    },
+    {
+      "id": "sigkill-uncatchable",
+      "title": "Which Unix signal can't be caught, blocked, or ignored by a process, and always terminates it?",
+      "answer": "SIGKILL",
+      "acceptedAnswers": [
+        "kill -9",
+        "signal 9",
+        "9"
+      ],
+      "body": "`SIGKILL` (signal `9`)\n\n`SIGSTOP` also can't be caught or ignored. Ordinary termination uses `SIGTERM`, which a process may catch to clean up first.\n\nTip: `Ctrl+C` sends `SIGINT`, which a program can handle.",
+      "searchQuery": "SIGKILL signal cannot be caught ignored Unix"
+    },
+    {
+      "id": "stderr-file-descriptor",
+      "title": "In Unix, which file descriptor number is standard error? (number only)",
+      "answer": "2",
+      "body": "2\n\nThe three standard descriptors are `0` (stdin), `1` (stdout), and `2` (stderr).\n\nExample: `cmd 2> errors.txt` redirects only descriptor `2` to a file.",
+      "searchQuery": "Unix standard file descriptors stdin stdout stderr 0 1 2"
+    },
+    {
+      "id": "copy-on-write-fork",
+      "title": "What does copy-on-write mean for `fork()`?",
+      "body": "Parent and child share the same physical pages until one of them writes.\n\nThe pages are marked read-only; a write causes a page fault, and the kernel then copies just that page for the writer.\n\nWhy: `fork()` stays cheap, especially when the child calls `exec()` right away and most copied pages would be thrown away.",
+      "searchQuery": "copy-on-write fork pages shared until written"
+    },
+    {
+      "id": "library-call-vs-syscall",
+      "title": "Why is `printf()` a library call, while `write()` is a system call?",
+      "body": "`printf()` runs in user space, formats text, buffers it, and eventually calls `write()`, which traps into the kernel.\n\nKey idea: a system call is the kernel's API boundary; library functions are ordinary user code, some of which wrap system calls.\n\nWatch out: `printf` output may sit in a user-space buffer, so a crash can lose it.",
+      "searchQuery": "library call vs system call printf write difference"
+    },
+    {
+      "id": "fcfs-convoy-effect",
+      "title": "What is the convoy effect in FCFS scheduling?",
+      "body": "Short processes pile up behind one long CPU-bound process.\n\nWhile the long job holds the CPU, I/O-bound processes finish their I/O and wait in the ready queue, leaving devices idle and raising average waiting time.\n\nTip: SJF and round robin avoid it.",
+      "searchQuery": "FCFS convoy effect scheduling long CPU burst"
+    },
+    {
+      "id": "turnaround-waiting-formulas",
+      "title": "In scheduling, how are turnaround time and waiting time computed for a process?",
+      "body": "Turnaround = completion time − arrival time. Waiting = turnaround − CPU burst time.\n\nExample: a process arrives at $0$, needs a $5$ ms burst, and finishes at $12$ ms. Its turnaround is $12$ ms and its waiting time is $12 - 5 = 7$ ms.\n\nWatch out: this assumes the burst is pure CPU time with no I/O.",
+      "searchQuery": "turnaround time waiting time formula scheduling"
+    },
+    {
+      "id": "response-time-definition",
+      "title": "In CPU scheduling, what is response time?",
+      "body": "The time from a request's arrival until the system first produces a response.\n\nIt's measured to the first response, not to completion, which is why it matters most for interactive systems.\n\nKey idea: round robin tends to give good response time but a worse average turnaround than SJF.",
+      "searchQuery": "response time scheduling definition first response"
+    },
+    {
+      "id": "preemptive-vs-nonpreemptive",
+      "title": "Preemptive vs non-preemptive scheduling: what's the difference?",
+      "body": "Preemptive schedulers can take the CPU away from a running process; non-preemptive ones wait until it blocks or finishes.\n\nPreemption happens on a timer interrupt or when a higher-priority process becomes ready.\n\nWatch out: preemption can interrupt a process while it updates shared data, so it creates the need for synchronization.",
+      "searchQuery": "preemptive vs non-preemptive scheduling difference"
+    },
+    {
+      "id": "fcfs-average-wait-example",
+      "title": "Processes `P1`, `P2`, `P3` all arrive at time $0$ with CPU bursts of $24$, $3$, and $3$ ms. Under FCFS in that order, what is the average waiting time in ms? (number only)",
+      "answer": "17",
+      "body": "17\n\nWaiting times are $0$, $24$, and $27$ ms, so the average is $\\dfrac{0 + 24 + 27}{3} = 17$ ms.\n\nWhy: the long job runs first, so both short jobs wait behind it (the convoy effect).",
+      "searchQuery": "FCFS average waiting time example 24 3 3"
+    },
+    {
+      "id": "sjf-average-wait-example",
+      "title": "Same three processes (bursts $24$, $3$, $3$ ms, all arriving at time $0$). What is the average waiting time under SJF, in ms? (number only)",
+      "answer": "3",
+      "body": "3\n\nSJF runs the two $3$ ms jobs first, then the $24$ ms job. Waiting times are $0$, $3$, and $6$ ms, so the average is $\\dfrac{0 + 3 + 6}{3} = 3$ ms.\n\nKey idea: compare with $17$ ms under FCFS; shortest-first minimizes average waiting.",
+      "searchQuery": "SJF average waiting time example 24 3 3"
+    },
+    {
+      "id": "rr-average-wait-example",
+      "title": "Same three processes (bursts $24$, $3$, $3$ ms, all arriving at time $0$) under round robin with a $4$ ms quantum, in order `P1`, `P2`, `P3`. What is the average waiting time in ms, to two decimals?",
+      "answer": "5.67",
+      "acceptedAnswers": [
+        "17/3"
+      ],
+      "body": "5.67\n\n`P1` runs $0$–$4$, `P2` $4$–$7$, `P3` $7$–$10$, then `P1` runs $10$–$30$ in slices (nobody else is left). Waiting time = completion − burst: `P1` $30 - 24 = 6$, `P2` $7 - 3 = 4$, `P3` $10 - 3 = 7$.\n\nThe average is $\\dfrac{6 + 4 + 7}{3} \\approx 5.67$ ms.",
+      "searchQuery": "round robin average waiting time quantum 4 example"
+    },
+    {
+      "id": "mlfq-scheduling",
+      "title": "How does a multilevel feedback queue (MLFQ) scheduler decide a process's queue, and why?",
+      "body": "It moves processes between priority queues based on observed behavior.\n\nA process that uses its whole time slice is demoted to a lower-priority queue; one that blocks for I/O before the slice ends stays high. This favors short, interactive jobs without knowing burst lengths in advance.\n\nTip: to prevent starvation, MLFQ periodically boosts all processes to the top queue (aging).",
+      "searchQuery": "multilevel feedback queue scheduler priority demotion"
+    },
+    {
+      "id": "cfs-vruntime",
+      "title": "Linux's Completely Fair Scheduler (CFS) always runs the runnable task with the smallest value of what?",
+      "answer": "vruntime",
+      "acceptedAnswers": [
+        "virtual runtime"
+      ],
+      "body": "`vruntime` (virtual runtime)\n\nIt's the CPU time a task has used, scaled by its weight (nice value). Tasks sit in a red-black tree ordered by it, so the leftmost node is the next to run.\n\nWatch out: Linux 6.6 replaced CFS's selection rule with EEVDF, but `vruntime`-style fairness remains the core idea.",
+      "searchQuery": "Linux CFS completely fair scheduler vruntime red-black tree"
+    },
+    {
+      "id": "priority-inversion",
+      "title": "What is priority inversion?",
+      "body": "A high-priority task waits on a lock held by a low-priority task, which a medium-priority task keeps preempting.\n\nSo the medium task effectively runs ahead of the high one. It famously caused resets on the Mars Pathfinder lander in 1997.\n\nTip: **priority inheritance** temporarily raises the lock holder's priority to the waiter's.",
+      "searchQuery": "priority inversion priority inheritance Mars Pathfinder"
+    },
+    {
+      "id": "cpu-bound-vs-io-bound",
+      "title": "CPU-bound vs I/O-bound processes: how do their CPU bursts differ?",
+      "body": "CPU-bound processes have few long CPU bursts; I/O-bound processes have many short ones.\n\nA good scheduler favors I/O-bound processes: running one briefly lets it start its next I/O, which keeps devices busy while CPU-bound jobs fill the remaining time.\n\nExample: a video encoder is CPU-bound; a text editor is I/O-bound.",
+      "searchQuery": "CPU-bound vs I/O-bound process burst scheduling"
+    },
+    {
+      "id": "edf-vs-rate-monotonic",
+      "title": "In real-time scheduling, how do earliest-deadline-first (EDF) and rate-monotonic scheduling (RMS) assign priorities?",
+      "body": "EDF uses dynamic priorities (nearest deadline first); RMS uses fixed priorities (shorter period, higher priority).\n\nEDF is optimal on a single processor: if any algorithm can meet all deadlines, EDF can, with utilization up to $100\\%$. RMS is simpler and predictable but guarantees schedulability only up to a lower utilization bound.",
+      "searchQuery": "EDF vs rate monotonic scheduling real-time priorities"
+    },
+    {
+      "id": "peterson-solution",
+      "title": "Which two shared variables does Peterson's solution for two processes use?",
+      "body": "A `flag[2]` array (who wants in) and an integer `turn` (who yields).\n\nA process sets its flag, gives the turn to the other, and waits while the other's flag is set and it's the other's turn.\n\nWatch out: on modern CPUs with reordering it needs memory barriers, so real systems use hardware atomic instructions.",
+      "searchQuery": "Peterson's solution flag array turn variable mutual exclusion"
+    },
+    {
+      "id": "atomic-test-and-set",
+      "title": "What does the hardware's atomic compare-and-swap (CAS) instruction do?",
+      "body": "It updates a memory location only if it still holds an expected value, as a single indivisible step.\n\n`CAS(addr, expected, new)` returns whether the swap happened. A thread retries when another thread changed the value first.\n\nKey idea: it's the building block for spinlocks and lock-free data structures.",
+      "searchQuery": "compare-and-swap atomic instruction lock-free"
+    },
+    {
+      "id": "spinlock-vs-blocking",
+      "title": "Spinlock vs blocking lock (mutex): when is each better?",
+      "body": "A spinlock for very short critical sections on multiple cores; a blocking mutex for longer waits.\n\nA spinlock busy-waits, wasting CPU but avoiding the cost of a context switch. A blocking mutex puts the waiter to sleep.\n\nWatch out: on a single CPU, spinning is pointless because the lock holder can't run while you spin.",
+      "searchQuery": "spinlock vs mutex busy waiting blocking when to use"
+    },
+    {
+      "id": "bounded-buffer-semaphores",
+      "title": "In the semaphore solution to the bounded-buffer (producer-consumer) problem with $N$ slots, what are the initial values of `mutex`, `empty`, and `full`?",
+      "body": "`mutex = 1`, `empty = N`, `full = 0`.\n\nThe producer does `wait(empty)`, `wait(mutex)`, adds an item, `signal(mutex)`, `signal(full)`. The consumer mirrors it with `full` and `empty`.\n\nWatch out: swapping the order of `wait(empty)` and `wait(mutex)` can deadlock.",
+      "searchQuery": "bounded buffer producer consumer semaphores mutex empty full initial values"
+    },
+    {
+      "id": "readers-writers-problem",
+      "title": "What constraint defines the readers–writers synchronization problem?",
+      "body": "Many readers may read together, but a writer needs exclusive access.\n\nExample: a database table where reads are frequent.\n\nWatch out: if readers are always preferred, writers can starve; if writers are preferred, readers can.",
+      "searchQuery": "readers-writers problem multiple readers exclusive writer"
+    },
+    {
+      "id": "dining-philosophers-fix",
+      "title": "In the dining philosophers problem, how can deadlock be prevented?",
+      "body": "Break one Coffman condition.\n\n- Number the forks and always pick up the lower-numbered fork first, which breaks circular wait.\n- Allow at most $N - 1$ philosophers to sit at the table.\n- Pick up both forks atomically, or none.\n\nWhy: if every philosopher grabs their left fork first, all wait forever on the right.",
+      "searchQuery": "dining philosophers deadlock prevention resource ordering"
+    },
+    {
+      "id": "monitor-condition-variable",
+      "title": "Why should a thread re-check its condition in a `while` loop around `cond.wait()`?",
+      "body": "The condition may no longer hold when the thread wakes.\n\nAnother thread may have consumed the resource first, and some implementations wake threads spuriously. Use `while (!ready) cond.wait(lock);`, not `if`.\n\nKey idea: with Mesa-style monitors (used in practice), a signal is only a hint.",
+      "searchQuery": "condition variable wait while loop spurious wakeup monitor"
+    },
+    {
+      "id": "deadlock-vs-livelock-vs-starvation",
+      "title": "Deadlock vs livelock vs starvation: how do they differ?",
+      "body": "Deadlock: stuck waiting forever. Livelock: busy but making no progress. Starvation: one process is perpetually denied.\n\n- **Deadlock**: processes block, each waiting for another's resource.\n- **Livelock**: processes keep changing state in response to each other, e.g. two people repeatedly stepping aside in a corridor.\n- **Starvation**: others progress, but one process never gets the resource.",
+      "searchQuery": "deadlock vs livelock vs starvation difference"
+    },
+    {
+      "id": "toctou-race",
+      "title": "What is a time-of-check to time-of-use (TOCTOU) race?",
+      "body": "A state is checked, then changes before it is used.\n\nExample: a program checks that a file is safe with `access()`, and an attacker swaps it for a link before the program calls `open()`.\n\nTip: make the check and the use one atomic operation, e.g. open the file first and then check the descriptor.",
+      "searchQuery": "TOCTOU race condition time of check time of use"
+    },
+    {
+      "id": "rag-cycle-deadlock",
+      "title": "In a resource-allocation graph where every resource type has a single instance, what indicates deadlock?",
+      "body": "A cycle in the graph.\n\nWith one instance per resource, a cycle is both necessary and sufficient for deadlock.\n\nWatch out: with multiple instances per resource, a cycle is necessary but not sufficient; the processes may still be rescued by a free instance.",
+      "searchQuery": "resource allocation graph cycle deadlock single instance"
+    },
+    {
+      "id": "safe-state",
+      "title": "What is a safe state in deadlock avoidance?",
+      "body": "A state in which some order of running all processes to completion exists (a safe sequence).\n\nEach process in the sequence can get its remaining maximum demand from free resources plus what earlier processes in the sequence will release.\n\nKey idea: safe means no deadlock is guaranteed; unsafe means deadlock is possible, not certain.",
+      "searchQuery": "safe state safe sequence deadlock avoidance"
+    },
+    {
+      "id": "deadlock-detection-wait-for-graph",
+      "title": "How does the OS detect deadlock among processes that each hold single-instance resources?",
+      "body": "It looks for a cycle in the wait-for graph.\n\nThe wait-for graph has an edge `P1 → P2` when `P1` waits for a resource held by `P2`. It's the resource-allocation graph with the resource nodes removed.\n\nTip: run detection periodically, or when CPU utilization drops unexpectedly.",
+      "searchQuery": "deadlock detection wait-for graph cycle algorithm"
+    },
+    {
+      "id": "deadlock-recovery",
+      "title": "After detecting a deadlock, what are the two main ways to recover?",
+      "body": "Terminate processes, or preempt resources.\n\n- **Terminate** all deadlocked processes, or one at a time until the cycle breaks.\n- **Preempt** resources from some process and give them to others, rolling the victim back to a safe state.\n\nWatch out: choose victims carefully, and avoid always picking the same one, or it starves.",
+      "searchQuery": "deadlock recovery terminate processes preempt resources"
+    },
+    {
+      "id": "ostrich-algorithm",
+      "title": "What is the nickname for the approach of ignoring deadlock entirely, as most general-purpose operating systems do?",
+      "answer": "ostrich algorithm",
+      "acceptedAnswers": [
+        "ostrich"
+      ],
+      "body": "The ostrich algorithm\n\nIt treats deadlock as rare enough that the cost of prevention or detection isn't worth it; if it happens, the user restarts a process.\n\nTip: Unix and Windows leave deadlock avoidance to application programmers.",
+      "searchQuery": "ostrich algorithm ignore deadlock operating systems"
+    },
+    {
+      "id": "logical-vs-physical-address",
+      "title": "What is the difference between a logical (virtual) address and a physical address?",
+      "body": "A logical address is generated by the CPU; a physical address is the location in main memory.\n\nThe **MMU** translates logical to physical addresses at runtime, which gives each process its own address space.\n\nExample: two processes can both use logical address `0x1000`, mapped to different physical frames.",
+      "searchQuery": "logical address vs physical address MMU translation"
+    },
+    {
+      "id": "base-limit-registers",
+      "title": "In a simple contiguous-allocation scheme, what do the base and limit registers do?",
+      "body": "The base register holds the process's starting physical address; the limit register holds its size.\n\nThe hardware adds the base to each logical address, and traps if the logical address is greater than or equal to the limit.\n\nWhy: this relocates a process and protects other processes' memory.",
+      "searchQuery": "base register limit register memory protection contiguous allocation"
+    },
+    {
+      "id": "page-offset-bits",
+      "title": "With 4 KiB pages, how many low-order bits of an address form the page offset? (number only)",
+      "answer": "12",
+      "body": "12\n\n$4\\text{ KiB} = 2^{12}$ bytes, so $12$ bits select a byte within a page. The remaining high bits are the page number.\n\nExample: a 32-bit virtual address has $32 - 12 = 20$ page-number bits.",
+      "searchQuery": "page size 4 KiB offset bits virtual address"
+    },
+    {
+      "id": "number-of-pages-32bit",
+      "title": "A 32-bit virtual address space uses 4 KiB pages. How many pages does it contain? (number only)",
+      "answer": "1048576",
+      "acceptedAnswers": [
+        "2^20",
+        "1M"
+      ],
+      "body": "$2^{20} = 1{,}048{,}576$ pages\n\nThere are $2^{32}$ bytes in the space and $2^{12}$ bytes per page, so $2^{32} / 2^{12} = 2^{20}$.\n\nWhy: a flat page table with one 4-byte entry per page would take $4$ MiB per process, which motivates multilevel page tables.",
+      "searchQuery": "32-bit address space 4 KiB pages number of pages 2^20"
+    },
+    {
+      "id": "page-table-entry-bits",
+      "title": "Besides the frame number, which control bits does a page-table entry typically hold?",
+      "body": "Valid (present), protection (read/write/execute), referenced, and dirty bits.\n\n- **Valid/present**: is the page in memory?\n- **Protection**: allowed access types.\n- **Referenced**: set on use, for replacement policies.\n- **Dirty (modified)**: set on write, so the OS knows the page must be written back.",
+      "searchQuery": "page table entry bits valid dirty referenced protection"
+    },
+    {
+      "id": "multilevel-page-tables",
+      "title": "Why do operating systems use multilevel (hierarchical) page tables?",
+      "body": "To avoid allocating page-table memory for unused parts of a sparse address space.\n\nAn outer table points to inner tables, and an inner table exists only if some of its pages are in use.\n\nWatch out: each extra level adds one more memory access on a TLB miss.",
+      "searchQuery": "multilevel page table why save memory sparse address space"
+    },
+    {
+      "id": "inverted-page-table",
+      "title": "How does an inverted page table differ from a per-process page table?",
+      "body": "It has one entry per physical frame, not per virtual page.\n\nEach entry records which process and virtual page occupy that frame. Lookups use a hash table, since searching linearly would be too slow.\n\nWhy: its size scales with physical memory, not with the number of processes times address-space size.",
+      "searchQuery": "inverted page table one entry per frame hash lookup"
+    },
+    {
+      "id": "tlb-effective-access-time",
+      "title": "TLB lookup takes $10$ ns, a memory access takes $100$ ns, and the TLB hit ratio is $90\\%$. What is the effective access time in ns? (single-level page table, number only)",
+      "answer": "120",
+      "body": "120\n\nHit: $10 + 100 = 110$ ns. Miss: $10 + 100$ (page table) $+ 100$ (data) $= 210$ ns.\n\n$\\text{EAT} = 0.9 \\times 110 + 0.1 \\times 210 = 99 + 21 = 120$ ns.",
+      "searchQuery": "effective memory access time TLB hit ratio calculation"
+    },
+    {
+      "id": "demand-paging-eat",
+      "title": "Memory access takes $200$ ns, a page fault takes $8$ ms to service, and the page-fault rate is $p = 1/1000$. What is the effective access time in ns? (number only)",
+      "answer": "8199.8",
+      "body": "8199.8\n\n$8\\text{ ms} = 8{,}000{,}000$ ns, so $\\text{EAT} = 0.999 \\times 200 + 0.001 \\times 8{,}000{,}000 = 199.8 + 8000 = 8199.8$ ns.\n\nKey idea: even one fault in a thousand slows memory about $40\\times$, so the fault rate must be tiny.",
+      "searchQuery": "demand paging effective access time page fault rate 8 ms"
+    },
+    {
+      "id": "segmentation-vs-paging",
+      "title": "Segmentation vs paging: how is memory divided in each?",
+      "body": "Paging uses fixed-size pages invisible to the programmer; segmentation uses variable-size logical units.\n\nA segment (code, stack, heap) is addressed as `(segment, offset)`.\n\nWatch out: segmentation can cause external fragmentation; paging causes only internal fragmentation.",
+      "searchQuery": "segmentation vs paging difference fixed variable size"
+    },
+    {
+      "id": "swapping",
+      "title": "What is swapping in memory management?",
+      "body": "Moving an entire process (or its pages) between main memory and a backing store (disk or SSD) to free RAM.\n\nExample: Linux's swap space holds pages of idle processes.\n\nWatch out: heavy swapping makes the system very slow, and thrashing results.",
+      "searchQuery": "swapping process memory backing store"
+    },
+    {
+      "id": "first-fit-best-fit-worst-fit",
+      "title": "In contiguous memory allocation, how do first-fit, best-fit, and worst-fit choose a hole?",
+      "body": "First-fit: first hole big enough. Best-fit: smallest hole big enough. Worst-fit: largest hole.\n\nFirst-fit and best-fit generally beat worst-fit in speed and utilization, and first-fit is usually fastest.\n\nWatch out: all of them suffer external fragmentation.",
+      "searchQuery": "first-fit best-fit worst-fit memory allocation holes"
+    },
+    {
+      "id": "buddy-system",
+      "title": "In the buddy system, a request for 70 KB is satisfied with what block size? (KB, number only)",
+      "answer": "128",
+      "acceptedAnswers": [
+        "128 KB"
+      ],
+      "body": "128 KB\n\nThe buddy system rounds each request up to a power of two: the next power of two at or above $70$ is $2^7 = 128$.\n\nWhy: free blocks split in halves and merge with their \"buddy\", which makes coalescing fast, but internal fragmentation results ($128 - 70 = 58$ KB wasted).",
+      "searchQuery": "buddy system memory allocation power of two block size"
+    },
+    {
+      "id": "fifo-fault-count",
+      "title": "Reference string `7,0,1,2,0,3,0,4,2,3,0,3,2,1,2,0,1,7,0,1` with 3 frames, all empty at start. How many page faults does FIFO replacement cause? (number only)",
+      "answer": "15",
+      "body": "15\n\nThe first three references fault while frames fill; thereafter FIFO evicts the oldest resident page each time, even a frequently used one.\n\nKey idea: the same string gives $12$ faults with LRU and $9$ with OPT.",
+      "searchQuery": "FIFO page replacement 15 page faults reference string"
+    },
+    {
+      "id": "lru-fault-count",
+      "title": "Reference string `7,0,1,2,0,3,0,4,2,3,0,3,2,1,2,0,1,7,0,1` with 3 frames, all empty at start. How many page faults does LRU replacement cause? (number only)",
+      "answer": "12",
+      "body": "12\n\nLRU evicts the page unused for the longest time, so it keeps pages that are used repeatedly, like `0` and `2` here.\n\nKey idea: FIFO gets $15$ faults and OPT gets $9$ on the same string.",
+      "searchQuery": "LRU page replacement 12 page faults reference string"
+    },
+    {
+      "id": "opt-fault-count",
+      "title": "Reference string `7,0,1,2,0,3,0,4,2,3,0,3,2,1,2,0,1,7,0,1` with 3 frames, all empty at start. How many page faults does the optimal (OPT) policy cause? (number only)",
+      "answer": "9",
+      "body": "9\n\nOPT evicts the page whose next use is farthest in the future. $9$ faults is the minimum possible for this string and frame count.\n\nWatch out: it needs future knowledge, so it's only a benchmark for real algorithms.",
+      "searchQuery": "optimal page replacement OPT 9 page faults reference string"
+    },
+    {
+      "id": "clock-second-chance",
+      "title": "How does the clock (second-chance) page-replacement algorithm choose a victim?",
+      "body": "It sweeps a circular list of frames; a page with reference bit `1` gets it cleared and is skipped, and the first page with bit `0` is evicted.\n\nWhy: it approximates LRU cheaply using only the hardware-set reference bit.\n\nWatch out: if every bit is `1`, the hand clears them all and the algorithm degenerates to FIFO for that pass.",
+      "searchQuery": "clock second-chance page replacement algorithm reference bit"
+    },
+    {
+      "id": "dirty-bit-writeback",
+      "title": "What is the purpose of the dirty (modified) bit in a page-table entry?",
+      "body": "It tells the OS whether a page changed since being loaded, so it must be written back before eviction.\n\nA clean page can simply be discarded, because an identical copy exists on disk, saving one disk write per eviction.\n\nTip: replacement algorithms often prefer evicting clean pages.",
+      "searchQuery": "dirty bit page table entry write back to disk eviction"
+    },
+    {
+      "id": "working-set-model",
+      "title": "What is a process's working set?",
+      "body": "The set of pages the process referenced in its most recent window of $\\Delta$ references.\n\nIf the sum of all working-set sizes exceeds available frames, the OS should suspend a process rather than let all of them thrash.\n\nKey idea: it's an estimate of the pages a process needs in memory to run efficiently.",
+      "searchQuery": "working set model pages referenced recent window"
+    },
+    {
+      "id": "locality-of-reference",
+      "title": "What are temporal and spatial locality, and why does demand paging depend on them?",
+      "body": "Temporal: recently used items are likely to be used again soon. Spatial: items near a recently used address are likely to be used soon.\n\nLoops show temporal locality; array scans show spatial locality.\n\nWhy: because of locality, a process faults rarely once its working set is loaded.",
+      "searchQuery": "temporal locality spatial locality of reference"
+    },
+    {
+      "id": "virtual-memory-benefits",
+      "title": "What are the main benefits of virtual memory?",
+      "body": "Isolation, programs larger than RAM, and simpler programming.\n\n- Each process gets its own address space, so one can't read another's memory.\n- Only the needed pages must be resident, so a program can exceed physical memory.\n- Pages can be shared (libraries, copy-on-write) and files can be mapped.",
+      "searchQuery": "virtual memory benefits isolation larger than physical memory"
+    },
+    {
+      "id": "page-size-tradeoff",
+      "title": "What is the trade-off when choosing a larger page size?",
+      "body": "Smaller page tables and fewer faults, but more internal fragmentation.\n\nLarger pages mean fewer page-table entries and more TLB reach, and one disk read brings in more data. But, on average, half of each process's last page is wasted.\n\nTip: Linux supports huge pages (2 MiB or 1 GiB on x86-64) for large, memory-hungry programs.",
+      "searchQuery": "page size trade-off internal fragmentation page table size"
+    },
+    {
+      "id": "x86-64-four-level-paging",
+      "title": "x86-64 with 4-level paging translates 48-bit virtual addresses with 4 KiB pages. How many index bits does each of the four levels use? (number only)",
+      "answer": "9",
+      "body": "9\n\nEach page table holds $2^9 = 512$ entries of 8 bytes, filling one 4 KiB page. The address splits as $4 \\times 9 + 12 = 48$ bits: four 9-bit indexes and a 12-bit offset.",
+      "searchQuery": "x86-64 four-level paging 48-bit virtual address 9 bits per level"
+    },
+    {
+      "id": "memory-mapped-files",
+      "title": "What does `mmap()` do?",
+      "body": "It maps a file (or anonymous memory) into the process's address space, so it can be read and written with ordinary memory accesses.\n\nPages are loaded on demand through page faults, and several processes can share the same mapping.\n\nExample: the loader maps shared libraries into each process with `mmap`.",
+      "searchQuery": "mmap memory-mapped file system call Unix"
+    },
+    {
+      "id": "aslr",
+      "title": "What is address space layout randomization (ASLR)?",
+      "body": "Randomizing where the stack, heap, and libraries are placed in a process's address space on each run.\n\nIt makes exploits that depend on known addresses, such as return-oriented programming or jump-to-libc attacks, much harder.\n\nWatch out: it's a mitigation, not a fix; information leaks can reveal the layout.",
+      "searchQuery": "ASLR address space layout randomization security"
+    },
+    {
+      "id": "inode-contents",
+      "title": "In a Unix file system, what does an inode store, and what notably does it not store?",
+      "body": "It stores a file's metadata and block locations, but not its name.\n\n- **Stored**: owner, permissions, size, timestamps, link count, and pointers to data blocks.\n- **Not stored**: the file name, which lives in directory entries.\n\nKey idea: that's why one file can have several names (hard links).",
+      "searchQuery": "inode contents metadata block pointers file name not stored"
+    },
+    {
+      "id": "directory-maps-names",
+      "title": "What does a directory entry in a Unix file system map?",
+      "body": "A file name to an inode number.\n\nA directory is a special file containing these (name, inode number) pairs.\n\nExample: `ls -i` shows the inode numbers.",
+      "searchQuery": "directory entry maps file name to inode number"
+    },
+    {
+      "id": "hard-vs-symbolic-link",
+      "title": "Hard link vs symbolic (soft) link: how do they differ?",
+      "body": "A hard link is another name for the same inode; a symbolic link is a small file storing a path.\n\n- **Hard link**: same inode, so deleting one name leaves the data until the link count reaches `0`. It can't cross file systems.\n- **Symlink**: can cross file systems and point at directories, but becomes dangling if the target is removed.",
+      "searchQuery": "hard link vs symbolic link difference inode"
+    },
+    {
+      "id": "file-allocation-methods",
+      "title": "What are the three classic file-allocation methods for disk blocks?",
+      "body": "Contiguous, linked, and indexed.\n\n- **Contiguous**: fast sequential and direct access, but external fragmentation and growth problems.\n- **Linked**: no external fragmentation, but poor random access (FAT keeps the links in a table to improve this).\n- **Indexed**: an index block (as in Unix inodes) lists the blocks, giving good direct access.",
+      "searchQuery": "file allocation methods contiguous linked indexed"
+    },
+    {
+      "id": "inode-direct-pointer-capacity",
+      "title": "An inode has 12 direct block pointers and the block size is 4 KiB. How many KiB of file data can the direct pointers address? (number only)",
+      "answer": "48",
+      "body": "48\n\n$12 \\times 4\\text{ KiB} = 48$ KiB. Larger files use the single, double, and triple indirect pointers.\n\nTip: small files, the common case, need no indirect block at all.",
+      "searchQuery": "inode direct pointers 12 blocks 4 KiB capacity"
+    },
+    {
+      "id": "file-system-journaling",
+      "title": "How does a journaling file system protect against corruption after a crash?",
+      "body": "It records intended changes in a log (the journal) before applying them.\n\nAfter a crash, the OS replays complete journal entries and discards incomplete ones, restoring consistency without scanning the whole disk (`fsck`).\n\nExamples: ext4, NTFS, and XFS.",
+      "searchQuery": "journaling file system write-ahead log crash recovery"
+    },
+    {
+      "id": "chmod-754",
+      "title": "What permissions does `chmod 754 script.sh` give to the owner, group, and others?",
+      "body": "Owner: read, write, execute. Group: read and execute. Others: read only.\n\nEach octal digit sums $r = 4$, $w = 2$, $x = 1$: $7$ is `rwx`, $5$ is `r-x`, and $4$ is `r--`.\n\nTip: `rwxr-xr--` is the same mode written symbolically.",
+      "searchQuery": "chmod 754 permissions owner group others octal"
+    },
+    {
+      "id": "octal-644",
+      "title": "What octal mode corresponds to `rw-r--r--`? (three digits)",
+      "answer": "644",
+      "body": "644\n\nOwner `rw-` is $4 + 2 = 6$, group `r--` is $4$, and others `r--` is $4$.\n\nExample: it's the usual mode for regular files: the owner can edit, everyone else can read.",
+      "searchQuery": "Unix permissions rw-r--r-- octal 644"
+    },
+    {
+      "id": "disk-scan-elevator",
+      "title": "Which disk-scheduling algorithm moves the head in one direction servicing requests, then reverses at the end, like an elevator?",
+      "answer": "SCAN",
+      "acceptedAnswers": [
+        "elevator algorithm",
+        "elevator"
+      ],
+      "body": "SCAN (the elevator algorithm)\n\nCompared with SSTF (shortest seek time first), it avoids starvation and gives a lower variance in wait time.\n\nTip: **C-SCAN** returns to the start without servicing on the way back, giving more uniform wait times.",
+      "searchQuery": "SCAN elevator disk scheduling algorithm"
+    },
+    {
+      "id": "rotational-latency-7200",
+      "title": "A hard disk spins at $7200$ RPM. What is its average rotational latency in ms, to two decimals? (number only)",
+      "answer": "4.17",
+      "body": "4.17\n\nOne rotation takes $60 / 7200 \\approx 8.33$ ms, and on average the target sector is half a rotation away: $8.33 / 2 \\approx 4.17$ ms.\n\nKey idea: disk access time = seek time + rotational latency + transfer time.",
+      "searchQuery": "average rotational latency 7200 RPM calculation"
+    },
+    {
+      "id": "dma-purpose",
+      "title": "What does direct memory access (DMA) let a device do?",
+      "body": "Transfer data to or from main memory without the CPU copying each byte.\n\nThe CPU sets up the transfer, and the DMA controller interrupts it when the whole block is done.\n\nWhy: it frees the CPU for other work during large I/O transfers.",
+      "searchQuery": "DMA direct memory access controller CPU interrupt"
+    },
+    {
+      "id": "polling-vs-interrupts",
+      "title": "Polling vs interrupt-driven I/O: when is each better?",
+      "body": "Polling for fast, frequent events; interrupts for slow or rare events.\n\nPolling wastes CPU while a device is idle but avoids interrupt overhead when data arrives constantly. Interrupts let the CPU work until the device signals.\n\nExample: high-speed network drivers switch to polling under heavy load.",
+      "searchQuery": "polling vs interrupt-driven I/O trade-off"
+    },
+    {
+      "id": "raid-5",
+      "title": "What does RAID 5 provide, and how many disk failures can it survive?",
+      "body": "Striping with distributed parity; it survives one disk failure.\n\nParity blocks are spread across all disks. With $N$ disks, usable capacity is $N - 1$ disks' worth.\n\nWatch out: RAID is not a backup; it doesn't protect against deletion, corruption, or a second failure during rebuild.",
+      "searchQuery": "RAID 5 distributed parity one disk failure capacity"
+    }
+  ]
+}

@@ -14,7 +14,7 @@ Runs on iOS, Android and the web from one Expo codebase. Web: https://recallmate
 
 - **Fibonacci scheduling.** A new card is due the next day; each correct review pushes it further out: 1, 1, 2, 3, 5, 8, 13… days. A miss resets it to tomorrow. Due dates are calendar days in your own timezone, so a card due today is reviewable all day.
 - **Typed-answer checking.** Cards can require an exact answer. You get 3 tries (with a shake on each miss); a one-letter slip earns a free retry instead of a strike. Formatting doesn't matter (`x²` = `x^2`, `π` = `pi`, case and spacing are ignored), meaning does.
-- **43 study packs, 675 cards** written for college courses across Calculus, Trigonometry, Biology, Engineering, Software, Chemistry, Physics and Statistics. Adding a pack drip-feeds new cards (5 or 10 a day, or all at once) so reviews never pile up.
+- **59 study packs of 100 cards (5,900 in all)** written for college courses across 16 subjects: Calculus, Trigonometry, Linear Algebra, Differential Equations, Biology, Anatomy & Physiology, Microbiology, Engineering, Software, Machine Learning, Discrete Math, Chemistry, Organic Chemistry, Biochemistry, Physics and Statistics. Math and chemistry are typeset like a textbook (KaTeX) and code is set in a monospace font. Adding a pack drip-feeds new cards (5 or 10 a day, or all at once) so reviews never pile up.
 - **Library** with instant search and filters by status (due, new, learning, mastered) and source. Every card is editable.
 - **Progress**: daily streaks, 30-day accuracy, a 12-week activity heatmap, a 7-day forecast and your card mix.
 - **Bold, animated UI**: chunky tactile buttons, 3D card flips, confetti, springy layout transitions, light and dark themes, and a desktop sidebar layout. Respects the system's reduce-motion setting.
@@ -58,7 +58,7 @@ To test on a physical phone, replace `127.0.0.1` in `.env.local` with your compu
 | `npm run db:reset` | Rebuild the local database from migrations + seed |
 | `npm run db:test` | pgTAP database tests |
 | `npm run db:types` | Regenerate `src/lib/database.types.ts` from the local schema |
-| `npm run packs:build` | Regenerate the study-pack migration from `content/packs/*.json` |
+| `npm run packs:build -- --out <file>` | Write a study-pack migration from `content/packs/` (see `content/README.md`) |
 | `npm run build:web` | Production web export to `dist/` |
 
 ## Project structure
@@ -75,7 +75,7 @@ src/
   features/            auth, memories, packs, progress, review (data hooks + feature UI)
   lib/                 Supabase client, dates, scheduling, errors
   theme/               color, type, spacing and motion tokens
-content/packs/         study pack content (JSON, one file per category)
+content/packs/         study packs: a folder per subject, a JSON file per pack
 supabase/
   migrations/          schema, RLS policies, RPCs, and generated pack content
   tests/               pgTAP tests
@@ -96,14 +96,15 @@ The app sends its local date with each review; the server rejects dates that can
 
 ## Editing study packs
 
-Pack content lives in `content/packs/<category>.json`. After editing:
+Each subject lives in `content/packs/<subject>/` (a `category.json` plus one file per pack of exactly 100 cards). [`content/README.md`](content/README.md) covers the format, the markup (`$…$` LaTeX math, `$\ce{…}$` chemistry, backtick code) and typed-answer rules. After editing:
 
 ```bash
-npm run packs:build   # regenerates supabase/migrations/20261120163100_study_pack_content.sql
-npm run db:reset      # apply locally
+npx jest content                                                        # validate every pack
+npm run packs:build -- --out supabase/migrations/<timestamp>_update_packs.sql
+npm run db:reset                                                         # apply locally
 ```
 
-The generated SQL upserts by id and removes cards you deleted from the JSON, so publishing updates is safe. Students keep their own copies of cards they already added. Once a migration has been deployed, publish further content changes as a new migration: `npm run packs:build -- --out supabase/migrations/<timestamp>_update_packs.sql`.
+The generated SQL upserts by id and prunes removed cards, so publishing updates is safe. Students' copies of cards they never edited follow the new text; cards they edited are left alone.
 
 ## Deploying
 

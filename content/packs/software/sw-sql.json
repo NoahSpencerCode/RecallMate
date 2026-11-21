@@ -1,0 +1,719 @@
+{
+  "id": "sw-sql",
+  "title": "SQL & Databases",
+  "course": "Databases",
+  "description": "Query basics and clause order, NULL traps, joins, subqueries and CTEs, window functions, DML and DDL, keys and normal forms, transactions and isolation, indexes, SQL injection, CAP theorem. Standard SQL with PostgreSQL notes.",
+  "cards": [
+    {
+      "id": "logical-query-order",
+      "title": "Put these clauses in logical processing order: `SELECT`, `ORDER BY`, `HAVING`, `FROM`, `LIMIT`, `WHERE`, `GROUP BY`.",
+      "body": "`FROM` (with joins), `WHERE`, `GROUP BY`, `HAVING`, `SELECT`, `ORDER BY`, `LIMIT`.\n\nThis is the order the database **logically** evaluates them, not the order you write them.\n\nWhy: `WHERE` runs before `SELECT`, so it can't use a column alias defined in `SELECT`. `ORDER BY` runs after, so it can.",
+      "searchQuery": "SQL logical query processing order FROM WHERE GROUP BY"
+    },
+    {
+      "id": "where-vs-having",
+      "title": "Which clause keeps only the groups that meet a condition after aggregation, e.g. departments with more than 5 employees?",
+      "body": "`HAVING`\n\nExample: `GROUP BY dept HAVING COUNT(*) > 5`.\n\nWatch out: `WHERE` filters individual rows **before** grouping and can't contain aggregate functions; `HAVING` filters whole groups **after** `GROUP BY`.",
+      "answer": "HAVING",
+      "acceptedAnswers": ["HAVING clause"],
+      "answerDisplay": "`HAVING`",
+      "searchQuery": "SQL HAVING vs WHERE filter groups aggregate"
+    },
+    {
+      "id": "group-by-select-rule",
+      "title": "In a query with `GROUP BY dept`, which columns may appear in the `SELECT` list?",
+      "body": "Only **grouping columns**, **aggregates** (`COUNT`, `SUM`, `AVG`, and so on), and expressions built from them.\n\n`SELECT dept, name, COUNT(*) ... GROUP BY dept` is an error in PostgreSQL. Which `name` would each group show?\n\nWatch out: the exception is columns functionally dependent on a grouped primary key.",
+      "searchQuery": "SQL GROUP BY select list must be grouped or aggregated"
+    },
+    {
+      "id": "inner-vs-left-join",
+      "title": "`INNER JOIN` vs `LEFT JOIN`: what happens to a left-table row that has no match in the right table?",
+      "body": "`INNER JOIN` drops it; `LEFT JOIN` keeps it and fills the right table's columns with `NULL`.\n\n`FULL OUTER JOIN` keeps unmatched rows from both sides.\n\nWatch out: a `WHERE` filter on a right-table column, such as `WHERE o.status = 'paid'`, discards those `NULL` rows and turns the `LEFT JOIN` into an inner join in effect. Put the condition in the `ON` clause instead.",
+      "searchQuery": "SQL inner join vs left join unmatched rows NULL"
+    },
+    {
+      "id": "key-constraints",
+      "title": "Primary key vs unique constraint vs foreign key: what does each enforce?",
+      "body": "A **primary key** uniquely identifies each row and can't be `NULL`. A **unique** constraint forbids duplicates but allows `NULL`s. A **foreign key** forces each non-`NULL` value to match a key in the referenced table.\n\n- Primary key: at most one per table.\n- Unique: many per table; PostgreSQL permits several `NULL`s by default.\n- Foreign key: referential integrity; it must reference a primary-key or unique column.",
+      "searchQuery": "primary key vs unique constraint vs foreign key SQL"
+    },
+    {
+      "id": "null-comparison",
+      "title": "Which `WHERE` predicate correctly finds the rows whose `email` column holds `NULL`?",
+      "body": "`email IS NULL`\n\nThe test `email = NULL` never matches: any comparison with `NULL` yields `UNKNOWN`, and `WHERE` keeps only rows where the condition is `TRUE`.\n\nWatch out: even `NULL = NULL` is `UNKNOWN`.",
+      "answer": "email IS NULL",
+      "acceptedAnswers": ["IS NULL", "WHERE email IS NULL", "email IS NULL;"],
+      "answerDisplay": "`email IS NULL`",
+      "searchQuery": "SQL IS NULL vs equals NULL comparison"
+    },
+    {
+      "id": "count-column-nulls",
+      "title": "A table has 10 rows, and 3 of them have `NULL` in the `email` column. What does `COUNT(email)` return?",
+      "body": "7\n\n`COUNT(column)` counts only non-`NULL` values. `COUNT(*)` counts every row and would return 10.\n\nWhy: `SUM`, `AVG`, `MIN`, and `MAX` also ignore `NULL`s.\n\nWatch out: over zero rows, `COUNT` returns 0 but `SUM` returns `NULL`.",
+      "answer": "7",
+      "acceptedAnswers": ["seven"],
+      "searchQuery": "SQL COUNT column vs COUNT star NULL values"
+    },
+    {
+      "id": "not-in-null-trap",
+      "title": "How many rows does `SELECT * FROM t WHERE x NOT IN (1, 2, NULL)` return?",
+      "body": "0\n\n`x NOT IN (1, 2, NULL)` means `x <> 1 AND x <> 2 AND x <> NULL`. The last comparison is always `UNKNOWN`, so the whole condition is never `TRUE`.\n\nWatch out: the same trap hits `NOT IN (subquery)` when the subquery returns a `NULL`. `NOT EXISTS` avoids it.",
+      "answer": "0",
+      "acceptedAnswers": ["none", "zero", "no rows", "0 rows", "zero rows"],
+      "searchQuery": "SQL NOT IN NULL trap returns no rows"
+    },
+    {
+      "id": "union-all",
+      "title": "Which set operator stacks two queries' results without removing duplicate rows?",
+      "body": "`UNION ALL`\n\nPlain `UNION` removes duplicates, which costs an extra sort or hash step. Prefer `UNION ALL` when duplicates are impossible or wanted.\n\nTip: both queries need the same number of columns, with compatible types.",
+      "answer": "UNION ALL",
+      "answerDisplay": "`UNION ALL`",
+      "searchQuery": "SQL UNION ALL vs UNION duplicates"
+    },
+    {
+      "id": "acid-properties",
+      "title": "What does each letter of ACID guarantee for a database transaction?",
+      "body": "**Atomicity**, **Consistency**, **Isolation**, **Durability**.\n\n- Atomicity: all of the transaction's changes happen or none do (`ROLLBACK` undoes everything since `BEGIN`).\n- Consistency: it moves the database from one valid state to another; constraints hold.\n- Isolation: concurrent transactions don't see each other's partial work.\n- Durability: once `COMMIT` succeeds, the changes survive a crash.",
+      "searchQuery": "ACID properties database transaction atomicity durability"
+    },
+    {
+      "id": "read-anomalies",
+      "title": "Dirty read vs non-repeatable read vs phantom read: what does each one mean?",
+      "body": "Each is a different way a transaction sees changes from another.\n\n- **Dirty read**: seeing another transaction's **uncommitted** changes.\n- **Non-repeatable read**: re-reading a row gives different values because another transaction committed an update in between.\n- **Phantom read**: re-running a query with a `WHERE` condition returns a different set of rows because another transaction committed inserts or deletes.",
+      "searchQuery": "dirty read non-repeatable read phantom read difference"
+    },
+    {
+      "id": "repeatable-read-level",
+      "title": "Lowest SQL-standard isolation level at which re-reading the same row within a transaction is guaranteed to return the same values?",
+      "body": "`REPEATABLE READ`\n\nThe standard ladder: `READ UNCOMMITTED` (allows dirty reads), `READ COMMITTED` (no dirty reads), `REPEATABLE READ` (no non-repeatable reads), `SERIALIZABLE` (no anomalies).\n\nWatch out: the standard still allows phantoms at `REPEATABLE READ`; PostgreSQL prevents them. PostgreSQL's default is `READ COMMITTED`, and its `READ UNCOMMITTED` behaves like `READ COMMITTED`.",
+      "answer": "REPEATABLE READ",
+      "acceptedAnswers": ["repeatable-read"],
+      "answerDisplay": "`REPEATABLE READ`",
+      "searchQuery": "SQL repeatable read isolation level non-repeatable reads"
+    },
+    {
+      "id": "btree-index-tradeoff",
+      "title": "What does a B-tree index on a column speed up, and what does it cost?",
+      "body": "It speeds up **equality and range lookups** (`=`, `<`, `BETWEEN`), `ORDER BY`, and joins on that column: an $O(\\log n)$ descent instead of a full table scan.\n\nThe cost is extra storage and **slower writes**, since `INSERT`, `UPDATE`, and `DELETE` may also have to modify the index.\n\nTip: index what you filter, join, or sort on, not every column.",
+      "searchQuery": "B-tree index speeds up queries cost slower writes"
+    },
+    {
+      "id": "second-normal-form",
+      "title": "`Enrollment(student_id, course_id, student_name)` has key `(student_id, course_id)`. What is the lowest normal form it fails?",
+      "body": "2NF\n\n`student_name` depends on `student_id` alone, a **partial dependency** on the composite key. Fix it by moving it to `Students(student_id, student_name)`.\n\nMnemonic: 'the key, the whole key, and nothing but the key.' 1NF needs atomic values, 2NF forbids partial dependencies, and 3NF also forbids transitive ones (non-key to non-key).",
+      "answer": "2NF",
+      "acceptedAnswers": ["second normal form", "2nd normal form", "second", "2nd"],
+      "searchQuery": "second normal form 2NF partial dependency composite key"
+    },
+    {
+      "id": "sql-injection-defense",
+      "title": "What's the standard defense against SQL injection when a query must include user input?",
+      "body": "**Parameterized queries** (prepared statements)\n\nThe SQL has placeholders, such as `WHERE email = ?`, and the values are sent separately, so input is always treated as data, never as SQL.\n\nWatch out: string concatenation lets input like `' OR '1'='1` rewrite the query. Hand-escaping is error-prone; use the driver's parameters.",
+      "answer": "parameterized queries",
+      "acceptedAnswers": ["parameterized query", "parameterised queries", "parameterised query", "parametrized queries", "parametrized query", "prepared statements", "prepared statement", "bind parameters", "query parameters", "parameterized statements"],
+      "searchQuery": "SQL injection prevention parameterized queries prepared statements"
+    },
+    {
+      "id": "cap-theorem",
+      "title": "CAP theorem: during a network partition, a distributed data store must choose between which two guarantees?",
+      "body": "**Consistency** and **availability**.\n\nConsistency means every read sees the most recent write (linearizability). Availability means every request to a non-failed node gets a non-error response.\n\nKey idea: partitions can't be ruled out in real networks, so P isn't really optional. With no partition, a system can provide both C and A.",
+      "searchQuery": "CAP theorem consistency availability partition tolerance"
+    },
+    {
+      "id": "select-distinct",
+      "title": "Which keyword removes duplicate rows from a `SELECT` result?",
+      "body": "`DISTINCT`\n\n`SELECT DISTINCT city FROM customers` returns each city once. With several columns, it removes rows where **all** the selected columns repeat.\n\nWatch out: `DISTINCT` treats `NULL`s as equal to each other, unlike `=`.",
+      "answer": "DISTINCT",
+      "acceptedAnswers": ["SELECT DISTINCT"],
+      "answerDisplay": "`DISTINCT`",
+      "searchQuery": "SQL SELECT DISTINCT remove duplicate rows"
+    },
+    {
+      "id": "between-inclusive",
+      "title": "Is `x BETWEEN 1 AND 5` inclusive of both endpoints?",
+      "body": "Yes\n\n`x BETWEEN 1 AND 5` is the same as `x >= 1 AND x <= 5`, so both 1 and 5 match.\n\nWatch out: for timestamps, `BETWEEN '2025-01-01' AND '2025-01-31'` misses most of Jan 31. Use `>= start AND < next_day`.",
+      "answer": "Yes",
+      "acceptedAnswers": ["inclusive", "yes inclusive", "true"],
+      "searchQuery": "SQL BETWEEN inclusive endpoints"
+    },
+    {
+      "id": "like-wildcards",
+      "title": "In a `LIKE` pattern, what do `%` and `_` match?",
+      "body": "`%` matches **any sequence** of characters (including none); `_` matches **exactly one** character.\n\nExample: `name LIKE 'A%'` finds names starting with A, and `code LIKE 'B_3'` matches `B13` but not `B113`.\n\nTip: PostgreSQL's `ILIKE` is a case-insensitive version (it is not standard SQL).",
+      "searchQuery": "SQL LIKE wildcards percent underscore"
+    },
+    {
+      "id": "order-by-default-direction",
+      "title": "If you write `ORDER BY price` with no direction, which sort order is used?",
+      "body": "`ASC` (ascending)\n\nUse `DESC` for largest first. You can mix directions: `ORDER BY dept ASC, salary DESC`.\n\nWatch out: without `ORDER BY`, SQL guarantees no row order at all, even if results look sorted today.",
+      "answer": "ASC",
+      "acceptedAnswers": ["ascending"],
+      "answerDisplay": "`ASC`",
+      "searchQuery": "SQL ORDER BY default ascending ASC DESC"
+    },
+    {
+      "id": "limit-needs-order-by",
+      "title": "Why should `LIMIT` almost always be paired with `ORDER BY`?",
+      "body": "Without `ORDER BY`, the rows are in **no guaranteed order**, so `LIMIT` returns an arbitrary subset.\n\nExample: `SELECT * FROM orders ORDER BY created_at DESC LIMIT 10` reliably gives the 10 newest orders.\n\nTip: add a unique tie-breaker column, such as `id`, so equal sort keys still give a stable result.",
+      "searchQuery": "SQL LIMIT without ORDER BY nondeterministic"
+    },
+    {
+      "id": "null-sort-order-postgres",
+      "title": "In PostgreSQL, where do `NULL`s appear in an `ORDER BY col ASC` sort by default?",
+      "body": "Last\n\nPostgreSQL treats `NULL` as larger than any value, so `ASC` puts them last and `DESC` puts them first.\n\nTip: override it with `NULLS FIRST` or `NULLS LAST`, as in `ORDER BY col DESC NULLS LAST`.\n\nWatch out: other databases differ, and the SQL standard leaves the default to the implementation.",
+      "answer": "last",
+      "acceptedAnswers": ["at the end", "end", "nulls last"],
+      "searchQuery": "PostgreSQL ORDER BY NULLS FIRST NULLS LAST default"
+    },
+    {
+      "id": "coalesce-function",
+      "title": "Which function returns the first non-`NULL` value among its arguments?",
+      "body": "`COALESCE`\n\nExample: `COALESCE(nickname, name, 'guest')` returns `nickname` if it isn't `NULL`, else `name`, else `'guest'`.\n\nTip: it's the portable way to replace `NULL` with a default in a result.",
+      "answer": "COALESCE",
+      "answerDisplay": "`COALESCE`",
+      "searchQuery": "SQL COALESCE first non-null value"
+    },
+    {
+      "id": "nullif-function",
+      "title": "Which function returns `NULL` when its two arguments are equal, and the first argument otherwise?",
+      "body": "`NULLIF`\n\nExample: `total / NULLIF(count, 0)` yields `NULL` instead of a divide-by-zero error when `count` is 0.\n\nKey idea: it's the inverse of `COALESCE`, which turns `NULL` into a value.",
+      "answer": "NULLIF",
+      "answerDisplay": "`NULLIF`",
+      "searchQuery": "SQL NULLIF avoid divide by zero"
+    },
+    {
+      "id": "case-expression",
+      "title": "What does a `CASE` expression do in SQL?",
+      "body": "It evaluates conditions in order and returns the value of the **first one that is true** (SQL's if/else).\n\n```sql\nCASE WHEN score >= 90 THEN 'A'\n     WHEN score >= 80 THEN 'B'\n     ELSE 'C'\nEND\n```\n\nWatch out: without `ELSE`, unmatched rows get `NULL`.",
+      "searchQuery": "SQL CASE WHEN expression conditional"
+    },
+    {
+      "id": "integer-division-postgres",
+      "title": "In PostgreSQL, what does `SELECT 7 / 2` return?",
+      "body": "3\n\nWith two integer operands, `/` is integer division and truncates the fraction.\n\nTip: make either side non-integer to get 3.5, as in `7 / 2.0` or `7::numeric / 2`.",
+      "answer": "3",
+      
+      "searchQuery": "PostgreSQL integer division truncates 7 / 2"
+    },
+    {
+      "id": "concat-operator-null",
+      "title": "What does `'abc' || NULL` evaluate to in standard SQL (and PostgreSQL)?",
+      "body": "`NULL`\n\nThe `||` string-concatenation operator returns `NULL` if either operand is `NULL`.\n\nTip: PostgreSQL's `concat('abc', NULL)` function treats `NULL` as an empty string and returns `abc`.",
+      "answer": "NULL",
+      "acceptedAnswers": ["null value", "unknown"],
+      "answerDisplay": "`NULL`",
+      "searchQuery": "SQL string concatenation operator NULL result"
+    },
+    {
+      "id": "three-valued-logic-or",
+      "title": "In SQL's three-valued logic, what does `NULL OR TRUE` evaluate to?",
+      "body": "TRUE\n\n`OR` is true if either side is true, whatever the other side is. By the same logic, `NULL AND FALSE` is `FALSE`.\n\nWatch out: `NULL AND TRUE` and `NULL OR FALSE` are `UNKNOWN` (shown as `NULL`), and `NOT NULL` is `UNKNOWN`.",
+      "answer": "TRUE",
+      
+      "searchQuery": "SQL three-valued logic NULL OR TRUE"
+    },
+    {
+      "id": "avg-ignores-null",
+      "title": "A column holds the values 10, `NULL`, 20. What does `AVG` of the column return?",
+      "body": "15\n\n`AVG` skips `NULL`s: it computes $\\dfrac{10 + 20}{2} = 15$, not $\\dfrac{30}{3} = 10$.\n\nTip: to treat `NULL` as zero, use `AVG(COALESCE(col, 0))`, which would give 10.",
+      "answer": "15",
+      
+      "searchQuery": "SQL AVG ignores NULL values average"
+    },
+    {
+      "id": "count-distinct",
+      "title": "How do you count the number of different non-`NULL` values in a column `city`?",
+      "body": "`COUNT(DISTINCT city)`\n\nIt counts each distinct value once and ignores `NULL`s.\n\nWatch out: `COUNT(DISTINCT a, b)` with two columns is not standard SQL. Count over a subquery that does `SELECT DISTINCT a, b` instead.",
+      "answer": "COUNT(DISTINCT city)",
+      
+      "answerDisplay": "`COUNT(DISTINCT city)`",
+      "searchQuery": "SQL COUNT DISTINCT count unique values"
+    },
+    {
+      "id": "update-without-where",
+      "title": "What happens if you run `UPDATE employees SET salary = 0` with no `WHERE` clause?",
+      "body": "Every row in the table is updated.\n\nThe same goes for `DELETE FROM employees`, which removes every row.\n\nTip: run a `SELECT` with the same `WHERE` first, and do risky changes inside a transaction so you can `ROLLBACK`.",
+      "searchQuery": "SQL UPDATE without WHERE updates all rows"
+    },
+    {
+      "id": "delete-vs-truncate-vs-drop",
+      "title": "`DELETE` vs `TRUNCATE` vs `DROP TABLE`: what does each remove?",
+      "body": "- `DELETE` removes rows you choose with `WHERE` (all rows if you omit it); the table remains.\n- `TRUNCATE` quickly removes **all rows**; it has no `WHERE`.\n- `DROP TABLE` removes the table itself, with its data, indexes, and structure.\n\nWatch out: PostgreSQL can roll back `TRUNCATE` inside a transaction, but some other systems commit it immediately.",
+      "searchQuery": "SQL DELETE vs TRUNCATE vs DROP TABLE difference"
+    },
+    {
+      "id": "sql-statement-categories",
+      "title": "Which category of SQL statements includes `GRANT` and `REVOKE`?",
+      "body": "DCL (Data Control Language)\n\nThe usual groups are **DDL** (`CREATE`, `ALTER`, `DROP`), **DML** (`INSERT`, `UPDATE`, `DELETE`), **DCL** (`GRANT`, `REVOKE`), and **TCL** (`COMMIT`, `ROLLBACK`, `SAVEPOINT`).\n\nTip: queries (`SELECT`) are sometimes listed as DQL.",
+      "answer": "DCL",
+      "acceptedAnswers": ["data control language"],
+      "searchQuery": "SQL DDL DML DCL TCL categories GRANT REVOKE"
+    },
+    {
+      "id": "alter-table-add-column",
+      "title": "Which statement adds a column `age` of type integer to an existing table `users`?",
+      "body": "`ALTER TABLE users ADD COLUMN age integer;`\n\nExisting rows get `NULL` in the new column unless you give a `DEFAULT`.\n\nTip: `DROP COLUMN` removes a column, and `ALTER COLUMN` changes its type or constraints.",
+      "answer": "ALTER TABLE users ADD COLUMN age integer",
+      "acceptedAnswers": ["ALTER TABLE users ADD age integer", "ALTER TABLE users ADD COLUMN age int", "ALTER TABLE users ADD age int"],
+      "answerDisplay": "`ALTER TABLE users ADD COLUMN age integer`",
+      "searchQuery": "SQL ALTER TABLE ADD COLUMN syntax"
+    },
+    {
+      "id": "check-constraint",
+      "title": "Which constraint rejects rows that fail a boolean condition, such as `price >= 0`?",
+      "body": "`CHECK`\n\nExample: `price numeric CHECK (price >= 0)`.\n\nWatch out: a `CHECK` passes when its condition is `UNKNOWN`. A `NULL` price satisfies `price >= 0`, so add `NOT NULL` if `NULL` is not allowed.",
+      "answer": "CHECK",
+      "acceptedAnswers": ["check constraint"],
+      "answerDisplay": "`CHECK`",
+      "searchQuery": "SQL CHECK constraint condition NULL passes"
+    },
+    {
+      "id": "upsert-on-conflict",
+      "title": "In PostgreSQL, which clause turns an `INSERT` into an upsert when a unique key already exists?",
+      "body": "`ON CONFLICT`\n\n```sql\nINSERT INTO users (email, name)\nVALUES ('a@x.com', 'Ann')\nON CONFLICT (email)\nDO UPDATE SET name = EXCLUDED.name;\n```\n\nTip: `DO NOTHING` skips the conflicting row instead. Standard SQL's `MERGE` does similar work (PostgreSQL 15 and later).",
+      "answer": "ON CONFLICT",
+      "answerDisplay": "`ON CONFLICT`",
+      "searchQuery": "PostgreSQL INSERT ON CONFLICT upsert DO UPDATE"
+    },
+    {
+      "id": "returning-clause",
+      "title": "In PostgreSQL, which clause lets `INSERT`, `UPDATE`, or `DELETE` return the affected rows?",
+      "body": "`RETURNING`\n\nExample: `INSERT INTO users (name) VALUES ('Ann') RETURNING id;` hands back the generated id without a second query.\n\nKey idea: it is a PostgreSQL feature (also in SQLite and MariaDB), not part of standard SQL.",
+      "answer": "RETURNING",
+      "answerDisplay": "`RETURNING`",
+      "searchQuery": "PostgreSQL RETURNING clause insert update delete"
+    },
+    {
+      "id": "cross-join-row-count",
+      "title": "`A` has 4 rows and `B` has 5 rows. How many rows does `A CROSS JOIN B` return?",
+      "body": "20\n\nA cross join pairs **every** row of `A` with **every** row of `B`, giving $4 \\times 5 = 20$ rows.\n\nWatch out: a join with a missing `ON` condition (or a forgotten join predicate in the `WHERE`) behaves like a cross join and can explode the row count.",
+      "answer": "20",
+      "searchQuery": "SQL cross join cartesian product row count"
+    },
+    {
+      "id": "self-join",
+      "title": "How do you list each employee next to their manager when both are rows in the same `employees` table?",
+      "body": "Join the table to itself using two **aliases**.\n\n```sql\nSELECT e.name, m.name AS manager\nFROM employees e\nLEFT JOIN employees m\n  ON e.manager_id = m.id;\n```\n\nTip: use `LEFT JOIN` so employees without a manager (such as the CEO) still appear.",
+      "searchQuery": "SQL self join employee manager alias"
+    },
+    {
+      "id": "full-outer-join",
+      "title": "Which join keeps unmatched rows from both tables, filling the missing side with `NULL`?",
+      "body": "`FULL OUTER JOIN`\n\nIt returns matched rows plus left-only rows and right-only rows.\n\nTip: it's handy for comparing two tables. Rows where one side is `NULL` are the differences.",
+      "answer": "FULL OUTER JOIN",
+      "acceptedAnswers": ["FULL JOIN", "full outer"],
+      "answerDisplay": "`FULL OUTER JOIN`",
+      "searchQuery": "SQL FULL OUTER JOIN unmatched rows both tables"
+    },
+    {
+      "id": "join-using-vs-on",
+      "title": "What does `JOIN b USING (id)` do differently from `JOIN b ON a.id = b.id`?",
+      "body": "`USING` joins on a column with the **same name** in both tables and shows that column **once** in `SELECT *`.\n\nWith `ON`, `SELECT *` returns both `a.id` and `b.id`.\n\nWatch out: avoid `NATURAL JOIN`. It silently joins on every same-named column, so adding a column later can change the results.",
+      "searchQuery": "SQL JOIN USING vs ON natural join"
+    },
+    {
+      "id": "join-fanout-double-count",
+      "title": "After joining `customers` to their `orders`, why can `SUM(customers.credit)` come out too large?",
+      "body": "Each customer row is **repeated once per matching order**, so its `credit` is summed several times.\n\nThis fan-out happens whenever you join across a one-to-many relationship and aggregate a column from the 'one' side.\n\nTip: aggregate each side separately in subqueries or CTEs, then join the results.",
+      "searchQuery": "SQL join fan-out one-to-many double counting sum"
+    },
+    {
+      "id": "anti-join-pattern",
+      "title": "How do you find customers who have no orders at all?",
+      "body": "Use an **anti-join**: `NOT EXISTS`, or a `LEFT JOIN` filtered on `NULL`.\n\n```sql\nSELECT c.id\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nWHERE o.id IS NULL;\n```\n\nWatch out: test a column of the right table that can never be `NULL` otherwise, such as its primary key.",
+      "searchQuery": "SQL anti-join customers without orders LEFT JOIN IS NULL"
+    },
+    {
+      "id": "exists-operator",
+      "title": "Which operator returns true if a subquery returns at least one row?",
+      "body": "`EXISTS`\n\nThe database can stop at the first matching row, and what the subquery selects doesn't matter (`SELECT 1` is common).\n\nExample: `WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id)`.\n\nTip: `NOT EXISTS` is safe with `NULL`s, unlike `NOT IN`.",
+      "answer": "EXISTS",
+      "answerDisplay": "`EXISTS`",
+      "searchQuery": "SQL EXISTS subquery at least one row"
+    },
+    {
+      "id": "correlated-subquery",
+      "title": "What makes a subquery 'correlated'?",
+      "body": "It **references a column of the outer query**, so it logically runs once per outer row.\n\nExample: `WHERE salary > (SELECT AVG(salary) FROM employees e2 WHERE e2.dept = e.dept)` compares each employee with their own department's average.\n\nWatch out: an uncorrelated subquery runs independently, once.",
+      "searchQuery": "SQL correlated subquery references outer query"
+    },
+    {
+      "id": "scalar-subquery",
+      "title": "What must a scalar subquery return, and what happens if it returns more?",
+      "body": "Exactly **one column and at most one row**.\n\nIf it returns more than one row, the database raises an error. If it returns no rows, the value is `NULL`.\n\nExample: `SELECT name, (SELECT MAX(total) FROM orders) AS biggest FROM customers`.",
+      "searchQuery": "SQL scalar subquery one row one column error"
+    },
+    {
+      "id": "derived-table-alias",
+      "title": "A subquery used in the `FROM` clause is called what, and what do most databases require of it?",
+      "body": "A **derived table**; most databases require it to have an **alias**.\n\n```sql\nSELECT d.dept, d.avg_sal\nFROM (SELECT dept, AVG(salary) AS avg_sal\n      FROM employees GROUP BY dept) AS d\nWHERE d.avg_sal > 50000;\n```\n\nWatch out: PostgreSQL before version 16 requires the alias.",
+      "searchQuery": "SQL derived table subquery in FROM requires alias"
+    },
+    {
+      "id": "cte-with-clause",
+      "title": "Which keyword starts a common table expression (CTE), a named temporary result for one query?",
+      "body": "`WITH`\n\n```sql\nWITH big AS (\n  SELECT * FROM orders WHERE total > 100\n)\nSELECT COUNT(*) FROM big;\n```\n\nTip: CTEs make long queries readable by naming each step. They exist only for the one statement that follows.",
+      "answer": "WITH",
+      "answerDisplay": "`WITH`",
+      "searchQuery": "SQL WITH clause common table expression CTE"
+    },
+    {
+      "id": "recursive-cte-parts",
+      "title": "A recursive CTE has two parts joined by `UNION ALL`. What are they?",
+      "body": "An **anchor** (base) query that gives the starting rows, and a **recursive** query that references the CTE's own name and builds on the previous step's rows.\n\nThe recursion stops when the recursive part returns no new rows.\n\nExample: walking an org chart from the CEO down. Write `WITH RECURSIVE` in PostgreSQL.",
+      "searchQuery": "SQL recursive CTE anchor member recursive member"
+    },
+    {
+      "id": "intersect-operator",
+      "title": "Which set operator returns only the rows that appear in both queries' results?",
+      "body": "`INTERSECT`\n\nIt removes duplicate rows from the result unless you write `INTERSECT ALL`.\n\nTip: it often reads more clearly than an `INNER JOIN` or `IN` for 'both' conditions.",
+      "answer": "INTERSECT",
+      "answerDisplay": "`INTERSECT`",
+      "searchQuery": "SQL INTERSECT set operator common rows"
+    },
+    {
+      "id": "except-operator",
+      "title": "Which set operator returns the rows of the first query that do not appear in the second?",
+      "body": "`EXCEPT`\n\nOrder matters: `A EXCEPT B` is not the same as `B EXCEPT A`. Duplicates are removed.\n\nWatch out: Oracle calls this operator `MINUS`.",
+      "answer": "EXCEPT",
+      "acceptedAnswers": ["MINUS"],
+      "answerDisplay": "`EXCEPT`",
+      "searchQuery": "SQL EXCEPT set operator difference of queries"
+    },
+    {
+      "id": "window-vs-group-by",
+      "title": "How does a window function differ from a `GROUP BY` aggregate in how many rows it returns?",
+      "body": "A window function **keeps every input row** and adds a computed column; `GROUP BY` **collapses** each group into one row.\n\nExample: `AVG(salary) OVER (PARTITION BY dept)` shows each employee next to their department's average.\n\nKey idea: the `OVER (...)` clause defines the window of rows each result is computed over.",
+      "searchQuery": "SQL window function vs GROUP BY keeps rows OVER"
+    },
+    {
+      "id": "row-number-function",
+      "title": "Which window function numbers rows 1, 2, 3, and so on within each partition, with no ties?",
+      "body": "`ROW_NUMBER()`\n\nExample: `ROW_NUMBER() OVER (PARTITION BY dept ORDER BY salary DESC)` ranks employees within each department.\n\nTip: filter `row_number = 1` in an outer query to get the top row per group.",
+      "answer": "ROW_NUMBER",
+      "acceptedAnswers": ["ROW_NUMBER()", "row number"],
+      "answerDisplay": "`ROW_NUMBER()`",
+      "searchQuery": "SQL ROW_NUMBER window function top row per group"
+    },
+    {
+      "id": "rank-with-ties",
+      "title": "Scores are 100, 90, 90, 80 in descending order. What rank does 80 get from `RANK()`?",
+      "body": "4\n\n`RANK()` gives tied rows the same rank and then **skips**: 1, 2, 2, 4. `DENSE_RANK()` leaves no gaps: 1, 2, 2, 3. `ROW_NUMBER()` gives 1, 2, 3, 4.\n\nMnemonic: dense means no gaps in the ranking numbers.",
+      "answer": "4",
+      "acceptedAnswers": ["four"],
+      "searchQuery": "SQL RANK vs DENSE_RANK vs ROW_NUMBER ties gaps"
+    },
+    {
+      "id": "dense-rank-with-ties",
+      "title": "Scores are 100, 90, 90, 80 in descending order. What rank does 80 get from `DENSE_RANK()`?",
+      "body": "3\n\n`DENSE_RANK()` gives ties the same rank and does **not** leave gaps afterward: 1, 2, 2, 3.\n\nWatch out: use `DENSE_RANK` for questions like 'the 2nd highest salary', so ties don't skip a rank.",
+      "answer": "3",
+      "acceptedAnswers": ["three"],
+      "searchQuery": "SQL DENSE_RANK no gaps ties second highest"
+    },
+    {
+      "id": "partition-by-clause",
+      "title": "Inside `OVER (...)`, what does `PARTITION BY` do?",
+      "body": "It splits the rows into **independent groups**; the window function restarts for each partition.\n\nUnlike `GROUP BY`, it doesn't reduce the number of rows.\n\nExample: `ROW_NUMBER() OVER (PARTITION BY dept ORDER BY hired)` restarts at 1 in every department.",
+      "searchQuery": "SQL PARTITION BY window function OVER clause"
+    },
+    {
+      "id": "running-total-window",
+      "title": "Which expression gives a running total of `amount` ordered by `day`?",
+      "body": "`SUM(amount) OVER (ORDER BY day)`\n\nWith `ORDER BY` inside `OVER`, the aggregate covers all rows from the start up to the current row.\n\nWatch out: rows with the same `day` get the same running total under the default frame. Add a unique tie-breaker, or use `ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`.",
+      "searchQuery": "SQL running total SUM OVER ORDER BY window"
+    },
+    {
+      "id": "lag-function",
+      "title": "Which window function returns a column's value from the previous row in the window's order?",
+      "body": "`LAG`\n\nExample: `amount - LAG(amount) OVER (ORDER BY day)` gives the change since the previous day. The first row's `LAG` is `NULL`.\n\nKey idea: `LEAD` is the mirror image and looks at the next row.",
+      "answer": "LAG",
+      "acceptedAnswers": ["LAG()"],
+      "answerDisplay": "`LAG`",
+      "searchQuery": "SQL LAG window function previous row"
+    },
+    {
+      "id": "window-function-in-where",
+      "title": "Why can't you filter on a window function directly in `WHERE`?",
+      "body": "Window functions are computed **after** `WHERE`, `GROUP BY`, and `HAVING`, so their results don't exist yet when `WHERE` runs.\n\nWrap the query in a subquery or CTE and filter in the outer query.\n\n```sql\nSELECT * FROM (\n  SELECT *, ROW_NUMBER() OVER (ORDER BY x) AS rn\n  FROM t\n) s WHERE rn <= 3;\n```",
+      "searchQuery": "SQL window function in WHERE clause not allowed subquery"
+    },
+    {
+      "id": "group-by-multiple-columns",
+      "title": "What does `GROUP BY dept, job` produce?",
+      "body": "One group for each **distinct combination** of `dept` and `job`.\n\nExample: rows with (Sales, Rep) and (Sales, Manager) land in different groups, even though both are in Sales.\n\nTip: `NULL`s in a grouping column are placed together in one group.",
+      "searchQuery": "SQL GROUP BY multiple columns combinations"
+    },
+    {
+      "id": "string-agg-function",
+      "title": "Which PostgreSQL aggregate joins a group's text values into one string with a separator?",
+      "body": "`string_agg`\n\nExample: `string_agg(name, ', ' ORDER BY name)` returns `Ann, Bob, Cy`.\n\nKey idea: the standard names it `LISTAGG`; MySQL calls it `GROUP_CONCAT`.",
+      "answer": "string_agg",
+      "acceptedAnswers": ["string_agg()"],
+      "answerDisplay": "`string_agg`",
+      "searchQuery": "PostgreSQL string_agg concatenate group values"
+    },
+    {
+      "id": "many-to-many-junction",
+      "title": "How do you model a many-to-many relationship, such as students and courses, in a relational database?",
+      "body": "With a **junction table** (also called a join or link table).\n\n```sql\nCREATE TABLE enrollment (\n  student_id int REFERENCES students,\n  course_id  int REFERENCES courses,\n  PRIMARY KEY (student_id, course_id)\n);\n```\n\nKey idea: each row is one pairing, and it holds two foreign keys.",
+      "searchQuery": "many-to-many relationship junction table SQL"
+    },
+    {
+      "id": "foreign-key-side",
+      "title": "In a one-to-many relationship (one customer, many orders), which table holds the foreign key?",
+      "body": "The **'many' side**: `orders.customer_id` references `customers.id`.\n\nEach order row names exactly one customer, while a customer is named by many order rows.\n\nWatch out: putting a list of order ids in the customer row would break first normal form.",
+      "answer": "orders",
+      "acceptedAnswers": ["the orders table"],
+      "searchQuery": "one-to-many relationship foreign key placement many side"
+    },
+    {
+      "id": "on-delete-cascade",
+      "title": "What does `ON DELETE CASCADE` on a foreign key do?",
+      "body": "Deleting a parent row **automatically deletes** the child rows that reference it.\n\nExample: deleting a customer also deletes that customer's orders.\n\nWatch out: it can remove lots of data silently. The alternatives are `RESTRICT` (block the delete), `NO ACTION` (the default), and `SET NULL`.",
+      "searchQuery": "SQL foreign key ON DELETE CASCADE meaning"
+    },
+    {
+      "id": "surrogate-vs-natural-key",
+      "title": "Surrogate key vs natural key: what is the difference?",
+      "body": "A **natural key** is real-world data that identifies a row (an ISBN, a country code). A **surrogate key** is an artificial identifier with no business meaning (an auto-generated integer or UUID).\n\nSurrogate keys never need to change. Natural keys can change or turn out not to be unique.\n\nTip: you can still put a `UNIQUE` constraint on the natural key.",
+      "searchQuery": "surrogate key vs natural key database design"
+    },
+    {
+      "id": "candidate-key-definition",
+      "title": "What is a candidate key?",
+      "body": "A **minimal** set of columns that uniquely identifies every row.\n\nA table can have several candidate keys. The **primary key** is the one you choose; the others are called alternate keys and are often declared `UNIQUE`.\n\nKey idea: minimal means removing any column would break uniqueness.",
+      "searchQuery": "candidate key definition minimal unique database"
+    },
+    {
+      "id": "first-normal-form",
+      "title": "What does first normal form (1NF) require of each column value?",
+      "body": "It must be **atomic**: a single value, with no lists or repeating groups.\n\nExample: a `phones` column holding `'555-1234, 555-9876'` violates 1NF. Use a separate `phones` table with one row per number.\n\nKey idea: 1NF is about the shape of each cell, before any talk of keys.",
+      "answer": "atomic",
+      "acceptedAnswers": ["atomic values", "single value", "indivisible"],
+      "searchQuery": "first normal form 1NF atomic values"
+    },
+    {
+      "id": "third-normal-form-violation",
+      "title": "`Employee(id, dept_id, dept_name)` with key `id` and `dept_id` determining `dept_name`. Which normal form does it first fail?",
+      "body": "3NF\n\n`dept_name` depends on `dept_id`, which is not the key: a **transitive dependency** (`id` to `dept_id` to `dept_name`). It satisfies 2NF because the key is a single column.\n\nFix: move `(dept_id, dept_name)` into a `Departments` table.",
+      "answer": "3NF",
+      "acceptedAnswers": ["third normal form", "3rd normal form", "third", "3rd"],
+      "searchQuery": "third normal form 3NF transitive dependency example"
+    },
+    {
+      "id": "bcnf-definition",
+      "title": "Boyce-Codd normal form (BCNF) requires the left side of every nontrivial functional dependency to be what?",
+      "body": "A **superkey**\n\nIf $X \\to Y$ holds and isn't trivial, then $X$ must uniquely identify rows.\n\nKey idea: BCNF is a slightly stricter version of 3NF. The two differ only in unusual cases with overlapping candidate keys.",
+      "answer": "superkey",
+      
+      "searchQuery": "Boyce-Codd normal form BCNF superkey definition"
+    },
+    {
+      "id": "denormalization-tradeoff",
+      "title": "What is denormalization, and what trade-off does it make?",
+      "body": "Deliberately **duplicating data** (or pre-joining tables) to make reads faster and simpler.\n\nThe cost: extra storage, more work on writes, and the risk that copies fall out of sync.\n\nTip: normalize first, then denormalize only where measured read performance requires it, as in reporting tables.",
+      "searchQuery": "database denormalization trade-off read performance"
+    },
+    {
+      "id": "index-leftmost-prefix",
+      "title": "A composite B-tree index is on `(a, b, c)`. Which filter can't use it efficiently: `a = 1`, `a = 1 AND b = 2`, or `b = 2` alone?",
+      "body": "`b = 2` alone\n\nA composite index is sorted by `a`, then `b` within each `a`, then `c`. Searches must start from the **leftmost** column.\n\nWhy: without `a` fixed, matching `b` values are scattered across the whole index.\n\nTip: put equality columns first, and the most selective ones early.",
+      "answer": "b = 2",
+      "acceptedAnswers": ["b = 2 alone", "b = 2 only"],
+      "searchQuery": "composite index leftmost prefix rule column order"
+    },
+    {
+      "id": "covering-index",
+      "title": "What is a covering index?",
+      "body": "An index that contains **every column a query needs**, so the database can answer from the index alone, without visiting the table.\n\nIn PostgreSQL this appears as an **index-only scan**. `INCLUDE (col)` adds extra non-key columns to an index for this purpose.\n\nWatch out: wider indexes cost more storage and write time.",
+      "searchQuery": "covering index index-only scan SQL"
+    },
+    {
+      "id": "index-function-on-column",
+      "title": "Why can `WHERE lower(email) = 'ann@x.com'` ignore a plain index on `email`?",
+      "body": "The index is sorted by `email`, not by `lower(email)`, so the database can't use it for that condition.\n\nFix: create an **expression index**, such as `CREATE INDEX ON users (lower(email));`.\n\nWatch out: the same happens with `WHERE col + 1 = 5`. Keep the indexed column bare on one side.",
+      "searchQuery": "SQL function on indexed column prevents index use expression index"
+    },
+    {
+      "id": "like-leading-wildcard",
+      "title": "Why can't a B-tree index speed up `WHERE name LIKE '%son'`?",
+      "body": "The pattern starts with a wildcard, so matches can sit anywhere in the sort order. The database must scan everything.\n\n`LIKE 'son%'` has a fixed prefix and can use a B-tree range search (in PostgreSQL this may need a suitable operator class or collation).\n\nTip: for contains-searches, look at full-text search or trigram indexes.",
+      "searchQuery": "SQL LIKE leading wildcard cannot use index"
+    },
+    {
+      "id": "index-low-selectivity",
+      "title": "Why is an index on a boolean column such as `is_active` usually a poor choice?",
+      "body": "It has **low selectivity**: each value matches a large share of the table, so scanning the table is often as fast or faster.\n\nIndexes pay off when the condition picks out a small fraction of rows.\n\nTip: a **partial index**, such as `WHERE is_active`, can help when the wanted value is rare.",
+      "searchQuery": "index selectivity low cardinality boolean column SQL"
+    },
+    {
+      "id": "explain-vs-explain-analyze",
+      "title": "In PostgreSQL, how does `EXPLAIN ANALYZE` differ from `EXPLAIN`?",
+      "body": "`EXPLAIN` shows the **planned** execution without running the query; `EXPLAIN ANALYZE` **actually runs it** and adds real times and row counts.\n\nWatch out: `EXPLAIN ANALYZE` on an `UPDATE` or `DELETE` really changes data. Wrap it in a transaction and `ROLLBACK`.",
+      "searchQuery": "PostgreSQL EXPLAIN vs EXPLAIN ANALYZE query plan"
+    },
+    {
+      "id": "pk-creates-index",
+      "title": "In PostgreSQL, does declaring a `FOREIGN KEY` column automatically create an index on it?",
+      "body": "No\n\nPostgreSQL indexes **primary key** and **unique** columns automatically, but not the referencing side of a foreign key.\n\nWatch out: an unindexed foreign key makes joins and parent-row deletes slow, because the child table must be scanned. Create the index yourself.",
+      "answer": "No",
+      "acceptedAnswers": ["no it does not", "it does not"],
+      "searchQuery": "PostgreSQL foreign key column not indexed automatically"
+    },
+    {
+      "id": "unique-index-and-constraint",
+      "title": "What index does PostgreSQL create automatically when you declare a `PRIMARY KEY`?",
+      "body": "A **unique B-tree index**\n\nIt enforces uniqueness and makes lookups by key fast. A `UNIQUE` constraint creates one too.\n\nKey idea: constraints are enforced through the index, so dropping that index means dropping the constraint.",
+      "searchQuery": "PostgreSQL primary key creates unique B-tree index"
+    },
+    {
+      "id": "commit-statement",
+      "title": "Which statement makes a transaction's changes permanent?",
+      "body": "`COMMIT`\n\nAfter it succeeds, the changes are durable and visible to other transactions.\n\nTip: a transaction starts with `BEGIN` (or `START TRANSACTION`) and ends with either `COMMIT` or `ROLLBACK`.",
+      "answer": "COMMIT",
+      "answerDisplay": "`COMMIT`",
+      "searchQuery": "SQL COMMIT makes transaction permanent"
+    },
+    {
+      "id": "rollback-statement",
+      "title": "Which statement undoes every change made since the transaction began?",
+      "body": "`ROLLBACK`\n\nIt restores the database to its state before `BEGIN`, which is how atomicity is kept after an error.\n\nWatch out: in PostgreSQL, after an error inside a transaction, every later statement fails until you `ROLLBACK`.",
+      "answer": "ROLLBACK",
+      "answerDisplay": "`ROLLBACK`",
+      "searchQuery": "SQL ROLLBACK undo transaction changes"
+    },
+    {
+      "id": "savepoint-partial-rollback",
+      "title": "Which statement lets you roll back part of a transaction without abandoning all of it?",
+      "body": "`SAVEPOINT`\n\n```sql\nBEGIN;\nINSERT INTO a VALUES (1);\nSAVEPOINT s1;\nINSERT INTO a VALUES (2);\nROLLBACK TO SAVEPOINT s1;\nCOMMIT;\n```\n\nHere only the insert of 2 is undone; the insert of 1 is committed.",
+      "answer": "SAVEPOINT",
+      "answerDisplay": "`SAVEPOINT`",
+      "searchQuery": "SQL SAVEPOINT rollback to savepoint partial"
+    },
+    {
+      "id": "autocommit-mode",
+      "title": "In autocommit mode, how does the database treat each standalone SQL statement?",
+      "body": "As its **own transaction**, committed automatically when it finishes.\n\nIssuing `BEGIN` switches that off until you `COMMIT` or `ROLLBACK`.\n\nWatch out: a mistaken `DELETE` in autocommit mode is committed immediately and can't be rolled back.",
+      "searchQuery": "SQL autocommit mode each statement own transaction"
+    },
+    {
+      "id": "deadlock-definition",
+      "title": "What is a deadlock between two transactions, and how do databases usually resolve it?",
+      "body": "Each transaction holds a lock the other needs, so **neither can proceed**.\n\nThe database detects the cycle and **aborts one transaction** (the victim) with an error, letting the other finish.\n\nTip: take locks in a consistent order, and retry the aborted transaction.",
+      "searchQuery": "database deadlock two transactions lock cycle victim"
+    },
+    {
+      "id": "mvcc-readers-writers",
+      "title": "With MVCC (multiversion concurrency control), do readers block writers, and do writers block readers?",
+      "body": "No, neither blocks the other.\n\nThe database keeps several versions of a row. Each transaction reads a consistent **snapshot**, while writers create new versions.\n\nWatch out: two writers changing the same row still conflict, and one waits.",
+      "answer": "No",
+      "acceptedAnswers": ["neither", "no neither blocks"],
+      "searchQuery": "MVCC multiversion concurrency control readers do not block writers"
+    },
+    {
+      "id": "select-for-update",
+      "title": "What does `SELECT ... FOR UPDATE` do?",
+      "body": "It **locks the selected rows** until the transaction ends, so other transactions can't update or lock them in the meantime.\n\nExample: read an account balance with `FOR UPDATE`, then update it, and no concurrent change can sneak in between.\n\nTip: it prevents lost updates in read-modify-write code.",
+      "searchQuery": "SQL SELECT FOR UPDATE row lock transaction"
+    },
+    {
+      "id": "lost-update",
+      "title": "What is a lost update, and what simple SQL pattern avoids it?",
+      "body": "Two transactions **read** the same value, each computes a new one, and each **writes** it back, so one write silently overwrites the other.\n\nAvoid it with an atomic update such as `UPDATE acct SET bal = bal - 10 WHERE id = 1`, or lock the row with `SELECT ... FOR UPDATE`.\n\nWatch out: reading in app code and writing back is the usual cause.",
+      "searchQuery": "lost update problem database transaction atomic update"
+    },
+    {
+      "id": "write-skew",
+      "title": "What is write skew, and which isolation level prevents it in PostgreSQL?",
+      "body": "Two transactions each read overlapping data, then **write different rows**, and together break a rule that each checked.\n\nExample: two doctors both see 2 on call, and each goes off call, leaving none.\n\n`SERIALIZABLE` prevents it. PostgreSQL's `REPEATABLE READ` (snapshot isolation) does not.",
+      "searchQuery": "write skew snapshot isolation serializable PostgreSQL"
+    },
+    {
+      "id": "serializable-guarantee",
+      "title": "What does the `SERIALIZABLE` isolation level guarantee about concurrent transactions?",
+      "body": "The result is **as if they ran one at a time**, in some serial order.\n\nIt is the strongest level, with no dirty reads, non-repeatable reads, phantoms, or write skew.\n\nWatch out: the database may abort a transaction with a serialization failure, so your code must be ready to retry.",
+      "searchQuery": "SQL serializable isolation level guarantee serial order retry"
+    },
+    {
+      "id": "innodb-default-isolation",
+      "title": "Which isolation level is the default in MySQL's InnoDB engine?",
+      "body": "`REPEATABLE READ`\n\nPostgreSQL, by contrast, defaults to `READ COMMITTED`.\n\nWatch out: don't assume transactions behave the same across databases. Check each system's default isolation level.",
+      "answer": "REPEATABLE READ",
+      "acceptedAnswers": ["repeatable-read"],
+      "answerDisplay": "`REPEATABLE READ`",
+      "searchQuery": "MySQL InnoDB default isolation level repeatable read"
+    },
+    {
+      "id": "view-definition",
+      "title": "What is a (regular) SQL view?",
+      "body": "A **saved query** that you use like a table. It stores no data of its own, and the query runs each time the view is read.\n\n```sql\nCREATE VIEW active_users AS\nSELECT * FROM users WHERE active;\n```\n\nTip: views hide complexity and can limit which columns users see.",
+      "searchQuery": "SQL view saved query definition CREATE VIEW"
+    },
+    {
+      "id": "materialized-view",
+      "title": "How does a materialized view differ from a regular view?",
+      "body": "A materialized view **stores its query result** on disk, so reads are fast, but the data can be stale until refreshed.\n\nIn PostgreSQL, refresh it with `REFRESH MATERIALIZED VIEW name`.\n\nKey idea: it's a trade of freshness for speed.",
+      "searchQuery": "materialized view vs view PostgreSQL refresh"
+    },
+    {
+      "id": "database-trigger",
+      "title": "What is a database trigger?",
+      "body": "Code that the database runs **automatically** when a specified event, such as `INSERT`, `UPDATE`, or `DELETE`, happens on a table.\n\nExample: set an `updated_at` timestamp on every `UPDATE`, or write an audit-log row.\n\nWatch out: hidden logic in triggers can surprise people and slow writes.",
+      "searchQuery": "database trigger insert update delete automatic execution"
+    },
+    {
+      "id": "numeric-vs-float-money",
+      "title": "Why should money be stored as `NUMERIC`/`DECIMAL` rather than `FLOAT`?",
+      "body": "`NUMERIC` stores **exact decimal** values; binary floating point can't represent most decimal fractions exactly.\n\nExample: with double-precision floats, `0.1 + 0.2` is not exactly `0.3`.\n\nTip: or store integer cents, such as `1999` for 19.99 dollars.",
+      "searchQuery": "SQL NUMERIC vs FLOAT money exact decimal"
+    },
+    {
+      "id": "keyset-pagination",
+      "title": "Why is keyset pagination (`WHERE id > :last_id ORDER BY id LIMIT 20`) faster than a large `OFFSET` for deep pages?",
+      "body": "`OFFSET n` makes the database **read and discard** the first n rows, so deeper pages cost more. Keyset pagination uses an index to jump straight to where the last page ended.\n\nWatch out: it needs a stable, unique sort key and offers no jump to an arbitrary page number.",
+      "searchQuery": "keyset pagination vs OFFSET performance SQL"
+    },
+    {
+      "id": "n-plus-one-problem",
+      "title": "What is the 'N+1 query' problem?",
+      "body": "One query loads a list of N items, then the code runs **one more query per item** to load related data, so N+1 queries in all.\n\nFix it by loading everything in one query with a join, or in two queries with `WHERE id IN (...)`.\n\nTip: ORMs often call this fix 'eager loading'.",
+      "searchQuery": "N+1 query problem ORM eager loading fix"
+    },
+    {
+      "id": "oltp-vs-olap",
+      "title": "OLTP vs OLAP: what workload does each describe?",
+      "body": "**OLTP** (transaction processing) means many small, fast reads and writes, such as orders and logins. **OLAP** (analytical processing) means fewer, large queries that scan and aggregate lots of data, such as reports.\n\nKey idea: OLTP schemas are usually normalized; OLAP warehouses are often denormalized and column-oriented.",
+      "searchQuery": "OLTP vs OLAP difference workload database"
+    },
+    {
+      "id": "replication-vs-sharding",
+      "title": "How do replication and sharding differ?",
+      "body": "**Replication** keeps **copies of the same data** on several nodes, for availability and read scaling. **Sharding** splits the data into **different pieces** across nodes, to scale storage and writes.\n\nWatch out: cross-shard joins and transactions are hard, so choose the shard key carefully.",
+      "searchQuery": "database replication vs sharding difference"
+    },
+    {
+      "id": "insert-column-list",
+      "title": "Why is it good practice to name the columns in an `INSERT` statement?",
+      "body": "It keeps the statement correct if columns are later added or reordered.\n\n```sql\nINSERT INTO users (name, email)\nVALUES ('Ann', 'ann@x.com');\n```\n\nWatch out: without a column list, values must match **every** column in table order, and a schema change can silently misplace data.",
+      "searchQuery": "SQL INSERT INTO column list best practice"
+    },
+    {
+      "id": "identity-column",
+      "title": "Which standard SQL clause makes the database generate an integer key automatically, replacing PostgreSQL's older `SERIAL`?",
+      "body": "`GENERATED ALWAYS AS IDENTITY`\n\nExample: `id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY`.\n\nTip: `GENERATED BY DEFAULT AS IDENTITY` also lets you supply your own value when you want to.",
+      "answer": "GENERATED ALWAYS AS IDENTITY",
+      "acceptedAnswers": ["identity", "identity column", "generated by default as identity"],
+      "answerDisplay": "`GENERATED ALWAYS AS IDENTITY`",
+      "searchQuery": "SQL GENERATED AS IDENTITY auto increment primary key PostgreSQL"
+    },
+    {
+      "id": "count-star-vs-count-one",
+      "title": "Do `COUNT(*)` and `COUNT(1)` return different results?",
+      "body": "No\n\nBoth count every row, because `1` is never `NULL`. Modern optimizers treat them the same.\n\nWatch out: `COUNT(col)` is different. It skips rows where `col` is `NULL`.",
+      "answer": "No",
+      "acceptedAnswers": ["same", "they are the same"],
+      "searchQuery": "SQL COUNT star vs COUNT 1 difference"
+    }
+  ]
+}
