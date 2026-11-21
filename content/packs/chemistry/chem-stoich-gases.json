@@ -1,0 +1,879 @@
+{
+  "id": "chem-stoich-gases",
+  "title": "Stoichiometry & Gas Laws",
+  "course": "General Chemistry I",
+  "description": "Molar mass, formulas, limiting reagents, yield, molarity and dilution, oxidation states, ideal and combined gas laws, Dalton, Graham, real gases.",
+  "cards": [
+    {
+      "id": "molar-mass-parentheses",
+      "title": "What is the molar mass of $\\ce{Ca(NO3)2}$, in g/mol? (Use Ca 40.08, N 14.01, O 16.00; give the number only, to 2 decimal places.)",
+      "body": "$164.10\\,\\mathrm{g/mol}$\n\n$40.08 + 2(14.01) + 6(16.00) = 164.10$. A subscript outside parentheses multiplies **everything inside**, so there are 2 N and 6 O.\n\nWatch out: counting only one $\\ce{NO3}$ gives $102.09$.",
+      "answer": "164.1",
+      "acceptedAnswers": [
+        "164.1 g/mol"
+      ],
+      "answerDisplay": "$164.10$",
+      "searchQuery": "molar mass calcium nitrate Ca(NO3)2"
+    },
+    {
+      "id": "empirical-formula-from-percent",
+      "title": "A compound is 40.0% C, 6.7% H and 53.3% O by mass. What is its empirical formula? (Type it as plain text, e.g. H2O.)",
+      "body": "$\\ce{CH2O}$\n\nAssume 100 g: $40.0/12.01 = 3.33$ mol C, $6.7/1.008 = 6.65$ mol H, $53.3/16.00 = 3.33$ mol O. Divide by the smallest: $1 : 2 : 1$.\n\nTip: if a ratio lands near 1.5 or 1.33, multiply all of them by 2 or 3 to get whole numbers.",
+      "answer": "CH2O",
+      "answerDisplay": "$\\ce{CH2O}$",
+      "searchQuery": "empirical formula from percent composition"
+    },
+    {
+      "id": "molecular-formula-from-empirical",
+      "title": "A compound has empirical formula $\\ce{CH2O}$ and a molar mass of 180 g/mol. What is its molecular formula? (Type as plain text.)",
+      "body": "$\\ce{C6H12O6}$\n\nOne $\\ce{CH2O}$ unit is $30.03\\,\\mathrm{g/mol}$, and $180 \\div 30.03 \\approx 6$, so multiply every subscript by 6.\n\nKey idea: **empirical** = simplest whole-number ratio; **molecular** = actual atom counts, always a whole-number multiple of it.",
+      "answer": "C6H12O6",
+      "answerDisplay": "$\\ce{C6H12O6}$",
+      "searchQuery": "molecular formula from empirical formula molar mass"
+    },
+    {
+      "id": "limiting-reagent",
+      "title": "$\\ce{2H2 + O2 -> 2H2O}$. If 4.0 mol $\\ce{H2}$ is mixed with 3.0 mol $\\ce{O2}$, which reactant is limiting? (Type the formula.)",
+      "body": "$\\ce{H2}$\n\nAll 3.0 mol $\\ce{O2}$ would need 6.0 mol $\\ce{H2}$, but only 4.0 mol is present. $\\ce{H2}$ gives 4.0 mol $\\ce{H2O}$ and leaves 1.0 mol $\\ce{O2}$ unused.\n\nWatch out: having fewer moles ($\\ce{O2}$ here) doesn't make a reactant limiting; compare moles divided by coefficients.",
+      "answer": "H2",
+      "acceptedAnswers": [
+        "hydrogen",
+        "hydrogen gas",
+        "H2 gas"
+      ],
+      "answerDisplay": "$\\ce{H2}$",
+      "searchQuery": "limiting reagent H2 O2 moles"
+    },
+    {
+      "id": "percent-yield",
+      "title": "The theoretical yield is 12.0 g, but you isolate 9.60 g of product. What is the percent yield? (Number only, 3 significant figures.)",
+      "body": "$80.0\\%$\n\nPercent yield $= \\dfrac{\\text{actual}}{\\text{theoretical}} \\times 100 = \\dfrac{9.60}{12.0} \\times 100$.\n\nWhy: the theoretical yield must be calculated from the **limiting reagent**.\nWatch out: a yield over 100% usually means a wet or impure product.",
+      "answer": "80.0",
+      "acceptedAnswers": [
+        "80%"
+      ],
+      "answerDisplay": "$80.0\\%$",
+      "searchQuery": "percent yield actual over theoretical calculation"
+    },
+    {
+      "id": "molarity-definition",
+      "title": "What is the molarity of 0.500 mol NaCl dissolved in enough water to make 250. mL of solution? (Number only, in mol/L, 3 significant figures.)",
+      "body": "$2.00\\,\\mathrm{M}$\n\nMolarity $=$ moles of solute $\\div$ liters of solution $= 0.500\\,\\mathrm{mol} \\div 0.250\\,\\mathrm{L}$.\n\nWatch out: convert mL to L, and use the **final volume of solution**, not the volume of water added.",
+      "answer": "2.00",
+      "acceptedAnswers": [
+        "2.00 M"
+      ],
+      "answerDisplay": "$2.00$",
+      "searchQuery": "molarity moles per liter of solution calculation"
+    },
+    {
+      "id": "dilution-m1v1",
+      "title": "How many mL of 12.0 M HCl are needed to prepare 500. mL of 0.600 M HCl? (Number only, 3 significant figures.)",
+      "body": "$25.0\\,\\mathrm{mL}$\n\n$M_1V_1 = M_2V_2$, so $V_1 = \\dfrac{(0.600\\,\\mathrm{M})(500.\\,\\mathrm{mL})}{12.0\\,\\mathrm{M}}$. Dilution doesn't change the moles of solute, so any volume unit works if both sides match.\n\nTip: dilute to 500. mL, adding the acid to water, never water to concentrated acid.",
+      "answer": "25",
+      "acceptedAnswers": [
+        "25 mL"
+      ],
+      "answerDisplay": "$25.0$",
+      "searchQuery": "dilution M1V1 = M2V2 HCl stock volume"
+    },
+    {
+      "id": "oxidation-state-dichromate",
+      "title": "What is the oxidation state of Cr in $\\ce{K2Cr2O7}$? (Type it with its sign.)",
+      "body": "$+6$\n\nK is $+1$ ($2 \\times +1 = +2$) and O is $-2$ ($7 \\times -2 = -14$). The total must be 0, so $2\\,\\ce{Cr} = +12$.\n\nTip: free elements are 0; F is always $-1$; O is usually $-2$ ($-1$ in peroxides like $\\ce{H2O2}$); H is $+1$ with nonmetals and $-1$ in metal hydrides.",
+      "answer": "+6",
+      "acceptedAnswers": [
+        "6",
+        "6+",
+        "VI"
+      ],
+      "answerDisplay": "$+6$",
+      "searchQuery": "oxidation state of chromium in potassium dichromate"
+    },
+    {
+      "id": "gas-constant-atm",
+      "title": "What is the value of $R$ in $PV = nRT$ when pressure is in atm and volume is in liters? (Number only, 4 significant figures; units L·atm/(mol·K).)",
+      "body": "$0.08206\\,\\mathrm{L\\,atm/(mol\\,K)}$\n\nUse $8.314\\,\\mathrm{J/(mol\\,K)}$ in energy equations (or with $P$ in Pa and $V$ in $\\mathrm{m^3}$).\n\nWatch out: $R$'s units must match your $P$ and $V$ units, and $T$ must always be in kelvin.",
+      "answer": "0.08206",
+      "acceptedAnswers": [
+        "0.0821",
+        "0.082057"
+      ],
+      "answerDisplay": "$0.08206$",
+      "searchQuery": "ideal gas constant R 0.08206 L atm"
+    },
+    {
+      "id": "kelvin-charles-law",
+      "title": "A gas at 27 °C is heated at constant pressure until its volume doubles. What is its new temperature in °C? (Number only, nearest degree.)",
+      "body": "$327\\,^\\circ\\mathrm{C}$\n\nCharles's law ($V \\propto T$) only works in kelvin: $27\\,^\\circ\\mathrm{C} = 300\\,\\mathrm{K}$, and doubling gives $600\\,\\mathrm{K} = 327\\,^\\circ\\mathrm{C}$.\n\nWatch out: doubling the Celsius value to $54\\,^\\circ\\mathrm{C}$ is the classic mistake.",
+      "answer": "327",
+      "acceptedAnswers": [
+        "327 C",
+        "327 °C",
+        "327 degrees",
+        "327.15"
+      ],
+      "answerDisplay": "$327\\,^\\circ\\mathrm{C}$",
+      "searchQuery": "Charles law volume doubles temperature kelvin"
+    },
+    {
+      "id": "combined-gas-law",
+      "title": "A gas occupies 2.00 L at 1.00 atm and 300. K. What volume does it occupy at 2.00 atm and 450. K? (Number only, in L, 3 significant figures.)",
+      "body": "$1.50\\,\\mathrm{L}$\n\n$\\dfrac{P_1V_1}{T_1} = \\dfrac{P_2V_2}{T_2}$, so $V_2 = 2.00\\,\\mathrm{L} \\times \\dfrac{1.00}{2.00} \\times \\dfrac{450.}{300.}$.\n\nTip: doubling $P$ halves $V$; raising $T$ 1.5-fold raises $V$ 1.5-fold. Check each factor's direction.",
+      "answer": "1.5",
+      "acceptedAnswers": [
+        "1.50 L"
+      ],
+      "answerDisplay": "$1.50$",
+      "searchQuery": "combined gas law volume pressure temperature change"
+    },
+    {
+      "id": "dalton-partial-pressure",
+      "title": "A mixture of 2.0 mol $\\ce{N2}$ and 3.0 mol $\\ce{O2}$ has a total pressure of 1.50 atm. What is the partial pressure of $\\ce{O2}$? (Number only, in atm.)",
+      "body": "$0.90\\,\\mathrm{atm}$\n\n**Dalton's law**: the total pressure is the sum of the partial pressures, and $P_{\\ce{O2}} = X_{\\ce{O2}} \\times P_\\mathrm{total}$, with mole fraction $X_{\\ce{O2}} = 3.0 \\div 5.0 = 0.60$.\n\nTip: for a gas collected over water, subtract water's vapor pressure from the total.",
+      "answer": "0.9",
+      "acceptedAnswers": [
+        "0.9 atm"
+      ],
+      "answerDisplay": "$0.90$",
+      "searchQuery": "Dalton's law partial pressure mole fraction"
+    },
+    {
+      "id": "graham-effusion",
+      "title": "At the same temperature, by what factor does $\\ce{H2}$ effuse faster than $\\ce{O2}$? (Number only, to the nearest whole number.)",
+      "body": "About 4 times faster.\n\n$\\dfrac{\\text{rate}_1}{\\text{rate}_2} = \\sqrt{\\dfrac{M_2}{M_1}} = \\sqrt{\\dfrac{32.00}{2.016}} \\approx 3.98$. Lighter gases effuse faster.\n\nWhy: at the same $T$ all gases have the same average kinetic energy, so lighter molecules must move faster.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "3.98",
+        "4 times",
+        "4x",
+        "about 4",
+        "four"
+      ],
+      "answerDisplay": "$\\approx 4$",
+      "searchQuery": "Graham's law effusion hydrogen oxygen rate ratio"
+    },
+    {
+      "id": "kmt-kinetic-energy",
+      "title": "Kinetic molecular theory: the average kinetic energy of gas particles is directly proportional to what?",
+      "body": "The absolute (kelvin) temperature.\n\nDoubling $T$ in kelvin doubles the average kinetic energy: $\\overline{KE} = \\tfrac{3}{2}k_BT$ per molecule.\n\nExample: the other assumptions are negligible particle volume, no attractions or repulsions, perfectly elastic collisions, and constant random motion.",
+      "searchQuery": "kinetic molecular theory average kinetic energy kelvin temperature"
+    },
+    {
+      "id": "real-gas-deviations",
+      "title": "Under what conditions do real gases deviate most from ideal behavior, and why?",
+      "body": "High pressure and low temperature.\n\nAt high $P$, the molecules' own volume is a significant fraction of the container. At low $T$, molecules move slowly, so **intermolecular attractions** matter.\n\nKey idea: gases behave most ideally at low $P$ and high $T$.",
+      "searchQuery": "real gas deviation from ideal high pressure low temperature"
+    },
+    {
+      "id": "van-der-waals-a-b",
+      "title": "In the van der Waals equation, $\\left(P + \\dfrac{an^2}{V^2}\\right)(V - nb) = nRT$, what do the constants $a$ and $b$ correct for?",
+      "body": "$a$ corrects for intermolecular attractions, which make the measured pressure lower than ideal. $b$ corrects for the volume the molecules themselves occupy.\n\nLarger, more polarizable or polar molecules have larger $a$ values; bigger molecules have larger $b$ values.\n\nWatch out: $a$ adds to $P$ and $b$ subtracts from $V$.",
+      "searchQuery": "van der Waals equation constants a and b meaning"
+    },
+    {
+      "id": "mass-from-moles-nacl",
+      "title": "What is the mass of 0.250 mol of $\\ce{NaCl}$? (Molar mass $58.44\\,\\mathrm{g/mol}$; number only, in g, 3 significant figures.)",
+      "body": "$14.6\\,\\mathrm{g}$\n\n$m = n \\times M = 0.250\\,\\mathrm{mol} \\times 58.44\\,\\mathrm{g/mol} = 14.61\\,\\mathrm{g}$.\n\nTip: moles to grams multiplies by molar mass; grams to moles divides by it. Check the units cancel.",
+      "answer": "14.6",
+      "answerDisplay": "$14.6$",
+      "searchQuery": "mass from moles molar mass NaCl calculation"
+    },
+    {
+      "id": "moles-from-mass-water",
+      "title": "How many moles are in $36.0\\,\\mathrm{g}$ of $\\ce{H2O}$? (Molar mass $18.02\\,\\mathrm{g/mol}$; number only, 3 significant figures.)",
+      "body": "$2.00\\,\\mathrm{mol}$\n\n$n = \\dfrac{m}{M} = \\dfrac{36.0\\,\\mathrm{g}}{18.02\\,\\mathrm{g/mol}} = 1.998\\,\\mathrm{mol}$, which rounds to 2.00.\n\nWatch out: use the molar mass of the whole formula unit, not of one atom.",
+      "answer": "2.00",
+      "answerDisplay": "$2.00$",
+      "searchQuery": "moles from mass water grams to moles"
+    },
+    {
+      "id": "molar-mass-sulfuric-acid",
+      "title": "What is the molar mass of $\\ce{H2SO4}$, in g/mol? (H 1.008, S 32.06, O 16.00; number only, 2 decimal places.)",
+      "body": "$98.08\\,\\mathrm{g/mol}$\n\n$2(1.008) + 32.06 + 4(16.00) = 2.016 + 32.06 + 64.00 = 98.076$.\n\nTip: write each element's atom count and atomic mass in a column, then add.",
+      "answer": "98.08",
+      "answerDisplay": "$98.08$",
+      "searchQuery": "molar mass sulfuric acid H2SO4 calculation"
+    },
+    {
+      "id": "molar-mass-copper-sulfate-pentahydrate",
+      "title": "What is the molar mass of $\\ce{CuSO4.5H2O}$, in g/mol? (Cu 63.55, S 32.06, O 16.00, H 1.008; number only, 1 decimal place.)",
+      "body": "$249.7\\,\\mathrm{g/mol}$\n\nAnhydrous $\\ce{CuSO4}$ is $159.61$, and five waters add $5(18.016) = 90.08$.\n\nWatch out: the dot in a **hydrate** means \"plus\", so the 5 multiplies the whole $\\ce{H2O}$ unit, not just the hydrogen.",
+      "answer": "249.7",
+      "acceptedAnswers": [
+        "249.69"
+      ],
+      "answerDisplay": "$249.7$",
+      "searchQuery": "molar mass copper sulfate pentahydrate hydrate"
+    },
+    {
+      "id": "mass-percent-nitrogen-ammonium-nitrate",
+      "title": "What is the mass percent of nitrogen in $\\ce{NH4NO3}$? (N 14.01, H 1.008, O 16.00; number only, 3 significant figures.)",
+      "body": "$35.0\\%$\n\nTwo N atoms give $28.02$; the molar mass is $28.02 + 4(1.008) + 48.00 = 80.05$. So $\\dfrac{28.02}{80.05} \\times 100 = 35.0\\%$.\n\nWatch out: count **both** nitrogens (one in $\\ce{NH4^+}$, one in $\\ce{NO3^-}$).",
+      "answer": "35.0",
+      "answerDisplay": "$35.0\\%$",
+      "searchQuery": "mass percent nitrogen ammonium nitrate fertilizer"
+    },
+    {
+      "id": "mass-percent-oxygen-water",
+      "title": "What is the mass percent of oxygen in water? (O 16.00, H 1.008; number only, 3 significant figures.)",
+      "body": "$88.8\\%$\n\n$\\dfrac{16.00}{18.016} \\times 100 = 88.81\\%$. Hydrogen makes up the remaining $11.2\\%$.\n\nKey idea: mass percent $= \\dfrac{\\text{mass of element in 1 mol}}{\\text{molar mass}} \\times 100$, and the percents add to 100.",
+      "answer": "88.8",
+      "answerDisplay": "$88.8\\%$",
+      "searchQuery": "mass percent oxygen in water composition"
+    },
+    {
+      "id": "molecules-in-co2-moles",
+      "title": "How many molecules are in $0.0500\\,\\mathrm{mol}$ of $\\ce{CO2}$? (Give the coefficient of $10^{22}$, 3 significant figures.)",
+      "body": "$3.01\\times10^{22}$ molecules\n\n$N = n N_A = (0.0500)(6.022\\times10^{23}) = 3.011\\times10^{22}$.\n\nWatch out: this counts molecules; the number of atoms is three times larger.",
+      "answer": "3.01",
+      "answerDisplay": "$3.01$",
+      "searchQuery": "molecules in moles Avogadro number calculation CO2"
+    },
+    {
+      "id": "oxygen-atoms-aluminum-sulfate",
+      "title": "How many moles of oxygen atoms are in $0.500\\,\\mathrm{mol}$ of $\\ce{Al2(SO4)3}$? (Number only, 3 significant figures.)",
+      "body": "$6.00\\,\\mathrm{mol}$\n\nEach formula unit has $3 \\times 4 = 12$ oxygen atoms, and $12 \\times 0.500 = 6.00$.\n\nWatch out: the 3 outside the parentheses multiplies the 4 inside.",
+      "answer": "6.00",
+      "answerDisplay": "$6.00$",
+      "searchQuery": "moles of oxygen atoms in aluminum sulfate subscript parentheses"
+    },
+    {
+      "id": "sig-figs-count-decimal",
+      "title": "How many significant figures are in the measurement $0.00450\\,\\mathrm{g}$? (Number only.)",
+      "body": "3\n\nLeading zeros are never significant; the digits 4, 5 and the trailing 0 are. A trailing zero **after a decimal point** counts.\n\nExample: $0.00450 = 4.50\\times10^{-3}$, which makes the three figures obvious.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "significant figures count leading zeros trailing zero"
+    },
+    {
+      "id": "sig-figs-multiplication",
+      "title": "Calculate $12.0 \\times 3.456$ and report it with the correct number of significant figures. (Number only.)",
+      "body": "$41.5$\n\nIn multiplication and division the answer has as many significant figures as the **least precise** factor: $12.0$ has 3, so the product $41.472$ rounds to $41.5$.\n\nWatch out: in addition and subtraction the rule is by decimal places instead.",
+      "answer": "41.5",
+      "answerDisplay": "$41.5$",
+      "searchQuery": "significant figures multiplication rule least precise"
+    },
+    {
+      "id": "empirical-formula-iron-oxide",
+      "title": "A $11.17\\,\\mathrm{g}$ sample of iron combines with $4.80\\,\\mathrm{g}$ of oxygen. What is the empirical formula of the oxide? (Fe 55.85, O 16.00; type as plain text.)",
+      "body": "$\\ce{Fe2O3}$\n\nFe: $11.17/55.85 = 0.2000$ mol. O: $4.80/16.00 = 0.300$ mol. The ratio $0.200 : 0.300 = 1 : 1.5$, so multiply by 2 to get $2 : 3$.\n\nTip: a ratio of $1.5$ means doubling; $1.33$ or $1.67$ means tripling.",
+      "answer": "Fe2O3",
+      "answerDisplay": "$\\ce{Fe2O3}$",
+      "searchQuery": "empirical formula iron oxide from masses Fe2O3"
+    },
+    {
+      "id": "combustion-analysis-empirical",
+      "title": "Burning a hydrocarbon sample gives $4.40\\,\\mathrm{g}$ $\\ce{CO2}$ and $1.80\\,\\mathrm{g}$ $\\ce{H2O}$. What is its empirical formula? ($\\ce{CO2}$ 44.01, $\\ce{H2O}$ 18.02; type as plain text.)",
+      "body": "$\\ce{CH2}$\n\nC: $4.40/44.01 = 0.100$ mol $\\ce{CO2}$ so 0.100 mol C. H: $1.80/18.02 = 0.100$ mol $\\ce{H2O}$ so $2 \\times 0.100 = 0.200$ mol H.\n\nWatch out: each $\\ce{H2O}$ carries **two** hydrogens. The ratio $0.100 : 0.200$ is $1 : 2$.",
+      "answer": "CH2",
+      "answerDisplay": "$\\ce{CH2}$",
+      "searchQuery": "combustion analysis empirical formula hydrocarbon CO2 H2O"
+    },
+    {
+      "id": "empirical-ratio-three-to-four",
+      "title": "Elements X and Y are found in a mole ratio of $1 : 1.33$. What is the empirical formula? (Type as plain text.)",
+      "body": "$\\ce{X3Y4}$\n\n$1.33 \\approx \\tfrac{4}{3}$, so multiply both numbers by 3 to get whole numbers: $3 : 4$.\n\nTip: don't round ratios like 1.33 to 1, which would give the wrong formula.",
+      "answer": "X3Y4",
+      "answerDisplay": "$\\ce{X3Y4}$",
+      "searchQuery": "empirical formula mole ratio 1.33 multiply by 3"
+    },
+    {
+      "id": "molecular-formula-benzene",
+      "title": "A compound has empirical formula $\\ce{CH}$ and molar mass $78.1\\,\\mathrm{g/mol}$. What is its molecular formula? (Type as plain text.)",
+      "body": "$\\ce{C6H6}$\n\nOne $\\ce{CH}$ unit is $13.02\\,\\mathrm{g/mol}$, and $78.1/13.02 = 6.00$. Multiply every subscript by 6.\n\nExample: this is benzene. Acetylene, $\\ce{C2H2}$, has the same empirical formula $\\ce{CH}$.",
+      "answer": "C6H6",
+      "answerDisplay": "$\\ce{C6H6}$",
+      "searchQuery": "molecular formula from empirical CH molar mass 78 benzene"
+    },
+    {
+      "id": "hydrate-water-of-crystallization",
+      "title": "Heating $5.00\\,\\mathrm{g}$ of $\\ce{CuSO4.}x\\ce{H2O}$ leaves $3.19\\,\\mathrm{g}$ of anhydrous $\\ce{CuSO4}$. What is $x$? ($\\ce{CuSO4}$ 159.61, $\\ce{H2O}$ 18.02; whole number.)",
+      "body": "5\n\nWater lost: $5.00 - 3.19 = 1.81\\,\\mathrm{g} = 0.100$ mol. $\\ce{CuSO4}$: $3.19/159.61 = 0.0200$ mol. The ratio is $0.100 / 0.0200 = 5$.\n\nKey idea: treat the water as another \"element\" in a mole-ratio problem.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "five"
+      ],
+      "searchQuery": "hydrate formula water of crystallization mass loss heating"
+    },
+    {
+      "id": "empirical-formula-c4h8o2",
+      "title": "What is the empirical formula of a compound with molecular formula $\\ce{C4H8O2}$? (Type as plain text.)",
+      "body": "$\\ce{C2H4O}$\n\nDivide every subscript by their greatest common factor, 2.\n\nWatch out: if the subscripts share no common factor, the molecular formula is already the empirical formula (as in $\\ce{H2O}$).",
+      "answer": "C2H4O",
+      "answerDisplay": "$\\ce{C2H4O}$",
+      "searchQuery": "empirical formula from molecular formula C4H8O2 simplify subscripts"
+    },
+    {
+      "id": "balance-propane-combustion",
+      "title": "Balance $\\ce{C3H8 + O2 -> CO2 + H2O}$ using the smallest whole numbers. What is the coefficient of $\\ce{O2}$?",
+      "body": "5\n\n$\\ce{C3H8 + 5O2 -> 3CO2 + 4H2O}$. Balance C (3 $\\ce{CO2}$), then H (4 $\\ce{H2O}$), then count O: $6 + 4 = 10$ atoms, so 5 $\\ce{O2}$.\n\nTip: balance elements that appear in only one reactant and one product first, and **leave O for last** in combustion.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "five"
+      ],
+      "searchQuery": "balance propane combustion equation coefficient of O2"
+    },
+    {
+      "id": "balance-aluminum-oxygen",
+      "title": "Balance $\\ce{Al + O2 -> Al2O3}$ using the smallest whole numbers. What is the coefficient of $\\ce{O2}$?",
+      "body": "3\n\n$\\ce{4Al + 3O2 -> 2Al2O3}$. Oxygen is 2 per $\\ce{O2}$ but 3 per $\\ce{Al2O3}$, so use the least common multiple, 6 O atoms: 3 $\\ce{O2}$ and 2 $\\ce{Al2O3}$. Then 4 Al.\n\nWatch out: never change a subscript to balance; only change coefficients.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "balance aluminum oxygen aluminum oxide equation"
+    },
+    {
+      "id": "balance-ethane-combustion",
+      "title": "Balance $\\ce{C2H6 + O2 -> CO2 + H2O}$ using the smallest whole numbers. What is the coefficient of $\\ce{O2}$?",
+      "body": "7\n\n$\\ce{2C2H6 + 7O2 -> 4CO2 + 6H2O}$. Starting with 1 $\\ce{C2H6}$ gives $2\\,\\ce{CO2}$, $3\\,\\ce{H2O}$ and $3.5\\,\\ce{O2}$.\n\nTip: when a fraction like $3.5$ appears, **multiply the whole equation by 2** to clear it.",
+      "answer": "7",
+      "acceptedAnswers": [
+        "seven"
+      ],
+      "searchQuery": "balance ethane combustion equation fractional coefficient"
+    },
+    {
+      "id": "balance-iron-oxide-co",
+      "title": "Balance $\\ce{Fe2O3 + CO -> Fe + CO2}$ using the smallest whole numbers. What is the sum of all the coefficients?",
+      "body": "9\n\n$\\ce{Fe2O3 + 3CO -> 2Fe + 3CO2}$, so $1 + 3 + 2 + 3 = 9$.\n\nWhy: 3 O atoms in $\\ce{Fe2O3}$ must be removed by 3 CO, each producing a $\\ce{CO2}$.\nWatch out: a missing coefficient counts as 1.",
+      "answer": "9",
+      "acceptedAnswers": [
+        "nine"
+      ],
+      "searchQuery": "balance iron oxide carbon monoxide equation sum of coefficients"
+    },
+    {
+      "id": "law-conservation-of-mass",
+      "title": "What law requires chemical equations to be balanced?",
+      "body": "The law of **conservation of mass**: atoms are neither created nor destroyed in a chemical reaction.\n\nSo the number of atoms of each element must be the same on both sides, and in a closed system the total mass doesn't change.\n\nWatch out: balancing the charge matters too in ionic equations.",
+      "searchQuery": "law of conservation of mass balanced chemical equations"
+    },
+    {
+      "id": "precipitate-silver-chloride",
+      "title": "Aqueous $\\ce{AgNO3}$ is mixed with aqueous $\\ce{NaCl}$. What is the formula of the precipitate? (Type as plain text.)",
+      "body": "$\\ce{AgCl}$\n\nSilver halides are insoluble (except $\\ce{AgF}$), while all nitrates and sodium salts are soluble. So the $\\ce{Ag+}$ and $\\ce{Cl-}$ combine to form a white solid.\n\nExample: $\\ce{AgNO3(aq) + NaCl(aq) -> AgCl(s) + NaNO3(aq)}$.",
+      "answer": "AgCl",
+      "answerDisplay": "$\\ce{AgCl}$",
+      "searchQuery": "silver nitrate sodium chloride precipitate AgCl"
+    },
+    {
+      "id": "insoluble-salt-choice",
+      "title": "Which of these is insoluble in water: $\\ce{NaOH}$, $\\ce{BaSO4}$, $\\ce{KNO3}$ or $\\ce{(NH4)2CO3}$? (Type the formula.)",
+      "body": "$\\ce{BaSO4}$\n\nSalts of $\\ce{Na+}$, $\\ce{K+}$ and $\\ce{NH4+}$ are soluble, and so are nitrates. Most sulfates are soluble; the main exceptions are $\\ce{BaSO4}$, $\\ce{PbSO4}$ and $\\ce{SrSO4}$ ($\\ce{CaSO4}$ and $\\ce{Ag2SO4}$ are only slightly soluble).\n\nTip: memorize the soluble groups first; everything else is probably a precipitate.",
+      "answer": "BaSO4",
+      "answerDisplay": "$\\ce{BaSO4}$",
+      "searchQuery": "solubility rules insoluble BaSO4 sulfate exceptions"
+    },
+    {
+      "id": "net-ionic-silver-chloride",
+      "title": "Write the net ionic equation for mixing aqueous $\\ce{AgNO3}$ and $\\ce{NaCl}$.",
+      "body": "$\\ce{Ag+(aq) + Cl-(aq) -> AgCl(s)}$\n\nWrite all strong electrolytes as ions, then **cancel** the ions that appear unchanged on both sides ($\\ce{Na+}$ and $\\ce{NO3-}$).\n\nWatch out: solids, liquids, gases and weak electrolytes stay written as molecules.",
+      "searchQuery": "net ionic equation silver chloride precipitation"
+    },
+    {
+      "id": "net-ionic-neutralization",
+      "title": "What is the net ionic equation for a strong acid reacting with a strong base, such as $\\ce{HCl + NaOH}$?",
+      "body": "$\\ce{H+(aq) + OH-(aq) -> H2O(l)}$\n\n$\\ce{Na+}$ and $\\ce{Cl-}$ are spectators and cancel out. Every strong acid-strong base neutralization has this same net equation.\n\nWatch out: if the acid or base is **weak**, it stays written as a molecule, so the net equation differs.",
+      "searchQuery": "net ionic equation strong acid strong base neutralization H+ OH-"
+    },
+    {
+      "id": "spectator-ions-definition",
+      "title": "What is a spectator ion?",
+      "body": "An ion that appears **unchanged** on both sides of a reaction and takes no part in the net change.\n\nExample: in $\\ce{Pb(NO3)2(aq) + 2KI(aq) -> PbI2(s) + 2KNO3(aq)}$, $\\ce{K+}$ and $\\ce{NO3-}$ are spectators, so the net reaction is $\\ce{Pb^2+ + 2I- -> PbI2(s)}$.",
+      "searchQuery": "spectator ions definition net ionic equation"
+    },
+    {
+      "id": "mole-ratio-oxygen-needed",
+      "title": "$\\ce{2H2 + O2 -> 2H2O}$. How many moles of $\\ce{O2}$ react completely with 6.0 mol of $\\ce{H2}$? (Number only, 2 significant figures.)",
+      "body": "$3.0\\,\\mathrm{mol}$\n\nUse the mole ratio from the coefficients: $6.0\\,\\mathrm{mol\\,H_2} \\times \\dfrac{1\\,\\mathrm{mol\\,O_2}}{2\\,\\mathrm{mol\\,H_2}}$.\n\nTip: write the ratio so the unit you want is on top and the unit you have cancels.",
+      "answer": "3.0",
+      "answerDisplay": "$3.0$",
+      "searchQuery": "mole ratio stoichiometry hydrogen oxygen balanced equation"
+    },
+    {
+      "id": "mass-water-from-hydrogen",
+      "title": "$\\ce{2H2 + O2 -> 2H2O}$. What mass of water forms from $2.00\\,\\mathrm{g}$ of $\\ce{H2}$ with excess $\\ce{O2}$? (H2 2.016, H2O 18.02 g/mol; number only, in g, 3 significant figures.)",
+      "body": "$17.9\\,\\mathrm{g}$\n\n$2.00\\,\\mathrm{g}/2.016 = 0.992\\,\\mathrm{mol\\,H_2}$, which gives $0.992\\,\\mathrm{mol\\,H_2O}$ (2:2), and $0.992 \\times 18.02 = 17.9\\,\\mathrm{g}$.\n\nKey idea: the path is **grams to moles to moles to grams**, and the mole ratio is the only bridge.",
+      "answer": "17.9",
+      "answerDisplay": "$17.9$",
+      "searchQuery": "mass to mass stoichiometry hydrogen water grams"
+    },
+    {
+      "id": "mass-magnesium-oxide",
+      "title": "$\\ce{2Mg + O2 -> 2MgO}$. What mass of $\\ce{MgO}$ forms when $2.43\\,\\mathrm{g}$ of $\\ce{Mg}$ burns completely? (Mg 24.31, MgO 40.31 g/mol; number only, in g, 3 significant figures.)",
+      "body": "$4.03\\,\\mathrm{g}$\n\n$2.43/24.31 = 0.100\\,\\mathrm{mol\\,Mg}$, giving $0.100\\,\\mathrm{mol\\,MgO}$ (1:1 after the coefficients cancel), and $0.100 \\times 40.31 = 4.03\\,\\mathrm{g}$.\n\nExample: the extra mass comes from the oxygen that combined with the magnesium.",
+      "answer": "4.03",
+      "answerDisplay": "$4.03$",
+      "searchQuery": "magnesium burns oxygen mass of MgO stoichiometry"
+    },
+    {
+      "id": "limiting-reagent-from-masses",
+      "title": "$\\ce{N2 + 3H2 -> 2NH3}$. Which reactant is limiting if $10.0\\,\\mathrm{g}$ of $\\ce{N2}$ (28.02 g/mol) is mixed with $3.0\\,\\mathrm{g}$ of $\\ce{H2}$ (2.016 g/mol)? (Type the formula.)",
+      "body": "$\\ce{N2}$\n\n$10.0/28.02 = 0.357\\,\\mathrm{mol\\,N_2}$ needs $3 \\times 0.357 = 1.07\\,\\mathrm{mol\\,H_2}$, but $3.0/2.016 = 1.49\\,\\mathrm{mol\\,H_2}$ is available. So $\\ce{H2}$ is in excess.\n\nTip: divide each amount in moles by its coefficient; the smaller result is limiting.",
+      "answer": "N2",
+      "acceptedAnswers": [
+        "nitrogen"
+      ],
+      "answerDisplay": "$\\ce{N2}$",
+      "searchQuery": "limiting reagent from grams nitrogen hydrogen ammonia"
+    },
+    {
+      "id": "theoretical-yield-ammonia",
+      "title": "$\\ce{N2 + 3H2 -> 2NH3}$ with $10.0\\,\\mathrm{g}$ $\\ce{N2}$ limiting: what is the theoretical yield of $\\ce{NH3}$, in g? (N2 28.02, NH3 17.03 g/mol; 3 significant figures.)",
+      "body": "$12.2\\,\\mathrm{g}$\n\n$10.0/28.02 = 0.357\\,\\mathrm{mol\\,N_2}$, so $2 \\times 0.357 = 0.714\\,\\mathrm{mol\\,NH_3}$, and $0.714 \\times 17.03 = 12.2\\,\\mathrm{g}$.\n\nWatch out: the theoretical yield always comes from the **limiting** reagent, never from the excess one.",
+      "answer": "12.2",
+      "answerDisplay": "$12.2$",
+      "searchQuery": "theoretical yield ammonia limiting reagent grams"
+    },
+    {
+      "id": "excess-reagent-leftover",
+      "title": "$\\ce{N2 + 3H2 -> 2NH3}$ goes to completion from 2.0 mol $\\ce{N2}$ and 4.5 mol $\\ce{H2}$. How many moles of $\\ce{N2}$ are left over? (Number only, 2 significant figures.)",
+      "body": "$0.50\\,\\mathrm{mol}$\n\n$\\ce{H2}$ is limiting: $4.5/3 = 1.5$ versus $2.0/1$ for $\\ce{N2}$. It consumes $1.5\\,\\mathrm{mol\\,N_2}$, leaving $2.0 - 1.5 = 0.5$.\n\nTip: leftover = starting amount minus the amount the limiting reagent uses up.",
+      "answer": "0.50",
+      "answerDisplay": "$0.50$",
+      "searchQuery": "excess reagent leftover moles after reaction N2 H2"
+    },
+    {
+      "id": "actual-yield-from-percent",
+      "title": "A reaction has a theoretical yield of $25.0\\,\\mathrm{g}$ and a percent yield of $84.0\\%$. What mass of product is actually isolated? (Number only, in g, 3 significant figures.)",
+      "body": "$21.0\\,\\mathrm{g}$\n\nActual $=$ percent yield $\\times$ theoretical $= 0.840 \\times 25.0\\,\\mathrm{g}$.\n\nTip: rearrange percent yield $= \\dfrac{\\text{actual}}{\\text{theoretical}}\\times 100$ to solve for whichever quantity is missing.",
+      "answer": "21.0",
+      "answerDisplay": "$21.0$",
+      "searchQuery": "actual yield from percent yield and theoretical yield"
+    },
+    {
+      "id": "titration-volume-naoh-hcl",
+      "title": "What volume of $0.100\\,\\mathrm{M}$ $\\ce{NaOH}$ neutralizes $25.0\\,\\mathrm{mL}$ of $0.200\\,\\mathrm{M}$ $\\ce{HCl}$? (Number only, in mL, 3 significant figures.)",
+      "body": "$50.0\\,\\mathrm{mL}$\n\n$\\ce{HCl}$: $0.200 \\times 0.0250 = 5.00\\times10^{-3}\\,\\mathrm{mol}$. The ratio $\\ce{HCl} : \\ce{NaOH}$ is $1:1$, so $V = \\dfrac{5.00\\times10^{-3}\\,\\mathrm{mol}}{0.100\\,\\mathrm{M}} = 0.0500\\,\\mathrm{L}$.\n\nKey idea: at the equivalence point, moles of acid $\\times$ acid H$^+$ count equals moles of base $\\times$ base OH$^-$ count.",
+      "answer": "50.0",
+      "answerDisplay": "$50.0$",
+      "searchQuery": "titration volume NaOH neutralize HCl molarity"
+    },
+    {
+      "id": "titration-volume-naoh-sulfuric",
+      "title": "What volume of $0.200\\,\\mathrm{M}$ $\\ce{NaOH}$ neutralizes $20.0\\,\\mathrm{mL}$ of $0.150\\,\\mathrm{M}$ $\\ce{H2SO4}$? (Number only, in mL, 3 significant figures.)",
+      "body": "$30.0\\,\\mathrm{mL}$\n\n$\\ce{H2SO4}$: $0.150 \\times 0.0200 = 3.00\\times10^{-3}\\,\\mathrm{mol}$. It is **diprotic**, so it needs twice as much $\\ce{NaOH}$: $6.00\\times10^{-3}\\,\\mathrm{mol}$, and $V = 6.00\\times10^{-3}/0.200 = 0.0300\\,\\mathrm{L}$.\n\nWatch out: $\\ce{H2SO4 + 2NaOH -> Na2SO4 + 2H2O}$ is a 1:2 ratio, not 1:1.",
+      "answer": "30.0",
+      "answerDisplay": "$30.0$",
+      "searchQuery": "titration sulfuric acid NaOH diprotic volume calculation"
+    },
+    {
+      "id": "precipitate-mass-agcl",
+      "title": "$50.0\\,\\mathrm{mL}$ of $0.100\\,\\mathrm{M}$ $\\ce{AgNO3}$ is mixed with excess $\\ce{NaCl}$ solution. What mass of $\\ce{AgCl}$ (143.32 g/mol) precipitates? (Number only, in g, 3 significant figures.)",
+      "body": "$0.717\\,\\mathrm{g}$\n\n$\\ce{AgNO3}$: $0.100 \\times 0.0500 = 5.00\\times10^{-3}\\,\\mathrm{mol}$. Since $\\ce{Ag+} + \\ce{Cl-} \\to \\ce{AgCl}$ is 1:1, that is $5.00\\times10^{-3}\\,\\mathrm{mol\\,AgCl}$, or $5.00\\times10^{-3} \\times 143.32 = 0.717\\,\\mathrm{g}$.\n\nWhy: silver is limiting because the $\\ce{NaCl}$ is in excess.",
+      "answer": "0.717",
+      "answerDisplay": "$0.717$",
+      "searchQuery": "mass of AgCl precipitate from silver nitrate molarity volume"
+    },
+    {
+      "id": "gas-volume-from-decomposition",
+      "title": "$\\ce{CaCO3 -> CaO + CO2}$. What volume of $\\ce{CO2}$ forms at STP ($22.4\\,\\mathrm{L/mol}$) from $10.0\\,\\mathrm{g}$ $\\ce{CaCO3}$ (100.09 g/mol)? (Number only, in L, 3 significant figures.)",
+      "body": "$2.24\\,\\mathrm{L}$\n\n$10.0/100.09 = 0.0999\\,\\mathrm{mol\\,CaCO_3}$, giving $0.0999\\,\\mathrm{mol\\,CO_2}$ (1:1), and $0.0999 \\times 22.4 = 2.24\\,\\mathrm{L}$.\n\nTip: for gas products, molar volume converts moles to volume only at the stated T and P.",
+      "answer": "2.24",
+      "answerDisplay": "$2.24$",
+      "searchQuery": "gas volume STP stoichiometry calcium carbonate decomposition CO2"
+    },
+    {
+      "id": "coefficients-represent-moles",
+      "title": "In a balanced chemical equation, what do the coefficients tell you?",
+      "body": "The **mole ratio** (and molecule ratio) of reactants and products. They do not give mass ratios.\n\nExample: in $\\ce{2H2 + O2 -> 2H2O}$, 2 mol $\\ce{H2}$ (4.03 g) react with 1 mol $\\ce{O2}$ (32.00 g).\n\nWatch out: you can't compare grams directly; convert to moles first.",
+      "searchQuery": "balanced equation coefficients mole ratio meaning"
+    },
+    {
+      "id": "molarity-from-mass-nacl",
+      "title": "What is the molarity of a solution made by dissolving $5.85\\,\\mathrm{g}$ of $\\ce{NaCl}$ (58.44 g/mol) in water to a final volume of $500.\\,\\mathrm{mL}$? (Number only, in M, 3 significant figures.)",
+      "body": "$0.100\\,\\mathrm{M}$\n\n$n = 5.85/58.44 = 0.100\\,\\mathrm{mol}$, and $M = \\dfrac{0.100\\,\\mathrm{mol}}{0.500\\,\\mathrm{L}}$.\n\nTip: grams to moles first, then divide by liters of **solution**.",
+      "answer": "0.100",
+      "answerDisplay": "$0.100$",
+      "searchQuery": "molarity from mass of solute NaCl volume calculation"
+    },
+    {
+      "id": "mass-needed-for-solution-naoh",
+      "title": "What mass of $\\ce{NaOH}$ (40.00 g/mol) is needed to make $250.\\,\\mathrm{mL}$ of $0.400\\,\\mathrm{M}$ solution? (Number only, in g, 3 significant figures.)",
+      "body": "$4.00\\,\\mathrm{g}$\n\n$n = MV = (0.400\\,\\mathrm{M})(0.250\\,\\mathrm{L}) = 0.100\\,\\mathrm{mol}$, and $m = 0.100 \\times 40.00 = 4.00\\,\\mathrm{g}$.\n\nExample: dissolve the solid in less water, then dilute **to the mark** in a volumetric flask.",
+      "answer": "4.00",
+      "answerDisplay": "$4.00$",
+      "searchQuery": "mass of solute needed to prepare molar solution NaOH"
+    },
+    {
+      "id": "ion-concentration-calcium-chloride",
+      "title": "What is $[\\ce{Cl-}]$ in a $0.20\\,\\mathrm{M}$ solution of $\\ce{CaCl2}$? (Number only, in M, 2 significant figures.)",
+      "body": "$0.40\\,\\mathrm{M}$\n\n$\\ce{CaCl2}$ is a strong electrolyte: $\\ce{CaCl2 -> Ca^2+ + 2Cl-}$. Each formula unit gives 2 chloride ions, so $2 \\times 0.20 = 0.40$.\n\nWatch out: $[\\ce{Ca^2+}]$ is $0.20\\,\\mathrm{M}$, not $0.40\\,\\mathrm{M}$.",
+      "answer": "0.40",
+      "answerDisplay": "$0.40$",
+      "searchQuery": "ion concentration CaCl2 chloride molarity dissociation"
+    },
+    {
+      "id": "ion-concentration-aluminum-sulfate",
+      "title": "What is $[\\ce{SO4^2-}]$ in a $0.10\\,\\mathrm{M}$ solution of $\\ce{Al2(SO4)3}$? (Number only, in M, 2 significant figures.)",
+      "body": "$0.30\\,\\mathrm{M}$\n\n$\\ce{Al2(SO4)3 -> 2Al^3+ + 3SO4^2-}$, so each formula unit releases 3 sulfate ions: $3 \\times 0.10 = 0.30$.\n\nExample: $[\\ce{Al^3+}]$ is $2 \\times 0.10 = 0.20\\,\\mathrm{M}$.",
+      "answer": "0.30",
+      "answerDisplay": "$0.30$",
+      "searchQuery": "sulfate ion concentration aluminum sulfate dissociation molarity"
+    },
+    {
+      "id": "dilution-factor-flask",
+      "title": "$10.0\\,\\mathrm{mL}$ of a stock solution is diluted to $250.0\\,\\mathrm{mL}$. By what factor does the concentration decrease? (Number only.)",
+      "body": "25 (the concentration falls to $\\tfrac{1}{25}$)\n\n$M_2 = M_1 \\times \\dfrac{V_1}{V_2} = M_1 \\times \\dfrac{10.0}{250.0}$.\n\nKey idea: the **dilution factor** is $V_2/V_1$; the moles of solute stay constant.",
+      "answer": "25",
+      "acceptedAnswers": [
+        "25 fold",
+        "1/25"
+      ],
+      "searchQuery": "dilution factor volume ratio concentration decrease"
+    },
+    {
+      "id": "mixing-two-solutions-molarity",
+      "title": "$50.0\\,\\mathrm{mL}$ of $0.300\\,\\mathrm{M}$ $\\ce{NaCl}$ is mixed with $150.0\\,\\mathrm{mL}$ of $0.100\\,\\mathrm{M}$ $\\ce{NaCl}$. What is the final molarity? (Number only, in M; assume volumes add.)",
+      "body": "$0.150\\,\\mathrm{M}$\n\nTotal moles $= 0.0150 + 0.0150 = 0.0300\\,\\mathrm{mol}$. Total volume $= 0.2000\\,\\mathrm{L}$. So $M = 0.0300/0.2000 = 0.150$.\n\nWatch out: don't simply average the two molarities ($0.200$); the volumes differ, so weight by moles.",
+      "answer": "0.150",
+      "answerDisplay": "$0.150$",
+      "searchQuery": "mixing two solutions final molarity total moles total volume"
+    },
+    {
+      "id": "mass-percent-of-solution",
+      "title": "What is the mass percent of $\\ce{NaCl}$ in a solution made from $10.0\\,\\mathrm{g}$ of $\\ce{NaCl}$ and $90.0\\,\\mathrm{g}$ of water? (Number only, 3 significant figures.)",
+      "body": "$10.0\\%$\n\nMass percent $= \\dfrac{\\text{mass of solute}}{\\text{mass of solution}} \\times 100 = \\dfrac{10.0}{10.0 + 90.0} \\times 100$.\n\nWatch out: divide by the mass of the **whole solution**, not just the solvent.",
+      "answer": "10.0",
+      "answerDisplay": "$10.0\\%$",
+      "searchQuery": "mass percent solution solute over total mass"
+    },
+    {
+      "id": "molality-calculation",
+      "title": "What is the molality of a solution containing $0.500\\,\\mathrm{mol}$ of solute in $250.\\,\\mathrm{g}$ of water? (Number only, in mol/kg, 3 significant figures.)",
+      "body": "$2.00\\,\\mathrm{m}$\n\nMolality $=$ moles of solute $\\div$ **kilograms of solvent** $= 0.500 \\div 0.250\\,\\mathrm{kg}$.\n\nWatch out: molarity uses liters of solution; molality uses kilograms of solvent.",
+      "answer": "2.00",
+      "answerDisplay": "$2.00$",
+      "searchQuery": "molality calculation moles solute per kg solvent"
+    },
+    {
+      "id": "molality-temperature-independence",
+      "title": "Why does molality not change with temperature, while molarity does?",
+      "body": "Molality is based on **masses**, which don't depend on temperature. Molarity uses the solution's volume, which expands when heated, so the same moles occupy more liters and molarity drops.\n\nTip: for properties that depend on temperature, such as freezing-point depression, molality is the preferred unit.",
+      "searchQuery": "molality vs molarity temperature independent mass volume"
+    },
+    {
+      "id": "oxidation-state-manganese-permanganate",
+      "title": "What is the oxidation state of Mn in $\\ce{KMnO4}$? (Type it with its sign.)",
+      "body": "$+7$\n\nK is $+1$ and four O atoms are $4 \\times (-2) = -8$. The sum is zero, so Mn must be $+7$.\n\nExample: in $\\ce{MnO2}$, manganese is $+4$, and in $\\ce{Mn^2+}$ it is $+2$.",
+      "answer": "+7",
+      "acceptedAnswers": [
+        "7",
+        "7+",
+        "VII"
+      ],
+      "answerDisplay": "$+7$",
+      "searchQuery": "oxidation state manganese potassium permanganate"
+    },
+    {
+      "id": "oxidation-state-nitrogen-ammonium",
+      "title": "What is the oxidation state of N in $\\ce{NH4+}$? (Type it with its sign.)",
+      "body": "$-3$\n\nEach H is $+1$, giving $+4$ in total. For an ion the oxidation states sum to the **ion's charge** ($+1$), so $\\text{N} + 4 = +1$ and N is $-3$.\n\nWatch out: for ions, the sum equals the charge, not zero.",
+      "answer": "-3",
+      "acceptedAnswers": [
+        "3-",
+        "minus 3",
+        "negative 3"
+      ],
+      "answerDisplay": "$-3$",
+      "searchQuery": "oxidation state of nitrogen in ammonium ion"
+    },
+    {
+      "id": "oxidation-state-chlorine-chlorate",
+      "title": "What is the oxidation state of Cl in the chlorate ion, $\\ce{ClO3-}$? (Type it with its sign.)",
+      "body": "$+5$\n\nThree O atoms give $-6$, and the ion's total is $-1$, so $\\text{Cl} - 6 = -1$ and Cl is $+5$.\n\nTip: the chlorine oxyanions run $\\ce{ClO-}$ ($+1$), $\\ce{ClO2-}$ ($+3$), $\\ce{ClO3-}$ ($+5$), $\\ce{ClO4-}$ ($+7$).",
+      "answer": "+5",
+      "acceptedAnswers": [
+        "5",
+        "5+",
+        "V"
+      ],
+      "answerDisplay": "$+5$",
+      "searchQuery": "oxidation state chlorine in chlorate ion ClO3-"
+    },
+    {
+      "id": "oxidation-state-carbon-methanol",
+      "title": "What is the oxidation state of C in methanol, $\\ce{CH3OH}$? (Type it with its sign.)",
+      "body": "$-2$\n\nFour H atoms are $+4$ and one O is $-2$. The molecule is neutral, so $\\text{C} + 4 - 2 = 0$ and C is $-2$.\n\nKey idea: carbon's oxidation state ranges from $-4$ in $\\ce{CH4}$ to $+4$ in $\\ce{CO2}$; oxidizing methanol moves it upward.",
+      "answer": "-2",
+      "acceptedAnswers": [
+        "2-",
+        "minus 2",
+        "negative 2"
+      ],
+      "answerDisplay": "$-2$",
+      "searchQuery": "oxidation state carbon in methanol CH3OH"
+    },
+    {
+      "id": "oil-rig-mnemonic",
+      "title": "What does the mnemonic OIL RIG stand for in redox chemistry?",
+      "body": "**O**xidation **I**s **L**oss (of electrons); **R**eduction **I**s **G**ain (of electrons).\n\nOxidation raises the oxidation state; reduction lowers it.\n\nMnemonic: OIL RIG. Another version is LEO the lion says GER (Lose Electrons Oxidation, Gain Electrons Reduction).",
+      "searchQuery": "OIL RIG mnemonic oxidation loss reduction gain electrons"
+    },
+    {
+      "id": "oxidizing-agent-definition",
+      "title": "What is an oxidizing agent, and what happens to it in a redox reaction?",
+      "body": "An oxidizing agent **causes** another species to be oxidized by accepting its electrons, so the oxidizing agent itself is **reduced**.\n\nThe reducing agent does the opposite: it donates electrons and is oxidized.\n\nWatch out: the agent is named for what it does to the *other* species, so the oxidizing agent is the one that gets reduced.",
+      "searchQuery": "oxidizing agent definition reduced reducing agent oxidized"
+    },
+    {
+      "id": "redox-species-oxidized",
+      "title": "In $\\ce{Zn(s) + Cu^2+(aq) -> Zn^2+(aq) + Cu(s)}$, which species is oxidized? (Type the symbol.)",
+      "body": "$\\ce{Zn}$\n\nZinc goes from 0 to $+2$, losing 2 electrons. Copper goes from $+2$ to 0, so $\\ce{Cu^2+}$ is reduced.\n\nExample: $\\ce{Zn}$ is the reducing agent and $\\ce{Cu^2+}$ is the oxidizing agent.",
+      "answer": "Zn",
+      "acceptedAnswers": [
+        "zinc"
+      ],
+      "answerDisplay": "$\\ce{Zn}$",
+      "searchQuery": "zinc copper redox which species is oxidized"
+    },
+    {
+      "id": "disproportionation-definition",
+      "title": "What is a disproportionation reaction? Give an example.",
+      "body": "A redox reaction in which one species is **both oxidized and reduced**, ending up in two different oxidation states.\n\nExample: $\\ce{Cl2 + 2OH- -> Cl- + ClO- + H2O}$. Chlorine goes from 0 to $-1$ (reduced) and from 0 to $+1$ (oxidized).\n\nAnother: $\\ce{2H2O2 -> 2H2O + O2}$, where oxygen goes from $-1$ to $-2$ and to 0.",
+      "searchQuery": "disproportionation reaction definition example chlorine hydrogen peroxide"
+    },
+    {
+      "id": "pressure-atm-to-torr",
+      "title": "How many torr (mmHg) are in exactly 1 atm? (Number only.)",
+      "body": "760\n\n$1\\,\\mathrm{atm} = 760\\,\\mathrm{torr} = 760\\,\\mathrm{mmHg}$, which is the pressure that supports a 760 mm column of mercury.\n\nTip: use this to convert before applying the gas laws if $R$ is in L·atm/(mol·K).",
+      "answer": "760",
+      "acceptedAnswers": [
+        "760 torr",
+        "760 mmHg"
+      ],
+      "searchQuery": "atmosphere to torr conversion 760 mmHg"
+    },
+    {
+      "id": "pressure-atm-to-kpa",
+      "title": "How many kilopascals are in exactly 1 atm? (Number only, 3 decimal places.)",
+      "body": "$101.325\\,\\mathrm{kPa}$\n\n$1\\,\\mathrm{atm} = 101{,}325\\,\\mathrm{Pa}$. One bar is exactly $100\\,\\mathrm{kPa}$, so $1\\,\\mathrm{atm}$ is slightly more than $1\\,\\mathrm{bar}$.\n\nTip: with $R = 8.314\\,\\mathrm{J/(mol\\,K)}$, pressure must be in Pa and volume in $\\mathrm{m^3}$.",
+      "answer": "101.325",
+      "acceptedAnswers": [
+        "101.3"
+      ],
+      "answerDisplay": "$101.325$",
+      "searchQuery": "atm to kPa conversion 101.325"
+    },
+    {
+      "id": "celsius-to-kelvin-conversion",
+      "title": "Convert $25\\,^\\circ\\mathrm{C}$ to kelvin. (Number only, 2 decimal places.)",
+      "body": "$298.15\\,\\mathrm{K}$\n\n$T(\\mathrm{K}) = T(^\\circ\\mathrm{C}) + 273.15$. Round to 298 K in most gas-law problems.\n\nWatch out: kelvin has no degree sign, and all gas-law temperatures must be absolute.",
+      "answer": "298.15",
+      "acceptedAnswers": [
+        "298"
+      ],
+      "answerDisplay": "$298.15$",
+      "searchQuery": "convert Celsius to kelvin 25 C 298.15"
+    },
+    {
+      "id": "boyle-law-calculation",
+      "title": "A gas occupies $4.00\\,\\mathrm{L}$ at $1.00\\,\\mathrm{atm}$. What is its pressure when compressed to $2.50\\,\\mathrm{L}$ at constant temperature? (Number only, in atm, 3 significant figures.)",
+      "body": "$1.60\\,\\mathrm{atm}$\n\n**Boyle's law**: $P_1V_1 = P_2V_2$, so $P_2 = \\dfrac{(1.00)(4.00)}{2.50}$.\n\nCheck: a smaller volume must mean a higher pressure, and $1.60 > 1.00$.",
+      "answer": "1.60",
+      "answerDisplay": "$1.60$",
+      "searchQuery": "Boyle's law pressure volume inverse calculation"
+    },
+    {
+      "id": "charles-law-calculation",
+      "title": "A gas occupies $2.00\\,\\mathrm{L}$ at $300.\\,\\mathrm{K}$. What is its volume at $450.\\,\\mathrm{K}$ and constant pressure? (Number only, in L, 3 significant figures.)",
+      "body": "$3.00\\,\\mathrm{L}$\n\n**Charles's law**: $\\dfrac{V_1}{T_1} = \\dfrac{V_2}{T_2}$, so $V_2 = 2.00 \\times \\dfrac{450.}{300.}$.\n\nWatch out: temperatures must be in kelvin.",
+      "answer": "3.00",
+      "answerDisplay": "$3.00$",
+      "searchQuery": "Charles's law volume temperature direct proportion calculation"
+    },
+    {
+      "id": "gay-lussac-law-calculation",
+      "title": "A sealed rigid container holds gas at $2.00\\,\\mathrm{atm}$ and $300.\\,\\mathrm{K}$. What is the pressure at $450.\\,\\mathrm{K}$? (Number only, in atm, 3 significant figures.)",
+      "body": "$3.00\\,\\mathrm{atm}$\n\n**Gay-Lussac's law**: $\\dfrac{P_1}{T_1} = \\dfrac{P_2}{T_2}$ at constant volume and amount, so $P_2 = 2.00 \\times \\dfrac{450.}{300.}$.\n\nWhy: hotter molecules hit the walls harder and more often.",
+      "answer": "3.00",
+      "answerDisplay": "$3.00$",
+      "searchQuery": "Gay-Lussac's law pressure temperature constant volume"
+    },
+    {
+      "id": "avogadros-law-statement",
+      "title": "State Avogadro's law for gases.",
+      "body": "Equal volumes of gases at the **same temperature and pressure** contain equal numbers of molecules: $V \\propto n$ at constant $T$ and $P$.\n\nExample: $\\ce{N2 + 3H2 -> 2NH3}$ means 1 L of $\\ce{N2}$ reacts with 3 L of $\\ce{H2}$ when both are measured at the same $T$ and $P$.\n\nWatch out: it holds for any gas, regardless of its identity or size.",
+      "searchQuery": "Avogadro's law volume proportional to moles equal volumes"
+    },
+    {
+      "id": "molar-volume-stp-value",
+      "title": "What is the molar volume of an ideal gas at $0\\,^\\circ\\mathrm{C}$ and $1\\,\\mathrm{atm}$, in L/mol? (Number only, 3 significant figures.)",
+      "body": "$22.4\\,\\mathrm{L/mol}$\n\nFrom $V = \\dfrac{nRT}{P} = \\dfrac{(1)(0.08206)(273.15)}{1.00}$, which gives $22.41\\,\\mathrm{L}$.\n\nWatch out: this only applies at these exact conditions; at $25\\,^\\circ\\mathrm{C}$ and 1 atm the molar volume is about $24.5\\,\\mathrm{L}$.",
+      "answer": "22.4",
+      "acceptedAnswers": [
+        "22.41",
+        "22.414"
+      ],
+      "answerDisplay": "$22.4$",
+      "searchQuery": "molar volume ideal gas STP 22.4 L/mol"
+    },
+    {
+      "id": "ideal-gas-moles-calculation",
+      "title": "How many moles of gas are in a $5.00\\,\\mathrm{L}$ container at $2.00\\,\\mathrm{atm}$ and $300.\\,\\mathrm{K}$? (Number only, in mol, 3 significant figures; $R = 0.08206$.)",
+      "body": "$0.406\\,\\mathrm{mol}$\n\n$n = \\dfrac{PV}{RT} = \\dfrac{(2.00)(5.00)}{(0.08206)(300.)} = \\dfrac{10.0}{24.62}$.\n\nTip: write the units with $R$ and check that atm and L cancel.",
+      "answer": "0.406",
+      "answerDisplay": "$0.406$",
+      "searchQuery": "ideal gas law moles PV=nRT calculation"
+    },
+    {
+      "id": "ideal-gas-volume-room-temperature",
+      "title": "What volume does $1.00\\,\\mathrm{mol}$ of an ideal gas occupy at $25\\,^\\circ\\mathrm{C}$ and $1.00\\,\\mathrm{atm}$? (Number only, in L, 3 significant figures.)",
+      "body": "$24.5\\,\\mathrm{L}$\n\n$V = \\dfrac{nRT}{P} = \\dfrac{(1.00)(0.08206)(298.15)}{1.00}$.\n\nWatch out: don't use $22.4\\,\\mathrm{L/mol}$ here; that value is for $0\\,^\\circ\\mathrm{C}$.",
+      "answer": "24.5",
+      "answerDisplay": "$24.5$",
+      "searchQuery": "ideal gas volume 25 C 1 atm one mole 24.5 L"
+    },
+    {
+      "id": "ideal-gas-pressure-calculation",
+      "title": "What is the pressure of $0.500\\,\\mathrm{mol}$ of an ideal gas in a $10.0\\,\\mathrm{L}$ container at $300.\\,\\mathrm{K}$? (Number only, in atm, 3 significant figures; $R = 0.08206$.)",
+      "body": "$1.23\\,\\mathrm{atm}$\n\n$P = \\dfrac{nRT}{V} = \\dfrac{(0.500)(0.08206)(300.)}{10.0}$.\n\nTip: solve for the unknown first and plug in numbers last, so unit errors are easy to spot.",
+      "answer": "1.23",
+      "answerDisplay": "$1.23$",
+      "searchQuery": "ideal gas law pressure calculation PV=nRT atm"
+    },
+    {
+      "id": "molar-mass-from-gas-density",
+      "title": "A gas has a density of $1.25\\,\\mathrm{g/L}$ at STP ($0\\,^\\circ\\mathrm{C}$, 1 atm). What is its molar mass, in g/mol? (Number only, 3 significant figures; molar volume $22.41\\,\\mathrm{L/mol}$.)",
+      "body": "$28.0\\,\\mathrm{g/mol}$\n\n$M = \\dfrac{\\text{mass}}{\\text{moles}} = d \\times V_m = (1.25\\,\\mathrm{g/L})(22.41\\,\\mathrm{L/mol})$. That matches $\\ce{N2}$ (or $\\ce{CO}$).\n\nWhy: in general $M = \\dfrac{dRT}{P}$, which works at any conditions.",
+      "answer": "28.0",
+      "answerDisplay": "$28.0$",
+      "searchQuery": "molar mass from gas density STP calculation"
+    },
+    {
+      "id": "gas-density-carbon-dioxide",
+      "title": "What is the density of $\\ce{CO2}$ gas (44.01 g/mol) at STP, in g/L? (Number only, 3 significant figures; molar volume $22.41\\,\\mathrm{L/mol}$.)",
+      "body": "$1.96\\,\\mathrm{g/L}$\n\n$d = \\dfrac{M}{V_m} = \\dfrac{44.01}{22.41}$.\n\nExample: air averages about $29\\,\\mathrm{g/mol}$, so $\\ce{CO2}$ is denser than air and sinks.",
+      "answer": "1.96",
+      "answerDisplay": "$1.96$",
+      "searchQuery": "density of carbon dioxide at STP g/L"
+    },
+    {
+      "id": "dalton-gas-over-water",
+      "title": "$\\ce{H2}$ is collected over water: total pressure $750.\\,\\mathrm{torr}$, water vapor $23.8\\,\\mathrm{torr}$. What is $P_{\\ce{H2}}$ in torr? (Number only, nearest whole number.)",
+      "body": "$726\\,\\mathrm{torr}$\n\n$P_{\\ce{H2}} = P_\\mathrm{total} - P_{\\ce{H2O}} = 750. - 23.8 = 726.2$.\n\nWatch out: the collected gas is a **mixture** with water vapor, so the partial pressure of the dry gas is less than the total.",
+      "answer": "726",
+      "acceptedAnswers": [
+        "726.2"
+      ],
+      "answerDisplay": "$726$",
+      "searchQuery": "Dalton's law gas collected over water vapor pressure"
+    },
+    {
+      "id": "mole-fraction-neon",
+      "title": "A mixture contains $1.0\\,\\mathrm{mol}$ of $\\ce{He}$ and $3.0\\,\\mathrm{mol}$ of $\\ce{Ne}$. What is the mole fraction of $\\ce{Ne}$? (Number only, 2 significant figures.)",
+      "body": "$0.75$\n\n$X_{\\ce{Ne}} = \\dfrac{n_{\\ce{Ne}}}{n_\\mathrm{total}} = \\dfrac{3.0}{4.0}$.\n\nKey idea: mole fractions are unitless and add up to 1, and for ideal gases the mole fraction equals the pressure fraction.",
+      "answer": "0.75",
+      "answerDisplay": "$0.75$",
+      "searchQuery": "mole fraction gas mixture calculation"
+    },
+    {
+      "id": "boyle-law-graph-shape",
+      "title": "For a fixed amount of gas at constant temperature, what graph of $P$ against a function of $V$ gives a straight line?",
+      "body": "$P$ versus $1/V$, a straight line through the origin.\n\nBoyle's law, $PV = k$, can be rewritten as $P = k\\left(\\dfrac{1}{V}\\right)$.\n\nWatch out: $P$ against $V$ itself gives a **hyperbola**, not a line.",
+      "searchQuery": "Boyle's law graph P versus 1/V straight line"
+    },
+    {
+      "id": "graham-law-unknown-molar-mass",
+      "title": "Gas X effuses $2.00$ times faster than $\\ce{SO2}$ (64.07 g/mol) at the same temperature. What is the molar mass of X, in g/mol? (Number only, 3 significant figures.)",
+      "body": "$16.0\\,\\mathrm{g/mol}$\n\n$\\dfrac{\\text{rate}_X}{\\text{rate}_{\\ce{SO2}}} = \\sqrt{\\dfrac{M_{\\ce{SO2}}}{M_X}} = 2.00$, so $M_X = \\dfrac{64.07}{(2.00)^2}$.\n\nExample: methane, $\\ce{CH4}$ (16.04 g/mol), has this molar mass.\nWatch out: square the ratio; don't just divide by 2.",
+      "answer": "16.0",
+      "answerDisplay": "$16.0$",
+      "searchQuery": "Graham's law unknown molar mass effusion rate ratio"
+    },
+    {
+      "id": "effusion-vs-diffusion",
+      "title": "What is the difference between effusion and diffusion?",
+      "body": "**Effusion** is gas escaping through a tiny hole into a vacuum. **Diffusion** is gas molecules spreading and mixing through another gas.\n\nGraham's law gives the effusion rate exactly. Diffusion follows the same trend (lighter gases spread faster) but is slower because of molecular collisions.",
+      "searchQuery": "effusion versus diffusion difference gases"
+    },
+    {
+      "id": "rms-speed-formula",
+      "title": "What is the formula for the root-mean-square speed of gas molecules, and which units must be used?",
+      "body": "$u_\\mathrm{rms} = \\sqrt{\\dfrac{3RT}{M}}$\n\nUse $R = 8.314\\,\\mathrm{J/(mol\\,K)}$, $T$ in kelvin, and the molar mass $M$ in **kg/mol**, so that $u_\\mathrm{rms}$ comes out in m/s.\n\nWatch out: using g/mol makes the answer wrong by a factor of $\\sqrt{1000}$.",
+      "searchQuery": "root mean square speed formula sqrt 3RT/M units kg/mol"
+    },
+    {
+      "id": "rms-speed-nitrogen",
+      "title": "What is the rms speed of $\\ce{N2}$ (28.02 g/mol) at $300.\\,\\mathrm{K}$, in m/s? (Number only, 3 significant figures; $R = 8.314\\,\\mathrm{J/(mol\\,K)}$.)",
+      "body": "$517\\,\\mathrm{m/s}$\n\n$u_\\mathrm{rms} = \\sqrt{\\dfrac{3(8.314)(300.)}{0.02802}} = \\sqrt{2.67\\times10^5} = 517$.\n\nExample: that's faster than the speed of sound in air (about $343\\,\\mathrm{m/s}$), but collisions keep molecules from traveling far in a straight line.",
+      "answer": "517",
+      "answerDisplay": "$517$",
+      "searchQuery": "rms speed nitrogen 300 K calculation m/s"
+    },
+    {
+      "id": "kinetic-energy-per-mole",
+      "title": "What is the total translational kinetic energy of $1\\,\\mathrm{mol}$ of an ideal gas at $300.\\,\\mathrm{K}$, in kJ? (Number only, 3 significant figures.)",
+      "body": "$3.74\\,\\mathrm{kJ}$\n\n$KE = \\tfrac{3}{2}RT = 1.5 \\times 8.314 \\times 300. = 3741\\,\\mathrm{J}$.\n\nKey idea: this depends only on $T$, not on the type of gas.",
+      "answer": "3.74",
+      "answerDisplay": "$3.74$",
+      "searchQuery": "kinetic energy per mole ideal gas 3/2 RT 300 K"
+    },
+    {
+      "id": "maxwell-boltzmann-temperature-effect",
+      "title": "How does the Maxwell-Boltzmann speed distribution change when the temperature of a gas is raised?",
+      "body": "The peak shifts to a **higher speed** and the curve becomes broader and lower.\n\nThe average kinetic energy rises, and more molecules have very high speeds. The area under the curve stays the same because the number of molecules is fixed.\n\nExample: a higher fraction of molecules exceeds a given speed, which is why reaction rates rise with $T$.",
+      "searchQuery": "Maxwell-Boltzmann distribution temperature effect peak shifts broadens"
+    },
+    {
+      "id": "compressibility-factor-meaning",
+      "title": "What is the compressibility factor $Z$ of a gas, and what is its value for an ideal gas?",
+      "body": "$Z = \\dfrac{PV}{nRT}$, and $Z = 1$ for an ideal gas.\n\nAt moderate pressures, attractions make $Z < 1$. At very high pressures, molecular volume dominates and $Z > 1$.\n\nTip: how far $Z$ strays from 1 measures how non-ideal a gas is.",
+      "searchQuery": "compressibility factor Z = PV/nRT ideal gas equals 1"
+    },
+    {
+      "id": "co2-vs-helium-ideality",
+      "title": "At $25\\,^\\circ\\mathrm{C}$ and 1 atm, why does $\\ce{CO2}$ deviate from ideal behavior more than $\\ce{He}$ does?",
+      "body": "$\\ce{CO2}$ is larger and more polarizable, so it has stronger **intermolecular attractions** and a larger molecular volume.\n\nHelium is small with very weak dispersion forces, so it behaves almost ideally even at fairly high pressures.\n\nKey idea: the stronger the intermolecular forces and the larger the molecules, the more non-ideal the gas.",
+      "searchQuery": "why CO2 deviates from ideal gas more than helium intermolecular forces"
+    },
+    {
+      "id": "van-der-waals-a-largest",
+      "title": "Which gas has the largest van der Waals constant $a$: $\\ce{He}$, $\\ce{N2}$ or $\\ce{NH3}$? (Type the formula.)",
+      "body": "$\\ce{NH3}$\n\nThe constant $a$ measures **intermolecular attraction**. Ammonia is polar and hydrogen bonds, so it has the strongest attractions; helium has the weakest.\n\nExample: approximate values are $a \\approx 0.034$ for $\\ce{He}$, $1.4$ for $\\ce{N2}$ and $4.2$ for $\\ce{NH3}$ (in $\\mathrm{L^2\\,atm/mol^2}$).",
+      "answer": "NH3",
+      "acceptedAnswers": [
+        "ammonia"
+      ],
+      "answerDisplay": "$\\ce{NH3}$",
+      "searchQuery": "van der Waals constant a largest NH3 intermolecular attraction"
+    },
+    {
+      "id": "gas-volume-ratio-hydrogen-oxygen",
+      "title": "$\\ce{2H2 + O2 -> 2H2O}$. What volume of $\\ce{O2}$ reacts with $5.0\\,\\mathrm{L}$ of $\\ce{H2}$ at the same temperature and pressure? (Number only, in L, 2 significant figures.)",
+      "body": "$2.5\\,\\mathrm{L}$\n\nBy Avogadro's law, volume ratios equal mole ratios: $5.0\\,\\mathrm{L\\,H_2} \\times \\dfrac{1\\,\\mathrm{L\\,O_2}}{2\\,\\mathrm{L\\,H_2}}$.\n\nTip: no molar mass or molar volume is needed when all gases are at the same $T$ and $P$.",
+      "answer": "2.5",
+      "answerDisplay": "$2.5$",
+      "searchQuery": "gas volume ratio combining volumes hydrogen oxygen same T and P"
+    },
+    {
+      "id": "gas-volume-ratio-propane",
+      "title": "$\\ce{C3H8 + 5O2 -> 3CO2 + 4H2O}$. What volume of $\\ce{CO2}$ forms from $2.0\\,\\mathrm{L}$ of $\\ce{C3H8}$ burned in excess $\\ce{O2}$, at the same $T$ and $P$? (Number only, in L, 2 significant figures.)",
+      "body": "$6.0\\,\\mathrm{L}$\n\nThe ratio $\\ce{C3H8} : \\ce{CO2}$ is $1:3$, so $2.0 \\times 3 = 6.0\\,\\mathrm{L}$.\n\nWatch out: compare gas volumes only for gases at the same $T$ and $P$.",
+      "answer": "6.0",
+      "answerDisplay": "$6.0$",
+      "searchQuery": "gas volume ratio propane combustion CO2 volume same T P"
+    },
+    {
+      "id": "sealed-container-pressure-rise-kmt",
+      "title": "Using kinetic molecular theory, why does the pressure in a sealed rigid container increase when the gas is heated?",
+      "body": "Heating raises the average kinetic energy, so molecules move **faster**. They hit the walls more often and with greater force, so the pressure rises.\n\nVolume and number of molecules don't change, so the effect is purely from higher speed: $P \\propto T$ at constant $V$ and $n$.",
+      "searchQuery": "kinetic molecular theory pressure increases with temperature collisions"
+    },
+    {
+      "id": "rms-speed-helium-vs-argon",
+      "title": "At the same temperature, which gas has the larger rms speed: $\\ce{He}$ or $\\ce{Ar}$? (Type the formula.)",
+      "body": "$\\ce{He}$\n\nBoth have the same average kinetic energy, $\\tfrac{3}{2}RT$, so the lighter atoms must move faster: $u_\\mathrm{rms} \\propto 1/\\sqrt{M}$.\n\nExample: He (4.00 g/mol) is about 3.2 times faster than Ar (39.95 g/mol), since $\\sqrt{39.95/4.00} \\approx 3.2$.",
+      "answer": "He",
+      "acceptedAnswers": [
+        "helium"
+      ],
+      "answerDisplay": "$\\ce{He}$",
+      "searchQuery": "rms speed helium vs argon same temperature molar mass"
+    }
+  ]
+}

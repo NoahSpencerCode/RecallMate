@@ -163,6 +163,8 @@ export const fonts = {
   semibold: 'PlusJakartaSans_600SemiBold',
   bold: 'PlusJakartaSans_700Bold',
   extrabold: 'PlusJakartaSans_800ExtraBold',
+  /** Code on cards. */
+  mono: 'JetBrainsMono_500Medium',
 } as const;
 
 export const layout = {

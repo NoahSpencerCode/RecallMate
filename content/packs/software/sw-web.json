@@ -1,0 +1,818 @@
+{
+  "id": "sw-web",
+  "title": "HTTP & the Web",
+  "course": "Web Development",
+  "description": "Safe vs idempotent methods, key status codes, TLS and ports, DNS, TCP vs UDP, cookie flags, CORS preflight, REST, caching, XSS vs CSRF, JWTs.",
+  "cards": [
+    {
+      "id": "post-not-idempotent",
+      "title": "Of `GET`, `POST`, `PUT`, and `DELETE`, which method is neither safe nor idempotent?",
+      "answer": "POST",
+      "body": "`POST`\n\n**Safe** methods have read-only semantics: `GET`, `HEAD`, `OPTIONS`, `TRACE`. **Idempotent** methods have the same effect on the server whether sent once or many times: the safe methods plus `PUT` and `DELETE`.\n\nExample: two identical `POST /orders` requests may create two orders, so clients shouldn't auto-retry them.\nWatch out: `PATCH` isn't guaranteed to be idempotent either.",
+      "searchQuery": "HTTP POST not safe not idempotent"
+    },
+    {
+      "id": "status-201-created",
+      "title": "Status code for a successful `POST` that created a new resource?",
+      "answer": "201",
+      "acceptedAnswers": [
+        "201 Created"
+      ],
+      "body": "`201 Created`\n\nThe server usually adds a `Location` header pointing at the new resource.\n\nTip: compare `200 OK` (success, with a body) and `204 No Content` (success, no body, common for `DELETE` or `PUT`).",
+      "searchQuery": "HTTP 201 Created status code Location header"
+    },
+    {
+      "id": "redirect-301-vs-302",
+      "title": "`301` vs `302` redirects: what does each tell clients and search engines?",
+      "body": "`301` is permanent; `302` is temporary.\n\n- `301 Moved Permanently`: use the new URL from now on. Browsers may cache the redirect, and search engines index the new URL.\n- `302 Found`: keep using (and indexing) the original URL.\n\nWatch out: `307` and `308` are the temporary and permanent versions that forbid changing the method (e.g. `POST` to `GET`).",
+      "searchQuery": "HTTP 301 vs 302 redirect difference SEO"
+    },
+    {
+      "id": "status-304-not-modified",
+      "title": "A client revalidates its cached copy by sending `If-None-Match` with the resource's `ETag`. What status code means it's still current?",
+      "answer": "304",
+      "acceptedAnswers": [
+        "304 Not Modified"
+      ],
+      "body": "`304 Not Modified`\n\nIt has no body: the client reuses its cached copy and saves bandwidth. An **`ETag`** is a version identifier for the resource.\n\nTip: `Last-Modified` with `If-Modified-Since` is the date-based alternative to `ETag`.",
+      "searchQuery": "HTTP 304 Not Modified ETag If-None-Match"
+    },
+    {
+      "id": "status-401-vs-403",
+      "title": "A logged-in user requests an admin-only page they aren't allowed to see. Should the server respond `401` or `403`?",
+      "answer": "403",
+      "acceptedAnswers": [
+        "403 Forbidden"
+      ],
+      "body": "`403 Forbidden`\n\nThe server knows who you are and refuses; re-authenticating won't help.\n\nWatch out: `401 Unauthorized` really means **unauthenticated**: credentials are missing or invalid, and the response must include a `WWW-Authenticate` header. Some sites return `404` to hide that a resource exists.",
+      "searchQuery": "HTTP 401 vs 403 unauthorized forbidden"
+    },
+    {
+      "id": "status-409-422-429",
+      "title": "What do status codes `409`, `422`, and `429` each signal?",
+      "body": "Conflict with current state, invalid content, and rate limited.\n\n- `409 Conflict`: the request clashes with the resource's current state (edit conflict, username already taken).\n- `422 Unprocessable Content`: well-formed but semantically invalid, e.g. failed validation.\n- `429 Too Many Requests`: rate limited; may include `Retry-After`.\n\nTip: all three are client errors (4xx); plain `400 Bad Request` covers malformed requests.",
+      "searchQuery": "HTTP status 409 422 429 meanings"
+    },
+    {
+      "id": "status-500-502-503",
+      "title": "`500` vs `502` vs `503`: what does each server error mean?",
+      "body": "Unexpected server failure, bad upstream response, and temporarily unavailable.\n\n- `500 Internal Server Error`: an unexpected condition, e.g. an unhandled exception.\n- `502 Bad Gateway`: a gateway or proxy got an invalid response from the upstream server.\n- `503 Service Unavailable`: overloaded or down for maintenance; may include `Retry-After`.\n\nKey idea: `504 Gateway Timeout` means the upstream didn't answer in time.",
+      "searchQuery": "HTTP 500 502 503 504 server error differences"
+    },
+    {
+      "id": "https-tls",
+      "title": "HTTPS is HTTP layered over which security protocol?",
+      "answer": "TLS",
+      "acceptedAnswers": [
+        "Transport Layer Security",
+        "SSL/TLS",
+        "TLS/SSL"
+      ],
+      "body": "TLS (Transport Layer Security)\n\nIt provides **encryption**, integrity, and server authentication via certificates. SSL is its deprecated predecessor.\n\nTip: default ports are HTTPS `443` and HTTP `80`; also worth knowing: SSH `22`, DNS `53`.",
+      "searchQuery": "HTTPS TLS Transport Layer Security protocol"
+    },
+    {
+      "id": "dns-aaaa-record",
+      "title": "Which DNS record type maps a hostname to an IPv6 address?",
+      "answer": "AAAA",
+      "acceptedAnswers": [
+        "AAAA record"
+      ],
+      "body": "AAAA\n\nAn IPv6 address is $128$ bits, four times the size of an IPv4 address ($32$ bits), hence four A's. An `A` record maps a name to an IPv4 address.\n\nWatch out: a `CNAME` makes a name an alias for another name and can't coexist with other records at that name, so it can't sit at the zone apex (`example.com`).",
+      "searchQuery": "DNS AAAA record IPv6 address"
+    },
+    {
+      "id": "tcp-vs-udp",
+      "title": "TCP vs UDP: how do they differ, and what's a typical use of UDP?",
+      "body": "TCP is reliable and ordered; UDP is lightweight and unreliable.\n\n- **TCP**: connection-oriented (3-way handshake), an ordered byte stream with retransmission, flow control, and congestion control.\n- **UDP**: connectionless datagrams with no delivery or ordering guarantees, but less overhead and latency.\n\nExample: UDP suits DNS queries, games, and voice/video calls; HTTP/3 runs on QUIC over UDP.",
+      "searchQuery": "TCP vs UDP differences typical use"
+    },
+    {
+      "id": "cookie-httponly",
+      "title": "Which cookie attribute prevents JavaScript (`document.cookie`) from reading the cookie?",
+      "answer": "HttpOnly",
+      "acceptedAnswers": [
+        "Http-Only",
+        "HttpOnly flag",
+        "HttpOnly attribute"
+      ],
+      "body": "`HttpOnly`\n\nIt hides the cookie from `document.cookie`, which limits session theft through **XSS**.\n\n- `Secure`: sent only over HTTPS.\n- `SameSite=Strict` or `Lax`: not sent on cross-site requests (`Lax` still allows top-level `GET` navigations), which mitigates CSRF.\n\nWatch out: `localStorage` has no such protection; any script on the page can read it.",
+      "searchQuery": "HttpOnly cookie attribute JavaScript document.cookie"
+    },
+    {
+      "id": "cors-preflight",
+      "title": "Before a cross-origin `PUT` or a JSON `POST`, the browser sends a CORS preflight request using which HTTP method?",
+      "answer": "OPTIONS",
+      "body": "`OPTIONS`\n\nThe preflight carries `Access-Control-Request-Method` and `Access-Control-Request-Headers`. The server replies with `Access-Control-Allow-*` headers.\n\nWatch out: CORS is enforced by the **browser**, not the server; `curl` and server-to-server calls ignore it.\nTip: simple requests (`GET`, `HEAD`, or a form-style `POST` without custom headers) skip the preflight.",
+      "searchQuery": "CORS preflight request OPTIONS method"
+    },
+    {
+      "id": "rest-statelessness",
+      "title": "What does 'stateless' mean as a REST constraint?",
+      "body": "The server keeps no client session state between requests.\n\nEach request carries everything needed to process it (e.g. an auth token). So **any server instance** can handle any request, which simplifies horizontal scaling and failure recovery.\n\nWatch out: data in a database is fine; it's per-client session state that's excluded.",
+      "searchQuery": "REST stateless constraint meaning"
+    },
+    {
+      "id": "cache-control-no-cache",
+      "title": "`Cache-Control: no-cache` vs `no-store`: what does each directive mean?",
+      "body": "`no-store` forbids storing; `no-cache` forces revalidation.\n\n- `no-store`: don't store the response in any cache.\n- `no-cache`: caches may store it but must revalidate with the origin server (e.g. via `ETag`) before every reuse.\n\nWatch out: `no-cache` does **not** mean \"don't cache\".\nTip: `max-age=N` lets a cache reuse the response for $N$ seconds without asking.",
+      "searchQuery": "Cache-Control no-cache vs no-store difference"
+    },
+    {
+      "id": "xss-vs-csrf",
+      "title": "XSS vs CSRF: what does each attack do, and what's a main defense against each?",
+      "body": "XSS runs attacker script in your site; CSRF forges requests from another site.\n\n- **XSS**: attacker-supplied script (via unescaped user input) runs in your pages and acts as the user. Defense: escape or encode output, plus a Content Security Policy.\n- **CSRF**: another site makes the victim's browser send an authenticated request, since cookies attach automatically. Defense: `SameSite` cookies and anti-CSRF tokens.",
+      "searchQuery": "XSS vs CSRF difference defense"
+    },
+    {
+      "id": "jwt-structure",
+      "title": "What are the three parts of a JWT, and is its payload encrypted?",
+      "body": "`header.payload.signature`, each base64url-encoded. The payload is signed, not encrypted.\n\nAnyone holding the token can decode and read it, so never put secrets in it. The signature lets the server detect tampering; it hides nothing.\n\nWatch out: encrypted tokens are a different format (**JWE**).",
+      "searchQuery": "JWT structure header payload signature encrypted"
+    },
+    {
+      "id": "url-fragment",
+      "title": "In `https://example.com/docs?page=2#install`, what is the `#install` part called?",
+      "answer": "fragment",
+      "acceptedAnswers": [
+        "fragment identifier",
+        "URL fragment",
+        "hash",
+        "hash fragment"
+      ],
+      "body": "The fragment (fragment identifier)\n\nThe browser never sends it to the server. It's handled client-side, e.g. scrolling to the element with `id=\"install\"` or driving single-page-app routing.\n\nTip: the `?page=2` part is the **query string**, which is sent.",
+      "searchQuery": "URL fragment identifier hash part"
+    },
+    {
+      "id": "url-default-port",
+      "title": "Which TCP port does the browser connect to for `https://shop.example.com/cart`, where no port is written?",
+      "answer": "443",
+      "acceptedAnswers": [
+        "port 443"
+      ],
+      "body": "`443`\n\nThat's the default for `https`; plain `http` defaults to `80`.\n\nWatch out: an explicit port overrides the default. `https://shop.example.com:8443/cart` connects to `8443`, and the different port also makes it a different origin.",
+      "searchQuery": "https default port 443 no port in URL"
+    },
+    {
+      "id": "origin-components",
+      "title": "Two URLs have the same origin when which three components match?",
+      "body": "Scheme, host, and port.\n\nThe path, query, and fragment don't matter.\n\nExample: `https://example.com/a` and `https://example.com/b?x=1` share an origin. `http://example.com` (different scheme) and `https://api.example.com` (different host) don't.",
+      "searchQuery": "same-origin policy scheme host port"
+    },
+    {
+      "id": "same-origin-example",
+      "title": "Which is same-origin with `https://app.example.com/home`: `http://app.example.com/home`, `https://example.com/home`, or `https://app.example.com:443/login`?",
+      "body": "`https://app.example.com:443/login`\n\nPort `443` is the default for `https`, so scheme, host, and port all match; the path is irrelevant.\n\nWhy: the `http` URL differs in scheme (and port, `80`), and `example.com` is a different host from `app.example.com`.",
+      "searchQuery": "same origin https default port 443 example"
+    },
+    {
+      "id": "http-request-line",
+      "title": "What three parts make up the request line at the start of an HTTP/1.1 request?",
+      "body": "The method, the request target, and the protocol version.\n\nExample: `GET /search?q=tls HTTP/1.1` (the target is the path plus query).\n\nHeader lines follow (`Host` is required), then a blank line, then an optional body. A response starts with a **status line** instead, e.g. `HTTP/1.1 200 OK`.",
+      "searchQuery": "HTTP/1.1 request line method target version"
+    },
+    {
+      "id": "host-header",
+      "title": "Which request header is mandatory in HTTP/1.1 and lets one IP address serve many websites?",
+      "answer": "Host",
+      "acceptedAnswers": [
+        "Host header"
+      ],
+      "body": "`Host`\n\nExample: `Host: www.example.com`. The server uses it to pick the right **virtual host**, since many domain names can resolve to the same IP address.\n\nTip: an HTTP/1.1 request without it gets `400 Bad Request`. In HTTP/2 and HTTP/3, the `:authority` pseudo-header plays this role.",
+      "searchQuery": "HTTP Host header required virtual hosting"
+    },
+    {
+      "id": "status-code-classes",
+      "title": "What does each status-code class mean: 1xx, 2xx, 3xx, 4xx, 5xx?",
+      "body": "Informational, success, redirection, client error, server error.\n\n- `1xx`: informational (e.g. `101 Switching Protocols`)\n- `2xx`: success (`200 OK`)\n- `3xx`: redirection (`301`, `304`)\n- `4xx`: client error (`404 Not Found`)\n- `5xx`: server error (`500 Internal Server Error`)\n\nKey idea: a 4xx tells the client to change its request; a 5xx means the server failed on a request that may be valid.",
+      "searchQuery": "HTTP status code classes 1xx 2xx 3xx 4xx 5xx"
+    },
+    {
+      "id": "head-method",
+      "title": "Which HTTP method returns the same headers as `GET` but no response body?",
+      "answer": "HEAD",
+      "body": "`HEAD`\n\nIt checks whether a resource exists, its `Content-Length`, or whether it changed (`ETag`, `Last-Modified`) without downloading the body.\n\nTip: like `GET`, it's safe and idempotent.",
+      "searchQuery": "HTTP HEAD method headers no body"
+    },
+    {
+      "id": "put-vs-patch",
+      "title": "`PUT` vs `PATCH`: how does each update a resource?",
+      "body": "`PUT` replaces the whole resource; `PATCH` modifies part of it.\n\n`PUT` sends the full new representation (omitted fields are lost), so repeating it has the same effect: it's **idempotent**. `PATCH` sends only the changes.\n\nWatch out: `PATCH` isn't guaranteed idempotent. An instruction like \"append this item to the list\" changes the resource again on every retry.",
+      "searchQuery": "HTTP PUT vs PATCH replace partial update"
+    },
+    {
+      "id": "put-vs-post-create",
+      "title": "When creating a resource, when do you use `PUT` instead of `POST`?",
+      "body": "Use `PUT` when the client knows the new resource's URI.\n\n`PUT /users/alice` creates (or replaces) exactly that resource. With `POST /users`, the server picks the ID and returns `201 Created` with a `Location` header.\n\nWhy: `PUT` targets a fixed URI, so retrying it can't create duplicates.",
+      "searchQuery": "PUT vs POST create resource client chooses URI"
+    },
+    {
+      "id": "delete-repeat-404",
+      "title": "A second `DELETE /items/7` returns `404` after the first returned `204`. Does that make `DELETE` non-idempotent?",
+      "body": "No, `DELETE` is still idempotent.\n\nIdempotency is about the effect on **server state**, not the response. After one call or several, item 7 is gone.\n\nKey idea: different status codes on repeats are fine; what matters is that retries cause no additional changes.",
+      "searchQuery": "is DELETE idempotent second delete 404"
+    },
+    {
+      "id": "status-303-see-other",
+      "title": "After a form `POST`, which redirect status tells the browser to load the result page with `GET` (the Post/Redirect/Get pattern)?",
+      "answer": "303",
+      "acceptedAnswers": [
+        "303 See Other"
+      ],
+      "body": "`303 See Other`\n\nThe browser follows the `Location` header with a `GET`, so refreshing the result page doesn't resubmit the form.\n\nWatch out: `307` and `308` repeat the `POST`; browsers usually turn a `302` into a `GET` too, but only `303` guarantees it.",
+      "searchQuery": "HTTP 303 See Other Post/Redirect/Get"
+    },
+    {
+      "id": "status-405-allow",
+      "title": "A client sends `DELETE` to an endpoint that supports only `GET` and `POST`. Which status code should the server return?",
+      "answer": "405",
+      "acceptedAnswers": [
+        "405 Method Not Allowed"
+      ],
+      "body": "`405 Method Not Allowed`\n\nThe response must include an `Allow` header listing the supported methods, e.g. `Allow: GET, POST`.\n\nWatch out: don't confuse it with `501 Not Implemented`, which means the server doesn't support the method for any resource.",
+      "searchQuery": "HTTP 405 Method Not Allowed Allow header"
+    },
+    {
+      "id": "range-206-partial",
+      "title": "A client resumes a download by sending `Range: bytes=1000-`. Which status code returns just that part?",
+      "answer": "206",
+      "acceptedAnswers": [
+        "206 Partial Content"
+      ],
+      "body": "`206 Partial Content`\n\nThe response has a `Content-Range` header saying which bytes are included. Servers advertise support with `Accept-Ranges: bytes`.\n\nTip: if the range can't be satisfied (e.g. it starts past the end of the file), the answer is `416 Range Not Satisfiable`.",
+      "searchQuery": "HTTP 206 Partial Content Range request resume download"
+    },
+    {
+      "id": "content-type-vs-accept",
+      "title": "`Content-Type` vs `Accept`: what does each header describe?",
+      "body": "`Content-Type` describes the body being sent; `Accept` lists what the client will take.\n\n- `Content-Type`: the media type of this message's body, e.g. `text/html; charset=utf-8`.\n- `Accept` (request header): acceptable media types with optional preferences, e.g. `application/json, text/plain;q=0.5`.\n\nKey idea: this is **content negotiation**; a server that can produce none of the options may respond `406 Not Acceptable`.",
+      "searchQuery": "Content-Type vs Accept header content negotiation"
+    },
+    {
+      "id": "json-media-type",
+      "title": "What is the registered media type (MIME type) for JSON?",
+      "answer": "application/json",
+      "body": "`application/json`\n\nVariants like `text/json` were never registered.\n\nWhy: JSON exchanged between systems must be UTF-8, so `application/json` defines no `charset` parameter.",
+      "searchQuery": "JSON media type application/json MIME"
+    },
+    {
+      "id": "status-415-unsupported",
+      "title": "An API that accepts only JSON receives a `POST` with `Content-Type: application/xml`. Which status code fits?",
+      "answer": "415",
+      "acceptedAnswers": [
+        "415 Unsupported Media Type"
+      ],
+      "body": "`415 Unsupported Media Type`\n\nThe server refuses the body's format.\n\nWatch out: `406 Not Acceptable` concerns the response format the client asked for in `Accept`. `422` is for a body in the right format whose content fails validation.",
+      "searchQuery": "HTTP 415 Unsupported Media Type"
+    },
+    {
+      "id": "multipart-form-data",
+      "title": "Which `enctype` must an HTML form use to upload files?",
+      "answer": "multipart/form-data",
+      "body": "`multipart/form-data`, with `method=\"post\"`\n\nEach field becomes a separate part with its own headers, so file contents can be sent as raw binary.\n\nWatch out: the default, `application/x-www-form-urlencoded`, sends `name=value&...` pairs and can't carry file contents.",
+      "searchQuery": "HTML form file upload enctype multipart/form-data"
+    },
+    {
+      "id": "percent-encoding-space",
+      "title": "How is a space character written in a URL path using percent-encoding?",
+      "answer": "%20",
+      "body": "`%20`\n\nA percent sign followed by the byte's hex value (a space is `0x20`). Reserved characters work the same way, e.g. a `/` inside a path segment becomes `%2F`.\n\nWatch out: in form-encoded query strings (`application/x-www-form-urlencoded`), `+` also means a space; in a path it's a literal plus sign.",
+      "searchQuery": "URL percent encoding space %20"
+    },
+    {
+      "id": "content-encoding-gzip",
+      "title": "Which response header says the body was compressed, e.g. with gzip or Brotli?",
+      "answer": "Content-Encoding",
+      "body": "`Content-Encoding`\n\nExample: `Content-Encoding: br`. The client advertises what it can decode with `Accept-Encoding: gzip, br`.\n\nTip: the response should carry `Vary: Accept-Encoding` so caches keep the versions apart. Already-compressed formats such as JPEG and MP4 gain little.",
+      "searchQuery": "Content-Encoding header gzip Brotli compression"
+    },
+    {
+      "id": "tcp-ip-model-layers",
+      "title": "Name the four layers of the TCP/IP model, top to bottom, with an example protocol for each.",
+      "body": "Application, transport, internet, link.\n\n- **Application**: HTTP, DNS\n- **Transport**: TCP, UDP\n- **Internet**: IP\n- **Link**: Ethernet, Wi-Fi\n\nKey idea: each layer wraps the one above it. An HTTP message rides in TCP segments, inside IP packets, inside Ethernet frames.",
+      "searchQuery": "TCP/IP model four layers protocols"
+    },
+    {
+      "id": "osi-transport-layer",
+      "title": "TCP and UDP belong to which numbered layer of the seven-layer OSI model?",
+      "answer": "4",
+      "acceptedAnswers": [
+        "layer 4",
+        "L4",
+        "four"
+      ],
+      "body": "Layer 4, the transport layer\n\nIP is layer 3 (network), Ethernet covers layers 1 and 2 (physical and data link), and HTTP is layer 7 (application).\n\nTip: that's why a load balancer that routes by IP and port is called **L4**, and one that routes by URL or header is **L7**.",
+      "searchQuery": "OSI model transport layer TCP UDP layer number"
+    },
+    {
+      "id": "ipv6-address-bits",
+      "title": "How many bits long is an IPv6 address?",
+      "answer": "128",
+      "acceptedAnswers": [
+        "128 bits"
+      ],
+      "body": "$128$ bits\n\nWritten as eight groups of four hex digits, with `::` compressing one run of zero groups, e.g. `2001:db8::1`.\n\nWhy: an IPv4 address is $32$ bits, about $4.3$ billion addresses in all, a pool that has run out. IPv6's $2^{128}$ addresses make exhaustion a non-issue.",
+      "searchQuery": "IPv6 address length 128 bits"
+    },
+    {
+      "id": "loopback-address",
+      "title": "What IPv4 address does `localhost` normally resolve to?",
+      "answer": "127.0.0.1",
+      "body": "`127.0.0.1`\n\nTraffic to the loopback address never leaves the machine. All of `127.0.0.0/8` is reserved for loopback, and the IPv6 loopback address is `::1`.\n\nTip: a dev server bound to `127.0.0.1` isn't reachable from other devices; binding to `0.0.0.0` listens on all interfaces.",
+      "searchQuery": "localhost loopback address 127.0.0.1"
+    },
+    {
+      "id": "tcp-connection-4-tuple",
+      "title": "A web server accepts thousands of TCP connections on port 443. What uniquely identifies each connection?",
+      "body": "The 4-tuple: source IP, source port, destination IP, destination port.\n\nEach client connection has a different source IP or ephemeral source port, so thousands can share the server's port `443`.\n\nKey idea: adding the protocol (TCP or UDP) gives the **5-tuple** that firewalls and load balancers match on.",
+      "searchQuery": "TCP connection identified 4-tuple source destination IP port"
+    },
+    {
+      "id": "tcp-three-way-handshake",
+      "title": "In order, which three segments open a TCP connection?",
+      "answer": "SYN, SYN-ACK, ACK",
+      "acceptedAnswers": [
+        "SYN SYN-ACK ACK",
+        "SYN, SYN/ACK, ACK",
+        "SYN SYN/ACK ACK",
+        "SYN, SYNACK, ACK",
+        "SYN -> SYN-ACK -> ACK"
+      ],
+      "body": "SYN, SYN-ACK, ACK\n\n1. The client's `SYN` carries its initial sequence number.\n2. The server's `SYN-ACK` acknowledges it and carries the server's own.\n3. The client's `ACK` completes the handshake.\n\nWhy: that costs a full round trip before the client can send its request, and HTTPS adds a TLS handshake on top.",
+      "searchQuery": "TCP three-way handshake SYN SYN-ACK ACK"
+    },
+    {
+      "id": "http11-persistent-connections",
+      "title": "What did HTTP/1.1 make the default, so that many requests can reuse one TCP connection?",
+      "answer": "persistent connections",
+      "acceptedAnswers": [
+        "persistent connection",
+        "keep-alive",
+        "keepalive",
+        "connection reuse"
+      ],
+      "body": "Persistent connections (keep-alive)\n\nThe connection stays open after a response unless a side sends `Connection: close`. HTTP/1.0 opened a new connection per request unless keep-alive was negotiated.\n\nWatch out: reuse saves a TCP (and TLS) handshake per request, but responses on one connection still return one at a time, in order, so browsers open several connections per host.",
+      "searchQuery": "HTTP/1.1 persistent connections keep-alive default"
+    },
+    {
+      "id": "http2-multiplexing",
+      "title": "Which HTTP version introduced binary framing and multiplexing of many concurrent requests over one TCP connection?",
+      "answer": "HTTP/2",
+      "acceptedAnswers": [
+        "HTTP2",
+        "h2"
+      ],
+      "body": "HTTP/2\n\nRequests and responses are split into frames on independent streams, so a slow response no longer blocks the ones behind it at the HTTP level. It also compresses headers (**HPACK**).\n\nKey idea: the semantics (methods, status codes, headers) are the same as in HTTP/1.1.",
+      "searchQuery": "HTTP/2 binary framing multiplexing one TCP connection"
+    },
+    {
+      "id": "http2-tcp-hol-blocking",
+      "title": "Why can a single lost packet stall every stream of an HTTP/2 connection?",
+      "body": "TCP head-of-line blocking.\n\nTCP delivers bytes strictly in order, so data for all the multiplexed streams waits behind the missing packet until it's retransmitted.\n\nTip: HTTP/3 fixes this by running over **QUIC**, which delivers each stream independently.",
+      "searchQuery": "HTTP/2 TCP head-of-line blocking packet loss"
+    },
+    {
+      "id": "http3-quic",
+      "title": "HTTP/3 runs over which transport protocol, itself built on UDP?",
+      "answer": "QUIC",
+      "body": "QUIC\n\nIt provides reliable, independently ordered streams on top of UDP, with TLS 1.3 built into its handshake, so a new connection is usually ready after one round trip.\n\nExample: connections are identified by connection IDs rather than IP and port, so they can survive a network change such as Wi-Fi to cellular.",
+      "searchQuery": "HTTP/3 QUIC transport protocol over UDP"
+    },
+    {
+      "id": "tls-hybrid-encryption",
+      "title": "Why does TLS use public-key cryptography in the handshake but symmetric encryption for the data?",
+      "body": "Public-key crypto is slow; symmetric crypto is fast.\n\nPublic-key operations (certificate signatures, Diffie–Hellman key exchange) let two strangers authenticate and agree on a shared secret. The handshake then derives **session keys** from that secret.\n\nAll application data is encrypted with a fast symmetric cipher such as AES-GCM.",
+      "searchQuery": "TLS public key handshake symmetric encryption data why"
+    },
+    {
+      "id": "tls-certificate-chain",
+      "title": "How does a browser decide whether to trust a server's TLS certificate?",
+      "body": "It validates a signature chain up to a trusted root CA.\n\nThe browser builds a chain from the server's certificate through any intermediates to a **root CA** in its trust store. It also checks that the certificate names (subject alternative names) match the hostname, that it's within its validity period, and that it isn't revoked.\n\nKey idea: during the handshake, the server also proves it holds the certificate's private key.",
+      "searchQuery": "TLS certificate chain of trust root CA validation"
+    },
+    {
+      "id": "tls13-handshake-rtt",
+      "title": "How many round trips does a full TLS 1.3 handshake take before the client can send application data?",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one",
+        "1 RTT",
+        "1-RTT"
+      ],
+      "body": "One round trip (1-RTT)\n\nThat's down from two in TLS 1.2: the client sends its key share in its very first message.\n\nWatch out: resumed sessions can send data immediately (**0-RTT**), but that early data can be replayed by an attacker, so it should carry only idempotent requests.",
+      "searchQuery": "TLS 1.3 handshake round trips 1-RTT"
+    },
+    {
+      "id": "forward-secrecy",
+      "title": "Which TLS property keeps recorded past sessions safe even if the server's private key is stolen later?",
+      "answer": "forward secrecy",
+      "acceptedAnswers": [
+        "perfect forward secrecy",
+        "PFS"
+      ],
+      "body": "Forward secrecy (perfect forward secrecy)\n\nSession keys come from ephemeral Diffie–Hellman values that are discarded afterward. The long-term key only signs the handshake, so it can't decrypt old traffic.\n\nTip: TLS 1.3 removed static RSA key exchange, so every full TLS 1.3 handshake has it.",
+      "searchQuery": "TLS forward secrecy ephemeral Diffie-Hellman"
+    },
+    {
+      "id": "sni",
+      "title": "Which TLS extension lets the client name the site it wants, so one IP address can serve certificates for many sites?",
+      "answer": "SNI",
+      "acceptedAnswers": [
+        "Server Name Indication"
+      ],
+      "body": "SNI (Server Name Indication)\n\nIt's sent in the ClientHello so the server can choose the matching certificate before encryption starts.\n\nWatch out: it's normally unencrypted, so network observers can see which site you visit; **Encrypted Client Hello (ECH)** hides it.",
+      "searchQuery": "TLS SNI Server Name Indication extension"
+    },
+    {
+      "id": "hsts-header",
+      "title": "Which response header tells browsers to use only HTTPS for a site for a set period?",
+      "answer": "Strict-Transport-Security",
+      "acceptedAnswers": [
+        "HSTS",
+        "HTTP Strict Transport Security"
+      ],
+      "body": "`Strict-Transport-Security` (HSTS)\n\nExample: `Strict-Transport-Security: max-age=31536000; includeSubDomains`. The browser then rewrites every `http://` URL for that host to `https://` and won't let users click through certificate errors.\n\nWatch out: the very first visit is unprotected unless the domain is on the browsers' HSTS **preload** list.",
+      "searchQuery": "Strict-Transport-Security HSTS header HTTPS only"
+    },
+    {
+      "id": "dns-resolution-hierarchy",
+      "title": "With nothing cached, which name servers does a resolver query, in order, to resolve `www.example.com`?",
+      "body": "Root server, then the `.com` TLD server, then the authoritative server for `example.com`.\n\nEach of the first two refers the resolver onward; the authoritative server returns the answer.\n\nTip: the resolver caches every answer and referral for its **TTL**, so most lookups skip these steps.",
+      "searchQuery": "DNS resolution root TLD authoritative name server order"
+    },
+    {
+      "id": "dns-recursive-vs-iterative",
+      "title": "In a typical DNS lookup, which query is recursive and which are iterative?",
+      "body": "Your device's query is recursive; the resolver's queries are iterative.\n\nThe stub resolver on your device sends a **recursive** query to a resolver (e.g. your ISP's or `1.1.1.1`): \"give me the final answer\".\n\nThat resolver then makes **iterative** queries to the root, TLD, and authoritative servers. Each returns either the answer or a referral to a server closer to it.",
+      "searchQuery": "DNS recursive vs iterative query resolver"
+    },
+    {
+      "id": "dns-cname",
+      "title": "Which DNS record type makes one hostname an alias of another hostname?",
+      "answer": "CNAME",
+      "acceptedAnswers": [
+        "CNAME record",
+        "canonical name"
+      ],
+      "body": "CNAME (canonical name)\n\nExample: `www.example.com` → `example.net`; the resolver then looks up the target name's records.\n\nWatch out: a CNAME always points to a name, never directly to an IP address; that's the job of `A` and `AAAA` records.",
+      "searchQuery": "DNS CNAME record alias canonical name"
+    },
+    {
+      "id": "dns-mx",
+      "title": "Which DNS record type names the mail servers that accept email for a domain?",
+      "answer": "MX",
+      "acceptedAnswers": [
+        "MX record",
+        "mail exchange",
+        "mail exchanger"
+      ],
+      "body": "MX (mail exchange)\n\nEach MX record has a preference number, and lower values are tried first: `10 mx1.example.com` before `20 mx2.example.com`.\n\nWatch out: an MX target must be a hostname with its own `A` or `AAAA` records, not a `CNAME` alias or a bare IP address.",
+      "searchQuery": "DNS MX record mail exchange preference"
+    },
+    {
+      "id": "dns-ttl-minutes",
+      "title": "A DNS record has a TTL of 300. For how many minutes may resolvers cache it?",
+      "answer": "5",
+      "acceptedAnswers": [
+        "5 minutes",
+        "five"
+      ],
+      "body": "5 minutes\n\nTTLs are in seconds, and $300 / 60 = 5$.\n\nTip: before moving a site to a new IP address, lower its TTL well in advance. Long TTLs mean fewer lookups but slower changes.",
+      "searchQuery": "DNS TTL 300 seconds minutes caching"
+    },
+    {
+      "id": "what-happens-enter-url",
+      "title": "You type `https://example.com` and press Enter. What are the main network steps before the page appears?",
+      "body": "DNS lookup, TCP handshake, TLS handshake, then the HTTP request.\n\n1. DNS lookup for `example.com` (browser, OS, and resolver caches first).\n2. TCP handshake to port `443`.\n3. TLS handshake (certificate check, key agreement).\n4. HTTP `GET`; then the browser parses the HTML and fetches the CSS, JavaScript, and images it references, reusing the connection where it can.\n\nTip: with HTTP/3, one QUIC handshake replaces the separate TCP and TLS handshakes.",
+      "searchQuery": "what happens when you type a URL browser steps DNS TCP TLS"
+    },
+    {
+      "id": "forward-vs-reverse-proxy",
+      "title": "Forward proxy vs reverse proxy: on whose behalf does each act?",
+      "body": "A forward proxy acts for clients; a reverse proxy acts for servers.\n\n- **Forward proxy**: browsers send requests through it (e.g. a corporate filter), and servers see the proxy's address.\n- **Reverse proxy**: clients connect to it as if it were the site (e.g. Nginx in front of app servers). It handles TLS termination, load balancing, and caching.",
+      "searchQuery": "forward proxy vs reverse proxy difference"
+    },
+    {
+      "id": "cdn-latency",
+      "title": "How does a CDN speed up a site for users far from the origin server?",
+      "body": "It serves cached copies from edge servers near the user.\n\nA CDN caches content in many locations and routes each user (via DNS or anycast) to a nearby one. Round trips are short, and the origin serves far fewer requests.\n\nWatch out: it helps most with cacheable static assets; uncacheable responses still come from the origin, though often over the CDN's fast, already-open connections.",
+      "searchQuery": "CDN edge servers reduce latency caching"
+    },
+    {
+      "id": "http-stateless-login",
+      "title": "HTTP is stateless, so how does a typical website remember that you're logged in?",
+      "body": "A session ID stored in a cookie.\n\nAt login the server creates a session and sends its random ID in a cookie. The browser returns the cookie with every request, and the server uses it to look up the session. Alternatively, it issues a signed token it can verify without a lookup.\n\nWatch out: a session ID works like a password while valid, so it must be long, random, and sent only over HTTPS.",
+      "searchQuery": "HTTP stateless session cookie remember logged in"
+    },
+    {
+      "id": "set-cookie-header",
+      "title": "Which response header does a server use to store a cookie in the browser?",
+      "answer": "Set-Cookie",
+      "body": "`Set-Cookie`\n\nExample: `Set-Cookie: sid=abc123; Path=/; HttpOnly`. On later requests to matching URLs, the browser sends it back in the `Cookie` request header: `Cookie: sid=abc123`.\n\nTip: it takes one `Set-Cookie` header per cookie, and the attributes are never sent back.",
+      "searchQuery": "Set-Cookie response header store cookie"
+    },
+    {
+      "id": "session-cookie-no-expiry",
+      "title": "A cookie is set with neither `Expires` nor `Max-Age`. What kind of cookie is it?",
+      "answer": "session cookie",
+      "acceptedAnswers": [
+        "session",
+        "non-persistent cookie",
+        "non-persistent"
+      ],
+      "body": "A session cookie\n\nIt's discarded when the browser session ends, whereas a cookie with `Expires` or `Max-Age` persists until that time. If both are set, `Max-Age` wins.\n\nWatch out: browsers that restore sessions on restart may keep session cookies too, so don't rely on them for security.",
+      "searchQuery": "session cookie no Expires Max-Age"
+    },
+    {
+      "id": "cookie-domain-host-only",
+      "title": "`app.example.com` sets a cookie without a `Domain` attribute. Is it sent to `api.example.com`?",
+      "body": "No, it's a host-only cookie.\n\nWithout `Domain`, the cookie is sent only to `app.example.com`. With `Domain=example.com`, it would go to `example.com` and all its subdomains.\n\nWatch out: setting `Domain` **widens** a cookie's scope; it never narrows it.",
+      "searchQuery": "cookie Domain attribute host-only subdomain"
+    },
+    {
+      "id": "samesite-none-secure",
+      "title": "A cookie set with `SameSite=None` must also have which attribute, or browsers reject it?",
+      "answer": "Secure",
+      "acceptedAnswers": [
+        "Secure attribute",
+        "Secure flag"
+      ],
+      "body": "`Secure`\n\nCookies meant to travel on cross-site requests (embedded widgets, third-party sign-in) must be HTTPS-only.\n\nWatch out: `SameSite=None` opts out of SameSite's CSRF protection, so that protection must come from elsewhere, such as anti-CSRF tokens.",
+      "searchQuery": "SameSite=None requires Secure attribute cookie"
+    },
+    {
+      "id": "samesite-strict-cross-site-link",
+      "title": "A user follows a link to your site from another site. Does the browser send this cookie with that request?\n```http\nSet-Cookie: sid=abc123; Secure; HttpOnly; SameSite=Strict\n```",
+      "body": "No, the cookie is withheld.\n\n`Strict` withholds the cookie on every cross-site request, even a top-level navigation. The user lands looking logged out until their next same-site request.\n\nTip: `Lax` would send it on top-level `GET` navigations but not on cross-site subrequests or `POST`s, a common compromise for session cookies.",
+      "searchQuery": "SameSite Strict cookie cross-site link navigation"
+    },
+    {
+      "id": "web-storage-local-vs-session",
+      "title": "`localStorage` vs `sessionStorage`: how long does each keep its data?",
+      "body": "`localStorage` persists until cleared; `sessionStorage` lasts for one tab.\n\n`localStorage` is shared by all tabs of the same origin. `sessionStorage` is scoped to a single tab and cleared when that tab closes.\n\nWatch out: neither is sent to the server automatically, and any script on the page can read both, so neither is a safe place for tokens if XSS is possible.",
+      "searchQuery": "localStorage vs sessionStorage lifetime"
+    },
+    {
+      "id": "session-fixation",
+      "title": "Why should a server issue a new session ID right after a user logs in?",
+      "body": "To prevent session fixation.\n\nAn attacker who planted a known session ID in the victim's browser before login would otherwise share the victim's authenticated session.\n\nTip: regenerate the ID at login, and at any privilege change, so a planted ID is worthless.",
+      "searchQuery": "session fixation regenerate session ID after login"
+    },
+    {
+      "id": "password-storage",
+      "title": "How should a web app store users' passwords?",
+      "body": "As salted hashes from a deliberately slow password-hashing function (Argon2, bcrypt, scrypt).\n\nA unique **salt** per user defeats precomputed tables, and the slowness makes brute-forcing a stolen database expensive.\n\nWatch out: never store passwords in plaintext, encrypted (anyone with the key can reverse it), or as a single fast hash like SHA-256.",
+      "searchQuery": "password storage salted hash Argon2 bcrypt scrypt"
+    },
+    {
+      "id": "basic-auth-base64",
+      "title": "HTTP Basic authentication sends `username:password` in the `Authorization` header using which encoding?",
+      "answer": "Base64",
+      "acceptedAnswers": [
+        "base-64"
+      ],
+      "body": "Base64\n\nExample: `Authorization: Basic YWxpY2U6c2VjcmV0` for `alice:secret`.\n\nWatch out: that's an encoding, not encryption. Anyone who sees the header can decode it instantly, so Basic auth is acceptable only over HTTPS. The browser resends the credentials with every request.",
+      "searchQuery": "HTTP Basic authentication Base64 Authorization header"
+    },
+    {
+      "id": "bearer-authorization-header",
+      "title": "Which request header carries an OAuth 2.0 access token to an API?",
+      "answer": "Authorization",
+      "acceptedAnswers": [
+        "Authorization header",
+        "Authorization: Bearer"
+      ],
+      "body": "`Authorization`, with the `Bearer` scheme\n\nExample: `Authorization: Bearer <token>`. Whoever holds a bearer token can use it, so it must travel only over HTTPS and should be short-lived.\n\nWatch out: avoid putting tokens in URLs, where they leak into logs, browser history, and `Referer` headers.",
+      "searchQuery": "OAuth 2.0 Bearer token Authorization header"
+    },
+    {
+      "id": "jwt-exp-claim",
+      "title": "Which registered JWT claim holds the token's expiration time?",
+      "answer": "exp",
+      "body": "`exp`\n\nA NumericDate: seconds since the Unix epoch, e.g. `\"exp\": 1767225600` (2026-01-01 UTC). Servers must reject tokens past it.\n\nTip: other registered claims are `iat` (issued at), `nbf` (not before), `iss` (issuer), `sub` (subject), and `aud` (audience).",
+      "searchQuery": "JWT exp claim expiration time NumericDate"
+    },
+    {
+      "id": "jwt-revocation",
+      "title": "Why is a stateless JWT hard to revoke before it expires?",
+      "body": "The server checks only the signature and `exp`, with no lookup.\n\nSo a stolen token, or one belonging to a user who has logged out, stays valid until it expires.\n\nTip: common fixes are short-lived access tokens plus revocable **refresh tokens**, or a server-side denylist (which brings back server state).",
+      "searchQuery": "JWT revocation stateless hard to revoke"
+    },
+    {
+      "id": "jwt-alg-none",
+      "title": "What's the danger if a server trusts the `alg` field in a JWT's header?",
+      "body": "Attackers can forge tokens by choosing the algorithm.\n\nThey can set `\"alg\": \"none\"` and drop the signature. Or they can switch `RS256` to `HS256`, so the server checks an HMAC keyed with its own public key, which the attacker also knows.\n\nTip: the server fixes the expected algorithm and key in advance; the token never gets to choose.",
+      "searchQuery": "JWT alg none attack algorithm confusion RS256 HS256"
+    },
+    {
+      "id": "oauth-authorization-code",
+      "title": "Which OAuth 2.0 grant type should a web or mobile app use to get an access token on a user's behalf?",
+      "answer": "authorization code",
+      "acceptedAnswers": [
+        "authorization code grant",
+        "authorization code flow",
+        "authorization code with PKCE",
+        "auth code"
+      ],
+      "body": "The authorization code grant, with PKCE\n\nThe user signs in at the authorization server, which redirects back with a short-lived one-time code. The app then exchanges the code (plus its PKCE verifier) for tokens in a direct back-channel request.\n\nWatch out: the **implicit grant**, which returned tokens in the redirect URL, is deprecated.",
+      "searchQuery": "OAuth 2.0 authorization code grant PKCE"
+    },
+    {
+      "id": "pkce-purpose",
+      "title": "In OAuth's authorization code flow, what attack does PKCE prevent?",
+      "body": "Authorization code interception.\n\nAn attacker who steals the code (e.g. a malicious app registered for the same redirect URI) can't redeem it. The client first sends a hash of a random `code_verifier` (the `code_challenge`) and must present the verifier itself when exchanging the code.\n\nTip: it protects public clients, like mobile apps, that can't keep a client secret.",
+      "searchQuery": "PKCE OAuth authorization code interception code_verifier"
+    },
+    {
+      "id": "oauth-vs-oidc",
+      "title": "OAuth 2.0 vs OpenID Connect: which one is designed for authenticating users?",
+      "answer": "OpenID Connect",
+      "acceptedAnswers": [
+        "OIDC"
+      ],
+      "body": "OpenID Connect\n\nOAuth 2.0 is for **authorization**: giving an app an access token to call APIs on your behalf. OIDC adds an identity layer on top: an ID token (a JWT) stating who the user is and when and how they signed in.\n\nWatch out: treating a bare OAuth access token as proof of login is a classic mistake.",
+      "searchQuery": "OAuth 2.0 vs OpenID Connect authentication ID token"
+    },
+    {
+      "id": "status-204-no-content",
+      "title": "A `DELETE` succeeds and the server has nothing to send back. Which status code fits best?",
+      "answer": "204",
+      "acceptedAnswers": [
+        "204 No Content"
+      ],
+      "body": "`204 No Content`\n\nThe request succeeded and the response has no body. It's common for `DELETE` and for `PUT` or `PATCH` when the server doesn't echo the resource.\n\nTip: use `200 OK` when you do return a body.",
+      "searchQuery": "HTTP 204 No Content status code DELETE"
+    },
+    {
+      "id": "status-404-vs-410",
+      "title": "`404 Not Found` vs `410 Gone`: how do they differ?",
+      "body": "`404` says \"not found (maybe never existed)\"; `410` says \"deliberately and permanently removed\".\n\nA `404` makes no promise about the future; the resource might appear later. A `410 Gone` tells clients and crawlers they can stop asking and drop the URL.\n\nWatch out: servers also use `404` to hide that a protected resource exists.",
+      "searchQuery": "HTTP 404 vs 410 Gone difference"
+    },
+    {
+      "id": "status-101-websocket",
+      "title": "Which status code does a server send to accept a WebSocket upgrade request?",
+      "answer": "101",
+      "acceptedAnswers": [
+        "101 Switching Protocols"
+      ],
+      "body": "`101 Switching Protocols`\n\nThe client sends a normal `GET` with `Upgrade: websocket` and `Connection: Upgrade`. After the `101`, the same TCP connection carries WebSocket frames instead of HTTP.\n\nKey idea: WebSocket gives full-duplex messaging over one long-lived connection.",
+      "searchQuery": "WebSocket handshake 101 Switching Protocols"
+    },
+    {
+      "id": "retry-after-header",
+      "title": "Which response header tells a client how long to wait before retrying after a `429` or `503`?",
+      "answer": "Retry-After",
+      "body": "`Retry-After`\n\nIts value is either a number of seconds (`Retry-After: 120`) or an HTTP date.\n\nTip: well-behaved clients honor it and add random jitter so they don't all retry at the same instant.",
+      "searchQuery": "Retry-After header 429 503 rate limit"
+    },
+    {
+      "id": "cache-max-age-minutes",
+      "title": "A response has `Cache-Control: max-age=3600`. For how many minutes may a cache reuse it without revalidating? (number only)",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 minutes"
+      ],
+      "body": "60 minutes\n\n`max-age` is in seconds, and $3600 / 60 = 60$. After that the response is **stale** and must be revalidated (e.g. with `If-None-Match`).\n\nWatch out: `max-age` counts from when the response was generated, so time already spent in a shared cache (the `Age` header) is subtracted.",
+      "searchQuery": "Cache-Control max-age 3600 seconds freshness"
+    },
+    {
+      "id": "if-match-412",
+      "title": "Which request header makes a `PUT` conditional on the resource's current `ETag`, so a stale update fails with `412 Precondition Failed`?",
+      "answer": "If-Match",
+      "body": "`If-Match`\n\nExample: `If-Match: \"v7\"` means \"apply this update only if the resource is still version `v7`\". If someone else changed it, the server returns `412`.\n\nWhy: this prevents the **lost update** problem without locks (optimistic concurrency).",
+      "searchQuery": "If-Match header ETag optimistic concurrency 412"
+    },
+    {
+      "id": "vary-header",
+      "title": "Which response header tells caches that the response depends on certain request headers, such as `Accept-Encoding`?",
+      "answer": "Vary",
+      "body": "`Vary`\n\nExample: `Vary: Accept-Encoding` makes a cache store the gzip and uncompressed versions separately and serve the right one.\n\nWatch out: `Vary: *` effectively makes the response uncacheable, and varying on many headers fragments the cache.",
+      "searchQuery": "HTTP Vary header cache key Accept-Encoding"
+    },
+    {
+      "id": "hateoas",
+      "title": "Which REST constraint has responses include links to the next possible actions, so clients navigate without hard-coded URLs?",
+      "answer": "HATEOAS",
+      "acceptedAnswers": [
+        "hypermedia as the engine of application state",
+        "hypermedia"
+      ],
+      "body": "HATEOAS (hypermedia as the engine of application state)\n\nExample: an order response might include links to `cancel` and `pay`, and omit `cancel` once the order has shipped.\n\nKey idea: it's part of REST's uniform interface; few \"REST\" APIs implement it fully.",
+      "searchQuery": "HATEOAS REST hypermedia constraint"
+    },
+    {
+      "id": "idempotency-key",
+      "title": "Which request header do payment APIs commonly use so a retried `POST` is processed only once?",
+      "answer": "Idempotency-Key",
+      "body": "`Idempotency-Key`\n\nThe client sends a unique value (e.g. a UUID) with the first attempt and reuses it on retries. The server remembers the key and returns the original result instead of creating a duplicate.\n\nWhy: `POST` isn't idempotent, and after a network timeout the client can't know whether the first attempt succeeded.",
+      "searchQuery": "Idempotency-Key header POST retry payment API"
+    },
+    {
+      "id": "offset-vs-cursor-pagination",
+      "title": "Offset pagination (`?page=50`) vs cursor pagination (`?after=<id>`): which is more stable when rows are inserted while a client pages through?",
+      "body": "Cursor (keyset) pagination.\n\nA cursor marks \"continue after this item\", so inserts and deletes elsewhere don't shift the page boundaries. With offsets, a new row at the top pushes items down and the next page repeats one.\n\nWatch out: large offsets are also slow, because the database must skip all the earlier rows.",
+      "searchQuery": "cursor pagination vs offset pagination REST API"
+    },
+    {
+      "id": "xss-stored-vs-reflected",
+      "title": "Stored XSS vs reflected XSS: where does the malicious script come from?",
+      "body": "Stored XSS: saved on the server. Reflected XSS: echoed back from the request.\n\n- **Stored**: the payload is saved (e.g. in a comment) and served to every visitor who views it.\n- **Reflected**: the payload is in the request (e.g. a URL parameter) and the server echoes it into the page, so the victim must follow a crafted link.\n\nKey idea: both are fixed by encoding output for its context (HTML, attribute, JavaScript).",
+      "searchQuery": "stored XSS vs reflected XSS difference"
+    },
+    {
+      "id": "csp-header",
+      "title": "Which response header lets a site restrict where scripts, images, and other resources may load from, limiting the damage of XSS?",
+      "answer": "Content-Security-Policy",
+      "acceptedAnswers": [
+        "CSP"
+      ],
+      "body": "`Content-Security-Policy` (CSP)\n\nExample: `Content-Security-Policy: script-src 'self'` allows scripts only from the site's own origin, so an injected inline script won't run.\n\nWatch out: CSP is defense in depth; you still need to encode output.",
+      "searchQuery": "Content-Security-Policy header XSS mitigation"
+    },
+    {
+      "id": "cors-allow-origin",
+      "title": "Which response header names the origin allowed to read a cross-origin response?",
+      "answer": "Access-Control-Allow-Origin",
+      "body": "`Access-Control-Allow-Origin`\n\nExample: `Access-Control-Allow-Origin: https://app.example.com`. The browser compares it with the request's `Origin` header and blocks the page's JavaScript from reading the response if they don't match.\n\nWatch out: the server still receives and processes the request; CORS only controls what the browser lets scripts read.",
+      "searchQuery": "Access-Control-Allow-Origin CORS header"
+    },
+    {
+      "id": "cors-wildcard-credentials",
+      "title": "Can a response that allows credentialed cross-origin requests use `Access-Control-Allow-Origin: *`?",
+      "body": "No.\n\nWith credentials (cookies or HTTP auth), the server must echo one specific origin and send `Access-Control-Allow-Credentials: true`. Browsers reject the wildcard in that case.\n\nTip: if you echo the request's `Origin`, check it against an allowlist and add `Vary: Origin`.",
+      "searchQuery": "CORS wildcard origin with credentials not allowed"
+    },
+    {
+      "id": "same-site-vs-same-origin",
+      "title": "\"Same-site\" and \"same-origin\" are different. What does same-site compare?",
+      "body": "The registrable domain (e.g. `example.com`); the port isn't compared.\n\n`https://app.example.com` and `https://api.example.com:8443` are **same-site** (same registrable domain and scheme) but not **same-origin**.\n\nKey idea: `SameSite` cookies use the same-site rule, while the same-origin policy and CORS use the stricter origin rule.",
+      "searchQuery": "same-site vs same-origin registrable domain"
+    },
+    {
+      "id": "cookie-delete-max-age",
+      "title": "To make the browser delete a cookie, the server re-sends it with what `Max-Age` value?",
+      "answer": "0",
+      "acceptedAnswers": [
+        "Max-Age=0",
+        "Max-Age 0"
+      ],
+      "body": "`Max-Age=0`\n\nSend `Set-Cookie` with the same name, `Domain`, and `Path`, and `Max-Age=0` (or an `Expires` date in the past).\n\nWatch out: if `Domain` or `Path` differ from the original, the browser treats it as a different cookie and keeps the old one.",
+      "searchQuery": "delete cookie Set-Cookie Max-Age=0"
+    },
+    {
+      "id": "cookie-host-prefix",
+      "title": "A cookie named with which prefix is accepted only if it is `Secure`, has `Path=/`, and sets no `Domain`?",
+      "answer": "__Host-",
+      "acceptedAnswers": [
+        "__Host"
+      ],
+      "body": "`__Host-`\n\nExample: `Set-Cookie: __Host-sid=abc; Secure; Path=/`. It's tied to the exact host, so a sibling subdomain can't overwrite it.\n\nTip: `__Secure-` is the weaker prefix; it requires only `Secure`.",
+      "searchQuery": "__Host- cookie prefix Secure Path Domain"
+    },
+    {
+      "id": "oauth-state-parameter",
+      "title": "Which OAuth authorization-request parameter carries a random value to tie the response to the user's session and block CSRF?",
+      "answer": "state",
+      "body": "`state`\n\nThe client stores a random value, sends it in the authorization request, and rejects a callback whose `state` doesn't match.\n\nWhy: without it, an attacker can trick a victim's browser into completing the attacker's authorization response, linking the wrong account.",
+      "searchQuery": "OAuth state parameter CSRF protection"
+    },
+    {
+      "id": "oauth-refresh-token",
+      "title": "In OAuth 2.0, what is a refresh token used for?",
+      "body": "Getting a new access token without asking the user to sign in again.\n\nAccess tokens are short-lived to limit damage if stolen. The longer-lived refresh token goes only to the authorization server's token endpoint, never to the API.\n\nTip: refresh tokens can be revoked server-side, and many servers rotate them on each use.",
+      "searchQuery": "OAuth refresh token purpose access token expiry"
+    },
+    {
+      "id": "private-ipv4-ranges",
+      "title": "Which three IPv4 blocks does RFC 1918 reserve for private networks?",
+      "body": "`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`\n\nThese addresses aren't routed on the public internet; home and office networks reuse them behind a NAT.\n\nWatch out: only `172.16.0.0` through `172.31.255.255` is private; `172.32.x.x` is public.",
+      "searchQuery": "RFC 1918 private IPv4 address ranges"
+    },
+    {
+      "id": "subnet-slash-24-hosts",
+      "title": "How many usable host addresses does an IPv4 `/24` subnet have? (number only)",
+      "answer": "254",
+      "body": "254\n\nA `/24` leaves $32 - 24 = 8$ host bits, so $2^8 = 256$ addresses. The all-zeros address is the network address and the all-ones address is the broadcast address, so $256 - 2 = 254$ are usable.\n\nTip: the general formula is $2^{32-n} - 2$ for a `/n` subnet.",
+      "searchQuery": "IPv4 /24 subnet usable hosts 254"
+    },
+    {
+      "id": "nat-purpose",
+      "title": "Which technique lets many devices with private IPs share one public IP address by rewriting addresses and ports at the router?",
+      "answer": "NAT",
+      "acceptedAnswers": [
+        "network address translation",
+        "PAT"
+      ],
+      "body": "NAT (network address translation)\n\nThe router rewrites each outgoing packet's source address and port, and remembers the mapping so replies reach the right device.\n\nWatch out: NAT isn't a firewall, and it makes inbound connections to devices behind it harder.",
+      "searchQuery": "NAT network address translation private public IP"
+    },
+    {
+      "id": "transfer-encoding-chunked",
+      "title": "Which `Transfer-Encoding` value lets a server stream a response body whose total length isn't known in advance?",
+      "answer": "chunked",
+      "body": "`chunked`\n\nThe body is sent as a series of chunks, each prefixed with its size, ending with a zero-length chunk. No `Content-Length` is needed.\n\nTip: HTTP/2 and HTTP/3 don't use chunked encoding; their framing already delimits data.",
+      "searchQuery": "HTTP Transfer-Encoding chunked streaming response"
+    }
+  ]
+}

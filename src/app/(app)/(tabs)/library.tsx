@@ -19,6 +19,7 @@ import { MemoryRow } from '@/features/memories/MemoryRow';
 import { categoryLook, personalLook } from '@/features/packs/categories';
 import { useCatalog, usePackIndex } from '@/features/packs/hooks';
 import { memoryStatus, type MemoryStatus } from '@/lib/schedule';
+import { plainText } from '@/lib/rich';
 import { useToday } from '@/lib/useToday';
 import { layout, palette, radii, spacing, useIsWide, useScreenBackground, useTheme } from '@/theme';
 
@@ -67,8 +68,8 @@ export default function Library() {
     if (source !== 'all' && categoryOf(m) !== source) return false;
     if (!needle) return true;
     return (
-      m.title.toLowerCase().includes(needle) ||
-      m.body.toLowerCase().includes(needle) ||
+      plainText(m.title).toLowerCase().includes(needle) ||
+      plainText(m.body).toLowerCase().includes(needle) ||
       (m.answer ?? '').toLowerCase().includes(needle)
     );
   });

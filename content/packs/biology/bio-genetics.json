@@ -1,0 +1,1240 @@
+{
+  "id": "bio-genetics",
+  "title": "Mendelian & Population Genetics",
+  "course": "Genetics",
+  "description": "Mendel's laws, cross ratios and probability, testcrosses, dominance patterns, ABO, epistasis, sex linkage, pedigrees, linkage and map units, chi-square, human genetic disorders, Hardy–Weinberg math and genetic drift.",
+  "cards": [
+    {
+      "id": "law-of-segregation",
+      "title": "Which of Mendel's laws says the two alleles for a character separate during gamete formation, so each gamete gets just one?",
+      "body": "The law of segregation\n\nIts physical basis is that homologous chromosomes, which carry the two alleles, separate in anaphase I of meiosis.\n\nExample: a heterozygote ($Aa$) makes $A$ and $a$ gametes in a $1:1$ ratio.",
+      "answer": "law of segregation",
+      "acceptedAnswers": [
+        "segregation",
+        "principle of segregation",
+        "Mendel's law of segregation",
+        "Mendels law of segregation",
+        "Mendel's first law",
+        "Mendels first law"
+      ],
+      "searchQuery": "Mendel law of segregation alleles separate gametes"
+    },
+    {
+      "id": "monohybrid-heterozygote-fraction",
+      "title": "In a $Pp \\times Pp$ cross (purple dominant to white), what fraction of the purple-flowered offspring are heterozygous?",
+      "body": "$\\frac{2}{3}$\n\nGenotypes come out $1\\,PP : 2\\,Pp : 1\\,pp$, so the phenotypes are $3$ purple : $1$ white. Of the $3$ purple, $2$ are $Pp$.\n\nWatch out: $\\frac{1}{2}$ is the fraction of **all** offspring that are $Pp$, not of the purple ones.",
+      "answer": "2/3",
+      "answerDisplay": "$\\frac{2}{3}$",
+      "acceptedAnswers": [
+        "two thirds",
+        "two-thirds",
+        "2 out of 3",
+        "2 in 3",
+        "0.67",
+        "0.667",
+        "67%",
+        "66.7%",
+        "66.67%"
+      ],
+      "searchQuery": "Pp x Pp purple offspring fraction heterozygous 2/3"
+    },
+    {
+      "id": "testcross",
+      "title": "How can you find out whether a purple-flowered pea plant (dominant phenotype) is $PP$ or $Pp$?",
+      "body": "Do a testcross: breed it with a homozygous recessive ($pp$, white) plant.\n\nAll purple offspring means the plant is $PP$. About half white ($1:1$) means it is $Pp$.\n\nWhy: the $pp$ parent can only pass on $p$, so each offspring's phenotype reveals which allele the unknown parent gave.",
+      "searchQuery": "testcross homozygous recessive determine unknown genotype"
+    },
+    {
+      "id": "dihybrid-ratio",
+      "title": "What phenotypic ratio comes from an $AaBb \\times AaBb$ cross with two unlinked genes, each showing complete dominance?",
+      "body": "$9:3:3:1$\n\nThe classes are $9\\,A\\_B\\_ : 3\\,A\\_bb : 3\\,aaB\\_ : 1\\,aabb$. Each gene alone gives $3:1$, and multiplying probabilities (for example $\\tfrac{3}{4} \\times \\tfrac{3}{4} = \\tfrac{9}{16}$ for $A\\_B\\_$) gives sixteenths.\n\nKey idea: this is the signature of **independent assortment**; linkage or epistasis changes it.",
+      "answer": "9:3:3:1",
+      "answerDisplay": "$9:3:3:1$",
+      "acceptedAnswers": [
+        "9 to 3 to 3 to 1",
+        "9 3 3 1",
+        "9-3-3-1",
+        "9/3/3/1",
+        "9,3,3,1"
+      ],
+      "searchQuery": "dihybrid cross 9:3:3:1 phenotypic ratio independent assortment"
+    },
+    {
+      "id": "product-rule",
+      "title": "With three unlinked genes, what fraction of the offspring from $AaBbCc \\times AaBbCc$ will be $aabbcc$?",
+      "body": "$\\frac{1}{64}$\n\nBy the **product rule**, each gene independently gives $\\frac{1}{4}$ homozygous recessive, so $\\frac{1}{4} \\times \\frac{1}{4} \\times \\frac{1}{4} = \\frac{1}{64}$.\n\nWatch out: use the sum rule (add) when an outcome can arise in more than one mutually exclusive way. For $Aa$ from $Aa \\times Aa$: $\\frac{1}{4} + \\frac{1}{4} = \\frac{1}{2}$.",
+      "answer": "1/64",
+      "answerDisplay": "$\\frac{1}{64}$",
+      "acceptedAnswers": [
+        "0.016",
+        "1.6%",
+        "1 in 64",
+        "0.015625",
+        "0.0156",
+        "1.56%",
+        "1.5625%"
+      ],
+      "searchQuery": "product rule trihybrid cross aabbcc 1/64 probability"
+    },
+    {
+      "id": "incomplete-dominance",
+      "title": "Red snapdragons crossed with white ones give all pink offspring. What inheritance pattern explains this?",
+      "body": "Incomplete dominance\n\nThe heterozygote shows an **intermediate** phenotype. Crossing two pinks gives $1$ red : $2$ pink : $1$ white, so the phenotype ratio equals the genotype ratio.\n\nWatch out: it isn't blending, because red and white reappear. Contrast codominance, where both alleles show fully (for example AB blood type).",
+      "answer": "incomplete dominance",
+      "acceptedAnswers": [
+        "incomplete",
+        "partial dominance",
+        "semidominance",
+        "semi-dominance"
+      ],
+      "searchQuery": "incomplete dominance snapdragon pink flowers 1:2:1"
+    },
+    {
+      "id": "abo-blood-type-cross",
+      "title": "A type A parent and a type B parent have a type O child. What are the parents' genotypes?",
+      "body": "$I^A i$ and $I^B i$ (both heterozygous); the child is $ii$.\n\nTheir children could be AB, A, B or O, each with probability $\\frac{1}{4}$.\n\nKey idea: ABO has three alleles. $I^A$ and $I^B$ are **codominant** (type AB shows both A and B carbohydrates), and both are dominant to $i$.",
+      "searchQuery": "ABO blood type inheritance type A and type B parents type O child"
+    },
+    {
+      "id": "epistasis",
+      "title": "Labradors with genotype $ee$ are yellow no matter which $B/b$ alleles they carry. What is this kind of gene interaction called?",
+      "body": "Epistasis\n\nThe $E$ gene (whether pigment is deposited in fur) masks the $B$ gene (black vs. brown pigment).\n\nExample: $BbEe \\times BbEe$ gives $9$ black : $3$ brown : $4$ yellow instead of $9:3:3:1$.",
+      "answer": "epistasis",
+      "acceptedAnswers": [
+        "epistatic",
+        "recessive epistasis",
+        "epistatic interaction"
+      ],
+      "searchQuery": "epistasis Labrador coat color 9:3:4 ratio"
+    },
+    {
+      "id": "x-linked-recessive-sons",
+      "title": "A woman who carries an X-linked recessive allele has children with an unaffected man. What fraction of their sons will be affected?",
+      "body": "$\\frac{1}{2}$\n\nEach son gets one of his mother's two X chromosomes (and his father's Y). No daughters are affected, but half are carriers.\n\nWhy: males need only one copy because they're **hemizygous**, so disorders like hemophilia and Duchenne muscular dystrophy are far more common in males.",
+      "answer": "1/2",
+      "answerDisplay": "$\\frac{1}{2}$",
+      "acceptedAnswers": [
+        "half",
+        "one half",
+        "one-half",
+        "1 in 2",
+        "50%",
+        "50 percent",
+        "0.5"
+      ],
+      "searchQuery": "X-linked recessive carrier mother sons affected 1/2"
+    },
+    {
+      "id": "pedigree-autosomal-recessive",
+      "title": "In a pedigree, two unaffected parents have an affected daughter. What mode of inheritance must the trait have?",
+      "body": "Autosomal recessive, with both parents carriers (heterozygous)\n\nIt can't be dominant: an affected child would need an affected parent. It can't be X-linked recessive: an affected daughter would need an affected father.\n\nTip: unaffected parents with an affected child always point to a **recessive** trait.",
+      "answer": "autosomal recessive",
+      "acceptedAnswers": [
+        "recessive autosomal",
+        "autosomal-recessive",
+        "autosomal recessive inheritance",
+        "AR"
+      ],
+      "searchQuery": "pedigree unaffected parents affected daughter autosomal recessive"
+    },
+    {
+      "id": "linked-genes",
+      "title": "Mendel's law of independent assortment holds for genes on different chromosomes. What kind of genes tend to break it?",
+      "body": "Linked genes\n\nThese are genes close together on the same chromosome, which tend to be inherited together. Only crossing over separates them, producing recombinant offspring.\n\nKey idea: genes far apart on one chromosome recombine so often (up to $50\\%$) that they assort as if unlinked.",
+      "answer": "linked genes",
+      "acceptedAnswers": [
+        "linked",
+        "linked gene",
+        "genetically linked genes",
+        "genes on the same chromosome",
+        "genes close together on the same chromosome"
+      ],
+      "searchQuery": "linked genes same chromosome independent assortment exception"
+    },
+    {
+      "id": "map-units",
+      "title": "A testcross yields $2{,}000$ offspring, $160$ of them recombinant for two genes. How far apart are the genes on a linkage map, in map units? (number only)",
+      "body": "$8$ map units (centimorgans)\n\nRecombination frequency $= \\dfrac{160}{2000} = 8\\%$, and $1\\%$ recombination equals $1$ map unit ($1\\,\\mathrm{cM}$).\n\nWatch out: frequencies top out at $50\\%$, and map units measure crossover frequency, not physical distance.",
+      "answer": "8",
+      "acceptedAnswers": [
+        "8 map units",
+        "8 cM",
+        "8 centimorgans",
+        "8 centimorgan",
+        "8 map unit",
+        "8 mu",
+        "8 m.u."
+      ],
+      "answerDisplay": "$8$ map units",
+      "searchQuery": "map units centimorgans recombination frequency calculation testcross"
+    },
+    {
+      "id": "hardy-weinberg-equations",
+      "title": "Write the two Hardy–Weinberg equations and say what each term stands for.",
+      "body": "$p + q = 1$ gives allele frequencies; $p^2 + 2pq + q^2 = 1$ gives genotype frequencies.\n\n- $p$: frequency of the dominant allele; $q$: frequency of the recessive allele.\n- $p^2$: homozygous dominant; $2pq$: heterozygous; $q^2$: homozygous recessive.\n\nKey idea: if the population is in equilibrium, genotype frequencies follow directly from allele frequencies.",
+      "searchQuery": "Hardy-Weinberg equations p + q = 1 p squared 2pq q squared"
+    },
+    {
+      "id": "hardy-weinberg-conditions",
+      "title": "List the five conditions a population must meet to stay in Hardy–Weinberg equilibrium.",
+      "body": "No mutation, random mating, no natural selection, a very large population and no gene flow.\n\n1. No mutations.\n2. Random mating.\n3. No natural selection.\n4. Extremely large population (no genetic drift).\n5. No gene flow.\n\nWhy: if any one is violated, allele or genotype frequencies can change from generation to generation.",
+      "searchQuery": "Hardy-Weinberg equilibrium five conditions assumptions"
+    },
+    {
+      "id": "carrier-frequency",
+      "title": "A recessive disorder affects $1$ in $10{,}000$ newborns. Assuming Hardy–Weinberg, about what percentage of people are carriers? (nearest whole percent, number only)",
+      "body": "$2\\%$ (about $1$ in $50$)\n\nSince $q^2 = 0.0001$, $q = 0.01$ and $p = 0.99$. Carriers are $2pq = 2 \\times 0.99 \\times 0.01 \\approx 0.0198$.\n\nWatch out: using $q^2$ or $q$ as the carrier frequency, or forgetting to take the square root first.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "2%",
+        "2 percent",
+        "0.02",
+        "1/50",
+        "1.98%",
+        "0.0198",
+        "1 in 50"
+      ],
+      "answerDisplay": "$2\\%$",
+      "searchQuery": "Hardy-Weinberg carrier frequency 1 in 10000 recessive disorder 2pq"
+    },
+    {
+      "id": "founder-effect",
+      "title": "A few individuals colonize an island, and by chance a rare mainland allele becomes common there. Which kind of genetic drift is this?",
+      "body": "The founder effect\n\nThe small founding group's allele frequencies differ from the source population's by chance.\n\nKey idea: the **bottleneck effect** is a related kind of drift, in which a disaster or habitat loss drastically shrinks a population, as with Illinois's greater prairie chickens. Drift is strongest in small populations.",
+      "answer": "founder effect",
+      "acceptedAnswers": [
+        "founder",
+        "founders effect",
+        "founder's effect"
+      ],
+      "searchQuery": "founder effect genetic drift small colonizing population"
+    },
+    {
+      "id": "allele-definition",
+      "title": "What are the alternative versions of a gene, found at the same locus, called?",
+      "body": "Alleles\n\nA diploid organism has two alleles of each gene, one inherited from each parent.\n\nExample: the gene for flower color in peas has a purple allele and a white allele.",
+      "answer": "alleles",
+      "acceptedAnswers": [
+        "allele",
+        "alleles of a gene"
+      ],
+      "searchQuery": "allele definition alternative versions of a gene"
+    },
+    {
+      "id": "phenotype-definition",
+      "title": "What term describes an organism's observable traits, as opposed to its genetic makeup?",
+      "body": "Phenotype\n\nThe genetic makeup is the **genotype**. Phenotype results from genotype plus environment.\n\nExample: $PP$ and $Pp$ pea plants have different genotypes but the same phenotype (purple).",
+      "answer": "phenotype",
+      "acceptedAnswers": [
+        "phenotypes"
+      ],
+      "searchQuery": "phenotype versus genotype definition"
+    },
+    {
+      "id": "homozygous-definition",
+      "title": "An organism with two identical alleles for a gene is called what?",
+      "body": "Homozygous\n\nExamples are $PP$ and $pp$. A $Pp$ organism is **heterozygous**.\n\nKey idea: a homozygote makes only one kind of gamete for that gene; a heterozygote makes two kinds.",
+      "answer": "homozygous",
+      "acceptedAnswers": [
+        "homozygote",
+        "homozygotes"
+      ],
+      "searchQuery": "homozygous heterozygous definition alleles"
+    },
+    {
+      "id": "dominant-allele-definition",
+      "title": "What do we call an allele whose phenotype appears in a heterozygote, masking the other allele?",
+      "body": "A dominant allele\n\nThe masked allele is **recessive**, and it shows only when homozygous.\n\nWatch out: dominant does not mean common or \"stronger\". Many harmful dominant alleles, such as the one for Huntington's disease, are rare.",
+      "answer": "dominant",
+      "acceptedAnswers": [
+        "dominant allele"
+      ],
+      "searchQuery": "dominant allele definition masks recessive allele heterozygote"
+    },
+    {
+      "id": "true-breeding",
+      "title": "What term describes plants that produce offspring identical to themselves for a trait when self-pollinated?",
+      "body": "True-breeding\n\nThese lines are homozygous for the trait, so Mendel used them as the **P generation** to start his crosses.\n\nKey idea: crossing two different true-breeding lines gives the $F_1$ generation, and crossing $F_1$ plants with each other gives the $F_2$.",
+      "answer": "true-breeding",
+      "acceptedAnswers": [
+        "true breeding",
+        "pure-breeding",
+        "pure breeding",
+        "purebred",
+        "pure line",
+        "true-breeding lines"
+      ],
+      "searchQuery": "true-breeding Mendel P generation homozygous pea plants"
+    },
+    {
+      "id": "mendel-f2-ratio",
+      "title": "Mendel crossed true-breeding purple-flowered and white-flowered peas and let the $F_1$ self-pollinate. What was the $F_2$ phenotypic ratio of purple to white?",
+      "body": "$3:1$\n\nThe $F_1$ plants were all $Pp$ and all purple, because purple is dominant. Self-pollinating them gave $\\frac{3}{4}$ purple and $\\frac{1}{4}$ white.\n\nKey idea: the white trait vanished in $F_1$ and reappeared in $F_2$, so the factors for it must stay intact in heterozygotes.",
+      "answer": "3:1",
+      "acceptedAnswers": [
+        "3 to 1",
+        "3/1",
+        "3 1",
+        "3-1",
+        "three to one",
+        "3 purple to 1 white",
+        "3 purple : 1 white"
+      ],
+      "answerDisplay": "$3:1$",
+      "searchQuery": "Mendel F2 generation 3:1 ratio purple white peas"
+    },
+    {
+      "id": "why-peas",
+      "title": "Give three reasons garden peas were a good choice for Mendel's experiments.",
+      "body": "They have easily distinguished traits, are easy to cross-pollinate or self-pollinate, and have a short generation time.\n\n- Traits come in clear either/or forms (purple or white).\n- He could control pollination.\n- Each cross produced many offspring, so ratios were meaningful.\n\nKey idea: large numbers of offspring matter because ratios such as $3:1$ are only approximate in small samples.",
+      "searchQuery": "why Mendel used pea plants advantages"
+    },
+    {
+      "id": "locus-definition",
+      "title": "What is the specific physical location of a gene on a chromosome called?",
+      "body": "A locus\n\nHomologous chromosomes carry alleles of the same genes at the same loci.\n\nKey idea: the plural is **loci**.",
+      "answer": "locus",
+      "acceptedAnswers": [
+        "loci",
+        "gene locus"
+      ],
+      "searchQuery": "locus gene location chromosome definition"
+    },
+    {
+      "id": "aa-cross-aa-fraction",
+      "title": "A heterozygote ($Aa$) is crossed with a homozygous recessive ($aa$). What fraction of the offspring are $aa$?",
+      "body": "$\\frac{1}{2}$\n\nThe $Aa$ parent makes $A$ and $a$ gametes equally, and the $aa$ parent gives only $a$. So the offspring are $\\frac{1}{2}\\,Aa$ and $\\frac{1}{2}\\,aa$.\n\nKey idea: this is a **testcross**, so the phenotypic ratio is $1:1$.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "half",
+        "one half",
+        "one-half",
+        "1 in 2",
+        "50%",
+        "50 percent",
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "Aa x aa cross offspring ratio 1:1 testcross"
+    },
+    {
+      "id": "aa-self-cross-fraction",
+      "title": "Two heterozygotes ($Aa$) mate. What fraction of their offspring are homozygous recessive?",
+      "body": "$\\frac{1}{4}$\n\nEach parent gives $a$ with probability $\\frac{1}{2}$, so $\\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$.\n\nWatch out: $\\frac{1}{4}$ is the chance for each child. A family of four children need not contain exactly one affected child.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "one fourth",
+        "one quarter",
+        "1 in 4",
+        "25%",
+        "25 percent",
+        "0.25"
+      ],
+      "answerDisplay": "$\\frac{1}{4}$",
+      "searchQuery": "Aa x Aa monohybrid cross probability aa offspring one quarter"
+    },
+    {
+      "id": "genotypic-ratio-monohybrid",
+      "title": "What is the genotypic ratio $AA : Aa : aa$ from an $Aa \\times Aa$ cross?",
+      "body": "$1:2:1$\n\nThe Punnett square has four equally likely boxes: $AA$, $Aa$, $aA$ and $aa$. The two heterozygous boxes combine.\n\nKey idea: with complete dominance, the phenotypic ratio ($3:1$) collapses the genotypes $AA$ and $Aa$ together.",
+      "answer": "1:2:1",
+      "acceptedAnswers": [
+        "1 to 2 to 1",
+        "1 2 1",
+        "1-2-1",
+        "1/2/1",
+        "1,2,1"
+      ],
+      "answerDisplay": "$1:2:1$",
+      "searchQuery": "genotypic ratio 1:2:1 monohybrid cross Aa x Aa Punnett square"
+    },
+    {
+      "id": "infer-parents-one-to-one",
+      "title": "A cross between a dominant-phenotype plant and a recessive-phenotype plant gives offspring in a $1:1$ ratio. What are the parents' genotypes?",
+      "body": "$Aa \\times aa$\n\nA recessive-phenotype parent must be $aa$. To get recessive offspring, the other parent must carry an $a$, so it is $Aa$.\n\nTip: any $1:1$ ratio from a single gene points to a heterozygote crossed with a homozygous recessive.",
+      "searchQuery": "infer parent genotypes 1:1 offspring ratio Aa x aa"
+    },
+    {
+      "id": "infer-parents-three-to-one",
+      "title": "Two parents with the dominant phenotype produce offspring in a $3:1$ dominant : recessive ratio. What are their genotypes?",
+      "body": "$Aa \\times Aa$\n\nRecessive offspring show that both parents carry an $a$. Both are dominant in phenotype, so both are heterozygous.\n\nTip: a $3:1$ ratio from a single gene means both parents are heterozygous.",
+      "searchQuery": "3:1 ratio parents genotypes both heterozygous Aa x Aa"
+    },
+    {
+      "id": "at-least-one-affected",
+      "title": "Two carriers of an autosomal recessive allele plan three children. What is the probability that at least one child is affected?",
+      "body": "$\\frac{37}{64}$\n\nEach child is affected with probability $\\frac{1}{4}$, so unaffected with $\\frac{3}{4}$. All three unaffected: $\\left(\\frac{3}{4}\\right)^3 = \\frac{27}{64}$.\n\nTip: use the **complement**: $1 - \\frac{27}{64} = \\frac{37}{64} \\approx 0.58$.",
+      "answer": "37/64",
+      "acceptedAnswers": [
+        "0.578",
+        "0.58",
+        "58%",
+        "57.8%",
+        "0.5781",
+        "57.81%"
+      ],
+      "answerDisplay": "$\\frac{37}{64}$",
+      "searchQuery": "probability at least one child affected two carriers recessive three children"
+    },
+    {
+      "id": "exactly-two-of-three",
+      "title": "Two carriers of an autosomal recessive allele have three children. What is the probability that exactly two are affected?",
+      "body": "$\\frac{9}{64}$\n\nOne particular arrangement (say, first two affected, third unaffected) has probability $\\left(\\frac{1}{4}\\right)^2 \\times \\frac{3}{4} = \\frac{3}{64}$.\n\nThere are $3$ such arrangements, which are mutually exclusive, so add them: $3 \\times \\frac{3}{64} = \\frac{9}{64}$.",
+      "answer": "9/64",
+      "acceptedAnswers": [
+        "0.14",
+        "0.141",
+        "14%",
+        "14.1%",
+        "0.1406",
+        "14.06%"
+      ],
+      "answerDisplay": "$\\frac{9}{64}$",
+      "searchQuery": "binomial probability exactly two of three children affected carriers recessive"
+    },
+    {
+      "id": "independent-births",
+      "title": "A couple has had three sons. What is the probability that their fourth child is a son? (fraction)",
+      "body": "$\\frac{1}{2}$\n\nEach birth is an independent event, so earlier children don't change the probability.\n\nWatch out: this is the gambler's fallacy. The chance of four sons in a row is $\\frac{1}{16}$ **before** any are born, but once three have been born, the next is still $\\frac{1}{2}$.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "half",
+        "one half",
+        "one-half",
+        "1 in 2",
+        "50%",
+        "50 percent",
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "independent events probability fourth child son gambler's fallacy genetics"
+    },
+    {
+      "id": "sum-rule-problem",
+      "title": "In an $Aa \\times Aa$ cross, what is the probability that an offspring is homozygous (either $AA$ or $aa$)?",
+      "body": "$\\frac{1}{2}$\n\nThe two outcomes are mutually exclusive, so use the **sum rule**: $P(AA) + P(aa) = \\frac{1}{4} + \\frac{1}{4} = \\frac{1}{2}$.\n\nKey idea: use the product rule for \"and\" with independent events, and the sum rule for \"or\" with exclusive events.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "half",
+        "one half",
+        "one-half",
+        "1 in 2",
+        "50%",
+        "50 percent",
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "sum rule probability homozygous offspring Aa x Aa"
+    },
+    {
+      "id": "wild-type-definition",
+      "title": "What term is used for the phenotype that is most common in natural populations?",
+      "body": "The wild type\n\nVariants that differ from it are called **mutants**.\n\nWatch out: wild-type alleles are not always dominant. Some wild-type alleles are recessive to a mutant allele.",
+      "answer": "wild type",
+      "acceptedAnswers": [
+        "wild-type"
+      ],
+      "searchQuery": "wild type phenotype most common in natural populations"
+    },
+    {
+      "id": "expected-count-problem",
+      "title": "A heterozygous tall pea plant ($Tt$, tall dominant) self-pollinates and produces $160$ offspring. About how many do you expect to be short? (number only)",
+      "body": "$40$\n\nShort plants are $tt$, with probability $\\frac{1}{4}$, so $\\frac{1}{4} \\times 160 = 40$.\n\nWatch out: this is only an expected value. Real counts vary around it by chance, which is why statistical tests like chi-square are used.",
+      "answer": "40",
+      "acceptedAnswers": [
+        "40 plants",
+        "40 short"
+      ],
+      "answerDisplay": "$40$",
+      "searchQuery": "expected offspring count Tt self cross tall short 160 plants"
+    },
+    {
+      "id": "testcross-data-problem",
+      "title": "A testcross of a purple-flowered plant (purple dominant) gives $52$ purple and $48$ white offspring. Is the unknown parent homozygous dominant or heterozygous?",
+      "body": "Heterozygous ($Pp$)\n\nA testcross with $pp$ gives about $1:1$ if the unknown is heterozygous, and all purple if homozygous dominant. White offspring show the plant carries $p$.\n\nKey idea: even one white offspring proves heterozygosity, whereas many purple offspring can only suggest $PP$.",
+      "answer": "heterozygous",
+      "acceptedAnswers": [
+        "heterozygote",
+        "Pp is heterozygous"
+      ],
+      "searchQuery": "testcross results 1:1 purple white unknown genotype Pp"
+    },
+    {
+      "id": "gamete-types-formula",
+      "title": "An individual is heterozygous for $n$ independently assorting genes. How many genetically different gametes can it make? (formula in $n$)",
+      "body": "$2^n$\n\nEach heterozygous gene sends one of two alleles into a gamete, and independent genes multiply: $2 \\times 2 \\times \\cdots = 2^n$.\n\nExample: $AaBbCc$ gives $2^3 = 8$ gamete types.\n\nWatch out: homozygous genes add no variety, so only count the heterozygous ones.",
+      "answer": "2^n",
+      "acceptedAnswers": [
+        "2 to the n"
+      ],
+      "answerDisplay": "$2^n$",
+      "searchQuery": "number of gamete types 2^n heterozygous genes independent assortment"
+    },
+    {
+      "id": "gamete-types-problem",
+      "title": "An individual is heterozygous at $5$ independently assorting genes and homozygous at $2$ others. How many different gamete types can it produce? (number only)",
+      "body": "$32$\n\nOnly the heterozygous genes count: $2^5 = 32$.\n\nTip: the homozygous genes contribute a factor of $1$ each.",
+      "answer": "32",
+      "acceptedAnswers": [
+        "32 gametes",
+        "2^5",
+        "32 types"
+      ],
+      "answerDisplay": "$32$",
+      "searchQuery": "gamete types heterozygous five genes homozygous two genes count"
+    },
+    {
+      "id": "dihybrid-testcross-ratio",
+      "title": "A dihybrid is testcrossed with a double homozygous recessive, and the two genes assort independently. What is the expected offspring ratio of the four phenotypes?",
+      "body": "$1:1:1:1$\n\nThe dihybrid makes four gamete types ($AB$, $Ab$, $aB$, $ab$) in equal numbers, and the recessive parent adds only $ab$. So each offspring class is equally likely.\n\nKey idea: if the testcross shows something other than $1:1:1:1$, the genes are probably **linked**.",
+      "answer": "1:1:1:1",
+      "acceptedAnswers": [
+        "1 to 1 to 1 to 1",
+        "1 1 1 1",
+        "1-1-1-1",
+        "1/1/1/1",
+        "1,1,1,1",
+        "equal"
+      ],
+      "answerDisplay": "$1:1:1:1$",
+      "searchQuery": "dihybrid testcross 1:1:1:1 ratio independent assortment"
+    },
+    {
+      "id": "dihybrid-dominant-recessive-fraction",
+      "title": "From a cross of two $AaBb$ parents (unlinked genes), what fraction of offspring show the dominant phenotype for the first gene and the recessive phenotype for the second?",
+      "body": "$\\frac{3}{16}$\n\nThe dominant phenotype for the first gene has probability $\\frac{3}{4}$, and the recessive for the second $\\frac{1}{4}$. Multiply: $\\frac{3}{4} \\times \\frac{1}{4} = \\frac{3}{16}$.\n\nTip: solve gene by gene and multiply, rather than drawing a $16$-box square.",
+      "answer": "3/16",
+      "acceptedAnswers": [
+        "0.1875",
+        "18.75%",
+        "0.19",
+        "19%",
+        "3 in 16",
+        "3 out of 16"
+      ],
+      "answerDisplay": "$\\frac{3}{16}$",
+      "searchQuery": "dihybrid cross fraction A_bb 3/16 forked line method"
+    },
+    {
+      "id": "dihybrid-heterozygote-fraction",
+      "title": "From a cross of two $AaBb$ parents (unlinked genes), what fraction of offspring are heterozygous for both genes?",
+      "body": "$\\frac{1}{4}$\n\nEach gene gives heterozygotes with probability $\\frac{1}{2}$, so $\\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$.\n\nWatch out: this is a **genotype** question. Among the four phenotypes, the $\\frac{9}{16}$ with both dominant traits include $AABB$, $AaBB$, $AABb$ and $AaBb$.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "one fourth",
+        "one quarter",
+        "1 in 4",
+        "25%",
+        "25 percent",
+        "0.25",
+        "4/16"
+      ],
+      "answerDisplay": "$\\frac{1}{4}$",
+      "searchQuery": "dihybrid cross fraction offspring double heterozygous AaBb 1/4"
+    },
+    {
+      "id": "f2-seed-count",
+      "title": "In an $RrYy \\times RrYy$ pea cross ($R$ round, $Y$ yellow, both dominant), about how many of $160$ offspring seeds are expected to be wrinkled and green? (number only)",
+      "body": "$10$\n\nWrinkled green is $rryy$, with probability $\\frac{1}{4} \\times \\frac{1}{4} = \\frac{1}{16}$. So $\\frac{160}{16} = 10$.\n\nKey idea: this is the $1$ in the $9:3:3:1$ ratio.",
+      "answer": "10",
+      "acceptedAnswers": [
+        "10 seeds",
+        "ten"
+      ],
+      "answerDisplay": "$10$",
+      "searchQuery": "expected number wrinkled green seeds dihybrid cross 9:3:3:1 160"
+    },
+    {
+      "id": "independent-assortment-law",
+      "title": "Which of Mendel's laws states that alleles of different genes are distributed into gametes independently of one another?",
+      "body": "The law of independent assortment\n\nIt applies to genes on different chromosomes, or far enough apart on the same chromosome. It rests on the random orientation of homologous pairs at metaphase I.\n\nWatch out: it does not hold for linked genes.",
+      "answer": "law of independent assortment",
+      "acceptedAnswers": [
+        "independent assortment",
+        "principle of independent assortment",
+        "Mendel's second law",
+        "Mendels second law",
+        "Mendel's law of independent assortment"
+      ],
+      "searchQuery": "Mendel law of independent assortment different genes gametes"
+    },
+    {
+      "id": "aabb-fraction-problem",
+      "title": "Two unlinked genes are crossed as $AaBb \\times Aabb$. What fraction of the offspring are $aabb$?",
+      "body": "$\\frac{1}{8}$\n\nTake each gene separately. $Aa \\times Aa$ gives $aa$ with probability $\\frac{1}{4}$. $Bb \\times bb$ gives $bb$ with probability $\\frac{1}{2}$.\n\nMultiply: $\\frac{1}{4} \\times \\frac{1}{2} = \\frac{1}{8}$.",
+      "answer": "1/8",
+      "acceptedAnswers": [
+        "0.125",
+        "12.5%",
+        "one eighth",
+        "1 in 8"
+      ],
+      "answerDisplay": "$\\frac{1}{8}$",
+      "searchQuery": "AaBb x Aabb cross fraction aabb offspring product rule"
+    },
+    {
+      "id": "dihybrid-genotype-count",
+      "title": "How many different genotypes can result from a cross of two $AaBb$ parents with unlinked genes? (number only)",
+      "body": "$9$\n\nEach gene gives $3$ genotypes ($AA$, $Aa$, $aa$), so $3 \\times 3 = 9$.\n\nKey idea: there are $9$ genotypes but only $4$ phenotypes with complete dominance.",
+      "answer": "9",
+      "acceptedAnswers": [
+        "nine",
+        "9 genotypes"
+      ],
+      "answerDisplay": "$9$",
+      "searchQuery": "number of genotypes dihybrid cross AaBb x AaBb nine genotypes"
+    },
+    {
+      "id": "codominance-definition",
+      "title": "What pattern of inheritance describes a heterozygote in which both alleles are fully and separately expressed?",
+      "body": "Codominance\n\nBoth phenotypes show up distinctly, not blended.\n\nExample: a person with genotype $I^A I^B$ makes both A and B carbohydrates on red blood cells (type AB), and a roan cow has both red and white hairs.",
+      "answer": "codominance",
+      "acceptedAnswers": [
+        "co-dominance",
+        "codominant",
+        "co-dominant"
+      ],
+      "searchQuery": "codominance definition both alleles expressed ABO blood group"
+    },
+    {
+      "id": "abo-genotype-count",
+      "title": "How many different genotypes are possible for the ABO blood group gene (alleles $I^A$, $I^B$ and $i$)? (number only)",
+      "body": "$6$\n\nThe genotypes are $I^AI^A$, $I^Ai$, $I^BI^B$, $I^Bi$, $I^AI^B$ and $ii$.\n\nKey idea: there are only $4$ phenotypes (A, B, AB, O), because $I^AI^A$ and $I^Ai$ both give type A, and $I^BI^B$ and $I^Bi$ both give type B.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "six",
+        "6 genotypes"
+      ],
+      "answerDisplay": "$6$",
+      "searchQuery": "ABO blood group six genotypes four phenotypes alleles"
+    },
+    {
+      "id": "abo-ab-by-o",
+      "title": "A person with type AB blood and a person with type O blood have children. Which blood types are possible, and in what proportions?",
+      "body": "Half type A and half type B; no children are AB or O.\n\nThe AB parent ($I^AI^B$) gives $I^A$ or $I^B$ equally, and the O parent ($ii$) gives only $i$.\n\nSo the children are $I^Ai$ (type A) or $I^Bi$ (type B), each with probability $\\frac{1}{2}$.\n\nWatch out: this is a common exam question showing that an AB parent can never have an O child.",
+      "searchQuery": "AB x O blood type cross children possible blood types"
+    },
+    {
+      "id": "pleiotropy",
+      "title": "What term describes a single gene that affects several seemingly unrelated phenotypic traits?",
+      "body": "Pleiotropy\n\nA mutation in one gene can disrupt a protein used in many tissues.\n\nExample: sickle-cell disease causes anemia, pain crises and organ damage from a single allele. Marfan syndrome, from a connective-tissue gene, affects the skeleton, eyes and aorta.",
+      "answer": "pleiotropy",
+      "acceptedAnswers": [
+        "pleiotropic",
+        "pleiotropic gene"
+      ],
+      "searchQuery": "pleiotropy one gene multiple traits sickle cell Marfan"
+    },
+    {
+      "id": "polygenic-inheritance",
+      "title": "What term describes a trait, such as human height or skin color, that is influenced by many genes and varies continuously?",
+      "body": "Polygenic inheritance\n\nThe alleles of many genes each add a small effect, so phenotypes form a smooth range, often a bell-shaped curve.\n\nWatch out: environment also contributes, so polygenic traits are also called **quantitative** or multifactorial traits.",
+      "answer": "polygenic inheritance",
+      "acceptedAnswers": [
+        "polygenic",
+        "polygenic trait",
+        "quantitative",
+        "quantitative trait",
+        "multifactorial"
+      ],
+      "searchQuery": "polygenic inheritance continuous variation height skin color"
+    },
+    {
+      "id": "penetrance",
+      "title": "What term describes the percentage of individuals with a particular genotype who show the expected phenotype?",
+      "body": "Penetrance\n\nIf only $80\\%$ of people with a dominant allele show the trait, penetrance is $80\\%$ (incomplete penetrance).\n\nWatch out: penetrance is all-or-none for each person, while **expressivity** is how strongly a trait shows in those who have it.",
+      "answer": "penetrance",
+      "acceptedAnswers": [
+        "incomplete penetrance",
+        "genetic penetrance"
+      ],
+      "searchQuery": "penetrance definition percentage with genotype showing phenotype expressivity"
+    },
+    {
+      "id": "expressivity",
+      "title": "What term describes the degree to which a phenotype is shown among individuals who all carry the same genotype?",
+      "body": "Expressivity\n\nIt can vary widely, from mild to severe, even within a single family.\n\nExample: polydactyly can appear as an extra finger on one hand only, or on both hands and feet.",
+      "answer": "expressivity",
+      "acceptedAnswers": [
+        "variable expressivity"
+      ],
+      "searchQuery": "variable expressivity definition genotype phenotype severity"
+    },
+    {
+      "id": "norm-of-reaction",
+      "title": "Hydrangeas with identical genotypes bloom blue in acidic soil and pink in basic soil. What is the range of phenotypes a single genotype produces across environments called?",
+      "body": "The norm of reaction\n\nA genotype does not fix a phenotype, only a range of possible ones.\n\nKey idea: phenotype depends on **genotype and environment** together, so multifactorial traits are only partly heritable.",
+      "answer": "norm of reaction",
+      "acceptedAnswers": [
+        "reaction norm"
+      ],
+      "searchQuery": "norm of reaction hydrangea environment phenotype range genotype"
+    },
+    {
+      "id": "lethal-allele-ratio",
+      "title": "In mice, the $A^Y$ allele gives yellow fur and is dominant, but $A^YA^Y$ embryos die. Crossing two yellow mice gives what ratio of surviving yellow : agouti offspring?",
+      "body": "$2:1$\n\nThe cross is $A^YA \\times A^YA$ (agouti is $AA$). The expected genotypes are $\\frac{1}{4}\\,A^YA^Y$, $\\frac{1}{2}\\,A^YA$ and $\\frac{1}{4}\\,AA$.\n\nThe $A^YA^Y$ class dies, leaving $2$ yellow ($A^YA$) to $1$ agouti ($AA$).\n\nKey idea: a ratio of $2:1$ in place of $3:1$ is the signature of a recessive lethal allele.",
+      "answer": "2:1",
+      "acceptedAnswers": [
+        "2 to 1",
+        "2/1",
+        "2 1",
+        "2-1",
+        "two to one",
+        "2 yellow to 1 agouti"
+      ],
+      "answerDisplay": "$2:1$",
+      "searchQuery": "lethal allele yellow mice 2:1 ratio agouti Ay"
+    },
+    {
+      "id": "complementary-epistasis",
+      "title": "In sweet peas, purple flowers need a dominant allele at both of two genes; otherwise the flowers are white. What phenotypic ratio of purple : white comes from $AaBb \\times AaBb$?",
+      "body": "$9:7$\n\nPurple requires $A\\_B\\_$, which is $\\frac{9}{16}$ of the offspring. Everything else ($3 + 3 + 1 = 7$) is white.\n\nKey idea: this is **complementary gene action**, a form of epistasis in which the two genes must both be functional.",
+      "answer": "9:7",
+      "acceptedAnswers": [
+        "9 to 7",
+        "9/7",
+        "9 7",
+        "9-7",
+        "9 purple to 7 white"
+      ],
+      "answerDisplay": "$9:7$",
+      "searchQuery": "sweet pea epistasis 9:7 ratio complementary genes purple white"
+    },
+    {
+      "id": "dominant-epistasis",
+      "title": "In summer squash, dominant $W$ gives white fruit and masks color; $ww$ plants are yellow ($Y\\_$) or green ($yy$). What white : yellow : green ratio comes from $WwYy \\times WwYy$?",
+      "body": "$12:3:1$\n\n$W\\_$ is $\\frac{12}{16}$ and is white regardless of $Y$. Of the $ww$ plants ($\\frac{4}{16}$), $\\frac{3}{16}$ are $wwY\\_$ (yellow) and $\\frac{1}{16}$ are $wwyy$ (green).\n\nKey idea: here a **dominant** allele is epistatic, unlike the recessive epistasis ($9:3:4$) in Labradors.",
+      "answer": "12:3:1",
+      "acceptedAnswers": [
+        "12 to 3 to 1",
+        "12 3 1",
+        "12-3-1",
+        "12/3/1",
+        "12,3,1"
+      ],
+      "answerDisplay": "$12:3:1$",
+      "searchQuery": "dominant epistasis summer squash 12:3:1 ratio"
+    },
+    {
+      "id": "epistasis-vs-dominance",
+      "title": "How does epistasis differ from dominance?",
+      "body": "Dominance is an interaction between alleles of the same gene; epistasis is an interaction between different genes.\n\nIn epistasis, the alleles at one gene mask or modify the effect of alleles at another gene.\n\nWatch out: epistasis changes dihybrid ratios, such as $9:3:4$, $9:7$ or $12:3:1$, even though the genes still assort independently.",
+      "searchQuery": "epistasis versus dominance difference genes alleles"
+    },
+    {
+      "id": "sry-gene",
+      "title": "Which gene on the human Y chromosome triggers the development of male characteristics?",
+      "body": "$SRY$ (sex-determining region Y)\n\nIts product switches on the genes that turn the embryonic gonads into testes.\n\nKey idea: in humans, sex depends on whether $SRY$ is present, not on the number of X chromosomes.",
+      "answer": "SRY",
+      "acceptedAnswers": [
+        "SRY gene",
+        "sex-determining region Y",
+        "sex determining region Y"
+      ],
+      "answerDisplay": "$SRY$",
+      "searchQuery": "SRY gene Y chromosome male development sex determination"
+    },
+    {
+      "id": "hemizygous",
+      "title": "What term describes the state of a male's X-linked genes, which are present in only one copy?",
+      "body": "Hemizygous\n\nA male has one X and one Y, so a single recessive X-linked allele is enough to show the trait.\n\nWatch out: the words homozygous and heterozygous do not apply to a male's X-linked genes.",
+      "answer": "hemizygous",
+      "acceptedAnswers": [
+        "hemizygote",
+        "hemizygosity"
+      ],
+      "searchQuery": "hemizygous males X-linked genes one copy"
+    },
+    {
+      "id": "x-linked-affected-father",
+      "title": "An affected father (X-linked recessive trait) and a homozygous unaffected mother have children. What fraction of their daughters are carriers?",
+      "body": "All of them\n\nEvery daughter gets the father's X, which carries the recessive allele, and a normal X from the mother.\n\nKey idea: none of the sons is affected, because they get the father's Y and the mother's normal X.",
+      "answer": "all",
+      "acceptedAnswers": [
+        "100%",
+        "1",
+        "all of them",
+        "all daughters",
+        "every daughter",
+        "1/1"
+      ],
+      "searchQuery": "X-linked recessive affected father daughters all carriers sons unaffected"
+    },
+    {
+      "id": "x-linked-carrier-by-affected",
+      "title": "A carrier mother and an affected father (X-linked recessive trait) have children. What fraction of their daughters are affected?",
+      "body": "$\\frac{1}{2}$\n\nThe mother gives a normal or a mutant X with equal probability, and the father always gives his mutant X to daughters.\n\nSo half the daughters are carriers and half are affected. Half the sons are also affected.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "half",
+        "one half",
+        "one-half",
+        "1 in 2",
+        "50%",
+        "50 percent",
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "X-linked recessive carrier mother affected father daughters affected 1/2"
+    },
+    {
+      "id": "x-linked-father-to-son",
+      "title": "Can an X-linked allele be passed directly from a father to his son? (yes or no)",
+      "body": "No\n\nA father gives his Y chromosome to his sons, and his X to his daughters.\n\nTip: in a pedigree, father-to-son transmission rules out X-linked inheritance.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "never",
+        "no, never",
+        "impossible"
+      ],
+      "searchQuery": "X-linked inheritance father to son transmission not possible"
+    },
+    {
+      "id": "barr-body",
+      "title": "What is the condensed, inactive X chromosome in the cells of a female mammal called?",
+      "body": "A Barr body\n\nEarly in development one X in each cell is randomly inactivated. All descendants of that cell keep the same X silenced.\n\nExample: calico cats are mosaics, with some patches expressing one coat-color allele and other patches the other.",
+      "answer": "Barr body",
+      "acceptedAnswers": [
+        "barr bodies",
+        "Barr"
+      ],
+      "searchQuery": "Barr body X inactivation female mammals calico cats"
+    },
+    {
+      "id": "morgan-white-eyes",
+      "title": "Which scientist's work with white-eyed fruit flies provided the first evidence that a specific gene is carried on a specific chromosome (the X)?",
+      "body": "Thomas Hunt Morgan\n\nHe found that the white-eye trait was inherited with sex: it appeared mostly in males.\n\nKey idea: this linked a trait to a chromosome and supported the chromosome theory of inheritance.",
+      "answer": "Morgan",
+      "acceptedAnswers": [
+        "Thomas Hunt Morgan",
+        "T. H. Morgan",
+        "Thomas Morgan",
+        "T H Morgan"
+      ],
+      "searchQuery": "Thomas Hunt Morgan white eyed Drosophila X-linked first evidence"
+    },
+    {
+      "id": "y-linked-inheritance",
+      "title": "A trait is carried on the Y chromosome. Which offspring of an affected father show it?",
+      "body": "All of his sons, and none of his daughters\n\nThe Y passes only from father to son, so the trait appears only in males, in every generation.\n\nKey idea: Y-linked genes are rare, because the human Y carries relatively few genes.",
+      "answer": "all sons",
+      "acceptedAnswers": [
+        "all of his sons",
+        "only sons",
+        "sons only",
+        "all male offspring",
+        "all males"
+      ],
+      "searchQuery": "Y-linked inheritance father to all sons pattern"
+    },
+    {
+      "id": "pedigree-autosomal-dominant",
+      "title": "In a pedigree, every affected person has an affected parent and the trait appears in every generation, in both sexes equally. What is the likely mode of inheritance?",
+      "body": "Autosomal dominant\n\nThe trait does not skip generations, and unaffected parents never have affected children.\n\nTip: affected parents can have unaffected children if they are heterozygous ($Aa \\times aa$).",
+      "answer": "autosomal dominant",
+      "acceptedAnswers": [
+        "dominant autosomal",
+        "autosomal-dominant",
+        "AD",
+        "autosomal dominant inheritance"
+      ],
+      "searchQuery": "pedigree autosomal dominant every generation affected parent"
+    },
+    {
+      "id": "pedigree-x-linked-recessive",
+      "title": "A trait is far more common in males, skips generations, and passes from an affected father to his grandsons through his unaffected daughters. What is the likely mode of inheritance?",
+      "body": "X-linked recessive\n\nFathers never pass the trait directly to sons. Their daughters become carriers and can pass it on to their own sons.\n\nTip: look for mostly affected males, no father-to-son transmission and carrier daughters.",
+      "answer": "X-linked recessive",
+      "acceptedAnswers": [
+        "X linked recessive",
+        "recessive X-linked",
+        "XLR",
+        "sex-linked recessive"
+      ],
+      "searchQuery": "pedigree X-linked recessive pattern affected males skip generations"
+    },
+    {
+      "id": "mitochondrial-inheritance",
+      "title": "Mitochondrial DNA is passed to children by which parent?",
+      "body": "The mother\n\nThe egg supplies almost all of the cytoplasm and its mitochondria, while the sperm contributes essentially none.\n\nKey idea: in a pedigree, an affected mother passes the trait to all of her children, and an affected father to none.",
+      "answer": "mother",
+      "acceptedAnswers": [
+        "maternal",
+        "maternally",
+        "the mother only"
+      ],
+      "searchQuery": "mitochondrial DNA inherited from mother maternal inheritance pedigree"
+    },
+    {
+      "id": "carrier-chance-both-siblings",
+      "title": "A man and a woman are each unaffected, but each has a sibling with an autosomal recessive disease (their parents are unaffected). What is the probability that their first child is affected?",
+      "body": "$\\frac{1}{9}$\n\nEach unaffected person is a carrier with probability $\\frac{2}{3}$. The child is affected only if both are carriers and both pass on the allele: $\\frac{2}{3} \\times \\frac{2}{3} \\times \\frac{1}{4} = \\frac{1}{9}$.\n\nWatch out: use $\\frac{2}{3}$, not $\\frac{1}{2}$. Because each person is unaffected, $aa$ is ruled out, so the remaining genotypes are $AA$ (1 part) and $Aa$ (2 parts).",
+      "answer": "1/9",
+      "acceptedAnswers": [
+        "0.11",
+        "0.111",
+        "11%",
+        "11.1%",
+        "1 in 9",
+        "one ninth"
+      ],
+      "answerDisplay": "$\\frac{1}{9}$",
+      "searchQuery": "probability child affected both parents siblings affected autosomal recessive 2/3 carrier"
+    },
+    {
+      "id": "consanguinity-risk",
+      "title": "Why does marriage between close relatives raise the risk of autosomal recessive disorders in children?",
+      "body": "Relatives share a recent ancestor, so they are more likely to carry the same rare recessive allele.\n\nTheir child is therefore more likely to inherit two copies of it, one through each parent.\n\nExample: first cousins share about $\\frac{1}{8}$ of their alleles, so the risk of a recessive disorder is noticeably higher than for unrelated parents.",
+      "searchQuery": "consanguinity first cousins increased risk recessive disorders shared alleles"
+    },
+    {
+      "id": "recombinant-offspring",
+      "title": "What term describes offspring whose combination of alleles differs from both parents' because of crossing over?",
+      "body": "Recombinants\n\nOffspring with the parental combinations are called **parental types**.\n\nKey idea: for linked genes, recombinants are always the minority classes in a testcross.",
+      "answer": "recombinants",
+      "acceptedAnswers": [
+        "recombinant",
+        "recombinant offspring",
+        "recombinant types",
+        "recombinant progeny"
+      ],
+      "searchQuery": "recombinant offspring crossing over parental types linked genes"
+    },
+    {
+      "id": "max-recombination-frequency",
+      "title": "What is the maximum recombination frequency between two genes, no matter how far apart they are on a chromosome? (percent)",
+      "body": "$50\\%$\n\nAt $50\\%$ the genes assort independently, just like genes on different chromosomes.\n\nWatch out: map distances can add up to more than $50$ map units for far-apart genes, but the observed recombination frequency never exceeds $50\\%$.",
+      "answer": "50%",
+      "acceptedAnswers": [
+        "50",
+        "50 percent",
+        "0.5",
+        "half",
+        "one half"
+      ],
+      "answerDisplay": "$50\\%$",
+      "searchQuery": "maximum recombination frequency 50 percent independent assortment linkage"
+    },
+    {
+      "id": "gene-order-map",
+      "title": "Three linked genes have map distances $A$–$B$ = $10$, $B$–$C$ = $6$ and $A$–$C$ = $16$ map units. Which gene lies in the middle? (letter)",
+      "body": "$B$\n\nIn a linear map, the two shorter distances add up to the longest one: $10 + 6 = 16$. The two genes at the ends, $A$ and $C$, are farthest apart.\n\nSo the order is $A$–$B$–$C$.\n\nTip: find the largest distance; the gene not in that pair is in the middle.",
+      "answer": "B",
+      "acceptedAnswers": [
+        "gene B"
+      ],
+      "answerDisplay": "$B$",
+      "searchQuery": "genetic map gene order three genes map units additive middle gene"
+    },
+    {
+      "id": "recombination-problem",
+      "title": "A dihybrid testcross gives $420$ and $410$ offspring of the two parental types, and $85$ of each recombinant type. What is the distance between the genes in map units? (number only)",
+      "body": "$17$\n\nRecombinants $= 85 + 85 = 170$, out of $420 + 410 + 170 = 1000$ offspring.\n\nRecombination frequency $= \\frac{170}{1000} = 17\\%$, so the genes are $17$ map units apart.\n\nTip: identify the two largest classes as parental, and the two smallest as recombinant.",
+      "answer": "17",
+      "acceptedAnswers": [
+        "17 map units",
+        "17 cM",
+        "17 centimorgans",
+        "17%",
+        "0.17"
+      ],
+      "answerDisplay": "$17$ map units",
+      "searchQuery": "calculate recombination frequency testcross offspring counts map units problem"
+    },
+    {
+      "id": "parental-classes-testcross",
+      "title": "In a testcross involving two linked genes, which offspring classes are the most numerous: parental types or recombinant types?",
+      "body": "Parental types\n\nThe parental combinations are inherited together unless a crossover happens between the genes, so the recombinant classes are always the smaller pair.\n\nKey idea: if all four classes are about equal ($1:1:1:1$), the genes are unlinked.",
+      "answer": "parental",
+      "acceptedAnswers": [
+        "parental types",
+        "parentals",
+        "parental classes",
+        "parental offspring"
+      ],
+      "searchQuery": "testcross linked genes parental classes most numerous recombinant fewest"
+    },
+    {
+      "id": "chi-square-formula",
+      "title": "Write the chi-square statistic used to test whether observed offspring counts fit an expected ratio.",
+      "body": "$\\chi^2 = \\sum \\dfrac{(O - E)^2}{E}$\n\nHere $O$ is the observed count and $E$ is the expected count for each class.\n\nWatch out: use counts, not percentages or ratios. Compare the result with a critical value for the right degrees of freedom.",
+      "searchQuery": "chi-square test formula genetics observed expected counts"
+    },
+    {
+      "id": "chi-square-problem",
+      "title": "A cross is expected to give a $3:1$ ratio. Of $100$ offspring, $80$ show the dominant trait and $20$ the recessive trait. What is $\\chi^2$ (to two decimal places)?",
+      "body": "$1.33$\n\nExpected counts: $75$ and $25$. Then $\\chi^2 = \\dfrac{(80-75)^2}{75} + \\dfrac{(20-25)^2}{25} = 0.33 + 1.00 = 1.33$.\n\nWith $1$ degree of freedom, the critical value at $p = 0.05$ is $3.84$. Since $1.33 < 3.84$, the data fit a $3:1$ ratio, and you fail to reject the hypothesis.",
+      "answer": "1.33",
+      "acceptedAnswers": [
+        "1.3",
+        "1.333",
+        "4/3"
+      ],
+      "answerDisplay": "$1.33$",
+      "searchQuery": "chi-square test 3:1 ratio calculation 80 20 offspring"
+    },
+    {
+      "id": "chi-square-degrees-freedom",
+      "title": "How many degrees of freedom does a chi-square test have when testing a $9:3:3:1$ dihybrid ratio? (number only)",
+      "body": "$3$\n\nDegrees of freedom equal the number of phenotype classes minus one: $4 - 1 = 3$.\n\nKey idea: the critical value at $p = 0.05$ for $3$ degrees of freedom is $7.81$.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three",
+        "3 df"
+      ],
+      "answerDisplay": "$3$",
+      "searchQuery": "chi-square degrees of freedom classes minus one 9:3:3:1 critical value 7.81"
+    },
+    {
+      "id": "hw-q-from-recessive",
+      "title": "In a population at Hardy–Weinberg equilibrium, $16\\%$ of individuals show a recessive phenotype. What is the frequency $q$ of the recessive allele? (decimal)",
+      "body": "$0.4$\n\nThe recessive phenotype is $q^2 = 0.16$, so $q = \\sqrt{0.16} = 0.4$.\n\nTip: start from the recessive phenotype, the only class you can count directly, then take a square root.",
+      "answer": "0.4",
+      "acceptedAnswers": [
+        "40%",
+        "2/5"
+      ],
+      "answerDisplay": "$0.4$",
+      "searchQuery": "Hardy-Weinberg find q from recessive phenotype frequency square root"
+    },
+    {
+      "id": "hw-heterozygotes-problem",
+      "title": "In the same kind of population, $16\\%$ show a recessive phenotype ($q^2 = 0.16$). What fraction of the population is heterozygous? (decimal)",
+      "body": "$0.48$\n\nWith $q = 0.4$, $p = 1 - 0.4 = 0.6$. Heterozygotes are $2pq = 2 \\times 0.6 \\times 0.4 = 0.48$.\n\nCheck: $p^2 + 2pq + q^2 = 0.36 + 0.48 + 0.16 = 1$.",
+      "answer": "0.48",
+      "acceptedAnswers": [
+        "48%",
+        "12/25"
+      ],
+      "answerDisplay": "$0.48$",
+      "searchQuery": "Hardy-Weinberg heterozygote frequency 2pq worked example q squared 0.16"
+    },
+    {
+      "id": "hw-homozygous-dominant",
+      "title": "A dominant allele has frequency $p = 0.7$ in a Hardy–Weinberg population. What fraction of individuals are homozygous dominant? (decimal)",
+      "body": "$0.49$\n\nThe homozygous dominant frequency is $p^2 = 0.7^2 = 0.49$.\n\nWatch out: $p^2$ is not the fraction showing the dominant phenotype. That is $p^2 + 2pq = 0.49 + 0.42 = 0.91$.",
+      "answer": "0.49",
+      "acceptedAnswers": [
+        "49%"
+      ],
+      "answerDisplay": "$0.49$",
+      "searchQuery": "Hardy-Weinberg p squared homozygous dominant frequency p equals 0.7"
+    },
+    {
+      "id": "hw-allele-count",
+      "title": "A population of $100$ has $40$ $AA$, $40$ $Aa$ and $20$ $aa$ individuals. What is the frequency of allele $A$? (decimal)",
+      "body": "$0.6$\n\nCount alleles: there are $200$ in total. $A$ appears $2 \\times 40 + 40 = 120$ times, so $\\frac{120}{200} = 0.6$.\n\nTip: each homozygote has two copies and each heterozygote has one.",
+      "answer": "0.6",
+      "acceptedAnswers": [
+        "60%",
+        "3/5"
+      ],
+      "answerDisplay": "$0.6$",
+      "searchQuery": "calculate allele frequency from genotype counts population genetics"
+    },
+    {
+      "id": "hw-equilibrium-check",
+      "title": "For that population ($40$ $AA$, $40$ $Aa$, $20$ $aa$; $p = 0.6$, $q = 0.4$), do the genotype frequencies fit Hardy–Weinberg expectations? (yes or no)",
+      "body": "No\n\nHardy–Weinberg predicts $p^2 = 0.36$ $AA$, $2pq = 0.48$ $Aa$ and $q^2 = 0.16$ $aa$. The observed $0.40$, $0.40$ and $0.20$ are different.\n\nKey idea: the population has fewer heterozygotes than expected, a sign of nonrandom mating such as inbreeding.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "not in equilibrium",
+        "no, it does not",
+        "doesn't fit"
+      ],
+      "searchQuery": "test Hardy-Weinberg equilibrium observed vs expected genotype frequencies"
+    },
+    {
+      "id": "hw-x-linked-females",
+      "title": "About $1$ in $12$ males has red–green color blindness (X-linked recessive). Assuming Hardy–Weinberg, about what percentage of females are affected? (nearest tenth of a percent, number only)",
+      "body": "$0.7\\%$\n\nFor males, the affected frequency equals the allele frequency, so $q = \\frac{1}{12} \\approx 0.083$. Females need two copies, so $q^2 \\approx 0.0069 \\approx 0.7\\%$.\n\nKey idea: X-linked recessive disorders are far more common in males: $q$ vs. $q^2$.",
+      "answer": "0.7",
+      "acceptedAnswers": [
+        "0.7%",
+        "0.69",
+        "0.69%"
+      ],
+      "answerDisplay": "$0.7\\%$",
+      "searchQuery": "X-linked recessive Hardy-Weinberg color blindness males females frequency q squared"
+    },
+    {
+      "id": "hw-max-heterozygotes",
+      "title": "What is the maximum possible frequency of heterozygotes ($2pq$) for a gene with two alleles in a Hardy–Weinberg population? (decimal)",
+      "body": "$0.5$\n\n$2pq$ is largest when $p = q = 0.5$, giving $2 \\times 0.5 \\times 0.5 = 0.5$.\n\nWatch out: rare alleles are found mostly in heterozygotes: when $q$ is small, $2pq \\approx 2q$ is far larger than $q^2$.",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "50%",
+        "1/2",
+        "half"
+      ],
+      "answerDisplay": "$0.5$",
+      "searchQuery": "maximum heterozygote frequency 2pq 0.5 when p equals q Hardy-Weinberg"
+    },
+    {
+      "id": "hw-generations-to-equilibrium",
+      "title": "An autosomal gene has unusual genotype frequencies, then a large population mates randomly with no other forces acting. After how many generations are genotypes in Hardy–Weinberg proportions?",
+      "body": "$1$\n\nOne generation of random mating produces the proportions $p^2$, $2pq$ and $q^2$, and they stay there.\n\nKey idea: allele frequencies are unchanged by random mating. Only the genotype proportions adjust.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one",
+        "one generation",
+        "1 generation"
+      ],
+      "answerDisplay": "$1$",
+      "searchQuery": "Hardy-Weinberg equilibrium reached in one generation of random mating"
+    },
+    {
+      "id": "hw-cystic-fibrosis-q",
+      "title": "Cystic fibrosis affects about $1$ in $2{,}500$ people of European ancestry and is autosomal recessive. What is the recessive allele frequency $q$, assuming Hardy–Weinberg? (decimal)",
+      "body": "$0.02$\n\n$q^2 = \\frac{1}{2500} = 0.0004$, so $q = \\sqrt{0.0004} = 0.02$.\n\nExample: carriers are then $2pq \\approx 2 \\times 0.98 \\times 0.02 \\approx 0.039$, about $1$ in $25$ people.",
+      "answer": "0.02",
+      "acceptedAnswers": [
+        "2%",
+        "1/50"
+      ],
+      "answerDisplay": "$0.02$",
+      "searchQuery": "cystic fibrosis 1 in 2500 allele frequency Hardy-Weinberg carriers 1 in 25"
+    },
+    {
+      "id": "hw-hidden-alleles",
+      "title": "In a Hardy–Weinberg population with $q = 0.1$, what percentage of all copies of the recessive allele are carried by heterozygotes? (number only)",
+      "body": "$90\\%$\n\nIn $100$ people, $q^2 = 1$ is $aa$ ($2$ copies) and $2pq = 18$ are $Aa$ ($18$ copies). So $\\frac{18}{20} = 90\\%$.\n\nKey idea: selection against a rare recessive trait removes alleles slowly, because most copies are hidden in carriers.",
+      "answer": "90",
+      "acceptedAnswers": [
+        "90%",
+        "90 percent",
+        "0.9"
+      ],
+      "answerDisplay": "$90\\%$",
+      "searchQuery": "rare recessive alleles hidden in heterozygotes carriers percent Hardy-Weinberg"
+    },
+    {
+      "id": "inbreeding-effect",
+      "title": "How does inbreeding affect allele frequencies and genotype frequencies in a population?",
+      "body": "It leaves allele frequencies unchanged but increases homozygotes and reduces heterozygotes.\n\nMating among relatives makes offspring more likely to inherit two copies of the same allele from a common ancestor.\n\nWatch out: inbreeding alone is not evolution, but increased homozygosity exposes harmful recessive alleles (inbreeding depression).",
+      "searchQuery": "inbreeding effect on genotype frequencies increases homozygosity allele frequencies unchanged"
+    },
+    {
+      "id": "genetic-drift-definition",
+      "title": "What term describes random changes in allele frequencies from one generation to the next, especially in small populations?",
+      "body": "Genetic drift\n\nBy chance alone, some alleles are passed to more offspring than expected from their frequency.\n\nKey idea: drift is random, so unlike natural selection it does not tend to improve adaptation.",
+      "answer": "genetic drift",
+      "acceptedAnswers": [
+        "drift",
+        "random genetic drift"
+      ],
+      "searchQuery": "genetic drift definition random allele frequency change small populations"
+    },
+    {
+      "id": "bottleneck-effect",
+      "title": "What term describes the loss of genetic variation after a sudden event drastically shrinks a population?",
+      "body": "The bottleneck effect\n\nThe survivors are a random sample, so their allele frequencies may differ from the original population's, and rare alleles may be lost entirely.\n\nExample: northern elephant seals, hunted to fewer than $100$ individuals in the 1890s, now have very low genetic variation.",
+      "answer": "bottleneck effect",
+      "acceptedAnswers": [
+        "bottleneck",
+        "population bottleneck",
+        "genetic bottleneck"
+      ],
+      "searchQuery": "bottleneck effect genetic drift reduced genetic variation elephant seals"
+    },
+    {
+      "id": "drift-population-size",
+      "title": "Is genetic drift stronger in small populations or in large populations?",
+      "body": "Small populations\n\nWith fewer individuals, chance events cause larger swings in allele frequency, just as a few coin flips stray further from $50\\%$ heads than many flips do.\n\nKey idea: this is why Hardy–Weinberg requires a very large population.",
+      "answer": "small populations",
+      "acceptedAnswers": [
+        "small",
+        "smaller",
+        "small population",
+        "in small populations"
+      ],
+      "searchQuery": "genetic drift stronger in small populations law of large numbers"
+    },
+    {
+      "id": "drift-fixation",
+      "title": "If genetic drift is the only force acting, what is the long-term fate of an allele in a finite population?",
+      "body": "It will eventually be lost or fixed (reach a frequency of $1$).\n\nOver time, drift reduces genetic variation within a population and increases differences between isolated populations.\n\nExample: the lower an allele's starting frequency, the more likely it is to be lost rather than fixed.",
+      "searchQuery": "genetic drift allele fixation or loss long-term effect finite population"
+    },
+    {
+      "id": "cystic-fibrosis-protein",
+      "title": "Cystic fibrosis is caused by mutations in a gene for which chloride channel protein? (abbreviation)",
+      "body": "CFTR\n\nThe gene is on chromosome $7$, and the disease is autosomal recessive. Faulty chloride transport leaves thick mucus in the lungs and pancreas.\n\nExample: the most common allele, $\\Delta F508$, deletes one phenylalanine.",
+      "answer": "CFTR",
+      "acceptedAnswers": [
+        "CFTR protein",
+        "cystic fibrosis transmembrane conductance regulator",
+        "cystic fibrosis transmembrane regulator"
+      ],
+      "searchQuery": "cystic fibrosis CFTR chloride channel chromosome 7 autosomal recessive"
+    },
+    {
+      "id": "tay-sachs-enzyme",
+      "title": "Tay-Sachs disease, an autosomal recessive disorder, results from a deficiency of which lysosomal enzyme?",
+      "body": "Hexosaminidase A\n\nWithout it, a lipid called GM2 ganglioside builds up in nerve cells and damages the brain.\n\nWatch out: carriers have about half the normal enzyme activity but are healthy, which illustrates why recessive disorders skip generations.",
+      "answer": "hexosaminidase A",
+      "acceptedAnswers": [
+        "HexA",
+        "hex-A",
+        "beta-hexosaminidase A",
+        "hexosaminidase"
+      ],
+      "searchQuery": "Tay-Sachs hexosaminidase A deficiency lysosomal GM2 ganglioside"
+    },
+    {
+      "id": "huntington-late-onset",
+      "title": "Huntington's disease is autosomal dominant and fatal, so why does the allele persist in the population?",
+      "body": "Symptoms usually begin after age $30$–$50$, often after people have had children.\n\nSo carriers usually pass the allele on before selection can act against it.\n\nKey idea: a child of an affected heterozygous parent has a $\\frac{1}{2}$ chance of inheriting the allele.",
+      "searchQuery": "Huntington disease autosomal dominant late onset persists in population"
+    },
+    {
+      "id": "pku-enzyme",
+      "title": "Phenylketonuria (PKU) is an autosomal recessive disorder caused by a deficiency of which enzyme?",
+      "body": "Phenylalanine hydroxylase\n\nWithout it, phenylalanine builds up and can cause intellectual disability. A low-phenylalanine diet started in infancy prevents the damage.\n\nExample: newborn screening finds PKU early, so affected children can be treated.",
+      "answer": "phenylalanine hydroxylase",
+      "acceptedAnswers": [
+        "PAH",
+        "phenylalanine hydroxylase enzyme"
+      ],
+      "searchQuery": "phenylketonuria PKU phenylalanine hydroxylase deficiency autosomal recessive"
+    },
+    {
+      "id": "hemophilia-a-factor",
+      "title": "Hemophilia A, an X-linked recessive disorder, is caused by a deficiency of which clotting factor?",
+      "body": "Factor VIII\n\nAffected males bleed excessively because their blood clots slowly.\n\nWatch out: hemophilia B involves factor IX instead.",
+      "answer": "factor VIII",
+      "acceptedAnswers": [
+        "factor 8",
+        "VIII",
+        "factor eight",
+        "clotting factor VIII",
+        "F8"
+      ],
+      "searchQuery": "hemophilia A factor VIII deficiency X-linked recessive"
+    },
+    {
+      "id": "duchenne-dystrophin",
+      "title": "Duchenne muscular dystrophy, an X-linked recessive disorder, results from absence of which muscle protein?",
+      "body": "Dystrophin\n\nThe $DMD$ gene is very large, so new mutations are common. Without dystrophin, muscle fibers are easily damaged.\n\nKey idea: because it is X-linked recessive, it mainly affects boys.",
+      "answer": "dystrophin",
+      "acceptedAnswers": [
+        "dystrophin protein"
+      ],
+      "searchQuery": "Duchenne muscular dystrophy dystrophin X-linked recessive DMD gene"
+    },
+    {
+      "id": "sex-influenced-trait",
+      "title": "Pattern baldness is caused by an autosomal allele that is expressed differently in males and females. What kind of trait is this?",
+      "body": "A sex-influenced trait\n\nThe gene is on an autosome, but sex hormones change whether the allele acts as dominant or recessive.\n\nWatch out: do not confuse it with a **sex-linked** trait, whose gene lies on a sex chromosome.",
+      "answer": "sex-influenced trait",
+      "acceptedAnswers": [
+        "sex influenced",
+        "sex-influenced",
+        "sex influenced trait",
+        "sex-influenced inheritance"
+      ],
+      "searchQuery": "sex-influenced trait pattern baldness autosomal versus sex-linked"
+    }
+  ]
+}

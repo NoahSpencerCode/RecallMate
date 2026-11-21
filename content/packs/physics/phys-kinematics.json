@@ -1,0 +1,1002 @@
+{
+  "id": "phys-kinematics",
+  "title": "Kinematics & Newton's Laws",
+  "course": "Physics I: Mechanics",
+  "description": "Constant-acceleration equations, free fall, projectiles, relative velocity, Newton's laws, friction, inclines, Atwood machines, circular motion and drag.",
+  "cards": [
+    {
+      "id": "constant-accel-no-time",
+      "title": "With constant acceleration, which kinematic equation relates $v$, $v_0$, $a$ and the displacement $\\Delta x$ without involving time?",
+      "body": "$v^2 = v_0^2 + 2a\\,\\Delta x$\n\nUse it when **time** is neither given nor asked for.\n\nWhy: eliminate $t$ between $v = v_0 + at$ and $\\Delta x = v_0t + \\tfrac{1}{2}at^2$.\nWatch out: like every constant-acceleration equation, it fails when $a$ varies (for example, with air drag).",
+      "searchQuery": "kinematic equation without time v squared"
+    },
+    {
+      "id": "free-fall-acceleration",
+      "title": "Near Earth's surface, what is the standard magnitude of the free-fall acceleration $g$, in $\\mathrm{m/s^2}$ to 3 significant figures?",
+      "body": "$g = 9.81\\,\\mathrm{m/s^2}$, directed downward.\n\nNear Earth's surface it is the same for every object, whatever its mass, when air resistance is negligible.\n\nTip: with up as positive, $a = -g$ for the whole flight, rising or falling.\nWatch out: many problems round to $g = 9.8\\,\\mathrm{m/s^2}$; use whatever value the problem states.",
+      "answer": "9.81",
+      "acceptedAnswers": [
+        "9.81 m/s^2",
+        "9.81 m/s2",
+        "9.81 N/kg"
+      ],
+      "searchQuery": "standard acceleration of gravity 9.81 m/s2"
+    },
+    {
+      "id": "top-of-vertical-throw",
+      "title": "A ball is thrown straight up. At its highest point, what are its velocity and its acceleration? (Neglect air resistance.)",
+      "body": "Velocity $0$; acceleration still $g = 9.8\\,\\mathrm{m/s^2}$ downward.\n\nThe acceleration is the same at every instant of the flight, rising, at the top and falling.\n\nWatch out: zero velocity does **not** mean zero acceleration. If $a$ were $0$ at the top, the ball would hover there.",
+      "searchQuery": "acceleration at top of vertical throw"
+    },
+    {
+      "id": "projectile-horizontal-velocity",
+      "title": "In projectile motion with no air resistance, how does the horizontal component of the velocity change during the flight?",
+      "body": "It doesn't change: $v_x = v_0\\cos\\theta$ stays constant ($\\theta$ is the launch angle).\n\nGravity acts only vertically, so $a_x = 0$ and $a_y = -g$.\n\nKey idea: at the peak the velocity is not zero; it equals $v_0\\cos\\theta$, pointing horizontally.",
+      "searchQuery": "projectile motion horizontal velocity constant"
+    },
+    {
+      "id": "projectile-time-of-flight",
+      "title": "A ball is launched from level ground at $20\\,\\mathrm{m/s}$, $30^\\circ$ above the horizontal. How long is it in the air, in seconds to 3 significant figures? (No drag; $g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$2.04\\,\\mathrm{s}$\n\n$T = \\dfrac{2v_0\\sin\\theta}{g} = \\dfrac{2(20)(0.50)}{9.8}$. Only the **vertical** motion sets the time.\n\nWhy: the vertical velocity of $10\\,\\mathrm{m/s}$ reaches zero after $1.02\\,\\mathrm{s}$, and the fall back down takes just as long.\nWatch out: this formula is valid only when the projectile lands at its launch height.",
+      "answer": "2.04",
+      "acceptedAnswers": [
+        "2.04 s",
+        "2.04 seconds"
+      ],
+      "searchQuery": "projectile time of flight 2 v sin theta over g"
+    },
+    {
+      "id": "complementary-launch-angles",
+      "title": "On level ground (no air resistance), a projectile launched at $30^\\circ$ has range $R$. At what other launch angle, in degrees, does the same speed also give range $R$?",
+      "body": "$60^\\circ$\n\n$R = \\dfrac{v_0^2\\sin 2\\theta}{g}$, and $\\sin 60^\\circ = \\sin 120^\\circ$, so **complementary angles** ($\\theta$ and $90^\\circ - \\theta$) give equal ranges.\n\nKey idea: the maximum range comes at $45^\\circ$, where $\\sin 2\\theta = 1$.",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 degrees",
+        "60 deg",
+        "60°"
+      ],
+      "searchQuery": "complementary launch angles equal range projectile"
+    },
+    {
+      "id": "river-crossing-relative-velocity",
+      "title": "A boat points straight across a river at $3.0\\,\\mathrm{m/s}$ relative to the water; the current is $4.0\\,\\mathrm{m/s}$. What is its speed relative to the shore, in $\\mathrm{m/s}$?",
+      "body": "$5.0\\,\\mathrm{m/s}$\n\nVelocities add as vectors: $\\vec{v}_{\\text{boat/shore}} = \\vec{v}_{\\text{boat/water}} + \\vec{v}_{\\text{water/shore}}$. The parts are perpendicular, so the speed is $\\sqrt{3.0^2 + 4.0^2} = 5.0\\,\\mathrm{m/s}$.\n\nWatch out: the current carries the boat downstream, but the crossing time is still the river's width divided by $3.0\\,\\mathrm{m/s}$.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "5 m/s",
+        "5 meters per second"
+      ],
+      "searchQuery": "boat river current relative velocity vector addition"
+    },
+    {
+      "id": "net-force-constant-velocity",
+      "title": "A hockey puck slides across frictionless ice at constant velocity. What is the net force on it, in newtons?",
+      "body": "Zero.\n\nNewton's first law: constant velocity means $\\vec{a} = 0$, so $\\sum\\vec{F} = 0$. This holds in inertial reference frames.\n\nWatch out: no force is needed to *keep* an object moving; a net force *changes* its velocity.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero",
+        "0 N",
+        "no net force",
+        "none"
+      ],
+      "searchQuery": "Newton first law constant velocity net force zero"
+    },
+    {
+      "id": "third-law-pairs-dont-cancel",
+      "title": "Newton's third-law force pairs are equal in magnitude and opposite in direction. Why don't they cancel each other out?",
+      "body": "They act on **different bodies**, and only forces on the same body add up to its net force.\n\nA third-law pair is always the same type of force (for example, both gravitational).\n\nWatch out: a book's weight and the table's normal force on it both act on the book, so they are **not** a third-law pair.",
+      "searchQuery": "Newton third law action reaction pairs do not cancel"
+    },
+    {
+      "id": "elevator-apparent-weight",
+      "title": "A $60\\,\\mathrm{kg}$ person stands on a scale in an elevator accelerating upward at $2.0\\,\\mathrm{m/s^2}$. What does the scale read, in newtons? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$708\\,\\mathrm{N}$ ($\\approx 710\\,\\mathrm{N}$), more than $mg = 588\\,\\mathrm{N}$.\n\nWith up positive, $N - mg = ma$, so $N = m(g + a) = (60)(9.8 + 2.0)$.\n\nWhy: only the **acceleration** matters, not the direction of motion. Moving down while slowing at $2.0\\,\\mathrm{m/s^2}$ gives the same reading.\nExample: in free fall ($a = -g$) the scale reads $0$.",
+      "answer": "708",
+      "acceptedAnswers": [
+        "708 N",
+        "710",
+        "710 N"
+      ],
+      "searchQuery": "elevator apparent weight scale reading accelerating upward"
+    },
+    {
+      "id": "incline-gravity-component",
+      "title": "A block of mass $m$ sits on a ramp inclined at angle $\\theta$ above the horizontal. What is the component of its weight parallel to the ramp?",
+      "body": "$mg\\sin\\theta$, pointing down the slope.\n\nThe perpendicular component is $mg\\cos\\theta$, balanced by the normal force ($N = mg\\cos\\theta$ if nothing else pushes perpendicular to the ramp).\n\nTip: check the limits. $\\theta = 0$ gives no downslope pull; $\\theta = 90^\\circ$ gives all of $mg$.",
+      "answer": "mg sin(theta)",
+      "acceptedAnswers": [
+        "mg sin theta",
+        "W sin(theta)",
+        "W sin theta"
+      ],
+      "answerDisplay": "$mg\\sin\\theta$",
+      "searchQuery": "weight component parallel to incline mg sin theta"
+    },
+    {
+      "id": "static-friction-not-max",
+      "title": "A crate on a floor has $\\mu_s = 0.50$ and normal force $100\\,\\mathrm{N}$. You push it horizontally with $30\\,\\mathrm{N}$ and it stays put. What is the friction force, in newtons?",
+      "body": "$30\\,\\mathrm{N}$, opposing your push.\n\nStatic friction is only as large as needed, up to $f_{s,\\max} = \\mu_s N = 50\\,\\mathrm{N}$.\n\nWatch out: $\\mu_s N$ is the **maximum**, not the actual value.\nWhy: once the crate slides, kinetic friction $f_k = \\mu_k N$ takes over (usually $\\mu_k < \\mu_s$).",
+      "answer": "30",
+      "acceptedAnswers": [
+        "30 N",
+        "30 newtons"
+      ],
+      "searchQuery": "static friction less than maximum mu N crate pushed"
+    },
+    {
+      "id": "atwood-acceleration",
+      "title": "In an ideal Atwood machine with masses $m_1 > m_2$ (massless string, frictionless massless pulley), what is the magnitude of the acceleration?",
+      "body": "$a = \\dfrac{(m_1 - m_2)\\,g}{m_1 + m_2}$\n\nThe net driving force $(m_1 - m_2)g$ accelerates the **total** mass $m_1 + m_2$.\n\nWatch out: the tension $T = \\dfrac{2m_1m_2\\,g}{m_1 + m_2}$ lies between $m_2g$ and $m_1g$; it is not simply the heavier weight.",
+      "answer": "(m1-m2)g/(m1+m2)",
+      "acceptedAnswers": [
+        "g(m1-m2)/(m1+m2)",
+        "(m1-m2)/(m1+m2)*g",
+        "((m1-m2)/(m1+m2))g"
+      ],
+      "answerDisplay": "$\\dfrac{(m_1 - m_2)\\,g}{m_1 + m_2}$",
+      "searchQuery": "Atwood machine acceleration formula"
+    },
+    {
+      "id": "centripetal-acceleration",
+      "title": "An object moves at constant speed $v$ around a circle of radius $r$. What is the magnitude of its acceleration?",
+      "body": "$a = \\dfrac{v^2}{r}$, directed toward the center.\n\nThe speed is constant but the velocity keeps changing direction, so the object accelerates. An equivalent form is $a = \\omega^2 r$.\n\nExample: $10\\,\\mathrm{m/s}$ on a $5.0\\,\\mathrm{m}$ radius gives $a = 20\\,\\mathrm{m/s^2}$.",
+      "answer": "v^2/r",
+      "acceptedAnswers": [
+        "(v^2)/r",
+        "omega^2 r",
+        "w^2 r",
+        "ω^2 r"
+      ],
+      "answerDisplay": "$\\dfrac{v^2}{r}$",
+      "searchQuery": "centripetal acceleration v squared over r"
+    },
+    {
+      "id": "flat-curve-friction",
+      "title": "A car rounds a flat, unbanked curve at constant speed. Which force provides the centripetal force?",
+      "body": "**Static friction** from the road on the tires, pointing toward the center of the curve.\n\nIt is static because the tires don't slide sideways. The maximum speed is $v_{\\max} = \\sqrt{\\mu_s g r}$.\n\nWatch out: centripetal force is never an extra force on a free-body diagram; it is the name for the net inward force.",
+      "searchQuery": "car flat curve centripetal force static friction"
+    },
+    {
+      "id": "terminal-speed",
+      "title": "An object of mass $m$ falls through air with drag force $D = \\tfrac{1}{2}C\\rho Av^2$. What is its terminal speed?",
+      "body": "$v_t = \\sqrt{\\dfrac{2mg}{C\\rho A}}$\n\nAt terminal speed, drag balances weight: $\\tfrac{1}{2}C\\rho Av_t^2 = mg$. The net force and the acceleration are zero.\n\nExample: a heavier object of the same size and shape falls faster. In a vacuum there is no terminal speed.",
+      "searchQuery": "terminal speed quadratic drag formula"
+    },
+    {
+      "id": "lap-displacement-zero",
+      "title": "A runner completes one full lap of a $400\\,\\mathrm{m}$ track, ending where she started. What is her displacement, in meters?",
+      "body": "$0$; the distance she covered is $400\\,\\mathrm{m}$.\n\n**Displacement** is the change in position, $\\Delta x = x_f - x_i$, a vector. **Distance** is the total path length, a scalar that never decreases.\n\nKey idea: her average velocity for the lap is zero, but her average speed is not.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "0 m",
+        "zero"
+      ],
+      "searchQuery": "displacement versus distance full lap zero"
+    },
+    {
+      "id": "average-speed-round-trip",
+      "title": "A car drives $60\\,\\mathrm{km}$ at $30\\,\\mathrm{km/h}$, then returns the same $60\\,\\mathrm{km}$ at $60\\,\\mathrm{km/h}$. What is its average speed for the round trip, in $\\mathrm{km/h}$?",
+      "body": "$40\\,\\mathrm{km/h}$, not $45\\,\\mathrm{km/h}$.\n\nAverage speed is total distance over total time: $120\\,\\mathrm{km}$ in $2.0\\,\\mathrm{h} + 1.0\\,\\mathrm{h} = 3.0\\,\\mathrm{h}$.\n\nWhy: the car spends more time at the lower speed, so the average is weighted toward it.\nExample: its average velocity for the round trip is zero.",
+      "answer": "40",
+      "acceptedAnswers": [
+        "40 km/h"
+      ],
+      "searchQuery": "average speed round trip different speeds harmonic"
+    },
+    {
+      "id": "instantaneous-velocity-derivative",
+      "title": "How is instantaneous velocity defined in terms of the position function $x(t)$?",
+      "body": "$v = \\dfrac{dx}{dt}$, the limit of $\\dfrac{\\Delta x}{\\Delta t}$ as $\\Delta t \\to 0$.\n\nGraphically, it is the **slope of the tangent line** to the position-time graph at that instant.\n\nKey idea: speed is the magnitude of this velocity.",
+      "answer": "dx/dt",
+      "acceptedAnswers": [
+        "v = dx/dt",
+        "x'(t)"
+      ],
+      "answerDisplay": "$v = \\dfrac{dx}{dt}$",
+      "searchQuery": "instantaneous velocity derivative of position"
+    },
+    {
+      "id": "acceleration-second-derivative",
+      "title": "Acceleration is the time derivative of velocity. What is it in terms of the position function $x(t)$?",
+      "body": "$a = \\dfrac{dv}{dt} = \\dfrac{d^2x}{dt^2}$\n\nIt is the slope of the velocity-time graph, and its sign gives the concavity of the position-time graph.\n\nTip: going the other way, integrate: $v(t) = v_0 + \\int_0^t a\\,dt'$.",
+      "answer": "d^2x/dt^2",
+      "acceptedAnswers": [
+        "a = d^2x/dt^2",
+        "x''(t)"
+      ],
+      "answerDisplay": "$a = \\dfrac{d^2x}{dt^2}$",
+      "searchQuery": "acceleration second derivative of position"
+    },
+    {
+      "id": "velocity-from-position-function",
+      "title": "A particle's position is $x(t) = 3t^2 - 4t$, with $x$ in meters and $t$ in seconds. What is its velocity at $t = 2.0\\,\\mathrm{s}$, in $\\mathrm{m/s}$?",
+      "body": "$8.0\\,\\mathrm{m/s}$\n\nDifferentiate: $v(t) = \\dfrac{dx}{dt} = 6t - 4$, so $v(2.0) = 12 - 4 = 8.0\\,\\mathrm{m/s}$. The acceleration is a constant $6.0\\,\\mathrm{m/s^2}$.\n\nWatch out: $x(2.0)/2.0 = 2.0\\,\\mathrm{m/s}$ is the average velocity since $t = 0$, not the instantaneous velocity.",
+      "answer": "8",
+      "acceptedAnswers": [
+        "8 m/s"
+      ],
+      "searchQuery": "velocity from position function derivative"
+    },
+    {
+      "id": "velocity-graph-area",
+      "title": "On a velocity–time graph, what does the signed area between the curve and the time axis represent?",
+      "body": "The **displacement**, $\\Delta x = \\int v\\,dt$.\n\nArea below the axis counts as negative (motion in the negative direction). For the total distance traveled, count every area as positive.\n\nKey idea: the slope of the same graph is the acceleration.",
+      "answer": "displacement",
+      "acceptedAnswers": [
+        "change in position",
+        "delta x",
+        "Δx"
+      ],
+      "searchQuery": "area under velocity time graph displacement"
+    },
+    {
+      "id": "acceleration-graph-area",
+      "title": "On an acceleration–time graph, what does the area under the curve over an interval represent?",
+      "body": "The **change in velocity**, $\\Delta v = \\int a\\,dt$.\n\nIt gives only the change; to find the velocity itself you also need its initial value.\n\nKey idea: the pattern repeats one level down: the area under a $v$-$t$ graph is the change in position.",
+      "answer": "change in velocity",
+      "acceptedAnswers": [
+        "velocity change",
+        "delta v",
+        "Δv"
+      ],
+      "searchQuery": "area under acceleration time graph change in velocity"
+    },
+    {
+      "id": "position-graph-parabola",
+      "title": "An object's position–time graph is a parabola that opens upward. What can you conclude about its acceleration?",
+      "body": "The acceleration is constant and positive.\n\n$x = x_0 + v_0t + \\tfrac{1}{2}at^2$ is a parabola in $t$; opening upward (concave up) means $a > 0$.\n\nWhy: the slope at each point is the instantaneous velocity. It is zero at the vertex, where the object momentarily stops and reverses direction.",
+      "searchQuery": "position time graph parabola constant acceleration"
+    },
+    {
+      "id": "speeding-up-or-slowing-down",
+      "title": "An object has negative velocity and negative acceleration. Is it speeding up or slowing down?",
+      "body": "**Speeding up.**\n\nAn object speeds up when $v$ and $a$ have the **same sign** and slows down when their signs are opposite.\n\nWatch out: negative acceleration doesn't by itself mean slowing down; it depends on the direction of motion.",
+      "answer": "speeding up",
+      "acceptedAnswers": [
+        "speeds up",
+        "speeding"
+      ],
+      "searchQuery": "speeding up or slowing down sign of velocity and acceleration"
+    },
+    {
+      "id": "constant-accel-velocity-equation",
+      "title": "For constant acceleration $a$, what is the velocity $v$ at time $t$ in terms of the initial velocity $v_0$?",
+      "body": "$v = v_0 + at$\n\nIt follows from the definition $a = \\Delta v/\\Delta t$ when $a$ is constant.\n\nKey idea: the $v$-$t$ graph is a straight line with slope $a$ and intercept $v_0$.",
+      "answer": "v0 + at",
+      "acceptedAnswers": [
+        "v = v0 + at",
+        "at + v0",
+        "vi + at",
+        "u + at"
+      ],
+      "answerDisplay": "$v = v_0 + at$",
+      "searchQuery": "constant acceleration velocity equation v = v0 + at"
+    },
+    {
+      "id": "constant-accel-position-equation",
+      "title": "For constant acceleration, what is the displacement $\\Delta x$ after time $t$, in terms of $v_0$, $a$ and $t$?",
+      "body": "$\\Delta x = v_0t + \\tfrac{1}{2}at^2$\n\nIt is the area under the straight-line $v$-$t$ graph: a rectangle $v_0t$ plus a triangle $\\tfrac{1}{2}(at)t$.\n\nTip: if the final velocity $v$ is known instead of $v_0$, use $\\Delta x = vt - \\tfrac{1}{2}at^2$.",
+      "answer": "v0 t + 1/2 a t^2",
+      "acceptedAnswers": [
+        "v0t + (1/2)at^2",
+        "v0t + 0.5at^2",
+        "v0t + at^2/2",
+        "1/2 at^2 + v0 t",
+        "(1/2)at^2 + v0t"
+      ],
+      "answerDisplay": "$v_0t + \\tfrac{1}{2}at^2$",
+      "searchQuery": "constant acceleration displacement equation v0 t plus half a t squared"
+    },
+    {
+      "id": "average-velocity-constant-accel",
+      "title": "Under constant acceleration, how is the average velocity over an interval related to the initial and final velocities $v_0$ and $v$?",
+      "body": "$\\bar{v} = \\dfrac{v_0 + v}{2}$, so $\\Delta x = \\dfrac{v_0 + v}{2}\\,t$.\n\nThis works because the velocity changes linearly in time.\n\nWatch out: it is valid only for **constant acceleration**. Otherwise the average velocity is $\\Delta x/\\Delta t$, which generally differs from the mean of the endpoint velocities.",
+      "answer": "(v0 + v)/2",
+      "acceptedAnswers": [
+        "(v + v0)/2",
+        "1/2(v0 + v)",
+        "0.5(v0 + v)"
+      ],
+      "answerDisplay": "$\\dfrac{v_0 + v}{2}$",
+      "searchQuery": "average velocity constant acceleration mean of initial and final"
+    },
+    {
+      "id": "car-acceleration-from-rest",
+      "title": "A car accelerates uniformly from rest to $27\\,\\mathrm{m/s}$ in $9.0\\,\\mathrm{s}$. What is its acceleration, in $\\mathrm{m/s^2}$?",
+      "body": "$3.0\\,\\mathrm{m/s^2}$\n\n$a = \\dfrac{\\Delta v}{\\Delta t} = \\dfrac{27\\,\\mathrm{m/s} - 0}{9.0\\,\\mathrm{s}}$.\n\nTip: the units $(\\mathrm{m/s})/\\mathrm{s}$ tell the story: the velocity grows by $3.0\\,\\mathrm{m/s}$ every second.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3 m/s^2"
+      ],
+      "searchQuery": "acceleration from change in velocity over time car"
+    },
+    {
+      "id": "distance-from-rest-acceleration",
+      "title": "A car starts from rest and accelerates uniformly at $4.0\\,\\mathrm{m/s^2}$ for $5.0\\,\\mathrm{s}$. How far does it travel, in meters?",
+      "body": "$50\\,\\mathrm{m}$\n\n$\\Delta x = v_0t + \\tfrac{1}{2}at^2 = 0 + \\tfrac{1}{2}(4.0)(5.0)^2$.\n\nTip: check with the average velocity. The car ends at $20\\,\\mathrm{m/s}$, averages $10\\,\\mathrm{m/s}$, and $(10\\,\\mathrm{m/s})(5.0\\,\\mathrm{s}) = 50\\,\\mathrm{m}$.",
+      "answer": "50",
+      "acceptedAnswers": [
+        "50 m"
+      ],
+      "searchQuery": "distance traveled uniform acceleration from rest"
+    },
+    {
+      "id": "braking-distance-problem",
+      "title": "A car moving at $20\\,\\mathrm{m/s}$ brakes with a constant deceleration of $5.0\\,\\mathrm{m/s^2}$. How far does it travel before stopping, in meters?",
+      "body": "$40\\,\\mathrm{m}$\n\nNo time is given or asked for, so use $v^2 = v_0^2 + 2a\\,\\Delta x$: $0 = 20^2 + 2(-5.0)\\,\\Delta x$.\n\nWatch out: with the motion taken as positive, the braking acceleration is **negative**.\nExample: stopping takes $v_0/|a| = 4.0\\,\\mathrm{s}$.",
+      "answer": "40",
+      "acceptedAnswers": [
+        "40 m"
+      ],
+      "searchQuery": "braking distance constant deceleration kinematics"
+    },
+    {
+      "id": "reaction-time-distance",
+      "title": "A driver moving at $25\\,\\mathrm{m/s}$ has a $0.80\\,\\mathrm{s}$ reaction time before braking. How far does the car travel during the reaction time, in meters?",
+      "body": "$20\\,\\mathrm{m}$\n\nUntil the brakes engage, the car keeps its constant velocity: $d = vt = (25)(0.80)$.\n\nKey idea: total stopping distance is the reaction distance (proportional to $v$) plus the braking distance (proportional to $v^2$).",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 m"
+      ],
+      "searchQuery": "driver reaction time distance traveled constant velocity"
+    },
+    {
+      "id": "police-car-catch-up",
+      "title": "A speeder passes a parked police car at a constant $20\\,\\mathrm{m/s}$. At that instant the police car starts from rest at $2.0\\,\\mathrm{m/s^2}$. How many seconds until it catches up?",
+      "body": "$20\\,\\mathrm{s}$\n\nSet the positions equal: $\\tfrac{1}{2}(2.0)t^2 = 20t$, so $t = 20\\,\\mathrm{s}$ (the other root, $t = 0$, is the start).\n\nWhy: over the same time the two have equal average velocities, so the police car's final speed is twice the speeder's: $40\\,\\mathrm{m/s}$.",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 s"
+      ],
+      "searchQuery": "police car catch up speeder constant acceleration equal positions"
+    },
+    {
+      "id": "velocity-from-acceleration-function",
+      "title": "A particle starts from rest with acceleration $a(t) = 6t$ (in $\\mathrm{m/s^2}$, with $t$ in seconds). What is its speed at $t = 2.0\\,\\mathrm{s}$, in $\\mathrm{m/s}$?",
+      "body": "$12\\,\\mathrm{m/s}$\n\nIntegrate: $v(t) = v_0 + \\int_0^t 6t'\\,dt' = 3t^2$, so $v(2.0) = 12\\,\\mathrm{m/s}$.\n\nWatch out: $v = at$ holds only for constant acceleration; here it would wrongly give $(12)(2.0) = 24\\,\\mathrm{m/s}$.",
+      "answer": "12",
+      "acceptedAnswers": [
+        "12 m/s"
+      ],
+      "searchQuery": "velocity from acceleration function integrate"
+    },
+    {
+      "id": "free-fall-drop-time",
+      "title": "A stone is dropped from rest off a $45\\,\\mathrm{m}$ cliff. How long does it take to reach the ground, in seconds to 2 significant figures? (No drag; $g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$3.0\\,\\mathrm{s}$\n\nFrom $h = \\tfrac{1}{2}gt^2$: $t = \\sqrt{\\dfrac{2h}{g}} = \\sqrt{\\dfrac{2(45)}{9.8}} \\approx 3.03\\,\\mathrm{s}$.\n\nKey idea: fall time grows only as $\\sqrt{h}$; four times the height takes twice as long.",
+      "answer": "3.0",
+      "acceptedAnswers": [
+        "3.0 s"
+      ],
+      "searchQuery": "free fall time dropped from cliff sqrt 2h over g"
+    },
+    {
+      "id": "free-fall-impact-speed",
+      "title": "A ball is dropped from rest $20\\,\\mathrm{m}$ above the ground. How fast is it moving just before impact, in $\\mathrm{m/s}$ to 2 significant figures? (No drag; $g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$20\\,\\mathrm{m/s}$ ($19.8\\,\\mathrm{m/s}$).\n\nWith no time given, use $v^2 = v_0^2 + 2gh$: $v = \\sqrt{2(9.8)(20)}$.\n\nKey idea: doubling the height multiplies the impact speed by only $\\sqrt{2}$, and the ball's mass doesn't enter.",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 m/s"
+      ],
+      "searchQuery": "free fall impact speed sqrt 2gh dropped ball"
+    },
+    {
+      "id": "free-fall-distance-two-seconds",
+      "title": "How far does an object dropped from rest fall in its first $2.0\\,\\mathrm{s}$, in meters to 3 significant figures? (No drag; $g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$19.6\\,\\mathrm{m}$\n\n$d = \\tfrac{1}{2}gt^2 = \\tfrac{1}{2}(9.8)(2.0)^2$. It is then moving at $gt = 19.6\\,\\mathrm{m/s}$.\n\nExample: distances fallen in successive seconds go as $1 : 3 : 5 : 7$ ($4.9$, $14.7$, $24.5$, $34.3\\,\\mathrm{m}$).",
+      "answer": "19.6",
+      "acceptedAnswers": [
+        "19.6 m"
+      ],
+      "searchQuery": "free fall distance after 2 seconds from rest"
+    },
+    {
+      "id": "max-height-vertical-throw",
+      "title": "A ball is thrown straight up at $14\\,\\mathrm{m/s}$. How high does it rise above the launch point, in meters? (No drag; $g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$10\\,\\mathrm{m}$\n\nAt the top $v = 0$, so $0 = v_0^2 - 2gh$ gives $h = \\dfrac{v_0^2}{2g} = \\dfrac{14^2}{2(9.8)}$.\n\nExample: it gets there after $v_0/g \\approx 1.4\\,\\mathrm{s}$.",
+      "answer": "10",
+      "acceptedAnswers": [
+        "10 m"
+      ],
+      "searchQuery": "maximum height vertical throw v0 squared over 2g"
+    },
+    {
+      "id": "vertical-throw-return-speed",
+      "title": "A ball thrown straight up at speed $v_0$ comes back down to its launch height. What is its speed there, with no air resistance?",
+      "body": "$v_0$, the launch speed, now directed downward.\n\nThe rise and fall are mirror images: at each height the speed is the same going up and coming down, and the up and down trips take equal times.\n\nWatch out: air drag breaks the symmetry and makes the return speed smaller.",
+      "answer": "v0",
+      "acceptedAnswers": [
+        "v_0",
+        "same",
+        "same speed",
+        "the launch speed"
+      ],
+      "answerDisplay": "$v_0$",
+      "searchQuery": "ball thrown up returns with same speed no air resistance"
+    },
+    {
+      "id": "vector-components",
+      "title": "A velocity of magnitude $v$ points at angle $\\theta$ above the $+x$ axis. What are its $x$- and $y$-components?",
+      "body": "$v_x = v\\cos\\theta$ and $v_y = v\\sin\\theta$.\n\nCosine goes with the side **adjacent** to $\\theta$. To go back: $v = \\sqrt{v_x^2 + v_y^2}$ and $\\tan\\theta = v_y/v_x$ (check the quadrant).\n\nWatch out: if the angle is measured from the vertical instead, the roles of sine and cosine swap.",
+      "searchQuery": "vector components cosine sine velocity angle"
+    },
+    {
+      "id": "displacement-north-component",
+      "title": "A plane flies $200\\,\\mathrm{km}$ in a straight line at $30^\\circ$ north of east. How far north of its starting point does it end up, in kilometers?",
+      "body": "$100\\,\\mathrm{km}$\n\nThe angle is measured from east, so the northward component is $d\\sin 30^\\circ = (200)(0.50)$. The eastward component is $d\\cos 30^\\circ \\approx 173\\,\\mathrm{km}$.\n\nTip: check with $\\sqrt{100^2 + 173^2} \\approx 200$.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 km"
+      ],
+      "searchQuery": "north of east displacement component sine"
+    },
+    {
+      "id": "fired-vs-dropped-bullet",
+      "title": "One bullet is fired horizontally and another is dropped from the same height at the same instant. Which hits level ground first? (No air resistance.)",
+      "body": "Neither: they land **at the same time**.\n\nHorizontal and vertical motions are independent. Both bullets start with zero vertical velocity and fall with the same acceleration $g$.\n\nKey idea: the fired bullet just covers horizontal distance while it falls.",
+      "searchQuery": "horizontally fired bullet and dropped bullet land together"
+    },
+    {
+      "id": "table-roll-off-distance",
+      "title": "A ball rolls off a $1.25\\,\\mathrm{m}$ high table at $3.0\\,\\mathrm{m/s}$. How far from the table's edge does it land, in meters to 2 significant figures? (No drag; $g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$1.5\\,\\mathrm{m}$\n\nThe fall time comes from the vertical motion alone: $t = \\sqrt{2h/g} = \\sqrt{2(1.25)/9.8} \\approx 0.505\\,\\mathrm{s}$.\n\nWhy: horizontally the speed stays constant, so $x = v_0t = (3.0)(0.505) \\approx 1.52\\,\\mathrm{m}$.",
+      "answer": "1.5",
+      "acceptedAnswers": [
+        "1.5 m"
+      ],
+      "searchQuery": "horizontal projectile off table landing distance"
+    },
+    {
+      "id": "projectile-range-formula",
+      "title": "What is the range of a projectile launched at speed $v_0$ and angle $\\theta$ above the horizontal that lands at its launch height? (No air resistance.)",
+      "body": "$R = \\dfrac{v_0^2\\sin 2\\theta}{g}$\n\nIt is the horizontal speed $v_0\\cos\\theta$ times the flight time $\\dfrac{2v_0\\sin\\theta}{g}$, simplified with $2\\sin\\theta\\cos\\theta = \\sin 2\\theta$.\n\nTip: doubling the launch speed quadruples the range.",
+      "answer": "v0^2 sin(2theta)/g",
+      "acceptedAnswers": [
+        "v0^2 sin 2theta/g",
+        "v^2 sin(2theta)/g",
+        "2v0^2 sin(theta)cos(theta)/g"
+      ],
+      "answerDisplay": "$\\dfrac{v_0^2\\sin 2\\theta}{g}$",
+      "searchQuery": "projectile range formula v0 squared sin 2 theta over g"
+    },
+    {
+      "id": "max-range-angle",
+      "title": "On level ground with no air resistance, what launch angle gives a projectile its maximum range, in degrees?",
+      "body": "$45^\\circ$\n\n$R = \\dfrac{v_0^2\\sin 2\\theta}{g}$ is largest when $\\sin 2\\theta = 1$, giving $R_{\\max} = v_0^2/g$.\n\nWatch out: with air resistance, or when landing below the launch point, the best angle is somewhat less than $45^\\circ$.",
+      "answer": "45",
+      "acceptedAnswers": [
+        "45 degrees",
+        "45 deg",
+        "45°"
+      ],
+      "searchQuery": "maximum range launch angle 45 degrees projectile"
+    },
+    {
+      "id": "projectile-max-height",
+      "title": "A ball is kicked from level ground at $20\\,\\mathrm{m/s}$, $30^\\circ$ above the horizontal. What maximum height does it reach, in meters to 2 significant figures? (No drag; $g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$5.1\\,\\mathrm{m}$\n\n$H = \\dfrac{(v_0\\sin\\theta)^2}{2g} = \\dfrac{(10\\,\\mathrm{m/s})^2}{2(9.8\\,\\mathrm{m/s^2})} \\approx 5.10\\,\\mathrm{m}$.\n\nKey idea: only the vertical component matters; a ball thrown straight up at $10\\,\\mathrm{m/s}$ rises just as high.",
+      "answer": "5.1",
+      "acceptedAnswers": [
+        "5.1 m"
+      ],
+      "searchQuery": "projectile maximum height vertical component"
+    },
+    {
+      "id": "projectile-acceleration-direction",
+      "title": "During a projectile's flight (no air resistance), what is the direction of its acceleration, including at the peak?",
+      "body": "Straight down, with magnitude $g$, at every point of the flight.\n\nThe velocity changes direction along the parabola, but the acceleration doesn't.\n\nExample: at the peak the velocity is horizontal and the acceleration is perpendicular to it, still $g$ downward.",
+      "answer": "downward",
+      "acceptedAnswers": [
+        "down",
+        "straight down",
+        "vertically downward"
+      ],
+      "searchQuery": "projectile acceleration direction downward at peak"
+    },
+    {
+      "id": "trajectory-parabola-why",
+      "title": "Why is the path of a projectile (no air resistance) a parabola?",
+      "body": "$x$ changes **linearly** with time while $y$ is **quadratic** in time.\n\nEliminating $t = x/v_{0x}$ from $y = v_{0y}t - \\tfrac{1}{2}gt^2$ gives $y = \\dfrac{v_{0y}}{v_{0x}}x - \\dfrac{g}{2v_{0x}^2}x^2$, a downward-opening parabola.\n\nKey idea: constant horizontal velocity plus constant vertical acceleration.",
+      "searchQuery": "why projectile path is a parabola"
+    },
+    {
+      "id": "projectile-landing-velocity",
+      "title": "A projectile is launched from level ground at speed $v_0$ and angle $\\theta$. With what speed and direction does it land? (No air resistance.)",
+      "body": "Speed $v_0$, at angle $\\theta$ below the horizontal.\n\nThe horizontal component $v_0\\cos\\theta$ is unchanged and the vertical component has reversed, to $-v_0\\sin\\theta$.\n\nKey idea: the path is symmetric about the peak (for landing at launch height).",
+      "searchQuery": "projectile landing speed and angle same as launch"
+    },
+    {
+      "id": "same-peak-same-flight-time",
+      "title": "Two projectiles launched from level ground reach the same maximum height but have different ranges. Which stays in the air longer? (No air resistance.)",
+      "body": "Neither: their flight times are **equal**.\n\nThe flight time depends only on the vertical motion, $T = \\dfrac{2v_{0y}}{g}$, and the peak height $\\dfrac{v_{0y}^2}{2g}$ fixes $v_{0y}$.\n\nWhy: the longer-range projectile just has a larger horizontal velocity.",
+      "searchQuery": "same maximum height same flight time projectiles"
+    },
+    {
+      "id": "package-dropped-from-plane",
+      "title": "A plane flying level at constant velocity drops a package. Ignoring air resistance, where is the package relative to the plane as it falls?",
+      "body": "Directly below the plane the whole time.\n\nThe package keeps the plane's horizontal velocity (Newton's first law), so both cover the same horizontal distance.\n\nExample: from the ground it traces a parabola; from the plane it falls straight down.",
+      "searchQuery": "package dropped from moving plane stays below plane"
+    },
+    {
+      "id": "monkey-and-hunter",
+      "title": "A dart is aimed straight at a monkey hanging from a branch, and the monkey lets go just as the dart is fired. Does the dart hit it? (No air resistance.)",
+      "body": "**Yes**, as long as the dart reaches the monkey's horizontal position before either hits the ground.\n\nAt every instant both have fallen the same distance, $\\tfrac{1}{2}gt^2$, below where they would be without gravity.\n\nWhy: the dart drops below its aim line exactly as much as the monkey drops below the branch.",
+      "searchQuery": "monkey and hunter problem dart aimed at falling monkey"
+    },
+    {
+      "id": "ball-tossed-in-moving-train",
+      "title": "A passenger on a train moving at constant velocity tosses a ball straight up (relative to herself). Where does it land, ignoring air resistance?",
+      "body": "Back in her hand.\n\nThe ball shares the train's horizontal velocity and keeps it while in the air, so ball and passenger stay level horizontally. All inertial frames are equivalent.\n\nWatch out: if the train speeds up meanwhile, the ball lands behind her.",
+      "searchQuery": "ball tossed up in train moving constant velocity inertial frame"
+    },
+    {
+      "id": "boat-straight-across-speed",
+      "title": "A boat that moves at $5.0\\,\\mathrm{m/s}$ relative to the water crosses a river flowing at $3.0\\,\\mathrm{m/s}$ along a path straight across. What is its speed relative to the shore, in $\\mathrm{m/s}$?",
+      "body": "$4.0\\,\\mathrm{m/s}$\n\nThe boat must head partly upstream so that $3.0\\,\\mathrm{m/s}$ of its water-relative velocity cancels the current, leaving $\\sqrt{5.0^2 - 3.0^2} = 4.0\\,\\mathrm{m/s}$ straight across.\n\nExample: its heading is $\\sin^{-1}(3/5) \\approx 37^\\circ$ upstream of straight across.\nWatch out: if the current were faster than the boat, a straight crossing would be impossible.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 m/s"
+      ],
+      "searchQuery": "boat crossing river straight across heading upstream speed"
+    },
+    {
+      "id": "head-on-relative-speed",
+      "title": "Car A drives east at $25\\,\\mathrm{m/s}$ toward car B, which drives west at $20\\,\\mathrm{m/s}$. What is A's speed relative to B, in $\\mathrm{m/s}$?",
+      "body": "$45\\,\\mathrm{m/s}$\n\n$\\vec{v}_{AB} = \\vec{v}_A - \\vec{v}_B = (+25) - (-20) = +45\\,\\mathrm{m/s}$, that is, east.\n\nTip: head-on, the speeds add; moving the same way, they subtract.\nWatch out: this Galilean rule fails near the speed of light.",
+      "answer": "45",
+      "acceptedAnswers": [
+        "45 m/s"
+      ],
+      "searchQuery": "relative velocity head on cars add speeds"
+    },
+    {
+      "id": "circular-speed-from-period",
+      "title": "An object moves at constant speed around a circle of radius $r$, completing one revolution in period $T$. What is its speed?",
+      "body": "$v = \\dfrac{2\\pi r}{T}$\n\nOne circumference per period. Combined with $a = v^2/r$, the centripetal acceleration is $a = \\dfrac{4\\pi^2 r}{T^2}$.\n\nTip: with frequency $f = 1/T$, $v = 2\\pi rf$.",
+      "answer": "2pi r/T",
+      "acceptedAnswers": [
+        "(2pi r)/T"
+      ],
+      "answerDisplay": "$\\dfrac{2\\pi r}{T}$",
+      "searchQuery": "circular motion speed from period 2 pi r over T"
+    },
+    {
+      "id": "nonuniform-circular-acceleration",
+      "title": "A car speeds up while rounding a curve. Besides the centripetal component $v^2/r$, what other component does its acceleration have?",
+      "body": "A **tangential** component, $a_t = \\dfrac{dv}{dt}$, along the velocity.\n\nThe two components are perpendicular, so the magnitude is $a = \\sqrt{a_t^2 + (v^2/r)^2}$.\n\nKey idea: the tangential part changes the speed; the centripetal part changes the direction.",
+      "answer": "tangential",
+      "acceptedAnswers": [
+        "tangential acceleration",
+        "tangential component"
+      ],
+      "searchQuery": "nonuniform circular motion tangential acceleration"
+    },
+    {
+      "id": "mass-measures-inertia",
+      "title": "Which property of an object measures its inertia, its resistance to changes in velocity?",
+      "body": "Its **mass**.\n\nFor a given net force, $a = F/m$, so a larger mass changes its velocity less. Mass is a scalar measured in kilograms and is the same everywhere.\n\nWatch out: weight, the gravitational force $mg$, depends on location; mass does not.",
+      "answer": "mass",
+      "acceptedAnswers": [
+        "its mass",
+        "inertial mass"
+      ],
+      "searchQuery": "mass measures inertia resistance to change in velocity"
+    },
+    {
+      "id": "newton-second-law",
+      "title": "Write Newton's second law for an object of constant mass $m$.",
+      "body": "$\\sum\\vec{F} = m\\vec{a}$\n\nIt is a vector equation: the acceleration points along the net force, and it holds for each component separately ($\\sum F_x = ma_x$, and so on).\n\nWatch out: only forces acting **on** the object count.",
+      "answer": "F = ma",
+      "acceptedAnswers": [
+        "Fnet = ma",
+        "sum F = ma",
+        "ΣF = ma",
+        "a = F/m"
+      ],
+      "answerDisplay": "$\\sum\\vec{F} = m\\vec{a}$",
+      "searchQuery": "Newton second law net force equals mass times acceleration"
+    },
+    {
+      "id": "newton-in-base-units",
+      "title": "Express one newton in SI base units.",
+      "body": "$1\\,\\mathrm{N} = 1\\,\\mathrm{kg\\cdot m/s^2}$\n\nIt is the net force that gives a $1\\,\\mathrm{kg}$ mass an acceleration of $1\\,\\mathrm{m/s^2}$, straight from $F = ma$.\n\nExample: a medium apple weighs about $1\\,\\mathrm{N}$.",
+      "answer": "kg*m/s^2",
+      "acceptedAnswers": [
+        "kg m s^-2",
+        "1 kg*m/s^2"
+      ],
+      "answerDisplay": "$\\mathrm{kg\\cdot m/s^2}$",
+      "searchQuery": "newton unit SI base units kg m per s squared"
+    },
+    {
+      "id": "mass-on-the-moon",
+      "title": "An astronaut has a mass of $80\\,\\mathrm{kg}$ on Earth. What is her mass on the Moon, where $g$ is about one-sixth as large, in kilograms?",
+      "body": "$80\\,\\mathrm{kg}$, unchanged.\n\nMass measures the amount of inertia and doesn't depend on location.\n\nExample: her weight $mg$ drops to about one-sixth: roughly $130\\,\\mathrm{N}$ instead of $784\\,\\mathrm{N}$.",
+      "answer": "80",
+      "acceptedAnswers": [
+        "80 kg"
+      ],
+      "searchQuery": "mass versus weight on the moon astronaut"
+    },
+    {
+      "id": "net-force-opposing-pulls",
+      "title": "A $4.0\\,\\mathrm{kg}$ block on a frictionless surface is pulled east with $20\\,\\mathrm{N}$ and west with $8.0\\,\\mathrm{N}$. What is the magnitude of its acceleration, in $\\mathrm{m/s^2}$?",
+      "body": "$3.0\\,\\mathrm{m/s^2}$, toward the east.\n\nAdd the forces as vectors first: $\\sum F = 20 - 8.0 = 12\\,\\mathrm{N}$ east. Then $a = \\dfrac{\\sum F}{m} = \\dfrac{12}{4.0}$.\n\nWatch out: don't divide just one of the forces by the mass.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3 m/s^2"
+      ],
+      "searchQuery": "net force opposing pulls acceleration block F = ma"
+    },
+    {
+      "id": "free-body-diagram-forces",
+      "title": "In a free-body diagram for one object, which forces do you draw?",
+      "body": "Only the **external forces** acting on that object.\n\nLeave out forces the object exerts on other things. Each force needs an identifiable source: Earth, a rope, a surface and so on.\n\nWatch out: don't add 'net force', 'centripetal force' or '$ma$' as extra arrows; those are results, not forces.",
+      "searchQuery": "free body diagram which forces to draw"
+    },
+    {
+      "id": "normal-force-with-push",
+      "title": "You push straight down with $10\\,\\mathrm{N}$ on a $2.0\\,\\mathrm{kg}$ book resting on a table. What normal force does the table exert on the book, in newtons? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$29.6\\,\\mathrm{N}$\n\nThe book doesn't accelerate, so $N - mg - F = 0$ and $N = 19.6 + 10 = 29.6\\,\\mathrm{N}$.\n\nWatch out: the normal force equals $mg$ only when nothing else pushes perpendicular to the surface. It is whatever force the surface must supply.",
+      "answer": "29.6",
+      "acceptedAnswers": [
+        "29.6 N"
+      ],
+      "searchQuery": "normal force book pushed down on table"
+    },
+    {
+      "id": "third-law-apple-pulls-earth",
+      "title": "Earth pulls a falling apple down with a $1.0\\,\\mathrm{N}$ gravitational force. How large is the gravitational force of the apple on Earth, in newtons?",
+      "body": "$1.0\\,\\mathrm{N}$, directed up toward the apple.\n\nNewton's third law: the two forces of an interaction are always equal in size and opposite in direction.\n\nWhy: Earth's acceleration is negligible only because its mass is enormous ($a = F/m$), not because the force is smaller.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "1 N"
+      ],
+      "searchQuery": "Newton third law apple pulls Earth equal force"
+    },
+    {
+      "id": "massless-rope-tension",
+      "title": "What does treating a rope as massless let you assume about its tension?",
+      "body": "The tension is the **same all along the rope**, even while it accelerates.\n\nFor any segment, $T_2 - T_1 = m_{\\text{seg}}\\,a$; with zero mass the two ends must pull equally.\n\nTip: an ideal (massless, frictionless) pulley changes the rope's direction but not its tension.",
+      "searchQuery": "massless rope same tension ideal pulley"
+    },
+    {
+      "id": "tug-of-war-rope-tension",
+      "title": "Two people pull on opposite ends of a rope, each with a $100\\,\\mathrm{N}$ force, and nothing moves. What is the tension in the rope, in newtons?",
+      "body": "$100\\,\\mathrm{N}$, not $200\\,\\mathrm{N}$ or $0$.\n\nTension is the force the rope exerts at either end.\n\nExample: it is the same as tying one end to a wall and pulling with $100\\,\\mathrm{N}$: the wall pulls back with $100\\,\\mathrm{N}$, just as the second person does.",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 N"
+      ],
+      "searchQuery": "tug of war rope tension equal pulls"
+    },
+    {
+      "id": "two-rope-sign-tension",
+      "title": "A $10\\,\\mathrm{kg}$ sign hangs from two ropes, each at $60^\\circ$ from the vertical. What is the tension in each rope, in newtons? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$98\\,\\mathrm{N}$, as large as the sign's whole weight.\n\nThe horizontal components cancel; vertically, $2T\\cos 60^\\circ = mg$, so $T = \\dfrac{98\\,\\mathrm{N}}{2(0.50)}$.\n\nWatch out: the flatter the ropes, the larger the tension; perfectly horizontal ropes could never hold the sign up.",
+      "answer": "98",
+      "acceptedAnswers": [
+        "98 N"
+      ],
+      "searchQuery": "sign hung from two ropes tension angle from vertical"
+    },
+    {
+      "id": "inertial-frame-definition",
+      "title": "What is an inertial reference frame?",
+      "body": "A frame in which **Newton's first law** holds: an object with zero net force moves at constant velocity.\n\nAny frame moving at constant velocity relative to an inertial frame is also inertial.\n\nWatch out: accelerating or rotating frames are not; using Newton's laws in them requires fictitious forces, such as the centrifugal force.",
+      "searchQuery": "inertial reference frame definition"
+    },
+    {
+      "id": "elevator-constant-velocity",
+      "title": "An elevator descends at a constant $3.0\\,\\mathrm{m/s}$. What does a scale under a $70\\,\\mathrm{kg}$ passenger read, in newtons? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$686\\,\\mathrm{N}$, exactly the passenger's weight $mg$.\n\nConstant velocity means zero acceleration, so $N - mg = 0$.\n\nWatch out: the $3.0\\,\\mathrm{m/s}$ is a distractor. Speed and direction of motion don't change the reading; only acceleration does.",
+      "answer": "686",
+      "acceptedAnswers": [
+        "686 N"
+      ],
+      "searchQuery": "elevator constant velocity scale reading weight"
+    },
+    {
+      "id": "contact-force-two-blocks",
+      "title": "On a frictionless floor, a $20\\,\\mathrm{N}$ push on a $3.0\\,\\mathrm{kg}$ block shoves a $1.0\\,\\mathrm{kg}$ block ahead of it. What force does the first block exert on the second, in newtons?",
+      "body": "$5.0\\,\\mathrm{N}$\n\nTreat both blocks as one system first: $a = \\dfrac{20}{4.0} = 5.0\\,\\mathrm{m/s^2}$. The only horizontal force on the $1.0\\,\\mathrm{kg}$ block is the contact force, so $F = (1.0)(5.0)$.\n\nWatch out: the push isn't passed on undiminished; part of it accelerates the first block.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "5 N"
+      ],
+      "searchQuery": "contact force between two pushed blocks frictionless"
+    },
+    {
+      "id": "table-and-hanging-block",
+      "title": "A $5.0\\,\\mathrm{kg}$ block on a frictionless table is tied over an ideal pulley to a hanging $2.0\\,\\mathrm{kg}$ block. What is their acceleration, in $\\mathrm{m/s^2}$? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$2.8\\,\\mathrm{m/s^2}$\n\nOnly the hanging block's weight drives the system, and it must accelerate both blocks: $a = \\dfrac{m_2g}{m_1 + m_2} = \\dfrac{(2.0)(9.8)}{7.0}$.\n\nWhy: the tension, $T = m_1a = 14\\,\\mathrm{N}$, is less than the hanging weight ($19.6\\,\\mathrm{N}$); otherwise the hanging block couldn't accelerate downward.",
+      "answer": "2.8",
+      "acceptedAnswers": [
+        "2.8 m/s^2"
+      ],
+      "searchQuery": "block on table connected to hanging block over pulley acceleration"
+    },
+    {
+      "id": "frictionless-incline-acceleration",
+      "title": "A block slides down a frictionless incline at angle $\\theta$. What is the magnitude of its acceleration?",
+      "body": "$a = g\\sin\\theta$, down the slope, whatever the mass.\n\nThe net force along the incline is $mg\\sin\\theta$; the normal force cancels the perpendicular part of gravity.\n\nExample: at $30^\\circ$, $a = g/2 = 4.9\\,\\mathrm{m/s^2}$.",
+      "answer": "g sin(theta)",
+      "acceptedAnswers": [
+        "g sin theta"
+      ],
+      "answerDisplay": "$g\\sin\\theta$",
+      "searchQuery": "frictionless incline acceleration g sin theta"
+    },
+    {
+      "id": "incline-normal-force",
+      "title": "A $10\\,\\mathrm{kg}$ box rests on a $30^\\circ$ incline. What is the normal force on it, in newtons to 3 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$84.9\\,\\mathrm{N}$\n\n$N = mg\\cos\\theta = (10)(9.8)\\cos 30^\\circ$. It is less than the weight ($98\\,\\mathrm{N}$) because the surface balances only the perpendicular component of gravity.\n\nWatch out: mixing up $\\sin$ and $\\cos$ here is the classic incline mistake.",
+      "answer": "84.9",
+      "acceptedAnswers": [
+        "84.9 N"
+      ],
+      "searchQuery": "normal force on incline mg cos theta"
+    },
+    {
+      "id": "kinetic-friction-formula",
+      "title": "What is the magnitude of the kinetic friction force on a sliding object, in terms of the normal force $N$ and the coefficient $\\mu_k$?",
+      "body": "$f_k = \\mu_k N$\n\nIt points opposite to the object's motion relative to the surface. The coefficient $\\mu_k$ is a unitless number set by the two surfaces.\n\nWatch out: $N$ is the **normal force**, which is not always $mg$ (on a slope or with an angled push it differs).\nTip: for a given pair of surfaces, $\\mu_k$ is usually smaller than $\\mu_s$.",
+      "answer": "mu_k N",
+      "acceptedAnswers": [
+        "mu N",
+        "uk N",
+        "f = mu_k N"
+      ],
+      "answerDisplay": "$\\mu_k N$",
+      "searchQuery": "kinetic friction force formula mu N"
+    },
+    {
+      "id": "kinetic-friction-numeric",
+      "title": "A $20\\,\\mathrm{kg}$ box slides on a level floor with $\\mu_k = 0.30$. What is the kinetic friction force, in newtons to 3 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$58.8\\,\\mathrm{N}$\n\nOn a level floor with no vertical push, $N = mg = (20)(9.8) = 196\\,\\mathrm{N}$, so $f_k = \\mu_k N = (0.30)(196)$.\n\nWatch out: the speed of the box does not matter in this model; friction is not proportional to velocity.",
+      "answer": "58.8",
+      "acceptedAnswers": [
+        "58.8 N",
+        "58.8 newtons"
+      ],
+      "searchQuery": "kinetic friction force numeric level floor mu k"
+    },
+    {
+      "id": "friction-area-independence",
+      "title": "In the standard friction model, how does the kinetic friction on a box change if you turn it onto a smaller face?",
+      "body": "It **doesn't change**.\n\nThe model says $f_k = \\mu_k N$, and neither $\\mu_k$ nor $N$ depends on the contact area.\n\nWatch out: this is an approximation for dry solids; it fails for sticky or soft surfaces such as racing tires.",
+      "searchQuery": "friction independent of contact area"
+    },
+    {
+      "id": "angle-of-repose-condition",
+      "title": "A block rests on a rough incline of angle $\\theta$ with static coefficient $\\mu_s$. Which relation holds at the angle where it just begins to slide?",
+      "body": "$\\tan\\theta = \\mu_s$\n\nAt the threshold, $mg\\sin\\theta = \\mu_s N = \\mu_s\\,mg\\cos\\theta$. The mass cancels.\n\nTip: a block stays put whenever $\\tan\\theta \\le \\mu_s$, so measuring the angle where it slips gives $\\mu_s$ directly.\nWatch out: the block's weight and mass never enter this threshold.",
+      "searchQuery": "incline angle block begins to slip tan theta equals mu s"
+    },
+    {
+      "id": "slip-angle-numeric",
+      "title": "A block on an incline has $\\mu_s = 0.75$. At what incline angle does it just begin to slip, in degrees to 3 significant figures?",
+      "body": "$36.9^\\circ$\n\nUse $\\tan\\theta = \\mu_s$, so $\\theta = \\tan^{-1}(0.75)$.\n\nExample: $\\tan 37^\\circ \\approx 0.75$, consistent with the familiar 3-4-5 triangle.",
+      "answer": "36.9",
+      "acceptedAnswers": [
+        "36.9 degrees",
+        "36.9 deg",
+        "36.9°",
+        "37"
+      ],
+      "searchQuery": "angle of incline block slips mu s 0.75 arctan"
+    },
+    {
+      "id": "incline-friction-acceleration-formula",
+      "title": "A block slides down an incline of angle $\\theta$ with kinetic coefficient $\\mu_k$. What is its acceleration down the slope?",
+      "body": "$a = g(\\sin\\theta - \\mu_k\\cos\\theta)$\n\nAlong the slope: $mg\\sin\\theta - \\mu_k\\,mg\\cos\\theta = ma$. The mass cancels.\n\nWhy: the normal force is $mg\\cos\\theta$, so friction is $\\mu_k mg\\cos\\theta$.\nWatch out: this applies only if $\\tan\\theta > \\mu_k$; otherwise the block decelerates once sliding (and stops).",
+      "searchQuery": "sliding down incline with friction acceleration formula"
+    },
+    {
+      "id": "incline-friction-numeric",
+      "title": "A block slides down a $30^\\circ$ incline with $\\mu_k = 0.20$. What is its acceleration, in $\\mathrm{m/s^2}$ to 2 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$3.2\\,\\mathrm{m/s^2}$\n\n$a = g(\\sin\\theta - \\mu_k\\cos\\theta) = 9.8\\,(0.500 - 0.20\\times 0.866) = 9.8\\times 0.327$.\n\nTip: compare with the frictionless value $g\\sin 30^\\circ = 4.9\\,\\mathrm{m/s^2}$; friction should reduce it.",
+      "answer": "3.2",
+      "acceptedAnswers": [
+        "3.2 m/s^2"
+      ],
+      "searchQuery": "incline friction acceleration numeric 30 degrees mu 0.20"
+    },
+    {
+      "id": "angled-pull-normal-force",
+      "title": "A rope pulls a crate of mass $m$ along a floor with tension $T$ at angle $\\theta$ above the horizontal. What is the normal force on the crate?",
+      "body": "$N = mg - T\\sin\\theta$\n\nThe vertical part of the pull, $T\\sin\\theta$, helps support the crate, so the floor pushes less.\n\nWhy: less normal force means less friction, which is one reason pulling upward at a small angle is easier than pulling horizontally.\nWatch out: pushing downward at an angle does the opposite and increases $N$.",
+      "searchQuery": "normal force when pulling at an angle above horizontal"
+    },
+    {
+      "id": "banked-curve-ideal-speed",
+      "title": "A frictionless road banked at angle $\\theta$ has radius $r$. At what speed can a car take the curve with no friction needed?",
+      "body": "$\\tan\\theta = \\dfrac{v^2}{rg}$, so $v = \\sqrt{rg\\tan\\theta}$.\n\nOnly gravity and the normal force act. The normal force's horizontal component, $N\\sin\\theta$, supplies the centripetal force $mv^2/r$, and its vertical component balances weight: $N\\cos\\theta = mg$.\n\nTip: divide the two equations to get $\\tan\\theta = v^2/(rg)$; the mass cancels.",
+      "searchQuery": "banked curve ideal speed frictionless tan theta"
+    },
+    {
+      "id": "vertical-circle-top-speed",
+      "title": "A bucket of water is swung in a vertical circle of radius $r$. What minimum speed at the top keeps the water in contact with the bucket?",
+      "body": "$v_{\\min} = \\sqrt{gr}$\n\nAt the top, both gravity and the bucket's push point toward the center. The limiting case is zero normal force, so $mg = \\dfrac{mv^2}{r}$.\n\nWatch out: the water doesn't need an outward \"force\" to stay in; slower than $\\sqrt{gr}$, it would fall away from the circular path.",
+      "answer": "sqrt(gr)",
+      "acceptedAnswers": [
+        "sqrt(rg)",
+        "(gr)^0.5",
+        "(gr)^(1/2)"
+      ],
+      "answerDisplay": "$\\sqrt{gr}$",
+      "searchQuery": "minimum speed top of vertical circle sqrt gr"
+    },
+    {
+      "id": "centripetal-force-numeric",
+      "title": "A $2.0\\,\\mathrm{kg}$ ball on a string moves in a horizontal circle of radius $0.50\\,\\mathrm{m}$ at a constant $3.0\\,\\mathrm{m/s}$. What is the net inward force, in newtons?",
+      "body": "$36\\,\\mathrm{N}$\n\n$F = \\dfrac{mv^2}{r} = \\dfrac{(2.0)(3.0)^2}{0.50}$.\n\nWhy: the net inward force equals mass times centripetal acceleration; here the string's tension provides it.\nTip: doubling the speed would quadruple the force.",
+      "answer": "36",
+      "acceptedAnswers": [
+        "36 N",
+        "36 newtons"
+      ],
+      "searchQuery": "centripetal force numeric mass v squared over r"
+    },
+    {
+      "id": "hill-crest-normal-force",
+      "title": "A car of mass $m$ crosses the top of a circular hill of radius $r$ at speed $v$. What is the normal force from the road at the top?",
+      "body": "$N = m\\left(g - \\dfrac{v^2}{r}\\right)$\n\nAt the top the center of the circle is below the car, so $mg - N = \\dfrac{mv^2}{r}$.\n\nExample: the car feels lighter than $mg$, and at $v = \\sqrt{gr}$ the normal force drops to zero (it just leaves the road).\nWatch out: at the bottom of a dip the sign flips: $N = m(g + v^2/r)$.",
+      "searchQuery": "car over hill crest normal force less than weight"
+    },
+    {
+      "id": "max-flat-curve-speed-numeric",
+      "title": "A car's tires have $\\mu_s = 0.80$ on a flat road. What is the maximum speed on a curve of radius $50\\,\\mathrm{m}$, in $\\mathrm{m/s}$ to 3 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$19.8\\,\\mathrm{m/s}$\n\nStatic friction supplies the centripetal force: $\\mu_s mg = \\dfrac{mv^2}{r}$, so $v = \\sqrt{\\mu_s g r} = \\sqrt{(0.80)(9.8)(50)}$.\n\nWatch out: the car's mass cancels. Heavier cars don't need a lower limit.",
+      "answer": "19.8",
+      "acceptedAnswers": [
+        "19.8 m/s",
+        "20"
+      ],
+      "searchQuery": "maximum speed flat curve static friction mu s g r numeric"
+    },
+    {
+      "id": "average-acceleration-reversal",
+      "title": "A ball moving at $+10\\,\\mathrm{m/s}$ is reversed by a bat and leaves at $-10\\,\\mathrm{m/s}$ over $4.0\\,\\mathrm{s}$ of steady change. What is its average acceleration, in $\\mathrm{m/s^2}$?",
+      "body": "$-5.0\\,\\mathrm{m/s^2}$\n\n$\\bar a = \\dfrac{\\Delta v}{\\Delta t} = \\dfrac{-10 - (+10)}{4.0}$.\n\nWatch out: keep the signs. Using $\\Delta v = 10 - 10 = 0$ is the classic error.\nTip: the sign says the acceleration points in the negative direction.",
+      "answer": "-5",
+      "acceptedAnswers": [
+        "-5 m/s^2"
+      ],
+      "searchQuery": "average acceleration velocity reverses sign change in velocity"
+    },
+    {
+      "id": "vt-graph-slope",
+      "title": "What does the slope of a velocity-time graph represent?",
+      "body": "**Acceleration.**\n\nSlope is $\\dfrac{\\Delta v}{\\Delta t}$, which is the definition of acceleration. A horizontal line means constant velocity.\n\nKey idea: slope of $x$-$t$ is velocity; slope of $v$-$t$ is acceleration.",
+      "answer": "acceleration",
+      "acceptedAnswers": [
+        "a"
+      ],
+      "searchQuery": "slope of velocity time graph represents acceleration"
+    },
+    {
+      "id": "vt-graph-displacement-numeric",
+      "title": "A cart moves at $+3.0\\,\\mathrm{m/s}$ for $4.0\\,\\mathrm{s}$, then at $-2.0\\,\\mathrm{m/s}$ for $3.0\\,\\mathrm{s}$. What is its net displacement, in meters?",
+      "body": "$6.0\\,\\mathrm{m}$\n\nDisplacement is the signed area: $(3.0)(4.0) + (-2.0)(3.0) = 12 - 6$.\n\nWatch out: the total **distance** traveled is $12 + 6 = 18\\,\\mathrm{m}$, not $6.0\\,\\mathrm{m}$.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "6 m"
+      ],
+      "searchQuery": "displacement from velocity time graph signed area two intervals"
+    },
+    {
+      "id": "vertical-throw-flight-time",
+      "title": "A ball is thrown straight up at $19.6\\,\\mathrm{m/s}$ and returns to its launch height. How long is it in the air, in seconds? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$4.0\\,\\mathrm{s}$\n\nSet $\\Delta y = 0$: $0 = v_0T - \\tfrac{1}{2}gT^2$ gives $T = \\dfrac{2v_0}{g} = \\dfrac{2(19.6)}{9.8}$.\n\nWhy: the rise takes $v_0/g = 2.0\\,\\mathrm{s}$ and the fall takes the same time.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 s"
+      ],
+      "searchQuery": "vertical throw total time in air 2 v0 over g"
+    },
+    {
+      "id": "thrown-down-cliff-speed",
+      "title": "A rock is thrown straight down at $5.0\\,\\mathrm{m/s}$ from a $30\\,\\mathrm{m}$ cliff. How fast is it moving just before impact, in $\\mathrm{m/s}$ to 3 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$24.8\\,\\mathrm{m/s}$\n\nUse $v^2 = v_0^2 + 2g\\,h = 5.0^2 + 2(9.8)(30) = 613$, so $v = \\sqrt{613}$.\n\nWatch out: don't just add $5.0$ to the drop-only speed; the speeds don't add linearly, the squares do.",
+      "answer": "24.8",
+      "acceptedAnswers": [
+        "24.8 m/s"
+      ],
+      "searchQuery": "rock thrown downward from cliff impact speed v squared equation"
+    },
+    {
+      "id": "horizontal-launch-cliff-range",
+      "title": "A ball leaves a $20\\,\\mathrm{m}$ high cliff horizontally at $15\\,\\mathrm{m/s}$. How far from the base of the cliff does it land, in meters to 3 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$30.3\\,\\mathrm{m}$\n\nVertical motion sets the fall time: $t = \\sqrt{\\dfrac{2(20)}{9.8}} \\approx 2.02\\,\\mathrm{s}$.\n\nWhy: horizontal velocity stays constant, so $x = v_0t = (15)(2.02)$.\nTip: always find the time from the vertical motion first.",
+      "answer": "30.3",
+      "acceptedAnswers": [
+        "30.3 m",
+        "30"
+      ],
+      "searchQuery": "horizontal launch from cliff range fall time"
+    },
+    {
+      "id": "plane-crosswind-ground-speed",
+      "title": "A plane heads due north at $200\\,\\mathrm{m/s}$ relative to the air in a $50\\,\\mathrm{m/s}$ wind from the west. What is its ground speed, in $\\mathrm{m/s}$ to 3 significant figures?",
+      "body": "$206\\,\\mathrm{m/s}$\n\nThe two velocities are perpendicular, so $v = \\sqrt{200^2 + 50^2} = \\sqrt{42\\,500}$.\n\nWhy: the plane's path is deflected east of north by $\\tan^{-1}(50/200) \\approx 14^\\circ$.\nWatch out: don't add the speeds ($250\\,\\mathrm{m/s}$); add them as vectors.",
+      "answer": "206",
+      "acceptedAnswers": [
+        "206 m/s",
+        "206.2"
+      ],
+      "searchQuery": "airplane crosswind ground speed relative velocity perpendicular"
+    },
+    {
+      "id": "second-law-net-force-numeric",
+      "title": "A $1500\\,\\mathrm{kg}$ car's engine pushes forward with $4000\\,\\mathrm{N}$ while resistive forces total $1000\\,\\mathrm{N}$. What is its acceleration, in $\\mathrm{m/s^2}$?",
+      "body": "$2.0\\,\\mathrm{m/s^2}$\n\nNet force first: $4000 - 1000 = 3000\\,\\mathrm{N}$ forward. Then $a = \\dfrac{\\sum F}{m} = \\dfrac{3000}{1500}$.\n\nWatch out: use the **net** force, not the engine force alone.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "2 m/s^2"
+      ],
+      "searchQuery": "net force and acceleration car engine force resistive force"
+    },
+    {
+      "id": "atwood-numeric",
+      "title": "In an ideal Atwood machine, $m_1 = 3.0\\,\\mathrm{kg}$ and $m_2 = 1.0\\,\\mathrm{kg}$. What is the magnitude of the acceleration, in $\\mathrm{m/s^2}$? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$4.9\\,\\mathrm{m/s^2}$\n\n$a = \\dfrac{(m_1 - m_2)g}{m_1 + m_2} = \\dfrac{(2.0)(9.8)}{4.0}$.\n\nExample: the tension is $T = m_2(g + a) = (1.0)(14.7) = 14.7\\,\\mathrm{N}$, between $m_2g = 9.8\\,\\mathrm{N}$ and $m_1g = 29.4\\,\\mathrm{N}$.",
+      "answer": "4.9",
+      "acceptedAnswers": [
+        "4.9 m/s^2"
+      ],
+      "searchQuery": "Atwood machine numeric 3 kg and 1 kg acceleration"
+    },
+    {
+      "id": "elevator-down-acceleration",
+      "title": "A $60\\,\\mathrm{kg}$ person stands on a scale in an elevator accelerating **downward** at $2.0\\,\\mathrm{m/s^2}$. What does the scale read, in newtons? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$468\\,\\mathrm{N}$, less than $mg = 588\\,\\mathrm{N}$.\n\nWith up positive, $N - mg = m(-2.0)$, so $N = m(g - a) = (60)(9.8 - 2.0)$.\n\nTip: upward acceleration makes you feel heavier; downward acceleration makes you feel lighter.",
+      "answer": "468",
+      "acceptedAnswers": [
+        "468 N"
+      ],
+      "searchQuery": "elevator accelerating downward apparent weight scale"
+    },
+    {
+      "id": "terminal-speed-mass-scaling",
+      "title": "With quadratic drag, by what factor does the terminal speed change if the falling object's mass is multiplied by $4$ (same size and shape)?",
+      "body": "It **doubles** ($\\times 2$).\n\nTerminal speed satisfies $\\tfrac{1}{2}C\\rho Av_t^2 = mg$, so $v_t \\propto \\sqrt{m}$.\n\nWhy: a heavier object needs more drag to balance its weight, so it must go faster.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "2x",
+        "x2",
+        "doubles",
+        "twice",
+        "factor of 2"
+      ],
+      "searchQuery": "terminal speed proportional to square root of mass"
+    },
+    {
+      "id": "rope-lifting-tension",
+      "title": "A rope lifts a $5.0\\,\\mathrm{kg}$ crate upward with an acceleration of $2.0\\,\\mathrm{m/s^2}$. What is the rope's tension, in newtons? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$59\\,\\mathrm{N}$\n\nWith up positive, $T - mg = ma$, so $T = m(g + a) = (5.0)(9.8 + 2.0)$.\n\nWatch out: the tension exceeds the weight ($49\\,\\mathrm{N}$) while the crate speeds up; it equals the weight at constant velocity.",
+      "answer": "59",
+      "acceptedAnswers": [
+        "59 N"
+      ],
+      "searchQuery": "rope tension lifting crate upward acceleration"
+    },
+    {
+      "id": "quadratic-drag-speed-doubling",
+      "title": "For quadratic air drag $D = \\tfrac{1}{2}C\\rho Av^2$, by what factor does the drag force change when the speed doubles?",
+      "body": "It **quadruples** ($\\times 4$).\n\n$D \\propto v^2$, so doubling $v$ multiplies $D$ by $2^2 = 4$.\n\nExample: the power needed to overcome drag, $P = Dv$, grows as $v^3$, a factor of $8$.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4x",
+        "x4",
+        "four",
+        "4 times",
+        "four times",
+        "quadruples",
+        "quadruple",
+        "factor of 4"
+      ],
+      "searchQuery": "quadratic drag force speed doubles factor of four"
+    }
+  ]
+}

@@ -1,0 +1,1019 @@
+{
+  "id": "eng-thermo",
+  "title": "Engineering Thermodynamics",
+  "course": "Thermodynamics I",
+  "description": "Systems and properties, steam tables and quality, ideal gases, boundary work, the first law for closed systems and flow devices, second law and Carnot limits, entropy and isentropic efficiency, exergy, Otto, Diesel, Brayton, Rankine and refrigeration cycles, moist air and combustion basics.",
+  "cards": [
+    {
+      "id": "isolated-system",
+      "title": "What type of thermodynamic system allows neither mass nor energy to cross its boundary?",
+      "body": "An isolated system.\n\n**Closed system** (control mass): energy can cross as heat or work, but mass cannot, e.g., gas in a piston–cylinder.\n\n**Open system** (control volume): both mass and energy cross, e.g., turbines, nozzles, pumps.\n\nTip: a rigid, perfectly insulated sealed tank is isolated; the whole universe is the ultimate isolated system.",
+      "answer": "isolated",
+      "acceptedAnswers": [
+        "isolated system"
+      ],
+      "searchQuery": "isolated system definition closed open thermodynamics"
+    },
+    {
+      "id": "state-vs-path-functions",
+      "title": "Are heat and work state (point) functions or path functions, and what does that mean?",
+      "body": "Path functions.\n\nHeat and work are **path functions**: their amounts depend on the process path, not just the end states. Properties ($P$, $T$, $v$, $u$, $h$, $s$) are **state functions**.\n\nFor a cycle, $\\oint dU = 0$, while the net work generally isn't zero.\n\nKey idea: write $\\delta Q$ and $\\delta W$ (inexact differentials) and $Q_{12}$ or $W_{12}$.\nWatch out: never write $\\Delta Q$ or $\\Delta W$; only properties have a $\\Delta$.",
+      "searchQuery": "heat and work path functions vs state functions properties"
+    },
+    {
+      "id": "first-law-closed-system",
+      "title": "A closed system receives $50\\,\\mathrm{kJ}$ of heat and does $20\\,\\mathrm{kJ}$ of work on its surroundings. What is $\\Delta U$, in kJ? (No KE or PE change.)",
+      "body": "$\\Delta U = +30\\,\\mathrm{kJ}$.\n\nSign convention used (Çengel): $Q - W = \\Delta U + \\Delta\\mathrm{KE} + \\Delta\\mathrm{PE}$, with $Q$ = **net heat transfer TO the system** and $W$ = net work **done BY the system**: $50 - 20 = 30\\,\\mathrm{kJ}$.\n\nMany chemistry texts write $\\Delta U = Q + W$ with $W$ done ON the system: same physics, opposite sign on $W$.\n\nTip: label each sign (heat in is +, work out is +) before substituting numbers.",
+      "answer": "30",
+      "acceptedAnswers": [
+        "+30",
+        "30 kJ",
+        "+30 kJ"
+      ],
+      "answerDisplay": "$\\Delta U = +30\\,\\mathrm{kJ}$",
+      "searchQuery": "first law closed system delta U heat work sign convention"
+    },
+    {
+      "id": "saturated-mixture-quality",
+      "title": "What is the quality $x$ of a saturated liquid–vapor mixture, and how do you find it from the specific volume $v$?",
+      "body": "$x = m_{\\text{vapor}}/m_{\\text{total}}$ ($0$ = saturated liquid, $1$ = saturated vapor); it's defined only under the **vapor dome**.\n\n$v = v_f + x\\,v_{fg}$, so $x = \\dfrac{v - v_f}{v_g - v_f}$. Same pattern for $u$, $h$ and $s$.\n\nExample: water at $100\\,^\\circ\\mathrm{C}$: $v_f = 0.001043$ and $v_g = 1.6720\\,\\mathrm{m^3/kg}$, so $v = 0.5\\,\\mathrm{m^3/kg}$ gives $x \\approx 0.30$.",
+      "searchQuery": "quality of saturated liquid vapor mixture steam tables"
+    },
+    {
+      "id": "ideal-gas-cp-cv",
+      "title": "For an ideal gas, what does $c_p - c_v$ equal?",
+      "body": "$c_p - c_v = R$, the **specific gas constant** ($R = R_u/M$, with $R_u = 8.314\\,\\mathrm{kJ/(kmol\\cdot K)}$).\n\nAir: $R = 0.287$, $c_p \\approx 1.005$ and $c_v \\approx 0.718\\,\\mathrm{kJ/(kg\\cdot K)}$ at room temperature, so $k = c_p/c_v \\approx 1.4$.\n\nIdeal-gas $u$ and $h$ depend on $T$ only: $\\Delta u = c_v\\,\\Delta T$ and $\\Delta h = c_p\\,\\Delta T$ for ANY process (constant specific heats), not just constant-volume or constant-pressure ones.\n\nKey idea: $c_p > c_v$ for any gas, and the gap equals $R$ for an ideal gas.",
+      "answer": "R",
+      "acceptedAnswers": [
+        "gas constant",
+        "specific gas constant"
+      ],
+      "answerDisplay": "$R$, the specific gas constant",
+      "searchQuery": "ideal gas cp minus cv equals R"
+    },
+    {
+      "id": "isothermal-boundary-work",
+      "title": "Boundary work done by an ideal gas expanding isothermally in a closed system from $V_1$ to $V_2$?",
+      "body": "$W_b = mRT\\ln\\dfrac{V_2}{V_1} = P_1V_1\\ln\\dfrac{V_2}{V_1} = mRT\\ln\\dfrac{P_1}{P_2}$.\n\nIt's $\\int P\\,dV$ with $P = mRT/V$. In general $W_b$ is the **area under the process curve** on a $P$–$V$ diagram (constant $P$: $W_b = P(V_2 - V_1)$; $1\\,\\mathrm{kPa\\cdot m^3} = 1\\,\\mathrm{kJ}$).\n\nIsothermal ideal gas: $\\Delta U = 0$, so $Q = W_b$.\n\nWatch out: use absolute $T$ in $mRT$, and $V_2/V_1$ (or $P_1/P_2$) inside the log, never a difference.",
+      "answer": "mRT ln(V2/V1)",
+      "acceptedAnswers": [
+        "P1V1 ln(V2/V1)",
+        "nRT ln(V2/V1)",
+        "nRuT ln(V2/V1)",
+        "mRT ln(P1/P2)",
+        "P1V1 ln(P1/P2)",
+        "PV ln(V2/V1)"
+      ],
+      "answerDisplay": "$W_b = mRT\\ln\\dfrac{V_2}{V_1}$",
+      "searchQuery": "isothermal ideal gas boundary work mRT ln V2/V1"
+    },
+    {
+      "id": "enthalpy-flow-work",
+      "title": "Why do control-volume (open-system) energy balances use enthalpy $h$ instead of internal energy $u$?",
+      "body": "Because $h = u + Pv$ includes the **flow work**.\n\n$Pv$ is the energy needed to push each kilogram of fluid across the boundary. So each unit mass of flowing fluid carries energy $h + \\dfrac{V^2}{2} + gz$.\n\nExample: for an ideal gas, $\\Delta h = c_p\\,\\Delta T$.\nTip: for a closed system at constant pressure with only boundary work, $Q = \\Delta H$.",
+      "searchQuery": "enthalpy flow work open system control volume h = u + Pv"
+    },
+    {
+      "id": "nozzle-exit-velocity",
+      "title": "Air enters an adiabatic nozzle at negligible velocity, and its enthalpy drops by $20\\,\\mathrm{kJ/kg}$. What is the exit velocity, in m/s?",
+      "body": "$V_2 = 200\\,\\mathrm{m/s}$.\n\n**Steady flow**, no work or heat, $\\Delta\\mathrm{PE} \\approx 0$: $\\dfrac{V_2^2}{2} = h_1 - h_2 = 20\\,\\mathrm{kJ/kg} = 20{,}000\\,\\mathrm{m^2/s^2}$, so $V_2 = \\sqrt{40{,}000} = 200\\,\\mathrm{m/s}$.\n\nWatch out: forgetting $1\\,\\mathrm{kJ/kg} = 1000\\,\\mathrm{m^2/s^2}$ gives $\\sqrt{40} \\approx 6.3\\,\\mathrm{m/s}$. A diffuser does the reverse: it slows the flow and raises $h$ and $P$.",
+      "answer": "200",
+      "acceptedAnswers": [
+        "200 m/s",
+        "200 m/sec"
+      ],
+      "answerDisplay": "$200\\,\\mathrm{m/s}$",
+      "searchQuery": "adiabatic nozzle exit velocity from enthalpy drop"
+    },
+    {
+      "id": "throttling-valve",
+      "title": "Across an adiabatic throttling valve (no work, negligible KE and PE change), which property stays constant?",
+      "body": "**Enthalpy**: $h_1 = h_2$ (isenthalpic).\n\nFor an ideal gas $h = h(T)$, so $T$ stays constant too. A real fluid such as a refrigerant drops sharply in pressure and temperature, partly flashing to vapor: that's the **expansion valve** in a refrigerator.\n\nEntropy increases: throttling is highly irreversible.\n\nTip: on a $P$–$h$ or $T$–$s$ chart, a throttling process is a vertical line on $P$–$h$ (constant $h$).",
+      "answer": "enthalpy",
+      "acceptedAnswers": [
+        "h",
+        "h1 = h2",
+        "specific enthalpy",
+        "enthalpy (h)",
+        "constant enthalpy"
+      ],
+      "searchQuery": "throttling valve isenthalpic enthalpy constant"
+    },
+    {
+      "id": "second-law-statements",
+      "title": "State the Kelvin–Planck and the Clausius statements of the second law.",
+      "body": "Kelvin–Planck: no cyclic device can produce net work while exchanging heat with a single reservoir.\n\n**Kelvin–Planck:** no heat engine can have $\\eta_{\\text{th}} = 100\\%$.\n\n**Clausius:** no cyclic device can have, as its sole effect, heat transfer from a colder body to a hotter one, so a refrigerator needs a work input.\n\nKey idea: the two statements are equivalent; violating one violates the other.",
+      "searchQuery": "Kelvin-Planck and Clausius statements of the second law"
+    },
+    {
+      "id": "carnot-efficiency",
+      "title": "Maximum possible thermal efficiency of a heat engine operating between reservoirs at $527\\,^\\circ\\mathrm{C}$ and $27\\,^\\circ\\mathrm{C}$, in percent?",
+      "body": "$62.5\\%$.\n\n$\\eta_{\\text{Carnot}} = 1 - \\dfrac{T_L}{T_H}$ with **ABSOLUTE temperatures**: $1 - \\dfrac{300\\,\\mathrm{K}}{800\\,\\mathrm{K}} = 0.625$.\n\nWatch out: plugging in Celsius gives $1 - 27/527 \\approx 95\\%$. Every real (irreversible) engine between the same two reservoirs does worse.",
+      "answer": "62.5",
+      "acceptedAnswers": [
+        "62.5%",
+        "0.625",
+        "62.5 percent"
+      ],
+      "answerDisplay": "$62.5\\%$",
+      "searchQuery": "Carnot efficiency 1 - TL/TH absolute temperature"
+    },
+    {
+      "id": "heat-pump-cop",
+      "title": "A refrigeration cycle has $\\mathrm{COP_R} = 3$. What is its COP when the same cycle (same $Q_L$, $Q_H$, $W$) is used as a heat pump?",
+      "body": "$\\mathrm{COP_{HP}} = 4$.\n\n$\\mathrm{COP_R} = Q_L/W_{\\text{in}}$ and $\\mathrm{COP_{HP}} = Q_H/W_{\\text{in}} = (Q_L + W_{\\text{in}})/W_{\\text{in}} = \\mathrm{COP_R} + 1$.\n\nCOPs above 1 are normal; **COP isn't an efficiency**. Reversible (Carnot) limits, with absolute temperatures: $\\mathrm{COP_{R,rev}} = \\dfrac{T_L}{T_H - T_L}$ and $\\mathrm{COP_{HP,rev}} = \\dfrac{T_H}{T_H - T_L}$.\n\nTip: $\\mathrm{COP_{HP}} = \\mathrm{COP_R} + 1$ holds for the same cycle operated either way.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "answerDisplay": "$\\mathrm{COP_{HP}} = 4$",
+      "searchQuery": "heat pump COP equals refrigerator COP plus 1"
+    },
+    {
+      "id": "entropy-generation-sign",
+      "title": "An analysis of a proposed process gives entropy generation $S_{\\text{gen}} < 0$. What can you conclude?",
+      "body": "The process is **impossible**: it violates the second law.\n\n$S_{\\text{gen}} > 0$: **irreversible** (every real process); $S_{\\text{gen}} = 0$: reversible (an idealization); $S_{\\text{gen}} < 0$: impossible.\n\nWatch out: a system's own entropy CAN decrease when heat leaves it. Only $S_{\\text{gen}}$, equivalently $\\Delta S$ of an isolated system, can never be negative.",
+      "answer": "impossible",
+      "acceptedAnswers": [
+        "it is impossible",
+        "it's impossible",
+        "impossible process",
+        "not possible",
+        "violates the second law",
+        "violates second law",
+        "violates the 2nd law"
+      ],
+      "searchQuery": "entropy generation negative impossible second law"
+    },
+    {
+      "id": "isentropic-ideal-gas",
+      "title": "For an ideal gas with constant specific heats undergoing an isentropic process, what combination of $P$ and $V$ stays constant?",
+      "body": "$PV^k$ (equivalently $Pv^k$), with $k = c_p/c_v \\approx 1.4$ for air.\n\nAlso $\\dfrac{T_2}{T_1} = \\left(\\dfrac{P_2}{P_1}\\right)^{(k-1)/k} = \\left(\\dfrac{v_1}{v_2}\\right)^{k-1}$.\n\nA **reversible adiabatic** process is isentropic.\n\nWatch out: $PV = \\text{constant}$ is the isothermal ideal-gas process, not the isentropic one.",
+      "answer": "PV^k",
+      "acceptedAnswers": [
+        "PV^gamma",
+        "PV^γ",
+        "PV^k = constant",
+        "PV^k = const",
+        "PV^k = C"
+      ],
+      "answerDisplay": "$PV^k = \\text{constant}$",
+      "searchQuery": "isentropic ideal gas PV^k constant"
+    },
+    {
+      "id": "otto-cycle-efficiency",
+      "title": "Cold-air-standard Otto cycle: thermal efficiency in terms of compression ratio $r$ and specific heat ratio $k$?",
+      "body": "$\\eta_{\\text{Otto}} = 1 - \\dfrac{1}{r^{k-1}}$.\n\n$r = V_{\\text{max}}/V_{\\text{min}}$.\n\nEfficiency rises with $r$, but real spark-ignition engines can't raise $r$ much because of **engine knock** (autoignition of the fuel–air mixture).\n\nExample: $r = 8$, $k = 1.4$ gives $1 - 8^{-0.4} \\approx 0.565$ ($56.5\\%$).",
+      "answer": "1 - 1/r^(k-1)",
+      "acceptedAnswers": [
+        "1-r^(1-k)",
+        "1-1/(r^(k-1))",
+        "1-(1/r)^(k-1)",
+        "1-r^-(k-1)"
+      ],
+      "answerDisplay": "$\\eta = 1 - \\dfrac{1}{r^{k-1}}$",
+      "searchQuery": "Otto cycle thermal efficiency compression ratio"
+    },
+    {
+      "id": "rankine-cycle-components",
+      "title": "List the four components of the ideal Rankine cycle in flow order, with the ideal process in each.",
+      "body": "Pump, boiler, turbine, condenser.\n\n1. Pump: isentropic compression of liquid\n2. Boiler: constant-pressure heat addition\n3. Turbine: isentropic expansion\n4. Condenser: constant-pressure heat rejection\n\n$\\eta_{\\text{th}} = \\dfrac{w_{\\text{net}}}{q_{\\text{in}}} = 1 - \\dfrac{q_{\\text{out}}}{q_{\\text{in}}}$.\n\nWhy: the liquid's specific volume is small, so pump work $w_{\\text{pump}} \\approx v(P_2 - P_1)$ is tiny next to turbine work.",
+      "searchQuery": "ideal Rankine cycle four components processes pump boiler turbine condenser"
+    },
+    {
+      "id": "intensive-vs-extensive",
+      "title": "Is specific volume $v$ an intensive or an extensive property?",
+      "body": "**Intensive**: it doesn't depend on the size of the system.\n\nVolume $V$, mass $m$ and total energy $E$ are **extensive**; dividing an extensive property by mass gives an intensive specific property: $v = V/m$, $u = U/m$, $h = H/m$.\n\nQuick test: split the system in half. Properties that halve are extensive; those that stay the same ($T$, $P$, $\\rho$, $v$) are intensive.\n\nMnemonic: extensive properties **extend** with size; intensive ones stay **intense** (the same) everywhere.",
+      "answer": "intensive",
+      "acceptedAnswers": [
+        "intensive property"
+      ],
+      "searchQuery": "intensive vs extensive properties specific volume"
+    },
+    {
+      "id": "state-postulate",
+      "title": "State postulate: how many independent intensive properties fix the state of a simple compressible system?",
+      "body": "Two.\n\n**Any two independent intensive properties** (e.g., $T$ and $v$, or $P$ and $h$) fix all the others.\n\nWatch out: inside the vapor dome, $T$ and $P$ are NOT independent ($T = T_{\\text{sat}}$ at the given $P$), so they can't fix the state of a saturated mixture; you also need $x$, $v$, $h$ or similar.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "state postulate independent intensive properties simple compressible"
+    },
+    {
+      "id": "zeroth-law",
+      "title": "What does the zeroth law of thermodynamics state?",
+      "body": "Two bodies in thermal equilibrium with a third are in thermal equilibrium with each other.\n\nIt's the basis of **temperature measurement**: the thermometer is the third body, and bodies in thermal equilibrium have the same temperature.\n\nKey idea: the zeroth law is what makes \"temperature\" a well-defined property.",
+      "searchQuery": "zeroth law of thermodynamics thermal equilibrium temperature"
+    },
+    {
+      "id": "rankine-temperature-scale",
+      "title": "Convert $32\\,^\\circ\\mathrm{F}$ to the Rankine scale. Give the number in R, to two decimal places.",
+      "body": "$491.67\\,\\mathrm{R}$.\n\n$T\\,[\\mathrm{R}] = T\\,[{}^\\circ\\mathrm{F}] + 459.67$, just as $T\\,[\\mathrm{K}] = T\\,[{}^\\circ\\mathrm{C}] + 273.15$. Rankine is the **absolute scale** in English units: $T\\,[\\mathrm{R}] = 1.8\\,T\\,[\\mathrm{K}]$.\n\nFor temperature differences, $1\\,\\mathrm{K}$ equals $1\\,^\\circ\\mathrm{C}$ and $1\\,\\mathrm{R}$ equals $1\\,^\\circ\\mathrm{F}$, so $\\Delta T\\,[\\mathrm{R}] = 1.8\\,\\Delta T\\,[\\mathrm{K}]$.\n\nTip: for $T\\,[\\mathrm{K}]$ use $273.15$; for $T\\,[\\mathrm{R}]$ use $459.67$.",
+      "answer": "491.67",
+      "acceptedAnswers": [
+        "491.67 R"
+      ],
+      "answerDisplay": "$491.67\\,\\mathrm{R}$",
+      "searchQuery": "convert Fahrenheit to Rankine absolute temperature"
+    },
+    {
+      "id": "ideal-gas-absolute-pressure",
+      "title": "A tire gauge reads $200\\,\\mathrm{kPa}$ where $P_{\\text{atm}} = 100\\,\\mathrm{kPa}$. What pressure, in kPa, goes into the ideal-gas law?",
+      "body": "$300\\,\\mathrm{kPa}$ (absolute).\n\n$P_{\\text{abs}} = P_{\\text{gage}} + P_{\\text{atm}} = 200 + 100 = 300\\,\\mathrm{kPa}$. The ideal-gas law and the property tables always use **absolute pressure** and absolute temperature (K or R).\n\nWatch out: plugging in the gauge reading understates the mass of air in the tire by a third.",
+      "answer": "300",
+      "acceptedAnswers": [
+        "300 kPa"
+      ],
+      "answerDisplay": "$300\\,\\mathrm{kPa}$",
+      "searchQuery": "gauge pressure to absolute pressure ideal gas law"
+    },
+    {
+      "id": "adiabatic-temperature-change",
+      "title": "Can the temperature of a closed system change during an adiabatic process?",
+      "body": "Yes. **Adiabatic means** $Q = 0$, not $\\Delta T = 0$.\n\nWork can still change the internal energy: compressing a gas adiabatically raises its temperature ($\\Delta U = -W_b > 0$), and an adiabatic expansion cools it.\n\nWatch out: don't confuse adiabatic ($Q = 0$) with isothermal ($T$ constant).",
+      "searchQuery": "adiabatic process temperature change compression heating"
+    },
+    {
+      "id": "compressed-liquid-approximation",
+      "title": "No compressed-liquid table? Approximate a compressed liquid's $v$, $u$ and $h$ with saturated-liquid values at the same pressure, or at the same temperature?",
+      "body": "At the **same temperature**: $v \\approx v_{f@T}$, $u \\approx u_{f@T}$, $h \\approx h_{f@T}$.\n\nLiquid properties depend much more on temperature than on pressure. A better estimate for enthalpy adds a pressure correction: $h \\approx h_{f@T} + v_{f@T}\\,(P - P_{\\text{sat}@T})$.\n\nWatch out: taking $h_f$ at the given pressure can be badly off.",
+      "answer": "temperature",
+      "acceptedAnswers": [
+        "same temperature",
+        "at the same temperature",
+        "T"
+      ],
+      "searchQuery": "compressed liquid approximation saturated liquid same temperature"
+    },
+    {
+      "id": "phase-from-p-and-t",
+      "title": "Water is at $200\\,\\mathrm{kPa}$ and $150\\,^\\circ\\mathrm{C}$; $T_{\\text{sat}}$ at $200\\,\\mathrm{kPa}$ is $120.21\\,^\\circ\\mathrm{C}$. What phase is it in?",
+      "body": "Superheated vapor, because $T > T_{\\text{sat}@P}$.\n\nAt a given $P$: $T < T_{\\text{sat}}$ means **compressed (subcooled) liquid**; $T > T_{\\text{sat}}$ means **superheated vapor**; $T = T_{\\text{sat}}$ means a saturated state, which needs a second property such as $x$ or $v$.\n\nEquivalently, at a given $T$: $P > P_{\\text{sat}}$ means compressed liquid.\n\nTip: look up $T_{\\text{sat}}$ at the given pressure first, then compare.",
+      "answer": "superheated vapor",
+      "acceptedAnswers": [
+        "superheated",
+        "superheated steam"
+      ],
+      "searchQuery": "determine phase from pressure and temperature steam superheated"
+    },
+    {
+      "id": "critical-point-water",
+      "title": "What is the critical temperature of water, in °C, to the nearest degree?",
+      "body": "$374\\,^\\circ\\mathrm{C}$ ($373.95\\,^\\circ\\mathrm{C}$); the critical pressure is $22.06\\,\\mathrm{MPa}$.\n\nAt the **critical point** $v_f = v_g$ and $h_{fg} = 0$. Above it there's no distinct boiling: the liquid turns into vapor gradually, without a two-phase region.\n\nSupercritical steam power plants run their boilers above $22.06\\,\\mathrm{MPa}$.\n\nKey idea: above $T_{\\text{cr}}$ no pressure can liquefy the vapor.",
+      "answer": "374",
+      "acceptedAnswers": [
+        "373.95",
+        "374 °C",
+        "374 C"
+      ],
+      "answerDisplay": "$374\\,^\\circ\\mathrm{C}$",
+      "searchQuery": "critical point of water temperature pressure"
+    },
+    {
+      "id": "triple-point-water",
+      "title": "At what temperature, in °C, can ice, liquid water and water vapor coexist in equilibrium?",
+      "body": "$0.01\\,^\\circ\\mathrm{C}$ (the **triple point**), at a pressure of $0.6117\\,\\mathrm{kPa}$.\n\nBelow the triple-point pressure, liquid can't exist: ice sublimates directly to vapor, which is how freeze-drying works.\n\nThe triple point is a single point on a $P$–$T$ diagram but a line on $P$–$v$ and $T$–$v$ diagrams.\n\nKey idea: the triple point of water ($273.16\\,\\mathrm{K}$) was historically used to define the kelvin.",
+      "answer": "0.01",
+      "acceptedAnswers": [
+        "0.01 °C",
+        "0.01 C"
+      ],
+      "answerDisplay": "$0.01\\,^\\circ\\mathrm{C}$",
+      "searchQuery": "triple point of water temperature pressure"
+    },
+    {
+      "id": "hfg-meaning",
+      "title": "What does $h_{fg}$ in the steam tables represent, and what happens to it as the saturation pressure rises?",
+      "body": "The enthalpy of vaporization (latent heat), $h_{fg} = h_g - h_f$.\n\nIt's the energy needed to vaporize a unit mass of saturated liquid at constant $T$ and $P$. It **decreases** as saturation pressure rises and reaches zero at the critical point.\n\nExample: $h_{fg} = 2256.4\\,\\mathrm{kJ/kg}$ for water at $100\\,^\\circ\\mathrm{C}$.",
+      "searchQuery": "enthalpy of vaporization hfg latent heat steam tables"
+    },
+    {
+      "id": "mixture-enthalpy-from-quality",
+      "title": "Water at $100\\,^\\circ\\mathrm{C}$ has quality $x = 0.5$. With $h_f = 419.17$ and $h_{fg} = 2256.4\\,\\mathrm{kJ/kg}$, what is $h$, in kJ/kg to the nearest whole number?",
+      "body": "$h \\approx 1547\\,\\mathrm{kJ/kg}$.\n\n$h = h_f + x\\,h_{fg} = 419.17 + 0.5(2256.4) = 1547.4\\,\\mathrm{kJ/kg}$.\n\nWatch out: $h = x\\,h_g$ **ignores the liquid's enthalpy**. Use $h_f + x\\,h_{fg}$, or equivalently $(1 - x)h_f + x\\,h_g$.",
+      "answer": "1547",
+      "acceptedAnswers": [
+        "1547.4",
+        "1547 kJ/kg"
+      ],
+      "answerDisplay": "$1547\\,\\mathrm{kJ/kg}$",
+      "searchQuery": "enthalpy of saturated mixture h = hf + x hfg"
+    },
+    {
+      "id": "table-interpolation",
+      "title": "A steam table lists $h = 3051.6\\,\\mathrm{kJ/kg}$ at $300\\,^\\circ\\mathrm{C}$ and $3158.2$ at $350\\,^\\circ\\mathrm{C}$ (same $P$). Interpolate $h$ at $320\\,^\\circ\\mathrm{C}$, in kJ/kg to one decimal.",
+      "body": "$h \\approx 3094.2\\,\\mathrm{kJ/kg}$.\n\n**Linear interpolation**: $h = h_1 + \\dfrac{T - T_1}{T_2 - T_1}(h_2 - h_1) = 3051.6 + \\dfrac{20}{50}(106.6) = 3051.6 + 42.64$.\n\nSanity check: $320\\,^\\circ\\mathrm{C}$ is $40\\%$ of the way from 300 to 350, so $h$ must be $40\\%$ of the way from 3051.6 to 3158.2.\n\nTip: interpolate between the two rows that bracket your value; never extrapolate far outside the table.",
+      "answer": "3094.2",
+      "acceptedAnswers": [
+        "3094.24",
+        "3094.2 kJ/kg"
+      ],
+      "answerDisplay": "$3094.2\\,\\mathrm{kJ/kg}$",
+      "searchQuery": "linear interpolation steam tables enthalpy"
+    },
+    {
+      "id": "compressibility-factor",
+      "title": "Compressibility factor $Z = \\dfrac{Pv}{RT}$: near what state does a real gas deviate most from ideal-gas behavior ($Z = 1$)?",
+      "body": "Near the critical point (and generally close to the saturated-vapor line).\n\nBy the principle of corresponding states, $Z$ is about the same function of reduced pressure $P_R = P/P_{\\text{cr}}$ and reduced temperature $T_R = T/T_{\\text{cr}}$ for all gases: the **generalized compressibility chart**.\n\nThe ideal-gas model works well when $P_R \\ll 1$ at any temperature, or when $T_R > 2$ unless $P_R \\gg 1$.\n\nKey idea: $Z = 1$ means ideal-gas behavior; $Z < 1$ means attractive forces dominate.",
+      "answer": "critical point",
+      "acceptedAnswers": [
+        "near the critical point",
+        "critical state"
+      ],
+      "searchQuery": "compressibility factor Z real gas deviation critical point"
+    },
+    {
+      "id": "air-density-ideal-gas",
+      "title": "Using $R = 0.287\\,\\mathrm{kJ/(kg\\cdot K)}$, what is the density of air at $100\\,\\mathrm{kPa}$ and $300\\,\\mathrm{K}$, in $\\mathrm{kg/m^3}$ to two decimals?",
+      "body": "$\\rho \\approx 1.16\\,\\mathrm{kg/m^3}$.\n\n$\\rho = \\dfrac{P}{RT} = \\dfrac{100}{(0.287)(300)} = 1.161\\,\\mathrm{kg/m^3}$. The units work because $1\\,\\mathrm{**kPa**} = 1\\,\\mathrm{kJ/m^3}$.\n\nWatch out: $P$ in kPa with $R$ in $\\mathrm{J/(kg\\cdot K)}$ gives an answer $1000$ times too small.",
+      "answer": "1.16",
+      "acceptedAnswers": [
+        "1.161",
+        "1.16 kg/m^3"
+      ],
+      "answerDisplay": "$1.16\\,\\mathrm{kg/m^3}$",
+      "searchQuery": "density of air ideal gas law P/RT"
+    },
+    {
+      "id": "gas-constant-helium",
+      "title": "With $R_u = 8.314\\,\\mathrm{kJ/(kmol\\cdot K)}$, what is the gas constant of helium ($M = 4.003\\,\\mathrm{kg/kmol}$), in $\\mathrm{kJ/(kg\\cdot K)}$ to three decimals?",
+      "body": "$R \\approx 2.077\\,\\mathrm{kJ/(kg\\cdot K)}$.\n\n$R = R_u/M = 8.314/4.003 = 2.0769$. Each gas has its own $R$, while $R_u$ is the same for all gases.\n\n**Light gases** have large $R$: helium's is about 7 times that of air ($0.287$).\n\nWatch out: $R_u = 8.314\\,\\mathrm{kJ/(kmol\\cdot K)}$ is universal; $R$ in $Pv = RT$ is the one for your gas.",
+      "answer": "2.077",
+      "acceptedAnswers": [
+        "2.0769"
+      ],
+      "answerDisplay": "$2.077\\,\\mathrm{kJ/(kg\\cdot K)}$",
+      "searchQuery": "specific gas constant helium R = Ru/M"
+    },
+    {
+      "id": "monatomic-specific-heat-ratio",
+      "title": "What is the specific heat ratio $k = c_p/c_v$ of a monatomic ideal gas such as helium or argon?",
+      "body": "$k = 5/3 \\approx 1.667$.\n\nA **monatomic** gas stores energy only as translational kinetic energy: $\\bar{c}_v = \\tfrac{3}{2}R_u$ and $\\bar{c}_p = \\tfrac{5}{2}R_u$ on a molar basis, independent of temperature.\n\nDiatomic gases such as air near room temperature: $\\bar{c}_v \\approx \\tfrac{5}{2}R_u$, so $k \\approx 1.4$.\n\nKey idea: more molecular degrees of freedom means a smaller $k$ (monatomic $5/3$, diatomic $7/5$).",
+      "answer": "5/3",
+      "acceptedAnswers": [
+        "1.667",
+        "1.67",
+        "1.6667"
+      ],
+      "answerDisplay": "$k = \\dfrac{5}{3} \\approx 1.667$",
+      "searchQuery": "specific heat ratio monatomic ideal gas 5/3"
+    },
+    {
+      "id": "cp-greater-than-cv",
+      "title": "Why is $c_p$ larger than $c_v$ for a gas?",
+      "body": "At constant pressure the gas expands as it's heated, so part of the heat input leaves as **boundary work** instead of raising $u$.\n\nAt constant volume there's no boundary work, so all the heat raises the internal energy. For an ideal gas the difference is exactly $c_p - c_v = R$.\n\nFor nearly incompressible liquids and solids, $c_p \\approx c_v = c$.\n\nKey idea: constant-pressure heating must supply both the internal-energy rise and the expansion work.",
+      "searchQuery": "why cp greater than cv constant pressure heating"
+    },
+    {
+      "id": "constant-pressure-boundary-work",
+      "title": "A gas in a piston–cylinder device expands at a constant $200\\,\\mathrm{kPa}$ from $0.1$ to $0.4\\,\\mathrm{m^3}$. Boundary work done by the gas, in kJ?",
+      "body": "$W_b = 60\\,\\mathrm{kJ}$.\n\n$W_b = P(V_2 - V_1) = (200\\,\\mathrm{kPa})(0.3\\,\\mathrm{m^3}) = 60\\,\\mathrm{kPa\\cdot m^3} = 60\\,\\mathrm{kJ}$.\n\nIt's **positive** because the gas does work on the surroundings as it expands. On a $P$–$V$ diagram it's the rectangle under the horizontal process line.\n\nTip: $1\\,\\mathrm{kPa\\cdot m^3} = 1\\,\\mathrm{kJ}$, so no unit conversion is needed with kPa and $\\mathrm{m^3}$.",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 kJ"
+      ],
+      "answerDisplay": "$60\\,\\mathrm{kJ}$",
+      "searchQuery": "constant pressure boundary work P delta V kJ"
+    },
+    {
+      "id": "polytropic-boundary-work",
+      "title": "Boundary work for a polytropic process $PV^n = C$ with $n \\ne 1$, from state 1 to state 2?",
+      "body": "$W_b = \\dfrac{P_2V_2 - P_1V_1}{1 - n}$, which for an ideal gas equals $\\dfrac{mR(T_2 - T_1)}{1 - n}$.\n\nIt comes from $\\int P\\,dV$ with $P = CV^{-n}$. The case $n = 1$ needs the **log form**, $W_b = P_1V_1\\ln(V_2/V_1)$.\n\nSign check: an expansion ($V_2 > V_1$) gives $W_b > 0$ for any $n$.\n\nWatch out: this formula divides by $1 - n$, so it fails at $n = 1$; use the logarithmic form there.",
+      "answer": "(P2V2 - P1V1)/(1 - n)",
+      "acceptedAnswers": [
+        "(P1V1 - P2V2)/(n - 1)",
+        "mR(T2 - T1)/(1 - n)"
+      ],
+      "answerDisplay": "$W_b = \\dfrac{P_2V_2 - P_1V_1}{1 - n}$",
+      "searchQuery": "polytropic process boundary work formula"
+    },
+    {
+      "id": "polytropic-exponent-cases",
+      "title": "In the polytropic relation $Pv^n = \\text{constant}$, which value of $n$ describes a constant-volume process?",
+      "body": "$n \\to \\infty$.\n\nTake the $n$th root: $P^{1/n}v = \\text{constant}$, and as $n \\to \\infty$ this becomes $v = \\text{constant}$.\n\nOther cases: $n = 0$ is constant pressure, $n = 1$ is **isothermal** (ideal gas), and $n = k$ is isentropic (ideal gas with constant specific heats).\n\nTip: for an ideal gas, think of $n$ as a dial: $0$ (isobaric), $1$ (isothermal), $k$ (isentropic), $\\infty$ (isochoric).",
+      "answer": "infinity",
+      "acceptedAnswers": [
+        "n = infinity",
+        "n -> infinity"
+      ],
+      "answerDisplay": "$n \\to \\infty$",
+      "searchQuery": "polytropic exponent n constant volume constant pressure isothermal"
+    },
+    {
+      "id": "isothermal-compression-delta-u",
+      "title": "An ideal gas is compressed isothermally in a closed system. What is its change in internal energy, $\\Delta U$?",
+      "body": "$\\Delta U = 0$: ideal-gas $u$ **depends only on** $T$.\n\nSo the first law gives $Q = W_b$: the work done on the gas leaves as heat ($W_b < 0$ and $Q < 0$).\n\nWatch out: this holds for an ideal gas, not for a phase change at constant $T$ (like boiling water), where $u$ changes a lot.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero"
+      ],
+      "answerDisplay": "$\\Delta U = 0$",
+      "searchQuery": "isothermal compression ideal gas change in internal energy zero"
+    },
+    {
+      "id": "rigid-tank-heating",
+      "title": "$2\\,\\mathrm{kg}$ of air in a rigid tank is heated from $300$ to $400\\,\\mathrm{K}$ ($c_v = 0.718\\,\\mathrm{kJ/(kg\\cdot K)}$). How much heat is added, in kJ to one decimal?",
+      "body": "$Q = 143.6\\,\\mathrm{kJ}$.\n\n**Rigid tank**: $W_b = 0$, so $Q = \\Delta U = mc_v\\,\\Delta T = 2(0.718)(100) = 143.6\\,\\mathrm{kJ}$.\n\nWatch out: using $c_p = 1.005$ gives $201\\,\\mathrm{kJ}$, which would be right only for a constant-pressure process with only boundary work.",
+      "answer": "143.6",
+      "acceptedAnswers": [
+        "143.6 kJ"
+      ],
+      "answerDisplay": "$143.6\\,\\mathrm{kJ}$",
+      "searchQuery": "rigid tank heating Q = m cv delta T"
+    },
+    {
+      "id": "free-expansion",
+      "title": "An ideal gas fills half of an insulated rigid tank and expands freely into the evacuated other half. How does its final temperature compare with its initial one?",
+      "body": "It's the same.\n\n$W = 0$ (the gas pushes against nothing, and the tank is rigid) and $Q = 0$ (insulated), so $\\Delta U = 0$, and for an ideal gas that means $\\Delta T = 0$.\n\nThe process is still **irreversible**: the entropy rises by $mR\\ln 2$ as the volume doubles.\n\nWatch out: the temperature stays constant only for an ideal gas; a real gas changes temperature slightly.",
+      "answer": "same",
+      "acceptedAnswers": [
+        "unchanged",
+        "equal",
+        "no change",
+        "same temperature"
+      ],
+      "searchQuery": "free expansion ideal gas temperature unchanged"
+    },
+    {
+      "id": "cycle-thermal-efficiency",
+      "title": "A heat engine receives $500\\,\\mathrm{kJ}$ of heat and rejects $300\\,\\mathrm{kJ}$ per cycle. What is its thermal efficiency, in percent?",
+      "body": "$\\eta_{\\text{th}} = 40\\%$.\n\nOver a cycle $\\Delta U = 0$, so $W_{\\text{net}} = Q_H - Q_L = 200\\,\\mathrm{kJ}$ and $\\eta_{\\text{th}} = \\dfrac{W_{\\text{net}}}{Q_H} = \\dfrac{200}{500} = 0.40$.\n\nEquivalently $\\eta_{\\text{th}} = 1 - Q_L/Q_H$.\n\nWatch out: dividing by the heat rejected instead of the **heat received**.",
+      "answer": "40",
+      "acceptedAnswers": [
+        "40%",
+        "0.4",
+        "40 percent"
+      ],
+      "answerDisplay": "$40\\%$",
+      "searchQuery": "heat engine thermal efficiency work over heat input"
+    },
+    {
+      "id": "celsius-kelvin-specific-heat",
+      "title": "Specific heats are tabulated in $\\mathrm{kJ/(kg\\cdot K)}$. Can you multiply them by a temperature change measured in °C?",
+      "body": "Yes: a change of $1\\,\\mathrm{K}$ equals a change of $1\\,^\\circ\\mathrm{C}$, so $\\Delta T$ is the same number on both scales.\n\nWhat you can't do is use Celsius values where absolute temperature appears on its own: $Pv = RT$, $T_L/T_H$, $\\ln(T_2/T_1)$ and $T_0S_{\\text{gen}}$ all need **kelvins** (or rankines).\n\nTip: use whichever scale you like for $\\Delta T$, but kelvins whenever $T$ appears in a ratio or logarithm.",
+      "searchQuery": "temperature difference Celsius Kelvin specific heat units"
+    },
+    {
+      "id": "mass-flow-rate-steam",
+      "title": "Steam with specific volume $0.5\\,\\mathrm{m^3/kg}$ flows at $30\\,\\mathrm{m/s}$ through a pipe of cross-section $0.05\\,\\mathrm{m^2}$. Mass flow rate, in kg/s?",
+      "body": "$\\dot{m} = 3\\,\\mathrm{kg/s}$.\n\n$\\dot{m} = \\rho VA = \\dfrac{VA}{v} = \\dfrac{(30)(0.05)}{0.5} = 3\\,\\mathrm{kg/s}$.\n\nIn **steady flow** $\\dot{m}$ is the same at every section, but the volume flow rate $\\dot{V} = \\dot{m}v$ changes wherever $v$ does, e.g., as steam expands through a turbine.\n\nTip: $\\dot{m} = \\rho V A = VA/v$; use whichever of $\\rho$ or $v$ the table gives.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3 kg/s"
+      ],
+      "answerDisplay": "$3\\,\\mathrm{kg/s}$",
+      "searchQuery": "mass flow rate rho V A specific volume steam"
+    },
+    {
+      "id": "steady-flow-energy-equation",
+      "title": "Write the steady-flow energy equation for a control volume with one inlet (1) and one outlet (2).",
+      "body": "$$\\dot{Q} - \\dot{W} = \\dot{m}\\left[h_2 - h_1 + \\frac{V_2^2 - V_1^2}{2} + g(z_2 - z_1)\\right]$$\n\n$\\dot{Q}$ is the heat transfer **in** and $\\dot{W}$ is the shaft or electrical power **out**; flow work is already inside $h$.\n\nPer unit mass: $q - w = \\Delta h + \\Delta\\mathrm{ke} + \\Delta\\mathrm{pe}$.\n\nWatch out: $V^2/2$ comes out in $\\mathrm{J/kg}$, while $h$ is usually in $\\mathrm{kJ/kg}$.",
+      "searchQuery": "steady flow energy equation control volume one inlet one outlet"
+    },
+    {
+      "id": "turbine-power-output",
+      "title": "Steam flows at $2\\,\\mathrm{kg/s}$ through an adiabatic turbine, entering with $h = 3200$ and leaving with $h = 2700\\,\\mathrm{kJ/kg}$ (negligible KE, PE). Power output, in kW?",
+      "body": "$\\dot{W}_{\\text{out}} = 1000\\,\\mathrm{kW}$ ($1\\,\\mathrm{MW}$).\n\n$\\dot{W}_{\\text{out}} = \\dot{m}(h_1 - h_2) = 2(3200 - 2700) = 1000\\,\\mathrm{kW}$, since $\\mathrm{**kg/s**} \\times \\mathrm{kJ/kg} = \\mathrm{kJ/s} = \\mathrm{kW}$.\n\nAny heat loss from the turbine would make the work output smaller than the enthalpy drop.\n\nTip: $\\mathrm{kg/s} \\times \\mathrm{kJ/kg} = \\mathrm{kW}$, so no conversion is needed.",
+      "answer": "1000",
+      "acceptedAnswers": [
+        "1000 kW",
+        "1 MW"
+      ],
+      "answerDisplay": "$1000\\,\\mathrm{kW}$",
+      "searchQuery": "steam turbine power output mass flow enthalpy drop"
+    },
+    {
+      "id": "turbine-heat-loss",
+      "title": "A steam turbine ($\\dot{m} = 1\\,\\mathrm{kg/s}$, $h_1 - h_2 = 600\\,\\mathrm{kJ/kg}$, negligible KE and PE changes) loses $20\\,\\mathrm{kW}$ of heat. Power output, in kW?",
+      "body": "$\\dot{W}_{\\text{out}} = 580\\,\\mathrm{kW}$.\n\n**Energy balance**: $\\dot{Q} - \\dot{W} = \\dot{m}(h_2 - h_1)$ with $\\dot{Q} = -20\\,\\mathrm{kW}$ because the heat leaves: $\\dot{W} = -20 + 600 = 580\\,\\mathrm{kW}$.\n\nWatch out: adding the heat loss to the work ($620\\,\\mathrm{kW}$). Energy lost as heat can't also come out as work.",
+      "answer": "580",
+      "acceptedAnswers": [
+        "580 kW"
+      ],
+      "answerDisplay": "$580\\,\\mathrm{kW}$",
+      "searchQuery": "turbine with heat loss energy balance power output"
+    },
+    {
+      "id": "compressor-power-input",
+      "title": "Air ($c_p = 1.005\\,\\mathrm{kJ/(kg\\cdot K)}$) flows at $0.5\\,\\mathrm{kg/s}$ through an adiabatic compressor and heats from $300$ to $450\\,\\mathrm{K}$. Power input, in kW to one decimal?",
+      "body": "$\\dot{W}_{\\text{in}} \\approx 75.4\\,\\mathrm{kW}$.\n\n$\\dot{W}_{\\text{in}} = \\dot{m}c_p(T_2 - T_1) = 0.5(1.005)(150) = 75.4\\,\\mathrm{kW}$, neglecting KE and PE changes.\n\nUse $c_p$, not $c_v$: in a flow device the energy change is an **enthalpy change**, which includes flow work.\n\nWatch out: a real compressor's exit is hotter than the isentropic one, so this $\\Delta T$ is what includes the losses.",
+      "answer": "75.4",
+      "acceptedAnswers": [
+        "75.375",
+        "75.4 kW"
+      ],
+      "answerDisplay": "$75.4\\,\\mathrm{kW}$",
+      "searchQuery": "adiabatic compressor power input air cp delta T"
+    },
+    {
+      "id": "pump-work-incompressible",
+      "title": "Water ($v = 0.001\\,\\mathrm{m^3/kg}$) is pumped reversibly and adiabatically from $100\\,\\mathrm{kPa}$ to $5\\,\\mathrm{MPa}$. Pump work, in kJ/kg?",
+      "body": "$w_{\\text{pump}} = 4.9\\,\\mathrm{kJ/kg}$.\n\nFor an **incompressible liquid**, $w_{\\text{rev}} = \\int v\\,dP = v(P_2 - P_1) = 0.001(5000 - 100) = 4.9\\,\\mathrm{kJ/kg}$, using $\\mathrm{m^3/kg} \\times \\mathrm{kPa} = \\mathrm{kJ/kg}$.\n\nWatch out: forgetting to convert MPa to kPa. Compressing vapor over the same range would take far more work, because its $v$ is far larger.",
+      "answer": "4.9",
+      "acceptedAnswers": [
+        "4.9 kJ/kg"
+      ],
+      "answerDisplay": "$4.9\\,\\mathrm{kJ/kg}$",
+      "searchQuery": "pump work incompressible liquid v delta P"
+    },
+    {
+      "id": "heat-exchanger-energy-balance",
+      "title": "Insulated heat exchanger: hot water at $2\\,\\mathrm{kg/s}$ cools from $80$ to $60\\,^\\circ\\mathrm{C}$; cold water at $4\\,\\mathrm{kg/s}$ enters at $20\\,^\\circ\\mathrm{C}$. Cold exit temperature, in °C?",
+      "body": "$30\\,^\\circ\\mathrm{C}$.\n\n**Heat lost by the hot stream** = heat gained by the cold stream, with the same $c_p$: $2(80 - 60) = 4(T_{\\text{out}} - 20)$, so $T_{\\text{out}} = 30\\,^\\circ\\mathrm{C}$.\n\nThe streams don't mix. For the whole exchanger $\\dot{Q} = 0$ and $\\dot{W} = 0$, but for each stream alone there is heat transfer.\n\nTip: this works because both streams are water; with different fluids use $\\dot{m}c_p\\,\\Delta T$ for each.",
+      "answer": "30",
+      "acceptedAnswers": [
+        "30 °C",
+        "30 C"
+      ],
+      "answerDisplay": "$30\\,^\\circ\\mathrm{C}$",
+      "searchQuery": "heat exchanger energy balance outlet temperature"
+    },
+    {
+      "id": "mixing-chamber-temperature",
+      "title": "In an adiabatic mixing chamber, $1\\,\\mathrm{kg/s}$ of water at $80\\,^\\circ\\mathrm{C}$ mixes with $3\\,\\mathrm{kg/s}$ at $20\\,^\\circ\\mathrm{C}$. Exit temperature, in °C (constant $c_p$)?",
+      "body": "$35\\,^\\circ\\mathrm{C}$.\n\nEnergy balance: $\\sum \\dot{m}_{\\text{in}}h_{\\text{in}} = \\dot{m}_{\\text{out}}h_{\\text{out}}$, so with constant $c_p$ the exit temperature is the **mass-weighted average**: $\\dfrac{1(80) + 3(20)}{4} = 35\\,^\\circ\\mathrm{C}$.\n\nWatch out: the plain average, $50\\,^\\circ\\mathrm{C}$, ignores the flow rates.",
+      "answer": "35",
+      "acceptedAnswers": [
+        "35 °C",
+        "35 C"
+      ],
+      "answerDisplay": "$35\\,^\\circ\\mathrm{C}$",
+      "searchQuery": "adiabatic mixing chamber exit temperature mass weighted"
+    },
+    {
+      "id": "tank-charging-temperature",
+      "title": "An insulated, evacuated rigid tank fills from a supply line carrying air at $300\\,\\mathrm{K}$. Final air temperature in the tank, in K? ($k = 1.4$, constant specific heats.)",
+      "body": "$420\\,\\mathrm{K}$.\n\nUnsteady energy balance with $Q = W = 0$ and an empty tank at the start: $m_2u_2 = m_2h_{\\text{line}}$, so $c_vT_2 = c_pT_{\\text{line}}$ and $T_2 = kT_{\\text{line}} = 1.4(300) = 420\\,\\mathrm{K}$.\n\nThe air gets hotter because the **flow work** that pushes it into the tank becomes internal energy.\n\nWatch out: the final temperature is higher than the line temperature, even though the tank is insulated.",
+      "answer": "420",
+      "acceptedAnswers": [
+        "420 K"
+      ],
+      "answerDisplay": "$420\\,\\mathrm{K}$",
+      "searchQuery": "tank filling unsteady energy balance final temperature kT"
+    },
+    {
+      "id": "kinetic-energy-scale",
+      "title": "What is the kinetic energy per unit mass of a stream moving at $45\\,\\mathrm{m/s}$, in kJ/kg to two decimals?",
+      "body": "$\\mathrm{ke} \\approx 1.01\\,\\mathrm{kJ/kg}$.\n\n$\\mathrm{ke} = \\dfrac{V^2}{2} = \\dfrac{45^2}{2} = 1012.5\\,\\mathrm{J/kg}$.\n\nThat's tiny next to the hundreds of kJ/kg of enthalpy change in turbines and boilers, so $\\Delta\\mathrm{ke}$ is usually neglected there, but not in **nozzles and diffusers**, whose whole job is to change velocity.\n\nTip: $V^2/2$ in $\\mathrm{m^2/s^2}$ equals $\\mathrm{J/kg}$; divide by $1000$ to get $\\mathrm{kJ/kg}$.",
+      "answer": "1.01",
+      "acceptedAnswers": [
+        "1.0125",
+        "1.01 kJ/kg"
+      ],
+      "answerDisplay": "$1.01\\,\\mathrm{kJ/kg}$",
+      "searchQuery": "kinetic energy per unit mass V squared over 2 kJ/kg"
+    },
+    {
+      "id": "electrical-energy-is-work",
+      "title": "Take a sealed, insulated room with an electric heater inside as the system. Is the electrical energy entering through the wires heat or work?",
+      "body": "Work (electrical work, $W_e = VI\\,\\Delta t$).\n\n**Heat is energy that crosses a boundary** because of a temperature difference, and the electrical energy doesn't.\n\nIf you instead take only the room air as the system, the hot heater coil transfers heat to it.\n\nKey idea: whether energy counts as heat or work depends on where you draw the system boundary.",
+      "answer": "work",
+      "acceptedAnswers": [
+        "electrical work"
+      ],
+      "searchQuery": "electrical energy heat or work system boundary"
+    },
+    {
+      "id": "pmm2",
+      "title": "A device claims to produce net work in a cycle while exchanging heat with only one reservoir. What kind of perpetual-motion machine is it?",
+      "body": "A **perpetual-motion machine of the second kind** (PMM2): it violates the Kelvin–Planck statement of the second law.\n\nA perpetual-motion machine of the first kind creates energy, violating the first law.\n\nEvery real heat engine must reject some heat to a lower-temperature sink.\n\nKey idea: PMM2 satisfies the first law but violates the second; PMM1 violates the first.",
+      "answer": "second kind",
+      "acceptedAnswers": [
+        "PMM2",
+        "of the second kind",
+        "2nd kind"
+      ],
+      "searchQuery": "perpetual motion machine second kind Kelvin-Planck"
+    },
+    {
+      "id": "irreversibility-sources",
+      "title": "Name common sources of irreversibility that make real processes fall short of reversible ones.",
+      "body": "Friction, heat transfer across a finite temperature difference, free expansion, mixing, resistance heating, inelastic deformation and chemical reactions.\n\nEach one generates entropy ($S_{\\text{gen}} > 0$) and destroys **exergy**.\n\nKey idea: a reversible process is the limit with none of them: frictionless, quasi-equilibrium, with heat transferred across infinitesimal temperature differences.",
+      "searchQuery": "sources of irreversibility friction heat transfer mixing thermodynamics"
+    },
+    {
+      "id": "carnot-principles",
+      "title": "State the two Carnot principles for heat engines operating between the same two thermal reservoirs.",
+      "body": "An irreversible engine is less efficient than a reversible one, and all reversible engines have the same efficiency.\n\n1. An **irreversible** engine is always less efficient than a reversible one between the same two reservoirs.\n2. All **reversible** engines between the same two reservoirs have the same efficiency, whatever the working fluid or design.\n\nKey idea: the maximum efficiency depends only on the reservoir temperatures, $\\eta_{\\text{rev}} = 1 - T_L/T_H$.",
+      "searchQuery": "Carnot principles heat engines reversible irreversible same efficiency"
+    },
+    {
+      "id": "carnot-cycle-processes",
+      "title": "What are the four processes of the Carnot cycle, in order, starting with heat addition?",
+      "body": "Isothermal expansion, adiabatic expansion, isothermal compression, adiabatic compression.\n\n1. Reversible isothermal expansion at $T_H$ (heat in)\n2. Reversible adiabatic (isentropic) expansion from $T_H$ to $T_L$\n3. Reversible isothermal compression at $T_L$ (heat out)\n4. Reversible adiabatic (isentropic) compression from $T_L$ to $T_H$\n\nOn a $T$–$s$ diagram it's a rectangle.\n\nWatch out: it's impractical because truly **isothermal** heat transfer is extremely slow.",
+      "searchQuery": "Carnot cycle four processes isothermal adiabatic order"
+    },
+    {
+      "id": "reversible-heat-ratio",
+      "title": "For a completely reversible heat engine, the ratio of heat rejected to heat received, $Q_L/Q_H$, equals what?",
+      "body": "$\\dfrac{Q_L}{Q_H} = \\dfrac{T_L}{T_H}$, with absolute temperatures.\n\nThis relation defines the **Kelvin (thermodynamic) temperature scale**, independent of any substance's properties.\n\nIt gives $\\eta_{\\text{rev}} = 1 - T_L/T_H$. For an irreversible engine, $Q_L/Q_H > T_L/T_H$: it rejects more heat.\n\nTip: this ratio is why efficiency formulas need absolute temperatures.",
+      "answer": "TL/TH",
+      "acceptedAnswers": [
+        "T_L/T_H",
+        "Tc/Th",
+        "T_C/T_H"
+      ],
+      "answerDisplay": "$T_L/T_H$",
+      "searchQuery": "reversible heat engine QL/QH equals TL/TH Kelvin scale"
+    },
+    {
+      "id": "carnot-refrigerator-cop",
+      "title": "What is the highest possible COP of a refrigerator that keeps a space at $250\\,\\mathrm{K}$ while rejecting heat to surroundings at $300\\,\\mathrm{K}$?",
+      "body": "$\\mathrm{COP_{R,max}} = 5$.\n\n$\\mathrm{COP_{R,rev}} = \\dfrac{T_L}{T_H - T_L} = \\dfrac{250}{50} = 5$.\n\nThe bigger the **temperature lift** $T_H - T_L$, the lower the COP: a freezer, lifting heat across a larger difference than a fridge, has a lower COP.\n\nTip: every real refrigerator has a COP below this Carnot limit.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "five"
+      ],
+      "answerDisplay": "$\\mathrm{COP_{R,max}} = 5$",
+      "searchQuery": "Carnot refrigerator maximum COP TL/(TH-TL)"
+    },
+    {
+      "id": "inventor-claim-max-work",
+      "title": "An engine receives $60\\,\\mathrm{kJ}$ per cycle from a $1000\\,\\mathrm{K}$ source and rejects heat to a $300\\,\\mathrm{K}$ sink. Maximum net work per cycle, in kJ?",
+      "body": "$W_{\\text{max}} = 42\\,\\mathrm{kJ}$.\n\n$\\eta_{\\text{max}} = 1 - \\dfrac{300}{1000} = 0.70$, so $W_{\\text{max}} = 0.70(60) = 42\\,\\mathrm{kJ}$.\n\nAn inventor claiming $50\\,\\mathrm{kJ}$ per cycle from this engine would be violating the **second law**, even though the claim satisfies the first.\n\nTip: to test a claim, compare the claimed $\\eta$ with $1 - T_L/T_H$; if it's larger, reject it.",
+      "answer": "42",
+      "acceptedAnswers": [
+        "42 kJ"
+      ],
+      "answerDisplay": "$42\\,\\mathrm{kJ}$",
+      "searchQuery": "maximum work heat engine Carnot limit inventor claim"
+    },
+    {
+      "id": "refrigerator-heat-rejected",
+      "title": "A refrigerator removes $300\\,\\mathrm{kJ}$ from its cold space using $100\\,\\mathrm{kJ}$ of work. How much heat does it reject to the kitchen, in kJ?",
+      "body": "$Q_H = 400\\,\\mathrm{kJ}$.\n\nEnergy balance on the cycle: $Q_H = Q_L + W_{\\text{in}} = 300 + 100 = 400\\,\\mathrm{kJ}$, and $\\mathrm{**COP**_R} = Q_L/W_{\\text{in}} = 3$.\n\nThat's why running a refrigerator with its door open heats the kitchen: it rejects more heat than it removes.\n\nTip: $Q_H = Q_L + W_{\\text{in}}$ is just the first law for a cycle.",
+      "answer": "400",
+      "acceptedAnswers": [
+        "400 kJ"
+      ],
+      "answerDisplay": "$400\\,\\mathrm{kJ}$",
+      "searchQuery": "refrigerator heat rejected QH = QL + W"
+    },
+    {
+      "id": "heat-pump-vs-resistance-heater",
+      "title": "Why can a heat pump with $\\mathrm{COP_{HP}} = 3$ heat a house more cheaply than electric resistance heaters?",
+      "body": "It delivers $3\\,\\mathrm{kJ}$ of heat per $1\\,\\mathrm{kJ}$ of electricity, versus exactly $1\\,\\mathrm{kJ}$ for a resistance heater.\n\nThe extra $2\\,\\mathrm{kJ}$ isn't created: it's **heat pumped in** from the cold outdoors, and $Q_H = Q_L + W_{\\text{in}}$ still holds.\n\nWatch out: the COP drops as the outdoor temperature falls, because the temperature lift grows.",
+      "searchQuery": "heat pump versus electric resistance heater COP cost"
+    },
+    {
+      "id": "second-law-efficiency",
+      "title": "An engine has $\\eta_{\\text{th}} = 30\\%$; a reversible engine between the same reservoirs would reach $60\\%$. What is its second-law efficiency, in percent?",
+      "body": "$\\eta_{\\text{II}} = 50\\%$.\n\n$\\eta_{\\text{II}} = \\dfrac{\\eta_{\\text{th}}}{\\eta_{\\text{th,rev}}} = \\dfrac{0.30}{0.60} = 0.50$: the engine **achieves half** of what the second law allows.\n\nFor refrigerators and heat pumps, $\\eta_{\\text{II}} = \\mathrm{COP}/\\mathrm{COP_{rev}}$; for work-consuming devices in general, $\\eta_{\\text{II}} = W_{\\text{rev}}/W_{\\text{actual}}$.\n\nKey idea: $\\eta_{\\text{II}}$ compares the device with the best possible one, not with $100\\%$.",
+      "answer": "50",
+      "acceptedAnswers": [
+        "50%",
+        "0.5"
+      ],
+      "answerDisplay": "$\\eta_{\\text{II}} = 50\\%$",
+      "searchQuery": "second law efficiency actual over reversible"
+    },
+    {
+      "id": "clausius-inequality",
+      "title": "Clausius inequality: for any cycle, the cyclic integral $\\oint \\dfrac{\\delta Q}{T}$ is always what?",
+      "body": "$\\oint \\dfrac{\\delta Q}{T} \\le 0$: equal to zero for **internally reversible** cycles and negative for irreversible ones.\n\n$T$ is the absolute temperature at the part of the boundary where $\\delta Q$ crosses.\n\nThe equality case is what makes $\\left(\\dfrac{\\delta Q}{T}\\right)_{\\text{int rev}}$ the differential of a property, entropy.\n\nKey idea: $\\oint \\delta Q/T = 0$ for reversible cycles, $< 0$ for irreversible ones, and $> 0$ is impossible.",
+      "answer": "<= 0",
+      "acceptedAnswers": [
+        "≤ 0",
+        "less than or equal to 0",
+        "less than or equal to zero",
+        "nonpositive"
+      ],
+      "answerDisplay": "$\\le 0$",
+      "searchQuery": "Clausius inequality cyclic integral dQ/T"
+    },
+    {
+      "id": "entropy-definition",
+      "title": "How is the entropy change of a closed system defined in terms of heat transfer?",
+      "body": "$\\Delta S = \\displaystyle\\int_1^2 \\left(\\frac{\\delta Q}{T}\\right)_{\\text{int rev}}$, in $\\mathrm{kJ/K}$.\n\nThe integral must follow an **internally reversible path**, but $S$ is a property, so any real process between the same two states has the same $\\Delta S$.\n\nFor an actual process, $\\Delta S = \\int \\dfrac{\\delta Q}{T_b} + S_{\\text{gen}}$, where $T_b$ is the boundary temperature.\n\nWatch out: $\\int \\delta Q/T$ along the actual irreversible path is not $\\Delta S$; it is smaller.",
+      "searchQuery": "entropy definition integral dQ/T internally reversible"
+    },
+    {
+      "id": "reservoir-entropy-change",
+      "title": "A thermal reservoir at $500\\,\\mathrm{K}$ supplies $1000\\,\\mathrm{kJ}$ of heat. What is the reservoir's entropy change, in kJ/K?",
+      "body": "$\\Delta S = -2\\,\\mathrm{kJ/K}$.\n\nA reservoir stays at constant $T$, so $\\Delta S = Q/T = -1000/500 = -2\\,\\mathrm{kJ/K}$: **negative** because the heat leaves.\n\nA system's entropy can decrease; the second law only forbids a decrease in the total, including whatever receives the heat.\n\nExample: if the reservoir at $500\\,\\mathrm{K}$ instead absorbed $1000\\,\\mathrm{kJ}$, its entropy would rise by $2\\,\\mathrm{kJ/K}$.",
+      "answer": "-2",
+      "acceptedAnswers": [
+        "-2 kJ/K"
+      ],
+      "answerDisplay": "$-2\\,\\mathrm{kJ/K}$",
+      "searchQuery": "thermal reservoir entropy change Q/T"
+    },
+    {
+      "id": "heat-transfer-entropy-generation",
+      "title": "$100\\,\\mathrm{kJ}$ of heat flows directly from a reservoir at $500\\,\\mathrm{K}$ to one at $250\\,\\mathrm{K}$. Total entropy generated, in kJ/K?",
+      "body": "$S_{\\text{gen}} = 0.2\\,\\mathrm{kJ/K}$.\n\n$S_{\\text{gen}} = \\Delta S_{\\text{hot}} + \\Delta S_{\\text{cold}} = -\\dfrac{100}{500} + \\dfrac{100}{250} = -0.2 + 0.4 = 0.2\\,\\mathrm{kJ/K}$.\n\nHeat transfer across a **finite temperature difference** is irreversible. Reverse the direction and you'd get $-0.2\\,\\mathrm{kJ/K}$, which is impossible.\n\nTip: for heat transfer between two reservoirs, $S_{\\text{gen}} = Q\\left(\\dfrac{1}{T_L} - \\dfrac{1}{T_H}\\right)$.",
+      "answer": "0.2",
+      "acceptedAnswers": [
+        "0.2 kJ/K"
+      ],
+      "answerDisplay": "$0.2\\,\\mathrm{kJ/K}$",
+      "searchQuery": "entropy generation heat transfer finite temperature difference"
+    },
+    {
+      "id": "gibbs-tds-relations",
+      "title": "Write the two Gibbs ($T\\,ds$) relations for a simple compressible substance.",
+      "body": "$T\\,ds = du + P\\,dv$ and $T\\,ds = dh - v\\,dP$.\n\nThey relate properties only, so they hold for **any process**, reversible or not, even though they're derived along a reversible path.\n\nThey're the starting point for $\\Delta s$ of ideal gases and incompressible substances.\n\nKey idea: the Gibbs relations connect $s$ to ordinary properties, so they're the source of all property-based $\\Delta s$ formulas.",
+      "searchQuery": "Gibbs T ds relations du + P dv dh - v dP"
+    },
+    {
+      "id": "ideal-gas-entropy-change",
+      "title": "Entropy change of an ideal gas with constant $c_p$, in terms of $T_1$, $T_2$, $P_1$ and $P_2$?",
+      "body": "$s_2 - s_1 = c_p\\ln\\dfrac{T_2}{T_1} - R\\ln\\dfrac{P_2}{P_1}$.\n\nThe volume form is $s_2 - s_1 = c_v\\ln\\dfrac{T_2}{T_1} + R\\ln\\dfrac{v_2}{v_1}$.\n\nHeating raises $s$; at fixed $T$, compressing to a higher pressure lowers it. Use **absolute $T$**, and don't drop the minus sign on the pressure term.\n\nTip: if the process is isentropic, set the left side to zero to recover $T_2/T_1 = (P_2/P_1)^{R/c_p}$.",
+      "answer": "cp ln(T2/T1) - R ln(P2/P1)",
+      "acceptedAnswers": [
+        "c_p ln(T2/T1) - R ln(P2/P1)",
+        "cp ln(T2/T1) + R ln(P1/P2)",
+        "-R ln(P2/P1) + cp ln(T2/T1)"
+      ],
+      "answerDisplay": "$c_p\\ln\\dfrac{T_2}{T_1} - R\\ln\\dfrac{P_2}{P_1}$",
+      "searchQuery": "ideal gas entropy change cp ln T2/T1 - R ln P2/P1"
+    },
+    {
+      "id": "incompressible-entropy-change",
+      "title": "$1\\,\\mathrm{kg}$ of liquid water ($c = 4.18\\,\\mathrm{kJ/(kg\\cdot K)}$) is heated from $300$ to $360\\,\\mathrm{K}$. Its entropy change, in kJ/K to three decimals?",
+      "body": "$\\Delta S \\approx 0.762\\,\\mathrm{kJ/K}$.\n\n**Incompressible substance**: $\\Delta S = mc\\ln\\dfrac{T_2}{T_1} = (1)(4.18)\\ln 1.2 = 4.18(0.1823) = 0.762\\,\\mathrm{kJ/K}$.\n\nWatch out: putting Celsius temperatures inside the logarithm gives a badly wrong answer; use kelvins.",
+      "answer": "0.762",
+      "acceptedAnswers": [
+        "0.762 kJ/K"
+      ],
+      "answerDisplay": "$0.762\\,\\mathrm{kJ/K}$",
+      "searchQuery": "entropy change incompressible substance m c ln T2/T1"
+    },
+    {
+      "id": "isentropic-compression-temperature",
+      "title": "Air ($k = 1.4$) is compressed isentropically from $100\\,\\mathrm{kPa}$ and $300\\,\\mathrm{K}$ to $800\\,\\mathrm{kPa}$. Final temperature, in K to the nearest kelvin?",
+      "body": "$T_2 \\approx 543\\,\\mathrm{K}$.\n\n$T_2 = T_1\\left(\\dfrac{P_2}{P_1}\\right)^{(k-1)/k} = 300(8)^{0.2857} = 300(1.811) = 543\\,\\mathrm{K}$.\n\nWatch out: using an **exponent** of $k - 1$ (that's for a volume ratio) or forgetting the exponent altogether.",
+      "answer": "543",
+      "acceptedAnswers": [
+        "543.4",
+        "543 K"
+      ],
+      "answerDisplay": "$543\\,\\mathrm{K}$",
+      "searchQuery": "isentropic compression air final temperature pressure ratio"
+    },
+    {
+      "id": "turbine-isentropic-efficiency",
+      "title": "A turbine's isentropic enthalpy drop would be $500\\,\\mathrm{kJ/kg}$, and its isentropic efficiency is $85\\%$. Actual work output, in kJ/kg?",
+      "body": "$w_a = 425\\,\\mathrm{kJ/kg}$.\n\n$\\eta_T = \\dfrac{\\text{actual work}}{\\text{isentropic work}} = \\dfrac{h_1 - h_{2a}}{h_1 - h_{2s}}$, so $w_a = 0.85(500) = 425\\,\\mathrm{kJ/kg}$.\n\nIrreversibilities leave the actual exit state at a **higher enthalpy and entropy** than the isentropic one at the same exit pressure.\n\nWatch out: isentropic efficiency compares actual and ideal work at the same inlet state and the same exit pressure.",
+      "answer": "425",
+      "acceptedAnswers": [
+        "425 kJ/kg"
+      ],
+      "answerDisplay": "$425\\,\\mathrm{kJ/kg}$",
+      "searchQuery": "turbine isentropic efficiency actual work"
+    },
+    {
+      "id": "compressor-isentropic-efficiency",
+      "title": "A compressor would need $200\\,\\mathrm{kJ/kg}$ if it were isentropic, and its isentropic efficiency is $80\\%$. Actual work input, in kJ/kg?",
+      "body": "$w_a = 250\\,\\mathrm{kJ/kg}$.\n\nFor compressors and pumps the ratio is **flipped**: $\\eta_C = \\dfrac{w_s}{w_a} = \\dfrac{h_{2s} - h_1}{h_{2a} - h_1}$, so $w_a = 200/0.80 = 250\\,\\mathrm{kJ/kg}$.\n\nWatch out: multiplying instead ($160\\,\\mathrm{kJ/kg}$) would make the real compressor need LESS work than the ideal one.",
+      "answer": "250",
+      "acceptedAnswers": [
+        "250 kJ/kg"
+      ],
+      "answerDisplay": "$250\\,\\mathrm{kJ/kg}$",
+      "searchQuery": "compressor isentropic efficiency actual work input"
+    },
+    {
+      "id": "ts-diagram-areas",
+      "title": "On a $T$–$s$ diagram, what does the area under an internally reversible process curve represent, and what does the area enclosed by a cycle represent?",
+      "body": "Under a process curve: the **heat transfer per unit mass**, $q = \\int T\\,ds$.\n\nEnclosed by a cycle: the net heat transfer, which equals the net work, $w_{\\text{net}}$.\n\nAn isentropic process is a vertical line (no heat). These areas apply only to internally reversible processes, just as areas on a $P$–$v$ diagram give work only for quasi-equilibrium ones.\n\nTip: a rectangle on a $T$–$s$ diagram (Carnot) has area $(T_H - T_L)\\,\\Delta s$.",
+      "searchQuery": "T-s diagram area heat transfer net work cycle"
+    },
+    {
+      "id": "mollier-diagram",
+      "title": "What does the Mollier diagram plot, and why is it handy for turbines and nozzles?",
+      "body": "Enthalpy $h$ against entropy $s$ (an $h$–$s$ diagram).\n\nFor an adiabatic steady-flow device, the vertical distance $\\Delta h$ is the work (turbine, compressor) or the kinetic-energy change (nozzle), and the horizontal distance $\\Delta s$ reflects the irreversibilities.\n\nAn **isentropic process is a vertical line**, so the ideal exit state lies straight below the inlet state, on the exit-pressure line.\n\nTip: read the isentropic exit enthalpy $h_{2s}$ straight down from the inlet point to the exit-pressure line.",
+      "searchQuery": "Mollier diagram h-s enthalpy entropy turbine"
+    },
+    {
+      "id": "entropy-balance-closed-system",
+      "title": "Entropy balance for a closed system exchanging heat $Q_k$ at boundary temperatures $T_k$: $\\Delta S_{\\text{sys}} = \\,?$",
+      "body": "$\\Delta S_{\\text{sys}} = \\sum \\dfrac{Q_k}{T_k} + S_{\\text{gen}}$, with $S_{\\text{gen}} \\ge 0$.\n\nEntropy crosses a boundary only with heat (and with mass, for control volumes); **work carries no entropy**.\n\nFor an adiabatic closed system, $\\Delta S_{\\text{sys}} = S_{\\text{gen}} \\ge 0$, so its entropy can never decrease.\n\nKey idea: an isolated system is adiabatic with no work or mass exchange, so $\\Delta S_{\\text{isolated}} = S_{\\text{gen}} \\ge 0$.",
+      "searchQuery": "entropy balance closed system entropy generation"
+    },
+    {
+      "id": "exergy-definition",
+      "title": "What is exergy (availability), and what is the dead state?",
+      "body": "The maximum useful work obtainable as a system comes to equilibrium with its environment.\n\nThat final equilibrium is the **dead state**, typically $T_0 = 25\\,^\\circ\\mathrm{C}$ and $P_0 = 1\\,\\mathrm{atm}$, with no velocity or elevation relative to it; a system there has zero exergy.\n\nKey idea: unlike energy, exergy isn't conserved. Irreversibilities destroy it.",
+      "searchQuery": "exergy availability dead state maximum useful work"
+    },
+    {
+      "id": "exergy-destruction",
+      "title": "A process generates $0.2\\,\\mathrm{kJ/K}$ of entropy with the environment at $T_0 = 300\\,\\mathrm{K}$. How much exergy is destroyed, in kJ?",
+      "body": "$X_{\\text{destroyed}} = 60\\,\\mathrm{kJ}$.\n\n**Gouy–Stodola theorem**: $X_{\\text{destroyed}} = T_0S_{\\text{gen}} = 300(0.2) = 60\\,\\mathrm{kJ}$ of work potential, lost for good.\n\nIt's zero for reversible processes and never negative.\n\nKey idea: $X_{\\text{destroyed}} = T_0S_{\\text{gen}}$ turns entropy generation into lost work potential.",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 kJ"
+      ],
+      "answerDisplay": "$60\\,\\mathrm{kJ}$",
+      "searchQuery": "exergy destruction Gouy-Stodola T0 S gen"
+    },
+    {
+      "id": "exergy-of-heat",
+      "title": "What is the exergy (work potential) of heat $Q$ supplied at a constant temperature $T$, with the environment at $T_0$?",
+      "body": "$X_{\\text{heat}} = Q\\left(1 - \\dfrac{T_0}{T}\\right)$: the work a **Carnot engine** could extract running between $T$ and $T_0$.\n\nHeat available only slightly above $T_0$ has little work potential, which is why low-temperature waste heat is hard to use.\n\nExample: $100\\,\\mathrm{kJ}$ at $600\\,\\mathrm{K}$ with $T_0 = 300\\,\\mathrm{K}$ has an exergy of $50\\,\\mathrm{kJ}$.",
+      "answer": "Q(1 - T0/T)",
+      "acceptedAnswers": [
+        "Q(1 - T_0/T)",
+        "Q - Q T0/T",
+        "Q(T - T0)/T"
+      ],
+      "answerDisplay": "$Q\\left(1 - \\dfrac{T_0}{T}\\right)$",
+      "searchQuery": "exergy of heat Carnot engine work potential Q(1 - T0/T)"
+    },
+    {
+      "id": "otto-cycle-processes",
+      "title": "List the four processes of the ideal Otto cycle in order, starting with compression.",
+      "body": "Isentropic compression, constant-volume heat addition, isentropic expansion, constant-volume heat rejection.\n\n1. 1→2: isentropic compression\n2. 2→3: **constant-volume** heat addition (combustion at top dead center)\n3. 3→4: isentropic expansion (the power stroke)\n4. 4→1: constant-volume heat rejection (exhaust and intake)\n\nWhy: the Otto cycle idealizes a spark-ignition engine by treating combustion as instantaneous, so the piston has no time to move during heat addition.\nTip: on a $T$–$s$ diagram, the two constant-volume processes are curves; the two isentropes are vertical lines.",
+      "searchQuery": "Otto cycle four processes isentropic constant volume spark ignition"
+    },
+    {
+      "id": "diesel-cycle-heat-addition",
+      "title": "In the ideal Diesel cycle, is heat added at constant volume or at constant pressure?",
+      "body": "Constant pressure (process 2→3).\n\nThe other three processes match the Otto cycle: isentropic compression, isentropic expansion and **constant-volume** heat rejection.\n\nWhy: fuel is injected into air that compression has already heated above its ignition temperature (**compression ignition**), and it burns as the piston moves down, roughly holding $P$ constant.\nKey idea: with no fuel in the cylinder during compression, there's no knock, so Diesel engines can use compression ratios of about $12$ to $24$.",
+      "searchQuery": "Diesel cycle heat addition constant pressure compression ignition",
+      "answer": "constant pressure",
+      "acceptedAnswers": [
+        "constant-pressure",
+        "at constant pressure",
+        "isobaric",
+        "constant P"
+      ]
+    },
+    {
+      "id": "diesel-cycle-efficiency",
+      "title": "Cold-air-standard Diesel cycle: thermal efficiency in terms of compression ratio $r$, specific heat ratio $k$ and cutoff ratio $r_c$?",
+      "body": "$\\eta_{\\text{Diesel}} = 1 - \\dfrac{1}{r^{k-1}}\\left[\\dfrac{r_c^{\\,k} - 1}{k\\,(r_c - 1)}\\right]$\n\nThe cutoff ratio is $r_c = V_3/V_2$, the volume after heat addition divided by the volume before it. $r_c > 1$ always.\n\nWhy: heat is added over a longer part of the stroke than in the Otto cycle, so less of it is added at the top.\nWatch out: the bracket is greater than $1$, so at the **same** $r$ the Diesel cycle is less efficient than the Otto cycle. As $r_c \\to 1$, it reduces to the Otto formula.",
+      "searchQuery": "Diesel cycle thermal efficiency formula cutoff ratio compression ratio"
+    },
+    {
+      "id": "otto-vs-diesel-same-r",
+      "title": "At the same compression ratio, which ideal cycle has the higher thermal efficiency, Otto or Diesel?",
+      "body": "Otto.\n\nAt equal $r$, the Diesel cycle has a factor $\\dfrac{r_c^{\\,k} - 1}{k(r_c - 1)} > 1$ that lowers its efficiency below the Otto value.\n\nIn practice Diesel engines are **more** efficient overall, because they run at much higher compression ratios (no knock).\nWatch out: a comparison is only fair at equal $r$ or at equal peak pressure; real engines don't operate at equal $r$.",
+      "searchQuery": "Otto vs Diesel cycle efficiency same compression ratio",
+      "answer": "Otto",
+      "acceptedAnswers": [
+        "Otto cycle",
+        "otto engine"
+      ]
+    },
+    {
+      "id": "brayton-cycle-processes",
+      "title": "List the four processes of the ideal Brayton cycle (gas turbine) in order, starting with compression.",
+      "body": "Isentropic compression, constant-pressure heat addition, isentropic expansion, constant-pressure heat rejection.\n\n1. 1→2: isentropic compression in the compressor\n2. 2→3: constant-pressure heat addition in the combustor\n3. 3→4: isentropic expansion in the turbine\n4. 4→1: constant-pressure heat rejection to the surroundings\n\nWhy: real gas turbines are open cycles, with fresh air in and exhaust out. The ideal cycle closes the loop with a heat-rejection process so the air-standard analysis works.\nTip: the Brayton cycle is the Rankine cycle's gas analog, with a compressor in place of the pump and a combustor in place of the boiler.",
+      "searchQuery": "Brayton cycle four processes gas turbine compressor combustor"
+    },
+    {
+      "id": "brayton-cycle-efficiency",
+      "title": "Ideal Brayton cycle with constant specific heats: thermal efficiency in terms of the pressure ratio $r_p = P_2/P_1$ and $k$?",
+      "body": "$\\eta_{\\text{Brayton}} = 1 - \\dfrac{1}{r_p^{(k-1)/k}}$\n\nIt rises with the pressure ratio. Equivalently, $\\eta = 1 - T_1/T_2$, the temperatures at the compressor inlet and exit.\n\nWhy: the isentropic relations give $T_2/T_1 = T_3/T_4 = r_p^{(k-1)/k}$, so the heat ratio $q_{\\text{out}}/q_{\\text{in}}$ reduces to $T_1/T_2$.\nWatch out: the exponent is $(k-1)/k$ for a pressure ratio, not $k-1$.",
+      "searchQuery": "ideal Brayton cycle thermal efficiency pressure ratio formula",
+      "answer": "1 - 1/rp^((k-1)/k)",
+      "acceptedAnswers": [
+        "1-rp^(-(k-1)/k)",
+        "1-1/(rp^((k-1)/k))",
+        "1 - rp^((1-k)/k)",
+        "1-(1/rp)^((k-1)/k)"
+      ],
+      "answerDisplay": "$\\eta = 1 - \\dfrac{1}{r_p^{(k-1)/k}}$"
+    },
+    {
+      "id": "brayton-efficiency-example",
+      "title": "An ideal Brayton cycle with air ($k = 1.4$) has a pressure ratio of $8$. What is its thermal efficiency, in percent to one decimal?",
+      "body": "$44.8\\%$.\n\n$\\eta = 1 - r_p^{-(k-1)/k} = 1 - 8^{-0.2857} = 1 - 0.552 = 0.448$.\n\nDoubling the pressure ratio to $16$ gives $1 - 16^{-0.2857} \\approx 0.547$ ($54.7\\%$): efficiency keeps rising with $r_p$, but with diminishing returns.\nWatch out: the cycle's maximum temperature limits how high $r_p$ can usefully go, since net work eventually falls.",
+      "searchQuery": "Brayton cycle efficiency pressure ratio 8 air calculation",
+      "answer": "44.8",
+      "acceptedAnswers": [
+        "44.8%",
+        "0.448",
+        "44.8 percent"
+      ],
+      "answerDisplay": "$44.8\\%$"
+    },
+    {
+      "id": "back-work-ratio",
+      "title": "What is the back work ratio of a power cycle, and is it large or small for a gas turbine?",
+      "body": "The fraction of the turbine's work that's used to drive the compressor or pump: $\\mathrm{bwr} = \\dfrac{w_{\\text{in}}}{w_{\\text{out}}}$.\n\nFor gas turbines it's **large**, typically about $40$ to $80\\%$, because compressing a gas takes a lot of work. In a Rankine cycle it's tiny (a percent or two), because pumping a liquid takes very little.\n\nWhy: $w = \\int v\\,dP$ and the specific volume of a gas is far larger than that of a liquid.\nKey idea: net work is the small difference of two large numbers in a gas turbine, so component efficiencies matter a lot.",
+      "searchQuery": "back work ratio compressor work turbine work gas turbine vs Rankine"
+    },
+    {
+      "id": "brayton-regenerator",
+      "title": "What does a regenerator do in a gas-turbine cycle, and when does it help?",
+      "body": "It preheats the compressed air with hot turbine exhaust, so less fuel is needed for the same net work.\n\nIt helps only when the turbine exhaust is **hotter** than the compressor exit ($T_4 > T_2$), which means low pressure ratios.\n\nWhy: at high pressure ratios $T_2 > T_4$, so heat would flow from the compressed air to the exhaust, the wrong way.\nWatch out: a regenerator raises efficiency but doesn't change the net work, since the turbine and compressor work stay the same.",
+      "searchQuery": "gas turbine regenerator preheat compressed air turbine exhaust Brayton"
+    },
+    {
+      "id": "rankine-boiler-pressure",
+      "title": "In a Rankine cycle with fixed turbine inlet temperature, what does raising the boiler pressure do to the thermal efficiency and to the turbine exit quality?",
+      "body": "Efficiency rises, but the turbine exit quality falls (wetter steam).\n\nThe average temperature of heat addition goes up, which raises $\\eta_{\\text{th}}$.\n\nWhy: the expansion line ends further into the vapor dome, so more liquid droplets form in the last turbine stages.\nWatch out: the exit quality should stay above roughly $0.85$ to $0.90$, because droplets erode turbine blades. Reheat is the usual cure.",
+      "searchQuery": "Rankine cycle higher boiler pressure efficiency turbine exit moisture"
+    },
+    {
+      "id": "rankine-condenser-pressure",
+      "title": "How does lowering the condenser pressure affect a Rankine cycle's thermal efficiency, and what limits how low it can go?",
+      "body": "Efficiency rises, because the average temperature of heat **rejection** falls.\n\nThe limit is the temperature of the cooling medium: $T_{\\text{sat}}$ in the condenser must stay above the cooling water or air temperature, which sets a minimum saturation pressure.\n\nWhy: heat rejection occurs at $T_{\\text{sat}}$, and $\\eta$ improves as $T_{\\text{out}}$ falls.\nWatch out: a lower condenser pressure also lowers the turbine exit quality, and it raises the risk of air leaking into the condenser.",
+      "searchQuery": "Rankine cycle lower condenser pressure efficiency limit cooling water"
+    },
+    {
+      "id": "rankine-reheat",
+      "title": "Why is reheat added to a Rankine cycle, and how does it work?",
+      "body": "To cut moisture in the turbine exit steam, which allows a higher boiler pressure.\n\nThe steam expands partway through a high-pressure turbine, returns to the boiler to be reheated at **constant pressure**, and then expands in a low-pressure turbine.\n\nWhy: the dry exit steam protects the last turbine stages from droplet erosion, and the higher average heat-addition temperature helps efficiency.\nKey idea: the gain from reheat is mainly the quality improvement, plus a modest efficiency gain.",
+      "searchQuery": "Rankine cycle reheat purpose moisture high pressure low pressure turbine"
+    },
+    {
+      "id": "rankine-efficiency-example",
+      "title": "An ideal Rankine cycle has turbine work $1000\\,\\mathrm{kJ/kg}$, pump work $10\\,\\mathrm{kJ/kg}$ and boiler heat input $3000\\,\\mathrm{kJ/kg}$. What is its thermal efficiency, in percent?",
+      "body": "$33\\%$.\n\n$w_{\\text{net}} = w_{\\text{turb}} - w_{\\text{pump}} = 1000 - 10 = 990\\,\\mathrm{kJ/kg}$, so $\\eta_{\\text{th}} = \\dfrac{990}{3000} = 0.33$.\n\nWatch out: ignoring the pump gives $33.3\\%$; here it's a small effect, but net work always means turbine minus pump.\nTip: $q_{\\text{in}} = h_3 - h_2$ is measured from the pump exit, not the condenser exit.",
+      "searchQuery": "Rankine cycle thermal efficiency net work heat input calculation",
+      "answer": "33",
+      "acceptedAnswers": [
+        "33%",
+        "0.33",
+        "33 percent"
+      ],
+      "answerDisplay": "$33\\%$"
+    },
+    {
+      "id": "vcr-cycle-components",
+      "title": "List the four components of the ideal vapor-compression refrigeration cycle in flow order, with the ideal process in each.",
+      "body": "Compressor, condenser, expansion valve, evaporator.\n\n1. Compressor: isentropic compression of saturated vapor\n2. Condenser: constant-pressure heat rejection (ends as saturated liquid)\n3. Expansion valve: throttling, so $h_3 = h_4$\n4. Evaporator: constant-pressure heat absorption (ends as saturated vapor)\n\nWatch out: the expansion valve is the one irreversible step in the ideal cycle, and it adds no work or heat.\nTip: refrigerant leaves the evaporator and enters the compressor as saturated vapor, never as liquid.",
+      "searchQuery": "vapor compression refrigeration cycle components compressor condenser expansion valve evaporator"
+    },
+    {
+      "id": "vcr-cop-from-enthalpies",
+      "title": "In an ideal vapor-compression cycle, $h_1 = 250$ (compressor inlet), $h_2 = 290$ (compressor exit) and $h_3 = h_4 = 90\\,\\mathrm{kJ/kg}$. What is $\\mathrm{COP_R}$?",
+      "body": "$4$.\n\n$q_L = h_1 - h_4 = 160\\,\\mathrm{kJ/kg}$ and $w_{\\text{in}} = h_2 - h_1 = 40\\,\\mathrm{kJ/kg}$, so $\\mathrm{COP_R} = \\dfrac{h_1 - h_4}{h_2 - h_1} = 4$.\n\nHeat rejected in the condenser: $q_H = h_2 - h_3 = 200\\,\\mathrm{kJ/kg}$. Check: $q_L + w_{\\text{in}} = 200$.\nWatch out: $h_4$ is the evaporator **inlet**, equal to $h_3$ after the valve, so use $h_4$ (or $h_3$), not $h_2$, in $q_L$.",
+      "searchQuery": "vapor compression refrigeration COP from enthalpies h1 h2 h4",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "answerDisplay": "$\\mathrm{COP_R} = 4$"
+    },
+    {
+      "id": "refrigerant-expansion-valve-vs-turbine",
+      "title": "Why do household refrigerators use an expansion valve (or capillary tube) instead of a turbine to expand the refrigerant?",
+      "body": "Because a turbine would recover very little work and would cost far more than it saves.\n\nThe refrigerant is liquid or a liquid-vapor mixture there, with a small enthalpy drop, and a turbine in two-phase flow is complicated and unreliable.\n\nWhy: the valve is cheap and simple, so engineers accept the entropy generation (lost work) for practicality.\nKey idea: replacing the valve with an isentropic turbine would raise the COP slightly and increase the cooling effect, but not by enough to justify it.",
+      "searchQuery": "refrigerator expansion valve capillary tube instead of turbine reason"
+    },
+    {
+      "id": "relative-humidity-definition",
+      "title": "Relative humidity $\\phi$ of moist air, in terms of the vapor partial pressure $P_v$ and the saturation pressure $P_g$ at the same temperature?",
+      "body": "$\\phi = \\dfrac{P_v}{P_g}$, with $P_g = P_{\\text{sat}}$ at the air's dry-bulb temperature.\n\nIt's $1$ ($100\\%$) for saturated air, and it falls when the air is **heated** at constant $P_v$.\n\nExample: air at $30\\,^\\circ\\mathrm{C}$ ($P_g \\approx 4.25\\,\\mathrm{kPa}$) with $P_v = 2.1\\,\\mathrm{kPa}$ has $\\phi \\approx 0.49$.\nWatch out: relative humidity depends on temperature; the humidity ratio $\\omega$ doesn't change when you heat air without adding water.",
+      "searchQuery": "relative humidity moist air vapor pressure over saturation pressure",
+      "answer": "Pv/Pg",
+      "acceptedAnswers": [
+        "P_v/P_g",
+        "Pv/Psat",
+        "P_v/P_sat"
+      ],
+      "answerDisplay": "$\\phi = \\dfrac{P_v}{P_g}$"
+    },
+    {
+      "id": "dew-point-temperature",
+      "title": "When moist air is cooled at constant pressure, what is the temperature at which condensation first begins called?",
+      "body": "The dew point.\n\nIt's the saturation temperature of water at the **vapor partial pressure**: $T_{\\text{dp}} = T_{\\text{sat}}@P_v$.\n\nWhy: cooling at constant total pressure keeps $P_v$ fixed until $P_v = P_g$, which is saturation ($\\phi = 1$).\nTip: look up the dew point in the steam tables by finding the temperature whose $P_{\\text{sat}}$ equals $P_v$.",
+      "searchQuery": "dew point temperature moist air saturation temperature at vapor pressure",
+      "answer": "dew point",
+      "acceptedAnswers": [
+        "dew-point",
+        "dew point temperature"
+      ]
+    },
+    {
+      "id": "humidity-ratio-calculation",
+      "title": "Moist air at a total pressure of $100\\,\\mathrm{kPa}$ has a vapor partial pressure of $2\\,\\mathrm{kPa}$. What is the humidity ratio $\\omega$, in kg water per kg dry air, to four decimals?",
+      "body": "$\\omega \\approx 0.0127\\,\\mathrm{kg/kg}$.\n\n$\\omega = \\dfrac{m_v}{m_a} = 0.622\\,\\dfrac{P_v}{P - P_v} = 0.622\\,\\dfrac{2}{100 - 2} = 0.01269$.\n\nThe factor $0.622$ is the ratio of molar masses, $M_{\\text{water}}/M_{\\text{air}} = 18.015/28.97$.\nWatch out: the denominator is the dry-air pressure $P - P_v$, not the total pressure $P$.",
+      "searchQuery": "humidity ratio specific humidity 0.622 Pv/(P-Pv) moist air",
+      "answer": "0.0127",
+      "acceptedAnswers": [
+        "0.01269"
+      ],
+      "answerDisplay": "$0.0127\\,\\mathrm{kg/kg}$"
+    },
+    {
+      "id": "stoichiometric-air-methane",
+      "title": "Methane burns completely with theoretical air. How many kmol of air are needed per kmol of $\\ce{CH4}$? (Air $= \\ce{O2 + 3.76N2}$; give two decimals.)",
+      "body": "$9.52\\,\\mathrm{kmol}$ of air per kmol of fuel.\n\n$\\ce{CH4 + 2(O2 + 3.76N2) -> CO2 + 2H2O + 7.52N2}$\n\nTwo kmol of $\\ce{O2}$ are needed, and each comes with $3.76$ kmol of $\\ce{N2}$: $2(1 + 3.76) = 9.52$.\n\nKey idea: **theoretical (stoichiometric) air** is the minimum air for complete combustion; the products contain no free $\\ce{O2}$.\nWatch out: the nitrogen is inert in the balance but isn't negligible: it carries heat out with the exhaust.",
+      "searchQuery": "methane combustion theoretical air kmol per kmol stoichiometric",
+      "answer": "9.52",
+      "acceptedAnswers": [
+        "9.52 kmol"
+      ],
+      "answerDisplay": "$9.52\\,\\mathrm{kmol}$"
+    },
+    {
+      "id": "air-fuel-ratio-methane",
+      "title": "What is the mass air–fuel ratio for methane burned with theoretical air? ($M_{\\text{air}} = 28.97$, $M_{\\ce{CH4}} = 16.04\\,\\mathrm{kg/kmol}$; one decimal.)",
+      "body": "$\\mathrm{AF} \\approx 17.2\\,\\mathrm{kg}$ air per kg fuel.\n\n$\\mathrm{AF} = \\dfrac{m_{\\text{air}}}{m_{\\text{fuel}}} = \\dfrac{(9.52)(28.97)}{(1)(16.04)} = \\dfrac{275.8}{16.04} \\approx 17.2$.\n\nUse the kmol counts from the balanced reaction, then convert each to mass with the molar masses.\nWatch out: the mole ratio ($9.52$) and the mass ratio ($17.2$) differ, because air and methane have different molar masses.",
+      "searchQuery": "air fuel ratio methane theoretical air mass basis 17.2",
+      "answer": "17.2",
+      "acceptedAnswers": [
+        "17.19",
+        "17.2 kg/kg"
+      ],
+      "answerDisplay": "$17.2\\,\\mathrm{kg/kg}$"
+    }
+  ]
+}

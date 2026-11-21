@@ -1,0 +1,1115 @@
+{
+  "id": "eng-circuits",
+  "title": "Circuit Analysis",
+  "course": "Circuits I and II",
+  "description": "Kirchhoff's laws, dividers, nodal and mesh analysis, Thévenin/Norton, superposition, op-amps, C and L, first- and second-order transients, phasors and impedance, AC power, resonance, filters, transformers and three-phase power.",
+  "cards": [
+    {
+      "id": "resistor-power",
+      "title": "A $10\\,\\Omega$ resistor carries $2\\,\\mathrm{A}$. How much power does it absorb, in watts?",
+      "body": "$40\\,\\mathrm{W}$\n\nBy Ohm's law $V = IR = 20\\,\\mathrm{V}$, so $P = VI = 40\\,\\mathrm{W}$. The same result comes from $P = I^2R = 4 \\cdot 10$ or $P = V^2/R = 400/10$.\n\nTip: pick the **power form** that uses the two quantities you already know.\nWatch out: a resistor's $p = i^2R$ is never negative; it only absorbs power.",
+      "answer": "40 W",
+      "acceptedAnswers": [
+        "40",
+        "40 watts",
+        "40 watt"
+      ],
+      "searchQuery": "resistor power I squared R watts"
+    },
+    {
+      "id": "passive-sign-convention",
+      "title": "Passive sign convention: current enters an element's $+$ terminal and $p = vi = -12\\,\\mathrm{W}$. Is the element absorbing or delivering power?",
+      "body": "Delivering (supplying) $12\\,\\mathrm{W}$.\n\nWhen current enters the $+$ terminal, $p = vi$ is the power **absorbed**. So $p > 0$ means absorbing and $p < 0$ means delivering. Absorbing $-12\\,\\mathrm{W}$ is the same as delivering $+12\\,\\mathrm{W}$.\n\nWatch out: if current enters the $-$ terminal, use $p = -vi$ instead.",
+      "searchQuery": "passive sign convention power absorbed delivered"
+    },
+    {
+      "id": "voltage-divider",
+      "title": "$12\\,\\mathrm{V}$ is applied across $4\\,\\mathrm{k\\Omega}$ and $2\\,\\mathrm{k\\Omega}$ resistors in series. What is the voltage across the $2\\,\\mathrm{k\\Omega}$ resistor, in volts?",
+      "body": "$4\\,\\mathrm{V}$\n\nVoltage divider: $v_2 = V_s \\dfrac{R_2}{R_1 + R_2} = 12 \\cdot \\dfrac{2}{6} = 4\\,\\mathrm{V}$. The $4\\,\\mathrm{k\\Omega}$ resistor takes the other $8\\,\\mathrm{V}$, since the larger resistor gets the larger share.\n\nWatch out: the formula assumes nothing draws current from the midpoint. A load across $R_2$ must first be combined in parallel with $R_2$.",
+      "answer": "4 V",
+      "acceptedAnswers": [
+        "4",
+        "4 volts",
+        "4 volt"
+      ],
+      "searchQuery": "voltage divider rule series resistors"
+    },
+    {
+      "id": "current-divider",
+      "title": "$9\\,\\mathrm{A}$ splits between $3\\,\\Omega$ and $6\\,\\Omega$ resistors in parallel. How much current, in amps, flows through the $3\\,\\Omega$ resistor?",
+      "body": "$6\\,\\mathrm{A}$\n\nCurrent divider: $i_1 = I \\dfrac{R_2}{R_1 + R_2} = 9 \\cdot \\dfrac{6}{9} = 6\\,\\mathrm{A}$. The $6\\,\\Omega$ resistor carries the remaining $3\\,\\mathrm{A}$.\n\nWatch out: in a **current divider** the *other* resistor appears in the numerator, so the smaller resistor gets the larger current.\nCheck: both branches see $18\\,\\mathrm{V}$, and $18/3 = 6$, $18/6 = 3$.",
+      "answer": "6 A",
+      "acceptedAnswers": [
+        "6",
+        "6 amps",
+        "6 amp",
+        "6 amperes"
+      ],
+      "searchQuery": "current divider rule parallel resistors"
+    },
+    {
+      "id": "node-vs-mesh",
+      "title": "Node-voltage vs mesh-current analysis: which Kirchhoff law does each method apply, and what are the unknowns?",
+      "body": "Node-voltage analysis applies **KCL**; mesh-current analysis applies **KVL**.\n\nNode-voltage: KCL at each non-reference node, with the node voltages as unknowns ($N - 1$ of them for $N$ nodes). It works for any circuit.\n\nMesh-current: KVL around each mesh, with the mesh currents as unknowns ($B - N + 1$ of them for $B$ branches). It works for planar circuits only.\n\nTip: a voltage source between two non-reference nodes needs a supernode; a current source shared by two meshes needs a supermesh.",
+      "searchQuery": "nodal analysis versus mesh analysis KCL KVL"
+    },
+    {
+      "id": "superposition-limits",
+      "title": "Superposition lets you add the voltages and currents produced by each independent source acting alone. What can you NOT add this way?",
+      "body": "Power.\n\nSuperposition works only for **linear** relationships such as $v$ and $i$. Power is quadratic ($p = i^2R$), so the power from two sources is not the sum of the powers from each source alone.\n\nExample: two sources each give $i = 1\\,\\mathrm{A}$ through $1\\,\\Omega$. Together $i = 2\\,\\mathrm{A}$ and $p = 4\\,\\mathrm{W}$, not $1 + 1 = 2\\,\\mathrm{W}$.\nTip: add the currents or voltages first, then compute the power from the total.",
+      "answer": "power",
+      "acceptedAnswers": [
+        "powers",
+        "power dissipated",
+        "energy",
+        "power and energy"
+      ],
+      "searchQuery": "superposition theorem cannot add power"
+    },
+    {
+      "id": "thevenin-deactivate-sources",
+      "title": "Finding $R_{Th}$ by turning sources off: what replaces an independent voltage source, an independent current source, and a dependent source?",
+      "body": "Voltage source $\\to$ short circuit ($v = 0$). Current source $\\to$ open circuit ($i = 0$). Dependent sources are never turned off.\n\nWith dependent sources present, either use $R_{Th} = v_{oc}/i_{sc}$, or turn off only the independent sources, apply a test source and take $R_{Th} = v_{test}/i_{test}$.\n\nKey idea: Norton uses the same resistance, $R_N = R_{Th}$, with $I_N = i_{sc} = V_{Th}/R_{Th}$.",
+      "searchQuery": "Thevenin resistance turn off independent sources"
+    },
+    {
+      "id": "max-power-transfer",
+      "title": "A source has $V_{Th} = 20\\,\\mathrm{V}$ and $R_{Th} = 5\\,\\Omega$. What is the maximum power, in watts, it can deliver to a load resistor?",
+      "body": "$20\\,\\mathrm{W}$, when $R_L = R_{Th} = 5\\,\\Omega$.\n\nAt the match the load current is $I = 20/(5+5) = 2\\,\\mathrm{A}$, so $P_{max} = I^2R_L = \\dfrac{V_{Th}^2}{4R_{Th}} = \\dfrac{400}{20} = 20\\,\\mathrm{W}$.\n\nWatch out: at maximum power transfer only **50% efficiency** is reached, because the source resistance burns as much as the load. Power systems avoid matching for that reason.",
+      "answer": "20 W",
+      "acceptedAnswers": [
+        "20",
+        "20 watts",
+        "20 watt"
+      ],
+      "searchQuery": "maximum power transfer theorem load equals Thevenin"
+    },
+    {
+      "id": "ideal-op-amp-rules",
+      "title": "What two rules let you analyze an ideal op-amp circuit that has negative feedback?",
+      "body": "Two rules for an ideal op-amp with negative feedback:\n\n1. No current enters either input: $i_+ = i_- = 0$ (infinite input resistance).\n2. The inputs sit at the same voltage: $v_+ = v_-$ (the **virtual short**), a result of infinite open-loop gain plus negative feedback.\n\nTip: write KCL at the input nodes, never at the output node. The output current is an extra unknown that the op-amp supplies as needed.\nWatch out: $v_o$ must stay within the supply rails.",
+      "searchQuery": "ideal op amp golden rules virtual short"
+    },
+    {
+      "id": "inverting-amplifier-gain",
+      "title": "An inverting op-amp amplifier has $R_{in} = 2\\,\\mathrm{k\\Omega}$ and $R_f = 10\\,\\mathrm{k\\Omega}$. What is its voltage gain $v_o/v_{in}$?",
+      "body": "$-5$\n\nThe gain is $\\dfrac{v_o}{v_{in}} = -\\dfrac{R_f}{R_{in}} = -\\dfrac{10}{2} = -5$. The $-$ input is a virtual ground, so the input current $v_{in}/R_{in}$ all flows through $R_f$.\n\nWatch out: the input resistance of an inverting amplifier is just $R_{in}$, not infinite.",
+      "answer": "-5",
+      "acceptedAnswers": [
+        "-5 V/V"
+      ],
+      "searchQuery": "inverting op amp gain Rf over Rin"
+    },
+    {
+      "id": "noninverting-amplifier-gain",
+      "title": "A non-inverting op-amp amplifier has $R_f = 4\\,\\mathrm{k\\Omega}$ (output to $-$ input) and $R_1 = 1\\,\\mathrm{k\\Omega}$ ($-$ input to ground). What is its gain?",
+      "body": "$5$\n\nThe gain is $\\dfrac{v_o}{v_{in}} = 1 + \\dfrac{R_f}{R_1} = 1 + \\dfrac{4}{1} = 5$. The $R_f$/$R_1$ pair divides $v_o$ so that the $-$ input equals $v_{in}$.\n\nWatch out: the gain is always at least $1$, and it is positive (no phase inversion).",
+      "answer": "5",
+      "acceptedAnswers": [
+        "5 V/V"
+      ],
+      "searchQuery": "noninverting op amp gain 1 plus Rf over R1"
+    },
+    {
+      "id": "capacitor-dc-steady-state",
+      "title": "At DC steady state, an ideal capacitor behaves like what circuit element?",
+      "body": "An open circuit.\n\nAt DC steady state $dv/dt = 0$, so $i = C\\,dv/dt = 0$. No current flows, whatever the voltage across the capacitor.\n\nTip: for a DC steady-state problem, **replace every capacitor with an open circuit** and every inductor with a short circuit, then solve the resistive circuit.",
+      "answer": "open circuit",
+      "acceptedAnswers": [
+        "open",
+        "open-circuit",
+        "open circuits"
+      ],
+      "searchQuery": "capacitor DC steady state open circuit"
+    },
+    {
+      "id": "inductor-current-continuity",
+      "title": "At a switching instant, which cannot change instantaneously in an inductor: its voltage or its current?",
+      "body": "Its current: $i_L(0^+) = i_L(0^-)$.\n\nAn abrupt jump in $i_L$ would need an infinite voltage, since $v = L\\,di/dt$. The voltage across an inductor can jump freely.\n\nKey idea: the capacitor is the dual. Its **voltage** is continuous, while its current can jump.",
+      "answer": "current",
+      "acceptedAnswers": [
+        "its current",
+        "inductor current",
+        "i_L",
+        "iL"
+      ],
+      "searchQuery": "inductor current continuity switching"
+    },
+    {
+      "id": "first-order-step-response",
+      "title": "In a first-order RC or RL circuit switched at $t = 0$, what is the general form of any response $x(t)$ for $t > 0$?",
+      "body": "$$x(t) = x(\\infty) + \\left[x(0^+) - x(\\infty)\\right]e^{-t/\\tau}$$\n\nHere $\\tau = R_{Th}C$ for RC or $\\tau = L/R_{Th}$ for RL, where $R_{Th}$ is the Thévenin resistance seen by the C or L.\n\nAfter $1\\tau$ about $63.2\\%$ of the change is done; after $5\\tau$, more than $99\\%$.\nTip: get $x(0^+)$ from the continuity of $v_C$ or $i_L$, and $x(\\infty)$ from the DC steady-state circuit.",
+      "searchQuery": "first order circuit step response general formula time constant"
+    },
+    {
+      "id": "capacitor-impedance",
+      "title": "What is the impedance, in ohms, of a $1\\,\\mu\\mathrm{F}$ capacitor at $\\omega = 1000\\,\\mathrm{rad/s}$?",
+      "body": "$-j1000\\,\\Omega$ (that is, $-j1\\,\\mathrm{k\\Omega}$)\n\nThe impedance of a capacitor is $Z_C = \\dfrac{1}{j\\omega C} = \\dfrac{1}{j \\cdot 1000 \\cdot 10^{-6}} = -j1000\\,\\Omega$.\n\nMnemonic: a capacitor's reactance is **negative**, $X_C = -1/(\\omega C)$, and an inductor's is positive, $X_L = \\omega L$.\nWatch out: the capacitor's impedance falls as frequency rises.",
+      "answer": "-j1000",
+      "acceptedAnswers": [
+        "-1000j",
+        "-j1000 ohms",
+        "-j1000 ohm",
+        "-j1 kohm",
+        "-1000j ohms"
+      ],
+      "answerDisplay": "$-j1000\\,\\Omega$",
+      "searchQuery": "capacitor impedance 1 over j omega C"
+    },
+    {
+      "id": "rms-sinusoid",
+      "title": "What is the RMS value of $v(t) = 170\\cos(377t)\\,\\mathrm{V}$, to the nearest volt?",
+      "body": "$120\\,\\mathrm{V}$\n\nFor a sinusoid, $V_{rms} = V_m/\\sqrt{2} = 170/1.414 \\approx 120\\,\\mathrm{V}$. The angular frequency $377\\,\\mathrm{rad/s}$ is $60\\,\\mathrm{Hz}$.\n\nKey idea: the RMS value is the DC voltage that delivers the **same average power** to a resistor.",
+      "answer": "120 V",
+      "acceptedAnswers": [
+        "120",
+        "120.2 V",
+        "120.2",
+        "120 volts",
+        "120 volt",
+        "170/sqrt(2)",
+        "170/sqrt2",
+        "120.21"
+      ],
+      "searchQuery": "RMS value of sinusoid peak over root 2"
+    },
+    {
+      "id": "current-from-charge",
+      "title": "The charge entering an element is $q(t) = 5t^2\\,\\mathrm{mC}$ ($t$ in seconds). What is the current at $t = 2\\,\\mathrm{s}$, in mA?",
+      "body": "$20\\,\\mathrm{mA}$\n\nCurrent is the rate of change of charge: $i = \\dfrac{dq}{dt} = 10t\\,\\mathrm{mA}$. At $t = 2\\,\\mathrm{s}$, $i = 20\\,\\mathrm{mA}$.\n\nWatch out: $q$ is in millicoulombs, so $i$ comes out in milliamps. Don't plug $t$ into $q$ itself.",
+      "answer": "20 mA",
+      "acceptedAnswers": [
+        "20",
+        "0.02 A",
+        "20 milliamps"
+      ],
+      "searchQuery": "current is derivative of charge i dq dt"
+    },
+    {
+      "id": "kcl-conservation-law",
+      "title": "Kirchhoff's current law (the currents entering a node sum to zero) follows from the conservation of what?",
+      "body": "Charge.\n\nKCL says no charge builds up at a node, so the current entering equals the current leaving: $\\sum i = 0$. It is the circuit form of **conservation of charge**.\n\nKey idea: KVL is the matching statement for energy.",
+      "answer": "charge",
+      "acceptedAnswers": [
+        "electric charge",
+        "conservation of charge"
+      ],
+      "searchQuery": "Kirchhoff current law conservation of charge"
+    },
+    {
+      "id": "kvl-conservation-law",
+      "title": "Kirchhoff's voltage law (the voltages around any closed loop sum to zero) follows from the conservation of what?",
+      "body": "Energy.\n\nKVL states that $\\sum v = 0$ around any closed loop. A charge that returns to its starting point has gained or lost no net energy, so this is **conservation of energy** (the electric field is conservative).\n\nWatch out: KVL assumes no changing magnetic flux linking the loop.",
+      "answer": "energy",
+      "acceptedAnswers": [
+        "conservation of energy"
+      ],
+      "searchQuery": "Kirchhoff voltage law conservation of energy"
+    },
+    {
+      "id": "kcl-node-example",
+      "title": "Currents of $3\\,\\mathrm{A}$ and $5\\,\\mathrm{A}$ enter a node, and $2\\,\\mathrm{A}$ leaves through a third branch. What current, in amps, leaves through the fourth and last branch?",
+      "body": "$6\\,\\mathrm{A}$\n\nKCL at the node: current in $= 3 + 5 = 8\\,\\mathrm{A}$, current out $= 2 + I_4$. So $I_4 = 8 - 2 = 6\\,\\mathrm{A}$, leaving.\n\nTip: pick one convention (all entering is positive, say) before you write the equation.",
+      "answer": "6 A",
+      "acceptedAnswers": [
+        "6",
+        "6 amps",
+        "6 amperes"
+      ],
+      "searchQuery": "KCL node current sum example"
+    },
+    {
+      "id": "series-parallel-reduction",
+      "title": "A $6\\,\\Omega$ resistor in parallel with a $3\\,\\Omega$ resistor, and that pair in series with $4\\,\\Omega$: what is the equivalent resistance, in ohms?",
+      "body": "$6\\,\\Omega$\n\nParallel first: $6 \\parallel 3 = \\dfrac{6 \\cdot 3}{6 + 3} = 2\\,\\Omega$. Then in series with $4\\,\\Omega$: $2 + 4 = 6\\,\\Omega$.\n\nTip: for two resistors in parallel, **product over sum** is the quickest route.",
+      "answer": "6 Ω",
+      "acceptedAnswers": [
+        "6",
+        "6 ohms",
+        "6 ohm"
+      ],
+      "searchQuery": "series parallel equivalent resistance"
+    },
+    {
+      "id": "equal-resistors-parallel",
+      "title": "What is the equivalent resistance, in ohms, of four $100\\,\\Omega$ resistors in parallel?",
+      "body": "$25\\,\\Omega$\n\nFor $n$ equal resistors in parallel, $R_{eq} = R/n = 100/4 = 25\\,\\Omega$.\n\nWatch out: parallel resistance is always smaller than the smallest branch.",
+      "answer": "25 Ω",
+      "acceptedAnswers": [
+        "25",
+        "25 ohms",
+        "25 ohm"
+      ],
+      "searchQuery": "equal resistors in parallel equivalent resistance"
+    },
+    {
+      "id": "ideal-meter-resistance",
+      "title": "What internal resistance does an ideal voltmeter have, and what does an ideal ammeter have?",
+      "body": "Voltmeter: infinite resistance (an open circuit), connected in **parallel** with the element. Ammeter: zero resistance (a short circuit), connected in **series**.\n\nThat way neither meter disturbs the circuit.\n\nWatch out: a real voltmeter's finite resistance loads a high-resistance divider and makes it read low.",
+      "searchQuery": "ideal voltmeter ammeter internal resistance"
+    },
+    {
+      "id": "ideal-source-external-circuit",
+      "title": "What determines the current through an ideal voltage source, and the voltage across an ideal current source?",
+      "body": "The rest of the circuit connected to it.\n\nAn ideal voltage source fixes only its terminal voltage and supplies whatever current the circuit demands. An ideal current source fixes only its current and develops whatever voltage is needed.\n\nKey idea: a source can **absorb** power (like a battery being charged) as well as deliver it, depending on the circuit.",
+      "searchQuery": "ideal voltage source current determined by circuit"
+    },
+    {
+      "id": "dependent-source-types",
+      "title": "Name the four types of dependent (controlled) sources.",
+      "body": "VCVS, CCVS, VCCS and CCCS.\n\n- VCVS: voltage-controlled voltage source\n- CCVS: current-controlled voltage source\n- VCCS: voltage-controlled current source\n- CCCS: current-controlled current source\n\nThey are drawn as diamonds. VCVS and CCCS gains are dimensionless, a CCVS gain is in ohms, and a VCCS gain is in siemens (like $g_m$ in a transistor model).",
+      "searchQuery": "four types of dependent controlled sources"
+    },
+    {
+      "id": "power-balance-check",
+      "title": "Using the passive sign convention, what is the sum of the powers absorbed by all the elements of a circuit?",
+      "body": "Zero.\n\nEnergy is conserved, so the power absorbed by all elements sums to zero: $\\sum p = 0$. Equivalently, the power delivered equals the power absorbed.\n\nTip: use this as a final **check** on a solved circuit; it catches sign errors in the sources.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero",
+        "0 W"
+      ],
+      "searchQuery": "conservation of power sum of absorbed power zero"
+    },
+    {
+      "id": "delta-to-wye-balanced",
+      "title": "A balanced delta (Δ) network has $30\\,\\Omega$ in each branch. What is each resistor of the equivalent wye (Y) network, in ohms?",
+      "body": "$10\\,\\Omega$\n\nFor a balanced network, $R_Y = R_\\Delta/3 = 30/3 = 10\\,\\Omega$. In the other direction, $R_\\Delta = 3R_Y$.\n\nMnemonic: in the general case, each wye resistor is the **product of the two adjacent delta resistors over the sum** of all three.",
+      "answer": "10 Ω",
+      "acceptedAnswers": [
+        "10",
+        "10 ohms",
+        "10 ohm"
+      ],
+      "searchQuery": "delta to wye transformation balanced"
+    },
+    {
+      "id": "wheatstone-bridge-balance",
+      "title": "A bridge has two dividers across one source: $R_1$ above $R_2$, and $R_3$ above $R_x$. It balances with $R_1 = 100\\,\\Omega$, $R_2 = 200\\,\\Omega$, $R_3 = 150\\,\\Omega$. What is $R_x$, in ohms?",
+      "body": "$300\\,\\Omega$\n\nAt balance the midpoints are at the same voltage, so $\\dfrac{R_2}{R_1} = \\dfrac{R_x}{R_3}$. Then $R_x = R_3 \\dfrac{R_2}{R_1} = 150 \\cdot 2 = 300\\,\\Omega$.\n\nWhy: with no voltage across the detector, no current flows in it, so each side is just a voltage divider with the same ratio.",
+      "answer": "300 Ω",
+      "acceptedAnswers": [
+        "300",
+        "300 ohms",
+        "300 ohm"
+      ],
+      "searchQuery": "Wheatstone bridge balance condition"
+    },
+    {
+      "id": "source-transformation",
+      "title": "A $12\\,\\mathrm{V}$ source in series with $4\\,\\Omega$ is replaced by an equivalent current source in parallel with $4\\,\\Omega$. What is the current source's value, in amps?",
+      "body": "$3\\,\\mathrm{A}$\n\nThe Norton current is $I = V/R = 12/4 = 3\\,\\mathrm{A}$, in parallel with the same $4\\,\\Omega$. The arrow points toward the $+$ end of the original voltage source.\n\nWatch out: the two forms match **at their terminals only**. The internal power dissipation differs.",
+      "answer": "3 A",
+      "acceptedAnswers": [
+        "3",
+        "3 amps",
+        "3 amperes"
+      ],
+      "searchQuery": "source transformation voltage source to current source"
+    },
+    {
+      "id": "nodal-analysis-example",
+      "title": "Node $a$ connects to ground through $4\\,\\Omega$, to a node held at $12\\,\\mathrm{V}$ through $2\\,\\Omega$, and to a node held at $6\\,\\mathrm{V}$ through $4\\,\\Omega$. What is $v_a$, in volts?",
+      "body": "$7.5\\,\\mathrm{V}$\n\nKCL at node $a$ (currents leaving): $\\dfrac{v_a}{4} + \\dfrac{v_a - 12}{2} + \\dfrac{v_a - 6}{4} = 0$. Multiplying by 4 gives $v_a + 2v_a - 24 + v_a - 6 = 0$, so $4v_a = 30$ and $v_a = 7.5\\,\\mathrm{V}$.\n\nTip: write every branch current as (this node minus the neighbor) over $R$, and all terms leave the node.",
+      "answer": "7.5 V",
+      "acceptedAnswers": [
+        "7.5",
+        "7.5 volts",
+        "15/2"
+      ],
+      "searchQuery": "nodal analysis KCL node voltage example"
+    },
+    {
+      "id": "supernode-equations",
+      "title": "Nodal analysis: a voltage source connects two non-reference nodes. What two equations replace the KCL equations at those nodes?",
+      "body": "The supernode KCL equation and the source's constraint equation.\n\n1. KCL for the **supernode**, a closed surface enclosing both nodes and the source.\n2. The source's constraint: $v_i - v_j = V_s$.\n\nKCL at either node alone would need the source's current, which is unknown.\nTip: if the source connects a node to ground instead, that node's voltage is simply known.",
+      "searchQuery": "supernode nodal analysis voltage source between nodes"
+    },
+    {
+      "id": "supermesh-equations",
+      "title": "Mesh analysis: a current source is shared by two meshes. What equations replace the KVL equations for those meshes?",
+      "body": "The supermesh KVL equation and the source's constraint equation.\n\n1. KVL around the **supermesh**, the larger loop formed by the two meshes that skips the current source's branch.\n2. The source's constraint, e.g. $i_1 - i_2 = I_s$ (signs from the source's direction).\n\nKVL can't pass through the current source because its voltage is unknown.\nTip: a current source in a branch belonging to only one mesh just fixes that mesh current.",
+      "searchQuery": "supermesh mesh analysis current source shared"
+    },
+    {
+      "id": "mesh-equation-count",
+      "title": "A planar circuit has 5 nodes and 8 branches. How many independent mesh (KVL) equations does mesh analysis need?",
+      "body": "$4$\n\nThe number of independent loops is $B - N + 1 = 8 - 5 + 1 = 4$. In a planar circuit these are the meshes.\n\nTip: nodal analysis would need $N - 1 = 4$ equations here too, so pick whichever method has fewer unknowns or suits the sources.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "number of independent mesh equations B minus N plus 1"
+    },
+    {
+      "id": "thevenin-resistance-example",
+      "title": "A $24\\,\\mathrm{V}$ source in series with $6\\,\\Omega$ feeds a $3\\,\\Omega$ resistor, and the output terminals are across the $3\\,\\Omega$. What is $R_{Th}$ at those terminals, in ohms?",
+      "body": "$2\\,\\Omega$\n\nTurn off the $24\\,\\mathrm{V}$ source (short it). Looking into the terminals across the $3\\,\\Omega$, the $6\\,\\Omega$ and the $3\\,\\Omega$ are in parallel: $6 \\parallel 3 = 2\\,\\Omega$.\n\nExample: the Thévenin voltage is $V_{Th} = 24 \\cdot \\dfrac{3}{9} = 8\\,\\mathrm{V}$ in the same setup.",
+      "answer": "2 Ω",
+      "acceptedAnswers": [
+        "2",
+        "2 ohms",
+        "2 ohm"
+      ],
+      "searchQuery": "Thevenin equivalent resistance example"
+    },
+    {
+      "id": "thevenin-from-measurements",
+      "title": "A network's terminals measure $12\\,\\mathrm{V}$ open-circuit and $3\\,\\mathrm{mA}$ short-circuit. What is its Thévenin resistance, in $\\mathrm{k\\Omega}$?",
+      "body": "$4\\,\\mathrm{k\\Omega}$\n\n$R_{Th} = \\dfrac{v_{oc}}{i_{sc}} = \\dfrac{12\\,\\mathrm{V}}{3\\,\\mathrm{mA}} = 4\\,\\mathrm{k\\Omega}$.\n\nKey idea: the open-circuit voltage is $V_{Th}$ and the short-circuit current is $I_N$, so their ratio is the equivalent resistance. This works even with dependent sources.",
+      "answer": "4 kΩ",
+      "acceptedAnswers": [
+        "4",
+        "4 kohm",
+        "4 kohms",
+        "4000 Ω",
+        "4000 ohms"
+      ],
+      "searchQuery": "Thevenin resistance open circuit short circuit measurements"
+    },
+    {
+      "id": "thevenin-dependent-sources-only",
+      "title": "A two-terminal network contains only resistors and dependent sources, with no independent sources. What is its Thévenin voltage?",
+      "body": "Zero.\n\nWith no independent source there is nothing to drive the network, so its open-circuit voltage is $0$. It can be replaced by a single resistor $R_{Th}$, found with a test source: $R_{Th} = v_{test}/i_{test}$.\n\nWatch out: the resistor can come out negative if the dependent sources are strong enough.",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero",
+        "0 V"
+      ],
+      "searchQuery": "Thevenin voltage network dependent sources only"
+    },
+    {
+      "id": "superposition-example",
+      "title": "A $10\\,\\mathrm{V}$ source drives node $a$ through $2\\,\\Omega$; node $a$ has $3\\,\\Omega$ to ground and a $2\\,\\mathrm{A}$ source injecting current into it. Using superposition, what is $v_a$, in volts?",
+      "body": "$8.4\\,\\mathrm{V}$\n\nVoltage source alone (current source open): $v_a' = 10 \\cdot \\dfrac{3}{2+3} = 6\\,\\mathrm{V}$.\n\nCurrent source alone (voltage source shorted): the $2\\,\\Omega$ and $3\\,\\Omega$ are in parallel, $1.2\\,\\Omega$, so $v_a'' = 2 \\cdot 1.2 = 2.4\\,\\mathrm{V}$.\n\nTotal: $v_a = 6 + 2.4 = 8.4\\,\\mathrm{V}$.",
+      "answer": "8.4 V",
+      "acceptedAnswers": [
+        "8.4",
+        "8.4 volts",
+        "42/5"
+      ],
+      "searchQuery": "superposition theorem example node voltage"
+    },
+    {
+      "id": "voltage-follower-buffer",
+      "title": "Why insert a voltage follower (unity-gain buffer) between a signal source and a load?",
+      "body": "To prevent loading.\n\nA **voltage follower** copies the voltage ($v_o = v_{in}$) while drawing no current from the source. Its input resistance is ideally infinite and its output resistance zero.\n\nExample: a high-resistance divider driving a low-resistance load would lose most of its voltage. With a buffer, the load current comes from the op-amp's supply instead.",
+      "searchQuery": "voltage follower buffer op amp unity gain loading"
+    },
+    {
+      "id": "inverting-summer",
+      "title": "An inverting summer has $R_f = 10\\,\\mathrm{k\\Omega}$, with $v_1 = 1\\,\\mathrm{V}$ through $10\\,\\mathrm{k\\Omega}$ and $v_2 = 0.5\\,\\mathrm{V}$ through $5\\,\\mathrm{k\\Omega}$. What is $v_o$, in volts?",
+      "body": "$-2\\,\\mathrm{V}$\n\nThe output is $v_o = -R_f\\left(\\dfrac{v_1}{R_1} + \\dfrac{v_2}{R_2}\\right) = -10\\,\\mathrm{k\\Omega}\\left(\\dfrac{1}{10\\,\\mathrm{k\\Omega}} + \\dfrac{0.5}{5\\,\\mathrm{k\\Omega}}\\right) = -(1 + 1) = -2\\,\\mathrm{V}$.\n\nWhy: each input current flows into the virtual ground and then through $R_f$, so the currents simply add.",
+      "answer": "-2 V",
+      "acceptedAnswers": [
+        "-2",
+        "-2 volts"
+      ],
+      "answerDisplay": "$-2\\,\\mathrm{V}$",
+      "searchQuery": "inverting summing amplifier output voltage"
+    },
+    {
+      "id": "difference-amplifier",
+      "title": "Difference amp: $v_a$ drives the $-$ input through $R_1$, with $R_2$ from output to $-$; $v_b$ drives the $+$ input through $R_1$, with $R_2$ from $+$ to ground. What is $v_o$?",
+      "body": "$v_o = \\dfrac{R_2}{R_1}(v_b - v_a)$\n\nBy superposition, $v_a$ alone sees an inverting amplifier, $-\\dfrac{R_2}{R_1}$. Alone, $v_b$ is divided by $\\dfrac{R_2}{R_1 + R_2}$ and then amplified by $1 + \\dfrac{R_2}{R_1}$, a net gain of $\\dfrac{R_2}{R_1}$.\n\nWatch out: it rejects the common-mode part of the inputs only if the two resistor ratios match exactly.",
+      "searchQuery": "difference amplifier op amp output formula"
+    },
+    {
+      "id": "op-amp-output-saturation",
+      "title": "An inverting amplifier with gain $-10$ runs on $\\pm 12\\,\\mathrm{V}$ supplies. Ideally, what is its output, in volts, for a $+2\\,\\mathrm{V}$ DC input?",
+      "body": "About $-12\\,\\mathrm{V}$: the output saturates.\n\nIdeally the gain would give $-10 \\cdot 2 = -20\\,\\mathrm{V}$, but the output can't go beyond the supply rails. It clips near $-12\\,\\mathrm{V}$ (a real op-amp stops a little short).\n\nWatch out: the ideal-op-amp equations only hold while the output is **inside the rails**.",
+      "answer": "-12 V",
+      "acceptedAnswers": [
+        "-12",
+        "-12 volts"
+      ],
+      "answerDisplay": "$-12\\,\\mathrm{V}$",
+      "searchQuery": "op amp saturation supply rails output limit"
+    },
+    {
+      "id": "noninverting-input-resistance",
+      "title": "Which basic op-amp amplifier ideally presents infinite input resistance to its signal source: inverting or non-inverting?",
+      "body": "Non-inverting.\n\nThe signal drives the $+$ input directly, which draws no current, so the source sees an ideally infinite input resistance. In the inverting amplifier the source sees $R_{in}$, because of the virtual ground.\n\nTip: that high input resistance is why the follower is a good buffer.",
+      "answer": "non-inverting",
+      "acceptedAnswers": [
+        "noninverting",
+        "non-inverting amplifier",
+        "noninverting amplifier"
+      ],
+      "searchQuery": "noninverting amplifier infinite input resistance"
+    },
+    {
+      "id": "cascaded-op-amp-stages",
+      "title": "An inverting stage with gain $-5$ is followed by a non-inverting stage with gain $+3$, both built with ideal op-amps. What is the overall voltage gain?",
+      "body": "$-15$\n\nIdeal stages don't load each other (zero output resistance), so the gains simply multiply: $(-5)(+3) = -15$.\n\nWatch out: with real op-amps, the bandwidth of the cascade shrinks and the stage outputs must stay inside the rails.",
+      "answer": "-15",
+      "acceptedAnswers": [
+        "-15 V/V"
+      ],
+      "searchQuery": "cascaded op amp stages overall gain"
+    },
+    {
+      "id": "op-amp-integrator",
+      "title": "An op-amp integrator has input resistor $R$ and feedback capacitor $C$. What is $v_o(t)$ in terms of $v_{in}$?",
+      "body": "$$v_o(t) = -\\frac{1}{RC}\\int_0^t v_{in}\\,d\\tau + v_o(0)$$\n\nWith a virtual ground at the $-$ input, the input current $v_{in}/R$ must all flow into the capacitor.\n\nTip: swap $R$ and $C$ for a differentiator, $v_o = -RC\\,\\dfrac{dv_{in}}{dt}$.\nWatch out: practical integrators put a large resistor across $C$ so DC offsets don't drive them into saturation.",
+      "searchQuery": "op amp integrator output formula RC"
+    },
+    {
+      "id": "integrator-constant-input",
+      "title": "An ideal integrator has $R = 10\\,\\mathrm{k\\Omega}$, $C = 1\\,\\mu\\mathrm{F}$ and $v_o(0) = 0$. With a constant $1\\,\\mathrm{V}$ input, what is $v_o$ after $5\\,\\mathrm{ms}$, in volts?",
+      "body": "$-0.5\\,\\mathrm{V}$\n\n$RC = 10\\,\\mathrm{k\\Omega} \\cdot 1\\,\\mu\\mathrm{F} = 10\\,\\mathrm{ms}$. For a constant input, $v_o = -\\dfrac{v_{in}\\,t}{RC} = -\\dfrac{1 \\cdot 5}{10} = -0.5\\,\\mathrm{V}$.\n\nKey idea: a constant input to an integrator produces a **ramp** of slope $-v_{in}/RC$, here $-100\\,\\mathrm{V/s}$.",
+      "answer": "-0.5 V",
+      "acceptedAnswers": [
+        "-0.5",
+        "-500 mV",
+        "-1/2"
+      ],
+      "answerDisplay": "$-0.5\\,\\mathrm{V}$",
+      "searchQuery": "op amp integrator constant input ramp output"
+    },
+    {
+      "id": "capacitor-current-ramp",
+      "title": "The voltage across a $2\\,\\mu\\mathrm{F}$ capacitor rises at a constant $1000\\,\\mathrm{V/s}$. What current flows into it, in mA?",
+      "body": "$2\\,\\mathrm{mA}$\n\n$i = C\\dfrac{dv}{dt} = 2 \\times 10^{-6} \\cdot 1000 = 2\\,\\mathrm{mA}$.\n\nKey idea: a constant $dv/dt$ means a **constant current**. This is how a current source charges a capacitor linearly.",
+      "answer": "2 mA",
+      "acceptedAnswers": [
+        "2",
+        "0.002 A",
+        "2 milliamps"
+      ],
+      "searchQuery": "capacitor current C dv dt ramp"
+    },
+    {
+      "id": "inductor-voltage-ramp",
+      "title": "The current in a $5\\,\\mathrm{mH}$ inductor rises steadily from 0 to $2\\,\\mathrm{A}$ in $1\\,\\mathrm{ms}$. What voltage, in volts, appears across it during the rise?",
+      "body": "$10\\,\\mathrm{V}$\n\n$v = L\\dfrac{di}{dt} = 5\\,\\mathrm{mH} \\cdot \\dfrac{2\\,\\mathrm{A}}{1\\,\\mathrm{ms}} = 5 \\times 10^{-3} \\cdot 2000 = 10\\,\\mathrm{V}$.\n\nWatch out: use $\\Delta i/\\Delta t$ in amps per second; $1\\,\\mathrm{ms}$ is $10^{-3}\\,\\mathrm{s}$.",
+      "answer": "10 V",
+      "acceptedAnswers": [
+        "10",
+        "10 volts"
+      ],
+      "searchQuery": "inductor voltage L di dt ramp"
+    },
+    {
+      "id": "capacitor-stored-energy",
+      "title": "How much energy, in millijoules, is stored in a $100\\,\\mu\\mathrm{F}$ capacitor charged to $10\\,\\mathrm{V}$?",
+      "body": "$5\\,\\mathrm{mJ}$\n\n$W = \\tfrac{1}{2}CV^2 = \\tfrac{1}{2}(100 \\times 10^{-6})(10^2) = 5 \\times 10^{-3}\\,\\mathrm{J}$.\n\nWatch out: the energy depends on the **square** of the voltage, so doubling $V$ quadruples the energy.",
+      "answer": "5 mJ",
+      "acceptedAnswers": [
+        "5",
+        "0.005 J",
+        "5 millijoules"
+      ],
+      "searchQuery": "energy stored in capacitor one half C V squared"
+    },
+    {
+      "id": "inductor-stored-energy",
+      "title": "How much energy, in joules, is stored in a $2\\,\\mathrm{H}$ inductor carrying $3\\,\\mathrm{A}$?",
+      "body": "$9\\,\\mathrm{J}$\n\n$W = \\tfrac{1}{2}Li^2 = \\tfrac{1}{2}(2)(3^2) = 9\\,\\mathrm{J}$.\n\nKey idea: the energy is stored in the magnetic field and depends only on the present current.",
+      "answer": "9 J",
+      "acceptedAnswers": [
+        "9",
+        "9 joules"
+      ],
+      "searchQuery": "energy stored in inductor one half L i squared"
+    },
+    {
+      "id": "capacitors-in-series",
+      "title": "What is the equivalent capacitance, in $\\mu\\mathrm{F}$, of a $6\\,\\mu\\mathrm{F}$ and a $3\\,\\mu\\mathrm{F}$ capacitor in series?",
+      "body": "$2\\,\\mu\\mathrm{F}$\n\nCapacitors in series combine like resistors in parallel: $C_{eq} = \\dfrac{6 \\cdot 3}{6 + 3} = 2\\,\\mu\\mathrm{F}$.\n\nWatch out: capacitors in **parallel** add directly; series capacitors give a value smaller than the smallest one.",
+      "answer": "2 μF",
+      "acceptedAnswers": [
+        "2",
+        "2 uF",
+        "2 microfarads"
+      ],
+      "searchQuery": "capacitors in series equivalent capacitance"
+    },
+    {
+      "id": "dc-steady-state-inductor",
+      "title": "A $12\\,\\mathrm{V}$ source drives $2\\,\\Omega$ in series with an inductor that has $4\\,\\Omega$ connected across it. At DC steady state, what is the inductor current, in amps?",
+      "body": "$6\\,\\mathrm{A}$\n\nAt DC steady state the inductor is a short, so the $4\\,\\Omega$ resistor across it is bypassed. Then $i_L = \\dfrac{12}{2} = 6\\,\\mathrm{A}$.\n\nTip: replace the inductor with a wire first, then see which elements are shorted out.",
+      "answer": "6 A",
+      "acceptedAnswers": [
+        "6",
+        "6 amps"
+      ],
+      "searchQuery": "inductor DC steady state short circuit current"
+    },
+    {
+      "id": "dc-steady-state-capacitor",
+      "title": "A $12\\,\\mathrm{V}$ source drives $2\\,\\Omega$ in series with a capacitor that has $4\\,\\Omega$ connected across it. At DC steady state, what is the capacitor voltage, in volts?",
+      "body": "$8\\,\\mathrm{V}$\n\nAt DC steady state the capacitor is open, so the $2\\,\\Omega$ and $4\\,\\Omega$ form a divider: $v_C = 12 \\cdot \\dfrac{4}{6} = 8\\,\\mathrm{V}$.\n\nTip: the capacitor voltage equals the voltage across the resistor that is connected in parallel with it.",
+      "answer": "8 V",
+      "acceptedAnswers": [
+        "8",
+        "8 volts"
+      ],
+      "searchQuery": "capacitor DC steady state voltage divider"
+    },
+    {
+      "id": "uncharged-capacitor-at-switching",
+      "title": "At the instant a switch closes, how does an uncharged capacitor behave?",
+      "body": "Like a short circuit.\n\nA capacitor's voltage can't jump, so $v_C(0^+) = 0$. An element with $0\\,\\mathrm{V}$ across it and any current through it acts as a short.\n\nWatch out: this is only for a capacitor with **zero initial charge**. A capacitor charged to $V_0$ acts like a $V_0$ source at $t = 0^+$.",
+      "answer": "short circuit",
+      "acceptedAnswers": [
+        "short",
+        "short-circuit",
+        "like a short circuit"
+      ],
+      "searchQuery": "uncharged capacitor switching instant behaves like short"
+    },
+    {
+      "id": "rc-time-constant",
+      "title": "What is the time constant, in seconds, of a series RC circuit with $R = 10\\,\\mathrm{k\\Omega}$ and $C = 100\\,\\mu\\mathrm{F}$?",
+      "body": "$1\\,\\mathrm{s}$\n\n$\\tau = RC = 10 \\times 10^3 \\cdot 100 \\times 10^{-6} = 1\\,\\mathrm{s}$.\n\nAfter $\\tau$ the capacitor has charged to about $63\\%$ of its final value, and after $5\\tau$ it is essentially full.",
+      "answer": "1 s",
+      "acceptedAnswers": [
+        "1",
+        "1 second",
+        "1 sec"
+      ],
+      "searchQuery": "RC time constant tau seconds"
+    },
+    {
+      "id": "rl-time-constant",
+      "title": "What is the time constant, in ms, of a $50\\,\\mathrm{mH}$ inductor connected to a Thévenin resistance of $10\\,\\Omega$?",
+      "body": "$5\\,\\mathrm{ms}$\n\n$\\tau = \\dfrac{L}{R} = \\dfrac{50 \\times 10^{-3}}{10} = 5\\,\\mathrm{ms}$.\n\nWatch out: for RL the resistance is in the **denominator**; for RC it multiplies. A larger $R$ makes an RL circuit faster.",
+      "answer": "5 ms",
+      "acceptedAnswers": [
+        "5",
+        "0.005 s",
+        "5 milliseconds"
+      ],
+      "searchQuery": "RL time constant L over R"
+    },
+    {
+      "id": "time-constant-thevenin-resistance",
+      "title": "A $10\\,\\mathrm{V}$ source charges a $1\\,\\mu\\mathrm{F}$ capacitor through $4\\,\\mathrm{k\\Omega}$, with another $4\\,\\mathrm{k\\Omega}$ directly across the capacitor. What is the time constant, in ms?",
+      "body": "$2\\,\\mathrm{ms}$\n\nWith the source turned off (shorted), the capacitor sees the two $4\\,\\mathrm{k\\Omega}$ resistors in parallel: $R_{Th} = 2\\,\\mathrm{k\\Omega}$. Then $\\tau = R_{Th}C = 2 \\times 10^3 \\cdot 10^{-6} = 2\\,\\mathrm{ms}$.\n\nTip: always find $\\tau$ using the **Thévenin resistance** as seen from the capacitor or inductor terminals.",
+      "answer": "2 ms",
+      "acceptedAnswers": [
+        "2",
+        "0.002 s"
+      ],
+      "searchQuery": "time constant Thevenin resistance seen by capacitor"
+    },
+    {
+      "id": "ohms-law-current",
+      "title": "A $24\\,\\mathrm{V}$ source is connected across an $8\\,\\Omega$ resistor. What current flows, in amps?",
+      "body": "$3\\,\\mathrm{A}$\n\nOhm's law gives $I = \\dfrac{V}{R} = \\dfrac{24}{8} = 3\\,\\mathrm{A}$.\n\nTip: remember the three arrangements, $V = IR$, $I = V/R$ and $R = V/I$, and cover the unknown.\nWatch out: Ohm's law is for the **resistor's own** voltage; in a series circuit that is not necessarily the source voltage.",
+      "answer": "3 A",
+      "acceptedAnswers": [
+        "3",
+        "3 amps",
+        "3 amp",
+        "3 amperes"
+      ],
+      "searchQuery": "Ohm law current voltage resistance calculation"
+    },
+    {
+      "id": "conductance-siemens",
+      "title": "What is the conductance, in siemens, of a $5\\,\\Omega$ resistor?",
+      "body": "$0.2\\,\\mathrm{S}$\n\nConductance is the reciprocal of resistance: $G = \\dfrac{1}{R} = \\dfrac{1}{5} = 0.2\\,\\mathrm{S}$. Then $i = Gv$ and $p = Gv^2$.\n\nTip: conductances in **parallel add**, $G_{eq} = G_1 + G_2 + \\cdots$, which is why nodal analysis is often written in siemens.",
+      "answer": "0.2 S",
+      "acceptedAnswers": [
+        "0.2",
+        "0.2 siemens",
+        "0.2 mho",
+        "1/5",
+        "1/5 S"
+      ],
+      "searchQuery": "conductance siemens reciprocal of resistance"
+    },
+    {
+      "id": "energy-kwh",
+      "title": "A $2\\,\\mathrm{kW}$ heater runs for $3\\,\\mathrm{h}$. How much energy does it use, in kilowatt-hours?",
+      "body": "$6\\,\\mathrm{kWh}$\n\nEnergy is power times time: $W = Pt = 2\\,\\mathrm{kW} \\cdot 3\\,\\mathrm{h} = 6\\,\\mathrm{kWh}$. In SI units that is $6 \\times 3.6 \\times 10^6\\,\\mathrm{J} = 21.6\\,\\mathrm{MJ}$.\n\nWatch out: the **kilowatt-hour** is a unit of energy, not power.",
+      "answer": "6 kWh",
+      "acceptedAnswers": [
+        "6",
+        "6 kilowatt-hours",
+        "6 kilowatt hours"
+      ],
+      "searchQuery": "energy kilowatt hour power times time"
+    },
+    {
+      "id": "norton-current-from-thevenin",
+      "title": "A Thévenin equivalent has $V_{Th} = 10\\,\\mathrm{V}$ and $R_{Th} = 5\\,\\Omega$. What is the Norton current, in amps?",
+      "body": "$2\\,\\mathrm{A}$\n\nThe Norton current is the short-circuit current: $I_N = \\dfrac{V_{Th}}{R_{Th}} = \\dfrac{10}{5} = 2\\,\\mathrm{A}$, in parallel with $R_N = R_{Th} = 5\\,\\Omega$.\n\nKey idea: this is a source transformation applied to the whole two-terminal network.",
+      "answer": "2 A",
+      "acceptedAnswers": [
+        "2",
+        "2 amps",
+        "2 amp",
+        "2 amperes"
+      ],
+      "searchQuery": "Norton current from Thevenin equivalent"
+    },
+    {
+      "id": "parallel-voltage-sources",
+      "title": "Why can't you connect two ideal voltage sources of different values directly in parallel?",
+      "body": "It violates KVL.\n\nThe loop through the two sources would need $V_1 - V_2 = 0$, which is impossible if $V_1 \\neq V_2$. An ideal source has zero internal resistance, so the current would be infinite.\n\nExample: a $12\\,\\mathrm{V}$ and a $10\\,\\mathrm{V}$ source in parallel leave $2\\,\\mathrm{V}$ across a zero-resistance loop.\nWatch out: real batteries have internal resistance, which is what limits the circulating current.",
+      "searchQuery": "ideal voltage sources in parallel KVL violation"
+    },
+    {
+      "id": "angular-frequency-60hz",
+      "title": "What is the angular frequency $\\omega$, in rad/s, of a $60\\,\\mathrm{Hz}$ sinusoid? Round to the nearest whole number.",
+      "body": "$377\\,\\mathrm{rad/s}$\n\n$\\omega = 2\\pi f = 2\\pi \\cdot 60 \\approx 377\\,\\mathrm{rad/s}$. The period is $T = 1/f \\approx 16.7\\,\\mathrm{ms}$.\n\nWatch out: $\\omega$ is in radians per second and $f$ in hertz; don't mix them in $X_L = \\omega L$.",
+      "answer": "377",
+      "acceptedAnswers": [
+        "376.99",
+        "377 rad/s",
+        "376.99 rad/s",
+        "120pi"
+      ],
+      "searchQuery": "angular frequency omega 2 pi f 60 Hz"
+    },
+    {
+      "id": "inductor-impedance",
+      "title": "What is the impedance of a $10\\,\\mathrm{mH}$ inductor at $\\omega = 1000\\,\\mathrm{rad/s}$, in ohms?",
+      "body": "$j10\\,\\Omega$\n\n$Z_L = j\\omega L = j \\cdot 1000 \\cdot 10 \\times 10^{-3} = j10\\,\\Omega$. The reactance is $X_L = 10\\,\\Omega$.\n\nWatch out: the reactance **grows** with frequency for an inductor, and it is a positive imaginary number.",
+      "answer": "j10",
+      "acceptedAnswers": [
+        "10j",
+        "+j10",
+        "j10 ohms",
+        "j10 ohm"
+      ],
+      "searchQuery": "inductor impedance j omega L"
+    },
+    {
+      "id": "phasor-polar-rectangular",
+      "title": "Write the phasor $10\\angle 60^\\circ$ in rectangular form $a + jb$ (two decimals).",
+      "body": "$5 + j8.66$\n\n$a = 10\\cos 60^\\circ = 5$ and $b = 10\\sin 60^\\circ = 8.66$. Back again: $r = \\sqrt{a^2 + b^2}$ and $\\theta = \\tan^{-1}(b/a)$.\n\nWatch out: when converting back, check the quadrant; $\\tan^{-1}$ alone can be $180^\\circ$ off if $a < 0$.",
+      "answer": "5+j8.66",
+      "acceptedAnswers": [
+        "5+j5sqrt(3)",
+        "5+8.66j"
+      ],
+      "searchQuery": "polar to rectangular phasor conversion"
+    },
+    {
+      "id": "rl-impedance-magnitude",
+      "title": "A series RL circuit has $R = 3\\,\\Omega$ and $X_L = 4\\,\\Omega$. What is $|Z|$, in ohms?",
+      "body": "$5\\,\\Omega$\n\n$Z = R + jX_L = 3 + j4$, so $|Z| = \\sqrt{3^2 + 4^2} = 5\\,\\Omega$.\n\nWatch out: resistance and reactance add as **vectors at right angles**, not arithmetically ($3 + 4 = 7$ is wrong).",
+      "answer": "5 Ω",
+      "acceptedAnswers": [
+        "5",
+        "5 ohms",
+        "5 ohm"
+      ],
+      "searchQuery": "series RL impedance magnitude"
+    },
+    {
+      "id": "impedance-angle",
+      "title": "For $Z = 3 + j4\\,\\Omega$, what is the phase angle of the impedance, in degrees (one decimal)?",
+      "body": "$53.1^\\circ$\n\n$\\theta = \\tan^{-1}\\dfrac{4}{3} \\approx 53.13^\\circ$. A positive angle means an **inductive** load: the current lags the voltage by $53.1^\\circ$.\n\nTip: for a $3$-$4$-$5$ triangle, remember $53.1^\\circ$ and $36.9^\\circ$.",
+      "answer": "53.1",
+      "acceptedAnswers": [
+        "53.13",
+        "53.1 degrees",
+        "53.13 degrees",
+        "53.1°"
+      ],
+      "searchQuery": "impedance phase angle arctan reactance resistance"
+    },
+    {
+      "id": "inductor-current-lags",
+      "title": "In an ideal inductor driven by a sinusoid, does the current lead or lag the voltage?",
+      "body": "The current lags the voltage, by $90^\\circ$.\n\nSince $v = L\\,di/dt$, the voltage is largest when the current is changing fastest, which is a quarter cycle before the current peaks.\n\nMnemonic: **ELI the ICE man**. In an inductor ($L$) the voltage ($E$) leads the current ($I$); in a capacitor ($C$) the current leads the voltage.",
+      "answer": "lags",
+      "acceptedAnswers": [
+        "lag",
+        "current lags",
+        "it lags",
+        "lags the voltage",
+        "current lags voltage"
+      ],
+      "searchQuery": "inductor current lags voltage 90 degrees ELI the ICE man"
+    },
+    {
+      "id": "series-rlc-impedance-magnitude",
+      "title": "A series RLC circuit has $R = 10\\,\\Omega$, $X_L = 30\\,\\Omega$ and $X_C = 20\\,\\Omega$. What is $|Z|$, in ohms (two decimals)?",
+      "body": "$14.14\\,\\Omega$\n\n$Z = R + j(X_L - X_C) = 10 + j10$, so $|Z| = \\sqrt{10^2 + 10^2} = 10\\sqrt{2} \\approx 14.14\\,\\Omega$.\n\nWatch out: the capacitive reactance subtracts from the inductive one. The net reactance is $+10\\,\\Omega$, so the circuit is **inductive**.",
+      "answer": "14.14 Ω",
+      "acceptedAnswers": [
+        "14.14",
+        "14.14 ohms",
+        "10sqrt(2)",
+        "10 sqrt2",
+        "14.142"
+      ],
+      "searchQuery": "series RLC impedance magnitude net reactance"
+    },
+    {
+      "id": "rms-square-wave",
+      "title": "A symmetric square wave swings between $+5\\,\\mathrm{V}$ and $-5\\,\\mathrm{V}$. What is its RMS value, in volts?",
+      "body": "$5\\,\\mathrm{V}$\n\nSquaring the wave gives a constant $25\\,\\mathrm{V^2}$, so $V_{rms} = \\sqrt{25} = 5\\,\\mathrm{V}$. Its average value is $0$.\n\nWatch out: the $1/\\sqrt{2}$ factor applies **only to sinusoids**. A triangle wave has $V_{rms} = V_m/\\sqrt{3}$.",
+      "answer": "5 V",
+      "acceptedAnswers": [
+        "5",
+        "5 volts",
+        "5 volt"
+      ],
+      "searchQuery": "RMS value of square wave"
+    },
+    {
+      "id": "instantaneous-power-frequency",
+      "title": "A sinusoidal voltage and current in a load have frequency $f$. By what factor is the frequency of the instantaneous power $p(t) = v(t)\\,i(t)$ larger than $f$?",
+      "body": "$2$\n\nThe product $\\cos(\\omega t)\\cos(\\omega t - \\theta)$ contains $\\tfrac{1}{2}[\\cos\\theta + \\cos(2\\omega t - \\theta)]$, so the power oscillates at $2\\omega$ about its average value.\n\nKey idea: the constant term $\\tfrac{1}{2}V_mI_m\\cos\\theta$ is the **average power** $P$.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two",
+        "twice",
+        "2x",
+        "double"
+      ],
+      "searchQuery": "instantaneous power twice frequency sinusoidal"
+    },
+    {
+      "id": "power-factor-example",
+      "title": "A load draws $5\\,\\mathrm{A_{rms}}$ at $120\\,\\mathrm{V_{rms}}$ and absorbs $480\\,\\mathrm{W}$. What is its power factor?",
+      "body": "$0.8$\n\n$\\mathrm{pf} = \\dfrac{P}{V_{rms}I_{rms}} = \\dfrac{480}{120 \\cdot 5} = 0.8$. The apparent power is $S = 600\\,\\mathrm{VA}$.\n\nWhy: $P = V_{rms}I_{rms}\\cos\\theta$, so the power factor is $\\cos\\theta$, with $\\theta = 36.9^\\circ$ here.",
+      "answer": "0.8",
+      "acceptedAnswers": [
+        "4/5",
+        "80%"
+      ],
+      "searchQuery": "power factor real power apparent power"
+    },
+    {
+      "id": "apparent-power-triangle",
+      "title": "A load has $P = 600\\,\\mathrm{W}$ and $Q = 800\\,\\mathrm{var}$. What is the apparent power $S$, in VA?",
+      "body": "$1000\\,\\mathrm{VA}$\n\nThe power triangle gives $S = \\sqrt{P^2 + Q^2} = \\sqrt{600^2 + 800^2} = 1000\\,\\mathrm{VA}$. The power factor is $P/S = 0.6$.\n\nWatch out: apparent power is in **volt-amperes**, not watts, so equipment (transformers, cables) is rated in VA.",
+      "answer": "1000 VA",
+      "acceptedAnswers": [
+        "1000",
+        "1 kVA"
+      ],
+      "searchQuery": "apparent power power triangle P Q S"
+    },
+    {
+      "id": "reactive-power-unit",
+      "title": "What is the unit of reactive power $Q$? (It is not the watt.)",
+      "body": "The var (volt-ampere reactive).\n\nReactive power $Q = V_{rms}I_{rms}\\sin\\theta$ measures energy exchanged back and forth with the inductors and capacitors, with zero average. It is positive for an inductive load and negative for a capacitive one.\n\nKey idea: real power $P$ in watts, reactive power $Q$ in vars and apparent power $S$ in VA.",
+      "answer": "var",
+      "acceptedAnswers": [
+        "vars",
+        "volt-ampere reactive",
+        "volt ampere reactive"
+      ],
+      "searchQuery": "reactive power unit var volt ampere reactive"
+    },
+    {
+      "id": "lagging-power-factor-load",
+      "title": "Is a typical induction motor load a leading or a lagging power-factor load?",
+      "body": "Lagging.\n\nAn inductive load has its current lagging the voltage, which is called a **lagging** power factor (and $Q > 0$). A capacitive load has a leading power factor.\n\nTip: always state \"lagging\" or \"leading\" with the number, since $\\cos\\theta$ alone doesn't give the sign of $\\theta$.",
+      "answer": "lagging",
+      "acceptedAnswers": [
+        "lag",
+        "a lagging power factor",
+        "lagging pf"
+      ],
+      "searchQuery": "inductive load lagging power factor induction motor"
+    },
+    {
+      "id": "ideal-inductor-average-power",
+      "title": "What is the average power absorbed by an ideal inductor in sinusoidal steady state, in watts?",
+      "body": "$0\\,\\mathrm{W}$\n\nThe voltage and current are $90^\\circ$ apart, so $P = V_{rms}I_{rms}\\cos 90^\\circ = 0$. The inductor absorbs energy for a quarter cycle, then returns it.\n\nKey idea: the same is true for an ideal capacitor. Only the resistive part of a load dissipates average power.",
+      "answer": "0 W",
+      "acceptedAnswers": [
+        "0",
+        "zero",
+        "0 watts"
+      ],
+      "searchQuery": "ideal inductor average power zero"
+    },
+    {
+      "id": "power-factor-correction",
+      "title": "How is a lagging power factor of an inductive load corrected, and what does the correction leave unchanged?",
+      "body": "Connect a capacitor **in parallel** with the load. It supplies reactive power and leaves the real power $P$ unchanged.\n\nThe needed capacitor reactive power is $Q_C = P(\\tan\\theta_1 - \\tan\\theta_2)$, where $\\theta_1$ is the old angle and $\\theta_2$ the new one. The line current drops, which reduces losses in the supply wiring.\n\nWatch out: the capacitor goes in **parallel** so the load voltage and the load's own operation don't change.",
+      "searchQuery": "power factor correction parallel capacitor"
+    },
+    {
+      "id": "complex-power-formula",
+      "title": "How is the complex power $S$ computed from the phasor voltage $\\mathbf{V}$ and current $\\mathbf{I}$ (RMS values)?",
+      "body": "$S = \\mathbf{V}\\mathbf{I}^*$\n\nThe asterisk is the complex **conjugate** of the current. Then $S = P + jQ$, so $P = \\mathrm{Re}(S)$, $Q = \\mathrm{Im}(S)$ and $|S|$ is the apparent power.\n\nWatch out: forgetting the conjugate flips the sign of $Q$.\nCheck: for an inductive load with $\\mathbf{I}$ lagging $\\mathbf{V}$, the result has $Q > 0$.",
+      "searchQuery": "complex power S equals V I conjugate"
+    },
+    {
+      "id": "admittance-unit",
+      "title": "What is the SI unit of admittance $Y = 1/Z$?",
+      "body": "The siemens ($\\mathrm{S}$).\n\nAdmittance is $Y = G + jB$: conductance plus **susceptance**, both in siemens. A capacitor has $Y = j\\omega C$ and an inductor has $Y = \\dfrac{1}{j\\omega L}$.\n\nTip: admittances of elements in parallel simply add, like conductances.",
+      "answer": "siemens",
+      "acceptedAnswers": [
+        "S",
+        "siemen",
+        "mho",
+        "mhos",
+        "siemens (S)"
+      ],
+      "searchQuery": "admittance unit siemens Y equals 1 over Z"
+    },
+    {
+      "id": "resonant-angular-frequency",
+      "title": "A series RLC circuit has $L = 1\\,\\mathrm{mH}$ and $C = 10\\,\\mu\\mathrm{F}$. What is its resonant angular frequency $\\omega_0$, in rad/s?",
+      "body": "$10^4\\,\\mathrm{rad/s}$\n\n$\\omega_0 = \\dfrac{1}{\\sqrt{LC}} = \\dfrac{1}{\\sqrt{10^{-3} \\cdot 10^{-5}}} = \\dfrac{1}{10^{-4}} = 10{,}000\\,\\mathrm{rad/s}$.\n\nWhy: at resonance $X_L = X_C$, so $\\omega L = \\dfrac{1}{\\omega C}$.\nCheck: $X_L = 10^4 \\cdot 10^{-3} = 10\\,\\Omega$ and $X_C = \\dfrac{1}{10^4 \\cdot 10^{-5}} = 10\\,\\Omega$.",
+      "answer": "10000",
+      "acceptedAnswers": [
+        "10^4",
+        "1e4",
+        "10000 rad/s",
+        "10 krad/s"
+      ],
+      "searchQuery": "resonant frequency omega 0 1 over root LC"
+    },
+    {
+      "id": "resonant-frequency-hz",
+      "title": "An LC circuit has $L = 1\\,\\mathrm{mH}$ and $C = 1\\,\\mu\\mathrm{F}$. What is the resonant frequency $f_0$, in hertz, to the nearest hertz?",
+      "body": "$5033\\,\\mathrm{Hz}$\n\n$f_0 = \\dfrac{1}{2\\pi\\sqrt{LC}} = \\dfrac{1}{2\\pi\\sqrt{10^{-9}}} = \\dfrac{1}{2\\pi \\cdot 3.162 \\times 10^{-5}} \\approx 5033\\,\\mathrm{Hz}$.\n\nWatch out: this formula gives **hertz**; the one without $2\\pi$ gives rad/s. Here $\\omega_0 \\approx 31{,}623\\,\\mathrm{rad/s}$.",
+      "answer": "5033 Hz",
+      "acceptedAnswers": [
+        "5033",
+        "5032.9",
+        "5.03 kHz"
+      ],
+      "searchQuery": "LC resonant frequency hertz 1 over 2 pi root LC"
+    },
+    {
+      "id": "series-resonance-impedance",
+      "title": "At resonance, a series RLC circuit's impedance equals what?",
+      "body": "$R$, the resistance alone.\n\nThe reactances cancel ($X_L = X_C$), so $Z = R$: purely resistive and at its **minimum** magnitude. The current is maximum, $I = V/R$, and in phase with the source.\n\nWatch out: a **parallel** RLC circuit is the opposite. At resonance its impedance is at its maximum.",
+      "answer": "R",
+      "acceptedAnswers": [
+        "the resistance",
+        "R only",
+        "just R"
+      ],
+      "searchQuery": "series RLC resonance impedance minimum equals R"
+    },
+    {
+      "id": "series-resonance-q",
+      "title": "A series RLC circuit has $L = 1\\,\\mathrm{mH}$, $R = 5\\,\\Omega$ and $\\omega_0 = 10^4\\,\\mathrm{rad/s}$. What is its quality factor $Q$?",
+      "body": "$2$\n\nFor a series circuit, $Q = \\dfrac{\\omega_0 L}{R} = \\dfrac{10^4 \\cdot 10^{-3}}{5} = \\dfrac{10}{5} = 2$.\n\nKey idea: $Q$ is the ratio of the reactance at resonance to the resistance. Voltage across $L$ or $C$ at resonance is $Q$ times the source voltage.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "series RLC quality factor Q omega L over R"
+    },
+    {
+      "id": "bandwidth-from-q",
+      "title": "A resonant circuit has $f_0 = 10\\,\\mathrm{kHz}$ and $Q = 20$. What is its half-power bandwidth, in hertz?",
+      "body": "$500\\,\\mathrm{Hz}$\n\n$B = \\dfrac{f_0}{Q} = \\dfrac{10{,}000}{20} = 500\\,\\mathrm{Hz}$. A higher $Q$ means a narrower, sharper response.\n\nWhy: the half-power frequencies are the points where the current has fallen to $1/\\sqrt{2}$ of its peak.",
+      "answer": "500 Hz",
+      "acceptedAnswers": [
+        "500"
+      ],
+      "searchQuery": "resonance bandwidth f0 over Q half power"
+    },
+    {
+      "id": "rc-lowpass-corner",
+      "title": "An RC low-pass filter has $R = 1\\,\\mathrm{k\\Omega}$ and $C = 1\\,\\mu\\mathrm{F}$. What is its cutoff (corner) angular frequency, in rad/s?",
+      "body": "$1000\\,\\mathrm{rad/s}$\n\n$\\omega_c = \\dfrac{1}{RC} = \\dfrac{1}{10^3 \\cdot 10^{-6}} = 1000\\,\\mathrm{rad/s}$, which is $f_c = \\dfrac{1}{2\\pi RC} \\approx 159\\,\\mathrm{Hz}$.\n\nTip: the corner frequency is just $1/\\tau$ of the same RC circuit.",
+      "answer": "1000",
+      "acceptedAnswers": [
+        "1000 rad/s",
+        "1e3",
+        "10^3",
+        "1 krad/s"
+      ],
+      "searchQuery": "RC low pass filter cutoff frequency 1 over RC"
+    },
+    {
+      "id": "cutoff-gain-magnitude",
+      "title": "At the cutoff frequency of a first-order low-pass filter, the output amplitude is what fraction of the passband amplitude? Give a decimal to three places.",
+      "body": "$0.707$, which is $\\dfrac{1}{\\sqrt{2}}$.\n\nAt $\\omega = \\omega_c$, $|H| = \\dfrac{1}{\\sqrt{1 + 1}}$. That is a drop of $3\\,\\mathrm{dB}$, and half the power of the passband.\n\nKey idea: the cutoff is also called the **half-power** or $-3\\,\\mathrm{dB}$ frequency.",
+      "answer": "0.707",
+      "acceptedAnswers": [
+        "1/sqrt(2)",
+        "1/sqrt2",
+        "0.7071"
+      ],
+      "searchQuery": "cutoff frequency gain 0.707 3 dB point"
+    },
+    {
+      "id": "decibel-gain-10",
+      "title": "A voltage gain of $10$ (as a ratio of amplitudes) is how many decibels?",
+      "body": "$20\\,\\mathrm{dB}$\n\nFor voltage, $\\text{gain}_{dB} = 20\\log_{10}\\left|\\dfrac{v_o}{v_{in}}\\right| = 20\\log_{10}10 = 20\\,\\mathrm{dB}$.\n\nWatch out: it is $20\\log$ for voltage or current but $10\\log$ for power. A gain of $\\sqrt{2}$ is $+3\\,\\mathrm{dB}$ and $1/\\sqrt{2}$ is $-3\\,\\mathrm{dB}$.",
+      "answer": "20 dB",
+      "acceptedAnswers": [
+        "20"
+      ],
+      "searchQuery": "voltage gain decibels 20 log10"
+    },
+    {
+      "id": "highpass-series-element",
+      "title": "In a first-order RC high-pass filter, which component is in series with the input signal?",
+      "body": "The capacitor.\n\nAt low frequencies the capacitor's impedance is huge, so the signal is blocked. At high frequencies it behaves like a short and passes the signal to the resistor, where the output is taken.\n\nTip: swap the two (the resistor in series, the output across the capacitor) and you get the **low-pass** filter.",
+      "answer": "capacitor",
+      "acceptedAnswers": [
+        "C",
+        "cap"
+      ],
+      "searchQuery": "RC high pass filter capacitor in series"
+    },
+    {
+      "id": "rc-charge-voltage",
+      "title": "A $10\\,\\mathrm{V}$ source charges an initially uncharged capacitor through a resistor, with $\\tau = 1\\,\\mathrm{ms}$. What is $v_C$ at $t = 1\\,\\mathrm{ms}$, in volts (two decimals)?",
+      "body": "$6.32\\,\\mathrm{V}$\n\n$v_C(t) = V_s\\left(1 - e^{-t/\\tau}\\right) = 10\\left(1 - e^{-1}\\right) \\approx 6.32\\,\\mathrm{V}$. This is the general step-response formula with $v_C(0^+) = 0$ and $v_C(\\infty) = 10\\,\\mathrm{V}$.\n\nTip: at $\\tau$ the capacitor has charged to $63.2\\%$, at $2\\tau$ to $86.5\\%$ and at $3\\tau$ to $95\\%$.",
+      "answer": "6.32 V",
+      "acceptedAnswers": [
+        "6.32",
+        "6.321",
+        "6.32 volts"
+      ],
+      "searchQuery": "RC charging capacitor voltage after one time constant"
+    },
+    {
+      "id": "parallel-inductors",
+      "title": "A $3\\,\\mathrm{mH}$ and a $6\\,\\mathrm{mH}$ inductor are connected in parallel with no mutual coupling. What is the equivalent inductance, in mH?",
+      "body": "$2\\,\\mathrm{mH}$\n\nInductors combine like resistors: in parallel $L_{eq} = \\dfrac{3 \\cdot 6}{3 + 6} = 2\\,\\mathrm{mH}$. In series they simply add.\n\nWatch out: this holds only when the inductors are **not magnetically coupled**.",
+      "answer": "2 mH",
+      "acceptedAnswers": [
+        "2",
+        "2 millihenries",
+        "2 millihenry",
+        "0.002 H"
+      ],
+      "searchQuery": "inductors in parallel equivalent inductance"
+    },
+    {
+      "id": "transformer-voltage",
+      "title": "An ideal transformer has a turns ratio $N_1 : N_2 = 10 : 1$. If $120\\,\\mathrm{V_{rms}}$ is applied to the primary, what is the secondary voltage, in volts?",
+      "body": "$12\\,\\mathrm{V}$\n\n$\\dfrac{V_2}{V_1} = \\dfrac{N_2}{N_1}$, so $V_2 = 120 \\cdot \\dfrac{1}{10} = 12\\,\\mathrm{V}$. The voltage is stepped **down** because the secondary has fewer turns.\n\nKey idea: voltage scales with turns; current scales **inversely**, so the power in equals the power out.",
+      "answer": "12 V",
+      "acceptedAnswers": [
+        "12",
+        "12 volts",
+        "12 vrms"
+      ],
+      "searchQuery": "ideal transformer turns ratio secondary voltage"
+    },
+    {
+      "id": "transformer-current",
+      "title": "An ideal $10 : 1$ step-down transformer ($N_1 : N_2 = 10 : 1$) delivers $5\\,\\mathrm{A}$ to its load. What primary current flows, in amps?",
+      "body": "$0.5\\,\\mathrm{A}$\n\n$\\dfrac{I_1}{I_2} = \\dfrac{N_2}{N_1}$, so $I_1 = 5 \\cdot \\dfrac{1}{10} = 0.5\\,\\mathrm{A}$. Power check: $V_1I_1 = V_2I_2$.\n\nWatch out: the current ratio is the **inverse** of the voltage ratio. The side with more turns has higher voltage and lower current.",
+      "answer": "0.5 A",
+      "acceptedAnswers": [
+        "0.5",
+        "0.5 amps",
+        "1/2 A"
+      ],
+      "searchQuery": "ideal transformer current ratio primary current"
+    },
+    {
+      "id": "reflected-impedance",
+      "title": "A $2\\,\\Omega$ load is connected to the secondary of an ideal $10 : 1$ step-down transformer ($N_1 : N_2 = 10 : 1$). What impedance does the primary source see, in ohms?",
+      "body": "$200\\,\\Omega$\n\n$Z_{in} = \\left(\\dfrac{N_1}{N_2}\\right)^2 Z_L = 10^2 \\cdot 2 = 200\\,\\Omega$. The impedance is scaled by the **square** of the turns ratio.\n\nWhy: $V_1 = 10V_2$ and $I_1 = I_2/10$, so $V_1/I_1 = 100\\,V_2/I_2$.\nTip: this is how transformers are used for impedance matching.",
+      "answer": "200 Ω",
+      "acceptedAnswers": [
+        "200",
+        "200 ohms",
+        "200 ohm"
+      ],
+      "searchQuery": "transformer reflected impedance turns ratio squared"
+    },
+    {
+      "id": "transformer-dc",
+      "title": "Why does an ideal transformer not work with a constant DC voltage on the primary?",
+      "body": "A transformer needs a **changing** flux.\n\nInduced voltage follows $v = N\\,d\\phi/dt$. With steady DC the flux is constant, so $d\\phi/dt = 0$ and nothing is induced in the secondary.\n\nWatch out: connecting a real transformer primary to DC is dangerous. Only the small winding resistance limits the current, and the winding can overheat.",
+      "searchQuery": "transformer does not work with DC changing flux"
+    },
+    {
+      "id": "wye-line-voltage",
+      "title": "In a balanced wye-connected three-phase source, each phase voltage is $120\\,\\mathrm{V_{rms}}$. What is the line-to-line voltage, in volts, to the nearest volt?",
+      "body": "$208\\,\\mathrm{V}$\n\nFor a wye connection, $V_L = \\sqrt{3}\\,V_{ph} = 1.732 \\cdot 120 \\approx 208\\,\\mathrm{V}$. The line current equals the phase current.\n\nWhy: the line voltage is the difference of two phase phasors that are $120^\\circ$ apart, which has magnitude $\\sqrt{3}V_{ph}$.",
+      "answer": "208 V",
+      "acceptedAnswers": [
+        "208",
+        "207.8",
+        "207.85",
+        "208 volts"
+      ],
+      "searchQuery": "wye connection line voltage root 3 phase voltage"
+    },
+    {
+      "id": "delta-line-current",
+      "title": "In a balanced delta-connected load, each phase current is $10\\,\\mathrm{A_{rms}}$. What is the line current, in amps (two decimals)?",
+      "body": "$17.32\\,\\mathrm{A}$\n\nFor a delta connection, $I_L = \\sqrt{3}\\,I_{ph} = 1.732 \\cdot 10 \\approx 17.32\\,\\mathrm{A}$. The line voltage equals the phase voltage.\n\nTip: wye has $V_L = \\sqrt{3}V_{ph}$ and $I_L = I_{ph}$; delta swaps them.",
+      "answer": "17.32 A",
+      "acceptedAnswers": [
+        "17.32",
+        "17.3",
+        "10sqrt(3)",
+        "10 sqrt3"
+      ],
+      "searchQuery": "delta connection line current root 3 phase current"
+    },
+    {
+      "id": "three-phase-power",
+      "title": "A balanced three-phase load has line voltage $400\\,\\mathrm{V}$, line current $10\\,\\mathrm{A}$ and power factor $0.8$. What total real power does it absorb, in watts, to the nearest watt?",
+      "body": "$5543\\,\\mathrm{W}$\n\n$P = \\sqrt{3}\\,V_LI_L\\cos\\theta = 1.732 \\cdot 400 \\cdot 10 \\cdot 0.8 \\approx 5543\\,\\mathrm{W}$.\n\nWatch out: here $\\theta$ is the angle **between the phase voltage and the phase current**, not between line quantities, and $V_L$, $I_L$ are RMS line values.",
+      "answer": "5543 W",
+      "acceptedAnswers": [
+        "5543",
+        "5542.6",
+        "5542.56",
+        "5.54 kW"
+      ],
+      "searchQuery": "three phase power root 3 line voltage line current power factor"
+    },
+    {
+      "id": "balanced-neutral-current",
+      "title": "What is the neutral current, in amps, in a balanced three-phase wye system?",
+      "body": "$0\\,\\mathrm{A}$\n\nThe three line currents have equal magnitude and are spaced $120^\\circ$ apart, so their phasor sum is zero: $I_a + I_b + I_c = 0$.\n\nKey idea: for a balanced load the neutral wire carries no current, so it can be removed. An unbalanced load makes $I_n = I_a + I_b + I_c \\neq 0$.",
+      "answer": "0 A",
+      "acceptedAnswers": [
+        "0",
+        "zero",
+        "0 amps",
+        "zero amps"
+      ],
+      "searchQuery": "balanced three phase neutral current zero"
+    },
+    {
+      "id": "series-rlc-alpha",
+      "title": "A series RLC circuit has $R = 20\\,\\Omega$ and $L = 0.1\\,\\mathrm{H}$. What is the neper frequency (damping coefficient) $\\alpha = R/2L$, in $\\mathrm{s^{-1}}$?",
+      "body": "$100\\,\\mathrm{s^{-1}}$\n\n$\\alpha = \\dfrac{R}{2L} = \\dfrac{20}{0.2} = 100\\,\\mathrm{s^{-1}}$.\n\nKey idea: compare $\\alpha$ with $\\omega_0 = 1/\\sqrt{LC}$:\n- $\\alpha > \\omega_0$: overdamped\n- $\\alpha = \\omega_0$: critically damped\n- $\\alpha < \\omega_0$: underdamped (rings)",
+      "answer": "100",
+      "acceptedAnswers": [
+        "100 1/s",
+        "100 s^-1",
+        "100 rad/s",
+        "100 np/s"
+      ],
+      "searchQuery": "series RLC damping coefficient alpha R over 2L"
+    },
+    {
+      "id": "critical-damping-resistance",
+      "title": "A series RLC circuit has $L = 1\\,\\mathrm{mH}$ and $C = 1\\,\\mu\\mathrm{F}$. What value of $R$ gives critical damping, in ohms (one decimal)?",
+      "body": "$63.2\\,\\Omega$\n\nCritical damping needs $\\alpha = \\omega_0$: $\\dfrac{R}{2L} = \\dfrac{1}{\\sqrt{LC}}$, so $R = 2\\sqrt{\\dfrac{L}{C}} = 2\\sqrt{1000} \\approx 63.2\\,\\Omega$.\n\nWatch out: a larger $R$ gives an overdamped (slow, no ringing) response, and a smaller $R$ rings.",
+      "answer": "63.2 Ω",
+      "acceptedAnswers": [
+        "63.2",
+        "63.2 ohms",
+        "63.25",
+        "63.2456",
+        "2sqrt(1000)"
+      ],
+      "searchQuery": "series RLC critical damping resistance 2 root L over C"
+    },
+    {
+      "id": "damped-frequency",
+      "title": "An underdamped RLC circuit has $\\alpha = 300\\,\\mathrm{s^{-1}}$ and $\\omega_0 = 500\\,\\mathrm{rad/s}$. What is the damped natural frequency $\\omega_d$, in rad/s?",
+      "body": "$400\\,\\mathrm{rad/s}$\n\n$\\omega_d = \\sqrt{\\omega_0^2 - \\alpha^2} = \\sqrt{500^2 - 300^2} = \\sqrt{160{,}000} = 400\\,\\mathrm{rad/s}$.\n\nKey idea: the response rings at $\\omega_d$ inside an envelope that decays as $e^{-\\alpha t}$. The ringing is slower than $\\omega_0$.",
+      "answer": "400",
+      "acceptedAnswers": [
+        "400 rad/s",
+        "400 1/s"
+      ],
+      "searchQuery": "underdamped RLC damped natural frequency omega d"
+    }
+  ]
+}

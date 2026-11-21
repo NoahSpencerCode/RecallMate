@@ -1,0 +1,967 @@
+{
+  "id": "phys-energy-momentum",
+  "title": "Energy, Momentum & Rotation",
+  "course": "Physics I: Mechanics",
+  "description": "Work, energy conservation, power, impulse, collisions, torque, moments of inertia, rolling, angular momentum, gravitation, escape speed and SHM periods.",
+  "cards": [
+    {
+      "id": "work-at-an-angle",
+      "title": "A $50\\,\\mathrm{N}$ force pulls a sled $10\\,\\mathrm{m}$ across level ground, with the force directed $60^\\circ$ above the horizontal. How much work does the force do, in joules?",
+      "body": "$250\\,\\mathrm{J}$\n\n$W = Fd\\cos\\theta = (50\\,\\mathrm{N})(10\\,\\mathrm{m})\\cos 60^\\circ$. Only the force component **along the displacement** does work.\n\nWatch out: a force perpendicular to the motion, like the normal force here, does zero work.",
+      "answer": "250",
+      "acceptedAnswers": [
+        "250 J",
+        "250 joules",
+        "250 N*m"
+      ],
+      "searchQuery": "work done by force at an angle F d cos theta"
+    },
+    {
+      "id": "braking-distance-scaling",
+      "title": "With the same constant braking force, by what factor does a car's stopping distance change if its initial speed doubles?",
+      "body": "$4\\times$ (it quadruples).\n\nWork-energy theorem: $W_{\\text{net}} = \\Delta K$, so $fd = \\tfrac{1}{2}mv^2$ and $d \\propto v^2$.\n\nWhy: doubling $v$ quadruples the kinetic energy that the braking force must remove.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4x",
+        "x4",
+        "four",
+        "4 times",
+        "four times",
+        "quadruples",
+        "quadruple",
+        "quadrupled",
+        "factor of 4"
+      ],
+      "searchQuery": "stopping distance scales with speed squared work energy"
+    },
+    {
+      "id": "spring-potential-energy",
+      "title": "An ideal spring with $k = 200\\,\\mathrm{N/m}$ is stretched $0.10\\,\\mathrm{m}$ from its relaxed length. How much elastic potential energy does it store, in joules?",
+      "body": "$1.0\\,\\mathrm{J}$\n\n$U = \\tfrac{1}{2}kx^2 = \\tfrac{1}{2}(200\\,\\mathrm{N/m})(0.10\\,\\mathrm{m})^2$. Doubling the stretch quadruples the energy.\n\nWatch out: using $kx$ gives the force ($20\\,\\mathrm{N}$), not the energy; and don't drop the $\\tfrac{1}{2}$.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "1 J",
+        "1 joule"
+      ],
+      "searchQuery": "elastic potential energy spring one half k x squared"
+    },
+    {
+      "id": "frictionless-ramp-speed",
+      "title": "A block slides from rest down a frictionless ramp, dropping a vertical height $h$. What is its speed at the bottom?",
+      "body": "$v = \\sqrt{2gh}$, independent of the mass and of the ramp's shape.\n\nOnly gravity does work (the normal force is perpendicular to the motion), so mechanical energy is conserved: $mgh = \\tfrac{1}{2}mv^2$.\n\nWatch out: with friction, some energy becomes thermal and $v$ is smaller.",
+      "answer": "sqrt(2gh)",
+      "acceptedAnswers": [
+        "(2gh)^0.5",
+        "(2gh)^(1/2)",
+        "sqrt 2gh"
+      ],
+      "answerDisplay": "$\\sqrt{2gh}$",
+      "searchQuery": "speed at bottom of frictionless ramp sqrt 2gh energy conservation"
+    },
+    {
+      "id": "power-force-velocity",
+      "title": "A winch pulls a load at a constant $2.0\\,\\mathrm{m/s}$ using a $500\\,\\mathrm{N}$ force along the direction of motion. What power does it deliver, in watts?",
+      "body": "$1000\\,\\mathrm{W}$ ($1.0\\,\\mathrm{kW}$).\n\n$P = \\dfrac{dW}{dt} = Fv = (500\\,\\mathrm{N})(2.0\\,\\mathrm{m/s})$. If the force is at angle $\\theta$ to the velocity, $P = Fv\\cos\\theta$.\n\nExample: for scale, $1\\,\\mathrm{hp} \\approx 746\\,\\mathrm{W}$.",
+      "answer": "1000",
+      "acceptedAnswers": [
+        "1000 W",
+        "1 kW",
+        "1000 watts",
+        "1 kilowatt"
+      ],
+      "searchQuery": "power equals force times velocity winch"
+    },
+    {
+      "id": "impulse-on-bounce",
+      "title": "A $0.15\\,\\mathrm{kg}$ ball hits a wall at $20\\,\\mathrm{m/s}$ and rebounds straight back at $20\\,\\mathrm{m/s}$. What is the magnitude of the impulse on the ball, in $\\mathrm{N\\cdot s}$?",
+      "body": "$6.0\\,\\mathrm{N\\cdot s}$ ($= 6.0\\,\\mathrm{kg\\cdot m/s}$).\n\n$J = \\Delta p = m(v_f - v_i) = (0.15\\,\\mathrm{kg})\\big(20 - (-20)\\big)\\,\\mathrm{m/s}$.\n\nWatch out: the velocity reverses, so $\\Delta v = 40\\,\\mathrm{m/s}$, not $0$.\nKey idea: a bounce takes twice the impulse of just stopping.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "6 N*s",
+        "6 kg*m/s",
+        "6 N-s"
+      ],
+      "searchQuery": "impulse ball bouncing off wall change in momentum"
+    },
+    {
+      "id": "perfectly-inelastic-collision",
+      "title": "A $3.0\\,\\mathrm{kg}$ cart moving at $4.0\\,\\mathrm{m/s}$ hits and sticks to a $1.0\\,\\mathrm{kg}$ cart at rest on a frictionless track. What is their speed afterward, in $\\mathrm{m/s}$?",
+      "body": "$3.0\\,\\mathrm{m/s}$\n\nMomentum is conserved (no net external horizontal force): $(3.0)(4.0) = (4.0)v$.\n\nWhy: kinetic energy is not conserved; it falls from $24\\,\\mathrm{J}$ to $18\\,\\mathrm{J}$. Sticking together (**perfectly inelastic**) loses the most kinetic energy that momentum conservation allows.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3 m/s"
+      ],
+      "searchQuery": "perfectly inelastic collision carts stick together final speed"
+    },
+    {
+      "id": "elastic-collision-equal-masses",
+      "title": "In a head-on elastic collision, a moving ball strikes an identical ball at rest. What are their velocities just afterward?",
+      "body": "The first ball **stops**; the second moves off with the first ball's original velocity.\n\nElastic means momentum and kinetic energy are both conserved, and for equal masses (one initially at rest) only this exchange satisfies both.\n\nWatch out: in an inelastic collision only momentum is conserved.",
+      "searchQuery": "head on elastic collision equal masses velocities exchange"
+    },
+    {
+      "id": "torque-on-wrench",
+      "title": "A $20\\,\\mathrm{N}$ force is applied at the end of a $0.50\\,\\mathrm{m}$ wrench, at $30^\\circ$ to the handle. What torque does it exert about the bolt, in $\\mathrm{N\\cdot m}$?",
+      "body": "$5.0\\,\\mathrm{N\\cdot m}$\n\n$\\tau = rF\\sin\\theta = (0.50\\,\\mathrm{m})(20\\,\\mathrm{N})\\sin 30^\\circ$, where $\\theta$ is the angle between $\\vec{r}$ (from the axis to the point of application) and $\\vec{F}$.\n\nTip: pushing perpendicular to the handle maximizes $\\tau$; pushing along it gives zero.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "5 N*m",
+        "5 m*N",
+        "5 newton meters",
+        "5 N-m"
+      ],
+      "searchQuery": "torque r F sin theta wrench"
+    },
+    {
+      "id": "parallel-axis-rod",
+      "title": "What is the moment of inertia of a thin uniform rod of mass $M$ and length $L$ about a perpendicular axis through one end?",
+      "body": "$I = \\tfrac{1}{3}ML^2$\n\nParallel-axis theorem: $I = I_{\\text{cm}} + Md^2 = \\tfrac{1}{12}ML^2 + M\\left(\\tfrac{L}{2}\\right)^2 = \\tfrac{1}{3}ML^2$.\n\nKey idea: of all parallel axes, the one through the center of mass gives the smallest $I$.",
+      "answer": "ML^2/3",
+      "acceptedAnswers": [
+        "(1/3)ML^2",
+        "1/3 ML^2",
+        "(ML^2)/3"
+      ],
+      "answerDisplay": "$\\tfrac{1}{3}ML^2$",
+      "searchQuery": "moment of inertia rod about end parallel axis theorem"
+    },
+    {
+      "id": "rolling-race",
+      "title": "A hoop, a solid disk and a solid sphere roll without slipping from rest down the same incline. Which reaches the bottom first?",
+      "body": "The **solid sphere**, then the disk, then the hoop.\n\nRolling without slipping ($v = \\omega R$) gives $Mgh = \\tfrac{1}{2}Mv^2\\left(1 + \\dfrac{I}{MR^2}\\right)$, with $\\dfrac{I}{MR^2} = \\tfrac{2}{5}$ (sphere), $\\tfrac{1}{2}$ (disk), $1$ (hoop).\n\nWhy: less energy tied up in rotation means faster translation. Mass and radius cancel.",
+      "answer": "solid sphere",
+      "acceptedAnswers": [
+        "sphere"
+      ],
+      "searchQuery": "hoop disk sphere rolling down incline race which wins"
+    },
+    {
+      "id": "skater-spin-up",
+      "title": "A spinning skater pulls her arms in, halving her moment of inertia. By what factor does her angular speed change? (Ignore friction.)",
+      "body": "It **doubles**.\n\nNo external torque, so $L = I\\omega$ is conserved: $I_1\\omega_1 = \\tfrac{1}{2}I_1\\,\\omega_2$ gives $\\omega_2 = 2\\omega_1$.\n\nWhy: her rotational kinetic energy, $\\dfrac{L^2}{2I}$, also doubles; the extra energy comes from the work her muscles do pulling her arms in.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "2x",
+        "x2",
+        "doubles",
+        "twice",
+        "factor of 2"
+      ],
+      "searchQuery": "skater pulls arms in angular momentum conservation spin faster"
+    },
+    {
+      "id": "gravity-inverse-square",
+      "title": "Two masses attract gravitationally. If the distance between their centers triples, the force becomes what fraction of its original value?",
+      "body": "$\\tfrac{1}{9}$\n\nNewton's law of gravitation: $F = \\dfrac{Gm_1m_2}{r^2}$, with $G = 6.67\\times10^{-11}\\,\\mathrm{N\\cdot m^2/kg^2}$. Tripling $r$ divides $F$ by $3^2 = 9$.\n\nWatch out: measure $r$ between the **centers**, not between the surfaces.",
+      "answer": "1/9",
+      "acceptedAnswers": [
+        "one ninth",
+        "one-ninth",
+        "1/9th",
+        "0.111",
+        "0.11"
+      ],
+      "answerDisplay": "$\\tfrac{1}{9}$",
+      "searchQuery": "Newton gravitation inverse square distance triples force"
+    },
+    {
+      "id": "escape-speed",
+      "title": "What is the escape speed from the surface of a planet of mass $M$ and radius $R$? (Ignore air resistance.)",
+      "body": "$v_{\\text{esc}} = \\sqrt{\\dfrac{2GM}{R}}$, about $11.2\\,\\mathrm{km/s}$ for Earth.\n\nSet the total energy to zero: $\\tfrac{1}{2}mv^2 - \\dfrac{GMm}{R} = 0$. It doesn't depend on the escaping object's mass or launch direction.\n\nKey idea: it is $\\sqrt{2}$ times the speed of a circular orbit at that radius.",
+      "answer": "sqrt(2GM/R)",
+      "acceptedAnswers": [
+        "(2GM/R)^0.5",
+        "(2GM/R)^(1/2)",
+        "sqrt(2gR)"
+      ],
+      "answerDisplay": "$\\sqrt{\\dfrac{2GM}{R}}$",
+      "searchQuery": "escape speed formula sqrt 2GM over R"
+    },
+    {
+      "id": "mass-spring-period",
+      "title": "What is the period of an ideal mass–spring oscillator with mass $m$ and spring constant $k$?",
+      "body": "$T = 2\\pi\\sqrt{\\dfrac{m}{k}}$\n\nIt doesn't depend on the amplitude, or on $g$: hanging vertically gives the same period. The angular frequency is $\\omega = \\sqrt{k/m}$.\n\nExample: quadrupling the mass doubles the period.",
+      "answer": "2*pi*sqrt(m/k)",
+      "acceptedAnswers": [
+        "2pi(m/k)^0.5",
+        "2pi(m/k)^(1/2)"
+      ],
+      "answerDisplay": "$2\\pi\\sqrt{\\dfrac{m}{k}}$",
+      "searchQuery": "mass spring oscillator period 2 pi sqrt m over k"
+    },
+    {
+      "id": "pendulum-period",
+      "title": "What is the period of a simple pendulum of length $L$ swinging with small amplitude?",
+      "body": "$T = 2\\pi\\sqrt{\\dfrac{L}{g}}$\n\nValid for small angles ($\\sin\\theta \\approx \\theta$, roughly under $15^\\circ$). It is independent of the bob's mass and, to this approximation, of the amplitude.\n\nExample: quadrupling $L$ doubles $T$; on the Moon (smaller $g$) it swings more slowly.",
+      "answer": "2*pi*sqrt(L/g)",
+      "acceptedAnswers": [
+        "2pi(L/g)^0.5",
+        "2pi(L/g)^(1/2)"
+      ],
+      "answerDisplay": "$2\\pi\\sqrt{\\dfrac{L}{g}}$",
+      "searchQuery": "simple pendulum period formula small angle"
+    },
+    {
+      "id": "work-definition-dot-product",
+      "title": "How is the work done by a constant force $\\vec{F}$ on an object with displacement $\\vec{d}$ defined?",
+      "body": "$W = \\vec{F}\\cdot\\vec{d} = Fd\\cos\\theta$\n\nWork is a **scalar**: only the component of force along the displacement counts, and $\\theta$ is the angle between $\\vec{F}$ and $\\vec{d}$.\n\nWatch out: work can be positive, negative or zero; carrying a box at constant height does zero work on it (force and displacement are perpendicular).",
+      "searchQuery": "work done by constant force dot product definition"
+    },
+    {
+      "id": "joule-base-units",
+      "title": "Express one joule in SI base units.",
+      "body": "$1\\,\\mathrm{J} = 1\\,\\mathrm{kg\\cdot m^2/s^2}$\n\nOne joule is one newton-meter: $1\\,\\mathrm{J} = 1\\,\\mathrm{N\\cdot m} = 1\\,\\mathrm{(kg\\cdot m/s^2)\\,m}$.\n\nTip: any energy expression must reduce to $\\mathrm{kg\\cdot m^2/s^2}$; this is a fast way to check a formula, such as $\\tfrac{1}{2}mv^2$.",
+      "answer": "kg*m^2/s^2",
+      "acceptedAnswers": [
+        "kg m^2 s^-2",
+        "N*m",
+        "kg*m2/s2"
+      ],
+      "answerDisplay": "$\\mathrm{kg\\cdot m^2/s^2}$",
+      "searchQuery": "joule unit SI base units kg m2 s2"
+    },
+    {
+      "id": "work-lifting-constant-speed",
+      "title": "You lift a $3.0\\,\\mathrm{kg}$ box straight up $2.0\\,\\mathrm{m}$ at constant speed. How much work do you do on it, in joules to 3 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$58.8\\,\\mathrm{J}$\n\nConstant speed means your upward force equals the weight: $F = mg = 29.4\\,\\mathrm{N}$. Then $W = Fd = (29.4)(2.0)$.\n\nWhy: gravity does $-58.8\\,\\mathrm{J}$ on the box, so the net work is zero and its kinetic energy doesn't change.",
+      "answer": "58.8",
+      "acceptedAnswers": [
+        "58.8 J",
+        "58.8 joules"
+      ],
+      "searchQuery": "work done lifting box constant speed mgh"
+    },
+    {
+      "id": "centripetal-force-does-no-work",
+      "title": "Why does the net force on an object in uniform circular motion do zero work?",
+      "body": "The force is **perpendicular** to the velocity (and displacement) at every instant.\n\n$W = Fd\\cos 90^\\circ = 0$ for each small displacement, so the kinetic energy stays constant: only the direction of the velocity changes.\n\nWatch out: if the speed changes, there is also a tangential force component, and that part does do work.",
+      "searchQuery": "centripetal force does no work perpendicular to velocity"
+    },
+    {
+      "id": "negative-work-friction-sign",
+      "title": "What is the sign of the work done by kinetic friction on a sliding block, and why?",
+      "body": "**Negative**, because friction points opposite to the block's displacement.\n\n$W = fd\\cos 180^\\circ = -fd$. The block's kinetic energy decreases by that amount.\n\nWatch out: the work done by static friction on a rolling wheel's contact point is zero, and static friction can do positive work (it accelerates a crate on a truck bed).",
+      "searchQuery": "work done by kinetic friction negative sign"
+    },
+    {
+      "id": "work-energy-theorem",
+      "title": "State the work-energy theorem.",
+      "body": "$W_{\\text{net}} = \\Delta K = \\tfrac{1}{2}mv_f^2 - \\tfrac{1}{2}mv_i^2$\n\nThe **net** work done by all forces on an object equals its change in kinetic energy.\n\nTip: it works for any forces, constant or not, and skips the details of the motion. Use it when the problem gives distances rather than times.",
+      "searchQuery": "work energy theorem net work equals change in kinetic energy"
+    },
+    {
+      "id": "kinetic-energy-definition",
+      "title": "What is the kinetic energy of an object of mass $m$ moving at speed $v$?",
+      "body": "$K = \\tfrac{1}{2}mv^2$\n\nKinetic energy is a scalar and never negative; it does not depend on the direction of motion.\n\nWhy: $\\int F\\,dx = \\int mv\\,dv = \\tfrac{1}{2}mv^2$ for an object accelerated from rest.",
+      "answer": "1/2 m v^2",
+      "acceptedAnswers": [
+        "0.5mv^2",
+        "(1/2)mv^2",
+        "mv^2/2"
+      ],
+      "answerDisplay": "$\\tfrac{1}{2}mv^2$",
+      "searchQuery": "kinetic energy formula one half m v squared"
+    },
+    {
+      "id": "kinetic-energy-car-numeric",
+      "title": "A $1200\\,\\mathrm{kg}$ car moves at $20\\,\\mathrm{m/s}$. What is its kinetic energy, in joules?",
+      "body": "$2.4\\times10^5\\,\\mathrm{J}$\n\n$K = \\tfrac{1}{2}mv^2 = \\tfrac{1}{2}(1200)(20)^2 = 240\\,000\\,\\mathrm{J}$.\n\nWatch out: square only the speed, not the product $mv$.",
+      "answer": "240000",
+      "acceptedAnswers": [
+        "240000 J",
+        "2.4e5",
+        "2.4*10^5",
+        "240 kJ"
+      ],
+      "searchQuery": "kinetic energy of a car numeric one half m v squared"
+    },
+    {
+      "id": "ke-momentum-scaling-speed",
+      "title": "If an object's speed doubles, by what factors do its kinetic energy and its momentum change?",
+      "body": "Kinetic energy $\\times 4$; momentum $\\times 2$.\n\n$K \\propto v^2$ but $p = mv \\propto v$.\n\nWatch out: this is why the stopping distance (set by energy) grows faster than the stopping time (set by momentum) at higher speed.",
+      "searchQuery": "doubling speed kinetic energy quadruples momentum doubles"
+    },
+    {
+      "id": "speed-from-net-work",
+      "title": "A $2.0\\,\\mathrm{kg}$ cart starts from rest and a net force does $25\\,\\mathrm{J}$ of work on it. What is its final speed, in $\\mathrm{m/s}$?",
+      "body": "$5.0\\,\\mathrm{m/s}$\n\nWork-energy theorem: $W_{\\text{net}} = \\tfrac{1}{2}mv^2$, so $v = \\sqrt{\\dfrac{2W}{m}} = \\sqrt{\\dfrac{2(25)}{2.0}}$.\n\nTip: you don't need to know the force or the distance, only the net work.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "5 m/s"
+      ],
+      "searchQuery": "speed from net work done on cart starting from rest"
+    },
+    {
+      "id": "work-area-under-force-position",
+      "title": "On a graph of force along the displacement versus position, what does the area under the curve represent?",
+      "body": "The **work** done by the force.\n\n$W = \\int F\\,dx$. Area above the axis is positive work; area below is negative.\n\nExample: for a spring, the triangle under $F = kx$ from $0$ to $x$ has area $\\tfrac{1}{2}kx^2$.",
+      "searchQuery": "area under force versus position graph is work"
+    },
+    {
+      "id": "hookes-law",
+      "title": "What is Hooke's law for the force an ideal spring exerts when stretched or compressed by $x$ from its relaxed length?",
+      "body": "$F = -kx$\n\nThe force is **restoring**: it always points back toward the relaxed length. The spring constant $k$ has units $\\mathrm{N/m}$.\n\nWatch out: the minus sign gives direction; the magnitude is $kx$. Real springs obey the law only for small deformations.",
+      "searchQuery": "Hooke law spring force F equals minus kx restoring"
+    },
+    {
+      "id": "spring-work-between-positions",
+      "title": "A spring with $k = 100\\,\\mathrm{N/m}$ is stretched from $0.10\\,\\mathrm{m}$ to $0.30\\,\\mathrm{m}$ beyond its relaxed length. How much work does an external force do, in joules?",
+      "body": "$4.0\\,\\mathrm{J}$\n\n$W = \\tfrac{1}{2}k(x_2^2 - x_1^2) = \\tfrac{1}{2}(100)(0.30^2 - 0.10^2) = 50(0.08)$.\n\nWatch out: don't use $\\tfrac{1}{2}k(x_2 - x_1)^2$; the energy depends on the squares of the positions, not of the change.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 J"
+      ],
+      "searchQuery": "work to stretch spring between two positions one half k difference of squares"
+    },
+    {
+      "id": "spring-launch-speed",
+      "title": "A $0.50\\,\\mathrm{kg}$ block is released by a spring ($k = 400\\,\\mathrm{N/m}$) compressed $0.10\\,\\mathrm{m}$; no friction. Its speed leaving the spring, in $\\mathrm{m/s}$ to 3 s.f.?",
+      "body": "$2.83\\,\\mathrm{m/s}$\n\nAll the stored energy becomes kinetic: $\\tfrac{1}{2}kx^2 = \\tfrac{1}{2}mv^2$, so $v = x\\sqrt{\\dfrac{k}{m}} = 0.10\\sqrt{800}$.\n\nCheck: the stored energy is $\\tfrac{1}{2}(400)(0.10)^2 = 2.0\\,\\mathrm{J}$, and $\\tfrac{1}{2}(0.50)(2.83)^2 = 2.0\\,\\mathrm{J}$.",
+      "answer": "2.83",
+      "acceptedAnswers": [
+        "2.83 m/s",
+        "2.828"
+      ],
+      "searchQuery": "spring launches block speed energy conservation compressed spring"
+    },
+    {
+      "id": "friction-work-numeric",
+      "title": "A $10\\,\\mathrm{kg}$ crate slides $5.0\\,\\mathrm{m}$ across a level floor with $\\mu_k = 0.30$. What work does friction do on it, in joules? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$-147\\,\\mathrm{J}$\n\n$f = \\mu_k mg = (0.30)(10)(9.8) = 29.4\\,\\mathrm{N}$, and friction opposes the motion: $W = -fd = -(29.4)(5.0)$.\n\nWhy: the crate's kinetic energy falls by $147\\,\\mathrm{J}$; that amount is transferred to thermal energy of the crate and floor.",
+      "answer": "-147",
+      "acceptedAnswers": [
+        "-147 J",
+        "-147 joules"
+      ],
+      "searchQuery": "work done by friction on sliding crate negative numeric"
+    },
+    {
+      "id": "gravitational-pe-near-earth",
+      "title": "What is the gravitational potential energy of a mass $m$ at height $h$ above a chosen reference level, near Earth's surface?",
+      "body": "$U = mgh$\n\nOnly changes in $U$ matter, so the reference level ($h = 0$) is arbitrary. It is valid when $g$ is nearly constant over the height.\n\nWatch out: for large distances from Earth use $U = -\\dfrac{GMm}{r}$ instead.",
+      "answer": "mgh",
+      "answerDisplay": "$mgh$",
+      "searchQuery": "gravitational potential energy mgh reference level"
+    },
+    {
+      "id": "gravitational-pe-numeric",
+      "title": "What is the gravitational potential energy of a $2.0\\,\\mathrm{kg}$ object $5.0\\,\\mathrm{m}$ above the floor (taking the floor as zero), in joules? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$98\\,\\mathrm{J}$\n\n$U = mgh = (2.0)(9.8)(5.0)$.\n\nTip: if you pick a different reference level, $U$ changes, but the difference $\\Delta U$ between two points does not.",
+      "answer": "98",
+      "acceptedAnswers": [
+        "98 J",
+        "98 joules"
+      ],
+      "searchQuery": "gravitational potential energy numeric 2 kg 5 m"
+    },
+    {
+      "id": "conservative-force-definition",
+      "title": "What makes a force **conservative**?",
+      "body": "The work it does between two points is **independent of the path**, equivalently zero around any closed loop.\n\nOnly conservative forces have a potential energy function $U$, with $W = -\\Delta U$.\n\nExample: gravity and ideal springs are conservative.\nWatch out: friction and air drag are not; the work they do depends on the path length.",
+      "searchQuery": "conservative force definition path independent work"
+    },
+    {
+      "id": "force-from-potential-energy",
+      "title": "A particle has potential energy $U(x) = 3.0x^2$ (joules, with $x$ in meters). What is the force on it at $x = 2.0\\,\\mathrm{m}$, in newtons?",
+      "body": "$-12\\,\\mathrm{N}$ (toward $-x$).\n\n$F_x = -\\dfrac{dU}{dx} = -6.0x$, so $F_x(2.0) = -12\\,\\mathrm{N}$.\n\nKey idea: force points toward lower potential energy; the slope of $U$ gives the force's magnitude.",
+      "answer": "-12",
+      "acceptedAnswers": [
+        "-12 N"
+      ],
+      "searchQuery": "force from potential energy negative derivative dU dx"
+    },
+    {
+      "id": "mechanical-energy-conservation",
+      "title": "Under what condition is the total mechanical energy $K + U$ of a system conserved?",
+      "body": "When only **conservative forces** do work.\n\nThen $K_i + U_i = K_f + U_f$. If nonconservative forces act, $K_i + U_i + W_{\\text{nc}} = K_f + U_f$.\n\nWatch out: forces that do no work (such as the normal force on a ramp) don't spoil conservation.",
+      "searchQuery": "conservation of mechanical energy condition conservative forces"
+    },
+    {
+      "id": "pendulum-bottom-speed",
+      "title": "A pendulum bob on a $1.0\\,\\mathrm{m}$ string is released from rest at $60^\\circ$ from vertical. Its speed at the bottom, in $\\mathrm{m/s}$ to 3 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$3.13\\,\\mathrm{m/s}$\n\nThe bob drops $h = L(1 - \\cos 60^\\circ) = 0.50\\,\\mathrm{m}$, so $v = \\sqrt{2gh} = \\sqrt{2(9.8)(0.50)}$.\n\nWatch out: $h$ is the vertical drop, not the arc length. The tension does no work, since it is always perpendicular to the motion.",
+      "answer": "3.13",
+      "acceptedAnswers": [
+        "3.13 m/s"
+      ],
+      "searchQuery": "pendulum bottom speed released at 60 degrees energy conservation"
+    },
+    {
+      "id": "launch-direction-speed-independence",
+      "title": "Three identical balls are thrown from the same height at the same speed, one up, one down and one horizontally. How do their speeds just before hitting the ground compare? (No air resistance.)",
+      "body": "All the **same**: $v = \\sqrt{v_0^2 + 2gh}$.\n\nEnergy conservation only needs the initial speed and the vertical drop: $\\tfrac{1}{2}mv_0^2 + mgh = \\tfrac{1}{2}mv^2$. The direction of launch doesn't appear.\n\nWatch out: their landing times and angles still differ; only the speeds match.",
+      "searchQuery": "balls thrown different directions same height same impact speed energy"
+    },
+    {
+      "id": "roller-coaster-speed",
+      "title": "A frictionless coaster car starts from rest at $30\\,\\mathrm{m}$ height. Its speed at $10\\,\\mathrm{m}$ height, in $\\mathrm{m/s}$ to 3 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$19.8\\,\\mathrm{m/s}$\n\nThe car has dropped $20\\,\\mathrm{m}$, so $v = \\sqrt{2g\\,\\Delta h} = \\sqrt{2(9.8)(20)} = \\sqrt{392}$.\n\nTip: only the height difference matters, not the track's shape or the car's mass.",
+      "answer": "19.8",
+      "acceptedAnswers": [
+        "19.8 m/s",
+        "20"
+      ],
+      "searchQuery": "roller coaster speed at height energy conservation"
+    },
+    {
+      "id": "loop-the-loop-release-height",
+      "title": "A frictionless block slides from rest into a vertical loop of radius $R$. What minimum release height above the loop's bottom, in units of $R$, keeps it on the track at the top?",
+      "body": "$2.5R$\n\nAt the top the minimum speed satisfies $mg = \\dfrac{mv^2}{R}$, so $v^2 = gR$. Energy conservation from release to the top (height $2R$): $mgh = mg(2R) + \\tfrac{1}{2}mv^2$, so $h = 2R + \\dfrac{R}{2}$.\n\nWatch out: this is for a sliding block; a rolling ball needs a greater height, because some energy goes into rotation.",
+      "answer": "2.5",
+      "acceptedAnswers": [
+        "2.5R",
+        "5/2"
+      ],
+      "searchQuery": "vertical loop minimum release height 2.5 R"
+    },
+    {
+      "id": "friction-thermal-energy-numeric",
+      "title": "A $2.0\\,\\mathrm{kg}$ block slides from rest down a rough ramp, dropping $1.5\\,\\mathrm{m}$, and arrives at $4.0\\,\\mathrm{m/s}$. Thermal energy produced, in J? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$13.4\\,\\mathrm{J}$\n\nInitial energy: $mgh = (2.0)(9.8)(1.5) = 29.4\\,\\mathrm{J}$. Final kinetic energy: $\\tfrac{1}{2}(2.0)(4.0)^2 = 16\\,\\mathrm{J}$.\n\nWhy: the difference, $29.4 - 16 = 13.4\\,\\mathrm{J}$, is the magnitude of the work done by friction.",
+      "answer": "13.4",
+      "acceptedAnswers": [
+        "13.4 J",
+        "13.4 joules"
+      ],
+      "searchQuery": "energy lost to friction block sliding down ramp thermal energy"
+    },
+    {
+      "id": "hanging-mass-equilibrium-stretch",
+      "title": "A $0.50\\,\\mathrm{kg}$ mass hangs at rest from a vertical spring with $k = 49\\,\\mathrm{N/m}$. How far does the spring stretch, in meters? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$0.10\\,\\mathrm{m}$\n\nAt equilibrium the spring force balances the weight: $kx = mg$, so $x = \\dfrac{(0.50)(9.8)}{49}$.\n\nTip: for vertical oscillations, measure displacement from this equilibrium point and gravity drops out of the motion.",
+      "answer": "0.10",
+      "acceptedAnswers": [
+        "0.1 m"
+      ],
+      "searchQuery": "hanging mass spring equilibrium stretch kx equals mg"
+    },
+    {
+      "id": "released-spring-maximum-stretch",
+      "title": "A $0.50\\,\\mathrm{kg}$ mass is released from rest on a vertical spring ($k = 49\\,\\mathrm{N/m}$) at its relaxed length. What is the maximum stretch, in meters? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$0.20\\,\\mathrm{m}$\n\nAt the lowest point the speed is zero: $mgx = \\tfrac{1}{2}kx^2$, so $x = \\dfrac{2mg}{k} = \\dfrac{2(4.9)}{49}$.\n\nKey idea: that is twice the equilibrium stretch of $0.10\\,\\mathrm{m}$; the mass oscillates symmetrically about equilibrium.",
+      "answer": "0.20",
+      "acceptedAnswers": [
+        "0.2 m"
+      ],
+      "searchQuery": "mass released from relaxed vertical spring maximum stretch 2mg over k"
+    },
+    {
+      "id": "potential-energy-diagram-equilibrium",
+      "title": "On a plot of potential energy $U(x)$, what kind of equilibrium does a local minimum represent?",
+      "body": "**Stable** equilibrium.\n\nAt a point where $\\dfrac{dU}{dx} = 0$ the force is zero. At a minimum, a small displacement produces a restoring force back toward it.\n\nWatch out: at a local maximum the equilibrium is unstable, because any displacement is pushed further away.",
+      "searchQuery": "potential energy curve local minimum stable equilibrium"
+    },
+    {
+      "id": "turning-point-meaning",
+      "title": "On an energy diagram, what is true of a particle's kinetic energy at a classical turning point?",
+      "body": "It is **zero**: the total energy equals the potential energy there.\n\n$E = K + U$ and $K \\ge 0$, so the particle can only be where $U(x) \\le E$. At the boundary, $K = 0$ and the particle momentarily stops before reversing.\n\nExample: a pendulum bob at the top of its swing.",
+      "searchQuery": "turning point energy diagram kinetic energy zero total energy equals potential"
+    },
+    {
+      "id": "kilowatt-hour-in-joules",
+      "title": "How many joules are in one kilowatt-hour?",
+      "body": "$3.6\\times10^6\\,\\mathrm{J}$\n\n$1\\,\\mathrm{kWh} = (1000\\,\\mathrm{W})(3600\\,\\mathrm{s})$.\n\nWatch out: the kilowatt-hour is a unit of **energy**, not power.",
+      "answer": "3600000",
+      "acceptedAnswers": [
+        "3.6e6",
+        "3.6*10^6",
+        "3.6 MJ",
+        "3600000 J"
+      ],
+      "searchQuery": "kilowatt hour in joules 3.6 million"
+    },
+    {
+      "id": "average-power-definition",
+      "title": "How is average power related to work and time?",
+      "body": "$P = \\dfrac{W}{\\Delta t}$\n\nThe SI unit is the watt: $1\\,\\mathrm{W} = 1\\,\\mathrm{J/s}$. Instantaneous power is $P = \\dfrac{dW}{dt}$.\n\nTip: power is the *rate* of energy transfer. Doing the same work faster takes more power.",
+      "searchQuery": "average power work divided by time watt"
+    },
+    {
+      "id": "power-climbing-stairs",
+      "title": "A $70\\,\\mathrm{kg}$ person climbs $3.0\\,\\mathrm{m}$ of stairs in $5.0\\,\\mathrm{s}$. What average power does she use against gravity, in watts to 3 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$412\\,\\mathrm{W}$\n\n$P = \\dfrac{mgh}{t} = \\dfrac{(70)(9.8)(3.0)}{5.0} = \\dfrac{2058}{5.0}\\,\\mathrm{W}$.\n\nWatch out: this counts only the work against gravity; her muscles actually use more power, because the body is far from 100% efficient.",
+      "answer": "412",
+      "acceptedAnswers": [
+        "412 W",
+        "411.6"
+      ],
+      "searchQuery": "power climbing stairs mgh over time numeric"
+    },
+    {
+      "id": "watt-base-units",
+      "title": "Express one watt in SI base units.",
+      "body": "$1\\,\\mathrm{W} = 1\\,\\mathrm{kg\\cdot m^2/s^3}$\n\nStart from $1\\,\\mathrm{W} = 1\\,\\mathrm{J/s}$ and $1\\,\\mathrm{J} = 1\\,\\mathrm{kg\\cdot m^2/s^2}$.\n\nTip: power is force times velocity, $\\mathrm{N\\cdot m/s}$, which gives the same base units.",
+      "answer": "kg*m^2/s^3",
+      "acceptedAnswers": [
+        "kg m^2 s^-3"
+      ],
+      "answerDisplay": "$\\mathrm{kg\\cdot m^2/s^3}$",
+      "searchQuery": "watt in SI base units kg m2 s3"
+    },
+    {
+      "id": "car-force-from-power",
+      "title": "A car's engine delivers $20\\,\\mathrm{kW}$ to the road while it moves at a constant $25\\,\\mathrm{m/s}$. What is the forward force on the car, in newtons?",
+      "body": "$800\\,\\mathrm{N}$\n\n$P = Fv$, so $F = \\dfrac{P}{v} = \\dfrac{20\\,000\\,\\mathrm{W}}{25\\,\\mathrm{m/s}}$.\n\nKey idea: at constant speed this forward force equals the total resistive force (drag plus rolling friction).",
+      "answer": "800",
+      "acceptedAnswers": [
+        "800 N",
+        "800 newtons"
+      ],
+      "searchQuery": "force from power and velocity car constant speed P equals Fv"
+    },
+    {
+      "id": "drag-power-speed-cubed",
+      "title": "A vehicle at constant speed overcomes air drag $D \\propto v^2$. By what factor does the power needed against drag grow if the speed doubles?",
+      "body": "$8\\times$\n\n$P = Dv \\propto v^2\\cdot v = v^3$, so doubling the speed multiplies the power by $2^3 = 8$.\n\nWhy: this is why fuel use climbs steeply at highway speeds.",
+      "answer": "8",
+      "acceptedAnswers": [
+        "8x",
+        "x8",
+        "eight",
+        "8 times",
+        "eight times",
+        "factor of 8"
+      ],
+      "searchQuery": "power against air drag proportional to speed cubed"
+    },
+    {
+      "id": "momentum-definition",
+      "title": "What is the momentum of an object of mass $m$ moving with velocity $\\vec{v}$, and what are its SI units?",
+      "body": "$\\vec{p} = m\\vec{v}$, in $\\mathrm{kg\\cdot m/s}$.\n\nMomentum is a **vector** that points along the velocity. The units $\\mathrm{kg\\cdot m/s}$ are the same as $\\mathrm{N\\cdot s}$.\n\nWatch out: unlike kinetic energy, momentum has a direction and can cancel between objects.",
+      "searchQuery": "momentum definition p equals mv units"
+    },
+    {
+      "id": "momentum-baseball-numeric",
+      "title": "A $0.145\\,\\mathrm{kg}$ baseball moves at $40\\,\\mathrm{m/s}$. What is its momentum, in $\\mathrm{kg\\cdot m/s}$?",
+      "body": "$5.8\\,\\mathrm{kg\\cdot m/s}$\n\n$p = mv = (0.145)(40)$.\n\nTip: $\\mathrm{kg\\cdot m/s}$ is the same unit as $\\mathrm{N\\cdot s}$, so this is also the impulse needed to stop the ball.",
+      "answer": "5.8",
+      "acceptedAnswers": [
+        "5.8 kg*m/s",
+        "5.8 N*s"
+      ],
+      "searchQuery": "momentum of baseball numeric mass times velocity"
+    },
+    {
+      "id": "impulse-momentum-theorem",
+      "title": "State the impulse-momentum theorem.",
+      "body": "$\\vec{J} = \\int \\vec{F}\\,dt = \\Delta\\vec{p}$\n\nThe impulse of the net force equals the change in momentum. For a constant force, $\\vec{J} = \\vec{F}\\,\\Delta t$.\n\nTip: use it when a problem gives force and time (or contact time) instead of distance.",
+      "searchQuery": "impulse momentum theorem integral of force equals change in momentum"
+    },
+    {
+      "id": "force-time-graph-area",
+      "title": "On a graph of force versus time, what does the area under the curve represent?",
+      "body": "The **impulse**, which equals the change in momentum.\n\n$J = \\int F\\,dt$. Area below the axis counts as negative.\n\nExample: a rectangular pulse of $10\\,\\mathrm{N}$ lasting $2.0\\,\\mathrm{s}$ delivers $20\\,\\mathrm{N\\cdot s}$.",
+      "searchQuery": "area under force versus time graph impulse"
+    },
+    {
+      "id": "average-force-kick",
+      "title": "A $0.50\\,\\mathrm{kg}$ ball at rest is kicked and leaves at $20\\,\\mathrm{m/s}$ after $0.010\\,\\mathrm{s}$ of contact. What is the average force, in newtons?",
+      "body": "$1000\\,\\mathrm{N}$\n\n$F_{\\text{avg}} = \\dfrac{\\Delta p}{\\Delta t} = \\dfrac{(0.50)(20)}{0.010}$.\n\nWatch out: the peak force during the kick is larger than this average.",
+      "answer": "1000",
+      "acceptedAnswers": [
+        "1000 N",
+        "1e3",
+        "1 kN"
+      ],
+      "searchQuery": "average force from impulse kicked ball contact time"
+    },
+    {
+      "id": "airbag-contact-time",
+      "title": "Why does an airbag reduce injury in a crash, in terms of impulse?",
+      "body": "It **lengthens the stopping time**, so the average force is smaller for the same $\\Delta p$.\n\n$F_{\\text{avg}} = \\dfrac{\\Delta p}{\\Delta t}$: with the same change in momentum, a longer $\\Delta t$ means a smaller force.\n\nExample: catching a fast ball by letting your hand move back with it works the same way.",
+      "searchQuery": "airbag longer stopping time reduces force impulse"
+    },
+    {
+      "id": "newton-second-law-momentum-form",
+      "title": "How is Newton's second law written in terms of momentum?",
+      "body": "$\\sum\\vec{F} = \\dfrac{d\\vec{p}}{dt}$\n\nThe net force equals the rate of change of momentum. For constant mass it reduces to $\\sum\\vec{F} = m\\vec{a}$.\n\nTip: this form also handles systems whose mass changes, such as rockets.",
+      "searchQuery": "Newton second law momentum form F equals dp dt"
+    },
+    {
+      "id": "momentum-conservation-condition",
+      "title": "When is the total momentum of a system conserved?",
+      "body": "When the net **external** force on the system is zero.\n\nInternal forces come in third-law pairs and cancel in the total, so they can't change it.\n\nWatch out: momentum can be conserved in one direction only, for example horizontally when the only external force (gravity) is vertical.",
+      "searchQuery": "conservation of momentum condition net external force zero"
+    },
+    {
+      "id": "gun-recoil-speed",
+      "title": "A free, initially stationary $4.0\\,\\mathrm{kg}$ gun fires a $0.010\\,\\mathrm{kg}$ bullet at $400\\,\\mathrm{m/s}$. What is the gun's recoil speed, in $\\mathrm{m/s}$?",
+      "body": "$1.0\\,\\mathrm{m/s}$, opposite to the bullet.\n\nTotal momentum starts at zero and stays zero: $0 = (0.010)(400) + (4.0)v$, so $|v| = \\dfrac{4.0}{4.0}$.\n\nWhy: the bullet carries most of the kinetic energy; the gun has the same momentum magnitude but much lower speed.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "1 m/s"
+      ],
+      "searchQuery": "gun recoil speed conservation of momentum bullet"
+    },
+    {
+      "id": "kinetic-energy-momentum-relation",
+      "title": "Express an object's kinetic energy in terms of its momentum $p$ and mass $m$.",
+      "body": "$K = \\dfrac{p^2}{2m}$\n\nSubstitute $v = p/m$ into $K = \\tfrac{1}{2}mv^2$.\n\nTip: for equal momenta, the lighter object has more kinetic energy.",
+      "answer": "p^2/(2m)",
+      "acceptedAnswers": [
+        "p^2/2m",
+        "(p^2)/(2m)",
+        "p2/2m"
+      ],
+      "answerDisplay": "$\\dfrac{p^2}{2m}$",
+      "searchQuery": "kinetic energy in terms of momentum p squared over 2m"
+    },
+    {
+      "id": "rocket-thrust-numeric",
+      "title": "A rocket expels exhaust at $3000\\,\\mathrm{m/s}$ relative to itself, at a rate of $2.0\\,\\mathrm{kg/s}$. What thrust does this produce, in newtons?",
+      "body": "$6000\\,\\mathrm{N}$\n\nThrust $= v_{\\text{ex}}\\left|\\dfrac{dm}{dt}\\right| = (3000)(2.0)$.\n\nWhy: each second, $2.0\\,\\mathrm{kg}$ of gas gains $3000\\,\\mathrm{m/s}$ of momentum, and the rocket gains an equal and opposite amount.",
+      "answer": "6000",
+      "acceptedAnswers": [
+        "6000 N",
+        "6 kN",
+        "6e3"
+      ],
+      "searchQuery": "rocket thrust exhaust speed mass flow rate"
+    },
+    {
+      "id": "skaters-push-apart",
+      "title": "Skaters of $60\\,\\mathrm{kg}$ and $40\\,\\mathrm{kg}$ push apart from rest on frictionless ice. The $60\\,\\mathrm{kg}$ skater moves at $2.0\\,\\mathrm{m/s}$. How fast is the other, in $\\mathrm{m/s}$?",
+      "body": "$3.0\\,\\mathrm{m/s}$, in the opposite direction.\n\nTotal momentum stays zero: $(60)(2.0) = (40)v$.\n\nKey idea: the lighter skater ends up faster, in inverse proportion to mass.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3 m/s"
+      ],
+      "searchQuery": "two skaters push apart conservation of momentum speeds"
+    },
+    {
+      "id": "center-of-mass-two-particles",
+      "title": "A $2.0\\,\\mathrm{kg}$ mass sits at $x = 0$ and a $4.0\\,\\mathrm{kg}$ mass sits at $x = 6.0\\,\\mathrm{m}$. Where is the center of mass, in meters?",
+      "body": "$x_{\\text{cm}} = 4.0\\,\\mathrm{m}$\n\n$x_{\\text{cm}} = \\dfrac{\\sum m_ix_i}{\\sum m_i} = \\dfrac{(2.0)(0) + (4.0)(6.0)}{6.0}$.\n\nTip: the center of mass is always closer to the heavier object.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 m"
+      ],
+      "searchQuery": "center of mass two particles weighted average position"
+    },
+    {
+      "id": "center-of-mass-motion-explosion",
+      "title": "A projectile explodes in mid-air. What path does the center of mass of the fragments follow (before any hits the ground)?",
+      "body": "The **same parabola** the unexploded projectile would have followed.\n\nThe explosion's forces are internal, so only gravity affects the system's total momentum, hence its center-of-mass motion.\n\nWatch out: individual fragments follow different paths, and the first one to land does not change the center of mass's path until it hits.",
+      "searchQuery": "center of mass of exploding projectile follows same parabola"
+    },
+    {
+      "id": "center-of-mass-velocity",
+      "title": "For a system of particles, how does the net external force relate to the center-of-mass motion?",
+      "body": "$\\sum\\vec{F}_{\\text{ext}} = M\\vec{a}_{\\text{cm}}$\n\nHere $M$ is the total mass. The center of mass accelerates as though all the mass were concentrated there and all external forces acted on it.\n\nKey idea: internal forces never change the motion of the center of mass.",
+      "searchQuery": "net external force equals total mass times center of mass acceleration"
+    },
+    {
+      "id": "elastic-versus-inelastic-definition",
+      "title": "What distinguishes an elastic collision from an inelastic one?",
+      "body": "In an **elastic** collision kinetic energy is conserved; in an **inelastic** one it is not.\n\nMomentum is conserved in both (when no net external force acts).\n\nWatch out: \"inelastic\" does not mean the objects stick; sticking together (perfectly inelastic) is just the case of maximum kinetic energy loss.",
+      "searchQuery": "elastic versus inelastic collision kinetic energy conserved"
+    },
+    {
+      "id": "perfectly-inelastic-final-velocity",
+      "title": "Masses $m_1$ and $m_2$ with velocities $v_1$ and $v_2$ collide in 1D and stick together. What is their common velocity afterward?",
+      "body": "$v_f = \\dfrac{m_1v_1 + m_2v_2}{m_1 + m_2}$\n\nMomentum conservation with a single final velocity. Velocities are signed.\n\nWatch out: a mass moving the opposite way enters with a negative $v$.",
+      "searchQuery": "perfectly inelastic collision final velocity formula momentum"
+    },
+    {
+      "id": "kinetic-energy-lost-numeric",
+      "title": "A $2.0\\,\\mathrm{kg}$ puck moving at $6.0\\,\\mathrm{m/s}$ hits and sticks to an identical puck at rest. How much kinetic energy is lost, in joules?",
+      "body": "$18\\,\\mathrm{J}$\n\nMomentum: $(2.0)(6.0) = (4.0)v$, so $v = 3.0\\,\\mathrm{m/s}$. Kinetic energy: $\\tfrac{1}{2}(2.0)(6.0)^2 = 36\\,\\mathrm{J}$ before and $\\tfrac{1}{2}(4.0)(3.0)^2 = 18\\,\\mathrm{J}$ after.\n\nWhy: the lost $18\\,\\mathrm{J}$ becomes thermal energy and deformation.",
+      "answer": "18",
+      "acceptedAnswers": [
+        "18 J",
+        "18 joules"
+      ],
+      "searchQuery": "kinetic energy lost perfectly inelastic collision pucks numeric"
+    },
+    {
+      "id": "equal-mass-sticking-energy-fraction",
+      "title": "An object hits an identical object at rest and they stick together. What fraction of the initial kinetic energy is lost?",
+      "body": "One half, $\\tfrac{1}{2}$.\n\nThe final speed is $v/2$, so the final kinetic energy is $\\tfrac{1}{2}(2m)(v/2)^2 = \\tfrac{1}{4}mv^2$, half of the initial $\\tfrac{1}{2}mv^2$.\n\nTip: this is a handy check: the answer doesn't depend on the masses' values, only on their equality.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5",
+        "half",
+        "one half",
+        "50%"
+      ],
+      "answerDisplay": "$\\tfrac{1}{2}$",
+      "searchQuery": "fraction of kinetic energy lost equal masses stick together"
+    },
+    {
+      "id": "elastic-relative-speed-rule",
+      "title": "In a 1D elastic collision, how does the relative speed of the objects after the collision compare with before?",
+      "body": "The relative speed is **the same**, with the direction reversed.\n\nCombining momentum and energy conservation gives $v_{1i} - v_{2i} = -(v_{1f} - v_{2f})$.\n\nTip: this linear relation plus momentum conservation is often easier than solving the quadratic energy equation.",
+      "searchQuery": "elastic collision relative speed of approach equals separation"
+    },
+    {
+      "id": "elastic-light-hits-heavy",
+      "title": "A light ball hits a much heavier stationary ball head-on in an elastic collision. What happens to the light ball?",
+      "body": "It **bounces back** with nearly its original speed; the heavy ball barely moves.\n\nFor $m_1 \\ll m_2$: $v_{1f} = \\dfrac{m_1 - m_2}{m_1 + m_2}v_{1i} \\approx -v_{1i}$.\n\nExample: a ball bouncing off a wall (like the Earth).",
+      "searchQuery": "light object hits heavy stationary object elastic collision bounces back"
+    },
+    {
+      "id": "elastic-heavy-hits-light",
+      "title": "A heavy object hits a much lighter stationary object head-on in an elastic collision. What is the light object's final speed, approximately?",
+      "body": "About **twice** the heavy object's speed.\n\nFor $m_1 \\gg m_2$: $v_{2f} = \\dfrac{2m_1}{m_1 + m_2}v_{1i} \\approx 2v_{1i}$, while the heavy object barely slows.\n\nExample: a bowling ball hitting a table-tennis ball flings it off at about twice the bowling ball's speed.",
+      "searchQuery": "heavy object hits light stationary object elastic collision twice speed"
+    },
+    {
+      "id": "elastic-collision-numeric",
+      "title": "A $2.0\\,\\mathrm{kg}$ block at $3.0\\,\\mathrm{m/s}$ hits a $1.0\\,\\mathrm{kg}$ block at rest, head-on and elastically. The $1.0\\,\\mathrm{kg}$ block's speed afterward, in $\\mathrm{m/s}$?",
+      "body": "$4.0\\,\\mathrm{m/s}$\n\n$v_{2f} = \\dfrac{2m_1}{m_1 + m_2}v_{1i} = \\dfrac{2(2.0)}{3.0}(3.0)$. The $2.0\\,\\mathrm{kg}$ block continues at $v_{1f} = \\dfrac{m_1 - m_2}{m_1 + m_2}v_{1i} = 1.0\\,\\mathrm{m/s}$.\n\nCheck: momentum is $6.0$ before and $(2.0)(1.0) + (1.0)(4.0) = 6.0$ after.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 m/s"
+      ],
+      "searchQuery": "1D elastic collision numeric 2 kg and 1 kg final velocity"
+    },
+    {
+      "id": "coefficient-of-restitution-bounce",
+      "title": "A ball dropped from $1.0\\,\\mathrm{m}$ onto the floor bounces back up to $0.64\\,\\mathrm{m}$. What is the coefficient of restitution $e$?",
+      "body": "$e = 0.80$\n\n$e = \\dfrac{\\text{speed after}}{\\text{speed before}} = \\sqrt{\\dfrac{h'}{h}} = \\sqrt{0.64}$.\n\nWhy: speed is proportional to the square root of height. $e = 1$ is perfectly elastic; $e = 0$ is perfectly inelastic.",
+      "answer": "0.8",
+      "acceptedAnswers": [
+        "4/5"
+      ],
+      "searchQuery": "coefficient of restitution bounce height square root ratio"
+    },
+    {
+      "id": "ballistic-pendulum-conserved",
+      "title": "A bullet embeds in a hanging block (ballistic pendulum). Which quantity is conserved during the embedding: momentum, kinetic energy, or both?",
+      "body": "Only **momentum**.\n\nThe embedding is perfectly inelastic and very brief, so momentum is conserved (external forces are negligible during it) but kinetic energy is not.\n\nTip: afterward, the swing up is a separate stage where mechanical energy of block and bullet is conserved.",
+      "searchQuery": "ballistic pendulum which quantity conserved momentum kinetic energy"
+    },
+    {
+      "id": "ballistic-pendulum-height",
+      "title": "A $0.010\\,\\mathrm{kg}$ bullet at $400\\,\\mathrm{m/s}$ embeds in a hanging $0.990\\,\\mathrm{kg}$ block. How high does the block rise, in meters to 2 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$0.82\\,\\mathrm{m}$\n\nStage 1 (momentum): $(0.010)(400) = (1.000)v$, so $v = 4.0\\,\\mathrm{m/s}$. Stage 2 (energy): $h = \\dfrac{v^2}{2g} = \\dfrac{16}{19.6}$.\n\nWatch out: don't apply energy conservation to the whole process; energy is lost in stage 1.",
+      "answer": "0.82",
+      "acceptedAnswers": [
+        "0.82 m",
+        "0.816"
+      ],
+      "searchQuery": "ballistic pendulum height numeric bullet block"
+    },
+    {
+      "id": "collision-2d-component-conservation",
+      "title": "How do you apply momentum conservation to a two-dimensional collision?",
+      "body": "Conserve momentum **separately** along each axis.\n\n$\\sum p_x$ and $\\sum p_y$ are each unchanged, giving two equations.\n\nTip: choose axes so one component is simple; for example, make $x$ the incoming direction.",
+      "searchQuery": "two dimensional collision momentum conserved in each component"
+    },
+    {
+      "id": "equal-mass-elastic-right-angle",
+      "title": "A moving ball hits an identical stationary ball off-center in an elastic collision. What is the angle between their velocities afterward?",
+      "body": "$90^\\circ$\n\nMomentum gives $\\vec{v}_0 = \\vec{v}_1 + \\vec{v}_2$ and energy gives $v_0^2 = v_1^2 + v_2^2$. Together they say the velocities are perpendicular (Pythagoras).\n\nWatch out: this holds only for equal masses and a stationary target; head-on is the special case where one ball stops.",
+      "searchQuery": "equal mass elastic collision 2D right angle after collision"
+    },
+    {
+      "id": "collision-equal-opposite-impulses",
+      "title": "In a car-truck collision, how do the impulses on the two vehicles compare, and who has the larger change in velocity?",
+      "body": "The impulses are **equal and opposite**; the lighter car has the larger $\\Delta v$.\n\nThird law: the contact forces are equal and opposite for the same time interval, so $\\Delta p_1 = -\\Delta p_2$.\n\nWhy: with $\\Delta p = m\\,\\Delta v$ the same, the smaller mass undergoes the larger velocity change.",
+      "searchQuery": "collision equal and opposite impulses lighter vehicle larger velocity change"
+    },
+    {
+      "id": "torque-lever-arm-definition",
+      "title": "Besides $\\tau = rF\\sin\\theta$, how can the magnitude of a torque be written using the lever arm?",
+      "body": "$\\tau = r_\\perp F$\n\nThe lever arm $r_\\perp$ is the perpendicular distance from the axis to the line of action of the force; $r_\\perp = r\\sin\\theta$.\n\nTip: a force whose line of action passes through the axis has zero lever arm and exerts no torque.",
+      "searchQuery": "torque lever arm perpendicular distance definition"
+    },
+    {
+      "id": "rotational-second-law-numeric",
+      "title": "A net torque of $6.0\\,\\mathrm{N\\cdot m}$ acts on a wheel with moment of inertia $2.0\\,\\mathrm{kg\\cdot m^2}$. What is its angular acceleration, in $\\mathrm{rad/s^2}$?",
+      "body": "$3.0\\,\\mathrm{rad/s^2}$\n\nRotational second law: $\\sum\\tau = I\\alpha$, so $\\alpha = \\dfrac{6.0}{2.0}$.\n\nKey idea: it is the rotational analogue of $F = ma$, with torque, moment of inertia and angular acceleration in place of force, mass and acceleration.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3 rad/s^2"
+      ],
+      "searchQuery": "net torque angular acceleration moment of inertia tau equals I alpha"
+    },
+    {
+      "id": "moment-of-inertia-point-masses",
+      "title": "Two $1.0\\,\\mathrm{kg}$ masses are attached to a very light rod, each $0.50\\,\\mathrm{m}$ from the rotation axis. What is the system's moment of inertia, in $\\mathrm{kg\\cdot m^2}$?",
+      "body": "$0.50\\,\\mathrm{kg\\cdot m^2}$\n\n$I = \\sum m_ir_i^2 = (1.0)(0.50)^2 + (1.0)(0.50)^2$.\n\nWatch out: distances are squared, so moving mass outward raises $I$ quickly.",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "0.5 kg*m^2"
+      ],
+      "searchQuery": "moment of inertia two point masses sum m r squared"
+    },
+    {
+      "id": "moment-of-inertia-solid-disk",
+      "title": "What is the moment of inertia of a uniform solid disk (or cylinder) of mass $M$ and radius $R$ about its central axis?",
+      "body": "$I = \\tfrac{1}{2}MR^2$\n\nA hoop of the same mass and radius has the larger $I = MR^2$, because all its mass sits at the full radius.\n\nTip: a smaller $I/MR^2$ means less rotational energy for the same speed, so a disk rolls down a ramp faster than a hoop.",
+      "answer": "MR^2/2",
+      "acceptedAnswers": [
+        "1/2 MR^2",
+        "(1/2)MR^2",
+        "0.5MR^2",
+        "(MR^2)/2"
+      ],
+      "answerDisplay": "$\\tfrac{1}{2}MR^2$",
+      "searchQuery": "moment of inertia solid disk one half M R squared"
+    },
+    {
+      "id": "rotational-kinetic-energy-numeric",
+      "title": "A flywheel with $I = 0.50\\,\\mathrm{kg\\cdot m^2}$ spins at $4.0\\,\\mathrm{rad/s}$. What is its rotational kinetic energy, in joules?",
+      "body": "$4.0\\,\\mathrm{J}$\n\n$K = \\tfrac{1}{2}I\\omega^2 = \\tfrac{1}{2}(0.50)(4.0)^2$.\n\nWatch out: $\\omega$ must be in rad/s, not revolutions per minute.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 J"
+      ],
+      "searchQuery": "rotational kinetic energy one half I omega squared numeric"
+    },
+    {
+      "id": "rolling-rotational-energy-fraction",
+      "title": "A solid sphere rolls without slipping. What fraction of its total kinetic energy is rotational?",
+      "body": "$\\tfrac{2}{7}$\n\nRotational: $\\tfrac{1}{2}I\\omega^2 = \\tfrac{1}{2}\\cdot\\tfrac{2}{5}MR^2\\cdot\\dfrac{v^2}{R^2} = \\tfrac{1}{5}Mv^2$. Translational: $\\tfrac{1}{2}Mv^2$.\n\nWhy: the fraction is $\\dfrac{1/5}{1/2 + 1/5} = \\dfrac{2}{7}$. For a hoop it is $\\tfrac{1}{2}$.",
+      "answer": "2/7",
+      "acceptedAnswers": [
+        "0.286",
+        "0.29",
+        "two sevenths"
+      ],
+      "answerDisplay": "$\\tfrac{2}{7}$",
+      "searchQuery": "solid sphere rolling fraction of kinetic energy rotational 2/7"
+    },
+    {
+      "id": "rolling-incline-acceleration-sphere",
+      "title": "A solid sphere rolls without slipping down a $30^\\circ$ incline. What is the acceleration of its center, in $\\mathrm{m/s^2}$? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$3.5\\,\\mathrm{m/s^2}$\n\nFor rolling without slipping, $a = \\dfrac{g\\sin\\theta}{1 + I/MR^2} = \\dfrac{(9.8)(0.50)}{1 + 2/5}$.\n\nWatch out: it is less than the frictionless sliding value $g\\sin\\theta = 4.9\\,\\mathrm{m/s^2}$, because some energy goes into rotation.",
+      "answer": "3.5",
+      "acceptedAnswers": [
+        "3.5 m/s^2"
+      ],
+      "searchQuery": "solid sphere rolling down incline acceleration 5/7 g sin theta"
+    },
+    {
+      "id": "turntable-angular-momentum",
+      "title": "A turntable ($I = 2.0\\,\\mathrm{kg\\cdot m^2}$) spins at $6.0\\,\\mathrm{rad/s}$. Clay dropped on it adds $1.0\\,\\mathrm{kg\\cdot m^2}$ to $I$. What is the new angular speed, in $\\mathrm{rad/s}$?",
+      "body": "$4.0\\,\\mathrm{rad/s}$\n\nNo external torque, so $L = I\\omega$ is conserved: $(2.0)(6.0) = (3.0)\\omega$.\n\nWatch out: kinetic energy is not conserved; this is a rotational perfectly inelastic collision, and energy is lost.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "4 rad/s"
+      ],
+      "searchQuery": "turntable angular momentum conservation added moment of inertia"
+    },
+    {
+      "id": "seesaw-balance-distance",
+      "title": "A $40\\,\\mathrm{kg}$ child sits $2.0\\,\\mathrm{m}$ from the pivot of a balanced seesaw. How far from the pivot, in meters, must a $50\\,\\mathrm{kg}$ child sit on the other side?",
+      "body": "$1.6\\,\\mathrm{m}$\n\nRotational equilibrium requires equal torques about the pivot: $(40)g(2.0) = (50)g\\,d$, so $d = \\dfrac{80}{50}$.\n\nTip: $g$ cancels, so the answer is the same on any planet.",
+      "answer": "1.6",
+      "acceptedAnswers": [
+        "1.6 m"
+      ],
+      "searchQuery": "seesaw balance torque equilibrium distance from pivot"
+    },
+    {
+      "id": "gravity-at-altitude-numeric",
+      "title": "At a height above Earth's surface equal to Earth's radius, what is the free-fall acceleration, in $\\mathrm{m/s^2}$? (Surface value $g = 9.8\\,\\mathrm{m/s^2}$.)",
+      "body": "$2.45\\,\\mathrm{m/s^2}$\n\nThe distance from Earth's center is $2R$, and $g \\propto 1/r^2$, so $g' = \\dfrac{9.8}{2^2}$.\n\nWatch out: the distance is measured from the center, not from the surface.",
+      "answer": "2.45",
+      "acceptedAnswers": [
+        "2.45 m/s^2",
+        "2.5"
+      ],
+      "searchQuery": "gravitational acceleration at altitude equal to earth radius inverse square"
+    },
+    {
+      "id": "circular-orbit-speed",
+      "title": "What is the speed of a satellite in a circular orbit of radius $r$ about a mass $M$?",
+      "body": "$v = \\sqrt{\\dfrac{GM}{r}}$\n\nGravity supplies the centripetal force: $\\dfrac{GMm}{r^2} = \\dfrac{mv^2}{r}$. The satellite's mass cancels.\n\nExample: just above Earth's surface (ignoring air) this is about $7.9\\,\\mathrm{km/s}$.",
+      "searchQuery": "circular orbital speed sqrt GM over r"
+    },
+    {
+      "id": "kepler-third-law-scaling",
+      "title": "Planet B orbits a star at four times the orbital radius of planet A. By what factor is B's orbital period longer?",
+      "body": "$8$\n\nKepler's third law: $T^2 \\propto r^3$, so $T \\propto r^{3/2}$ and $T_B/T_A = 4^{3/2}$.\n\nTip: $4^{3/2} = (\\sqrt{4})^3 = 8$.",
+      "answer": "8",
+      "acceptedAnswers": [
+        "8x",
+        "x8",
+        "eight",
+        "8 times",
+        "eight times",
+        "factor of 8"
+      ],
+      "searchQuery": "Kepler third law period scales with radius to the 3/2"
+    },
+    {
+      "id": "gravitational-potential-energy-distance",
+      "title": "What is the gravitational potential energy of masses $m_1$ and $m_2$ a distance $r$ apart, with $U = 0$ at infinite separation?",
+      "body": "$U = -\\dfrac{Gm_1m_2}{r}$\n\nIt is **negative** because the masses are bound: work must be done on them to separate them to infinity.\n\nWatch out: $U = mgh$ is only the small-height approximation of the change in this expression.",
+      "searchQuery": "gravitational potential energy negative GMm over r"
+    },
+    {
+      "id": "orbit-weightlessness",
+      "title": "Why do astronauts in the International Space Station float, even though gravity there is about 90% of its surface value?",
+      "body": "They and the station are in **continuous free fall**.\n\nThey fall toward Earth but also move sideways fast enough that the ground curves away beneath them.\n\nWatch out: the apparent weightlessness comes from the lack of a normal force, not from the absence of gravity.",
+      "searchQuery": "astronauts weightless in orbit free fall not zero gravity"
+    },
+    {
+      "id": "shm-defining-condition",
+      "title": "What condition on the net force defines simple harmonic motion?",
+      "body": "A **restoring force proportional to displacement**: $F = -kx$.\n\nThis gives $a = -\\omega^2x$ with $\\omega = \\sqrt{k/m}$, and sinusoidal motion $x = A\\cos(\\omega t + \\phi)$.\n\nWatch out: a constant restoring force, or one that grows as $x^2$, would not give SHM.",
+      "searchQuery": "simple harmonic motion defining condition restoring force proportional to displacement"
+    },
+    {
+      "id": "shm-period-numeric",
+      "title": "A $0.50\\,\\mathrm{kg}$ mass on an ideal spring with $k = 50\\,\\mathrm{N/m}$ oscillates. What is its period, in seconds to 3 significant figures?",
+      "body": "$0.628\\,\\mathrm{s}$\n\n$T = 2\\pi\\sqrt{\\dfrac{m}{k}} = 2\\pi\\sqrt{\\dfrac{0.50}{50}} = 2\\pi(0.10)$.\n\nTip: $\\omega = \\sqrt{k/m} = 10\\,\\mathrm{rad/s}$, so $T = 2\\pi/\\omega$.",
+      "answer": "0.628",
+      "acceptedAnswers": [
+        "0.628 s",
+        "0.63"
+      ],
+      "searchQuery": "mass spring period numeric 0.5 kg 50 N/m"
+    },
+    {
+      "id": "shm-max-speed-acceleration",
+      "title": "An oscillator has amplitude $A = 0.10\\,\\mathrm{m}$ and angular frequency $\\omega = 5.0\\,\\mathrm{rad/s}$. What is its maximum speed, in $\\mathrm{m/s}$?",
+      "body": "$0.50\\,\\mathrm{m/s}$\n\n$v_{\\max} = A\\omega = (0.10)(5.0)$, reached as it passes through equilibrium.\n\nExample: the maximum acceleration is $A\\omega^2 = 2.5\\,\\mathrm{m/s^2}$, at the turning points.",
+      "answer": "0.5",
+      "acceptedAnswers": [
+        "0.5 m/s"
+      ],
+      "searchQuery": "SHM maximum speed amplitude times angular frequency"
+    },
+    {
+      "id": "shm-kinetic-fraction-half-amplitude",
+      "title": "A mass-spring oscillator is at $x = A/2$. What fraction of its total energy is kinetic?",
+      "body": "$\\tfrac{3}{4}$\n\nTotal energy is $\\tfrac{1}{2}kA^2$; the potential energy at $x = A/2$ is $\\tfrac{1}{2}k(A/2)^2 = \\tfrac{1}{4}$ of that.\n\nWhy: the remaining $\\tfrac{3}{4}$ is kinetic, since $K + U$ is constant.",
+      "answer": "3/4",
+      "acceptedAnswers": [
+        "0.75",
+        "75%",
+        "three quarters"
+      ],
+      "answerDisplay": "$\\tfrac{3}{4}$",
+      "searchQuery": "SHM kinetic energy fraction at half amplitude three quarters"
+    },
+    {
+      "id": "pendulum-period-numeric",
+      "title": "What is the period of a simple pendulum of length $1.0\\,\\mathrm{m}$ with small swings, in seconds to 3 significant figures? ($g = 9.8\\,\\mathrm{m/s^2}$)",
+      "body": "$2.01\\,\\mathrm{s}$\n\n$T = 2\\pi\\sqrt{\\dfrac{L}{g}} = 2\\pi\\sqrt{\\dfrac{1.0}{9.8}}$.\n\nTip: a pendulum of about $1\\,\\mathrm{m}$ has a period near $2\\,\\mathrm{s}$, each swing taking roughly one second.",
+      "answer": "2.01",
+      "acceptedAnswers": [
+        "2.01 s",
+        "2.0",
+        "2.007"
+      ],
+      "searchQuery": "simple pendulum period 1 meter numeric"
+    },
+    {
+      "id": "moment-of-inertia-solid-sphere",
+      "title": "What is the moment of inertia of a uniform solid sphere of mass $M$ and radius $R$ about an axis through its center?",
+      "body": "$I = \\tfrac{2}{5}MR^2$\n\nA thin spherical shell has $I = \\tfrac{2}{3}MR^2$; the solid sphere's is smaller because more of its mass lies near the axis.\n\nTip: remember the order $\\tfrac{2}{5} < \\tfrac{1}{2} < 1$ (solid sphere, disk, hoop) for the rolling race.",
+      "answer": "2MR^2/5",
+      "acceptedAnswers": [
+        "2/5 MR^2",
+        "(2/5)MR^2",
+        "0.4MR^2",
+        "(2MR^2)/5"
+      ],
+      "answerDisplay": "$\\tfrac{2}{5}MR^2$",
+      "searchQuery": "moment of inertia solid sphere two fifths M R squared"
+    }
+  ]
+}

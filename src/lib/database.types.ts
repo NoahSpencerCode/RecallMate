@@ -7,14 +7,14 @@ export type Database = {
           Tables: {
             "memories": {
                   Row: {
-                    "accepted_answers": (string)[],"answer": string | null,"body": string,"created_at": string,"due_on": string,"id": string,"lapse_count": number,"last_reviewed_on": string | null,"pack_card_id": string | null,"pack_id": string | null,"review_count": number,"stage": number,"title": string,"updated_at": string,"user_id": string
+                    "accepted_answers": (string)[],"answer": string | null,"answer_display": string | null,"body": string,"created_at": string,"due_on": string,"id": string,"lapse_count": number,"last_reviewed_on": string | null,"pack_card_id": string | null,"pack_id": string | null,"review_count": number,"search_query": string | null,"stage": number,"title": string,"updated_at": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "accepted_answers"?: (string)[],"answer"?: string | null,"body"?: string,"created_at"?: string,"due_on": string,"id"?: string,"lapse_count"?: number,"last_reviewed_on"?: string | null,"pack_card_id"?: string | null,"pack_id"?: string | null,"review_count"?: number,"stage"?: number,"title": string,"updated_at"?: string,"user_id"?: string
+                    "accepted_answers"?: (string)[],"answer"?: string | null,"answer_display"?: string | null,"body"?: string,"created_at"?: string,"due_on": string,"id"?: string,"lapse_count"?: number,"last_reviewed_on"?: string | null,"pack_card_id"?: string | null,"pack_id"?: string | null,"review_count"?: number,"search_query"?: string | null,"stage"?: number,"title": string,"updated_at"?: string,"user_id"?: string
                   }
                   Update: {
-                    "accepted_answers"?: (string)[],"answer"?: string | null,"body"?: string,"created_at"?: string,"due_on"?: string,"id"?: string,"lapse_count"?: number,"last_reviewed_on"?: string | null,"pack_card_id"?: string | null,"pack_id"?: string | null,"review_count"?: number,"stage"?: number,"title"?: string,"updated_at"?: string,"user_id"?: string
+                    "accepted_answers"?: (string)[],"answer"?: string | null,"answer_display"?: string | null,"body"?: string,"created_at"?: string,"due_on"?: string,"id"?: string,"lapse_count"?: number,"last_reviewed_on"?: string | null,"pack_card_id"?: string | null,"pack_id"?: string | null,"review_count"?: number,"search_query"?: string | null,"stage"?: number,"title"?: string,"updated_at"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -33,14 +33,14 @@ isOneToOne: false
                   ]
                 },"pack_cards": {
                   Row: {
-                    "accepted_answers": (string)[],"answer": string | null,"body": string,"id": string,"pack_id": string,"position": number,"title": string
+                    "accepted_answers": (string)[],"answer": string | null,"answer_display": string | null,"body": string,"id": string,"pack_id": string,"position": number,"search_query": string | null,"title": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "accepted_answers"?: (string)[],"answer"?: string | null,"body": string,"id": string,"pack_id": string,"position": number,"title": string
+                    "accepted_answers"?: (string)[],"answer"?: string | null,"answer_display"?: string | null,"body": string,"id": string,"pack_id": string,"position": number,"search_query"?: string | null,"title": string
                   }
                   Update: {
-                    "accepted_answers"?: (string)[],"answer"?: string | null,"body"?: string,"id"?: string,"pack_id"?: string,"position"?: number,"title"?: string
+                    "accepted_answers"?: (string)[],"answer"?: string | null,"answer_display"?: string | null,"body"?: string,"id"?: string,"pack_id"?: string,"position"?: number,"search_query"?: string | null,"title"?: string
                   }
                   Relationships: [
                     {
@@ -144,6 +144,7 @@ isOneToOne: false
 { Args: { "p_attempts"?: number,"p_memory_id": string,"p_passed": boolean,"p_today": string }; Returns: {
               "accepted_answers": (string)[],
 "answer": string | null,
+"answer_display": string | null,
 "body": string,
 "created_at": string,
 "due_on": string,
@@ -153,6 +154,7 @@ isOneToOne: false
 "pack_card_id": string | null,
 "pack_id": string | null,
 "review_count": number,
+"search_query": string | null,
 "stage": number,
 "title": string,
 "updated_at": string,

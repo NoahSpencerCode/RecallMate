@@ -1,0 +1,850 @@
+{
+  "id": "calc-derivative-apps",
+  "title": "Applications of Derivatives",
+  "course": "Calculus I",
+  "description": "Critical numbers, EVT and the Closed Interval Method, Rolle and MVT, derivative tests, concavity, linearization, related rates, optimization, Newton's method.",
+  "cards": [
+    {
+      "id": "critical-numbers",
+      "title": "What makes $c$ a critical number of $f$?",
+      "body": "$c$ is in the domain of $f$, and either $f'(c) = 0$ or $f'(c)$ does not exist\n\nBy **Fermat's theorem**, local extrema occur only at critical numbers, but not every critical number gives one: $x^3$ has $f'(0) = 0$ and no extremum at $0$.\n\nExample: $f(x) = x^{2/3}$ has a critical number at $0$, where $f'$ is undefined.\nWatch out: a point outside the domain never counts; $x = 0$ is not a critical number of $\\frac{1}{x}$.",
+      "searchQuery": "critical number definition f prime zero or undefined"
+    },
+    {
+      "id": "extreme-value-theorem",
+      "title": "Extreme Value Theorem: what hypotheses guarantee $f$ attains an absolute max and an absolute min?",
+      "body": "$f$ is continuous on a closed interval $[a, b]$\n\nThen $f(c)$ is the absolute max and $f(d)$ the absolute min for some $c, d$ in $[a, b]$. Drop **either condition** and it can fail.\n\nExample: $f(x) = x$ on $(0, 1)$ has neither (not closed), and $f(x) = \\frac{1}{x}$ with $f(0) = 0$ on $[-1, 1]$ has neither (not continuous).\nKey idea: the theorem guarantees that extremes exist, not where they are; the Closed Interval Method finds them.",
+      "searchQuery": "extreme value theorem continuous closed interval absolute max min"
+    },
+    {
+      "id": "closed-interval-method",
+      "title": "What is the absolute maximum value of $f(x) = x^3 - 3x$ on $[0, 3]$?",
+      "body": "$18$\n\nIt occurs at the endpoint $x = 3$. **Closed Interval Method**: $f'(x) = 3x^2 - 3 = 0$ at $x = \\pm 1$, and only $x = 1$ lies in $[0, 3]$. Compare $f(0) = 0$, $f(1) = -2$ and $f(3) = 18$: the largest is the absolute max and the smallest, $-2$, is the absolute min.\n\nWatch out: skip the endpoints and you miss the maximum.",
+      "answer": "18",
+      "answerDisplay": "$18$",
+      "searchQuery": "closed interval method absolute maximum x^3-3x on [0,3]"
+    },
+    {
+      "id": "rolles-theorem",
+      "title": "Rolle's Theorem: $f$ is continuous on $[a, b]$ and differentiable on $(a, b)$. What third hypothesis is needed?",
+      "body": "$f(a) = f(b)$\n\nThen $f'(c) = 0$ for some $c$ in $(a, b)$: a **horizontal tangent**. Differentiability matters: $|x|$ on $[-1, 1]$ has equal endpoint values but no horizontal tangent.\n\nKey idea: Rolle's Theorem is the Mean Value Theorem for a horizontal secant.",
+      "answer": "f(a)=f(b)",
+      "acceptedAnswers": [
+        "f(b)=f(a)"
+      ],
+      "answerDisplay": "$f(a) = f(b)$",
+      "searchQuery": "Rolle theorem third hypothesis f(a)=f(b)"
+    },
+    {
+      "id": "mean-value-theorem",
+      "title": "Mean Value Theorem: $f$ is continuous on $[a, b]$ and differentiable on $(a, b)$. What does it guarantee?",
+      "body": "Some $c$ in $(a, b)$ has $f'(c) = \\dfrac{f(b) - f(a)}{b - a}$\n\nThe instantaneous rate equals the average rate at some point, so some tangent is **parallel to the secant**. Rolle's Theorem is the special case $f(a) = f(b)$.\n\nExample: $f(x) = x^2$ on $[0, 2]$ has average slope $2$, and $f'(c) = 2c = 2$ at $c = 1$.\nWatch out: the theorem says such a $c$ exists, not how to find it or that it is unique.",
+      "searchQuery": "mean value theorem statement tangent parallel to secant"
+    },
+    {
+      "id": "mvt-bound",
+      "title": "$f(0) = -3$ and $f'(x) \\le 5$ for all $x$. What is the largest possible value of $f(2)$?",
+      "body": "$7$\n\nThe **Mean Value Theorem** on $[0, 2]$ gives $f(2) - f(0) = 2f'(c) \\le 10$, so $f(2) \\le -3 + 10 = 7$. The bound is reached by $f(x) = 5x - 3$.\n\nTip: a bound on $f'$ becomes a bound on $f$ after multiplying by the interval length.",
+      "answer": "7",
+      "answerDisplay": "$7$",
+      "searchQuery": "mean value theorem f prime bound largest f(2)"
+    },
+    {
+      "id": "first-derivative-test",
+      "title": "First Derivative Test: $f'$ changes from positive to negative at a critical number $c$. What does $f$ have at $c$?",
+      "body": "A local maximum\n\n$f$ rises, then falls. Negative to positive gives a local min; **no sign change** ($x^3$ at $0$) gives neither. It needs only the sign of $f'$ near $c$, so it also works at corners where $f'(c)$ doesn't exist.\n\nMnemonic: plus then minus makes a hill; minus then plus makes a valley.",
+      "answer": "local max",
+      "acceptedAnswers": [
+        "local maximum",
+        "relative max",
+        "relative maximum"
+      ],
+      "searchQuery": "first derivative test positive to negative local maximum"
+    },
+    {
+      "id": "second-derivative-test",
+      "title": "Second Derivative Test: $f'(c) = 0$. What do $f''(c) > 0$, $f''(c) < 0$ and $f''(c) = 0$ each tell you?",
+      "body": "$f''(c) > 0$: local min. $f''(c) < 0$: local max. $f''(c) = 0$: inconclusive\n\nConcave up at a flat point is a valley; concave down is a hill. $x^4$, $-x^4$ and $x^3$ all have $f'(0) = f''(0) = 0$, yet give a min, a max and neither. When the test is **inconclusive**, fall back on the First Derivative Test.\n\nTip: use it when $f''$ is easy to compute; a sign chart for $f'$ always works.",
+      "searchQuery": "second derivative test f double prime positive negative zero"
+    },
+    {
+      "id": "inflection-point-check",
+      "title": "$f(x) = x^4$ has $f''(0) = 0$. Does $f$ have an inflection point at $x = 0$?",
+      "body": "No\n\nHere $f''(x) = 12x^2$ is positive on both sides of $0$, so the graph is concave up throughout. An inflection point needs a **change in concavity** ($f''$ changes sign); $f'' = 0$ only flags a candidate.\n\nWatch out: $f''(c) = 0$ is necessary for an inflection point (where $f''$ exists), but not sufficient.",
+      "answer": "no",
+      "searchQuery": "inflection point x^4 f double prime zero concavity change"
+    },
+    {
+      "id": "linearization",
+      "title": "Linearization of $f$ at $x = a$: $L(x) = \\,?$",
+      "body": "$f(a) + f'(a)(x - a)$\n\nThis is the **tangent line** at $a$, so it is accurate only near $a$.\n\nExample: $\\sqrt{x}$ at $a = 4$ gives $L(x) = 2 + \\frac{x - 4}{4}$, so $\\sqrt{4.1} \\approx 2.025$ (true value $\\approx 2.0248$).\nWatch out: the farther $x$ is from $a$, the worse the approximation gets.",
+      "answer": "f(a)+f'(a)(x-a)",
+      "acceptedAnswers": [
+        "f'(a)(x-a)+f(a)",
+        "f(a)+(x-a)f'(a)",
+        "L(x)=f(a)+f'(a)(x-a)"
+      ],
+      "answerDisplay": "$f(a) + f'(a)(x - a)$",
+      "searchQuery": "linearization formula L(x) tangent line approximation"
+    },
+    {
+      "id": "differentials",
+      "title": "For $y = f(x)$, what is the differential $dy$, and how does it relate to $\\Delta y$?",
+      "body": "$dy = f'(x)\\,dx$\n\nIt is the change along the tangent line. $\\Delta y = f(x + \\Delta x) - f(x)$ is the **actual change**, and $\\Delta y \\approx dy$ when $dx = \\Delta x$ is small.\n\nExample: for a sphere, $V = \\frac{4}{3}\\pi r^3$ gives $dV = 4\\pi r^2\\,dr$.\nKey idea: $dy$ is the change on the tangent line; $\\Delta y$ is the true change on the curve.",
+      "searchQuery": "differential dy equals f prime dx versus delta y"
+    },
+    {
+      "id": "related-rates-circle",
+      "title": "A circle's radius grows at $2\\ \\mathrm{cm/s}$. How fast is its area growing when $r = 5\\ \\mathrm{cm}$? (Give the number in $\\mathrm{cm^2/s}$.)",
+      "body": "$20\\pi$\n\nThat is about $62.8\\ \\mathrm{cm^2/s}$. Since $A = \\pi r^2$, $\\frac{dA}{dt} = 2\\pi r\\,\\frac{dr}{dt} = 2\\pi(5)(2)$. Strategy: write an equation linking the quantities, differentiate with respect to $t$, and **only then** plug in the values at that instant.\n\nWatch out: substitute $r = 5$ after differentiating, never before.",
+      "answer": "20pi",
+      "acceptedAnswers": [
+        "20pi cm^2/s",
+        "20pi cm^2/sec"
+      ],
+      "answerDisplay": "$20\\pi$",
+      "searchQuery": "related rates circle area growing radius 2 cm/s"
+    },
+    {
+      "id": "optimization-rectangle",
+      "title": "Of all rectangles with perimeter $40$, what is the largest possible area?",
+      "body": "$100$\n\nIt comes from a $10$ by $10$ square. With sides $x$ and $20 - x$, $A = x(20 - x)$ on $[0, 20]$; $A' = 20 - 2x = 0$ at $x = 10$, and the endpoints give $A = 0$. Strategy: write the objective in **one variable**, find its domain, then compare critical points and endpoints.\n\nKey idea: among rectangles with a fixed perimeter, the square has the greatest area.",
+      "answer": "100",
+      "answerDisplay": "$100$",
+      "searchQuery": "optimization rectangle fixed perimeter 40 maximum area"
+    },
+    {
+      "id": "newtons-method",
+      "title": "Newton's method on $f(x) = x^2 - 2$ with $x_1 = 1$: what is $x_2$?",
+      "body": "$1.5$\n\n$x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)} = 1 - \\frac{-1}{2} = 1.5$. Next, $x_3 \\approx 1.4167$, **closing in** on $\\sqrt{2} \\approx 1.4142$.\n\nWatch out: the method can fail if $f'(x_n) = 0$ or the first guess is poor.",
+      "answer": "1.5",
+      "acceptedAnswers": [
+        "3/2"
+      ],
+      "answerDisplay": "$1.5$",
+      "searchQuery": "Newton's method x^2-2 starting at 1 second approximation 1.5"
+    },
+    {
+      "id": "antiderivative-initial-value",
+      "title": "Find $f(x)$ if $f'(x) = 6x^2$ and $f(1) = 5$.",
+      "body": "$f(x) = 2x^3 + 3$\n\nThe **general antiderivative** is $2x^3 + C$ (on an interval, antiderivatives differ only by a constant). Then $f(1) = 2 + C = 5$ gives $C = 3$.\n\nWatch out: forget the $+ C$ and the initial condition can't be met.",
+      "answer": "2x^3+3",
+      "acceptedAnswers": [
+        "f(x)=2x^3+3",
+        "y=2x^3+3",
+        "3+2x^3"
+      ],
+      "answerDisplay": "$2x^3 + 3$",
+      "searchQuery": "antiderivative initial value problem f prime 6x^2 f(1)=5"
+    },
+    {
+      "id": "local-extremum-definition",
+      "title": "What does it mean for $f$ to have a local maximum at $c$?",
+      "body": "$f(c) \\ge f(x)$ for all $x$ in some open interval around $c$.\n\n\"Local\" means only nearby points are compared. For a **local minimum**, reverse the inequality.\n\nExample: $f(x) = x^3 - 3x$ has a local max at $x = -1$, even though $f$ takes larger values elsewhere.",
+      "searchQuery": "local maximum definition f(c) at least f(x) near c"
+    },
+    {
+      "id": "absolute-vs-local-extrema",
+      "title": "How does an absolute maximum differ from a local maximum?",
+      "body": "An **absolute maximum** at $c$ means $f(c) \\ge f(x)$ for every $x$ in the domain; a local maximum only requires it near $c$.\n\nEvery absolute extremum in the interior of an interval is also a local extremum, but not conversely.\n\nWatch out: an absolute extremum at an endpoint of $[a, b]$ is not a local extremum in the usual interior sense.",
+      "searchQuery": "absolute maximum versus local maximum difference"
+    },
+    {
+      "id": "fermats-theorem",
+      "title": "Fermat's Theorem: if $f$ has a local extremum at $c$ and $f'(c)$ exists, what is $f'(c)$?",
+      "body": "$0$\n\nAt a smooth peak or valley the tangent line is horizontal. So local extrema can occur only at **critical numbers**.\n\nWatch out: the converse is false. $f(x) = x^3$ has $f'(0) = 0$ but no extremum at $0$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "Fermat theorem local extremum derivative equals zero"
+    },
+    {
+      "id": "critical-number-count",
+      "title": "How many critical numbers does $f(x) = x^3 - 3x^2$ have?",
+      "body": "$2$\n\n$f'(x) = 3x^2 - 6x = 3x(x - 2)$, which is zero at $x = 0$ and $x = 2$. It is defined everywhere, so these are the only two.\n\nTip: factor $f'$, set each factor to zero, then also look for points where $f'$ is undefined.",
+      "answer": "2",
+      "answerDisplay": "$2$",
+      "searchQuery": "how many critical numbers x^3-3x^2"
+    },
+    {
+      "id": "critical-numbers-rational",
+      "title": "Find the critical numbers of $f(x) = \\dfrac{x}{x^2 + 1}$. (Separate them with a comma.)",
+      "body": "$-1, 1$\n\nQuotient rule: $f'(x) = \\frac{1 - x^2}{(x^2 + 1)^2}$. The denominator is never zero, so $f'$ always exists, and it is zero when $1 - x^2 = 0$.\n\nTip: for a quotient, set the **numerator** of $f'$ to zero, then check where the denominator is zero.",
+      "answer": "-1, 1",
+      "acceptedAnswers": [
+        "1, -1",
+        "-1 and 1",
+        "1 and -1"
+      ],
+      "answerDisplay": "$-1,\\ 1$",
+      "searchQuery": "critical numbers of x over x^2+1"
+    },
+    {
+      "id": "critical-number-domain-check",
+      "title": "Is $x = 0$ a critical number of $f(x) = \\dfrac{1}{x}$?",
+      "body": "No\n\n$f'(x) = -\\frac{1}{x^2}$ is undefined at $0$, but $0$ is **not in the domain** of $f$, so it isn't a critical number.\n\nWatch out: a critical number must lie in the domain of $f$ itself.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "no, not in the domain"
+      ],
+      "searchQuery": "is x=0 a critical number of 1/x"
+    },
+    {
+      "id": "critical-number-abs-value",
+      "title": "What is the critical number of $f(x) = |x - 2|$?",
+      "body": "$2$\n\nThere is a corner at $x = 2$, so $f'(2)$ does not exist; for $x \\ne 2$ the slope is $\\pm 1$, never zero.\n\nKey idea: critical numbers include points where $f'$ **fails to exist**, not just where it is zero.",
+      "answer": "2",
+      "answerDisplay": "$2$",
+      "searchQuery": "critical number of |x-2|"
+    },
+    {
+      "id": "critical-number-not-extremum",
+      "title": "Is every critical number the location of a local maximum or minimum?",
+      "body": "No\n\nFor $f(x) = x^3$, $f'(0) = 0$, yet $f$ is increasing on both sides, so $0$ is a critical number without an extremum.\n\nFermat's theorem is one-way: **extremum implies critical number**. Use the First or Second Derivative Test to decide.",
+      "answer": "no",
+      "searchQuery": "is every critical number a local extremum"
+    },
+    {
+      "id": "critical-undefined-derivative-no-extremum",
+      "title": "$f(x) = x^{1/3}$ has the critical number $x = 0$, where $f'$ is undefined. Does $f$ have a local extremum there?",
+      "body": "No\n\n$f'(x) = \\frac{1}{3}x^{-2/3} > 0$ for $x \\ne 0$, so $f$ is increasing on both sides of $0$ (with a vertical tangent at $0$).\n\nA critical number from an **undefined derivative** can fail to be an extremum, just like one from $f' = 0$.",
+      "answer": "no",
+      "searchQuery": "x^(1/3) critical number at 0 local extremum"
+    },
+    {
+      "id": "evt-open-interval-fails",
+      "title": "Does $f(x) = \\dfrac{1}{x}$ attain an absolute maximum on $(0, 1]$?",
+      "body": "No\n\nAs $x \\to 0^+$, $\\frac{1}{x} \\to \\infty$, so $f$ is unbounded above. (It does attain an absolute minimum, $f(1) = 1$.)\n\nThe Extreme Value Theorem doesn't apply: $(0, 1]$ is **not closed**. Without its hypotheses, no guarantee.",
+      "answer": "no",
+      "searchQuery": "absolute maximum 1/x on (0,1] extreme value theorem open interval"
+    },
+    {
+      "id": "closed-interval-method-steps",
+      "title": "What are the steps of the Closed Interval Method for $f$ on $[a, b]$?",
+      "body": "1. Find the critical numbers of $f$ in $(a, b)$.\n2. Evaluate $f$ at each critical number.\n3. Evaluate $f$ at the endpoints $a$ and $b$.\n4. The largest value is the absolute max; the smallest is the absolute min.\n\nIt requires $f$ continuous on $[a, b]$, so the Extreme Value Theorem guarantees both exist.\n\nWatch out: compare **function values**, not the $x$-values.",
+      "searchQuery": "closed interval method steps absolute extrema"
+    },
+    {
+      "id": "cim-minimum-example",
+      "title": "What is the absolute minimum value of $f(x) = x^2 - 4x + 1$ on $[0, 5]$?",
+      "body": "$-3$\n\n$f'(x) = 2x - 4 = 0$ at $x = 2$. Compare $f(0) = 1$, $f(2) = -3$ and $f(5) = 6$.\n\nTip: the vertex of the parabola is the minimum, and the larger endpoint value $6$ is the **absolute max**.",
+      "answer": "-3",
+      "answerDisplay": "$-3$",
+      "searchQuery": "absolute minimum x^2-4x+1 on [0,5]"
+    },
+    {
+      "id": "cim-reciprocal-example",
+      "title": "What is the absolute maximum value of $f(x) = x + \\dfrac{1}{x}$ on $\\left[\\dfrac{1}{2}, 3\\right]$?",
+      "body": "$\\dfrac{10}{3}$\n\n$f'(x) = 1 - \\frac{1}{x^2} = 0$ at $x = 1$ (the only critical number in the interval). Compare $f\\left(\\frac{1}{2}\\right) = \\frac{5}{2}$, $f(1) = 2$ and $f(3) = \\frac{10}{3}$.\n\nThe maximum is at the **right endpoint**, and $f(1) = 2$ is the absolute min.",
+      "answer": "10/3",
+      "answerDisplay": "$\\dfrac{10}{3}$",
+      "searchQuery": "absolute maximum x+1/x on [1/2,3]"
+    },
+    {
+      "id": "cim-trig-example",
+      "title": "What is the absolute maximum value of $f(x) = x - 2\\sin x$ on $[0, \\pi]$?",
+      "body": "$\\pi$\n\n$f'(x) = 1 - 2\\cos x = 0$ at $x = \\frac{\\pi}{3}$. Compare $f(0) = 0$, $f\\left(\\frac{\\pi}{3}\\right) = \\frac{\\pi}{3} - \\sqrt{3} \\approx -0.68$ and $f(\\pi) = \\pi$.\n\nWatch out: the critical number gives the **minimum** here; the maximum is at the endpoint $\\pi$.",
+      "answer": "pi",
+      "answerDisplay": "$\\pi$",
+      "searchQuery": "absolute maximum x-2 sin x on [0,pi]"
+    },
+    {
+      "id": "rolles-theorem-find-c",
+      "title": "Find the number $c$ guaranteed by Rolle's Theorem for $f(x) = x^2 - 4x + 3$ on $[1, 3]$.",
+      "body": "$2$\n\n$f(1) = f(3) = 0$, and $f$ is continuous and differentiable. Then $f'(c) = 2c - 4 = 0$ gives $c = 2$.\n\nCheck the hypotheses first, **then** solve $f'(c) = 0$.",
+      "answer": "2",
+      "answerDisplay": "$2$",
+      "searchQuery": "Rolle theorem find c x^2-4x+3 on [1,3]"
+    },
+    {
+      "id": "mvt-find-c-sqrt",
+      "title": "Find the number $c$ guaranteed by the Mean Value Theorem for $f(x) = \\sqrt{x}$ on $[1, 4]$.",
+      "body": "$\\dfrac{9}{4}$\n\nThe average slope is $\\frac{2 - 1}{4 - 1} = \\frac{1}{3}$. Solve $f'(c) = \\frac{1}{2\\sqrt{c}} = \\frac{1}{3}$: $\\sqrt{c} = \\frac{3}{2}$, so $c = \\frac{9}{4}$.\n\nWatch out: $c$ must lie **inside** $(1, 4)$; here $\\frac{9}{4} = 2.25$ does.",
+      "answer": "9/4",
+      "acceptedAnswers": [
+        "2.25"
+      ],
+      "answerDisplay": "$\\dfrac{9}{4}$",
+      "searchQuery": "mean value theorem find c sqrt x on [1,4]"
+    },
+    {
+      "id": "mvt-find-c-cube",
+      "title": "Find the number $c$ in $(0, 2)$ guaranteed by the Mean Value Theorem for $f(x) = x^3$ on $[0, 2]$.",
+      "body": "$\\dfrac{2}{\\sqrt{3}}$\n\nThe average slope is $\\frac{8 - 0}{2 - 0} = 4$. Solve $3c^2 = 4$: $c = \\pm\\frac{2}{\\sqrt{3}}$, and only the positive root lies in $(0, 2)$.\n\nNumerically $c \\approx 1.155$. Reject roots **outside** the open interval.",
+      "answer": "2/sqrt(3)",
+      "acceptedAnswers": [
+        "2sqrt(3)/3",
+        "2/sqrt3",
+        "1.1547"
+      ],
+      "answerDisplay": "$\\dfrac{2}{\\sqrt{3}}$",
+      "searchQuery": "mean value theorem find c x^3 on [0,2]"
+    },
+    {
+      "id": "mvt-speed-example",
+      "title": "A car travels $120$ miles in $2$ hours. By the Mean Value Theorem, at some moment its speed is exactly how many mph?",
+      "body": "$60$\n\nThe average velocity is $\\frac{120}{2} = 60\\ \\mathrm{mph}$, and the MVT says the instantaneous velocity equals it at some instant.\n\nKey idea: position is continuous and differentiable, so the **average rate is attained** as an instantaneous rate.",
+      "answer": "60",
+      "answerDisplay": "$60$",
+      "searchQuery": "mean value theorem car 120 miles in 2 hours speed"
+    },
+    {
+      "id": "mvt-fails-abs",
+      "title": "Does the Mean Value Theorem apply to $f(x) = |x|$ on $[-1, 2]$?",
+      "body": "No\n\n$f$ is continuous on $[-1, 2]$ but **not differentiable** at $0$, so a hypothesis fails.\n\nIndeed the average slope is $\\frac{2 - 1}{3} = \\frac{1}{3}$, yet $f'(x) = \\pm 1$ everywhere it exists: no $c$ works.",
+      "answer": "no",
+      "searchQuery": "does mean value theorem apply to |x| on [-1,2]"
+    },
+    {
+      "id": "mvt-lower-bound",
+      "title": "$f(1) = 10$ and $f'(x) \\ge 2$ for all $x$. What is the smallest possible value of $f(4)$?",
+      "body": "$16$\n\nMVT on $[1, 4]$: $f(4) - f(1) = 3f'(c) \\ge 6$, so $f(4) \\ge 16$. The bound is reached by $f(x) = 2x + 8$.\n\nTip: multiply the **bound on the derivative** by the interval length $4 - 1 = 3$.",
+      "answer": "16",
+      "answerDisplay": "$16$",
+      "searchQuery": "mean value theorem lower bound f prime at least 2"
+    },
+    {
+      "id": "mvt-zero-derivative-constant",
+      "title": "If $f'(x) = 0$ for all $x$ in an interval, what can you conclude about $f$ there?",
+      "body": "$f$ is constant on that interval.\n\nFor any $a < b$ in the interval, the MVT gives $f(b) - f(a) = f'(c)(b - a) = 0$.\n\nWatch out: this needs an **interval**; on two separate intervals the constants may differ.",
+      "answer": "constant",
+      "acceptedAnswers": [
+        "f is constant",
+        "constant function"
+      ],
+      "answerDisplay": "$f$ is constant on that interval.",
+      "searchQuery": "zero derivative on interval implies f constant"
+    },
+    {
+      "id": "mvt-equal-derivatives",
+      "title": "If $f'(x) = g'(x)$ for all $x$ in an interval, how are $f$ and $g$ related there?",
+      "body": "They differ by a constant: $f(x) = g(x) + C$.\n\nApply the previous fact to $f - g$, whose derivative is $0$ on the interval.\n\nKey idea: this is why antiderivatives are unique **up to a constant**.",
+      "searchQuery": "functions with equal derivatives differ by a constant"
+    },
+    {
+      "id": "mvt-increasing-test-proof",
+      "title": "Why does $f'(x) > 0$ on an interval force $f$ to be increasing there?",
+      "body": "For $x_1 < x_2$ in the interval, the MVT gives $f(x_2) - f(x_1) = f'(c)(x_2 - x_1)$ for some $c$ between them.\n\nBoth factors are positive, so $f(x_2) > f(x_1)$: the **MVT** turns the sign of $f'$ into monotonicity.\n\nTip: the same argument with $f' < 0$ shows $f$ is decreasing.",
+      "searchQuery": "why f prime positive implies increasing mean value theorem"
+    },
+    {
+      "id": "rolle-at-most-one-root",
+      "title": "Why does $x^3 + x - 1 = 0$ have exactly one real root?",
+      "body": "**Existence** (IVT): $f(0) = -1 < 0$ and $f(1) = 1 > 0$, so there is a root in $(0, 1)$.\n\n**Uniqueness** (Rolle): two roots would give $f'(c) = 3c^2 + 1 = 0$ for some $c$ between them, which is impossible since $3c^2 + 1 \\ge 1$.\n\nKey idea: IVT shows at least one root; Rolle shows at most one when $f'$ never vanishes.",
+      "searchQuery": "x^3+x-1=0 exactly one real root IVT Rolle"
+    },
+    {
+      "id": "increasing-decreasing-test",
+      "title": "Increasing/Decreasing Test: what does the sign of $f'$ on an interval tell you?",
+      "body": "If $f' > 0$ on the interval, $f$ is **increasing** there; if $f' < 0$, $f$ is **decreasing**.\n\nBoth follow from the Mean Value Theorem. A sign chart of $f'$ between critical numbers organizes the work.\n\nExample: $f(x) = x^2$ has $f'(x) = 2x$, negative for $x < 0$ and positive for $x > 0$.",
+      "searchQuery": "increasing decreasing test sign of derivative interval"
+    },
+    {
+      "id": "decreasing-interval-cubic",
+      "title": "On what interval is $f(x) = x^3 - 3x$ decreasing?",
+      "body": "$(-1, 1)$\n\n$f'(x) = 3(x - 1)(x + 1)$ is negative exactly when $-1 < x < 1$.\n\nTip: critical numbers $\\pm 1$ split the line into three pieces; test one point in each piece (signs $+, -, +$).",
+      "answer": "(-1,1)",
+      "acceptedAnswers": [
+        "-1<x<1",
+        "[-1,1]"
+      ],
+      "answerDisplay": "$(-1, 1)$",
+      "searchQuery": "interval where x^3-3x is decreasing"
+    },
+    {
+      "id": "local-max-cubic",
+      "title": "At which $x$ does $f(x) = x^3 - 3x$ have a local maximum?",
+      "body": "$x = -1$\n\n$f'(x) = 3(x^2 - 1)$ is positive for $x < -1$ and negative on $(-1, 1)$, so $f$ switches from rising to falling at $-1$. The local max value is $f(-1) = 2$.\n\nWatch out: the local **min** is at $x = 1$; read the sign change direction carefully.",
+      "answer": "-1",
+      "acceptedAnswers": [
+        "x=-1"
+      ],
+      "answerDisplay": "$x = -1$",
+      "searchQuery": "local maximum of x^3-3x first derivative test"
+    },
+    {
+      "id": "local-max-value-x-e-to-minus-x",
+      "title": "What is the maximum value of $f(x) = xe^{-x}$ for $x \\ge 0$?",
+      "body": "$\\dfrac{1}{e}$\n\n$f'(x) = e^{-x}(1 - x)$, which is positive for $x < 1$ and negative for $x > 1$. The peak is at $x = 1$, with $f(1) = e^{-1}$.\n\nTip: $e^{-x}$ is never zero, so only the factor $1 - x$ controls the **sign** of $f'$.",
+      "answer": "1/e",
+      "acceptedAnswers": [
+        "e^(-1)",
+        "e^-1",
+        "0.3679"
+      ],
+      "answerDisplay": "$\\dfrac{1}{e}$",
+      "searchQuery": "maximum value of x e^(-x)"
+    },
+    {
+      "id": "fdt-repeated-factor",
+      "title": "$f'(x) = (x - 1)^2(x + 2)$. At which critical number does $f$ have a local extremum?",
+      "body": "$x = -2$\n\nAt $x = -2$, $f'$ changes from negative to positive, a **local min**. At $x = 1$ the squared factor keeps $f' \\ge 0$ on both sides, so there is no sign change and no extremum.\n\nWatch out: a squared factor means the sign does **not** change at its zero.",
+      "answer": "-2",
+      "acceptedAnswers": [
+        "x=-2"
+      ],
+      "answerDisplay": "$x = -2$",
+      "searchQuery": "first derivative test f prime (x-1)^2 (x+2) extremum"
+    },
+    {
+      "id": "sdt-example-cubic",
+      "title": "Use the Second Derivative Test on $f(x) = x^3 - 3x$ at the critical number $x = 1$. What does $f$ have there?",
+      "body": "A local minimum\n\n$f''(x) = 6x$, so $f''(1) = 6 > 0$: the graph is concave up at the flat point, a valley. At $x = -1$, $f''(-1) = -6 < 0$ gives the local max.\n\nKey idea: positive $f''$ at a flat point means **min**.",
+      "answer": "local min",
+      "acceptedAnswers": [
+        "local minimum",
+        "relative min",
+        "relative minimum"
+      ],
+      "searchQuery": "second derivative test x^3-3x at x=1"
+    },
+    {
+      "id": "sdt-when-to-use-first",
+      "title": "When should you use the First Derivative Test instead of the Second Derivative Test?",
+      "body": "When $f''(c) = 0$ or $f''(c)$ doesn't exist, or when $f''$ is hard to compute.\n\nThe Second Derivative Test needs $f'(c) = 0$ and **tells you nothing** when $f''(c) = 0$. The First Derivative Test works at any critical number, including corners.\n\nExample: $f(x) = |x|$ at $0$: $f''(0)$ doesn't exist, but $f'$ changes from $-1$ to $1$, so it is a min.",
+      "searchQuery": "when second derivative test fails use first derivative test"
+    },
+    {
+      "id": "increasing-despite-zero-derivative",
+      "title": "Is $f(x) = x^3$ increasing on all of $\\mathbb{R}$, even though $f'(0) = 0$?",
+      "body": "Yes\n\n$f'(x) = 3x^2 \\ge 0$ and is zero only at the single point $0$, so $f$ never decreases and never levels off on an interval.\n\nWatch out: $f' \\ge 0$ with isolated zeros still gives **strictly increasing**.",
+      "answer": "yes",
+      "searchQuery": "x^3 increasing though derivative zero at 0"
+    },
+    {
+      "id": "unique-critical-number-global",
+      "title": "$f$ is continuous on an interval and has exactly one critical number $c$, which is a local maximum. What follows?",
+      "body": "$f(c)$ is the **absolute maximum** on that interval.\n\nWith no other critical numbers, $f'$ can't change sign elsewhere: $f$ rises up to $c$ and falls after it, so nothing exceeds $f(c)$.\n\nTip: this is the standard way to justify optimization answers on **open** intervals.",
+      "searchQuery": "one critical number local max implies absolute max on interval"
+    },
+    {
+      "id": "concavity-test",
+      "title": "Concavity Test: what does the sign of $f''$ on an interval tell you about the graph?",
+      "body": "If $f'' > 0$, the graph is **concave up** (it bends like a cup); if $f'' < 0$, it is **concave down**.\n\nEquivalently, the slope $f'$ is increasing when $f'' > 0$ and decreasing when $f'' < 0$.\n\nExample: $f(x) = x^2$ has $f'' = 2 > 0$, so it is concave up everywhere.",
+      "searchQuery": "concavity test sign of second derivative"
+    },
+    {
+      "id": "inflection-point-definition",
+      "title": "What is an inflection point of a continuous function $f$?",
+      "body": "A point on the graph where the **concavity changes**, from up to down or from down to up.\n\nCandidates are where $f''(x) = 0$ or $f''(x)$ doesn't exist; confirm with a sign change of $f''$.\n\nWatch out: $f''(c) = 0$ alone is not enough; $f(x) = x^4$ has $f''(0) = 0$ and no inflection.",
+      "searchQuery": "inflection point definition concavity changes"
+    },
+    {
+      "id": "inflection-point-cubic",
+      "title": "At which $x$ does $f(x) = x^3 - 6x^2 + 9x$ have an inflection point?",
+      "body": "$x = 2$\n\n$f''(x) = 6x - 12$, which is negative for $x < 2$ and positive for $x > 2$, so the concavity switches at $2$.\n\nThe inflection point is $(2, 2)$, since $f(2) = 8 - 24 + 18 = 2$.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "x=2"
+      ],
+      "answerDisplay": "$x = 2$",
+      "searchQuery": "inflection point of x^3-6x^2+9x"
+    },
+    {
+      "id": "concave-up-interval-quartic",
+      "title": "On which intervals is $f(x) = x^4 - 6x^2$ concave up?",
+      "body": "$(-\\infty, -1)$ and $(1, \\infty)$.\n\n$f''(x) = 12x^2 - 12 = 12(x - 1)(x + 1)$ is positive exactly when $|x| > 1$.\n\nInflection points are at $x = \\pm 1$, where $f''$ changes sign. Give **both** pieces of the answer.",
+      "searchQuery": "intervals concave up x^4-6x^2"
+    },
+    {
+      "id": "concave-up-tangent-below",
+      "title": "If $f'' > 0$ on an interval, do tangent lines lie above or below the graph there?",
+      "body": "Below\n\nA concave-up graph bends away from its tangent lines, staying above them.\n\nConsequence: the linearization **underestimates** $f$ where $f'' > 0$ and overestimates where $f'' < 0$.",
+      "answer": "below",
+      "acceptedAnswers": [
+        "below the graph"
+      ],
+      "searchQuery": "concave up graph tangent lines lie below the graph"
+    },
+    {
+      "id": "inflection-and-derivative-extremum",
+      "title": "How is an inflection point of $f$ related to the graph of $f'$?",
+      "body": "It sits at a **local extremum of the slope function** $f'$: the slope stops increasing and starts decreasing (or vice versa).\n\nThat's because $f''$ is the derivative of $f'$, and it changes sign there.\n\nExample: for $f(x) = x^3$, $f'(x) = 3x^2$ has its minimum at $x = 0$, exactly where $f$ has its inflection point.",
+      "searchQuery": "inflection point of f is local extremum of f prime"
+    },
+    {
+      "id": "inflection-cube-root",
+      "title": "Does $f(x) = x^{1/3}$ have an inflection point at $x = 0$?",
+      "body": "Yes\n\n$f''(x) = -\\frac{2}{9}x^{-5/3}$ is positive for $x < 0$ and negative for $x > 0$, so the concavity changes at $0$, even though $f''(0)$ doesn't exist.\n\nKey idea: an inflection point only needs $f$ continuous there and a **change in concavity**.",
+      "answer": "yes",
+      "searchQuery": "does x^(1/3) have an inflection point at 0"
+    },
+    {
+      "id": "inflection-diminishing-returns",
+      "title": "A production curve $y = f(x)$ has an inflection point where it changes from concave up to concave down. What does that point mean?",
+      "body": "The **point of diminishing returns**: the rate of increase $f'$ is largest there.\n\nBefore it, each added unit of input raises output by more than the last; after it, by less.\n\nTip: an inflection point of $f$ is where $f'$ is maximized (or minimized).",
+      "searchQuery": "point of diminishing returns inflection point meaning"
+    },
+    {
+      "id": "curve-sketching-checklist",
+      "title": "What is a good checklist for sketching $y = f(x)$ using calculus?",
+      "body": "1. Domain, intercepts and symmetry.\n2. Asymptotes (vertical and horizontal or slant).\n3. $f'$: intervals of increase and decrease, local extrema.\n4. $f''$: concavity and inflection points.\n5. Plot the key points and join them smoothly.\n\nExample: for a rational function, vertical asymptotes come from zeros of the denominator that don't cancel.\n\nTip: do the sign charts of $f'$ and $f''$ separately.",
+      "searchQuery": "curve sketching checklist domain intercepts asymptotes extrema concavity"
+    },
+    {
+      "id": "even-function-derivative-odd",
+      "title": "If $f$ is differentiable and even, what symmetry does $f'$ have?",
+      "body": "$f'$ is **odd**.\n\nDifferentiating $f(-x) = f(x)$ with the chain rule gives $-f'(-x) = f'(x)$. Likewise, the derivative of an odd function is even.\n\nExample: $f(x) = x^2$ is even, and $f'(x) = 2x$ is odd.",
+      "searchQuery": "derivative of an even function is odd"
+    },
+    {
+      "id": "linearization-sqrt-example",
+      "title": "Use the linearization of $f(x) = \\sqrt{x}$ at $a = 25$ to approximate $\\sqrt{25.2}$.",
+      "body": "$5.02$\n\n$L(x) = 5 + \\frac{1}{10}(x - 25)$ since $f'(25) = \\frac{1}{2 \\cdot 5} = \\frac{1}{10}$. Then $L(25.2) = 5 + 0.02$.\n\nThe true value is about $5.01996$, so the **error is tiny**.",
+      "answer": "5.02",
+      "answerDisplay": "$5.02$",
+      "searchQuery": "linear approximation sqrt(25.2) near 25"
+    },
+    {
+      "id": "linearization-cube-root",
+      "title": "Use a linearization to approximate $\\sqrt[3]{8.06}$.",
+      "body": "$2.005$\n\nTake $f(x) = x^{1/3}$ at $a = 8$: $f'(8) = \\frac{1}{3}\\cdot 8^{-2/3} = \\frac{1}{12}$. Then $L(8.06) = 2 + \\frac{0.06}{12} = 2.005$.\n\nTip: choose $a$ as a **nearby perfect cube** so $f(a)$ and $f'(a)$ are easy.",
+      "answer": "2.005",
+      "answerDisplay": "$2.005$",
+      "searchQuery": "linear approximation cube root of 8.06"
+    },
+    {
+      "id": "linearization-exponential",
+      "title": "What is the linearization of $f(x) = e^x$ at $a = 0$?",
+      "body": "$1 + x$\n\n$f(0) = 1$ and $f'(0) = 1$, so $L(x) = 1 + 1\\cdot(x - 0)$.\n\nExample: $e^{0.1} \\approx 1.1$ (true value about $1.1052$).",
+      "answer": "1+x",
+      "acceptedAnswers": [
+        "x+1"
+      ],
+      "answerDisplay": "$1 + x$",
+      "searchQuery": "linearization of e^x at 0"
+    },
+    {
+      "id": "linearization-power-rule",
+      "title": "For small $x$, $(1 + x)^k \\approx \\,?$ ($k$ a constant)",
+      "body": "$1 + kx$\n\nThe linearization at $a = 0$ has $f(0) = 1$ and $f'(0) = k(1 + 0)^{k-1} = k$.\n\nExample: $\\sqrt{1.02} \\approx 1 + \\frac{1}{2}(0.02) = 1.01$.",
+      "answer": "1+kx",
+      "acceptedAnswers": [
+        "kx+1"
+      ],
+      "answerDisplay": "$1 + kx$",
+      "searchQuery": "linear approximation (1+x)^k near 0"
+    },
+    {
+      "id": "linearization-ln-one-plus-x",
+      "title": "For small $x$, $\\ln(1 + x) \\approx \\,?$",
+      "body": "$x$\n\nAt $a = 0$: $f(0) = \\ln 1 = 0$ and $f'(0) = \\frac{1}{1 + 0} = 1$, so $L(x) = x$.\n\nExample: $\\ln(1.05) \\approx 0.05$ (true value about $0.0488$).",
+      "answer": "x",
+      "answerDisplay": "$x$",
+      "searchQuery": "linear approximation ln(1+x) near 0"
+    },
+    {
+      "id": "linearization-overestimate",
+      "title": "The linearization of $\\sqrt{x}$ at $a = 4$ is used to estimate $\\sqrt{4.5}$. Is the estimate an overestimate or an underestimate?",
+      "body": "Overestimate\n\n$\\sqrt{x}$ is concave down ($f'' < 0$), so its tangent lines lie **above** the graph. The estimate is $L(4.5) = 2.125$, while $\\sqrt{4.5} \\approx 2.1213$.\n\nKey idea: concave down means overestimate; concave up means underestimate.",
+      "answer": "overestimate",
+      "acceptedAnswers": [
+        "over"
+      ],
+      "searchQuery": "tangent line approximation sqrt overestimate or underestimate"
+    },
+    {
+      "id": "linearization-from-given-values",
+      "title": "$f(1) = 3$ and $f'(1) = -2$. Use a linear approximation to estimate $f(1.1)$.",
+      "body": "$2.8$\n\n$L(1.1) = f(1) + f'(1)(1.1 - 1) = 3 + (-2)(0.1)$.\n\nWatch out: the slope is negative, so the estimate is **below** $f(1)$.",
+      "answer": "2.8",
+      "answerDisplay": "$2.8$",
+      "searchQuery": "approximate f(1.1) from f(1)=3 and f prime 1 = -2"
+    },
+    {
+      "id": "differential-sphere-error",
+      "title": "A sphere's radius is measured as $10\\ \\mathrm{cm}$ with error at most $0.1\\ \\mathrm{cm}$. Use differentials to estimate the maximum error in the volume, in $\\mathrm{cm^3}$.",
+      "body": "$40\\pi$\n\n$V = \\frac{4}{3}\\pi r^3$ gives $dV = 4\\pi r^2\\,dr = 4\\pi(100)(0.1)$.\n\nThat is about $125.7\\ \\mathrm{cm^3}$, compared with $V \\approx 4189\\ \\mathrm{cm^3}$. The error is **estimated** by $dV$, not computed exactly.",
+      "answer": "40pi",
+      "answerDisplay": "$40\\pi$",
+      "searchQuery": "differentials error estimate sphere volume radius 10 cm"
+    },
+    {
+      "id": "differential-relative-error-cube",
+      "title": "A cube's side length is measured with a $1\\%$ relative error. About what percent is the relative error in its volume?",
+      "body": "$3$\n\n$V = s^3$ gives $dV = 3s^2\\,ds$, so $\\frac{dV}{V} = 3\\,\\frac{ds}{s}$.\n\nKey idea: for $V = s^n$, relative error is multiplied by the exponent $n$. (Answer in percent.)",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3%"
+      ],
+      "answerDisplay": "$3$",
+      "searchQuery": "relative error volume cube side measured 1 percent error"
+    },
+    {
+      "id": "differential-numeric-dy",
+      "title": "For $y = x^3$ at $x = 2$ with $dx = 0.1$, what is the differential $dy$?",
+      "body": "$1.2$\n\n$dy = f'(x)\\,dx = 3x^2\\,dx = 3(4)(0.1)$.\n\nThe actual change is $\\Delta y = 2.1^3 - 2^3 = 1.261$, so $dy$ is close but **not equal**.",
+      "answer": "1.2",
+      "answerDisplay": "$1.2$",
+      "searchQuery": "differential dy for y=x^3 at x=2 dx=0.1"
+    },
+    {
+      "id": "delta-y-actual-change",
+      "title": "For $y = x^2$ at $x = 3$ with $\\Delta x = 0.1$, what is the actual change $\\Delta y$?",
+      "body": "$0.61$\n\n$\\Delta y = 3.1^2 - 3^2 = 9.61 - 9 = 0.61$.\n\nCompare the differential $dy = 2x\\,dx = 0.6$: the **gap** is $\\Delta x^2 = 0.01$, the extra $(\\Delta x)^2$ term.",
+      "answer": "0.61",
+      "answerDisplay": "$0.61$",
+      "searchQuery": "actual change delta y for y=x^2 at x=3 dx=0.1"
+    },
+    {
+      "id": "related-rates-steps",
+      "title": "What are the steps for solving a related rates problem?",
+      "body": "1. Draw a diagram and name every quantity that changes.\n2. Write an equation that links them.\n3. Differentiate both sides with respect to $t$ (chain rule).\n4. Substitute the known values at the instant asked.\n5. Solve for the unknown rate and attach units.\n\nWatch out: substitute numbers **after** differentiating; constants may be substituted earlier, variables may not.",
+      "searchQuery": "related rates problem solving steps"
+    },
+    {
+      "id": "related-rates-square-area",
+      "title": "A square's side grows at $3\\ \\mathrm{cm/s}$. How fast is its area growing when the side is $5\\ \\mathrm{cm}$? (Answer in $\\mathrm{cm^2/s}$.)",
+      "body": "$30$\n\n$A = s^2$, so $\\frac{dA}{dt} = 2s\\,\\frac{ds}{dt} = 2(5)(3)$.\n\nTip: check units: $\\mathrm{cm} \\cdot \\mathrm{cm/s} = \\mathrm{cm^2/s}$.",
+      "answer": "30",
+      "answerDisplay": "$30$",
+      "searchQuery": "related rates square side growing area rate"
+    },
+    {
+      "id": "related-rates-cube-volume",
+      "title": "A cube's edge grows at $2\\ \\mathrm{cm/s}$. How fast is its volume growing when the edge is $3\\ \\mathrm{cm}$? (Answer in $\\mathrm{cm^3/s}$.)",
+      "body": "$54$\n\n$V = s^3$, so $\\frac{dV}{dt} = 3s^2\\,\\frac{ds}{dt} = 3(9)(2)$.\n\nWatch out: the rate depends on the **current** edge length, so it keeps growing.",
+      "answer": "54",
+      "answerDisplay": "$54$",
+      "searchQuery": "related rates cube edge growing volume rate"
+    },
+    {
+      "id": "related-rates-sphere-volume",
+      "title": "A sphere's radius grows at $0.5\\ \\mathrm{cm/s}$. How fast is its volume growing when $r = 4\\ \\mathrm{cm}$? (Answer in $\\mathrm{cm^3/s}$.)",
+      "body": "$32\\pi$\n\n$V = \\frac{4}{3}\\pi r^3$, so $\\frac{dV}{dt} = 4\\pi r^2\\,\\frac{dr}{dt} = 4\\pi(16)(0.5)$.\n\nKey idea: $\\frac{dV}{dr} = 4\\pi r^2$ is the surface area, so $\\frac{dV}{dt} = (\\text{surface area})\\cdot\\frac{dr}{dt}$.",
+      "answer": "32pi",
+      "answerDisplay": "$32\\pi$",
+      "searchQuery": "related rates sphere volume radius growing 0.5 cm/s at r=4"
+    },
+    {
+      "id": "related-rates-ladder",
+      "title": "A $10$-ft ladder leans on a wall and its base slides away at $2\\ \\mathrm{ft/s}$. How fast is the top moving when the base is $6$ ft out? (In $\\mathrm{ft/s}$; down is negative.)",
+      "body": "$-\\dfrac{3}{2}$\n\n$x^2 + y^2 = 100$ gives $x\\,x' + y\\,y' = 0$. At $x = 6$, $y = 8$: $6(2) + 8y' = 0$, so $y' = -\\frac{3}{2}$.\n\nThe top slides **down** at $1.5\\ \\mathrm{ft/s}$. Use the Pythagorean theorem to find $y$ at that instant.",
+      "answer": "-3/2",
+      "acceptedAnswers": [
+        "-1.5"
+      ],
+      "answerDisplay": "$-\\dfrac{3}{2}$",
+      "searchQuery": "related rates sliding ladder 10 ft top speed"
+    },
+    {
+      "id": "related-rates-cone",
+      "title": "Water fills a cone (vertex down, height $10\\ \\mathrm{m}$, radius $5\\ \\mathrm{m}$) at $2\\ \\mathrm{m^3/min}$. How fast is the depth rising at depth $4\\ \\mathrm{m}$? (In $\\mathrm{m/min}$.)",
+      "body": "$\\dfrac{1}{2\\pi}$\n\nSimilar triangles give $r = \\frac{h}{2}$, so $V = \\frac{1}{3}\\pi r^2 h = \\frac{\\pi h^3}{12}$. Then $\\frac{dV}{dt} = \\frac{\\pi h^2}{4}\\frac{dh}{dt}$, and $2 = 4\\pi\\,\\frac{dh}{dt}$ at $h = 4$.\n\nThat is about $0.159\\ \\mathrm{m/min}$. Eliminate $r$ **before** differentiating.",
+      "answer": "1/(2pi)",
+      "acceptedAnswers": [
+        "0.159",
+        "0.16",
+        "1/2pi"
+      ],
+      "answerDisplay": "$\\dfrac{1}{2\\pi}$",
+      "searchQuery": "related rates conical tank water height rate"
+    },
+    {
+      "id": "related-rates-shadow",
+      "title": "A $6$-ft person walks away from a $15$-ft lamp post at $5\\ \\mathrm{ft/s}$. How fast is the tip of the shadow moving? (Answer in $\\mathrm{ft/s}$.)",
+      "body": "$\\dfrac{25}{3}$\n\nWith the person $x$ ft from the post and the shadow tip $s$ ft, similar triangles give $\\frac{s}{15} = \\frac{s - x}{6}$, so $s = \\frac{5}{3}x$ and $\\frac{ds}{dt} = \\frac{5}{3}\\cdot 5$.\n\nThat is about $8.33\\ \\mathrm{ft/s}$, which is faster than the walker.",
+      "answer": "25/3",
+      "answerDisplay": "$\\dfrac{25}{3}$",
+      "searchQuery": "related rates shadow tip speed lamp post",
+      "acceptedAnswers": [
+        "8.33",
+        "8.3"
+      ]
+    },
+    {
+      "id": "related-rates-two-cars",
+      "title": "Two cars leave an intersection, one going east at $60\\ \\mathrm{mph}$ and one going north at $80\\ \\mathrm{mph}$. How fast is the distance between them increasing? (Answer in $\\mathrm{mph}$.)",
+      "body": "$100$\n\nWith $x = 60t$ and $y = 80t$, $z^2 = x^2 + y^2$ gives $z\\,z' = x\\,x' + y\\,y'$, so $z' = \\frac{60t \\cdot 60 + 80t \\cdot 80}{100t}$.\n\nThe answer doesn't depend on $t$ because the cars move along **fixed perpendicular lines**.",
+      "answer": "100",
+      "answerDisplay": "$100$",
+      "searchQuery": "related rates two cars distance apart 60 mph 80 mph"
+    },
+    {
+      "id": "related-rates-balloon-angle",
+      "title": "A balloon rises at $3\\ \\mathrm{m/s}$ from a point $40\\ \\mathrm{m}$ from an observer. How fast is the elevation angle $\\theta$ changing (in $\\mathrm{rad/s}$) at height $30\\ \\mathrm{m}$?",
+      "body": "$0.048$\n\n$\\tan\\theta = \\frac{h}{40}$, so $\\sec^2\\theta\\,\\theta' = \\frac{h'}{40}$. At $h = 30$, $\\sec^2\\theta = 1 + \\left(\\frac{3}{4}\\right)^2 = \\frac{25}{16}$, so $\\theta' = \\frac{16}{25}\\cdot\\frac{3}{40}$.\n\nThat equals $\\frac{6}{125}$ rad/s. Angles in related rates must be in **radians**.",
+      "answer": "0.048",
+      "acceptedAnswers": [
+        "6/125"
+      ],
+      "answerDisplay": "$0.048$",
+      "searchQuery": "related rates angle of elevation balloon rising"
+    },
+    {
+      "id": "related-rates-rectangle",
+      "title": "A rectangle's length grows at $3\\ \\mathrm{cm/s}$ and its width shrinks at $2\\ \\mathrm{cm/s}$. How fast is the area changing when $L = 8\\ \\mathrm{cm}$ and $W = 5\\ \\mathrm{cm}$? (In $\\mathrm{cm^2/s}$.)",
+      "body": "$-1$\n\n$A = LW$, so $\\frac{dA}{dt} = L'W + LW' = 3(5) + 8(-2) = 15 - 16$.\n\nThe area is **decreasing** slowly. The shrinking width has $W' = -2$, not $2$.",
+      "answer": "-1",
+      "answerDisplay": "$-1$",
+      "searchQuery": "related rates rectangle length increasing width decreasing area rate"
+    },
+    {
+      "id": "related-rates-plug-in-trap",
+      "title": "Why is it a mistake to substitute the instant's values into the equation before differentiating a related rates problem?",
+      "body": "Substituting a changing quantity turns it into a constant, so its rate of change disappears and you get $0$ or a wrong equation.\n\nExample: for $A = \\pi r^2$ with $r = 5$ plugged in first, $A = 25\\pi$ is constant and $\\frac{dA}{dt}$ would be $0$.\n\nRule: **differentiate first**, then substitute values.",
+      "searchQuery": "related rates substituting values before differentiating mistake"
+    },
+    {
+      "id": "related-rates-sign-convention",
+      "title": "In a related rates problem, how do you write the rate of a quantity that is decreasing?",
+      "body": "As a **negative** number: a radius shrinking at $2\\ \\mathrm{cm/s}$ has $\\frac{dr}{dt} = -2$.\n\nThe sign of the final answer then tells you whether the target quantity is increasing (positive) or decreasing (negative).\n\nWatch out: don't drop the minus sign when you plug in.",
+      "searchQuery": "related rates sign of rate decreasing quantity negative"
+    },
+    {
+      "id": "optimization-steps",
+      "title": "What are the steps for solving an optimization problem?",
+      "body": "1. Draw a diagram and name the variables.\n2. Write the quantity to optimize (the objective).\n3. Use the constraint to rewrite it in one variable and state its domain.\n4. Find critical numbers, then compare them with the endpoints.\n5. Answer the question asked, with units.\n\nTip: justify the max or min with the Closed Interval Method or a derivative test.",
+      "searchQuery": "optimization problem solving steps calculus"
+    },
+    {
+      "id": "optimization-fence-river",
+      "title": "A farmer has $200$ ft of fence for three sides of a rectangular field along a straight river (no fence needed on the river side). What is the largest possible area, in $\\mathrm{ft^2}$?",
+      "body": "$5000$\n\nWith two sides $x$ and one side $y = 200 - 2x$, $A = x(200 - 2x)$ on $[0, 100]$. Then $A' = 200 - 4x = 0$ gives $x = 50$, so $y = 100$.\n\nCheck the endpoints: $A = 0$ at both. The maximum is at the critical number.",
+      "answer": "5000",
+      "answerDisplay": "$5000$",
+      "searchQuery": "optimization fence three sides river 200 ft maximum area"
+    },
+    {
+      "id": "optimization-open-box",
+      "title": "Squares of side $x$ are cut from the corners of a $12$-in square sheet, and the sides are folded up to make an open box. What is the largest possible volume, in $\\mathrm{in^3}$?",
+      "body": "$128$\n\n$V = x(12 - 2x)^2$ on $[0, 6]$. Then $V' = (12 - 2x)(12 - 6x) = 0$ gives $x = 2$ (the root $x = 6$ gives $V = 0$).\n\n$V(2) = 2 \\cdot 8^2 = 128$. The **base side** is $12 - 2x$, not $12 - x$.",
+      "answer": "128",
+      "answerDisplay": "$128$",
+      "searchQuery": "optimization open box 12 inch sheet maximum volume"
+    },
+    {
+      "id": "optimization-closed-can",
+      "title": "A closed cylindrical can has a fixed volume. For minimum surface area, what is the ratio $\\dfrac{h}{r}$?",
+      "body": "$2$\n\nWith $V = \\pi r^2 h$ fixed, $S = 2\\pi r^2 + 2\\pi r h = 2\\pi r^2 + \\frac{2V}{r}$. Then $S' = 4\\pi r - \\frac{2V}{r^2} = 0$ gives $V = 2\\pi r^3$, so $h = 2r$.\n\nThe **height equals the diameter** for the most economical can.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "h=2r"
+      ],
+      "answerDisplay": "$2$",
+      "searchQuery": "optimization closed can minimum surface area ratio"
+    },
+    {
+      "id": "optimization-closest-point",
+      "title": "What is the $x$-coordinate of the point on $y = \\sqrt{x}$ closest to $(4, 0)$?",
+      "body": "$\\dfrac{7}{2}$\n\nMinimize the squared distance $D = (x - 4)^2 + x$. Then $D' = 2(x - 4) + 1 = 0$ gives $x = \\frac{7}{2}$, and $D'' = 2 > 0$ confirms a minimum.\n\nTip: minimizing $D^2$ is easier than $D$ and has the **same minimizer**.",
+      "answer": "7/2",
+      "acceptedAnswers": [
+        "3.5"
+      ],
+      "answerDisplay": "$\\dfrac{7}{2}$",
+      "searchQuery": "optimization closest point on y=sqrt x to (4,0) x coordinate"
+    },
+    {
+      "id": "optimization-min-sum",
+      "title": "Two positive numbers have product $36$. What is the smallest possible sum?",
+      "body": "$12$\n\nWith numbers $x$ and $\\frac{36}{x}$, $S = x + \\frac{36}{x}$ and $S' = 1 - \\frac{36}{x^2} = 0$ gives $x = 6$.\n\nThen both numbers are $6$, and $S'' = \\frac{72}{x^3} > 0$ confirms the **minimum**.",
+      "answer": "12",
+      "answerDisplay": "$12$",
+      "searchQuery": "optimization two positive numbers product 36 minimum sum"
+    },
+    {
+      "id": "optimization-rectangle-in-circle",
+      "title": "What is the largest possible area of a rectangle inscribed in a circle of radius $1$?",
+      "body": "$2$\n\nWith half-width $x$, the half-height is $\\sqrt{1 - x^2}$, so $A = 4x\\sqrt{1 - x^2}$. The maximum occurs at $x = \\frac{1}{\\sqrt{2}}$: the rectangle is a **square** of side $\\sqrt{2}$.\n\nIn general the largest area is $2r^2$.",
+      "answer": "2",
+      "answerDisplay": "$2$",
+      "searchQuery": "optimization largest rectangle inscribed in circle radius 1 area"
+    },
+    {
+      "id": "optimization-rectangle-under-parabola",
+      "title": "A rectangle has its base on the $x$-axis and its upper corners on $y = 12 - x^2$. What is its largest possible area?",
+      "body": "$32$\n\nWith corners at $(\\pm x, 12 - x^2)$, $A = 2x(12 - x^2) = 24x - 2x^3$. Then $A' = 24 - 6x^2 = 0$ gives $x = 2$, so the rectangle is $4$ wide and $8$ tall.\n\nRemember the width is $2x$, **not** $x$.",
+      "answer": "32",
+      "answerDisplay": "$32$",
+      "searchQuery": "optimization rectangle under y=12-x^2 maximum area"
+    },
+    {
+      "id": "optimization-two-numbers-differ",
+      "title": "Two numbers differ by $6$. What is the smallest possible value of their product?",
+      "body": "$-9$\n\nLet the numbers be $x$ and $x - 6$: $P = x^2 - 6x$ and $P' = 2x - 6 = 0$ at $x = 3$, so the numbers are $3$ and $-3$.\n\nWatch out: the numbers aren't required to be positive here, so the product can be negative.",
+      "answer": "-9",
+      "answerDisplay": "$-9$",
+      "searchQuery": "two numbers differ by 6 smallest product"
+    },
+    {
+      "id": "optimization-profit-example",
+      "title": "Revenue is $R(x) = 50x - 0.5x^2$ and cost is $C(x) = 10x + 100$. At what production level $x$ is profit maximized?",
+      "body": "$x = 40$\n\n$P(x) = R - C = 40x - 0.5x^2 - 100$, so $P'(x) = 40 - x = 0$ at $x = 40$. Since $P'' = -1 < 0$, it is a maximum.\n\nCheck: $R'(40) = 10 = C'(40)$, so marginal revenue equals marginal cost.",
+      "answer": "40",
+      "acceptedAnswers": [
+        "x=40"
+      ],
+      "answerDisplay": "$x = 40$",
+      "searchQuery": "profit maximization R(x)=50x-0.5x^2 C(x)=10x+100 production level"
+    },
+    {
+      "id": "optimization-profit-condition",
+      "title": "At a profit-maximizing production level (with $P = R - C$), how do marginal revenue and marginal cost compare?",
+      "body": "They are equal: $R'(x) = C'(x)$.\n\nSince $P'(x) = R'(x) - C'(x)$, a critical number of profit has marginal revenue equal to marginal cost.\n\nWatch out: to confirm a **maximum**, check that $P'' < 0$ there (marginal revenue falls below marginal cost afterward).",
+      "searchQuery": "profit maximized when marginal revenue equals marginal cost"
+    },
+    {
+      "id": "optimization-average-cost",
+      "title": "The average cost is $\\overline{C}(x) = \\dfrac{C(x)}{x}$. At a minimum of $\\overline{C}$, how does $C'(x)$ compare with $\\overline{C}(x)$?",
+      "body": "They are equal: $C'(x) = \\dfrac{C(x)}{x}$.\n\n$\\overline{C}'(x) = \\frac{xC'(x) - C(x)}{x^2}$, and this is zero exactly when $xC'(x) = C(x)$.\n\nKey idea: marginal cost **crosses** average cost at the minimum of average cost.",
+      "searchQuery": "average cost minimized when marginal cost equals average cost"
+    },
+    {
+      "id": "optimization-justify-global",
+      "title": "How can you justify that a critical number gives the absolute maximum on an open interval (or all of $\\mathbb{R}$)?",
+      "body": "Use the **First Derivative Test**: if $f'$ changes from positive to negative there and it is the only critical number, it is an absolute max. Or use $f'' < 0$ on the whole interval.\n\nOn a closed interval, compare values at critical numbers and endpoints (Closed Interval Method).\n\nWatch out: a local max is not automatically an absolute max when there are other critical numbers.",
+      "searchQuery": "justify absolute max optimization open interval derivative test"
+    },
+    {
+      "id": "newtons-method-formula",
+      "title": "Newton's method: $x_{n+1} = \\,?$",
+      "body": "$x_n - \\dfrac{f(x_n)}{f'(x_n)}$\n\nStart with a guess $x_1$ near a root of $f$ and repeat. Each step moves to the $x$-intercept of the tangent line.\n\nWatch out: you divide by $f'(x_n)$, so the method breaks if $f'(x_n) = 0$.",
+      "answer": "x_n - f(x_n)/f'(x_n)",
+      "acceptedAnswers": [
+        "x - f(x)/f'(x)"
+      ],
+      "answerDisplay": "$x_n - \\dfrac{f(x_n)}{f'(x_n)}$",
+      "searchQuery": "Newton method iteration formula x_(n+1)"
+    },
+    {
+      "id": "newtons-method-geometry",
+      "title": "Geometrically, what is $x_{n+1}$ in Newton's method?",
+      "body": "The $x$-intercept of the **tangent line** to $y = f(x)$ at the point $(x_n, f(x_n))$.\n\nSetting the tangent line $y = f(x_n) + f'(x_n)(x - x_n)$ equal to $0$ and solving for $x$ gives the formula.\n\nKey idea: replace the curve with its tangent line, and solve the easy linear problem.",
+      "searchQuery": "Newton method geometric meaning tangent line x intercept"
+    },
+    {
+      "id": "newtons-method-cube-root",
+      "title": "Newton's method on $f(x) = x^3 - 2$ with $x_1 = 1$: what is $x_2$?",
+      "body": "$\\dfrac{4}{3}$\n\n$f'(x) = 3x^2$, so $x_2 = 1 - \\frac{1^3 - 2}{3 \\cdot 1^2} = 1 + \\frac{1}{3}$.\n\nThe target is $\\sqrt[3]{2} \\approx 1.2599$, and $\\frac{4}{3} \\approx 1.333$ is already close.",
+      "answer": "4/3",
+      "acceptedAnswers": [
+        "1.3333"
+      ],
+      "answerDisplay": "$\\dfrac{4}{3}$",
+      "searchQuery": "Newton method x^3-2 starting at 1 second approximation"
+    },
+    {
+      "id": "newtons-method-square-root-formula",
+      "title": "Newton's method applied to $f(x) = x^2 - a$ simplifies to $x_{n+1} = \\,?$",
+      "body": "$\\dfrac{1}{2}\\left(x_n + \\dfrac{a}{x_n}\\right)$\n\n$x_n - \\frac{x_n^2 - a}{2x_n} = \\frac{x_n}{2} + \\frac{a}{2x_n}$. It averages $x_n$ and $\\frac{a}{x_n}$, which straddle $\\sqrt{a}$.\n\nThis is the ancient **Babylonian method** for square roots.",
+      "answer": "(x_n + a/x_n)/2",
+      "acceptedAnswers": [
+        "x_n/2 + a/(2x_n)"
+      ],
+      "answerDisplay": "$\\dfrac{1}{2}\\left(x_n + \\dfrac{a}{x_n}\\right)$",
+      "searchQuery": "Newton method square root formula x^2-a babylonian"
+    },
+    {
+      "id": "newtons-method-failure",
+      "title": "Name ways Newton's method can fail to find a root.",
+      "body": "- $f'(x_n) = 0$: the tangent is horizontal and never meets the axis.\n- A poor starting guess may converge to a different root or diverge.\n- The iterates can cycle, for example between two values.\n- $f$ must be differentiable near the root.\n\nTip: sketch the graph first to choose a good $x_1$.",
+      "searchQuery": "Newton method can fail horizontal tangent cycle diverge"
+    },
+    {
+      "id": "newtons-method-convergence-speed",
+      "title": "Near a simple root, roughly how does the number of correct digits behave from one Newton step to the next?",
+      "body": "It roughly **doubles** (quadratic convergence).\n\nExample: for $x^2 - 2$ starting at $1$: $1.5$, $1.4167$, $1.41422$, $1.41421356$.\n\nWatch out: this fast convergence requires a good starting guess and $f'(\\text{root}) \\ne 0$.",
+      "searchQuery": "Newton method quadratic convergence digits double"
+    }
+  ]
+}

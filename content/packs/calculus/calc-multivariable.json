@@ -1,0 +1,870 @@
+{
+  "id": "calc-multivariable",
+  "title": "Multivariable & Vector Calculus",
+  "course": "Calculus III",
+  "description": "Vectors, lines and planes, partial derivatives, gradients, tangent planes, extrema, Lagrange multipliers, double and triple integrals, polar/spherical coordinates, Jacobians, line and surface integrals, Green, Stokes, divergence.",
+  "cards": [
+    {
+      "id": "dot-product-components",
+      "title": "What is $\\langle a_1, a_2, a_3 \\rangle \\cdot \\langle b_1, b_2, b_3 \\rangle$ in components?",
+      "body": "$a_1 b_1 + a_2 b_2 + a_3 b_3$\n\nMultiply matching components and add. The result is a **scalar**, not a vector.\n\nExample: $\\langle 1, 2, 3 \\rangle \\cdot \\langle 4, -1, 2 \\rangle = 4 - 2 + 6 = 8$.\nKey idea: it equals $|\\vec{a}||\\vec{b}|\\cos\\theta$, so it measures how much two vectors point the same way.",
+      "answer": "a1b1+a2b2+a3b3",
+      "acceptedAnswers": [
+        "b1a1+b2a2+b3a3"
+      ],
+      "answerDisplay": "$a_1 b_1 + a_2 b_2 + a_3 b_3$",
+      "searchQuery": "dot product formula components scalar"
+    },
+    {
+      "id": "angle-between-vectors",
+      "title": "$\\vec{a} = \\langle 1, 2, 2 \\rangle$ and $\\vec{b} = \\langle 2, 3, 6 \\rangle$. Find $\\cos\\theta$, where $\\theta$ is the angle between them.",
+      "body": "$\\frac{20}{21}$\n\nUse $\\cos\\theta = \\frac{\\vec{a} \\cdot \\vec{b}}{|\\vec{a}||\\vec{b}|}$. Here $\\vec{a} \\cdot \\vec{b} = 2 + 6 + 12 = 20$, $|\\vec{a}| = 3$ and $|\\vec{b}| = 7$.\n\nTip: compute the lengths first; both are perfect squares here, so $\\sqrt{9}$ and $\\sqrt{49}$ clean up.\nWatch out: this gives $\\cos\\theta$, not $\\theta$; take $\\cos^{-1}$ for the angle.",
+      "answer": "20/21",
+      "answerDisplay": "$\\frac{20}{21}$",
+      "searchQuery": "angle between two vectors dot product cosine formula"
+    },
+    {
+      "id": "orthogonal-vectors-test",
+      "title": "For which value of $t$ are $\\langle t, 2, -1 \\rangle$ and $\\langle 3, t, 4 \\rangle$ orthogonal?",
+      "body": "$t = \\frac{4}{5}$\n\nVectors are **orthogonal** exactly when their dot product is $0$. Here $3t + 2t - 4 = 5t - 4 = 0$.\n\nWhy: $\\vec{a} \\cdot \\vec{b} = |\\vec{a}||\\vec{b}|\\cos\\theta$ is $0$ when $\\cos\\theta = 0$, that is $\\theta = 90^\\circ$ (for nonzero vectors).",
+      "answer": "4/5",
+      "acceptedAnswers": [
+        "0.8",
+        "t=4/5",
+        "t=0.8"
+      ],
+      "answerDisplay": "$t = \\frac{4}{5}$",
+      "searchQuery": "orthogonal vectors dot product zero find t"
+    },
+    {
+      "id": "vector-projection-formula",
+      "title": "What are the scalar projection and vector projection of $\\vec{b}$ onto $\\vec{a}$?",
+      "body": "Scalar: $\\operatorname{comp}_{\\vec{a}}\\vec{b} = \\frac{\\vec{a} \\cdot \\vec{b}}{|\\vec{a}|}$. Vector: $\\operatorname{proj}_{\\vec{a}}\\vec{b} = \\frac{\\vec{a} \\cdot \\vec{b}}{|\\vec{a}|^2}\\,\\vec{a}$.\n\nThe vector projection is the **shadow of $\\vec{b}$ along $\\vec{a}$**: it points along $\\vec{a}$ and has length $|\\operatorname{comp}|$.\n\nWatch out: the scalar projection can be negative (when the angle exceeds $90^\\circ$), while a length cannot.",
+      "searchQuery": "scalar projection vector projection formula onto vector"
+    },
+    {
+      "id": "scalar-projection-value",
+      "title": "Find the scalar projection of $\\vec{b} = \\langle 4, 5, 1 \\rangle$ onto $\\vec{a} = \\langle 2, 1, 2 \\rangle$.",
+      "body": "$5$\n\nUse $\\frac{\\vec{a} \\cdot \\vec{b}}{|\\vec{a}|}$. The dot product is $8 + 5 + 2 = 15$ and $|\\vec{a}| = \\sqrt{4 + 1 + 4} = 3$.\n\nExample: the vector projection is $\\frac{15}{9}\\langle 2, 1, 2 \\rangle = \\frac{5}{3}\\langle 2, 1, 2 \\rangle$, whose length is $\\frac{5}{3} \\cdot 3 = 5$.\nTip: divide by $|\\vec{a}|$ once for a scalar, twice (as $|\\vec{a}|^2$) for the vector.",
+      "answer": "5",
+      "searchQuery": "scalar projection of b onto a example calculation"
+    },
+    {
+      "id": "unit-vector-normalize",
+      "title": "Find the unit vector in the direction of $\\langle 2, -3, 6 \\rangle$.",
+      "body": "$\\left\\langle \\frac{2}{7}, -\\frac{3}{7}, \\frac{6}{7} \\right\\rangle$\n\nDivide the vector by its length: $|\\vec{v}| = \\sqrt{4 + 9 + 36} = 7$.\n\nTip: check your answer by confirming the squares sum to $1$: $\\frac{4 + 9 + 36}{49} = 1$.",
+      "answer": "<2/7, -3/7, 6/7>",
+      "acceptedAnswers": [
+        "(2/7, -3/7, 6/7)",
+        "⟨2/7, -3/7, 6/7⟩",
+        "2/7, -3/7, 6/7"
+      ],
+      "answerDisplay": "$\\left\\langle \\frac{2}{7}, -\\frac{3}{7}, \\frac{6}{7} \\right\\rangle$",
+      "searchQuery": "unit vector in direction of vector normalize example"
+    },
+    {
+      "id": "cross-product-compute",
+      "title": "Compute $\\langle 1, 2, 3 \\rangle \\times \\langle 4, 5, 6 \\rangle$.",
+      "body": "$\\langle -3, 6, -3 \\rangle$\n\nComponents: $(2 \\cdot 6 - 3 \\cdot 5,\\ 3 \\cdot 4 - 1 \\cdot 6,\\ 1 \\cdot 5 - 2 \\cdot 4) = (-3, 6, -3)$.\n\nTip: confirm orthogonality by dotting with each original vector: $-3 + 12 - 9 = 0$ and $-12 + 30 - 18 = 0$.\nWatch out: the middle component is $a_3 b_1 - a_1 b_3$, which is the negative of the determinant minor.",
+      "answer": "<-3, 6, -3>",
+      "acceptedAnswers": [
+        "(-3, 6, -3)",
+        "⟨-3, 6, -3⟩",
+        "-3, 6, -3"
+      ],
+      "answerDisplay": "$\\langle -3, 6, -3 \\rangle$",
+      "searchQuery": "cross product of two vectors compute example 1 2 3 and 4 5 6"
+    },
+    {
+      "id": "cross-product-determinant",
+      "title": "How do you compute $\\vec{a} \\times \\vec{b}$ as a $3 \\times 3$ determinant?",
+      "body": "$\\vec{a} \\times \\vec{b} = \\begin{vmatrix} \\vec{i} & \\vec{j} & \\vec{k} \\\\ a_1 & a_2 & a_3 \\\\ b_1 & b_2 & b_3 \\end{vmatrix}$, expanded along the top row.\n\nThe $\\vec{j}$ term carries a **minus sign**: $(a_2 b_3 - a_3 b_2)\\vec{i} - (a_1 b_3 - a_3 b_1)\\vec{j} + (a_1 b_2 - a_2 b_1)\\vec{k}$.\n\nMnemonic: cover a column, cross-multiply the rest, and flip the sign on the middle one.",
+      "searchQuery": "cross product determinant i j k expansion"
+    },
+    {
+      "id": "triangle-area-cross-product",
+      "title": "Find the area of the triangle with vertices $A(1,0,0)$, $B(0,2,0)$ and $C(0,0,3)$.",
+      "body": "$\\frac{7}{2}$\n\nThe area is $\\frac{1}{2}|\\overrightarrow{AB} \\times \\overrightarrow{AC}|$. Here $\\overrightarrow{AB} = \\langle -1, 2, 0 \\rangle$, $\\overrightarrow{AC} = \\langle -1, 0, 3 \\rangle$, and the cross product is $\\langle 6, 3, 2 \\rangle$ with length $\\sqrt{36 + 9 + 4} = 7$.\n\nWatch out: do not forget the factor $\\frac{1}{2}$; the cross product's length is the parallelogram's area.",
+      "answer": "7/2",
+      "acceptedAnswers": [
+        "3.5"
+      ],
+      "answerDisplay": "$\\frac{7}{2}$",
+      "searchQuery": "area of triangle from three points cross product 3D"
+    },
+    {
+      "id": "scalar-triple-product",
+      "title": "What does $|\\vec{a} \\cdot (\\vec{b} \\times \\vec{c})|$ measure, and what does it tell you when it is $0$?",
+      "body": "The **volume of the parallelepiped** spanned by $\\vec{a}$, $\\vec{b}$ and $\\vec{c}$.\n\nIt equals the absolute value of the $3 \\times 3$ determinant whose rows are the three vectors. If it is $0$, the vectors are **coplanar**.\n\nWhy: $|\\vec{b} \\times \\vec{c}|$ is the base area and $|\\vec{a}\\cdot\\hat{n}|$ is the height along the base's normal.",
+      "searchQuery": "scalar triple product volume parallelepiped coplanar vectors"
+    },
+    {
+      "id": "parallelepiped-volume",
+      "title": "Find the volume of the parallelepiped spanned by $\\langle 1, 0, 0 \\rangle$, $\\langle 1, 2, 0 \\rangle$ and $\\langle 1, 1, 3 \\rangle$.",
+      "body": "$6$\n\nThe determinant of the matrix with these rows is triangular, so it is the product of the diagonal entries: $1 \\cdot 2 \\cdot 3 = 6$.\n\nTip: take the absolute value, since a determinant can be negative but volume cannot.",
+      "answer": "6",
+      "searchQuery": "volume of parallelepiped determinant three vectors example"
+    },
+    {
+      "id": "vector-equation-of-line",
+      "title": "What is the vector equation of the line through the point with position vector $\\vec{r}_0$ in direction $\\vec{v}$?",
+      "body": "$\\vec{r}(t) = \\vec{r}_0 + t\\vec{v}$, for $t \\in \\mathbb{R}$.\n\nIn components, with $\\vec{r}_0 = \\langle x_0, y_0, z_0 \\rangle$ and $\\vec{v} = \\langle a, b, c \\rangle$: $x = x_0 + at$, $y = y_0 + bt$, $z = z_0 + ct$.\n\nWatch out: the parametrization of a line is not unique; any point on it and any nonzero multiple of $\\vec{v}$ also works.",
+      "searchQuery": "vector equation of a line parametric equations 3D"
+    },
+    {
+      "id": "line-through-two-points",
+      "title": "Give a direction vector for the line through $(1, 2, 3)$ and $(4, 0, 5)$.",
+      "body": "$\\langle 3, -2, 2 \\rangle$\n\nSubtract the points: $\\langle 4 - 1,\\ 0 - 2,\\ 5 - 3 \\rangle$.\n\nExample: one parametrization is $\\vec{r}(t) = \\langle 1 + 3t,\\ 2 - 2t,\\ 3 + 2t \\rangle$, which hits the second point at $t = 1$.\nWatch out: any nonzero multiple, such as $\\langle -3, 2, -2 \\rangle$, is also a valid direction.",
+      "answer": "<3, -2, 2>",
+      "acceptedAnswers": [
+        "(3, -2, 2)",
+        "⟨3, -2, 2⟩",
+        "3, -2, 2"
+      ],
+      "answerDisplay": "$\\langle 3, -2, 2 \\rangle$",
+      "searchQuery": "direction vector of line through two points 3D"
+    },
+    {
+      "id": "symmetric-equations-line",
+      "title": "What are the symmetric equations of the line through $(x_0, y_0, z_0)$ with direction $\\langle a, b, c \\rangle$?",
+      "body": "$\\frac{x - x_0}{a} = \\frac{y - y_0}{b} = \\frac{z - z_0}{c}$\n\nSolve each parametric equation for $t$ and set them equal. This needs $a$, $b$ and $c$ all nonzero.\n\nWatch out: if, say, $c = 0$, write $z = z_0$ separately and keep the other two ratios equal.",
+      "searchQuery": "symmetric equations of a line in space"
+    },
+    {
+      "id": "plane-point-normal-form",
+      "title": "What is the equation of the plane through $(x_0, y_0, z_0)$ with normal vector $\\langle a, b, c \\rangle$?",
+      "body": "$a(x - x_0) + b(y - y_0) + c(z - z_0) = 0$\n\nThis says $\\vec{n} \\cdot (\\vec{r} - \\vec{r}_0) = 0$: every vector lying in the plane is perpendicular to the normal.\n\nTip: expand to get the scalar form $ax + by + cz = d$; the coefficients are the normal vector.",
+      "searchQuery": "equation of a plane point normal vector form"
+    },
+    {
+      "id": "normal-vector-from-plane-equation",
+      "title": "Give a normal vector to the plane $2x - 3y + z = 7$.",
+      "body": "$\\langle 2, -3, 1 \\rangle$\n\nIn $ax + by + cz = d$ the coefficients $\\langle a, b, c \\rangle$ form a normal vector.\n\nWatch out: the constant $7$ does not affect the normal; it only shifts the plane. Any nonzero multiple of the normal also works.",
+      "answer": "<2, -3, 1>",
+      "acceptedAnswers": [
+        "(2, -3, 1)",
+        "⟨2, -3, 1⟩",
+        "2, -3, 1"
+      ],
+      "answerDisplay": "$\\langle 2, -3, 1 \\rangle$",
+      "searchQuery": "normal vector to plane from equation coefficients"
+    },
+    {
+      "id": "plane-through-three-points",
+      "title": "Find the plane through $(1, 0, 0)$, $(0, 1, 0)$ and $(0, 0, 1)$.",
+      "body": "$x + y + z = 1$\n\nTwo in-plane vectors are $\\langle -1, 1, 0 \\rangle$ and $\\langle -1, 0, 1 \\rangle$; their cross product is $\\langle 1, 1, 1 \\rangle$, the normal. Using the point $(1, 0, 0)$ gives $x + y + z = 1$.\n\nTip: general recipe: take the cross product of two in-plane vectors to get $\\vec{n}$, then use point-normal form.",
+      "answer": "x+y+z=1",
+      "acceptedAnswers": [
+        "x+y+z-1=0",
+        "1=x+y+z"
+      ],
+      "answerDisplay": "$x + y + z = 1$",
+      "searchQuery": "plane through three points cross product normal vector"
+    },
+    {
+      "id": "distance-point-to-plane",
+      "title": "What is the distance from $(x_1, y_1, z_1)$ to the plane $ax + by + cz + d = 0$?",
+      "body": "$\\dfrac{|a x_1 + b y_1 + c z_1 + d|}{\\sqrt{a^2 + b^2 + c^2}}$\n\nThis is the length of the projection of a vector from any point on the plane to $P_1$ onto the unit normal.\n\nExample: the distance from $(1, 2, 3)$ to $x + 2y + 2z = 0$ is $\\frac{|1 + 4 + 6|}{3} = \\frac{11}{3}$.\nWatch out: write the plane with everything on one side first, so $d$ carries the right sign.",
+      "searchQuery": "distance from point to plane formula"
+    },
+    {
+      "id": "line-plane-intersection-point",
+      "title": "Where does the line $\\vec{r}(t) = \\langle 1 + t,\\ 2t,\\ 3 - t \\rangle$ meet the plane $x + y + z = 6$? Give the point.",
+      "body": "$(2, 2, 2)$\n\nSubstitute into the plane: $(1 + t) + 2t + (3 - t) = 4 + 2t = 6$, so $t = 1$. Then $\\vec{r}(1) = \\langle 2, 2, 2 \\rangle$.\n\nTip: always substitute the parametric equations into the plane, solve for $t$, then plug $t$ back in.",
+      "answer": "(2, 2, 2)",
+      "acceptedAnswers": [
+        "<2, 2, 2>",
+        "⟨2, 2, 2⟩",
+        "2, 2, 2"
+      ],
+      "answerDisplay": "$(2, 2, 2)$",
+      "searchQuery": "intersection of line and plane parametric substitute"
+    },
+    {
+      "id": "line-of-intersection-two-planes",
+      "title": "How do you find a direction vector for the line where two non-parallel planes meet?",
+      "body": "Take $\\vec{n}_1 \\times \\vec{n}_2$, the cross product of the two normals.\n\nThe line lies in both planes, so it is perpendicular to both normals. Then find any one point on both planes (for instance by setting one variable to $0$) to finish the line.\n\nWatch out: if $\\vec{n}_1 \\times \\vec{n}_2 = \\vec{0}$, the planes are parallel and there is no line.",
+      "searchQuery": "line of intersection of two planes direction cross product normals"
+    },
+    {
+      "id": "cross-product-magnitude",
+      "title": "$\\theta$ is the angle between vectors $\\vec{a}$ and $\\vec{b}$. What is $|\\vec{a} \\times \\vec{b}|$?",
+      "body": "$|\\vec{a}||\\vec{b}|\\sin\\theta$\n\nThis is the **area of the parallelogram** spanned by $\\vec{a}$ and $\\vec{b}$. The vector $\\vec{a} \\times \\vec{b}$ is orthogonal to both (right-hand rule), and $\\vec{b} \\times \\vec{a} = -(\\vec{a} \\times \\vec{b})$.\n\nWhy: $\\vec{a} \\times \\vec{b} = \\vec{0}$ exactly when $\\vec{a} \\parallel \\vec{b}$, since then $\\sin\\theta = 0$.\nWatch out: compare $\\vec{a} \\cdot \\vec{b} = |\\vec{a}||\\vec{b}|\\cos\\theta$, a scalar that is $0$ when $\\vec{a} \\perp \\vec{b}$.",
+      "answer": "|a||b|sin theta",
+      "acceptedAnswers": [
+        "|a||b|sin(theta)",
+        "||a|| ||b|| sin theta",
+        "||a|| ||b|| sin(theta)"
+      ],
+      "answerDisplay": "$|\\vec{a}||\\vec{b}|\\sin\\theta$",
+      "searchQuery": "cross product magnitude parallelogram area sin theta"
+    },
+    {
+      "id": "mixed-partials-clairaut",
+      "title": "For $f(x, y) = x^2 y^3$, find $f_{xy}$.",
+      "body": "$6xy^2$\n\nFirst $f_x = 2xy^3$, then differentiate that in $y$: $f_{xy} = 6xy^2$.\n\nKey idea: **Clairaut's Theorem** says $f_{xy} = f_{yx}$ whenever the mixed partials are continuous. Check: $f_y = 3x^2y^2$, and $(f_y)_x = 6xy^2$.\nTip: when the two orders differ in difficulty, pick the easier one.",
+      "answer": "6xy^2",
+      "acceptedAnswers": [
+        "6y^2x"
+      ],
+      "answerDisplay": "$6xy^2$",
+      "searchQuery": "mixed partial derivatives Clairaut theorem example"
+    },
+    {
+      "id": "tangent-plane",
+      "title": "Find the tangent plane to $z = x^2 + y^2$ at $(1, 2, 5)$ in the form $z = \\dots$",
+      "body": "$z = 2x + 4y - 5$\n\nFormula: $z - z_0 = f_x(a, b)(x - a) + f_y(a, b)(y - b)$. Here $f_x = 2x = 2$ and $f_y = 2y = 4$ at $(1, 2)$, so $z - 5 = 2(x - 1) + 4(y - 2)$.\n\nExample: expanding gives $z = 2x + 4y - 2 - 8 + 5 = 2x + 4y - 5$.\nTip: plug the point back in to check: $2 + 8 - 5 = 5$.",
+      "answer": "z=2x+4y-5",
+      "acceptedAnswers": [
+        "z-5=2(x-1)+4(y-2)",
+        "2x+4y-z=5",
+        "2x+4y-z-5=0",
+        "z=2(x-1)+4(y-2)+5"
+      ],
+      "answerDisplay": "$z = 2x + 4y - 5$",
+      "searchQuery": "tangent plane to surface z = f(x,y) formula example"
+    },
+    {
+      "id": "directional-derivative",
+      "title": "Let $f(x, y) = x^2 y$. Find the directional derivative at $(1, 3)$ in the direction of $\\vec{v} = \\langle 3, 4 \\rangle$.",
+      "body": "$\\frac{22}{5}$\n\nAt $(1, 3)$: $\\nabla f = \\langle 2xy, x^2 \\rangle = \\langle 6, 1 \\rangle$. Use the **unit vector** $\\vec{u} = \\langle 3, 4 \\rangle / 5$, so $D_{\\vec{u}} f = \\nabla f \\cdot \\vec{u} = \\frac{18 + 4}{5} = \\frac{22}{5}$.\n\nWatch out: dotting with $\\vec{v}$ itself gives $22$, which is wrong because $|\\vec{v}| = 5 \\neq 1$.",
+      "answer": "22/5",
+      "acceptedAnswers": [
+        "4.4"
+      ],
+      "answerDisplay": "$\\frac{22}{5}$",
+      "searchQuery": "directional derivative gradient dot unit vector example"
+    },
+    {
+      "id": "gradient-steepest-ascent",
+      "title": "At a given point, in which direction does $f$ increase fastest, and what is that fastest rate?",
+      "body": "Along $\\nabla f$, at rate $|\\nabla f|$.\n\nSince $D_{\\vec{u}} f = \\nabla f \\cdot \\vec{u} = |\\nabla f|\\cos\\theta$, the value is largest at $\\theta = 0$. So $f$ decreases fastest along $-\\nabla f$.\n\nWhy: $D_{\\vec{u}} f = 0$ for $\\vec{u} \\perp \\nabla f$, which is why $\\nabla f$ is normal to level curves.\nWatch out: the unit vector $\\vec{u}$ must have length $1$, or the dot product overstates the rate.",
+      "searchQuery": "gradient direction of steepest ascent maximum rate of change"
+    },
+    {
+      "id": "second-derivative-test-2d",
+      "title": "At a critical point of $f(x, y)$, $D = f_{xx} f_{yy} - (f_{xy})^2 < 0$. What kind of point is it?",
+      "body": "saddle point\n\nThe other cases: $D > 0$ and $f_{xx} > 0$ is a local **min**; $D > 0$ and $f_{xx} < 0$ is a local **max**; $D = 0$ is inconclusive.\n\nExample: $f = x^2 - y^2$ at $(0, 0)$ has $D = (2)(-2) - 0^2 = -4$, a saddle.\nWatch out: do not use the sign of $f_{xx}$ alone; $D$ decides first.",
+      "answer": "saddle point",
+      "acceptedAnswers": [
+        "saddle"
+      ],
+      "searchQuery": "second derivative test two variables saddle point discriminant"
+    },
+    {
+      "id": "lagrange-multipliers",
+      "title": "To find extrema of $f(x, y)$ subject to $g(x, y) = k$, which equations do you solve?",
+      "body": "$\\nabla f = \\lambda \\nabla g$ together with $g(x, y) = k$ (where $\\nabla g \\neq \\vec{0}$).\n\nAt a constrained extremum the level curve of $f$ is tangent to the constraint curve, so the **gradients are parallel**.\n\nTip: evaluate $f$ at every solution; if extremes exist, the largest value is the max and the smallest is the min.\nWatch out: also check the constraint's endpoints or corners if the constraint region has boundary.",
+      "searchQuery": "Lagrange multipliers gradient f equals lambda gradient g constraint"
+    },
+    {
+      "id": "polar-area-element",
+      "title": "Converting a double integral to polar coordinates: $dA = \\,?$",
+      "body": "$r\\,dr\\,d\\theta$\n\nA small polar \"rectangle\" is about $r\\,\\Delta\\theta$ wide and $\\Delta r$ deep, so its area is $r\\,\\Delta r\\,\\Delta\\theta$.\n\nExample: the unit disk has area $\\int_0^{2\\pi}\\int_0^1 r\\,dr\\,d\\theta = \\pi$.\nWatch out: dropping the factor $r$ gives $2\\pi$, which is wrong.",
+      "answer": "r dr dtheta",
+      "acceptedAnswers": [
+        "r dtheta dr"
+      ],
+      "answerDisplay": "$r\\,dr\\,d\\theta$",
+      "searchQuery": "polar coordinates double integral area element r dr dtheta"
+    },
+    {
+      "id": "spherical-volume-element",
+      "title": "Spherical coordinates $(\\rho, \\theta, \\phi)$: $dV = \\underline{\\quad}\\ d\\rho\\,d\\theta\\,d\\phi$",
+      "body": "$\\rho^2 \\sin\\phi$\n\nHere $\\phi$ is measured **down from the positive $z$-axis**, with $0 \\le \\phi \\le \\pi$.\n\nExample: a ball of radius $R$ gives $\\frac{R^3}{3}(2\\pi)(2) = \\frac{4}{3}\\pi R^3$.\nTip: cylindrical coordinates have $dV = r\\,dz\\,dr\\,d\\theta$, with the same factor $r$ as polar.",
+      "answer": "rho^2 sin phi",
+      "acceptedAnswers": [
+        "rho^2 sin(phi)",
+        "ρ^2 sin φ",
+        "ρ^2 sin(φ)",
+        "p^2 sin phi",
+        "p^2 sin(phi)"
+      ],
+      "answerDisplay": "$\\rho^2 \\sin\\phi$",
+      "searchQuery": "spherical coordinates volume element rho squared sin phi"
+    },
+    {
+      "id": "jacobian-change-of-variables",
+      "title": "Change of variables $x = g(u, v)$, $y = h(u, v)$ in a double integral: $dA = \\,?$",
+      "body": "$dA = \\left|\\frac{\\partial(x, y)}{\\partial(u, v)}\\right| du\\,dv$, where $\\frac{\\partial(x, y)}{\\partial(u, v)} = x_u y_v - x_v y_u$.\n\nExample: $x = 2u + v$, $y = u - 3v$ gives $(2)(-3) - (1)(1) = -7$, so $dA = 7\\,du\\,dv$.\n\nWatch out: take the **absolute value** of the Jacobian.\nTip: for polar coordinates the Jacobian is $r$.",
+      "searchQuery": "Jacobian change of variables double integral formula"
+    },
+    {
+      "id": "conservative-field-test",
+      "title": "How do you test whether $\\vec{F} = \\langle P, Q \\rangle$ is conservative, and what does that give you?",
+      "body": "Check $\\frac{\\partial P}{\\partial y} = \\frac{\\partial Q}{\\partial x}$ on an open, simply connected region (in 3D, check $\\nabla \\times \\vec{F} = \\vec{0}$).\n\nThen $\\vec{F} = \\nabla f$, so $\\int_C \\vec{F} \\cdot d\\vec{r} = f(\\text{end}) - f(\\text{start})$. The integral is **path-independent**, and $0$ around closed curves.\n\nExample: $\\langle 2xy, x^2 \\rangle = \\nabla(x^2 y)$.\nWatch out: the region must have no holes; $\\langle -y, x \\rangle / (x^2 + y^2)$ passes the test but is not conservative on the punctured plane.",
+      "searchQuery": "conservative vector field test partial derivatives path independence"
+    },
+    {
+      "id": "greens-theorem",
+      "title": "Green's Theorem: $\\oint_C P\\,dx + Q\\,dy = \\iint_D (\\,?\\,)\\,dA$ for positively oriented $C$. What goes in the blank?",
+      "body": "$\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}$\n\n$C$ is a counterclockwise, piecewise-smooth, simple closed curve bounding $D$.\n\nExample: area shortcut $A = \\oint_C x\\,dy = \\frac{1}{2}\\oint_C (x\\,dy - y\\,dx)$.\nWatch out: $P_y - Q_x$ flips the sign.",
+      "answer": "Q_x - P_y",
+      "acceptedAnswers": [
+        "Qx-Py",
+        "dQ/dx-dP/dy",
+        "∂Q/∂x-∂P/∂y",
+        "-P_y+Q_x"
+      ],
+      "answerDisplay": "$\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}$",
+      "searchQuery": "Green's theorem circulation form Q_x minus P_y"
+    },
+    {
+      "id": "div-and-curl",
+      "title": "For $\\vec{F} = \\langle P, Q, R \\rangle$, what are $\\operatorname{div}\\vec{F}$ and $\\operatorname{curl}\\vec{F}$?",
+      "body": "$\\operatorname{div}\\vec{F} = P_x + Q_y + R_z$ (a scalar); $\\operatorname{curl}\\vec{F} = \\langle R_y - Q_z,\\ P_z - R_x,\\ Q_x - P_y \\rangle$ (a vector).\n\nThese are $\\nabla \\cdot \\vec{F}$ and $\\nabla \\times \\vec{F}$.\n\nKey idea: with continuous second partials, $\\nabla \\times (\\nabla f) = \\vec{0}$ and $\\nabla \\cdot (\\nabla \\times \\vec{F}) = 0$.",
+      "searchQuery": "divergence and curl of a vector field formulas"
+    },
+    {
+      "id": "stokes-theorem",
+      "title": "Stokes' Theorem: $\\oint_C \\vec{F} \\cdot d\\vec{r}$ equals what surface integral, and how are $C$ and $S$ oriented?",
+      "body": "$\\iint_S (\\nabla \\times \\vec{F}) \\cdot d\\vec{S}$, where $C$ is the boundary of the oriented surface $S$.\n\nUse the **right-hand rule**: thumb along $S$'s normal, fingers curl in $C$'s direction. Equivalently, walking along $C$ with your head along the normal, $S$ stays on your left.\n\nKey idea: Green's Theorem is the flat special case with $S$ in the $xy$-plane.",
+      "searchQuery": "Stokes theorem line integral surface integral curl orientation"
+    },
+    {
+      "id": "divergence-theorem",
+      "title": "Find the outward flux of $\\vec{F} = \\langle x, y, z \\rangle$ through the unit sphere.",
+      "body": "$4\\pi$\n\nDivergence Theorem: $\\iint_S \\vec{F} \\cdot d\\vec{S} = \\iiint_E \\nabla \\cdot \\vec{F}\\,dV$ for a closed surface $S$ oriented outward around the solid $E$.\n\nExample: here $\\nabla \\cdot \\vec{F} = 3$, so the flux is $3 \\cdot \\frac{4}{3}\\pi = 4\\pi$.\nWatch out: the surface must be closed and oriented outward.",
+      "answer": "4pi",
+      "answerDisplay": "$4\\pi$",
+      "searchQuery": "divergence theorem flux unit sphere 4 pi"
+    },
+    {
+      "id": "level-curves-contours",
+      "title": "What is a level curve of $f(x, y)$, and what do the level curves of $f = x^2 + y^2$ look like?",
+      "body": "A level curve is the set where $f(x, y) = k$ for a constant $k$. For $f = x^2 + y^2$ they are **circles** centered at the origin with radius $\\sqrt{k}$ ($k > 0$).\n\nThe level curves are the graph's slices at height $z = k$, projected onto the $xy$-plane. Closely spaced curves mean $f$ changes quickly there.\n\nKey idea: $\\nabla f$ is always perpendicular to the level curve through the point.",
+      "searchQuery": "level curves contour map function of two variables"
+    },
+    {
+      "id": "domain-sqrt-two-variables",
+      "title": "Describe the domain of $f(x, y) = \\sqrt{4 - x^2 - y^2}$ as an inequality.",
+      "body": "$x^2 + y^2 \\le 4$\n\nThe square root needs $4 - x^2 - y^2 \\ge 0$. That is the **closed disk** of radius $2$ centered at the origin.\n\nWatch out: the graph is the upper hemisphere $x^2 + y^2 + z^2 = 4$, $z \\ge 0$, and the range is $[0, 2]$.",
+      "answer": "x^2+y^2<=4",
+      "acceptedAnswers": [
+        "x^2+y^2≤4",
+        "4>=x^2+y^2"
+      ],
+      "answerDisplay": "$x^2 + y^2 \\le 4$",
+      "searchQuery": "domain of function of two variables square root disk"
+    },
+    {
+      "id": "limit-does-not-exist-paths",
+      "title": "How do you show that $\\lim_{(x,y)\\to(0,0)} f(x, y)$ does not exist?",
+      "body": "Find **two different paths** to $(0, 0)$ along which $f$ approaches different values.\n\nExample: for $f = \\frac{xy}{x^2 + y^2}$, along $y = 0$ the value is $0$, but along $y = x$ it is $\\frac{x^2}{2x^2} = \\frac{1}{2}$. So the limit does not exist.\n\nWatch out: agreeing on every line you try proves nothing. To show a limit exists you need a squeeze or a polar-coordinate argument.",
+      "searchQuery": "limit does not exist two paths multivariable limit"
+    },
+    {
+      "id": "limit-polar-squeeze",
+      "title": "Evaluate $\\lim_{(x,y)\\to(0,0)} \\frac{x^2 y}{x^2 + y^2}$.",
+      "body": "$0$\n\nSwitch to polar: the expression is $\\frac{r^3\\cos^2\\theta\\sin\\theta}{r^2} = r\\cos^2\\theta\\sin\\theta$. Its absolute value is at most $r$, which goes to $0$ as $(x, y) \\to (0, 0)$.\n\nTip: use polar coordinates when the denominator is $x^2 + y^2$; the bound must not depend on $\\theta$.",
+      "answer": "0",
+      "searchQuery": "two variable limit polar coordinates squeeze x^2 y over x^2 + y^2"
+    },
+    {
+      "id": "partial-derivative-definition",
+      "title": "Write the limit definition of the partial derivative $\\frac{\\partial f}{\\partial x}(a, b)$.",
+      "body": "$f_x(a, b) = \\lim_{h \\to 0} \\dfrac{f(a + h, b) - f(a, b)}{h}$\n\nOnly $x$ moves; $y$ is held fixed at $b$. So $f_x$ is the **slope of the slice** of the graph in the plane $y = b$.\n\nTip: in practice, treat every other variable as a constant and use ordinary one-variable rules.",
+      "searchQuery": "partial derivative limit definition slope of slice"
+    },
+    {
+      "id": "partial-exponential-product",
+      "title": "Find $\\frac{\\partial}{\\partial y}\\left(x e^{xy}\\right)$.",
+      "body": "$x^2 e^{xy}$\n\nHold $x$ fixed. The chain rule on $e^{xy}$ gives $e^{xy}\\cdot x$, and the leading factor $x$ stays: $x \\cdot x e^{xy}$.\n\nWatch out: the inner derivative of $xy$ with respect to $y$ is $x$, not $1$.",
+      "answer": "x^2e^(xy)",
+      "acceptedAnswers": [
+        "e^(xy)x^2"
+      ],
+      "answerDisplay": "$x^2 e^{xy}$",
+      "searchQuery": "partial derivative exponential x e^(xy) with respect to y"
+    },
+    {
+      "id": "partial-log-two-variables",
+      "title": "Find $\\frac{\\partial}{\\partial x}\\ln(x^2 + y^2)$.",
+      "body": "$\\dfrac{2x}{x^2 + y^2}$\n\nBy the chain rule, $\\frac{1}{x^2 + y^2}$ times the derivative of the inside in $x$, which is $2x$ (the $y^2$ is a constant).\n\nExample: by symmetry, $\\frac{\\partial}{\\partial y}\\ln(x^2 + y^2) = \\frac{2y}{x^2 + y^2}$.",
+      "answer": "2x/(x^2+y^2)",
+      "acceptedAnswers": [
+        "2x/(y^2+x^2)"
+      ],
+      "answerDisplay": "$\\dfrac{2x}{x^2 + y^2}$",
+      "searchQuery": "partial derivative ln(x^2+y^2) with respect to x"
+    },
+    {
+      "id": "partial-product-trig",
+      "title": "Find $\\frac{\\partial}{\\partial x}\\left(x \\sin(xy)\\right)$.",
+      "body": "$\\sin(xy) + xy\\cos(xy)$\n\nUse the product rule on $x$ and $\\sin(xy)$. The second factor's $x$-derivative is $\\cos(xy)\\cdot y$.\n\nWatch out: both factors depend on $x$, so the product rule is required.",
+      "answer": "sin(xy)+xycos(xy)",
+      "acceptedAnswers": [
+        "xycos(xy)+sin(xy)"
+      ],
+      "answerDisplay": "$\\sin(xy) + xy\\cos(xy)$",
+      "searchQuery": "partial derivative product rule x sin(xy)"
+    },
+    {
+      "id": "second-partial-pure",
+      "title": "For $f(x, y) = x^3 y^2$, find $f_{yy}$.",
+      "body": "$2x^3$\n\nFirst $f_y = 2x^3 y$, then differentiate again in $y$.\n\nExample: $f_{xx} = 6xy^2$ and $f_{xy} = f_{yx} = 6x^2 y$, so every mixed partial agrees, as Clairaut predicts.",
+      "answer": "2x^3",
+      "answerDisplay": "$2x^3$",
+      "searchQuery": "second order partial derivative f_yy x^3 y^2"
+    },
+    {
+      "id": "laplace-equation-harmonic",
+      "title": "What is Laplace's equation for $u(x, y)$, and is $u = x^2 - y^2$ a solution?",
+      "body": "$u_{xx} + u_{yy} = 0$, and yes: $u = x^2 - y^2$ satisfies it.\n\nHere $u_{xx} = 2$ and $u_{yy} = -2$, which sum to $0$. Solutions are called **harmonic functions**.\n\nWatch out: $x^2 + y^2$ is not harmonic; its Laplacian is $2 + 2 = 4$.",
+      "searchQuery": "Laplace's equation harmonic function partial derivatives example"
+    },
+    {
+      "id": "chain-rule-one-parameter",
+      "title": "Chain rule: $z = f(x, y)$ with $x = x(t)$ and $y = y(t)$. What is $\\frac{dz}{dt}$?",
+      "body": "$\\dfrac{dz}{dt} = \\dfrac{\\partial f}{\\partial x}\\dfrac{dx}{dt} + \\dfrac{\\partial f}{\\partial y}\\dfrac{dy}{dt}$\n\nEach path from $z$ to $t$ in the tree diagram contributes one product, and you **add the paths**.\n\nWatch out: use $\\frac{\\partial}{\\partial x}$ for $f$ (several variables) but $\\frac{d}{dt}$ for $x(t)$ and $y(t)$ (one variable).",
+      "searchQuery": "multivariable chain rule one parameter dz/dt formula"
+    },
+    {
+      "id": "chain-rule-value",
+      "title": "$z = x^2 y$ with $x = t^2$ and $y = t^3$. Use the chain rule to find $\\frac{dz}{dt}$ at $t = 1$.",
+      "body": "$7$\n\nAt $t = 1$: $x = y = 1$, so $f_x = 2xy = 2$ and $f_y = x^2 = 1$; also $x'(1) = 2$ and $y'(1) = 3$. Then $\\frac{dz}{dt} = 2\\cdot 2 + 1 \\cdot 3 = 7$.\n\nTip: check by substituting first: $z = t^7$, so $\\frac{dz}{dt} = 7t^6 = 7$ at $t = 1$.",
+      "answer": "7",
+      "searchQuery": "chain rule example z = x^2 y x = t^2 y = t^3"
+    },
+    {
+      "id": "chain-rule-two-parameters",
+      "title": "Chain rule: $z = f(x, y)$ with $x = x(s, t)$ and $y = y(s, t)$. What is $\\frac{\\partial z}{\\partial s}$?",
+      "body": "$\\dfrac{\\partial z}{\\partial s} = \\dfrac{\\partial f}{\\partial x}\\dfrac{\\partial x}{\\partial s} + \\dfrac{\\partial f}{\\partial y}\\dfrac{\\partial y}{\\partial s}$\n\nFor $\\frac{\\partial z}{\\partial t}$, replace $s$ with $t$ throughout.\n\nTip: draw a tree: $z$ branches to $x$ and $y$, and each branches to $s$ and $t$. Multiply along a branch, add across branches.",
+      "searchQuery": "chain rule two independent variables partial derivative tree diagram"
+    },
+    {
+      "id": "implicit-differentiation-formula",
+      "title": "If $F(x, y) = 0$ defines $y$ implicitly as a function of $x$, what is $\\frac{dy}{dx}$?",
+      "body": "$\\dfrac{dy}{dx} = -\\dfrac{F_x}{F_y}$, provided $F_y \\neq 0$.\n\nIf $F(x, y, z) = 0$ defines $z$ implicitly, then $\\frac{\\partial z}{\\partial x} = -\\frac{F_x}{F_z}$ and $\\frac{\\partial z}{\\partial y} = -\\frac{F_y}{F_z}$.\n\nWhy: differentiate $F(x, y(x)) = 0$ with the chain rule: $F_x + F_y \\frac{dy}{dx} = 0$.",
+      "searchQuery": "implicit differentiation partial derivatives -Fx/Fy formula"
+    },
+    {
+      "id": "implicit-circle-slope",
+      "title": "Find the slope $\\frac{dy}{dx}$ of $x^2 + y^2 = 25$ at $(3, 4)$.",
+      "body": "$-\\frac{3}{4}$\n\nTake $F = x^2 + y^2 - 25$. Then $\\frac{dy}{dx} = -\\frac{F_x}{F_y} = -\\frac{2x}{2y} = -\\frac{x}{y}$, which is $-\\frac{3}{4}$ at $(3, 4)$.\n\nTip: the tangent to a circle is perpendicular to the radius, whose slope is $\\frac{4}{3}$; the negative reciprocal is $-\\frac{3}{4}$.",
+      "answer": "-3/4",
+      "acceptedAnswers": [
+        "-0.75"
+      ],
+      "answerDisplay": "$-\\frac{3}{4}$",
+      "searchQuery": "implicit differentiation slope of circle x^2+y^2=25 at (3,4)"
+    },
+    {
+      "id": "implicit-partial-sphere",
+      "title": "$x^2 + y^2 + z^2 = 9$ defines $z$ implicitly. Find $\\frac{\\partial z}{\\partial x}$ at $(1, 2, 2)$.",
+      "body": "$-\\frac{1}{2}$\n\nWith $F = x^2 + y^2 + z^2 - 9$: $\\frac{\\partial z}{\\partial x} = -\\frac{F_x}{F_z} = -\\frac{2x}{2z} = -\\frac{x}{z} = -\\frac{1}{2}$.\n\nWatch out: $z$ depends on $x$ and $y$, so you cannot treat it as a constant when differentiating.",
+      "answer": "-1/2",
+      "acceptedAnswers": [
+        "-0.5"
+      ],
+      "answerDisplay": "$-\\frac{1}{2}$",
+      "searchQuery": "implicit partial derivative dz/dx sphere x^2+y^2+z^2=9"
+    },
+    {
+      "id": "linear-approximation-two-variables",
+      "title": "What is the linearization $L(x, y)$ of $f$ at $(a, b)$?",
+      "body": "$L(x, y) = f(a, b) + f_x(a, b)(x - a) + f_y(a, b)(y - b)$\n\nIt is the tangent plane written as a function, and it approximates $f$ near $(a, b)$ when $f$ is differentiable there.\n\nKey idea: in differential form, $\\Delta f \\approx f_x\\,\\Delta x + f_y\\,\\Delta y = df$.",
+      "searchQuery": "linearization two variables tangent plane approximation formula"
+    },
+    {
+      "id": "linear-approximation-value",
+      "title": "Use the linearization of $f(x, y) = \\sqrt{x^2 + y^2}$ at $(3, 4)$ to estimate $f(3.03, 3.96)$.",
+      "body": "$4.986$\n\nAt $(3, 4)$: $f = 5$, $f_x = \\frac{x}{f} = \\frac{3}{5}$, $f_y = \\frac{y}{f} = \\frac{4}{5}$. So $L = 5 + 0.6(0.03) + 0.8(-0.04) = 5 + 0.018 - 0.032$.\n\nExample: the exact value is about $4.9862$, so the estimate is close.\nWatch out: $\\Delta y = 3.96 - 4 = -0.04$ is negative.",
+      "answer": "4.986",
+      "answerDisplay": "$4.986$",
+      "searchQuery": "linear approximation estimate sqrt(x^2+y^2) near (3,4)"
+    },
+    {
+      "id": "gradient-definition",
+      "title": "What is the gradient $\\nabla f$ of a function $f(x, y, z)$, and what does it point toward?",
+      "body": "$\\nabla f = \\langle f_x, f_y, f_z \\rangle$, a **vector of the partial derivatives**.\n\nAt each point it points in the direction of steepest increase of $f$, and it is perpendicular to the level surface through that point.\n\nExample: $f = x^2 y + z$ gives $\\nabla f = \\langle 2xy, x^2, 1 \\rangle$.",
+      "searchQuery": "gradient vector definition partial derivatives meaning"
+    },
+    {
+      "id": "gradient-at-a-point",
+      "title": "Find $\\nabla f(1, 2, 2)$ for $f(x, y, z) = x^2 + y^2 + z^2$.",
+      "body": "$\\langle 2, 4, 4 \\rangle$\n\nSince $\\nabla f = \\langle 2x, 2y, 2z \\rangle$, plugging in $(1, 2, 2)$ gives $\\langle 2, 4, 4 \\rangle$.\n\nExample: its length is $\\sqrt{4 + 16 + 16} = 6$, which is the maximum directional derivative at that point.",
+      "answer": "<2, 4, 4>",
+      "acceptedAnswers": [
+        "(2, 4, 4)",
+        "⟨2, 4, 4⟩",
+        "2, 4, 4"
+      ],
+      "answerDisplay": "$\\langle 2, 4, 4 \\rangle$",
+      "searchQuery": "gradient of f at a point x^2+y^2+z^2 example"
+    },
+    {
+      "id": "tangent-plane-level-surface",
+      "title": "Find the tangent plane to the sphere $x^2 + y^2 + z^2 = 9$ at $(1, 2, 2)$.",
+      "body": "$x + 2y + 2z = 9$\n\nThe gradient $\\nabla F = \\langle 2x, 2y, 2z \\rangle = \\langle 2, 4, 4 \\rangle$ is normal to a level surface. Use $\\langle 1, 2, 2 \\rangle$ and the point-normal form: $(x - 1) + 2(y - 2) + 2(z - 2) = 0$.\n\nTip: general rule: tangent plane to $F = k$ at $P$ is $\\nabla F(P) \\cdot (\\vec{r} - \\vec{r}_P) = 0$.",
+      "answer": "x+2y+2z=9",
+      "acceptedAnswers": [
+        "2x+4y+4z=18",
+        "x+2y+2z-9=0"
+      ],
+      "answerDisplay": "$x + 2y + 2z = 9$",
+      "searchQuery": "tangent plane to level surface using gradient sphere"
+    },
+    {
+      "id": "max-rate-of-change-value",
+      "title": "$f(x, y) = x^2 y$. What is the maximum rate of change of $f$ at $(1, 3)$?",
+      "body": "$\\sqrt{37}$\n\nThe maximum rate is $|\\nabla f|$, attained in the direction of $\\nabla f$. At $(1, 3)$, $\\nabla f = \\langle 6, 1 \\rangle$, so $|\\nabla f| = \\sqrt{36 + 1} = \\sqrt{37}$.\n\nWatch out: the maximum rate is a length, so it is not $6 + 1$ and it is not the vector itself.",
+      "answer": "sqrt(37)",
+      "answerDisplay": "$\\sqrt{37}$",
+      "searchQuery": "maximum rate of change magnitude of gradient example"
+    },
+    {
+      "id": "critical-point-two-variables",
+      "title": "Find the critical point of $f(x, y) = x^2 + y^2 - 4x + 6y$.",
+      "body": "$(2, -3)$\n\nSet both partials to $0$: $f_x = 2x - 4 = 0$ gives $x = 2$, and $f_y = 2y + 6 = 0$ gives $y = -3$.\n\nKey idea: a **critical point** is where $f_x = f_y = 0$ (or a partial does not exist). Here $f_{xx} = f_{yy} = 2 > 0$ and $f_{xy} = 0$, so $D = 4 > 0$: a local minimum.",
+      "answer": "(2, -3)",
+      "acceptedAnswers": [
+        "2, -3",
+        "x=2, y=-3"
+      ],
+      "answerDisplay": "$(2, -3)$",
+      "searchQuery": "critical points of function of two variables find partial derivatives zero"
+    },
+    {
+      "id": "classify-local-min-quadratic",
+      "title": "Classify the critical point $(0, 0)$ of $f(x, y) = x^2 + xy + y^2$.",
+      "body": "local minimum\n\nHere $f_{xx} = 2$, $f_{yy} = 2$ and $f_{xy} = 1$, so $D = (2)(2) - 1^2 = 3 > 0$. With $f_{xx} > 0$ the point is a local **minimum**.\n\nWhy: $x^2 + xy + y^2 = \\left(x + \\frac{y}{2}\\right)^2 + \\frac{3}{4}y^2 \\ge 0$, with equality only at $(0, 0)$.\nWatch out: do not read the cross term $xy$ as signalling a saddle; only the sign of $D$ decides.",
+      "answer": "local minimum",
+      "acceptedAnswers": [
+        "local min",
+        "minimum",
+        "min"
+      ],
+      "searchQuery": "classify critical point second derivative test local minimum x^2+xy+y^2"
+    },
+    {
+      "id": "classify-cubic-critical-points",
+      "title": "Find and classify the critical points of $f(x, y) = x^3 + y^3 - 3xy$.",
+      "body": "$(0, 0)$ is a saddle point and $(1, 1)$ is a local minimum.\n\n$f_x = 3x^2 - 3y = 0$ and $f_y = 3y^2 - 3x = 0$ give $y = x^2$ and $x = y^2$, so $x = x^4$ and $x = 0$ or $1$. Then $D = 36xy - 9$.\n\nExample: $D(0, 0) = -9 < 0$ is a saddle; $D(1, 1) = 27 > 0$ with $f_{xx} = 6 > 0$ is a min.",
+      "searchQuery": "classify critical points x^3 + y^3 - 3xy saddle local minimum"
+    },
+    {
+      "id": "extreme-value-theorem-two-variables",
+      "title": "State the Extreme Value Theorem for a function of two variables.",
+      "body": "If $f$ is **continuous** on a **closed and bounded** set $D \\subset \\mathbb{R}^2$, then $f$ attains an absolute maximum and an absolute minimum on $D$.\n\nBoth hypotheses matter. On the open disk $x^2 + y^2 < 1$, $f = x$ has no maximum; on the unbounded plane, $f = x$ has neither.\n\nTip: when the theorem applies, you are guaranteed that checking critical points and the boundary finds the answer.",
+      "searchQuery": "extreme value theorem two variables closed bounded set continuous"
+    },
+    {
+      "id": "absolute-extrema-procedure",
+      "title": "What are the steps to find the absolute extrema of $f(x, y)$ on a closed, bounded region $D$?",
+      "body": "1. Find the critical points of $f$ in the interior of $D$ and compute $f$ there.\n2. Find the extreme values of $f$ **on the boundary** (parametrize it, or use Lagrange multipliers).\n3. Compare all values; the largest is the absolute max and the smallest is the absolute min.\n\nWatch out: do not skip the boundary, and include corner points of the boundary as candidates.",
+      "searchQuery": "absolute maximum minimum closed region steps interior boundary"
+    },
+    {
+      "id": "absolute-max-linear-on-disk",
+      "title": "Find the maximum of $f(x, y) = x + 2y$ on the disk $x^2 + y^2 \\le 5$.",
+      "body": "$5$\n\nThere are no interior critical points ($\\nabla f = \\langle 1, 2 \\rangle \\neq \\vec{0}$), so the max is on the circle. Lagrange: $\\langle 1, 2 \\rangle = \\lambda\\langle 2x, 2y \\rangle$ gives $y = 2x$, so $5x^2 = 5$ and $(x, y) = (1, 2)$.\n\nTip: check with Cauchy-Schwarz: $x + 2y \\le |\\langle 1, 2 \\rangle|\\sqrt{x^2 + y^2} = \\sqrt{5}\\sqrt{5} = 5$.",
+      "answer": "5",
+      "searchQuery": "maximum of linear function on a disk Lagrange multipliers x+2y"
+    },
+    {
+      "id": "lagrange-maximize-product",
+      "title": "Maximize $xy$ subject to $x + y = 10$. What is the maximum value?",
+      "body": "$25$\n\nSolve $\\langle y, x \\rangle = \\lambda\\langle 1, 1 \\rangle$, so $x = y$. With $x + y = 10$, both equal $5$, and $xy = 25$.\n\nTip: a one-variable check: $x(10 - x)$ is a downward parabola with vertex at $x = 5$.",
+      "answer": "25",
+      "searchQuery": "Lagrange multipliers maximize xy subject to x+y=10"
+    },
+    {
+      "id": "lagrange-multiplier-meaning",
+      "title": "What does the multiplier $\\lambda$ measure in the method of Lagrange multipliers?",
+      "body": "$\\lambda$ is the **rate of change of the optimal value** of $f$ as the constraint level $k$ in $g = k$ changes.\n\nIn economics it is the shadow price: how much the best achievable value improves per unit of extra budget.\n\nExample: for $xy$ with $x + y = k$, the max is $\\frac{k^2}{4}$ and $\\lambda = \\frac{k}{2}$, which equals $\\frac{d}{dk}\\frac{k^2}{4}$.",
+      "searchQuery": "meaning of Lagrange multiplier lambda shadow price rate of change"
+    },
+    {
+      "id": "lagrange-two-constraints",
+      "title": "With two constraints $g = k$ and $h = l$, what equations does the Lagrange method use for extrema of $f(x, y, z)$?",
+      "body": "$\\nabla f = \\lambda\\nabla g + \\mu\\nabla h$, together with $g = k$ and $h = l$.\n\nThe two constraints cut out a curve; at an extremum $\\nabla f$ must be perpendicular to that curve, so it lies in the plane spanned by $\\nabla g$ and $\\nabla h$.\n\nWatch out: you now have five equations in five unknowns $x, y, z, \\lambda, \\mu$.",
+      "searchQuery": "Lagrange multipliers two constraints gradient lambda mu"
+    },
+    {
+      "id": "closest-point-on-plane-distance",
+      "title": "Use Lagrange multipliers to find the shortest distance from the origin to the plane $x + 2y + 3z = 14$.",
+      "body": "$\\sqrt{14}$\n\nMinimize $x^2 + y^2 + z^2$ with $\\langle 2x, 2y, 2z \\rangle = \\lambda\\langle 1, 2, 3 \\rangle$, so $(x, y, z) = t(1, 2, 3)$. The constraint gives $14t = 14$, so $t = 1$ and the point is $(1, 2, 3)$ at distance $\\sqrt{14}$.\n\nTip: minimizing the squared distance avoids the square root and has the same minimizer.",
+      "answer": "sqrt(14)",
+      "answerDisplay": "$\\sqrt{14}$",
+      "searchQuery": "shortest distance from origin to plane Lagrange multipliers"
+    },
+    {
+      "id": "double-integral-definition",
+      "title": "What does $\\iint_R f(x, y)\\,dA$ mean for $f \\ge 0$, and how is it defined?",
+      "body": "It is the **volume** of the solid under the graph $z = f(x, y)$ and above the region $R$.\n\nIt is the limit of Riemann sums $\\sum f(x_i^*, y_j^*)\\,\\Delta A$ as the cells shrink. With $f = 1$ it gives the area of $R$.\n\nKey idea: for continuous $f$ on a rectangle, **Fubini's Theorem** lets you compute it as an iterated integral in either order.",
+      "searchQuery": "double integral definition volume under surface Riemann sum"
+    },
+    {
+      "id": "iterated-integral-evaluate",
+      "title": "Evaluate $\\int_0^1\\int_0^2 xy^2\\,dy\\,dx$.",
+      "body": "$\\frac{4}{3}$\n\nInner integral in $y$: $x\\cdot\\frac{y^3}{3}\\Big|_0^2 = \\frac{8x}{3}$. Outer: $\\int_0^1 \\frac{8x}{3}\\,dx = \\frac{8}{3}\\cdot\\frac{1}{2} = \\frac{4}{3}$.\n\nTip: the integrand factors as $x \\cdot y^2$ over a rectangle, so the result is $\\left(\\int_0^1 x\\,dx\\right)\\left(\\int_0^2 y^2\\,dy\\right) = \\frac{1}{2}\\cdot\\frac{8}{3}$.",
+      "answer": "4/3",
+      "acceptedAnswers": [
+        "1.3333"
+      ],
+      "answerDisplay": "$\\frac{4}{3}$",
+      "searchQuery": "evaluate iterated double integral rectangle xy^2"
+    },
+    {
+      "id": "reverse-order-integration",
+      "title": "Evaluate $\\int_0^1\\int_x^1 e^{y^2}\\,dy\\,dx$ by reversing the order.",
+      "body": "$\\frac{e - 1}{2}$\n\nThe region is $0 \\le x \\le y \\le 1$. Reversed, it is $0 \\le y \\le 1$ and $0 \\le x \\le y$, so the integral is $\\int_0^1 y\\,e^{y^2}\\,dy = \\frac{1}{2}\\left(e - 1\\right)$.\n\nTip: when an inner integral has no elementary antiderivative, **sketch the region and swap the order**.",
+      "answer": "(e-1)/2",
+      "answerDisplay": "$\\frac{e - 1}{2}$",
+      "searchQuery": "reverse order of integration e^(y^2) double integral"
+    },
+    {
+      "id": "area-between-parabola-line",
+      "title": "Use a double integral to find the area of the region between $y = x^2$ and $y = x$.",
+      "body": "$\\frac{1}{6}$\n\nThe curves meet at $x = 0$ and $x = 1$, with $x^2 \\le y \\le x$ in between. So $A = \\int_0^1\\int_{x^2}^{x} dy\\,dx = \\int_0^1 (x - x^2)\\,dx = \\frac{1}{2} - \\frac{1}{3}$.\n\nTip: identify the top and bottom curves before setting limits; the inner limits may depend on the outer variable.",
+      "answer": "1/6",
+      "answerDisplay": "$\\frac{1}{6}$",
+      "searchQuery": "area between parabola and line double integral type I region"
+    },
+    {
+      "id": "average-value-double-integral",
+      "title": "What is the average value of $f(x, y) = xy$ over the rectangle $[0, 2] \\times [0, 3]$?",
+      "body": "$\\frac{3}{2}$\n\nThe average value is $\\frac{1}{A(R)}\\iint_R f\\,dA$. Here $\\iint_R xy\\,dA = \\left(\\int_0^2 x\\,dx\\right)\\left(\\int_0^3 y\\,dy\\right) = 2\\cdot\\frac{9}{2} = 9$, and the area is $6$.\n\nWatch out: dividing by the area is essential; $9$ is the total, not the average.",
+      "answer": "3/2",
+      "acceptedAnswers": [
+        "1.5"
+      ],
+      "answerDisplay": "$\\frac{3}{2}$",
+      "searchQuery": "average value of function over rectangle double integral"
+    },
+    {
+      "id": "volume-under-plane",
+      "title": "Find the volume under $z = 4 - x - y$ over the square $[0, 1] \\times [0, 1]$.",
+      "body": "$3$\n\n$\\int_0^1\\int_0^1 (4 - x - y)\\,dy\\,dx = 4 - \\frac{1}{2} - \\frac{1}{2} = 3$.\n\nTip: since the region has area $1$, the volume equals the average height, which is the height at the center $(0.5, 0.5)$: $4 - 1 = 3$ (true for a plane).",
+      "answer": "3",
+      "searchQuery": "volume under plane over square double integral"
+    },
+    {
+      "id": "polar-integral-disk",
+      "title": "Evaluate $\\iint_D (x^2 + y^2)\\,dA$ over the unit disk $D$.",
+      "body": "$\\frac{\\pi}{2}$\n\nIn polar form $x^2 + y^2 = r^2$ and $dA = r\\,dr\\,d\\theta$, so the integral is $\\int_0^{2\\pi}\\int_0^1 r^3\\,dr\\,d\\theta = 2\\pi\\cdot\\frac{1}{4}$.\n\nWatch out: the integrand $r^2$ and the area factor $r$ multiply to give $r^3$.",
+      "answer": "pi/2",
+      "answerDisplay": "$\\frac{\\pi}{2}$",
+      "searchQuery": "polar coordinates double integral over unit disk x^2+y^2"
+    },
+    {
+      "id": "gaussian-integral-polar",
+      "title": "Evaluate $\\iint_{\\mathbb{R}^2} e^{-(x^2 + y^2)}\\,dA$.",
+      "body": "$\\pi$\n\nIn polar: $\\int_0^{2\\pi}\\int_0^\\infty e^{-r^2}\\,r\\,dr\\,d\\theta = 2\\pi\\cdot\\frac{1}{2} = \\pi$.\n\nKey idea: the integral also equals $\\left(\\int_{-\\infty}^{\\infty} e^{-x^2}dx\\right)^2$, which proves $\\int_{-\\infty}^{\\infty} e^{-x^2}dx = \\sqrt{\\pi}$.",
+      "answer": "pi",
+      "answerDisplay": "$\\pi$",
+      "searchQuery": "Gaussian integral polar coordinates e^(-(x^2+y^2)) pi"
+    },
+    {
+      "id": "polar-circle-area",
+      "title": "Find the area enclosed by the polar curve $r = 2\\cos\\theta$.",
+      "body": "$\\pi$\n\nIt is the circle of radius $1$ centered at $(1, 0)$, traced once for $-\\frac{\\pi}{2} \\le \\theta \\le \\frac{\\pi}{2}$. Area: $\\int_{-\\pi/2}^{\\pi/2}\\frac{1}{2}(2\\cos\\theta)^2\\,d\\theta = \\int_{-\\pi/2}^{\\pi/2} 2\\cos^2\\theta\\,d\\theta = \\pi$.\n\nWatch out: using $0 \\le \\theta \\le 2\\pi$ traces the circle twice and doubles the answer.",
+      "answer": "pi",
+      "answerDisplay": "$\\pi$",
+      "searchQuery": "area enclosed by polar curve r = 2cos theta circle"
+    },
+    {
+      "id": "mass-center-of-mass-lamina",
+      "title": "For a lamina occupying $D$ with density $\\rho(x, y)$, what are the mass and the center of mass $(\\bar{x}, \\bar{y})$?",
+      "body": "$m = \\iint_D \\rho\\,dA$, $\\bar{x} = \\frac{1}{m}\\iint_D x\\rho\\,dA$ and $\\bar{y} = \\frac{1}{m}\\iint_D y\\rho\\,dA$.\n\nThe integrals $\\iint x\\rho\\,dA$ and $\\iint y\\rho\\,dA$ are the moments about the $y$- and $x$-axes.\n\nTip: use symmetry first; if the region and density are symmetric about an axis, the center of mass lies on it.",
+      "searchQuery": "center of mass of lamina double integral density formula"
+    },
+    {
+      "id": "surface-area-graph-formula",
+      "title": "What is the area of the surface $z = f(x, y)$ over a region $D$?",
+      "body": "$A = \\iint_D \\sqrt{1 + f_x^2 + f_y^2}\\,dA$\n\nThe factor $\\sqrt{1 + f_x^2 + f_y^2} = |\\langle -f_x, -f_y, 1 \\rangle|$ is the stretch from flat area $dA$ to tilted surface area.\n\nExample: for a plane $z = x + 2y$ the factor is $\\sqrt{6}$, so the surface area is $\\sqrt{6}\\cdot\\text{Area}(D)$.",
+      "searchQuery": "surface area of graph z=f(x,y) double integral formula"
+    },
+    {
+      "id": "triple-integral-box",
+      "title": "Evaluate $\\iiint_B xyz\\,dV$ over the box $B = [0, 1] \\times [0, 2] \\times [0, 3]$.",
+      "body": "$\\frac{9}{2}$\n\nThe integrand is a product of one-variable functions over a box, so the integral factors: $\\int_0^1 x\\,dx \\cdot \\int_0^2 y\\,dy \\cdot \\int_0^3 z\\,dz = \\frac{1}{2}\\cdot 2\\cdot\\frac{9}{2}$.\n\nWatch out: factoring works only when the region is a box (constant limits).",
+      "answer": "9/2",
+      "acceptedAnswers": [
+        "4.5"
+      ],
+      "answerDisplay": "$\\frac{9}{2}$",
+      "searchQuery": "triple integral over rectangular box xyz example"
+    },
+    {
+      "id": "cylindrical-coordinates-conversion",
+      "title": "What are the conversion formulas for cylindrical coordinates $(r, \\theta, z)$, and what is $dV$?",
+      "body": "$x = r\\cos\\theta$, $y = r\\sin\\theta$, $z = z$, with $r^2 = x^2 + y^2$, and $dV = r\\,dz\\,dr\\,d\\theta$.\n\nCylindrical coordinates are polar coordinates in the $xy$-plane plus the same height $z$.\n\nTip: use them for solids with an axis of symmetry along $z$, such as cylinders, cones and paraboloids.",
+      "searchQuery": "cylindrical coordinates conversion formulas volume element"
+    },
+    {
+      "id": "spherical-coordinates-conversion",
+      "title": "What are the conversion formulas from spherical coordinates $(\\rho, \\theta, \\phi)$ to $(x, y, z)$?",
+      "body": "$x = \\rho\\sin\\phi\\cos\\theta$, $y = \\rho\\sin\\phi\\sin\\theta$, $z = \\rho\\cos\\phi$, and $\\rho^2 = x^2 + y^2 + z^2$.\n\nHere $\\rho \\ge 0$ is the distance from the origin, $\\phi \\in [0, \\pi]$ is the angle down from the $+z$-axis, and $\\theta$ is the same azimuth as in polar coordinates.\n\nWatch out: textbooks in physics swap the roles of $\\theta$ and $\\phi$; here $\\phi$ is the polar angle from the $z$-axis.",
+      "searchQuery": "spherical coordinates to rectangular conversion formulas rho phi theta"
+    },
+    {
+      "id": "spherical-point-to-rectangular",
+      "title": "Convert the spherical point $(\\rho, \\theta, \\phi) = \\left(2, \\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$ to rectangular coordinates.",
+      "body": "$(0, 2, 0)$\n\n$x = 2\\sin\\frac{\\pi}{2}\\cos\\frac{\\pi}{2} = 0$, $y = 2\\sin\\frac{\\pi}{2}\\sin\\frac{\\pi}{2} = 2$, and $z = 2\\cos\\frac{\\pi}{2} = 0$.\n\nTip: $\\phi = \\frac{\\pi}{2}$ puts the point in the $xy$-plane, and $\\theta = \\frac{\\pi}{2}$ points along the positive $y$-axis.",
+      "answer": "(0, 2, 0)",
+      "acceptedAnswers": [
+        "0, 2, 0"
+      ],
+      "answerDisplay": "$(0, 2, 0)$",
+      "searchQuery": "convert spherical coordinates to rectangular example"
+    },
+    {
+      "id": "cone-volume-cylindrical",
+      "title": "Use cylindrical coordinates to find the volume of the solid between $z = r$ and $z = 1$.",
+      "body": "$\\frac{\\pi}{3}$\n\nFor each $r \\in [0, 1]$, $z$ runs from $r$ to $1$. So $V = \\int_0^{2\\pi}\\int_0^1\\int_r^1 r\\,dz\\,dr\\,d\\theta = 2\\pi\\int_0^1 (r - r^2)\\,dr = 2\\pi\\left(\\frac{1}{2} - \\frac{1}{3}\\right)$.\n\nExample: this matches the cone formula $\\frac{1}{3}\\pi R^2 h = \\frac{1}{3}\\pi(1)^2(1)$.",
+      "answer": "pi/3",
+      "answerDisplay": "$\\frac{\\pi}{3}$",
+      "searchQuery": "volume of cone cylindrical coordinates triple integral z = r"
+    },
+    {
+      "id": "ball-integral-spherical",
+      "title": "Evaluate $\\iiint_B \\sqrt{x^2 + y^2 + z^2}\\,dV$ over the unit ball $B$.",
+      "body": "$\\pi$\n\nIn spherical coordinates the integrand is $\\rho$, so $\\int_0^{2\\pi}\\int_0^\\pi\\int_0^1 \\rho\\cdot\\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta = 2\\pi\\cdot 2\\cdot\\frac{1}{4}$.\n\nTip: whenever $x^2 + y^2 + z^2$ appears, switch to spherical; $\\rho^2$ replaces it.",
+      "answer": "pi",
+      "answerDisplay": "$\\pi$",
+      "searchQuery": "triple integral unit ball spherical coordinates distance from origin"
+    },
+    {
+      "id": "jacobian-ellipse-area",
+      "title": "Use $x = au$, $y = bv$ to find the area enclosed by the ellipse $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$.",
+      "body": "$\\pi ab$\n\nThe Jacobian is $\\frac{\\partial(x, y)}{\\partial(u, v)} = ab$, and the ellipse maps to the unit disk $u^2 + v^2 \\le 1$. So the area is $ab\\cdot\\pi(1)^2$.\n\nTip: a linear stretch multiplies areas by the constant $ab$.",
+      "answer": "pi a b",
+      "acceptedAnswers": [
+        "ab pi"
+      ],
+      "answerDisplay": "$\\pi ab$",
+      "searchQuery": "area of ellipse Jacobian change of variables pi ab"
+    },
+    {
+      "id": "jacobian-inverse-transformation",
+      "title": "With $u = x + y$ and $v = x - y$, $dx\\,dy = \\underline{\\quad}\\ du\\,dv$. What constant fills the blank?",
+      "body": "$\\frac{1}{2}$\n\nThe Jacobian of $(u, v)$ with respect to $(x, y)$ is $(1)(-1) - (1)(1) = -2$, and $\\frac{\\partial(x, y)}{\\partial(u, v)}$ is its reciprocal, $-\\frac{1}{2}$. Take the absolute value.\n\nWatch out: using $2$ instead of $\\frac{1}{2}$ is the classic slip; the two Jacobians are **reciprocals**.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\frac{1}{2}$",
+      "searchQuery": "Jacobian reciprocal u = x+y v = x-y change of variables"
+    },
+    {
+      "id": "vector-field-definition",
+      "title": "What is a vector field, and what is a simple example?",
+      "body": "A vector field assigns a **vector** to each point of a region: $\\vec{F}(x, y) = \\langle P(x, y), Q(x, y) \\rangle$ in the plane.\n\nExample: $\\vec{F} = \\langle -y, x \\rangle$ gives a counterclockwise rotation about the origin; the gradient $\\nabla f$ of any scalar function is a vector field too.\n\nTip: sketch a field by drawing the vector at several points; its length is the field's strength there.",
+      "searchQuery": "vector field definition examples plane rotation field"
+    },
+    {
+      "id": "scalar-line-integral-formula",
+      "title": "How do you compute the scalar line integral $\\int_C f\\,ds$ for a curve $\\vec{r}(t)$, $a \\le t \\le b$?",
+      "body": "$\\int_C f\\,ds = \\int_a^b f(\\vec{r}(t))\\,|\\vec{r}\\,'(t)|\\,dt$\n\nThe factor $|\\vec{r}\\,'(t)|\\,dt$ is the arc length element $ds$. With $f = 1$ the integral gives the length of $C$.\n\nKey idea: it does **not** depend on the direction in which $C$ is traversed.",
+      "searchQuery": "scalar line integral arc length element formula parametrized curve"
+    },
+    {
+      "id": "scalar-line-integral-circle",
+      "title": "Evaluate $\\int_C (x^2 + y^2)\\,ds$ where $C$ is the circle of radius $2$ centered at the origin.",
+      "body": "$16\\pi$\n\nOn $C$ the integrand is constantly $x^2 + y^2 = 4$. So the integral is $4\\cdot(\\text{length of } C) = 4\\cdot 4\\pi$.\n\nTip: when $f$ is constant on the curve, just multiply by the arc length.",
+      "answer": "16pi",
+      "answerDisplay": "$16\\pi$",
+      "searchQuery": "scalar line integral over circle constant integrand arc length"
+    },
+    {
+      "id": "vector-line-integral-formula",
+      "title": "How do you compute the work integral $\\int_C \\vec{F}\\cdot d\\vec{r}$ for $\\vec{r}(t)$, $a \\le t \\le b$?",
+      "body": "$\\int_C \\vec{F}\\cdot d\\vec{r} = \\int_a^b \\vec{F}(\\vec{r}(t))\\cdot\\vec{r}\\,'(t)\\,dt$\n\nIt adds up the component of $\\vec{F}$ along the direction of motion.\n\nWatch out: unlike the scalar line integral, reversing the direction of $C$ **flips the sign**.",
+      "searchQuery": "line integral of vector field work formula F dot r prime"
+    },
+    {
+      "id": "work-around-circle",
+      "title": "Find the work done by $\\vec{F} = \\langle -y, x \\rangle$ around the circle of radius $2$, counterclockwise.",
+      "body": "$8\\pi$\n\nParametrize $\\vec{r}(t) = \\langle 2\\cos t, 2\\sin t \\rangle$, so $\\vec{r}\\,'(t) = \\langle -2\\sin t, 2\\cos t \\rangle$. Then $\\vec{F}\\cdot\\vec{r}\\,' = 4\\sin^2 t + 4\\cos^2 t = 4$ and $\\int_0^{2\\pi} 4\\,dt = 8\\pi$.\n\nExample: Green's Theorem agrees: $Q_x - P_y = 2$, times the area $4\\pi$.",
+      "answer": "8pi",
+      "answerDisplay": "$8\\pi$",
+      "searchQuery": "work done vector field around circle line integral -y x"
+    },
+    {
+      "id": "fundamental-theorem-line-integrals",
+      "title": "State the Fundamental Theorem for Line Integrals.",
+      "body": "If $\\vec{F} = \\nabla f$ with $f$ continuously differentiable, then $\\int_C \\nabla f\\cdot d\\vec{r} = f(\\vec{r}(b)) - f(\\vec{r}(a))$.\n\nOnly the endpoints matter, so the integral is **path independent**; around a closed curve it is $0$.\n\nWatch out: this requires a potential function $f$; if $\\vec{F}$ is not conservative the theorem does not apply.",
+      "searchQuery": "fundamental theorem for line integrals gradient endpoints path independent"
+    },
+    {
+      "id": "ftli-value",
+      "title": "Evaluate $\\int_C \\langle 2xy,\\ x^2,\\ 1 \\rangle\\cdot d\\vec{r}$ along any path from $(0, 0, 0)$ to $(1, 2, 3)$.",
+      "body": "$5$\n\nThe field is $\\nabla f$ for the potential $f = x^2 y + z$. Then the integral is $f(1, 2, 3) - f(0, 0, 0) = 2 + 3 - 0 = 5$.\n\nTip: check $\\nabla f$: $\\langle 2xy, x^2, 1 \\rangle$ matches the field exactly.",
+      "answer": "5",
+      "searchQuery": "line integral conservative field potential function endpoints example"
+    },
+    {
+      "id": "find-potential-function",
+      "title": "Find a potential function $f$ with $\\nabla f = \\langle 2xy + 3,\\ x^2 + 2y \\rangle$ (leave out $+C$).",
+      "body": "$f = x^2 y + 3x + y^2$\n\nIntegrate $f_x = 2xy + 3$ in $x$: $f = x^2 y + 3x + g(y)$. Then $f_y = x^2 + g'(y)$ must equal $x^2 + 2y$, so $g(y) = y^2$.\n\nTip: check by differentiating: $f_x = 2xy + 3$ and $f_y = x^2 + 2y$.",
+      "answer": "x^2y+3x+y^2",
+      "acceptedAnswers": [
+        "y^2+x^2y+3x",
+        "3x+x^2y+y^2",
+        "f=x^2y+3x+y^2"
+      ],
+      "answerDisplay": "$x^2 y + 3x + y^2$",
+      "searchQuery": "find potential function of conservative vector field integrate partial"
+    },
+    {
+      "id": "greens-theorem-value",
+      "title": "Use Green's Theorem to evaluate $\\oint_C -y^3\\,dx + x^3\\,dy$, with $C$ the unit circle traversed counterclockwise.",
+      "body": "$\\frac{3\\pi}{2}$\n\nHere $Q_x - P_y = 3x^2 - (-3y^2) = 3(x^2 + y^2)$. In polar coordinates, $\\iint_D 3r^2\\,dA = 3\\int_0^{2\\pi}\\int_0^1 r^3\\,dr\\,d\\theta = 3\\cdot\\frac{\\pi}{2}$.\n\nWatch out: with $P = -y^3$, $P_y = -3y^2$, so subtracting it adds $3y^2$.",
+      "answer": "3pi/2",
+      "answerDisplay": "$\\frac{3\\pi}{2}$",
+      "searchQuery": "Green's theorem example -y^3 dx + x^3 dy unit circle"
+    },
+    {
+      "id": "flux-through-graph-surface",
+      "title": "For the graph $z = g(x, y)$ with upward normal, how do you compute $\\iint_S \\vec{F}\\cdot d\\vec{S}$ for $\\vec{F} = \\langle P, Q, R \\rangle$?",
+      "body": "$\\iint_D \\left(-P\\,g_x - Q\\,g_y + R\\right)dA$, evaluated at $z = g(x, y)$ over the projection $D$.\n\nThe upward normal vector is $\\langle -g_x, -g_y, 1 \\rangle$, and $d\\vec{S} = \\langle -g_x, -g_y, 1 \\rangle\\,dA$.\n\nWatch out: for a downward orientation, flip the sign of the whole integral.",
+      "searchQuery": "flux integral surface graph z=g(x,y) upward normal formula"
+    },
+    {
+      "id": "curl-compute",
+      "title": "Compute $\\nabla \\times \\vec{F}$ for $\\vec{F} = \\langle z, x, y \\rangle$.",
+      "body": "$\\langle 1, 1, 1 \\rangle$\n\nWith $P = z$, $Q = x$, $R = y$: $R_y - Q_z = 1 - 0$, $P_z - R_x = 1 - 0$, $Q_x - P_y = 1 - 0$.\n\nTip: the curl is constant here, so this field is not conservative, since $\\nabla \\times \\vec{F} \\neq \\vec{0}$.",
+      "answer": "<1, 1, 1>",
+      "acceptedAnswers": [
+        "(1, 1, 1)",
+        "⟨1, 1, 1⟩",
+        "1, 1, 1"
+      ],
+      "answerDisplay": "$\\langle 1, 1, 1 \\rangle$",
+      "searchQuery": "compute curl of vector field z x y"
+    },
+    {
+      "id": "divergence-compute",
+      "title": "Compute $\\nabla \\cdot \\vec{F}$ for $\\vec{F} = \\langle x^2, y^2, z^2 \\rangle$.",
+      "body": "$2x + 2y + 2z$\n\nAdd the matching partials: $\\frac{\\partial}{\\partial x}x^2 + \\frac{\\partial}{\\partial y}y^2 + \\frac{\\partial}{\\partial z}z^2$.\n\nWatch out: the divergence is a scalar function, so the answer is not a vector.",
+      "answer": "2x+2y+2z",
+      "acceptedAnswers": [
+        "2(x+y+z)"
+      ],
+      "answerDisplay": "$2x + 2y + 2z$",
+      "searchQuery": "compute divergence of vector field x^2 y^2 z^2"
+    },
+    {
+      "id": "divergence-curl-meaning",
+      "title": "What do divergence and curl of a vector field measure physically?",
+      "body": "**Divergence** measures net outflow per unit volume at a point: positive for a source, negative for a sink, $0$ for an incompressible flow.\n\n**Curl** measures local rotation: it points along the axis of a tiny paddle wheel's spin, with magnitude equal to twice the angular speed.\n\nKey idea: the Divergence Theorem and Stokes' Theorem turn these local measures into global flux and circulation.",
+      "searchQuery": "physical meaning of divergence and curl source sink rotation"
+    },
+    {
+      "id": "arc-length-helix",
+      "title": "Find the length of the helix $\\vec{r}(t) = \\langle \\cos t, \\sin t, t \\rangle$ for $0 \\le t \\le 2\\pi$.",
+      "body": "$2\\pi\\sqrt{2}$\n\nHere $\\vec{r}\\,'(t) = \\langle -\\sin t, \\cos t, 1 \\rangle$ has constant length $\\sqrt{2}$. So $L = \\int_0^{2\\pi}\\sqrt{2}\\,dt$.\n\nKey idea: arc length is $L = \\int_a^b |\\vec{r}\\,'(t)|\\,dt$, the integral of speed.",
+      "answer": "2pi sqrt(2)",
+      "acceptedAnswers": [
+        "2sqrt(2)pi",
+        "sqrt(2)2pi",
+        "2pisqrt2",
+        "2sqrt2pi"
+      ],
+      "answerDisplay": "$2\\pi\\sqrt{2}$",
+      "searchQuery": "arc length of helix vector function 2 pi sqrt 2"
+    }
+  ]
+}

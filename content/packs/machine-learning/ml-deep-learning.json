@@ -1,0 +1,663 @@
+{
+  "id": "ml-deep-learning",
+  "title": "Neural Networks & Deep Learning",
+  "course": "Machine Learning",
+  "description": "Neurons and activations, backpropagation, loss functions, optimizers, initialization, normalization and dropout, CNNs, RNNs and LSTMs, attention and transformers, embeddings, and practical training tips.",
+  "cards": [
+    {
+      "id": "neuron-formula",
+      "title": "Write the output of a single artificial neuron with weights $w$, bias $b$, input $x$ and activation $\\phi$.",
+      "body": "$a = \\phi(w^\\top x + b)$\n\nThe neuron takes a **weighted sum** of its inputs, adds a bias, then applies a nonlinear activation.\n\nExample: with $\\phi = \\sigma$ this is exactly the logistic regression model $\\hat{y} = \\sigma(w^\\top x + b)$.",
+      "searchQuery": "artificial neuron formula weighted sum activation"
+    },
+    {
+      "id": "why-nonlinearity",
+      "title": "Why must a deep network use nonlinear activation functions between layers?",
+      "body": "Without them, a stack of linear layers collapses into a single linear map.\n\nFor example, $W_2(W_1 x) = (W_2 W_1)x$, so extra depth adds **no expressive power**. Nonlinearities let the network represent complex functions.\n\nWatch out: this holds even with biases, since the composition of affine maps is still affine.",
+      "searchQuery": "why neural networks need nonlinear activation functions"
+    },
+    {
+      "id": "sigmoid-max-derivative",
+      "title": "What is the maximum value of the sigmoid's derivative $\\sigma'(z) = \\sigma(z)(1 - \\sigma(z))$?",
+      "body": "0.25\n\nIt peaks at $z = 0$, where $\\sigma = 0.5$ and so $\\sigma' = 0.5 \\times 0.5 = 0.25$. It approaches 0 for large $|z|$ (**saturation**).\n\nWhy: multiplying many factors of at most 0.25 across layers shrinks gradients, causing vanishing gradients.",
+      "answer": "0.25",
+      "acceptedAnswers": ["1/4"],
+      "searchQuery": "sigmoid derivative maximum 0.25 vanishing gradient"
+    },
+    {
+      "id": "tanh-range",
+      "title": "What is the output range of the $\\tanh$ activation, and how does it compare with the sigmoid's?",
+      "body": "$(-1, 1)$; it is zero-centered, whereas the sigmoid's range is $(0, 1)$.\n\nZero-centered outputs often make optimization of hidden layers easier. Like the sigmoid, $\\tanh$ **saturates** for large $|z|$.\n\nKey idea: $\\tanh(z) = 2\\sigma(2z) - 1$.",
+      "searchQuery": "tanh activation range zero-centered vs sigmoid"
+    },
+    {
+      "id": "relu-definition",
+      "title": "Which activation function computes $\\max(0, z)$ and is the common default for hidden layers?",
+      "body": "ReLU\n\nThe **rectified linear unit** passes positive inputs unchanged and outputs 0 otherwise. Its gradient is 1 for $z > 0$ and 0 for $z < 0$.\n\nWhy: it does not saturate for positive inputs, and it is cheap to compute.",
+      "answer": "ReLU",
+      "acceptedAnswers": ["rectified linear unit", "rectified linear"],
+      "searchQuery": "ReLU activation function max(0,z) definition"
+    },
+    {
+      "id": "relu-gradient",
+      "title": "What is the derivative of ReLU for $z > 0$, and for $z < 0$?",
+      "body": "1 for $z > 0$ and 0 for $z < 0$.\n\nAt $z = 0$ it is undefined, and frameworks simply choose 0 (or a subgradient in $[0,1]$).\n\nKey idea: for active units, the gradient passes through **unchanged**, which helps avoid vanishing gradients.",
+      "searchQuery": "ReLU derivative 1 for positive 0 for negative"
+    },
+    {
+      "id": "dying-relu",
+      "title": "What is the dying ReLU problem?",
+      "body": "A neuron whose input is negative for every example outputs 0 and gets zero gradient, so it can never recover.\n\nA large learning rate or a big negative bias shift can push a unit into this state.\n\nTip: use Leaky ReLU, lower the learning rate, or use a better initialization.",
+      "searchQuery": "dying ReLU problem zero gradient neurons"
+    },
+    {
+      "id": "leaky-relu",
+      "title": "Write the Leaky ReLU activation with slope $\\alpha$ (such as $0.01$) for negative inputs.",
+      "body": "$\\max(\\alpha z,\\, z)$\n\nIt equals $z$ for $z > 0$ and $\\alpha z$ for $z < 0$, so negative inputs still get a small **nonzero gradient**.\n\nIn PyTorch: `nn.LeakyReLU(negative_slope=0.01)`.",
+      "searchQuery": "Leaky ReLU formula negative slope"
+    },
+    {
+      "id": "output-activation-multiclass",
+      "title": "Which output activation turns the logits for a single-label multiclass problem into a probability distribution?",
+      "body": "softmax\n\nIt produces positive outputs summing to 1. For **binary** or multi-label problems, use a sigmoid per output, and for regression use no activation.\n\nWatch out: with `nn.CrossEntropyLoss`, you pass raw logits and do not add softmax yourself.",
+      "answer": "softmax",
+      "searchQuery": "softmax output layer multiclass classification"
+    },
+    {
+      "id": "universal-approximation",
+      "title": "What does the universal approximation theorem say about feedforward networks?",
+      "body": "A network with one hidden layer and enough nonlinear units can approximate any continuous function on a compact set to any desired accuracy.\n\nIt says such a network **exists**, not that gradient descent will find it, nor how many units are needed.\n\nWatch out: in practice, depth often gives far more efficient representations than width.",
+      "searchQuery": "universal approximation theorem one hidden layer"
+    },
+    {
+      "id": "linear-layer-params",
+      "title": "How many parameters (weights and biases) does `nn.Linear(10, 5)` have?",
+      "body": "55\n\nThe weight matrix is $5 \\times 10 = 50$ and the bias vector has 5 entries, so $50 + 5 = 55$.\n\nKey idea: a layer from $n_{in}$ to $n_{out}$ has $n_{in}n_{out} + n_{out}$ parameters.",
+      "answer": "55",
+      "searchQuery": "nn.Linear parameter count weights plus bias"
+    },
+    {
+      "id": "mlp-param-count",
+      "title": "How many parameters does an MLP with layer sizes $784 \\to 128 \\to 10$ have, counting biases?",
+      "body": "101770\n\nFirst layer: $784 \\cdot 128 + 128 = 100{,}480$. Second layer: $128 \\cdot 10 + 10 = 1{,}290$.\n\nThe total is $100{,}480 + 1{,}290 = 101{,}770$.",
+      "answer": "101770",
+      "searchQuery": "MLP 784 128 10 parameter count MNIST"
+    },
+    {
+      "id": "backprop-definition",
+      "title": "What is backpropagation?",
+      "body": "An efficient application of the chain rule that computes the gradient of the loss with respect to every parameter.\n\nA **forward pass** computes and stores activations, then a backward pass moves from the output to the input, reusing intermediate gradients.\n\nKey idea: it costs about the same as a forward pass, not one pass per parameter.",
+      "searchQuery": "backpropagation chain rule gradient algorithm explained"
+    },
+    {
+      "id": "backprop-example",
+      "title": "A neuron has $z = wx + b$, $a = \\mathrm{ReLU}(z)$, loss $L = (a - t)^2$. With $x = 2$, $w = 3$, $b = 1$, $t = 5$, what is $\\frac{\\partial L}{\\partial w}$?",
+      "body": "8\n\nForward: $z = 7$, $a = 7$. By the chain rule, $\\frac{\\partial L}{\\partial w} = \\frac{\\partial L}{\\partial a}\\cdot\\frac{\\partial a}{\\partial z}\\cdot\\frac{\\partial z}{\\partial w}$.\n\nThat is $2(7 - 5)\\cdot 1 \\cdot 2 = 8$, since ReLU's derivative is 1 for $z > 0$.",
+      "answer": "8",
+      "searchQuery": "backpropagation worked example chain rule ReLU neuron"
+    },
+    {
+      "id": "vanishing-gradient",
+      "title": "What causes vanishing gradients in deep networks?",
+      "body": "Backprop multiplies many local derivatives; if they are mostly below 1 (as with saturated sigmoid or tanh), the gradient shrinks exponentially toward the early layers.\n\nThose layers then **learn very slowly** or not at all.\n\nTip: use ReLU-family activations, good initialization, normalization, and residual connections.",
+      "searchQuery": "vanishing gradient problem deep networks cause fixes"
+    },
+    {
+      "id": "exploding-gradient-clipping",
+      "title": "What is gradient clipping and which problem does it address?",
+      "body": "It rescales the gradient when its norm exceeds a threshold, which addresses exploding gradients.\n\nIn PyTorch: `torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)`, called after `loss.backward()` and before `optimizer.step()`.\n\nKey idea: it keeps the direction of the gradient but **limits the step size**.",
+      "searchQuery": "gradient clipping exploding gradients clip_grad_norm_"
+    },
+    {
+      "id": "autograd-backward",
+      "title": "In PyTorch, which call computes the gradients of a scalar loss and stores them in each parameter's `.grad`?",
+      "body": "`loss.backward()`\n\nAutograd records operations during the forward pass, then backward traverses that graph to fill `.grad`.\n\nWatch out: gradients **accumulate** across calls, so clear them with `optimizer.zero_grad()` each step.",
+      "answer": "loss.backward()",
+      "acceptedAnswers": ["backward()", "backward"],
+      "answerDisplay": "`loss.backward()`",
+      "searchQuery": "PyTorch autograd loss.backward gradients .grad"
+    },
+    {
+      "id": "softmax-ce-gradient",
+      "title": "For softmax output $p$ with cross-entropy loss and one-hot target $y$, what is $\\frac{\\partial L}{\\partial z}$ with respect to the logits $z$?",
+      "body": "$p - y$\n\nThe softmax Jacobian and the log loss combine into this simple difference between predicted and true distributions.\n\nWhy: it mirrors logistic regression, where the gradient is also the prediction error.",
+      "searchQuery": "softmax cross entropy gradient with respect to logits p minus y"
+    },
+    {
+      "id": "initial-loss-sanity",
+      "title": "A 10-class classifier starts with near-uniform predictions. What cross-entropy loss (natural log) should you expect at initialization? Round to 2 decimals.",
+      "body": "2.30\n\nEach true class gets $p = 0.1$, so the loss is $-\\ln(0.1) = \\ln 10 \\approx 2.303$.\n\nTip: if the initial loss is far from $\\ln K$, suspect a bug in the labels, loss or initialization.",
+      "answer": "2.30",
+      "acceptedAnswers": ["2.303"],
+      "searchQuery": "initial loss sanity check ln of number of classes"
+    },
+    {
+      "id": "loss-choice",
+      "title": "Which loss is the standard choice for training a regression network, and which for classification?",
+      "body": "Mean squared error for regression, cross-entropy for classification.\n\nCross-entropy is the **negative log-likelihood** of the labels under the predicted class probabilities, and works well with softmax or sigmoid outputs.\n\nTip: for regression with outliers, consider an absolute-error or Huber loss.",
+      "searchQuery": "loss functions regression MSE classification cross-entropy neural networks"
+    },
+    {
+      "id": "cross-entropy-loss-input",
+      "title": "Does PyTorch's `nn.CrossEntropyLoss` expect raw logits or softmax probabilities as input?",
+      "body": "logits\n\nIt applies log-softmax internally and then the negative log-likelihood, which is more **numerically stable** than doing them separately.\n\nWatch out: adding `nn.Softmax` before it applies softmax twice and flattens the gradients.",
+      "answer": "logits",
+      "acceptedAnswers": ["raw logits", "unnormalized scores"],
+      "searchQuery": "PyTorch CrossEntropyLoss expects logits not probabilities"
+    },
+    {
+      "id": "bce-with-logits-multilabel",
+      "title": "Which PyTorch loss suits a multi-label problem where each of $K$ labels is independently 0 or 1?",
+      "body": "`nn.BCEWithLogitsLoss`\n\nIt applies a sigmoid to each logit and computes binary cross-entropy per label, in a numerically stable fused form.\n\nKey idea: softmax forces labels to compete; independent sigmoids let **several labels** be true at once.",
+      "answer": "BCEWithLogitsLoss",
+      "acceptedAnswers": ["nn.BCEWithLogitsLoss", "binary cross entropy with logits"],
+      "answerDisplay": "`nn.BCEWithLogitsLoss`",
+      "searchQuery": "PyTorch BCEWithLogitsLoss multi-label classification"
+    },
+    {
+      "id": "torch-no-grad",
+      "title": "Why wrap evaluation or inference code in `with torch.no_grad():`?",
+      "body": "It disables gradient tracking, saving memory and compute because no graph is built.\n\nIt does not change dropout or batch norm behavior; for that you also need `model.eval()`.\n\nTip: use both during validation: `model.eval()` plus `torch.no_grad()`.",
+      "searchQuery": "torch.no_grad inference memory model.eval difference"
+    },
+    {
+      "id": "pytorch-training-step",
+      "title": "What is the standard order of calls in one PyTorch training step?",
+      "body": "Zero gradients, forward pass and loss, backward, optimizer step.\n\n```python\nfor x, y in loader:\n    optimizer.zero_grad()\n    loss = criterion(model(x), y)\n    loss.backward()\n    optimizer.step()\n```\n\nWatch out: forgetting `zero_grad()` makes gradients from earlier batches accumulate.",
+      "searchQuery": "PyTorch training loop zero_grad backward step order"
+    },
+    {
+      "id": "zero-grad-reason",
+      "title": "Which call clears the gradients that `loss.backward()` accumulated in the parameters?",
+      "body": "`optimizer.zero_grad()`\n\nPyTorch **adds** new gradients to existing `.grad` values rather than overwriting them, which is useful for gradient accumulation across several mini-batches.\n\nCall it once per update, before `loss.backward()`.",
+      "answer": "optimizer.zero_grad()",
+      "acceptedAnswers": ["zero_grad()", "zero_grad", "optimizer.zero_grad"],
+      "answerDisplay": "`optimizer.zero_grad()`",
+      "searchQuery": "PyTorch optimizer.zero_grad why gradients accumulate"
+    },
+    {
+      "id": "sgd-momentum",
+      "title": "Write the SGD with momentum update using velocity $v$, momentum $\\beta$, gradient $g$ and learning rate $\\eta$.",
+      "body": "$v \\leftarrow \\beta v + g, \\quad \\theta \\leftarrow \\theta - \\eta v$\n\nThe velocity is a running sum of past gradients, which **damps oscillations** across steep directions and speeds movement along consistent ones.\n\nWatch out: some texts use $v \\leftarrow \\beta v - \\eta g$ with $\\theta \\leftarrow \\theta + v$, which is equivalent up to where $\\eta$ appears.",
+      "searchQuery": "SGD with momentum update rule velocity beta"
+    },
+    {
+      "id": "momentum-computation",
+      "title": "Momentum with $\\beta = 0.9$ and $v_0 = 0$ sees a constant gradient $g = 2$ for two steps, using $v \\leftarrow \\beta v + g$. What is $v$ after step 2?",
+      "body": "3.8\n\nStep 1: $v = 0.9(0) + 2 = 2$. Step 2: $v = 0.9(2) + 2 = 3.8$.\n\nWith a constant gradient, $v$ approaches $\\frac{g}{1-\\beta} = 20$, so the effective step grows.",
+      "answer": "3.8",
+      "searchQuery": "momentum velocity calculation constant gradient example"
+    },
+    {
+      "id": "adam-idea",
+      "title": "What two running averages does the Adam optimizer keep for each parameter?",
+      "body": "A moving average of the gradient (first moment) and of the squared gradient (second moment).\n\nThe update is $\\theta \\leftarrow \\theta - \\eta\\,\\dfrac{\\hat{m}}{\\sqrt{\\hat{v}} + \\epsilon}$, so each parameter gets its own **adaptive step size**.\n\nKey idea: Adam combines momentum with RMSprop-style scaling.",
+      "searchQuery": "Adam optimizer first moment second moment adaptive learning rate"
+    },
+    {
+      "id": "adam-beta2-default",
+      "title": "What is the default value of $\\beta_2$ (the squared-gradient decay rate) in Adam?",
+      "body": "0.999\n\nThe defaults are $\\beta_1 = 0.9$, $\\beta_2 = 0.999$ and $\\epsilon = 10^{-8}$. A $\\beta_2$ close to 1 means a long memory of squared gradients.\n\nTip: a learning rate around $10^{-3}$ is a common starting point for Adam.",
+      "answer": "0.999",
+      "searchQuery": "Adam optimizer default betas 0.9 0.999 epsilon"
+    },
+    {
+      "id": "adamw-weight-decay",
+      "title": "What distinguishes AdamW from Adam with L2 regularization?",
+      "body": "AdamW applies weight decay directly to the weights, decoupled from the adaptive gradient scaling.\n\nIn plain Adam, an L2 term added to the loss gets rescaled by the adaptive denominator, so **different weights decay at different rates**.\n\nTip: in PyTorch use `torch.optim.AdamW`.",
+      "searchQuery": "AdamW decoupled weight decay vs L2 regularization Adam"
+    },
+    {
+      "id": "lr-schedule",
+      "title": "Why is the learning rate often decayed during training (for example with cosine annealing)?",
+      "body": "A large rate makes fast early progress, while a small late rate lets the parameters settle into a sharper minimum without bouncing around.\n\nCommon schedules: step decay, exponential decay, cosine annealing, and **warmup** followed by decay.\n\nTip: in PyTorch see `torch.optim.lr_scheduler`.",
+      "searchQuery": "learning rate schedule cosine annealing step decay why"
+    },
+    {
+      "id": "lr-warmup",
+      "title": "What is learning rate warmup, and why is it used for transformers?",
+      "body": "The learning rate starts near zero and increases linearly for the first few hundred or thousand steps.\n\nEarly in training, gradients and Adam's second-moment estimates are unreliable, so large steps can **destabilize** the model.\n\nKey idea: warm up first, then decay.",
+      "searchQuery": "learning rate warmup transformers stability"
+    },
+    {
+      "id": "zero-init-symmetry",
+      "title": "Why can't you initialize all the weights of a hidden layer to zero (or to the same constant)?",
+      "body": "All units in the layer compute the same output and receive identical gradients, so they stay identical forever.\n\nThis is the **symmetry problem**: the layer behaves like one unit. Random initialization breaks the symmetry.\n\nWatch out: biases can safely start at zero.",
+      "searchQuery": "neural network zero initialization symmetry breaking"
+    },
+    {
+      "id": "xavier-init",
+      "title": "What variance does Xavier (Glorot) initialization use for a layer with $n_{in}$ inputs and $n_{out}$ outputs?",
+      "body": "$\\dfrac{2}{n_{in} + n_{out}}$\n\nIt keeps the variance of activations and gradients roughly constant across layers for **tanh or sigmoid**-like activations.\n\nIn PyTorch: `nn.init.xavier_normal_`.",
+      "searchQuery": "Xavier Glorot initialization variance 2 over fan in plus fan out"
+    },
+    {
+      "id": "he-init",
+      "title": "What variance does He (Kaiming) initialization use for ReLU layers with $n_{in}$ inputs?",
+      "body": "$\\dfrac{2}{n_{in}}$\n\nReLU zeros about half of its inputs, so the weights need twice the variance of a $1/n_{in}$ scheme to preserve the signal magnitude.\n\nIn PyTorch: `nn.init.kaiming_normal_`.",
+      "searchQuery": "He Kaiming initialization ReLU variance 2 over n_in"
+    },
+    {
+      "id": "batchnorm-formula",
+      "title": "What does batch normalization compute for a feature across a mini-batch, before its learnable scale and shift?",
+      "body": "$\\hat{x} = \\dfrac{x - \\mu_B}{\\sqrt{\\sigma_B^2 + \\epsilon}}$\n\nIt normalizes with the mini-batch mean and variance, then outputs $y = \\gamma \\hat{x} + \\beta$ with learnable $\\gamma$ and $\\beta$.\n\nKey idea: $\\gamma$ and $\\beta$ let the network undo the normalization if that helps.",
+      "searchQuery": "batch normalization formula mean variance gamma beta"
+    },
+    {
+      "id": "batchnorm-params",
+      "title": "How many learnable parameters does `nn.BatchNorm1d(64)` have?",
+      "body": "128\n\nThere is a scale $\\gamma$ and a shift $\\beta$ for each of the 64 features, so $2 \\times 64 = 128$.\n\nThe running mean and variance are **buffers**, not learnable parameters.",
+      "answer": "128",
+      "searchQuery": "BatchNorm1d learnable parameters gamma beta count"
+    },
+    {
+      "id": "batchnorm-train-eval",
+      "title": "How does batch norm behave differently in training mode and evaluation mode?",
+      "body": "In training it uses the current batch's statistics; in evaluation it uses running averages collected during training.\n\nThis makes predictions for one example **independent of the rest of the batch**.\n\nWatch out: forgetting `model.eval()` at inference gives noisy, batch-dependent predictions.",
+      "searchQuery": "batch norm train vs eval mode running mean variance"
+    },
+    {
+      "id": "dropout-definition",
+      "title": "What does dropout do during training?",
+      "body": "It randomly sets each activation to zero with probability $p$, so the network cannot rely on any single unit.\n\nThis acts as **regularization**, like averaging an ensemble of many thinned subnetworks.\n\nWatch out: dropout is turned off in evaluation mode (`model.eval()`).",
+      "searchQuery": "dropout regularization how it works neural network"
+    },
+    {
+      "id": "inverted-dropout-scale",
+      "title": "With inverted dropout and drop probability $p = 0.5$, by what factor are the surviving activations scaled during training?",
+      "body": "2\n\nThe scale is $\\frac{1}{1 - p} = \\frac{1}{0.5} = 2$. This keeps the **expected activation** the same, so no rescaling is needed at test time.\n\nWatch out: $p$ in PyTorch's `nn.Dropout(p)` is the probability of dropping, not keeping.",
+      "answer": "2",
+      "acceptedAnswers": ["x2", "2x"],
+      "searchQuery": "inverted dropout scaling 1/(1-p) training"
+    },
+    {
+      "id": "layer-norm",
+      "title": "How does layer normalization differ from batch normalization in what it normalizes over?",
+      "body": "Layer norm normalizes across the features of each single example; batch norm normalizes each feature across the batch.\n\nSo layer norm does not depend on batch size and behaves the **same in training and evaluation**. This is why transformers and RNNs use it.\n\nTip: in PyTorch, `nn.LayerNorm(d_model)`.",
+      "searchQuery": "layer normalization vs batch normalization per example features"
+    },
+    {
+      "id": "residual-connection",
+      "title": "What does a residual (skip) connection compute in a ResNet block with sub-network $F$?",
+      "body": "$y = x + F(x)$\n\nThe block learns a **residual** $F(x)$ added to its input. Gradients flow directly through the identity path, which lets very deep networks (100+ layers) train.\n\nKey idea: it is easier to learn \"no change\" ($F \\approx 0$) than to learn an identity mapping from scratch.",
+      "searchQuery": "residual connection ResNet y = x + F(x) skip connection"
+    },
+    {
+      "id": "batch-size-effect",
+      "title": "How does mini-batch size affect gradient noise and training?",
+      "body": "Smaller batches give noisier gradient estimates; larger batches give smoother ones but fewer updates per epoch and more memory.\n\nSome noise can help **generalization** and escape poor regions, while very large batches often need a retuned learning rate.\n\nTip: batch sizes of 32 to 256 are common starting points.",
+      "searchQuery": "mini-batch size effect gradient noise generalization"
+    },
+    {
+      "id": "rmsprop",
+      "title": "What does RMSprop do to the gradient before taking a step?",
+      "body": "It divides the gradient by the square root of a running average of its squared values.\n\nParameters with consistently large gradients take **smaller steps**, and those with small gradients take larger ones. Adam adds momentum on top of this idea.",
+      "searchQuery": "RMSprop optimizer running average squared gradient"
+    },
+    {
+      "id": "gradient-accumulation",
+      "title": "What is gradient accumulation used for?",
+      "body": "Simulating a larger batch size when memory is limited, by summing gradients over several small batches before one optimizer step.\n\nIn PyTorch, call `loss.backward()` on each small batch and only call `optimizer.step()` and `optimizer.zero_grad()` every few batches.\n\nWatch out: divide each loss by the number of accumulation steps to keep the average.",
+      "searchQuery": "gradient accumulation PyTorch simulate larger batch size"
+    },
+    {
+      "id": "conv-operation",
+      "title": "What does a convolutional layer compute at each position?",
+      "body": "A dot product between a small learned filter (kernel) and the local patch of the input under it, plus a bias.\n\nSliding the filter across the image produces a **feature map**. Deep learning libraries actually compute cross-correlation (no kernel flip).\n\nExample: a $3 \\times 3$ filter looks at 9 neighboring pixels per channel.",
+      "searchQuery": "convolutional layer operation filter kernel feature map"
+    },
+    {
+      "id": "conv-output-size-formula",
+      "title": "Give the output size along one dimension for input size $n$, kernel $k$, padding $p$ and stride $s$.",
+      "body": "$\\left\\lfloor \\dfrac{n + 2p - k}{s} \\right\\rfloor + 1$\n\nPadding $p$ is added on **each** side, hence $2p$. The floor drops a partial window that does not fit.\n\nExample: $n = 5$, $k = 3$, $p = 0$, $s = 1$ gives $3$.",
+      "searchQuery": "convolution output size formula n+2p-k over s plus 1"
+    },
+    {
+      "id": "conv-size-no-pad",
+      "title": "A $32 \\times 32$ image goes through a $5 \\times 5$ convolution with stride 1 and no padding. What is the output height?",
+      "body": "28\n\n$\\left\\lfloor\\frac{32 + 0 - 5}{1}\\right\\rfloor + 1 = 27 + 1 = 28$.\n\nThe output is $28 \\times 28$ (per filter).",
+      "answer": "28",
+      "searchQuery": "convolution output size 32 input 5x5 kernel no padding"
+    },
+    {
+      "id": "conv-size-stride",
+      "title": "A $28 \\times 28$ input goes through a $3 \\times 3$ convolution with padding 1 and stride 2. What is the output height?",
+      "body": "14\n\n$\\left\\lfloor\\frac{28 + 2 - 3}{2}\\right\\rfloor + 1 = \\lfloor 13.5 \\rfloor + 1 = 13 + 1 = 14$.\n\nWatch out: apply the floor before adding 1.",
+      "answer": "14",
+      "searchQuery": "convolution output size stride 2 padding 1 kernel 3"
+    },
+    {
+      "id": "same-padding",
+      "title": "What padding keeps the spatial size unchanged for a stride-1 convolution with odd kernel size $k$?",
+      "body": "$p = \\dfrac{k - 1}{2}$\n\nFor $k = 3$ that is $p = 1$, and for $k = 5$ it is $p = 2$. Plugging in: $n + (k - 1) - k + 1 = n$.\n\nIn PyTorch, `padding='same'` does this for stride 1.",
+      "searchQuery": "same padding convolution (k-1)/2 keep spatial size"
+    },
+    {
+      "id": "conv-param-count",
+      "title": "How many parameters (including biases) does `nn.Conv2d(3, 16, kernel_size=3)` have?",
+      "body": "448\n\nEach of the 16 filters has $3 \\times 3 \\times 3 = 27$ weights and one bias, i.e. $28$ parameters. Then $16 \\times 28 = 448$.\n\nKey idea: the count does not depend on the **image size**.",
+      "answer": "448",
+      "searchQuery": "Conv2d parameter count in_channels out_channels kernel size"
+    },
+    {
+      "id": "parameter-sharing",
+      "title": "What is parameter sharing in a CNN, and why does it help?",
+      "body": "The same filter weights are applied at every spatial position.\n\nIt drastically **reduces the number of parameters** compared with a fully connected layer on the image, and detects a pattern wherever it appears.\n\nExample: a $224 \\times 224$ image fed to a fully connected layer would need a weight for every pixel-unit pair.",
+      "searchQuery": "CNN parameter sharing weight sharing convolution benefit"
+    },
+    {
+      "id": "translation-equivariance",
+      "title": "Convolutional layers are equivariant to translation. What does that mean?",
+      "body": "Shifting the input shifts the feature map by the same amount.\n\nPooling and the later layers then give approximate **translation invariance** (the final prediction changes little).\n\nWatch out: equivariance is a property of the convolution; invariance comes from pooling and global aggregation.",
+      "searchQuery": "convolution translation equivariance vs invariance CNN"
+    },
+    {
+      "id": "max-pooling",
+      "title": "What does a $2 \\times 2$ max-pooling layer with stride 2 do to a feature map?",
+      "body": "It takes the maximum of each non-overlapping $2 \\times 2$ block, halving the height and width.\n\nIt has **no learnable parameters** and adds some small-shift invariance.\n\nExample: a $28 \\times 28$ map becomes $14 \\times 14$.",
+      "searchQuery": "max pooling 2x2 stride 2 halves feature map size"
+    },
+    {
+      "id": "receptive-field-stack",
+      "title": "What is the receptive field (in pixels per side) of two stacked $3 \\times 3$ stride-1 convolutions?",
+      "body": "5\n\nEach extra $3 \\times 3$ layer adds 2 pixels, so one layer sees 3, two see $3 + 2 = 5$, and three see 7.\n\nKey idea: stacking small filters gives a large receptive field with **fewer parameters** than one big filter.",
+      "answer": "5",
+      "acceptedAnswers": ["5x5", "5 by 5"],
+      "searchQuery": "receptive field stacked 3x3 convolutions 5x5"
+    },
+    {
+      "id": "one-by-one-conv",
+      "title": "What is a $1 \\times 1$ convolution used for?",
+      "body": "Mixing information across channels at each pixel, often to change the number of channels cheaply.\n\nIt acts like a fully connected layer applied independently at every position, and it does not change the spatial size.\n\nExample: reducing 256 channels to 64 before an expensive $3 \\times 3$ convolution.",
+      "searchQuery": "1x1 convolution purpose channel mixing dimensionality reduction"
+    },
+    {
+      "id": "pytorch-image-layout",
+      "title": "What is the abbreviation for PyTorch's default image tensor layout (batch, channels, height, width)?",
+      "body": "NCHW\n\n`N` is the batch size, `C` the channels, and `H`, `W` the spatial size. A batch of 8 RGB images of $32 \\times 32$ has shape `(8, 3, 32, 32)`.\n\nWatch out: many other libraries use NHWC (channels last).",
+      "answer": "NCHW",
+      "searchQuery": "PyTorch tensor layout NCHW batch channels height width"
+    },
+    {
+      "id": "flatten-size",
+      "title": "A conv block outputs a tensor of shape `(N, 64, 7, 7)`. How many input features does the next `nn.Linear` need after flattening each example?",
+      "body": "3136\n\nEach example has $64 \\times 7 \\times 7 = 3136$ values.\n\n```python\nx = x.flatten(start_dim=1)  # (N, 3136)\nnn.Linear(3136, 10)\n```",
+      "answer": "3136",
+      "searchQuery": "flatten conv output size channels times height times width linear layer"
+    },
+    {
+      "id": "rnn-update",
+      "title": "Write the hidden-state update of a simple (vanilla) RNN with input $x_t$ and previous state $h_{t-1}$.",
+      "body": "$h_t = \\tanh(W_h h_{t-1} + W_x x_t + b)$\n\nThe state $h_t$ summarizes the sequence so far and is fed back at the next step.\n\nKey idea: the **same weights** $W_h$, $W_x$ and $b$ are used at every time step.",
+      "searchQuery": "vanilla RNN hidden state update equation tanh"
+    },
+    {
+      "id": "rnn-weight-sharing",
+      "title": "Why can an RNN process sequences of any length with a fixed number of parameters?",
+      "body": "It reuses the same weights at every time step, unrolling the same cell for as many steps as the sequence needs.\n\nThis **parameter sharing across time** is analogous to filter sharing across space in a CNN.",
+      "searchQuery": "RNN parameter sharing across time steps variable length sequences"
+    },
+    {
+      "id": "bptt",
+      "title": "What is backpropagation through time (BPTT)?",
+      "body": "Ordinary backprop applied to the RNN unrolled across time steps, with gradients summed over the shared weights.\n\nFor long sequences, **truncated BPTT** backpropagates only through a fixed window of recent steps to save memory and time.",
+      "searchQuery": "backpropagation through time BPTT truncated unrolled RNN"
+    },
+    {
+      "id": "rnn-vanishing-gradient",
+      "title": "Why do vanilla RNNs struggle to learn long-range dependencies?",
+      "body": "The gradient is multiplied by the recurrent Jacobian at every step, so it tends to shrink (or blow up) exponentially with the distance in time.\n\nInfluence from early inputs then barely reaches the loss, which is the **vanishing gradient** problem across time.\n\nTip: LSTMs and GRUs, plus gradient clipping, address this.",
+      "searchQuery": "RNN vanishing gradient long-term dependencies why"
+    },
+    {
+      "id": "lstm-gates",
+      "title": "What are the three gates of an LSTM cell, and what does each control?",
+      "body": "- **Forget gate**: how much of the old cell state to keep\n- **Input gate**: how much new candidate content to write\n- **Output gate**: how much of the cell state to expose as $h_t$\n\nEach gate is a sigmoid layer producing values in $(0, 1)$, applied elementwise.",
+      "searchQuery": "LSTM forget gate input gate output gate explained"
+    },
+    {
+      "id": "lstm-cell-update",
+      "title": "Write the LSTM cell-state update with forget gate $f_t$, input gate $i_t$ and candidate $\\tilde{c}_t$.",
+      "body": "$c_t = f_t \\odot c_{t-1} + i_t \\odot \\tilde{c}_t$\n\nThe update is **additive**, which lets gradients flow through $c_t$ over many steps without being squashed at each one.\n\nThe hidden state is then $h_t = o_t \\odot \\tanh(c_t)$.",
+      "searchQuery": "LSTM cell state update equation f c plus i c tilde"
+    },
+    {
+      "id": "gru-gates",
+      "title": "How many gates does a GRU have, and what are they called?",
+      "body": "Two: the update gate and the reset gate.\n\nA GRU has no separate cell state, so it uses **fewer parameters** than an LSTM and often performs comparably.\n\nExample: with the same sizes, a GRU has about $\\frac{3}{4}$ the parameters of an LSTM.",
+      "answer": "2",
+      "acceptedAnswers": ["two"],
+      "searchQuery": "GRU gated recurrent unit update gate reset gate"
+    },
+    {
+      "id": "rnn-param-count",
+      "title": "How many parameters does PyTorch's `nn.RNN(input_size=10, hidden_size=20)` have (single layer, with biases)?",
+      "body": "640\n\nInput weights: $20 \\times 10 = 200$. Recurrent weights: $20 \\times 20 = 400$. Two bias vectors of 20 each (PyTorch keeps `bias_ih` and `bias_hh`): $40$.\n\nThe total is $200 + 400 + 40 = 640$.",
+      "answer": "640",
+      "searchQuery": "PyTorch nn.RNN parameter count input_size hidden_size"
+    },
+    {
+      "id": "lstm-param-count",
+      "title": "How many parameters does `nn.LSTM(input_size=10, hidden_size=20)` have (single layer, with biases)?",
+      "body": "2560\n\nAn LSTM has four weight blocks (three gates plus the candidate), each the size of a simple RNN's. So it has $4 \\times 640 = 2560$ parameters.\n\nKey idea: LSTM $= 4\\times$ RNN, GRU $= 3\\times$ RNN.",
+      "answer": "2560",
+      "searchQuery": "PyTorch nn.LSTM parameter count four times RNN"
+    },
+    {
+      "id": "seq2seq-bottleneck",
+      "title": "What bottleneck of the basic RNN encoder–decoder motivated attention?",
+      "body": "The whole input sequence had to be compressed into one fixed-size vector, which hurts on long inputs.\n\nAttention lets the decoder **look back at all encoder states** at every step and weight them as needed.",
+      "searchQuery": "seq2seq fixed-size context vector bottleneck motivated attention"
+    },
+    {
+      "id": "attention-formula",
+      "title": "Write scaled dot-product attention for query, key and value matrices $Q$, $K$, $V$.",
+      "body": "$\\mathrm{softmax}\\!\\left(\\dfrac{QK^\\top}{\\sqrt{d_k}}\\right)V$\n\nThe scores $QK^\\top$ measure query–key similarity, softmax turns them into weights, and the output is a **weighted average of the values**.\n\nWatch out: softmax is taken over the keys (each row of the score matrix).",
+      "searchQuery": "scaled dot-product attention formula softmax QK^T sqrt d_k V"
+    },
+    {
+      "id": "attention-scaling",
+      "title": "Why are attention scores divided by $\\sqrt{d_k}$?",
+      "body": "Dot products of $d_k$-dimensional vectors have variance that grows with $d_k$, which pushes softmax into saturated regions with tiny gradients.\n\nDividing by $\\sqrt{d_k}$ keeps the **score variance near 1** regardless of dimension.",
+      "searchQuery": "why divide by sqrt d_k attention softmax saturation"
+    },
+    {
+      "id": "qkv-roles",
+      "title": "In attention, what roles do queries, keys and values play?",
+      "body": "A query asks \"what am I looking for?\", keys say \"what do I contain?\", and values carry the **content** that is retrieved.\n\nThe query–key match decides the weights, and the weights mix the values.\n\nExample: in self-attention all three are linear projections of the same token embeddings.",
+      "searchQuery": "attention query key value roles explained"
+    },
+    {
+      "id": "attention-weight-rows",
+      "title": "After the softmax in attention, what does each row of the weight matrix sum to?",
+      "body": "1\n\nSoftmax normalizes over the keys, so each query gets a probability distribution over positions.\n\nThe output for that query is a **convex combination** of the value vectors.",
+      "answer": "1",
+      "searchQuery": "attention weights softmax rows sum to one"
+    },
+    {
+      "id": "attention-matrix-shape",
+      "title": "For a sequence of $n$ tokens, what is the shape of the self-attention score matrix $QK^\\top$ for one head?",
+      "body": "$n \\times n$\n\nEvery token is scored against every token. Memory and compute therefore grow **quadratically** with sequence length, $O(n^2)$.\n\nWatch out: this is the main reason very long contexts are costly for standard transformers.",
+      "answer": "n x n",
+      "acceptedAnswers": ["n*n", "n by n", "n^2"],
+      "searchQuery": "self-attention n by n score matrix quadratic complexity"
+    },
+    {
+      "id": "head-dimension",
+      "title": "A transformer has $d_{model} = 512$ and 8 attention heads. What is the per-head dimension $d_k$?",
+      "body": "64\n\nHeads split the model dimension evenly: $d_k = \\frac{d_{model}}{h} = \\frac{512}{8} = 64$.\n\nThe head outputs are **concatenated** back to 512 and mixed by an output projection.",
+      "answer": "64",
+      "searchQuery": "multi-head attention head dimension d_model divided by heads"
+    },
+    {
+      "id": "causal-mask",
+      "title": "What does a causal (look-ahead) mask do in a decoder-style transformer?",
+      "body": "It blocks each position from attending to later positions, by setting those scores to $-\\infty$ before the softmax.\n\nThis keeps training consistent with generation, since the next token must be predicted using only **earlier tokens**.",
+      "searchQuery": "causal mask transformer decoder attention future tokens"
+    },
+    {
+      "id": "positional-encoding-need",
+      "title": "Why do transformers need positional encodings?",
+      "body": "Self-attention is permutation-equivariant: without position information, it treats the input as an unordered set of tokens.\n\nPositional encodings (fixed sinusoidal or learned) are **added to the embeddings** so that order is available.",
+      "searchQuery": "transformer positional encoding why needed permutation"
+    },
+    {
+      "id": "bert-vs-gpt",
+      "title": "How do BERT and GPT differ in attention direction and training objective?",
+      "body": "BERT is an encoder-only model with bidirectional attention. GPT is a decoder-only model with causal attention that predicts the next token.\n\nBERT-style models suit **understanding tasks** (classification, tagging), while GPT-style models suit generation.",
+      "searchQuery": "BERT encoder bidirectional vs GPT decoder autoregressive"
+    },
+    {
+      "id": "multi-head-purpose",
+      "title": "Why use several attention heads instead of one?",
+      "body": "Each head has its own projections, so different heads can attend to different kinds of relationships at the same time.\n\nThe total cost stays similar because each head works in a **smaller subspace** ($d_k = d_{model}/h$).\n\nExample: one head may track nearby words while another links a pronoun to its referent.",
+      "searchQuery": "multi-head attention purpose different representation subspaces"
+    },
+    {
+      "id": "transformer-block",
+      "title": "What are the two sublayers of a standard transformer encoder block, and what wraps each?",
+      "body": "Multi-head self-attention and a position-wise feed-forward network, each wrapped with a residual connection and layer normalization.\n\nThe feed-forward network is applied **independently at each position**, typically expanding the dimension (often 4x) and projecting back.\n\nKey idea: attention mixes information across tokens; the feed-forward layer transforms each token.",
+      "searchQuery": "transformer encoder block self-attention feed-forward residual layer norm"
+    },
+    {
+      "id": "cross-attention",
+      "title": "In a transformer decoder's cross-attention, where do the queries, keys and values come from?",
+      "body": "Queries come from the decoder; keys and values come from the encoder output.\n\nThis lets each decoder position **look up relevant parts of the source sequence**, as in translation.\n\nWatch out: in self-attention all three come from the same sequence.",
+      "searchQuery": "transformer cross-attention queries from decoder keys values from encoder"
+    },
+    {
+      "id": "ffn-expansion",
+      "title": "In the original transformer, $d_{model} = 512$ and the feed-forward hidden layer has 2048 units. By what factor does it expand?",
+      "body": "4\n\n$\\frac{2048}{512} = 4$. The feed-forward block maps $512 \\to 2048 \\to 512$ with a nonlinearity in between.\n\nMost of a transformer's **parameters** sit in these feed-forward layers and the attention projections.",
+      "answer": "4",
+      "acceptedAnswers": ["4x", "x4"],
+      "searchQuery": "transformer feed-forward network 2048 d_model 512 expansion factor 4"
+    },
+    {
+      "id": "embedding-lookup",
+      "title": "What does an `nn.Embedding` layer do?",
+      "body": "It is a trainable lookup table that maps each integer token id to a dense vector (row of a weight matrix).\n\nIt is equivalent to multiplying a **one-hot** vector by the matrix, without the wasted computation.\n\nExample: `nn.Embedding(10000, 300)(ids)` turns ids of shape `(N, T)` into `(N, T, 300)`.",
+      "searchQuery": "nn.Embedding lookup table token id dense vector"
+    },
+    {
+      "id": "embedding-param-count",
+      "title": "How many parameters does `nn.Embedding(10000, 300)` have?",
+      "body": "3000000\n\nThe table has one 300-dimensional vector per token: $10{,}000 \\times 300 = 3{,}000{,}000$.\n\nThere is no bias term.",
+      "answer": "3000000",
+      "acceptedAnswers": ["3 million"],
+      "searchQuery": "nn.Embedding parameter count num_embeddings embedding_dim"
+    },
+    {
+      "id": "cosine-similarity-formula",
+      "title": "Write the cosine similarity between embedding vectors $u$ and $v$.",
+      "body": "$\\dfrac{u^\\top v}{\\|u\\|\\,\\|v\\|}$\n\nIt is the cosine of the angle between the vectors, ranging from $-1$ to $1$, and ignores **vector length**.\n\nTip: it is the standard way to compare word or sentence embeddings.",
+      "searchQuery": "cosine similarity formula embeddings"
+    },
+    {
+      "id": "cosine-similarity-computation",
+      "title": "What is the cosine similarity of $u = (1, 0)$ and $v = (1, 1)$? Round to 2 decimals.",
+      "body": "0.71\n\n$u^\\top v = 1$, $\\|u\\| = 1$ and $\\|v\\| = \\sqrt{2}$, so the result is $\\frac{1}{\\sqrt{2}} \\approx 0.707$.\n\nThe angle between them is $45^\\circ$.",
+      "answer": "0.71",
+      "acceptedAnswers": ["0.707", "1/sqrt(2)"],
+      "searchQuery": "cosine similarity calculation example 45 degrees"
+    },
+    {
+      "id": "word2vec-skipgram",
+      "title": "What is the training task of the skip-gram word2vec model?",
+      "body": "Predict the surrounding context words from a given center word.\n\nWords that appear in similar contexts end up with **similar vectors**, which captures semantic similarity.\n\nExample: the vectors for \"cat\" and \"dog\" tend to be close.",
+      "searchQuery": "word2vec skip-gram predict context words from center word"
+    },
+    {
+      "id": "subword-tokenization",
+      "title": "Why do modern language models use subword tokenization (for example BPE) instead of whole words?",
+      "body": "It keeps the vocabulary small while still representing any word, including rare or new ones, as pieces.\n\nAn unseen word is split into known **subword units** rather than mapped to a single unknown token.\n\nExample: \"unhappiness\" might split into \"un\", \"happiness\" or smaller pieces.",
+      "searchQuery": "subword tokenization byte pair encoding why vocabulary"
+    },
+    {
+      "id": "overfit-one-batch",
+      "title": "What quick sanity check do practitioners run first when a new network will not train?",
+      "body": "Try to overfit a single small batch: the training loss should drop to nearly zero.\n\nIf it cannot, there is a **bug** (labels, loss, learning rate, data pipeline or architecture) rather than a tuning problem.\n\nTip: do this before running long experiments on the full dataset.",
+      "searchQuery": "overfit a single batch sanity check neural network debugging"
+    },
+    {
+      "id": "model-eval-call",
+      "title": "Which call switches a PyTorch model to evaluation mode, turning off dropout and using batch-norm running statistics?",
+      "body": "`model.eval()`\n\nUse `model.train()` to switch back before training continues.\n\nWatch out: `model.eval()` does not disable gradient tracking; use `torch.no_grad()` for that.",
+      "answer": "model.eval()",
+      "acceptedAnswers": ["eval()", "model.eval", "eval"],
+      "answerDisplay": "`model.eval()`",
+      "searchQuery": "PyTorch model.eval dropout batchnorm evaluation mode"
+    },
+    {
+      "id": "loss-curve-diagnosis",
+      "title": "Training loss keeps falling while validation loss starts rising. What is happening, and what is a standard response?",
+      "body": "The model is overfitting; add regularization (dropout, weight decay, augmentation) or stop early at the validation minimum.\n\nThe widening gap shows it is **memorizing** the training set.\n\nTip: save the checkpoint with the best validation loss.",
+      "searchQuery": "training loss decreasing validation loss increasing overfitting remedies"
+    },
+    {
+      "id": "data-augmentation",
+      "title": "What is data augmentation?",
+      "body": "Creating extra training examples by applying label-preserving transformations to existing ones.\n\nExample: random crops, flips and color jitter for images. It acts as regularization by making the model **invariant to those changes**.\n\nWatch out: only augment the training set, not validation or test data.",
+      "searchQuery": "data augmentation deep learning label-preserving transformations"
+    },
+    {
+      "id": "transfer-learning",
+      "title": "What is transfer learning in deep learning?",
+      "body": "Reusing a network pretrained on a large dataset as the starting point for a new, usually smaller, task.\n\nEarly layers learn general features such as edges and textures, which transfer well. You replace and train the **final layer**, and optionally fine-tune the rest.\n\nExample: start from an ImageNet-pretrained ResNet for a medical imaging task.",
+      "searchQuery": "transfer learning pretrained network fine-tuning definition"
+    },
+    {
+      "id": "freeze-backbone-code",
+      "title": "How do you freeze a pretrained backbone's weights in PyTorch so only a new head is trained?",
+      "body": "Set `requires_grad = False` on the backbone parameters.\n\n```python\nfor p in backbone.parameters():\n    p.requires_grad = False\nhead = nn.Linear(512, 10)\n# pass only trainable params to the optimizer\nopt = torch.optim.Adam(head.parameters())\n```\n\nTip: when fine-tuning the whole model later, use a **smaller** learning rate for the pretrained layers.",
+      "searchQuery": "PyTorch freeze pretrained layers requires_grad False"
+    },
+    {
+      "id": "class-weighting",
+      "title": "How can you handle class imbalance directly in the loss of a neural network classifier?",
+      "body": "Weight the loss so rare classes count more, for example inverse-frequency weights.\n\nIn PyTorch: `nn.CrossEntropyLoss(weight=class_weights)`. Resampling the data is another option.\n\nWatch out: judge the result with precision, recall or F1, not plain accuracy.",
+      "searchQuery": "class imbalance weighted cross entropy loss PyTorch"
+    },
+    {
+      "id": "input-normalization",
+      "title": "Why standardize input features (or image pixels) before training a neural network?",
+      "body": "Inputs on similar scales with zero mean give better-conditioned optimization, so gradient descent converges faster and more stably.\n\nUse the **training-set** mean and standard deviation for all splits.\n\nExample: for images, scale pixels to $[0,1]$ and subtract the per-channel mean.",
+      "searchQuery": "normalize inputs neural network training per-channel mean std"
+    },
+    {
+      "id": "loss-nan-cause",
+      "title": "Training loss suddenly becomes NaN. What are the most common causes?",
+      "body": "A learning rate that is too high (divergence), invalid operations such as $\\log 0$ or division by zero, or exploding gradients.\n\nFixes: lower the learning rate, add **gradient clipping**, use numerically stable fused losses like `BCEWithLogitsLoss`, and check the data for NaNs.\n\nTip: lowering the learning rate is the first thing to try.",
+      "searchQuery": "loss becomes NaN neural network training causes fixes"
+    },
+    {
+      "id": "save-state-dict",
+      "title": "What PyTorch object is recommended to save with `torch.save` to checkpoint a model's learned weights?",
+      "body": "`model.state_dict()`\n\nIt is an ordered dictionary mapping each layer's parameter and buffer names to tensors. Restore it with `model.load_state_dict(torch.load(path))`.\n\nTip: also save the optimizer's `state_dict()` if you want to resume training.",
+      "answer": "state_dict",
+      "acceptedAnswers": ["model.state_dict()", "state_dict()"],
+      "answerDisplay": "`model.state_dict()`",
+      "searchQuery": "PyTorch save model state_dict torch.save checkpoint"
+    },
+    {
+      "id": "random-vs-grid-search",
+      "title": "Why is random search often more efficient than grid search for hyperparameter tuning?",
+      "body": "Usually only a few hyperparameters matter much, and random search tries many distinct values of each, while a grid repeats the same few values.\n\nWith the same budget it explores the **important dimensions** more thoroughly.\n\nTip: sample learning rates on a log scale.",
+      "searchQuery": "random search vs grid search hyperparameter optimization Bergstra"
+    },
+    {
+      "id": "early-stopping-patience",
+      "title": "What does the patience setting control in early stopping?",
+      "body": "The number of epochs to wait for the validation metric to improve before stopping training.\n\nA larger patience tolerates noisy validation curves but spends more compute.\n\nExample: with patience 5, training stops after 5 consecutive epochs without a new best validation loss.",
+      "searchQuery": "early stopping patience parameter validation loss epochs"
+    },
+    {
+      "id": "lr-too-small-symptom",
+      "title": "Training loss decreases extremely slowly but steadily. Which hyperparameter is the most likely culprit?",
+      "body": "learning rate (too small)\n\nTiny steps make progress smooth but slow. A too-large rate shows up as an **erratic or rising loss** instead.\n\nTip: run a quick learning-rate range test, increasing the rate over a few hundred steps and picking a value just before the loss blows up.",
+      "answer": "learning rate",
+      "acceptedAnswers": ["lr", "step size"],
+      "searchQuery": "learning rate too small slow training loss range test"
+    }
+  ]
+}

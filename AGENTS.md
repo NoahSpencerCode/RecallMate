@@ -44,6 +44,7 @@ Docs: https://docs.expo.dev/eas/index.md
 
 - Backend is Supabase. Schema, Row Level Security and RPCs live in `supabase/migrations/`. Scheduling logic is in SQL (`public.review_memory`) and mirrored for display in `src/lib/schedule.ts`; keep them in sync.
 - After changing the schema, run `npm run db:reset` and `npm run db:types`, and add pgTAP coverage in `supabase/tests/`.
-- Study pack content lives in `content/packs/*.json`. Never hand-edit the generated `*_study_pack_content.sql` migration; run `npm run packs:build`.
+- Study pack content lives in `content/packs/<subject>/` (one JSON file per pack); `content/README.md` is the authoring guide. Validate with `npx jest content`, then publish with `npm run packs:build -- --out supabase/migrations/<timestamp>_<name>.sql`. Never hand-edit generated pack migrations, and never rename or reuse a card id that is live.
+- Card text uses the markup in `src/lib/rich.ts` (KaTeX math, mhchem, code, highlights, callouts), rendered by `src/components/rich/RichText.tsx`.
 - Typed answers are matched by `src/features/review/answerMatch.ts`: formatting-insensitive, meaning-sensitive. One-letter slips are "close" (free retry), never auto-accepted.
 - Design tokens (colors, type, spacing, motion) are in `src/theme`. Use `Text`, `Button`, `Card` and friends from `src/components` rather than raw styles.

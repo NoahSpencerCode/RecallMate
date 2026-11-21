@@ -1,0 +1,808 @@
+{
+  "id": "sw-git",
+  "title": "Git Essentials",
+  "course": "Software Tools",
+  "description": "Staging and diffs, branches, fast-forward vs merge commits, conflicts, merge vs rebase, remotes, stash, amend, reset modes, revert, cherry-pick, reflog, tags, history inspection, worktrees.",
+  "cards": [
+    {
+      "id": "init-vs-clone",
+      "title": "`git init` vs `git clone <url>`: what does each one do?",
+      "body": "`git init` creates a new, empty repository; `git clone` copies an existing one with its full history.\n\n`git init` creates a `.git` directory in the current folder. `git clone` also sets up a remote named `origin` pointing at the source and checks out the default branch.\n\nTip: `git clone <url>` creates a new folder named after the repository unless you give it a folder name.",
+      "searchQuery": "git init vs git clone difference"
+    },
+    {
+      "id": "git-add-staging",
+      "title": "Which command stages a file's current changes so they're included in the next commit?",
+      "body": "`git add <path>`\n\nThe **staging area** (index) is a snapshot of what the next commit will contain. `git commit` records only what is staged.\n\nTip: `git status` shows staged vs unstaged changes, and `git add -p` stages individual hunks.",
+      "answer": "git add",
+      "acceptedAnswers": ["add", "git add <file>", "git add file", "git add filename", "git stage"],
+      "answerDisplay": "`git add <path>`",
+      "searchQuery": "git add stage changes staging area"
+    },
+    {
+      "id": "diff-staged",
+      "title": "Which command shows the changes you've staged but not yet committed?",
+      "body": "`git diff --staged`\n\nIt compares the index with `HEAD`. The synonym is `--cached`.\n\nWatch out: plain `git diff` compares the working tree with the index, so it shows only **unstaged** changes. `git diff HEAD` shows staged and unstaged together.",
+      "answer": "git diff --staged",
+      "acceptedAnswers": ["git diff --cached"],
+      "answerDisplay": "`git diff --staged`",
+      "searchQuery": "git diff staged cached changes"
+    },
+    {
+      "id": "gitignore-tracked-file",
+      "title": "A file is already tracked by Git. Does adding its name to `.gitignore` stop Git from tracking changes to it?",
+      "body": "No\n\n`.gitignore` only affects **untracked** files. Once a file is tracked, Git keeps tracking it.\n\nExample: to stop tracking an accidentally committed `.env` file but keep it on disk, run `git rm --cached .env`, then commit.\n\nWatch out: the old versions stay in history; removing a leaked secret from the repo does not make it safe.",
+      "answer": "No",
+      "searchQuery": "gitignore already tracked file git rm cached"
+    },
+    {
+      "id": "create-and-switch-branch",
+      "title": "One command to create a new branch named `feature` and switch to it?",
+      "body": "`git switch -c feature`\n\nThe older equivalent is `git checkout -b feature`.\n\nWatch out: `git branch feature` only creates the branch; you stay on the current one. Move between existing branches with `git switch <name>`.",
+      "answer": "git switch -c feature",
+      "acceptedAnswers": ["git checkout -b feature", "git switch --create feature"],
+      "answerDisplay": "`git switch -c feature`",
+      "searchQuery": "git switch -c create and switch branch"
+    },
+    {
+      "id": "fast-forward-merge",
+      "title": "When does `git merge` fast-forward instead of creating a merge commit?",
+      "body": "When the current branch's tip is an **ancestor** of the branch being merged.\n\nThat means your branch has no commits the other lacks, so Git just moves the branch pointer forward.\n\nIf both sides have new commits, Git creates a merge commit with two parents.\n\nTip: `--no-ff` forces a merge commit even when a fast-forward is possible.",
+      "searchQuery": "git merge fast-forward vs merge commit"
+    },
+    {
+      "id": "merge-conflict-markers",
+      "title": "In a merge conflict, what do the sections between `<<<<<<<`, `=======`, and `>>>>>>>` contain?",
+      "body": "From `<<<<<<<` to `=======` is your **current branch's** version; from `=======` to `>>>>>>>` is the **incoming** branch's version.\n\nEdit to the final content and delete every marker. Then `git add` the file and run `git commit` (or `git merge --continue`).\n\nWatch out: during a rebase the sides swap. The top part (`HEAD`) is the branch you're rebasing onto, and the bottom part is your commit being replayed.",
+      "searchQuery": "git merge conflict markers HEAD incoming"
+    },
+    {
+      "id": "merge-vs-rebase",
+      "title": "Merge vs rebase: how does each integrate another branch's work, and what's the golden rule of rebasing?",
+      "body": "Merge ties histories together with a merge commit; rebase replays your commits on top of the other branch.\n\nMerge leaves existing commits untouched. Rebase creates **new commits with new hashes**, giving a linear history.\n\nWatch out: **never rebase commits others already have** (pushed, shared). It rewrites history they've built on.",
+      "searchQuery": "git merge vs rebase golden rule"
+    },
+    {
+      "id": "fetch-vs-pull",
+      "title": "Which command downloads new commits from a remote without changing your current branch or working tree?",
+      "body": "`git fetch`\n\nIt only updates remote-tracking branches such as `origin/main`.\n\n`git pull` is `git fetch` followed by integrating the fetched commits into your current branch (fast-forward, merge, or rebase with `--rebase`).\n\nTip: fetch first when you want to inspect incoming changes before integrating them.",
+      "answer": "git fetch",
+      "acceptedAnswers": ["fetch", "git fetch origin"],
+      "answerDisplay": "`git fetch`",
+      "searchQuery": "git fetch vs git pull difference"
+    },
+    {
+      "id": "stash-pop",
+      "title": "Command to reapply your most recently stashed changes and remove that entry from the stash list?",
+      "body": "`git stash pop`\n\n`git stash apply` reapplies the changes but keeps the entry.\n\nWatch out: if `pop` hits a conflict, the entry is kept. Remove it with `git stash drop` after resolving.\n\nTip: `git stash -u` also stashes untracked files.",
+      "answer": "git stash pop",
+      "acceptedAnswers": ["stash pop"],
+      "answerDisplay": "`git stash pop`",
+      "searchQuery": "git stash pop reapply stashed changes"
+    },
+    {
+      "id": "commit-amend",
+      "title": "Command that replaces your most recent commit, e.g. to fix its message or add a forgotten staged file?",
+      "body": "`git commit --amend`\n\nIt creates a **new commit** (new hash) that replaces the old one.\n\nWatch out: amending is fine before pushing. Amending a commit that is already pushed rewrites shared history and requires a force push.",
+      "answer": "git commit --amend",
+      "acceptedAnswers": ["commit --amend", "git commit --amend -m"],
+      "answerDisplay": "`git commit --amend`",
+      "searchQuery": "git commit amend last commit"
+    },
+    {
+      "id": "reset-modes",
+      "title": "`git reset --soft`, `--mixed`, and `--hard HEAD~1`: what does each do to the index and working tree?",
+      "body": "All three move the current branch back to `HEAD~1`; they differ in what else they reset.\n\n- `--soft`: index and working tree untouched, so the undone commit's changes stay **staged**.\n- `--mixed` (the default): index reset, working tree kept, so changes become **unstaged**.\n- `--hard`: both reset; uncommitted changes to tracked files are discarded.\n\nWatch out: `--hard` can destroy uncommitted work. Untracked files are not touched.",
+      "searchQuery": "git reset soft mixed hard difference"
+    },
+    {
+      "id": "revert-shared-commit",
+      "title": "Safest way to undo a commit that's already pushed to a shared branch, without rewriting history?",
+      "body": "`git revert <commit>`\n\nIt makes a **new commit** that applies the inverse of that commit's changes. History is preserved, so collaborators aren't disrupted.\n\nWatch out: `git reset` moves the branch pointer back, rewriting history. That is fine for local commits and harmful once pushed.",
+      "answer": "git revert",
+      "acceptedAnswers": ["git revert <commit>", "git revert <hash>", "revert"],
+      "answerDisplay": "`git revert <commit>`",
+      "searchQuery": "git revert undo pushed commit safely"
+    },
+    {
+      "id": "cherry-pick",
+      "title": "Command to apply the changes from one specific commit on another branch onto your current branch?",
+      "body": "`git cherry-pick <commit>`\n\nIt creates a new commit with the same changes and message but a **new hash**.\n\nExample: port a bug fix from `main` to a release branch without merging everything else.",
+      "answer": "git cherry-pick",
+      "acceptedAnswers": ["git cherry-pick <commit>", "git cherry-pick <hash>", "cherry-pick"],
+      "answerDisplay": "`git cherry-pick <commit>`",
+      "searchQuery": "git cherry-pick apply single commit"
+    },
+    {
+      "id": "detached-head",
+      "title": "What is `HEAD`, and what does it mean to be in 'detached HEAD' state?",
+      "body": "`HEAD` is the ref for what you have checked out, normally a branch name. **Detached** means it points straight at a commit.\n\nNormally the chain is `HEAD` to branch to commit. Detaching happens after `git checkout <hash>` or checking out a tag.\n\nWatch out: new commits made while detached belong to no branch. Run `git switch -c <name>` before leaving, or they become hard to find.",
+      "searchQuery": "git detached HEAD state explained"
+    },
+    {
+      "id": "reflog-recovery",
+      "title": "After a bad `git reset --hard`, which command lists where `HEAD` has recently pointed so you can recover lost commits?",
+      "body": "`git reflog`\n\nIt records recent positions of `HEAD` (`HEAD@{0}`, `HEAD@{1}`, and so on). Recover with `git reset --hard HEAD@{1}` or `git branch rescue <hash>`.\n\nWatch out: the reflog is **local only**, and entries expire (90 days by default; 30 days for unreachable commits).",
+      "answer": "git reflog",
+      "acceptedAnswers": ["reflog", "git reflog show", "git log -g", "git log --walk-reflogs"],
+      "answerDisplay": "`git reflog`",
+      "searchQuery": "git reflog recover lost commits"
+    },
+    {
+      "id": "three-areas",
+      "title": "Name the three areas a change passes through on its way into a commit.",
+      "body": "The **working tree**, the **index** (staging area), and the **repository** (committed history).\n\n`git add` copies changes from the working tree to the index. `git commit` turns the index into a new commit.\n\nKey idea: a commit records the index, not the working tree, so unstaged edits are left out.",
+      "searchQuery": "git working tree index repository three areas"
+    },
+    {
+      "id": "git-status",
+      "title": "Which command shows which files are staged, modified, or untracked?",
+      "body": "`git status`\n\nIt lists staged changes, unstaged changes, and untracked files, plus how your branch compares with its upstream.\n\nTip: `git status -s` gives a compact two-column view.",
+      "answer": "git status",
+      "acceptedAnswers": ["status"],
+      "answerDisplay": "`git status`",
+      "searchQuery": "git status staged unstaged untracked files"
+    },
+    {
+      "id": "log-oneline",
+      "title": "Which flag makes `git log` print one line per commit (abbreviated hash plus subject)?",
+      "body": "`git log --oneline`\n\nIt is shorthand for `--pretty=oneline --abbrev-commit`.\n\nTip: add `--graph` (and `--all`) to see branch structure.",
+      "answer": "--oneline",
+      "acceptedAnswers": ["git log --oneline"],
+      "answerDisplay": "`git log --oneline`",
+      "searchQuery": "git log oneline compact history"
+    },
+    {
+      "id": "log-graph",
+      "title": "Which `git log` flag draws an ASCII graph of branches and merges?",
+      "body": "`--graph`\n\nA common combination is `git log --oneline --graph --all`, which shows every branch.\n\nTip: without `--all`, only history reachable from the current branch is shown.",
+      "answer": "--graph",
+      "acceptedAnswers": ["git log --graph"],
+      "answerDisplay": "`--graph`",
+      "searchQuery": "git log graph branches merges ascii"
+    },
+    {
+      "id": "restore-unstaged-file",
+      "title": "Which command (Git 2.23+) discards the unstaged edits to a file, restoring it from the index?",
+      "body": "`git restore <file>`\n\nThe older equivalent is `git checkout -- <file>`.\n\nWatch out: this overwrites your edits and they are **not recoverable**, because they were never committed or staged.",
+      "answer": "git restore <file>",
+      "acceptedAnswers": ["git restore file", "git restore", "git checkout -- <file>", "git checkout -- file"],
+      "answerDisplay": "`git restore <file>`",
+      "searchQuery": "git restore discard unstaged changes file"
+    },
+    {
+      "id": "restore-staged-file",
+      "title": "Which command unstages a file but keeps your edits in the working tree?",
+      "body": "`git restore --staged <file>`\n\nThe older equivalent is `git reset HEAD <file>`.\n\nKey idea: the file's content in the working tree is untouched; only the index entry is reset to match `HEAD`.",
+      "answer": "git restore --staged <file>",
+      "acceptedAnswers": ["git restore --staged file", "git restore --staged", "git reset HEAD <file>", "git reset HEAD file", "git reset <file>", "git reset file"],
+      "answerDisplay": "`git restore --staged <file>`",
+      "searchQuery": "git restore staged unstage file keep changes"
+    },
+    {
+      "id": "git-rm",
+      "title": "Which command deletes a tracked file from the working tree and stages the deletion?",
+      "body": "`git rm <file>`\n\nThe next commit then records the file as removed.\n\nTip: add `--cached` to remove the file from the index only, leaving it on disk.",
+      "answer": "git rm",
+      "acceptedAnswers": ["git rm <file>", "git rm file", "rm"],
+      "answerDisplay": "`git rm <file>`",
+      "searchQuery": "git rm remove tracked file stage deletion"
+    },
+    {
+      "id": "git-mv",
+      "title": "Which command renames or moves a tracked file and stages the change in one step?",
+      "body": "`git mv <old> <new>`\n\nIt is equivalent to renaming the file yourself, then running `git rm` on the old path and `git add` on the new one.\n\nKey idea: Git doesn't store renames explicitly; it detects them later by comparing file content similarity.",
+      "answer": "git mv",
+      "acceptedAnswers": ["git mv <old> <new>", "mv"],
+      "answerDisplay": "`git mv <old> <new>`",
+      "searchQuery": "git mv rename file stage"
+    },
+    {
+      "id": "gitignore-trailing-slash",
+      "title": "In `.gitignore`, what does a trailing slash, as in `build/`, mean?",
+      "body": "The pattern matches **directories only**, not files with that name.\n\nA pattern without a slash, such as `*.log`, matches at any depth. A leading slash, as in `/build`, anchors the pattern to the `.gitignore` file's own directory.\n\nExample: `/build` ignores only the top-level `build`, not `src/build`.",
+      "searchQuery": "gitignore trailing slash directory pattern"
+    },
+    {
+      "id": "gitignore-negate",
+      "title": "In `.gitignore`, what does a leading `!` do, and what limits it?",
+      "body": "It **re-includes** a path that an earlier pattern ignored.\n\n```sh\n*.log\n!keep.log\n```\n\nWatch out: you can't re-include a file if one of its parent directories is itself ignored. Git never looks inside an excluded directory.",
+      "searchQuery": "gitignore negation exclamation re-include file"
+    },
+    {
+      "id": "config-user-name",
+      "title": "Which command sets your commit author name for every repository on your account?",
+      "body": "`git config --global user.name \"Your Name\"`\n\nThe email is set the same way with `user.email`. Both are recorded in every commit you make.\n\nTip: omit `--global` inside a repository to set a value for that repository only.",
+      "answer": "git config --global user.name",
+      "acceptedAnswers": ["git config --global user.name Your Name", "git config --global user.name <name>"],
+      "answerDisplay": "`git config --global user.name \"Your Name\"`",
+      "searchQuery": "git config global user.name set author"
+    },
+    {
+      "id": "config-levels",
+      "title": "Git reads config at three levels: system, global, local. Which has the highest precedence?",
+      "body": "**Local** (the repository's `.git/config`).\n\nMore specific levels override broader ones: local beats global, and global beats system.\n\nExample: set `user.email` globally for personal projects, then override it with a work address in one repository.",
+      "answer": "local",
+      "acceptedAnswers": ["repository", "repo", "local config", "repository level"],
+      "searchQuery": "git config system global local precedence"
+    },
+    {
+      "id": "commit-id-depends",
+      "title": "A commit's hash is computed from its content. Which of these changes it: the message, the parent, the file contents?",
+      "body": "All three.\n\nThe hash covers the commit's tree (file contents), its parent hash(es), author, committer, timestamps and message.\n\nWhy: that is why amending, rebasing or cherry-picking produces **new hashes**, and why changing old history changes every later hash.",
+      "searchQuery": "git commit hash computed from what content parent"
+    },
+    {
+      "id": "object-types",
+      "title": "Name Git's four object types.",
+      "body": "**Blob**, **tree**, **commit**, and **tag**.\n\nA blob holds file content, a tree maps names to blobs and subtrees, a commit points to a tree and its parents, and an annotated tag points to another object.",
+      "searchQuery": "git object model blob tree commit tag"
+    },
+    {
+      "id": "tree-object-names",
+      "title": "In Git's object model, which object type maps file names to blobs (and to subtrees)?",
+      "body": "tree\n\nA blob stores only file **content**, with no name. The directory listing, with names and modes, lives in the tree.\n\nKey idea: two files with identical content share one blob.",
+      "answer": "tree",
+      "acceptedAnswers": ["tree object"],
+      "searchQuery": "git tree object maps file names to blobs"
+    },
+    {
+      "id": "add-patch",
+      "title": "Which option of `git add` lets you stage only chosen hunks of a file, one at a time?",
+      "body": "`git add -p`\n\nGit shows each hunk and asks `y`, `n`, `s` (split), or `e` (edit).\n\nTip: it's a good way to split unrelated changes in one file into separate, focused commits.",
+      "answer": "git add -p",
+      "acceptedAnswers": ["git add --patch", "-p"],
+      "answerDisplay": "`git add -p`",
+      "searchQuery": "git add patch stage hunks interactively"
+    },
+    {
+      "id": "add-all-vs-dot",
+      "title": "Since Git 2.0, how does `git add -A` differ from `git add .` run inside a subdirectory?",
+      "body": "`git add -A` stages changes across the **whole working tree**; `git add .` covers only the current directory and below.\n\nBoth stage new, modified, and deleted files within their scope.\n\nWatch out: either one can stage files you didn't mean to, such as secrets or build output. Check with `git status` first.",
+      "searchQuery": "git add -A vs git add dot difference"
+    },
+    {
+      "id": "commit-a-flag",
+      "title": "What does `git commit -a` stage automatically, and what does it skip?",
+      "body": "It stages **modified and deleted tracked files**, and skips **untracked** files.\n\nSo `git commit -am \"msg\"` is a shortcut for `git add -u` followed by `git commit -m \"msg\"`.\n\nWatch out: a brand-new file still needs an explicit `git add`.",
+      "searchQuery": "git commit -a stage tracked files skip untracked"
+    },
+    {
+      "id": "commit-subject-mood",
+      "title": "By convention, in which grammatical mood is a commit subject line written?",
+      "body": "imperative\n\nWrite it as a command, such as 'Fix null check in parser', so it completes the sentence 'If applied, this commit will ...'.\n\nTip: keep the subject short (around 50 characters), leave a blank line, then explain the why in the body.",
+      "answer": "imperative",
+      "acceptedAnswers": ["imperative mood"],
+      "searchQuery": "git commit message imperative mood convention"
+    },
+    {
+      "id": "git-show",
+      "title": "Which command displays one commit's metadata, message, and diff?",
+      "body": "`git show <commit>`\n\nWith no argument it shows `HEAD`.\n\nTip: `git show <commit>:<path>` prints a file as it was in that commit.",
+      "answer": "git show",
+      "acceptedAnswers": ["git show <commit>", "show"],
+      "answerDisplay": "`git show <commit>`",
+      "searchQuery": "git show commit message and diff"
+    },
+    {
+      "id": "head-tilde-vs-caret",
+      "title": "What is the difference between `HEAD~2` and `HEAD^2`?",
+      "body": "`HEAD~2` is the **grandparent** (first parent, twice). `HEAD^2` is the **second parent** of a merge commit.\n\n`~n` walks back n generations along first parents. `^n` selects the n-th parent of a single commit.\n\nExample: for a merge commit `M`, `M^1` is the branch you merged into and `M^2` is the branch you merged in.",
+      "searchQuery": "git HEAD~ vs HEAD^ tilde caret difference"
+    },
+    {
+      "id": "diff-three-dot",
+      "title": "What does `git diff main...feature` (three dots) compare?",
+      "body": "The tip of `feature` against the **merge base** of `main` and `feature`.\n\nIt shows what changed on `feature` since the branches diverged, ignoring newer work on `main`.\n\nWatch out: `git diff main..feature` (two dots) compares the two tips directly.",
+      "searchQuery": "git diff three dots merge base branch changes"
+    },
+    {
+      "id": "log-two-dot-range",
+      "title": "Which commits does `git log main..feature` list?",
+      "body": "Commits reachable from `feature` but **not** from `main`.\n\nThat is the work on `feature` that `main` doesn't have yet.\n\nTip: `git log origin/main..HEAD` lists your unpushed commits.",
+      "searchQuery": "git log double dot range commits not in branch"
+    },
+    {
+      "id": "branch-is-pointer",
+      "title": "What is a Git branch, physically?",
+      "body": "A lightweight, movable **pointer** to a commit.\n\nCommitting on a branch moves that pointer forward to the new commit. `HEAD` normally points at the current branch.\n\nKey idea: creating a branch copies no files, so branching is nearly free.",
+      "searchQuery": "git branch is a pointer to a commit"
+    },
+    {
+      "id": "branch-delete-safe",
+      "title": "Which command deletes a local branch, but refuses if it has unmerged commits?",
+      "body": "`git branch -d <name>`\n\nUse `-D` (force) to delete it even if unmerged.\n\nWatch out: you can't delete the branch you're on. Switch away first. Commits on a force-deleted branch can usually be found with `git reflog`.",
+      "answer": "git branch -d",
+      "acceptedAnswers": ["git branch -d <name>", "git branch --delete", "git branch -d branch"],
+      "answerDisplay": "`git branch -d <name>`",
+      "searchQuery": "git branch -d delete merged local branch"
+    },
+    {
+      "id": "branch-merged-list",
+      "title": "Which command lists the local branches already merged into the current branch?",
+      "body": "`git branch --merged`\n\nThese are usually safe to delete. `git branch --no-merged` lists the opposite.\n\nTip: use it to clean up old feature branches after merging.",
+      "answer": "git branch --merged",
+      "acceptedAnswers": ["--merged"],
+      "answerDisplay": "`git branch --merged`",
+      "searchQuery": "git branch --merged list merged branches"
+    },
+    {
+      "id": "branch-rename",
+      "title": "Which command renames the current local branch to `new-name`?",
+      "body": "`git branch -m new-name`\n\nGive two names (`git branch -m old new`) to rename a different branch.\n\nWatch out: this renames only the local branch. A branch already pushed keeps its old name on the remote until you push the new one and delete the old.",
+      "answer": "git branch -m new-name",
+      "acceptedAnswers": ["git branch -m", "git branch --move new-name", "git branch --move"],
+      "answerDisplay": "`git branch -m new-name`",
+      "searchQuery": "git branch -m rename current branch"
+    },
+    {
+      "id": "branch-list-all",
+      "title": "Which flag makes `git branch` list local and remote-tracking branches together?",
+      "body": "`git branch -a`\n\nRemote-tracking branches appear as `remotes/origin/main` and similar. `git branch -r` lists only those.\n\nKey idea: remote-tracking branches reflect your last fetch, not the live state of the remote.",
+      "answer": "git branch -a",
+      "acceptedAnswers": ["-a", "git branch --all", "--all"],
+      "answerDisplay": "`git branch -a`",
+      "searchQuery": "git branch -a list remote and local branches"
+    },
+    {
+      "id": "switch-previous-branch",
+      "title": "Which command jumps back to the branch you were on before the current one?",
+      "body": "`git switch -`\n\nThe older form is `git checkout -`.\n\nTip: it works like `cd -` in a shell, so you can toggle between two branches quickly.",
+      "answer": "git switch -",
+      "acceptedAnswers": ["git checkout -"],
+      "answerDisplay": "`git switch -`",
+      "searchQuery": "git switch - previous branch shortcut"
+    },
+    {
+      "id": "merge-no-ff",
+      "title": "Which `git merge` flag forces a merge commit even when a fast-forward is possible?",
+      "body": "`--no-ff`\n\nThe merge commit marks where a feature branch was integrated, keeping the branch visible in history.\n\nWatch out: the setting `merge.ff=false` makes this the default for every merge.",
+      "answer": "--no-ff",
+      "acceptedAnswers": ["git merge --no-ff", "no-ff"],
+      "answerDisplay": "`--no-ff`",
+      "searchQuery": "git merge --no-ff force merge commit"
+    },
+    {
+      "id": "merge-squash",
+      "title": "What does `git merge --squash feature` do?",
+      "body": "It applies all of `feature`'s changes to the index and working tree but **does not commit**.\n\nYou then run `git commit` to record one ordinary commit. No merge relationship is recorded, because the new commit has a single parent.\n\nWatch out: Git won't remember that `feature` was merged, so `git branch -d feature` complains and you must use `-D`.",
+      "searchQuery": "git merge --squash single commit no merge parent"
+    },
+    {
+      "id": "merge-abort",
+      "title": "Which command cancels a merge that stopped on conflicts and restores the pre-merge state?",
+      "body": "`git merge --abort`\n\nIt works while the merge is still in progress, before you commit.\n\nTip: rebase has its own `git rebase --abort`, and cherry-pick has `git cherry-pick --abort`.",
+      "answer": "git merge --abort",
+      "acceptedAnswers": ["--abort"],
+      "answerDisplay": "`git merge --abort`",
+      "searchQuery": "git merge --abort cancel merge conflicts"
+    },
+    {
+      "id": "three-way-merge-inputs",
+      "title": "A three-way merge compares which three commits?",
+      "body": "The two **branch tips** and their **merge base** (most recent common ancestor).\n\nFor each region, Git takes the side that changed relative to the base. If both sides changed the same lines differently, you get a conflict.\n\nWhy: without the base, Git couldn't tell whether a difference is an addition on one side or a deletion on the other.",
+      "searchQuery": "git three-way merge merge base two tips"
+    },
+    {
+      "id": "merge-base-command",
+      "title": "Which command prints the best common ancestor of two branches?",
+      "body": "`git merge-base <a> <b>`\n\nThis is the commit where the histories diverged, and the base used by a three-way merge.\n\nExample: `git merge-base main feature` gives the starting point of `feature`'s work.",
+      "answer": "git merge-base",
+      "acceptedAnswers": ["merge-base", "git merge-base <a> <b>"],
+      "answerDisplay": "`git merge-base <a> <b>`",
+      "searchQuery": "git merge-base best common ancestor"
+    },
+    {
+      "id": "rebase-what-happens",
+      "title": "You are on `feature` and run `git rebase main`. What happens?",
+      "body": "Git replays `feature`'s commits, one by one, on top of the current tip of `main`.\n\nThe replayed commits are **new commits** with new hashes; the originals are abandoned. The result is a linear history.\n\nWatch out: you may have to resolve conflicts once per replayed commit.",
+      "searchQuery": "git rebase main replay commits onto branch"
+    },
+    {
+      "id": "rebase-continue",
+      "title": "You resolved a conflict during a rebase and staged the file. Which command moves the rebase on?",
+      "body": "`git rebase --continue`\n\nIt creates the commit for you and replays the next one.\n\nWatch out: don't run `git commit` yourself in the middle of a rebase (except when editing a commit on purpose); use `--continue`.",
+      "answer": "git rebase --continue",
+      "acceptedAnswers": ["--continue"],
+      "answerDisplay": "`git rebase --continue`",
+      "searchQuery": "git rebase --continue after resolving conflict"
+    },
+    {
+      "id": "rebase-abort",
+      "title": "Which command cancels a rebase in progress and returns the branch to how it was before?",
+      "body": "`git rebase --abort`\n\nThe branch goes back to its original commits, as if you never started.\n\nTip: use it when a rebase produces more conflicts than you expected, then try a merge instead.",
+      "answer": "git rebase --abort",
+      
+      "answerDisplay": "`git rebase --abort`",
+      "searchQuery": "git rebase --abort cancel rebase"
+    },
+    {
+      "id": "rebase-interactive",
+      "title": "Command to interactively edit, reorder, squash, or drop your last 3 commits?",
+      "body": "`git rebase -i HEAD~3`\n\nGit opens a todo list with one line per commit. Change the word at the start of a line (`pick`, `reword`, `edit`, `squash`, `fixup`, `drop`) or reorder the lines.\n\nWatch out: it rewrites those commits, so avoid it on commits you've already shared.",
+      "answer": "git rebase -i HEAD~3",
+      "acceptedAnswers": ["git rebase --interactive HEAD~3", "git rebase -i HEAD^^^"],
+      "answerDisplay": "`git rebase -i HEAD~3`",
+      "searchQuery": "git rebase -i interactive squash reorder commits"
+    },
+    {
+      "id": "rebase-squash-vs-fixup",
+      "title": "In an interactive rebase, how does `squash` differ from `fixup`?",
+      "body": "Both fold a commit into the one above it. `squash` lets you **edit the combined message**; `fixup` **discards** the folded commit's message.\n\nExample: use `fixup` for a 'typo' commit and `squash` when both messages are worth keeping.\n\nTip: `git commit --fixup <commit>` marks a commit for automatic folding later.",
+      "searchQuery": "git rebase squash vs fixup difference"
+    },
+    {
+      "id": "rebase-onto",
+      "title": "What does `git rebase --onto main topicA topicB` do?",
+      "body": "It takes the commits in `topicA..topicB` and replays them onto `main`.\n\nThat is, the commits on `topicB` that are not on `topicA`.\n\nExample: `topicB` was branched from `topicA`, but you want it to start from `main` without bringing `topicA`'s commits along.",
+      "searchQuery": "git rebase --onto transplant branch commits"
+    },
+    {
+      "id": "pull-rebase",
+      "title": "Which command fetches and then rebases your local commits onto the upstream branch, instead of merging?",
+      "body": "`git pull --rebase`\n\nIt avoids the extra merge commit that a plain `git pull` creates when your branch and upstream have diverged.\n\nTip: set it as the default with `git config pull.rebase true`.",
+      "answer": "git pull --rebase",
+      "acceptedAnswers": ["--rebase", "git pull -r"],
+      "answerDisplay": "`git pull --rebase`",
+      "searchQuery": "git pull --rebase instead of merge"
+    },
+    {
+      "id": "pull-ff-only",
+      "title": "Which `git pull` option refuses to proceed unless the update is a pure fast-forward?",
+      "body": "`git pull --ff-only`\n\nIf your branch and upstream have diverged, it stops with an error instead of creating a merge commit or rebasing.\n\nTip: it is a safe default, and you then choose between merge and rebase deliberately.",
+      "answer": "git pull --ff-only",
+      "acceptedAnswers": ["--ff-only"],
+      "answerDisplay": "`git pull --ff-only`",
+      "searchQuery": "git pull --ff-only fast-forward only"
+    },
+    {
+      "id": "ours-theirs-merge",
+      "title": "During a merge, what are 'ours' and 'theirs' in `git checkout --ours <file>`?",
+      "body": "'Ours' is the **current branch's** version; 'theirs' is the **incoming** branch's version.\n\nSo `git checkout --theirs <file>` takes the whole file from the branch being merged in.\n\nWatch out: during a rebase the meanings swap. 'Ours' is the branch you're rebasing onto, and 'theirs' is your commit being replayed.",
+      "searchQuery": "git checkout --ours --theirs merge conflict"
+    },
+    {
+      "id": "remote-list-urls",
+      "title": "Which command lists your configured remotes together with their URLs?",
+      "body": "`git remote -v`\n\nEach remote is shown twice: once for fetch and once for push.\n\nKey idea: a remote is just a named URL, and `origin` is the conventional name for the one you cloned from.",
+      "answer": "git remote -v",
+      "acceptedAnswers": ["git remote --verbose"],
+      "answerDisplay": "`git remote -v`",
+      "searchQuery": "git remote -v list remotes urls"
+    },
+    {
+      "id": "remote-add",
+      "title": "Which command adds a remote named `origin` pointing at a URL?",
+      "body": "`git remote add origin <url>`\n\nIt only records the name and URL; nothing is downloaded until you fetch or push.\n\nTip: use `git remote set-url origin <url>` to change the URL later.",
+      "answer": "git remote add origin",
+      "acceptedAnswers": ["git remote add origin <url>", "git remote add"],
+      "answerDisplay": "`git remote add origin <url>`",
+      "searchQuery": "git remote add origin url"
+    },
+    {
+      "id": "push-set-upstream",
+      "title": "Command to push the new local branch `feature` to `origin` and set it as the branch's upstream?",
+      "body": "`git push -u origin feature`\n\nThe `-u` flag (`--set-upstream`) links the local branch to `origin/feature`, so later `git pull` and `git push` need no arguments.\n\nTip: `git branch -vv` shows each branch's upstream.",
+      "answer": "git push -u origin feature",
+      "acceptedAnswers": ["git push --set-upstream origin feature", "git push -u origin feature:feature"],
+      "answerDisplay": "`git push -u origin feature`",
+      "searchQuery": "git push -u set upstream new branch"
+    },
+    {
+      "id": "remote-tracking-branch",
+      "title": "What is `origin/main`?",
+      "body": "A **remote-tracking branch**: a local, read-only bookmark of where `main` was on `origin` at your last fetch.\n\nYou can't commit to it directly. `git fetch` moves it, and `git pull` fetches then integrates it into your current branch.\n\nWatch out: it can be stale; it doesn't update until you fetch.",
+      "searchQuery": "git remote-tracking branch origin/main meaning"
+    },
+    {
+      "id": "force-with-lease",
+      "title": "Which push option force-pushes only if the remote branch is still where you last fetched it?",
+      "body": "`git push --force-with-lease`\n\nIt refuses to overwrite commits you haven't seen, such as a teammate's push made after your last fetch.\n\nWhy: plain `--force` overwrites the remote branch unconditionally and can silently destroy others' work.",
+      "answer": "git push --force-with-lease",
+      "acceptedAnswers": ["--force-with-lease", "force-with-lease"],
+      "answerDisplay": "`git push --force-with-lease`",
+      "searchQuery": "git push --force-with-lease safer force push"
+    },
+    {
+      "id": "fetch-prune",
+      "title": "Which option makes `git fetch` delete remote-tracking branches whose branch no longer exists on the remote?",
+      "body": "`git fetch --prune`\n\nIt removes stale entries such as `origin/old-feature` after that branch was deleted on the remote.\n\nWatch out: it does not delete your **local** branches, only the remote-tracking ones.",
+      "answer": "git fetch --prune",
+      "acceptedAnswers": ["--prune", "git fetch -p", "git fetch origin --prune"],
+      "answerDisplay": "`git fetch --prune`",
+      "searchQuery": "git fetch --prune remove stale remote branches"
+    },
+    {
+      "id": "delete-remote-branch",
+      "title": "Command to delete the branch `feature` on the remote `origin`?",
+      "body": "`git push origin --delete feature`\n\nThe older form is `git push origin :feature`, which pushes 'nothing' to that branch name.\n\nWatch out: this does not delete your local `feature` branch; use `git branch -d feature` for that.",
+      "answer": "git push origin --delete feature",
+      "acceptedAnswers": ["git push origin :feature", "git push -d origin feature"],
+      "answerDisplay": "`git push origin --delete feature`",
+      "searchQuery": "git push origin --delete remote branch"
+    },
+    {
+      "id": "branch-vv",
+      "title": "Which command lists local branches with their upstream and how far ahead or behind each is?",
+      "body": "`git branch -vv`\n\nOutput includes the upstream, such as `[origin/main: ahead 2, behind 1]`.\n\nTip: it reflects your last fetch, so run `git fetch` first for current numbers.",
+      "answer": "git branch -vv",
+      "acceptedAnswers": ["-vv"],
+      "answerDisplay": "`git branch -vv`",
+      "searchQuery": "git branch -vv upstream ahead behind"
+    },
+    {
+      "id": "shallow-clone",
+      "title": "Which command clones a repository with only the latest commit of history?",
+      "body": "`git clone --depth 1 <url>`\n\nThis **shallow clone** is much smaller and faster, which is handy in CI.\n\nWatch out: history is truncated, so log, blame, and some merges are limited. `git fetch --unshallow` restores the full history.",
+      "answer": "git clone --depth 1",
+      "acceptedAnswers": ["git clone --depth=1", "git clone --depth 1 <url>"],
+      "answerDisplay": "`git clone --depth 1 <url>`",
+      "searchQuery": "git clone --depth 1 shallow clone"
+    },
+    {
+      "id": "push-rejected-non-ff",
+      "title": "`git push` is rejected as 'non-fast-forward'. What does that mean, and what is the usual fix?",
+      "body": "The remote branch has commits you don't have locally, so pushing would drop them.\n\nFetch, integrate with `git pull` (merge) or `git pull --rebase`, resolve any conflicts, then push again.\n\nWatch out: forcing the push is rarely the right fix on a shared branch.",
+      "searchQuery": "git push rejected non-fast-forward fix"
+    },
+    {
+      "id": "init-default-branch",
+      "title": "Which Git setting chooses the name of the initial branch created by `git init`?",
+      "body": "`init.defaultBranch`\n\nExample: `git config --global init.defaultBranch main`.\n\nTip: `git init -b main` sets the name for a single repository.",
+      "answer": "init.defaultBranch",
+      "acceptedAnswers": ["defaultBranch"],
+      "searchQuery": "git init.defaultBranch config initial branch name"
+    },
+    {
+      "id": "reset-soft-uncommit",
+      "title": "Command to undo your last commit but keep its changes staged?",
+      "body": "`git reset --soft HEAD~1`\n\nThe branch moves back one commit; the index and working tree stay as they were.\n\nTip: you can now edit the staged changes and commit again with a better message or split the commit.",
+      "answer": "git reset --soft HEAD~1",
+      "acceptedAnswers": ["git reset --soft HEAD^"],
+      "answerDisplay": "`git reset --soft HEAD~1`",
+      "searchQuery": "git reset --soft HEAD~1 undo last commit keep staged"
+    },
+    {
+      "id": "reset-hard-unrecoverable",
+      "title": "After `git reset --hard`, which work can the reflog NOT bring back?",
+      "body": "Uncommitted changes to tracked files.\n\nThe reflog tracks commits. Edits that were never committed (or at least staged) have no commit to point to.\n\nWatch out: committed work is recoverable with `git reflog`; untouched untracked files simply stay where they are.",
+      "searchQuery": "git reset --hard uncommitted changes lost reflog"
+    },
+    {
+      "id": "clean-dry-run",
+      "title": "Which flag of `git clean` shows what would be deleted without deleting anything?",
+      "body": "`-n` (long form `--dry-run`)\n\n`git clean` deletes **untracked** files. By default it refuses to run without `-f`, and it skips directories unless you add `-d`.\n\nWatch out: deleted untracked files are gone for good, so run `git clean -n` first.",
+      "answer": "-n",
+      "acceptedAnswers": ["--dry-run", "git clean -n", "git clean --dry-run"],
+      "answerDisplay": "`git clean -n`",
+      "searchQuery": "git clean -n dry run untracked files"
+    },
+    {
+      "id": "revert-merge-commit",
+      "title": "Reverting a merge commit needs an option naming the parent to keep. Which command reverts a merge `M` back to its first parent?",
+      "body": "`git revert -m 1 <M>`\n\nThe `-m 1` option says the first parent (the branch you merged **into**) is the mainline, so the changes brought in by the other side are undone.\n\nWatch out: re-merging that branch later won't bring those changes back, because Git thinks they're already merged. Revert the revert first.",
+      "answer": "git revert -m 1",
+      "acceptedAnswers": ["-m 1", "git revert -m 1 <merge>", "git revert -m 1 <M>"],
+      "answerDisplay": "`git revert -m 1 <M>`",
+      "searchQuery": "git revert merge commit -m 1 mainline parent"
+    },
+    {
+      "id": "revert-no-commit",
+      "title": "Which `git revert` flag applies the inverse changes to the working tree and index without creating a commit?",
+      "body": "`--no-commit` (short form `-n`)\n\nIt lets you revert several commits and record them as one commit.\n\nExample: `git revert -n A B` then a single `git commit`.",
+      "answer": "--no-commit",
+      "acceptedAnswers": ["-n", "git revert --no-commit", "git revert -n"],
+      "answerDisplay": "`git revert --no-commit`",
+      "searchQuery": "git revert --no-commit combine reverts one commit"
+    },
+    {
+      "id": "stash-basic",
+      "title": "Command to shelve your uncommitted changes to tracked files and get a clean working tree?",
+      "body": "`git stash`\n\nIt saves the changes on a stack and resets the working tree to `HEAD`. Bring them back later with `git stash pop`.\n\nExample: you're mid-change when an urgent fix comes in. Stash, fix and commit, then pop.",
+      "answer": "git stash",
+      "acceptedAnswers": ["git stash push", "stash"],
+      "answerDisplay": "`git stash`",
+      "searchQuery": "git stash save uncommitted changes"
+    },
+    {
+      "id": "stash-list",
+      "title": "Which command lists all your stash entries?",
+      "body": "`git stash list`\n\nEntries are named `stash@{0}` (newest), `stash@{1}`, and so on.\n\nTip: `git stash show -p stash@{0}` shows what an entry contains.",
+      "answer": "git stash list",
+      "acceptedAnswers": ["stash list"],
+      "answerDisplay": "`git stash list`",
+      "searchQuery": "git stash list entries"
+    },
+    {
+      "id": "stash-include-untracked",
+      "title": "Which command stashes your tracked changes and your new untracked files too?",
+      "body": "`git stash -u`\n\nLong form: `--include-untracked`. A plain `git stash` leaves untracked files in place.\n\nWatch out: ignored files are skipped even with `-u`; add `-a` (`--all`) to include them as well.",
+      "answer": "git stash -u",
+      "acceptedAnswers": ["git stash --include-untracked", "git stash push -u", "git stash push --include-untracked"],
+      "answerDisplay": "`git stash -u`",
+      "searchQuery": "git stash -u include untracked files"
+    },
+    {
+      "id": "stash-push-message",
+      "title": "Command to stash your changes with a descriptive label?",
+      "body": "`git stash push -m \"message\"`\n\nThe message appears in `git stash list`, which helps when you have several entries.\n\nTip: add `-u` to include untracked files in the same stash.",
+      "answer": "git stash push -m",
+      "acceptedAnswers": ["git stash push -m message", "git stash push --message"],
+      "answerDisplay": "`git stash push -m \"message\"`",
+      "searchQuery": "git stash push -m named stash message"
+    },
+    {
+      "id": "stash-second-entry-ref",
+      "title": "What name refers to the second most recent stash entry, e.g. in `git stash apply <name>`?",
+      "body": "`stash@{1}`\n\nThe newest entry is `stash@{0}`, so numbering counts back from there.\n\nWatch out: dropping or popping an entry renumbers the ones behind it.",
+      "answer": "stash@{1}",
+      "searchQuery": "git stash apply stash@{1} specific entry"
+    },
+    {
+      "id": "amend-no-edit",
+      "title": "Command to add newly staged changes to the last commit while keeping its message?",
+      "body": "`git commit --amend --no-edit`\n\nThe commit gets the staged changes added and a new hash, but the message stays the same.\n\nWatch out: don't amend commits you've already pushed to a shared branch.",
+      "answer": "git commit --amend --no-edit",
+      "acceptedAnswers": ["--amend --no-edit"],
+      "answerDisplay": "`git commit --amend --no-edit`",
+      "searchQuery": "git commit --amend --no-edit keep message"
+    },
+    {
+      "id": "restore-from-commit",
+      "title": "How do you restore one file to its content from two commits ago, without moving the branch?",
+      "body": "`git restore --source=HEAD~2 <file>`\n\nIt overwrites the working-tree copy with the version from `HEAD~2`. Add `--staged` to restore the index copy too.\n\nKey idea: unlike `git reset`, this changes files only; no branch moves.",
+      "searchQuery": "git restore --source restore file from older commit"
+    },
+    {
+      "id": "orig-head",
+      "title": "After a merge you regret (and haven't made new commits), which command undoes it using `ORIG_HEAD`?",
+      "body": "`git reset --hard ORIG_HEAD`\n\nGit sets `ORIG_HEAD` to the previous `HEAD` before risky operations such as merge, rebase, and reset.\n\nWatch out: `--hard` also discards uncommitted changes, so commit or stash first.",
+      "answer": "git reset --hard ORIG_HEAD",
+      "answerDisplay": "`git reset --hard ORIG_HEAD`",
+      "searchQuery": "git ORIG_HEAD undo merge reset hard"
+    },
+    {
+      "id": "reset-vs-restore-branch",
+      "title": "Of `git reset <commit>` and `git restore <file>`, which one moves the current branch pointer?",
+      "body": "`git reset`\n\nIt moves the branch (and, depending on mode, resets the index and working tree). `git restore` only changes files in the index or working tree.\n\nTip: use `restore` to undo file edits and `reset` to undo commits.",
+      "answer": "git reset",
+      "acceptedAnswers": ["reset"],
+      "answerDisplay": "`git reset`",
+      "searchQuery": "git reset vs git restore branch pointer"
+    },
+    {
+      "id": "tag-annotated-flag",
+      "title": "Which `git tag` flag creates an annotated tag (with tagger, date, and message) rather than a lightweight one?",
+      "body": "`-a`\n\nExample: `git tag -a v1.0 -m \"Release 1.0\"`. Annotated tags are full objects in the repository.\n\nTip: `git tag` with a bare name, such as `git tag v1.0`, makes a lightweight tag.",
+      "answer": "-a",
+      "acceptedAnswers": ["--annotate", "git tag -a", "git tag --annotate"],
+      "answerDisplay": "`git tag -a`",
+      "searchQuery": "git tag -a annotated tag create"
+    },
+    {
+      "id": "push-tags",
+      "title": "`git push` does not send tags by default. Which option pushes all your local tags?",
+      "body": "`git push --tags`\n\nTo send just one tag, name it: `git push origin v1.0`.\n\nWatch out: `--tags` also pushes lightweight tags you may have made by accident.",
+      "answer": "git push --tags",
+      "acceptedAnswers": ["--tags", "git push origin --tags"],
+      "answerDisplay": "`git push --tags`",
+      "searchQuery": "git push --tags push all tags to remote"
+    },
+    {
+      "id": "git-describe",
+      "title": "Which command names a commit as the nearest tag plus commits since, plus a short hash (like `v1.2-5-g3a1b2c3`)?",
+      "body": "`git describe`\n\nIn `v1.2-5-g3a1b2c3`, the nearest tag is `v1.2`, there are 5 commits since it, and `g3a1b2c3` is `g` (for git) plus the abbreviated hash.\n\nTip: it's often used to build version strings.",
+      "answer": "git describe",
+      "acceptedAnswers": ["describe"],
+      "answerDisplay": "`git describe`",
+      "searchQuery": "git describe nearest tag version string"
+    },
+    {
+      "id": "git-blame",
+      "title": "Which command shows, line by line, which commit and author last changed each line of a file?",
+      "body": "`git blame <file>`\n\nUse it to find out why a line is the way it is, then `git show <commit>` for the full context.\n\nTip: `-L 10,20` limits the output to lines 10 to 20.",
+      "answer": "git blame",
+      "acceptedAnswers": ["git blame <file>", "blame"],
+      "answerDisplay": "`git blame <file>`",
+      "searchQuery": "git blame line by line author commit"
+    },
+    {
+      "id": "git-bisect",
+      "title": "Which command binary-searches history to find the commit that introduced a bug?",
+      "body": "`git bisect`\n\nYou mark one commit `bad` and one older commit `good`; Git checks out midpoints and you answer `good` or `bad` until it names the first bad commit.\n\nExample: about 10 steps cover 1,000 commits, since each step halves the range.\n\nTip: finish with `git bisect reset`.",
+      "answer": "git bisect",
+      "acceptedAnswers": ["bisect", "git bisect start"],
+      "answerDisplay": "`git bisect`",
+      "searchQuery": "git bisect binary search find bug commit"
+    },
+    {
+      "id": "log-pickaxe",
+      "title": "Which `git log` option finds commits that added or removed occurrences of a given string?",
+      "body": "`-S<string>`, called the **pickaxe**.\n\nExample: `git log -S\"parseConfig\"` lists commits where the number of occurrences of `parseConfig` changed.\n\nTip: `-G<regex>` matches changed lines against a regular expression instead.",
+      "searchQuery": "git log -S pickaxe search history for string"
+    },
+    {
+      "id": "log-follow",
+      "title": "Which `git log` flag keeps following a single file's history across renames?",
+      "body": "`--follow`\n\nExample: `git log --follow -- <file>`.\n\nWatch out: it works for one file at a time. Without it, history stops at the commit where the file was renamed.",
+      "answer": "--follow",
+      "acceptedAnswers": ["git log --follow"],
+      "answerDisplay": "`git log --follow <file>`",
+      "searchQuery": "git log --follow file history across renames"
+    },
+    {
+      "id": "git-grep",
+      "title": "Which command searches the content of tracked files in the working tree?",
+      "body": "`git grep <pattern>`\n\nIt only searches tracked files, so it skips ignored build output, and it is usually faster than plain `grep -r`.\n\nTip: add a commit, as in `git grep <pattern> v1.0`, to search an older version.",
+      "answer": "git grep",
+      "acceptedAnswers": ["grep", "git grep <pattern>"],
+      "answerDisplay": "`git grep <pattern>`",
+      "searchQuery": "git grep search tracked files"
+    },
+    {
+      "id": "diff-name-only",
+      "title": "Which `git diff` option lists only the names of changed files?",
+      "body": "`--name-only`\n\nExample: `git diff --name-only main` lists files that differ from `main`.\n\nTip: `--stat` adds a per-file summary of lines added and removed.",
+      "answer": "--name-only",
+      "acceptedAnswers": ["git diff --name-only"],
+      "answerDisplay": "`git diff --name-only`",
+      "searchQuery": "git diff --name-only list changed files"
+    },
+    {
+      "id": "hooks-location",
+      "title": "In which directory does Git look for hook scripts such as `pre-commit` by default?",
+      "body": "`.git/hooks`\n\nA `pre-commit` hook that exits with a non-zero status aborts the commit. `git commit --no-verify` skips it.\n\nWatch out: files under `.git` aren't versioned or cloned. To share hooks, keep them in the repo and point `core.hooksPath` at that folder.",
+      "answer": ".git/hooks",
+      "acceptedAnswers": ["git/hooks", "hooks"],
+      "searchQuery": "git hooks pre-commit .git/hooks directory"
+    },
+    {
+      "id": "git-worktree",
+      "title": "Which command checks out another branch into a second directory, sharing the same repository?",
+      "body": "`git worktree add <path> <branch>`\n\nYou can work on a hotfix in a second folder without stashing or switching in your main one.\n\nWatch out: a branch can be checked out in only one worktree at a time.",
+      "answer": "git worktree add",
+      "acceptedAnswers": ["git worktree"],
+      "answerDisplay": "`git worktree add <path> <branch>`",
+      "searchQuery": "git worktree add second working directory"
+    },
+    {
+      "id": "submodule-pointer",
+      "title": "What does a repository record for a Git submodule?",
+      "body": "The submodule's **URL and path** in `.gitmodules`, plus a pointer to one **specific commit** of the submodule repository.\n\nWatch out: pulling the parent doesn't move the submodule's checkout. Run `git submodule update` to match the recorded commit.",
+      "searchQuery": "git submodule records commit pointer gitmodules"
+    },
+    {
+      "id": "clone-recurse-submodules",
+      "title": "Which flag makes `git clone` also fetch and check out the repository's submodules?",
+      "body": "`--recurse-submodules`\n\nWithout it, submodule folders are cloned empty. Fix an existing clone with `git submodule update --init`.",
+      "answer": "--recurse-submodules",
+      "acceptedAnswers": ["git clone --recurse-submodules", "recurse-submodules"],
+      "answerDisplay": "`git clone --recurse-submodules <url>`",
+      "searchQuery": "git clone --recurse-submodules fetch submodules"
+    },
+    {
+      "id": "cherry-pick-abort",
+      "title": "Which command cancels a cherry-pick that stopped on a conflict?",
+      "body": "`git cherry-pick --abort`\n\nIt returns the branch to its state before the cherry-pick began.\n\nTip: to finish instead, resolve the conflict, `git add` the files, and run `git cherry-pick --continue`.",
+      "answer": "git cherry-pick --abort",
+      "answerDisplay": "`git cherry-pick --abort`",
+      "searchQuery": "git cherry-pick --abort conflict cancel"
+    },
+    {
+      "id": "merge-commit-parents",
+      "title": "How many parents does an ordinary two-branch merge commit have?",
+      "body": "2\n\nThe first parent is the branch you merged into; the second is the tip of the branch you merged in.\n\nKey idea: ordinary commits have 1 parent, and a repository's root commit has none.",
+      "answer": "2",
+      "acceptedAnswers": ["two"],
+      "searchQuery": "git merge commit two parents"
+    },
+    {
+      "id": "dot-git-directory",
+      "title": "Which hidden directory at a repository's root holds its entire history and configuration?",
+      "body": ".git\n\nIt contains the object database, refs, `HEAD`, and local config. The files outside it are just the working tree.\n\nWatch out: deleting `.git` removes all history, leaving only the current files.",
+      "answer": ".git",
+      "acceptedAnswers": ["git directory", "the .git directory"],
+      "searchQuery": "what is the .git directory contains"
+    }
+  ]
+}

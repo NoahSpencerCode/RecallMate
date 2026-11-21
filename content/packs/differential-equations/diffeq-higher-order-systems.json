@@ -1,0 +1,727 @@
+{
+  "id": "diffeq-higher-order-systems",
+  "title": "Higher-Order, Laplace & Systems",
+  "course": "Differential Equations",
+  "description": "Second-order linear equations, characteristic roots, undetermined coefficients, variation of parameters, oscillators and resonance, Laplace transforms, linear systems and phase portraits, and series solutions.",
+  "cards": [
+    {
+      "id": "second-order-linear-form",
+      "title": "Standard form of a second-order **linear** ODE?",
+      "body": "$y'' + p(t)\\,y' + q(t)\\,y = g(t)$\n\nIt is **homogeneous** when $g \\equiv 0$ and **nonhomogeneous** otherwise.\n\nExample: $y'' + 4y = \\cos t$ is linear, constant-coefficient and nonhomogeneous; $y'' + y^2 = 0$ is nonlinear.",
+      "searchQuery": "second order linear ODE standard form homogeneous"
+    },
+    {
+      "id": "superposition-principle",
+      "title": "**Superposition principle** for $y'' + py' + qy = 0$?",
+      "body": "If $y_1$ and $y_2$ are solutions, then so is $c_1y_1 + c_2y_2$ for any constants.\n\nWatch out: it fails for nonhomogeneous equations and for nonlinear ones. The sum of two solutions of $y'' + y = 1$ is not a solution.",
+      "searchQuery": "superposition principle linear homogeneous ODE"
+    },
+    {
+      "id": "wronskian-definition",
+      "title": "**Wronskian** of two functions $y_1, y_2$?",
+      "body": "$W(y_1, y_2) = y_1 y_2' - y_1' y_2 = \\begin{vmatrix} y_1 & y_2 \\\\ y_1' & y_2' \\end{vmatrix}$\n\nFor two solutions of a second-order homogeneous ODE, $W \\ne 0$ means they are linearly independent.\n\nMnemonic: first times derivative of second, minus derivative of first times second.",
+      "searchQuery": "Wronskian definition two functions determinant"
+    },
+    {
+      "id": "wronskian-exponentials",
+      "title": "Wronskian of $y_1 = e^{t}$ and $y_2 = e^{2t}$? (type in $t$)",
+      "body": "$e^{3t}$\n\n$W = e^{t}\\cdot 2e^{2t} - e^{t}\\cdot e^{2t} = 2e^{3t} - e^{3t} = e^{3t}$.\n\nIt is never zero, so the two functions are independent.",
+      "answer": "e^(3t)",
+      "acceptedAnswers": ["exp(3t)"],
+      "answerDisplay": "$e^{3t}$",
+      "searchQuery": "Wronskian of e^t and e^2t"
+    },
+    {
+      "id": "fundamental-set-solutions",
+      "title": "What is a **fundamental set of solutions** of a second-order linear homogeneous ODE?",
+      "body": "Two solutions $y_1, y_2$ with $W(y_1,y_2) \\ne 0$.\n\nThen every solution is $y = c_1y_1 + c_2y_2$.\n\nKey idea: the solution space is a 2-dimensional vector space and $\\{y_1,y_2\\}$ is a basis.",
+      "searchQuery": "fundamental set of solutions linear homogeneous ODE"
+    },
+    {
+      "id": "solution-space-dimension",
+      "title": "What is the dimension of the solution space of an order-$n$ linear homogeneous ODE? (in terms of $n$)",
+      "body": "$n$\n\nIt takes $n$ independent solutions, matching the $n$ initial conditions $y(t_0), \\dots, y^{(n-1)}(t_0)$.\n\nExample: a second-order equation has a 2-dimensional solution space.",
+      "answer": "n",
+      "acceptedAnswers": ["order"],
+      "answerDisplay": "$n$",
+      "searchQuery": "dimension of solution space linear homogeneous ODE order n"
+    },
+    {
+      "id": "wronskian-abel",
+      "title": "**Abel's theorem** for the Wronskian of solutions of $y'' + p(t)y' + q(t)y = 0$?",
+      "body": "$W(t) = C\\,e^{-\\int p(t)\\,dt}$\n\nSo $W$ is either identically zero or never zero on an interval where $p$ is continuous.\n\nWhy: differentiating gives $W' = -pW$, a first-order linear ODE.",
+      "searchQuery": "Abel's theorem Wronskian formula second order ODE"
+    },
+    {
+      "id": "wronskian-zero-point",
+      "title": "If two solutions of a second-order linear homogeneous ODE have $W(t_0) = 0$ at one point, what follows?",
+      "body": "They are linearly dependent, and $W \\equiv 0$ everywhere.\n\nBy Abel's theorem $W$ cannot vanish at just one point.\n\nWatch out: this applies to solutions of the same ODE; arbitrary functions can have $W(t_0)=0$ at one point and still be independent.",
+      "searchQuery": "Wronskian zero at one point solutions linearly dependent"
+    },
+    {
+      "id": "characteristic-equation",
+      "title": "For $ay'' + by' + cy = 0$ (constants), what is the **characteristic equation**?",
+      "body": "$ar^2 + br + c = 0$\n\nSubstitute $y = e^{rt}$: $y' = re^{rt}$ and $y'' = r^2e^{rt}$, then divide by $e^{rt} \\ne 0$.\n\nKey idea: calculus becomes algebra; the roots $r$ give the solutions.",
+      "searchQuery": "characteristic equation constant coefficient second order ODE"
+    },
+    {
+      "id": "distinct-real-roots",
+      "title": "General solution of $ay'' + by' + cy = 0$ when the roots $r_1 \\ne r_2$ are real?",
+      "body": "$y = c_1e^{r_1t} + c_2e^{r_2t}$\n\nHere $b^2 - 4ac > 0$, and the two exponentials are independent ($W \\ne 0$).\n\nExample: roots $1$ and $-1$ give $y = c_1e^{t} + c_2e^{-t}$.",
+      "searchQuery": "distinct real roots characteristic equation general solution"
+    },
+    {
+      "id": "roots-y-5y-6y",
+      "title": "Characteristic roots of $y'' - 5y' + 6y = 0$? (list)",
+      "body": "$r = 2,\\; 3$\n\n$r^2 - 5r + 6 = (r-2)(r-3)$.\n\nSo $y = c_1e^{2t} + c_2e^{3t}$.",
+      "answer": "2, 3",
+      "acceptedAnswers": ["3, 2", "2 and 3", "3 and 2"],
+      "answerDisplay": "$r = 2,\\; 3$",
+      "searchQuery": "characteristic roots y'' - 5y' + 6y = 0"
+    },
+    {
+      "id": "repeated-root-solution",
+      "title": "General solution of $ay'' + by' + cy = 0$ with a repeated root $r$?",
+      "body": "$y = (c_1 + c_2 t)\\,e^{rt}$\n\nHere $b^2 - 4ac = 0$ and $r = -\\dfrac{b}{2a}$.\n\nWatch out: writing $c_1e^{rt} + c_2e^{rt}$ gives only one independent solution; the second needs the factor $t$.",
+      "searchQuery": "repeated root characteristic equation te^(rt) general solution"
+    },
+    {
+      "id": "why-t-e-rt",
+      "title": "Why is $te^{rt}$ a solution when $r$ is a double root?",
+      "body": "A double root means $p(r) = 0$ and $p'(r) = 0$ for the characteristic polynomial $p$.\n\nFor $y = te^{rt}$, $L[y] = p(r)\\,te^{rt} + p'(r)\\,e^{rt} = 0$.\n\nCheck with $y'' - 2y' + y = 0$: $y = te^{t}$ gives $(t+2)e^t - 2(t+1)e^t + te^t = 0$.",
+      "searchQuery": "why t e^(rt) second solution repeated root reduction of order"
+    },
+    {
+      "id": "solve-y-6y-9y",
+      "title": "General solution of $y'' + 6y' + 9y = 0$? (type with $c_1, c_2$)",
+      "body": "$y = (c_1 + c_2t)e^{-3t}$\n\n$r^2 + 6r + 9 = (r+3)^2$, so $r = -3$ is a double root.",
+      "answer": "(c1 + c2 t)e^(-3t)",
+      "acceptedAnswers": ["y = (c1 + c2 t)e^(-3t)", "c1 e^(-3t) + c2 t e^(-3t)", "y = c1 e^(-3t) + c2 t e^(-3t)"],
+      "answerDisplay": "$y = (c_1 + c_2t)e^{-3t}$",
+      "searchQuery": "solve y'' + 6y' + 9y = 0 double root"
+    },
+    {
+      "id": "complex-roots-solution",
+      "title": "General real solution when the characteristic roots are $\\alpha \\pm i\\beta$?",
+      "body": "$y = e^{\\alpha t}\\left(c_1\\cos\\beta t + c_2\\sin\\beta t\\right)$\n\nHere $b^2 - 4ac < 0$, with $\\alpha = -\\dfrac{b}{2a}$ and $\\beta = \\dfrac{\\sqrt{4ac - b^2}}{2a}$.\n\nKey idea: $\\alpha$ sets growth or decay; $\\beta$ sets the oscillation frequency.",
+      "searchQuery": "complex roots characteristic equation e^(alpha t) cos sin solution"
+    },
+    {
+      "id": "euler-formula-real-solutions",
+      "title": "How does Euler's formula turn $e^{(\\alpha + i\\beta)t}$ into real solutions?",
+      "body": "$e^{(\\alpha+i\\beta)t} = e^{\\alpha t}(\\cos\\beta t + i\\sin\\beta t)$.\n\nThe real part $e^{\\alpha t}\\cos\\beta t$ and the imaginary part $e^{\\alpha t}\\sin\\beta t$ are each real solutions.\n\nWhy: the equation has real coefficients, so real and imaginary parts of a complex solution each solve it.",
+      "searchQuery": "Euler formula complex exponential real solutions ODE"
+    },
+    {
+      "id": "solve-y-plus-4y",
+      "title": "General solution of $y'' + 4y = 0$? (type with $c_1, c_2$)",
+      "body": "$y = c_1\\cos 2t + c_2\\sin 2t$\n\nThe roots of $r^2 + 4 = 0$ are $r = \\pm 2i$, so $\\alpha = 0$ and $\\beta = 2$.",
+      "answer": "c1 cos(2t) + c2 sin(2t)",
+      "acceptedAnswers": ["y = c1 cos(2t) + c2 sin(2t)", "c1 cos 2t + c2 sin 2t"],
+      "answerDisplay": "$y = c_1\\cos 2t + c_2\\sin 2t$",
+      "searchQuery": "solve y'' + 4y = 0 general solution cos 2t sin 2t"
+    },
+    {
+      "id": "roots-damped-5",
+      "title": "Characteristic roots of $y'' + 2y' + 5y = 0$? (list)",
+      "body": "$r = -1 \\pm 2i$\n\nQuadratic formula: $r = \\dfrac{-2 \\pm \\sqrt{4 - 20}}{2} = -1 \\pm 2i$.\n\nSo $y = e^{-t}(c_1\\cos 2t + c_2\\sin 2t)$, a decaying oscillation.",
+      "answer": "-1 + 2i, -1 - 2i",
+      "acceptedAnswers": ["-1 ± 2i", "-1 +- 2i", "-1+2i and -1-2i", "-1-2i, -1+2i"],
+      "answerDisplay": "$r = -1 \\pm 2i$",
+      "searchQuery": "characteristic roots y'' + 2y' + 5y = 0 complex"
+    },
+    {
+      "id": "discriminant-cases",
+      "title": "Match the sign of $b^2 - 4ac$ to the form of solutions of $ay'' + by' + cy = 0$.",
+      "body": "- $> 0$: two real roots, $c_1e^{r_1t} + c_2e^{r_2t}$.\n- $= 0$: double root, $(c_1 + c_2t)e^{rt}$.\n- $< 0$: complex roots, $e^{\\alpha t}(c_1\\cos\\beta t + c_2\\sin\\beta t)$.\n\nTip: these are the overdamped, critically damped and underdamped cases of an oscillator.",
+      "searchQuery": "discriminant cases second order constant coefficient ODE"
+    },
+    {
+      "id": "ivp-y-minus-4y",
+      "title": "Solve $y'' - 4y = 0$, $y(0) = 1$, $y'(0) = 0$. (type $y(t)$)",
+      "body": "$y = \\cosh 2t$\n\nRoots $\\pm 2$ give $y = c_1e^{2t} + c_2e^{-2t}$. Then $c_1 + c_2 = 1$ and $2c_1 - 2c_2 = 0$, so $c_1 = c_2 = \\tfrac12$.\n\nThus $y = \\tfrac12(e^{2t} + e^{-2t}) = \\cosh 2t$.",
+      "answer": "cosh(2t)",
+      "acceptedAnswers": ["(e^(2t) + e^(-2t))/2", "y = cosh(2t)", "1/2 e^(2t) + 1/2 e^(-2t)"],
+      "answerDisplay": "$y = \\cosh 2t$",
+      "searchQuery": "solve y'' - 4y = 0 initial conditions cosh 2t"
+    },
+    {
+      "id": "nonhomogeneous-structure",
+      "title": "Structure of the general solution of $y'' + py' + qy = g(t)$?",
+      "body": "$y = y_h + y_p$\n\nHere $y_h = c_1y_1 + c_2y_2$ solves the homogeneous equation and $y_p$ is any one particular solution.\n\nWhy: the difference of two solutions of the nonhomogeneous equation solves the homogeneous one.\nWatch out: apply initial conditions to the **full** $y_h + y_p$, not to $y_h$ alone.",
+      "searchQuery": "general solution nonhomogeneous second order y_h + y_p"
+    },
+    {
+      "id": "undetermined-coefficients-idea",
+      "title": "Idea of the method of **undetermined coefficients**?",
+      "body": "Guess $y_p$ with the same type of terms as $g(t)$ (and their derivatives), with unknown coefficients, then substitute and match.\n\n- Polynomial of degree $n$: full polynomial of degree $n$.\n- $e^{at}$: $Ae^{at}$.\n- $\\cos\\beta t$ or $\\sin\\beta t$: $A\\cos\\beta t + B\\sin\\beta t$.\n\nWatch out: include both sine and cosine, even if $g$ has only one.",
+      "searchQuery": "method of undetermined coefficients guess table"
+    },
+    {
+      "id": "modification-rule",
+      "title": "**Modification rule** for undetermined coefficients?",
+      "body": "If any term of the guess solves the homogeneous equation, multiply the guess by $t$ (by $t^2$ if it duplicates a double-root solution).\n\nExample: for $y'' - y = e^{t}$, $e^t$ is a homogeneous solution, so guess $Ate^{t}$, not $Ae^{t}$.\n\nWhy: otherwise the left side produces $0$ and the coefficients cannot be matched.",
+      "searchQuery": "undetermined coefficients modification rule multiply by t resonance"
+    },
+    {
+      "id": "uc-exponential",
+      "title": "Particular solution of $y'' - 3y' + 2y = e^{3t}$? (type $y_p$)",
+      "body": "$y_p = \\tfrac12 e^{3t}$\n\nGuess $Ae^{3t}$: $(9 - 9 + 2)Ae^{3t} = e^{3t}$, so $A = \\tfrac12$.\n\nThe roots of the characteristic equation are $1$ and $2$, not $3$, so no modification is needed.",
+      "answer": "(1/2)e^(3t)",
+      "acceptedAnswers": ["e^(3t)/2", "y = (1/2)e^(3t)", "0.5e^(3t)"],
+      "answerDisplay": "$y_p = \\tfrac12 e^{3t}$",
+      "searchQuery": "undetermined coefficients y'' - 3y' + 2y = e^(3t)"
+    },
+    {
+      "id": "uc-constant-forcing",
+      "title": "Particular solution of $y'' + 4y = 8$? (number)",
+      "body": "2\n\nGuess a constant $A$: $y'' = 0$, so $4A = 8$ and $A = 2$.",
+      "answer": "2",
+      "acceptedAnswers": ["y = 2", "y_p = 2"],
+      "answerDisplay": "$y_p = 2$",
+      "searchQuery": "undetermined coefficients constant forcing y'' + 4y = 8"
+    },
+    {
+      "id": "uc-polynomial",
+      "title": "Particular solution of $y'' - y = t$? (type $y_p$)",
+      "body": "$y_p = -t$\n\nGuess $At + B$: $y'' = 0$, so $-(At + B) = t$, giving $A = -1$, $B = 0$.",
+      "answer": "-t",
+      "acceptedAnswers": ["y = -t", "y_p = -t"],
+      "answerDisplay": "$y_p = -t$",
+      "searchQuery": "undetermined coefficients polynomial y'' - y = t"
+    },
+    {
+      "id": "uc-resonant-exponential",
+      "title": "Particular solution of $y'' - 3y' + 2y = e^{t}$? (type $y_p$)",
+      "body": "$y_p = -te^{t}$\n\nSince $r = 1$ is a root, guess $Ate^{t}$. Then $y' = A(t+1)e^t$ and $y'' = A(t+2)e^t$.\n\nSubstituting: $A\\left[(t+2) - 3(t+1) + 2t\\right]e^t = -Ae^t = e^t$, so $A = -1$.",
+      "answer": "-t e^t",
+      "acceptedAnswers": ["-t e^(t)", "y = -t e^t", "-t exp(t)"],
+      "answerDisplay": "$y_p = -te^{t}$",
+      "searchQuery": "undetermined coefficients resonance y'' - 3y' + 2y = e^t"
+    },
+    {
+      "id": "uc-cosine",
+      "title": "Particular solution of $y'' + y = \\cos 2t$? (type $y_p$)",
+      "body": "$y_p = -\\tfrac13\\cos 2t$\n\nGuess $A\\cos 2t$ (the $\\sin$ term comes out zero): $(-4 + 1)A\\cos 2t = \\cos 2t$, so $A = -\\tfrac13$.\n\nNo modification: the homogeneous solutions use frequency $1$, not $2$.",
+      "answer": "-cos(2t)/3",
+      "acceptedAnswers": ["-(1/3)cos(2t)", "-1/3 cos(2t)", "y = -cos(2t)/3"],
+      "answerDisplay": "$y_p = -\\tfrac13\\cos 2t$",
+      "searchQuery": "undetermined coefficients y'' + y = cos 2t"
+    },
+    {
+      "id": "uc-resonant-form",
+      "title": "Form of the guess for $y'' + y = \\sin t$? (type the guess with constants $A, B$)",
+      "body": "$y_p = t\\,(A\\cos t + B\\sin t)$\n\n$\\cos t$ and $\\sin t$ already solve $y'' + y = 0$, so the usual guess is multiplied by $t$.\n\nKey idea: this is resonance, and the response grows linearly in $t$.",
+      "answer": "t(A cos(t) + B sin(t))",
+      "acceptedAnswers": ["t(A cos t + B sin t)", "At cos(t) + Bt sin(t)", "A t cos t + B t sin t"],
+      "answerDisplay": "$y_p = t(A\\cos t + B\\sin t)$",
+      "searchQuery": "undetermined coefficients guess y'' + y = sin t resonance"
+    },
+    {
+      "id": "uc-sum-forcing",
+      "title": "How do you handle $g(t) = g_1(t) + g_2(t)$ with undetermined coefficients?",
+      "body": "Find a particular solution for each piece, then add them: $y_p = y_{p1} + y_{p2}$.\n\nWhy: the operator $y'' + py' + qy$ is linear.\n\nExample: for $y'' - y = t + e^{2t}$, guess $At + B + Ce^{2t}$ (separate pieces, separate checks for modification).",
+      "searchQuery": "undetermined coefficients sum of forcing terms superposition"
+    },
+    {
+      "id": "uc-limitations",
+      "title": "When does undetermined coefficients **not** work?",
+      "body": "When coefficients are not constant, or $g(t)$ is not a sum of products of polynomials, exponentials, sines and cosines.\n\nExample: $y'' + y = \\tan t$ or $\\dfrac{1}{t}$ forcing has no finite guess, so use variation of parameters.\n\nTip: UC is faster; VP is the fallback.",
+      "searchQuery": "undetermined coefficients limitations when not applicable"
+    },
+    {
+      "id": "uc-polynomial-with-first-derivative",
+      "title": "Particular solution of $y'' + y' - 2y = 2t$? (type $y_p$)",
+      "body": "$y_p = -t - \\tfrac12$\n\nGuess $At + B$: $y' = A$, $y'' = 0$, so $A - 2At - 2B = 2t$.\n\nThen $-2A = 2$ gives $A = -1$, and $A - 2B = 0$ gives $B = -\\tfrac12$.",
+      "answer": "-t - 1/2",
+      "acceptedAnswers": ["-t - 0.5", "-(t + 1/2)", "y = -t - 1/2"],
+      "answerDisplay": "$y_p = -t - \\tfrac12$",
+      "searchQuery": "undetermined coefficients y'' + y' - 2y = 2t"
+    },
+    {
+      "id": "vop-formula",
+      "title": "**Variation of parameters** formula for $y'' + py' + qy = g$ with independent solutions $y_1, y_2$?",
+      "body": "$y_p = -y_1\\displaystyle\\int \\frac{y_2\\,g}{W}\\,dt + y_2\\displaystyle\\int \\frac{y_1\\,g}{W}\\,dt$, where $W = W(y_1,y_2)$.\n\nThe equation must be in standard form with leading coefficient 1.\n\nMnemonic: the first integral has $y_2$ with a minus sign; the second has $y_1$ with a plus.",
+      "searchQuery": "variation of parameters formula y_p Wronskian"
+    },
+    {
+      "id": "vop-standard-form",
+      "title": "What must you check before applying the variation of parameters formula to $t\\,y'' + y' = t^2$?",
+      "body": "Divide by $t$ so the leading coefficient is 1: $y'' + \\dfrac{1}{t}y' = t$.\n\nThen $g = t$, not $t^2$.\n\nWatch out: using the unnormalized right side $t^2$ for $g$ is the most common error with this formula.",
+      "searchQuery": "variation of parameters standard form leading coefficient one"
+    },
+    {
+      "id": "vop-derivation",
+      "title": "Derivation idea of variation of parameters: the two conditions on $u_1', u_2'$ for $y_p = u_1y_1 + u_2y_2$?",
+      "body": "1. $u_1'y_1 + u_2'y_2 = 0$ (chosen to keep $y_p'$ simple).\n2. $u_1'y_1' + u_2'y_2' = g$.\n\nSolving this $2\\times 2$ system by Cramer's rule gives $u_1' = -\\dfrac{y_2 g}{W}$ and $u_2' = \\dfrac{y_1 g}{W}$.",
+      "searchQuery": "variation of parameters derivation u1' u2' system"
+    },
+    {
+      "id": "vop-tangent-example",
+      "title": "Particular solution of $y'' + y = \\tan t$ by variation of parameters (on $-\\tfrac{\\pi}{2} < t < \\tfrac{\\pi}{2}$)?",
+      "body": "$y_p = -\\cos t\\,\\ln\\left|\\sec t + \\tan t\\right|$\n\nWith $y_1 = \\cos t$, $y_2 = \\sin t$, $W = 1$: $u_1 = \\int -\\dfrac{\\sin^2 t}{\\cos t}\\,dt = \\sin t - \\ln|\\sec t + \\tan t|$ and $u_2 = \\int \\sin t\\,dt = -\\cos t$.\n\nThen $y_p = u_1\\cos t + u_2\\sin t$; the $\\sin t\\cos t$ terms cancel.",
+      "searchQuery": "variation of parameters y'' + y = tan t particular solution"
+    },
+    {
+      "id": "wronskian-cos-sin",
+      "title": "Wronskian of $\\cos t$ and $\\sin t$? (number)",
+      "body": "1\n\n$W = \\cos t\\cdot\\cos t - (-\\sin t)\\cdot\\sin t = \\cos^2 t + \\sin^2 t = 1$.",
+      "answer": "1",
+      "acceptedAnswers": ["one"],
+      "answerDisplay": "$1$",
+      "searchQuery": "Wronskian of cos t and sin t equals 1"
+    },
+    {
+      "id": "cauchy-euler-form",
+      "title": "For the **Cauchy-Euler** equation $t^2y'' + \\alpha t y' + \\beta y = 0$, what trial solution and equation result?",
+      "body": "Try $y = t^r$ (for $t > 0$): $r(r-1) + \\alpha r + \\beta = 0$.\n\nWhy: each term $t^k y^{(k)}$ gives $t^r$, so the powers of $t$ cancel.\n\nWatch out: for a repeated root use $t^r\\ln t$ as the second solution, not $t\\cdot t^r$.",
+      "searchQuery": "Cauchy-Euler equation trial solution t^r indicial"
+    },
+    {
+      "id": "cauchy-euler-roots",
+      "title": "Exponents $r$ for $t^2y'' - 2y = 0$? (list)",
+      "body": "$r = 2,\\; -1$\n\n$r(r-1) - 2 = r^2 - r - 2 = (r-2)(r+1)$.\n\nSo $y = c_1t^2 + c_2t^{-1}$ for $t > 0$.",
+      "answer": "2, -1",
+      "acceptedAnswers": ["-1, 2", "2 and -1", "-1 and 2"],
+      "answerDisplay": "$r = 2,\\; -1$",
+      "searchQuery": "Cauchy-Euler t^2 y'' - 2y = 0 exponents"
+    },
+    {
+      "id": "spring-mass-model",
+      "title": "ODE for a spring-mass-damper (mass $m$, damping $\\gamma$, spring constant $k$, force $F(t)$)?",
+      "body": "$m\\,u'' + \\gamma\\,u' + k\\,u = F(t)$\n\nHere $u(t)$ is displacement from equilibrium. It comes from Newton's second law with spring force $-ku$ and damping force $-\\gamma u'$.\n\nExample: undamped and free means $\\gamma = 0$ and $F = 0$.",
+      "searchQuery": "spring mass damper differential equation m u'' + gamma u' + k u"
+    },
+    {
+      "id": "natural-frequency",
+      "title": "Natural frequency $\\omega_0$ of the undamped oscillator $mu'' + ku = 0$? (in terms of $m, k$)",
+      "body": "$\\omega_0 = \\sqrt{\\dfrac{k}{m}}$\n\nThe solutions are $u = c_1\\cos\\omega_0 t + c_2\\sin\\omega_0 t$, with period $T = \\dfrac{2\\pi}{\\omega_0}$.\n\nWatch out: stiffer spring means faster oscillation; heavier mass means slower.",
+      "answer": "sqrt(k/m)",
+      "acceptedAnswers": ["(k/m)^(1/2)", "sqrt(k)/sqrt(m)"],
+      "answerDisplay": "$\\omega_0 = \\sqrt{k/m}$",
+      "searchQuery": "natural frequency spring mass sqrt(k/m)"
+    },
+    {
+      "id": "frequency-from-ode",
+      "title": "Angular frequency (rad/s) of solutions of $u'' + 9u = 0$? (number)",
+      "body": "3\n\nThe roots of $r^2 + 9 = 0$ are $\\pm 3i$, so $u = c_1\\cos 3t + c_2\\sin 3t$.\n\nThe period is $\\dfrac{2\\pi}{3}$ seconds.",
+      "answer": "3",
+      "acceptedAnswers": ["three"],
+      "answerDisplay": "$3$",
+      "searchQuery": "angular frequency u'' + 9u = 0 harmonic oscillator"
+    },
+    {
+      "id": "amplitude-phase-form",
+      "title": "Amplitude-phase form of $u = c_1\\cos\\omega_0 t + c_2\\sin\\omega_0 t$?",
+      "body": "$u = A\\cos(\\omega_0 t - \\delta)$ with $A = \\sqrt{c_1^2 + c_2^2}$.\n\nThe phase satisfies $c_1 = A\\cos\\delta$ and $c_2 = A\\sin\\delta$.\n\nWatch out: pick the quadrant of $\\delta$ from the signs of $c_1$ and $c_2$, not from $\\arctan(c_2/c_1)$ alone.",
+      "searchQuery": "amplitude phase form harmonic oscillator A cos(wt - delta)"
+    },
+    {
+      "id": "damping-cases",
+      "title": "Classify damping of $mu'' + \\gamma u' + ku = 0$ by the sign of $\\gamma^2 - 4mk$.",
+      "body": "- $\\gamma^2 > 4mk$: **overdamped** (two negative real roots, no oscillation).\n- $\\gamma^2 = 4mk$: **critically damped** (double root).\n- $\\gamma^2 < 4mk$: **underdamped** (complex roots, decaying oscillation).\n\nKey idea: all cases decay to $0$ when $\\gamma > 0$.",
+      "searchQuery": "overdamped underdamped critically damped oscillator discriminant"
+    },
+    {
+      "id": "critical-damping-value",
+      "title": "Critical damping coefficient $\\gamma_c$ for $mu'' + \\gamma u' + ku = 0$? (in terms of $m, k$)",
+      "body": "$\\gamma_c = 2\\sqrt{mk}$\n\nSet the discriminant $\\gamma^2 - 4mk = 0$.\n\nCritical damping returns to equilibrium fastest without oscillating.",
+      "answer": "2sqrt(mk)",
+      "acceptedAnswers": ["sqrt(4mk)"],
+      "answerDisplay": "$\\gamma_c = 2\\sqrt{mk}$",
+      "searchQuery": "critical damping coefficient 2 sqrt(mk)"
+    },
+    {
+      "id": "classify-critical",
+      "title": "Classify $u'' + 6u' + 9u = 0$ (over-, under- or critically damped).",
+      "body": "critically damped\n\nThe discriminant is $6^2 - 4(1)(9) = 0$, giving a double root $r = -3$.\n\nSolution: $u = (c_1 + c_2t)e^{-3t}$.",
+      "answer": "critically damped",
+      "acceptedAnswers": ["critical", "critical damping", "critically-damped"],
+      "searchQuery": "classify damping u'' + 6u' + 9u = 0 critically damped"
+    },
+    {
+      "id": "classify-underdamped",
+      "title": "Classify $u'' + u' + u = 0$ (over-, under- or critically damped).",
+      "body": "underdamped\n\nThe discriminant is $1 - 4 = -3 < 0$, so the roots are $-\\tfrac12 \\pm \\tfrac{\\sqrt3}{2}i$.\n\nThe solution oscillates inside the envelope $e^{-t/2}$.",
+      "answer": "underdamped",
+      "acceptedAnswers": ["underdamping", "under-damped"],
+      "searchQuery": "classify damping u'' + u' + u = 0 underdamped"
+    },
+    {
+      "id": "quasi-frequency",
+      "title": "Quasi-frequency of the underdamped oscillator $mu'' + \\gamma u' + ku = 0$?",
+      "body": "$\\mu = \\dfrac{\\sqrt{4mk - \\gamma^2}}{2m}$\n\nThe roots are $-\\dfrac{\\gamma}{2m} \\pm i\\mu$, so $u = e^{-\\gamma t/2m}(c_1\\cos\\mu t + c_2\\sin\\mu t)$.\n\nKey idea: damping lowers the frequency below $\\omega_0 = \\sqrt{k/m}$.",
+      "searchQuery": "quasi-frequency underdamped oscillator formula"
+    },
+    {
+      "id": "resonance-undamped",
+      "title": "What happens to $mu'' + ku = F_0\\cos\\omega t$ when $\\omega = \\omega_0 = \\sqrt{k/m}$?",
+      "body": "**Resonance:** a particular solution is $u_p = \\dfrac{F_0}{2m\\omega_0}\\,t\\sin\\omega_0 t$, whose amplitude grows linearly without bound.\n\nWhy: the forcing matches a homogeneous solution, so the modification rule forces the factor $t$.\nWatch out: real systems have some damping, which keeps the amplitude finite.",
+      "searchQuery": "resonance undamped forced oscillator t sin growing amplitude"
+    },
+    {
+      "id": "beats",
+      "title": "What are **beats** in $u'' + \\omega_0^2 u = \\cos\\omega t$ with $\\omega \\approx \\omega_0$?",
+      "body": "A fast oscillation whose amplitude varies slowly: for $u(0)=u'(0)=0$,\n\n$u = \\dfrac{2}{\\omega_0^2 - \\omega^2}\\,\\sin\\dfrac{(\\omega_0 - \\omega)t}{2}\\,\\sin\\dfrac{(\\omega_0 + \\omega)t}{2}$.\n\nThe slow factor $\\sin\\frac{(\\omega_0 - \\omega)t}{2}$ is the envelope; its amplitude grows as $\\omega \\to \\omega_0$.",
+      "searchQuery": "beats forced oscillator close frequencies envelope"
+    },
+    {
+      "id": "transient-steady-state",
+      "title": "In a damped forced oscillator, what are the **transient** and **steady-state** parts?",
+      "body": "The transient is $y_h$, which decays to $0$ because of damping. The steady-state is $y_p$, which persists at the forcing frequency $\\omega$.\n\nExample: for $u'' + u' + u = \\cos 2t$, after a long time $u$ is just a sinusoid at frequency $2$.\n\nKey idea: initial conditions affect only the transient.",
+      "searchQuery": "transient steady-state solution forced damped oscillator"
+    },
+    {
+      "id": "laplace-definition",
+      "title": "Definition of the **Laplace transform** $F(s) = \\mathcal{L}\\{f(t)\\}$?",
+      "body": "$F(s) = \\displaystyle\\int_0^\\infty e^{-st} f(t)\\,dt$\n\nIt turns a function of $t$ into a function of $s$, and derivatives into multiplication by $s$.\n\nKey idea: constant-coefficient linear ODEs become algebraic equations in $s$.",
+      "searchQuery": "Laplace transform definition integral e^(-st)"
+    },
+    {
+      "id": "laplace-existence",
+      "title": "Sufficient conditions for $\\mathcal{L}\\{f\\}(s)$ to exist for large $s$?",
+      "body": "$f$ is piecewise continuous on $[0,\\infty)$ and of **exponential order**: $|f(t)| \\le Me^{ct}$ for large $t$.\n\nThen $F(s)$ exists for $s > c$.\n\nExample: $e^{t^2}$ grows faster than any $e^{ct}$, so it has no Laplace transform.",
+      "searchQuery": "Laplace transform existence exponential order piecewise continuous"
+    },
+    {
+      "id": "laplace-linearity",
+      "title": "Linearity of the Laplace transform?",
+      "body": "$\\mathcal{L}\\{af + bg\\} = a\\,\\mathcal{L}\\{f\\} + b\\,\\mathcal{L}\\{g\\}$\n\nThe same holds for the inverse transform.\n\nExample: $\\mathcal{L}\\{3 + 2e^{t}\\} = \\dfrac{3}{s} + \\dfrac{2}{s-1}$.",
+      "searchQuery": "Laplace transform linearity property"
+    },
+    {
+      "id": "laplace-of-1",
+      "title": "$\\mathcal{L}\\{1\\} = ?$ (in $s$, for $s>0$)",
+      "body": "$\\dfrac{1}{s}$\n\n$\\displaystyle\\int_0^\\infty e^{-st}\\,dt = \\left[-\\dfrac{e^{-st}}{s}\\right]_0^\\infty = \\dfrac{1}{s}$.",
+      "answer": "1/s",
+      "acceptedAnswers": ["s^(-1)"],
+      "answerDisplay": "$\\dfrac{1}{s}$",
+      "searchQuery": "Laplace transform of 1 equals 1/s"
+    },
+    {
+      "id": "laplace-exponential",
+      "title": "$\\mathcal{L}\\{e^{at}\\} = ?$ (in $s$, for $s>a$)",
+      "body": "$\\dfrac{1}{s-a}$\n\n$\\displaystyle\\int_0^\\infty e^{-(s-a)t}\\,dt = \\dfrac{1}{s-a}$ when $s > a$.\n\nWatch out: the sign is $s - a$, so $e^{-2t}$ gives $\\dfrac{1}{s+2}$.",
+      "answer": "1/(s-a)",
+      "acceptedAnswers": ["(s-a)^(-1)"],
+      "answerDisplay": "$\\dfrac{1}{s-a}$",
+      "searchQuery": "Laplace transform of e^(at) 1/(s-a)"
+    },
+    {
+      "id": "laplace-power",
+      "title": "$\\mathcal{L}\\{t^n\\}$ for integer $n \\ge 0$?",
+      "body": "$\\dfrac{n!}{s^{n+1}}$\n\nIt follows by repeated integration by parts, or from $\\mathcal{L}\\{t f\\} = -F'(s)$.\n\nExample: $\\mathcal{L}\\{t\\} = \\dfrac{1}{s^2}$ and $\\mathcal{L}\\{t^3\\} = \\dfrac{6}{s^4}$.",
+      "searchQuery": "Laplace transform of t^n n!/s^(n+1)"
+    },
+    {
+      "id": "laplace-t-squared",
+      "title": "$\\mathcal{L}\\{t^2\\} = ?$ (in $s$)",
+      "body": "$\\dfrac{2}{s^3}$\n\nUse $n = 2$ in $\\dfrac{n!}{s^{n+1}}$: $\\dfrac{2!}{s^3}$.",
+      "answer": "2/s^3",
+      "acceptedAnswers": ["2s^(-3)"],
+      "answerDisplay": "$\\dfrac{2}{s^3}$",
+      "searchQuery": "Laplace transform of t^2 equals 2/s^3"
+    },
+    {
+      "id": "laplace-sine",
+      "title": "$\\mathcal{L}\\{\\sin bt\\} = ?$ (in $s$)",
+      "body": "$\\dfrac{b}{s^2 + b^2}$\n\nIt comes from $\\mathrm{Im}\\,\\mathcal{L}\\{e^{ibt}\\} = \\mathrm{Im}\\,\\dfrac{1}{s - ib}$.\n\nMnemonic: sine has the constant $b$ on top; cosine has $s$ on top.",
+      "answer": "b/(s^2+b^2)",
+      "acceptedAnswers": ["b/(b^2+s^2)"],
+      "answerDisplay": "$\\dfrac{b}{s^2 + b^2}$",
+      "searchQuery": "Laplace transform of sin bt b/(s^2+b^2)"
+    },
+    {
+      "id": "laplace-cosine",
+      "title": "$\\mathcal{L}\\{\\cos bt\\} = ?$ (in $s$)",
+      "body": "$\\dfrac{s}{s^2 + b^2}$\n\nIt is the real part of $\\dfrac{1}{s - ib} = \\dfrac{s + ib}{s^2 + b^2}$.\n\nExample: $\\mathcal{L}\\{\\cos 3t\\} = \\dfrac{s}{s^2 + 9}$.",
+      "answer": "s/(s^2+b^2)",
+      "acceptedAnswers": ["s/(b^2+s^2)"],
+      "answerDisplay": "$\\dfrac{s}{s^2 + b^2}$",
+      "searchQuery": "Laplace transform of cos bt s/(s^2+b^2)"
+    },
+    {
+      "id": "laplace-hyperbolic",
+      "title": "$\\mathcal{L}\\{\\cosh bt\\}$ and $\\mathcal{L}\\{\\sinh bt\\}$?",
+      "body": "$\\mathcal{L}\\{\\cosh bt\\} = \\dfrac{s}{s^2 - b^2}$ and $\\mathcal{L}\\{\\sinh bt\\} = \\dfrac{b}{s^2 - b^2}$, for $s > |b|$.\n\nWhy: $\\cosh bt = \\tfrac12(e^{bt} + e^{-bt})$, then use linearity.\nWatch out: the minus sign in the denominator replaces the plus in the trigonometric case.",
+      "searchQuery": "Laplace transform cosh sinh table"
+    },
+    {
+      "id": "laplace-first-derivative",
+      "title": "$\\mathcal{L}\\{f'(t)\\}$ in terms of $F(s)$?",
+      "body": "$sF(s) - f(0)$\n\nIntegrate by parts: $\\int_0^\\infty e^{-st}f'\\,dt = \\left[e^{-st}f\\right]_0^\\infty + s\\int_0^\\infty e^{-st}f\\,dt$.\n\nKey idea: the initial value enters automatically, which is why Laplace handles IVPs directly.",
+      "searchQuery": "Laplace transform of derivative sF(s) - f(0)"
+    },
+    {
+      "id": "laplace-second-derivative",
+      "title": "$\\mathcal{L}\\{f''(t)\\}$ in terms of $F(s)$?",
+      "body": "$s^2F(s) - s\\,f(0) - f'(0)$\n\nApply the derivative rule twice.\n\nWatch out: the second term is $s\\,f(0)$, not $f(0)$ alone, and the signs are both minus.",
+      "searchQuery": "Laplace transform second derivative s^2 F(s) - s f(0) - f'(0)"
+    },
+    {
+      "id": "laplace-first-shift",
+      "title": "**First shifting theorem:** $\\mathcal{L}\\{e^{at}f(t)\\} = ?$",
+      "body": "$F(s - a)$\n\nMultiplying by $e^{at}$ shifts the transform in $s$.\n\nExample: since $\\mathcal{L}\\{\\sin t\\} = \\dfrac{1}{s^2+1}$, $\\mathcal{L}\\{e^{2t}\\sin t\\} = \\dfrac{1}{(s-2)^2 + 1}$.",
+      "searchQuery": "Laplace first shifting theorem e^(at) f(t) F(s-a)"
+    },
+    {
+      "id": "laplace-shifted-cosine",
+      "title": "$\\mathcal{L}\\{e^{2t}\\cos 3t\\} = ?$ (in $s$)",
+      "body": "$\\dfrac{s-2}{(s-2)^2 + 9}$\n\nShift $s \\to s - 2$ in $\\dfrac{s}{s^2 + 9}$.",
+      "answer": "(s-2)/((s-2)^2+9)",
+      "acceptedAnswers": ["(s-2)/(s^2-4s+13)"],
+      "answerDisplay": "$\\dfrac{s-2}{(s-2)^2 + 9}$",
+      "searchQuery": "Laplace transform e^(2t) cos 3t shifting theorem"
+    },
+    {
+      "id": "laplace-t-exponential",
+      "title": "$\\mathcal{L}\\{t\\,e^{3t}\\} = ?$ (in $s$)",
+      "body": "$\\dfrac{1}{(s-3)^2}$\n\nShift $s \\to s - 3$ in $\\mathcal{L}\\{t\\} = \\dfrac{1}{s^2}$.\n\nIn general $\\mathcal{L}\\{t^ne^{at}\\} = \\dfrac{n!}{(s-a)^{n+1}}$.",
+      "answer": "1/(s-3)^2",
+      "acceptedAnswers": ["(s-3)^(-2)"],
+      "answerDisplay": "$\\dfrac{1}{(s-3)^2}$",
+      "searchQuery": "Laplace transform t e^(3t) 1/(s-3)^2"
+    },
+    {
+      "id": "laplace-unit-step",
+      "title": "$\\mathcal{L}\\{u_c(t)\\} = ?$ where $u_c(t)=1$ for $t \\ge c$ and $0$ otherwise ($c>0$).",
+      "body": "$\\dfrac{e^{-cs}}{s}$\n\n$\\displaystyle\\int_c^\\infty e^{-st}\\,dt = \\dfrac{e^{-cs}}{s}$.\n\nKey idea: step functions switch pieces on or off, so piecewise forcing becomes a sum of steps.",
+      "answer": "e^(-cs)/s",
+      "acceptedAnswers": ["(1/s)e^(-cs)"],
+      "answerDisplay": "$\\dfrac{e^{-cs}}{s}$",
+      "searchQuery": "Laplace transform unit step function e^(-cs)/s"
+    },
+    {
+      "id": "laplace-second-shift",
+      "title": "**Second shifting theorem:** $\\mathcal{L}\\{u_c(t)\\,f(t-c)\\} = ?$",
+      "body": "$e^{-cs}F(s)$\n\nThe function is delayed by $c$ and the transform is multiplied by $e^{-cs}$.\n\nWatch out: the shifted function must be $f(t-c)$. To transform $u_c(t)\\,t^2$, first rewrite $t^2 = (t-c)^2 + 2c(t-c) + c^2$.",
+      "searchQuery": "Laplace second shifting theorem unit step e^(-cs) F(s)"
+    },
+    {
+      "id": "laplace-delta",
+      "title": "$\\mathcal{L}\\{\\delta(t - c)\\}$ for the Dirac delta, $c > 0$?",
+      "body": "$e^{-cs}$\n\nThe delta picks out the value of $e^{-st}$ at $t = c$.\n\nExample: a hammer blow at $t = c$ gives forcing $F_0\\,\\delta(t-c)$, which changes the velocity by $F_0/m$ at that instant.",
+      "searchQuery": "Laplace transform Dirac delta function e^(-cs)"
+    },
+    {
+      "id": "laplace-multiply-t",
+      "title": "$\\mathcal{L}\\{t\\,f(t)\\}$ in terms of $F(s)$?",
+      "body": "$-F'(s)$\n\nDifferentiating $F(s) = \\int_0^\\infty e^{-st}f\\,dt$ in $s$ brings down a factor $-t$.\n\nExample: $\\mathcal{L}\\{t\\sin t\\} = -\\dfrac{d}{ds}\\dfrac{1}{s^2+1} = \\dfrac{2s}{(s^2+1)^2}$.",
+      "searchQuery": "Laplace transform t f(t) = -F'(s) example t sin t"
+    },
+    {
+      "id": "laplace-convolution",
+      "title": "**Convolution theorem** for Laplace transforms?",
+      "body": "$\\mathcal{L}\\{f * g\\} = F(s)\\,G(s)$, where $(f*g)(t) = \\displaystyle\\int_0^t f(\\tau)\\,g(t - \\tau)\\,d\\tau$.\n\nSo $\\mathcal{L}^{-1}\\{FG\\} = f * g$.\n\nWatch out: $\\mathcal{L}\\{fg\\} \\ne F\\,G$; the transform of an ordinary product is not the product of transforms.",
+      "searchQuery": "Laplace convolution theorem F(s)G(s)"
+    },
+    {
+      "id": "inverse-laplace-sine",
+      "title": "$\\mathcal{L}^{-1}\\left\\{\\dfrac{1}{s^2 + 4}\\right\\} = ?$ (in $t$)",
+      "body": "$\\tfrac12\\sin 2t$\n\nThe sine transform is $\\dfrac{b}{s^2 + b^2}$ with $b = 2$, so a factor $\\tfrac12$ is needed in the numerator.\n\nWatch out: forgetting the $\\tfrac1b$ factor is a common slip.",
+      "answer": "(1/2)sin(2t)",
+      "acceptedAnswers": ["sin(2t)/2", "0.5 sin(2t)", "1/2 sin(2t)"],
+      "answerDisplay": "$\\tfrac12\\sin 2t$",
+      "searchQuery": "inverse Laplace transform 1/(s^2+4) sin 2t over 2"
+    },
+    {
+      "id": "inverse-laplace-partial-fractions",
+      "title": "$\\mathcal{L}^{-1}\\left\\{\\dfrac{1}{s(s+1)}\\right\\} = ?$ (in $t$)",
+      "body": "$1 - e^{-t}$\n\nPartial fractions: $\\dfrac{1}{s(s+1)} = \\dfrac{1}{s} - \\dfrac{1}{s+1}$.\n\nThen invert each term: $1 - e^{-t}$.",
+      "answer": "1 - e^(-t)",
+      "acceptedAnswers": ["1-exp(-t)"],
+      "answerDisplay": "$1 - e^{-t}$",
+      "searchQuery": "inverse Laplace partial fractions 1/(s(s+1))"
+    },
+    {
+      "id": "inverse-laplace-complete-square",
+      "title": "$\\mathcal{L}^{-1}\\left\\{\\dfrac{1}{(s-1)^2 + 4}\\right\\} = ?$ (in $t$)",
+      "body": "$\\tfrac12 e^{t}\\sin 2t$\n\nThe denominator is $s^2 + 4$ shifted by $a = 1$, and $\\dfrac{1}{s^2+4}$ inverts to $\\tfrac12\\sin 2t$.\n\nBy the first shifting theorem multiply by $e^{t}$.",
+      "answer": "(1/2)e^t sin(2t)",
+      "acceptedAnswers": ["e^t sin(2t)/2", "(1/2)e^(t) sin(2t)", "0.5 e^t sin(2t)"],
+      "answerDisplay": "$\\tfrac12 e^{t}\\sin 2t$",
+      "searchQuery": "inverse Laplace completing the square shifted sine"
+    },
+    {
+      "id": "laplace-ivp-steps",
+      "title": "Steps to solve a constant-coefficient IVP with the Laplace transform?",
+      "body": "1. Transform the ODE, using the derivative rules with the initial values.\n2. Solve the algebraic equation for $Y(s)$.\n3. Use partial fractions or completing the square.\n4. Invert term by term to get $y(t)$.\n\nTip: initial conditions are built in at step 1, so no constants are fitted at the end.",
+      "searchQuery": "solve initial value problem with Laplace transform steps"
+    },
+    {
+      "id": "laplace-ivp-sine",
+      "title": "Solve $y'' + 4y = 0$, $y(0) = 0$, $y'(0) = 2$ with Laplace. (type $y(t)$)",
+      "body": "$y = \\sin 2t$\n\nTransform: $s^2Y - 0 - 2 + 4Y = 0$, so $Y = \\dfrac{2}{s^2 + 4}$.\n\nInvert: $y = \\sin 2t$ (here $\\mathcal{L}^{-1}\\{2/(s^2+4)\\} = \\sin 2t$).",
+      "answer": "sin(2t)",
+      "acceptedAnswers": ["y = sin(2t)"],
+      "answerDisplay": "$y = \\sin 2t$",
+      "searchQuery": "Laplace transform solve y'' + 4y = 0 initial conditions"
+    },
+    {
+      "id": "laplace-ivp-two-exponentials",
+      "title": "Solve $y'' + 3y' + 2y = 0$, $y(0) = 0$, $y'(0) = 1$ with Laplace. (type $y(t)$)",
+      "body": "$y = e^{-t} - e^{-2t}$\n\n$(s^2 + 3s + 2)Y = 1$, so $Y = \\dfrac{1}{(s+1)(s+2)} = \\dfrac{1}{s+1} - \\dfrac{1}{s+2}$.\n\nCheck: $y(0) = 0$ and $y'(0) = -1 + 2 = 1$.",
+      "answer": "e^(-t) - e^(-2t)",
+      "acceptedAnswers": ["y = e^(-t) - e^(-2t)", "exp(-t) - exp(-2t)"],
+      "answerDisplay": "$y = e^{-t} - e^{-2t}$",
+      "searchQuery": "Laplace solve y'' + 3y' + 2y = 0 partial fractions"
+    },
+    {
+      "id": "system-matrix-form",
+      "title": "Matrix form of a constant-coefficient linear system $x' = ax + by$, $y' = cx + dy$?",
+      "body": "$\\mathbf{x}' = A\\mathbf{x}$, with $\\mathbf{x} = \\begin{pmatrix} x \\\\ y \\end{pmatrix}$ and $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$.\n\nThe origin is always an equilibrium. It is the only one when $\\det A \\ne 0$.",
+      "searchQuery": "linear system of differential equations matrix form x' = Ax"
+    },
+    {
+      "id": "system-eigen-solution",
+      "title": "If $A\\mathbf{v} = \\lambda\\mathbf{v}$, what solution of $\\mathbf{x}' = A\\mathbf{x}$ results?",
+      "body": "$\\mathbf{x}(t) = e^{\\lambda t}\\,\\mathbf{v}$\n\nWhy: $\\mathbf{x}' = \\lambda e^{\\lambda t}\\mathbf{v}$ and $A\\mathbf{x} = e^{\\lambda t}A\\mathbf{v} = \\lambda e^{\\lambda t}\\mathbf{v}$.\n\nKey idea: with two independent eigenvectors, $\\mathbf{x} = c_1e^{\\lambda_1t}\\mathbf{v}_1 + c_2e^{\\lambda_2t}\\mathbf{v}_2$.",
+      "searchQuery": "eigenvalue eigenvector solution linear system e^(lambda t) v"
+    },
+    {
+      "id": "characteristic-polynomial-2x2",
+      "title": "Characteristic equation of a $2\\times 2$ matrix $A$ in terms of trace and determinant?",
+      "body": "$\\lambda^2 - \\operatorname{tr}(A)\\,\\lambda + \\det(A) = 0$\n\nThe eigenvalues sum to $\\operatorname{tr}A$ and multiply to $\\det A$.\n\nTip: this gives a fast check of eigenvalues you have computed.",
+      "searchQuery": "characteristic polynomial 2x2 matrix trace determinant eigenvalues"
+    },
+    {
+      "id": "eigenvalues-symmetric-matrix",
+      "title": "Eigenvalues of $A = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$? (list)",
+      "body": "$\\lambda = 3,\\; -1$\n\nTrace $2$ and determinant $1 - 4 = -3$, so $\\lambda^2 - 2\\lambda - 3 = (\\lambda - 3)(\\lambda + 1)$.\n\nEigenvectors: $(1,1)^T$ for $3$ and $(1,-1)^T$ for $-1$.",
+      "answer": "3, -1",
+      "acceptedAnswers": ["-1, 3", "3 and -1", "-1 and 3"],
+      "answerDisplay": "$\\lambda = 3,\\; -1$",
+      "searchQuery": "eigenvalues of matrix [[1,2],[2,1]]"
+    },
+    {
+      "id": "classify-saddle",
+      "title": "Classify the origin of $\\mathbf{x}' = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}\\mathbf{x}$ (node, saddle, spiral or center).",
+      "body": "saddle\n\nThe eigenvalues $3$ and $-1$ have opposite signs, so one direction grows and the other decays.\n\nA saddle is always **unstable**.",
+      "answer": "saddle",
+      "acceptedAnswers": ["saddle point", "unstable saddle"],
+      "searchQuery": "classify equilibrium saddle point opposite sign eigenvalues"
+    },
+    {
+      "id": "eigenvalues-stable-node",
+      "title": "Eigenvalues of $A = \\begin{pmatrix} 0 & 1 \\\\ -2 & -3 \\end{pmatrix}$? (list)",
+      "body": "$\\lambda = -1,\\; -2$\n\nTrace $-3$, determinant $2$: $\\lambda^2 + 3\\lambda + 2 = (\\lambda + 1)(\\lambda + 2)$.\n\nBoth are negative, so the origin is a **stable node** (this is $y'' + 3y' + 2y = 0$ as a system).",
+      "answer": "-1, -2",
+      "acceptedAnswers": ["-2, -1", "-1 and -2", "-2 and -1"],
+      "answerDisplay": "$\\lambda = -1,\\; -2$",
+      "searchQuery": "eigenvalues matrix [[0,1],[-2,-3]] stable node"
+    },
+    {
+      "id": "node-classification",
+      "title": "Real eigenvalues $\\lambda_1, \\lambda_2$ of the same sign: what is the origin and when is it stable?",
+      "body": "A **node**. It is stable (a sink) if both are negative and unstable (a source) if both are positive.\n\nTrajectories run along eigenvector directions and bend toward the slower-decaying one.\n\nWatch out: a zero eigenvalue is a degenerate case with a line of equilibria, not a node.",
+      "searchQuery": "node sink source real eigenvalues same sign phase portrait"
+    },
+    {
+      "id": "spiral-center-classification",
+      "title": "Complex eigenvalues $\\alpha \\pm i\\beta$ ($\\beta \\ne 0$): classify the origin by $\\alpha$.",
+      "body": "- $\\alpha < 0$: stable **spiral** (sink).\n- $\\alpha > 0$: unstable spiral (source).\n- $\\alpha = 0$: **center**, closed orbits that neither grow nor decay.\n\nExample: $x' = y$, $y' = -x$ has eigenvalues $\\pm i$, so orbits are circles.",
+      "searchQuery": "spiral center complex eigenvalues phase portrait classification"
+    },
+    {
+      "id": "classify-stable-spiral",
+      "title": "Eigenvalues $-1 \\pm 2i$: classify the origin (e.g. stable node, unstable spiral).",
+      "body": "stable spiral\n\nThe real part is negative, so solutions decay like $e^{-t}$.\n\nThe imaginary part $2$ makes them rotate around the origin as they approach it.",
+      "answer": "stable spiral",
+      "acceptedAnswers": ["spiral sink", "asymptotically stable spiral", "stable spiral point", "spiral"],
+      "searchQuery": "stable spiral complex eigenvalues negative real part"
+    },
+    {
+      "id": "trace-determinant-plane",
+      "title": "Classify the origin of $\\mathbf{x}' = A\\mathbf{x}$ from $T = \\operatorname{tr}A$ and $D = \\det A$.",
+      "body": "- $D < 0$: saddle.\n- $D > 0$, $T^2 > 4D$: node (stable if $T < 0$).\n- $D > 0$, $T^2 < 4D$: spiral (stable if $T < 0$).\n- $D > 0$, $T = 0$: center.\n\nKey idea: the origin is asymptotically stable exactly when $T < 0$ and $D > 0$.",
+      "searchQuery": "trace determinant plane classification phase portrait"
+    },
+    {
+      "id": "repeated-eigenvalue-system",
+      "title": "Repeated eigenvalue $\\lambda$ of a $2\\times2$ system: what shapes can the phase portrait take?",
+      "body": "If $A$ has two independent eigenvectors, then $A = \\lambda I$ and the portrait is a **star** (proper node): straight lines through the origin.\n\nIf it has only one, the origin is an **improper (degenerate) node** and $\\mathbf{x} = e^{\\lambda t}\\left[(c_1 + c_2t)\\mathbf{v} + c_2\\mathbf{w}\\right]$, with $(A - \\lambda I)\\mathbf{w} = \\mathbf{v}$.",
+      "searchQuery": "repeated eigenvalue linear system degenerate node generalized eigenvector"
+    },
+    {
+      "id": "stability-eigenvalues-criterion",
+      "title": "Stability criterion for the origin of $\\mathbf{x}' = A\\mathbf{x}$ in terms of eigenvalues?",
+      "body": "**Asymptotically stable** exactly when every eigenvalue has negative real part.\n\nIf any eigenvalue has positive real part, the origin is unstable.\n\nWatch out: purely imaginary eigenvalues give a center, which is stable but not asymptotically stable.",
+      "searchQuery": "asymptotic stability linear system negative real part eigenvalues"
+    },
+    {
+      "id": "second-order-to-system",
+      "title": "How do you rewrite $y'' + py' + qy = 0$ as a first-order system?",
+      "body": "Let $x_1 = y$ and $x_2 = y'$. Then $x_1' = x_2$ and $x_2' = -q\\,x_1 - p\\,x_2$.\n\nIn matrix form, $A = \\begin{pmatrix} 0 & 1 \\\\ -q & -p \\end{pmatrix}$, and its characteristic equation is $\\lambda^2 + p\\lambda + q = 0$.\n\nKey idea: it is the same characteristic equation as before.",
+      "searchQuery": "convert second order ODE to first order system"
+    },
+    {
+      "id": "complex-eigenvalue-real-solutions",
+      "title": "How do you get real solutions of $\\mathbf{x}' = A\\mathbf{x}$ from a complex eigenpair $\\lambda = \\alpha + i\\beta$, $\\mathbf{v}$?",
+      "body": "Expand $e^{\\lambda t}\\mathbf{v}$ and take its real and imaginary parts as two independent real solutions.\n\nExample: with $\\mathbf{v} = \\mathbf{a} + i\\mathbf{b}$, the solutions are $e^{\\alpha t}(\\mathbf{a}\\cos\\beta t - \\mathbf{b}\\sin\\beta t)$ and $e^{\\alpha t}(\\mathbf{a}\\sin\\beta t + \\mathbf{b}\\cos\\beta t)$.\n\nTip: you do not need the conjugate eigenpair; it gives nothing new.",
+      "searchQuery": "complex eigenvalues real solutions linear system real imaginary parts"
+    },
+    {
+      "id": "jacobian-linearization",
+      "title": "How do you analyze an equilibrium of a nonlinear system $\\mathbf{x}' = \\mathbf{f}(\\mathbf{x})$?",
+      "body": "Linearize with the Jacobian $J$ at the equilibrium and classify the eigenvalues of $J$.\n\nIf no eigenvalue has zero real part (hyperbolic case), the nonlinear portrait looks like the linear one near the point.\n\nWatch out: for a center in the linearization, the nonlinear system may spiral instead.",
+      "searchQuery": "linearization Jacobian equilibrium nonlinear system stability"
+    },
+    {
+      "id": "power-series-method",
+      "title": "Steps of the **power series method** for $y'' + p(x)y' + q(x)y = 0$ near $x_0 = 0$?",
+      "body": "1. Set $y = \\sum_{n=0}^\\infty a_nx^n$ and differentiate term by term.\n2. Substitute and shift indices so every sum has $x^n$.\n3. Set each coefficient of $x^n$ to $0$ to get a **recurrence** for $a_n$.\n4. Express all $a_n$ in terms of $a_0$ and $a_1$.\n\nTip: collect all terms under a single $\\sum$ before comparing coefficients.",
+      "searchQuery": "power series solution method differential equation recurrence relation"
+    },
+    {
+      "id": "ordinary-point-radius",
+      "title": "Radius of convergence guarantee for series solutions at an ordinary point $x_0$?",
+      "body": "If $p$ and $q$ are analytic at $x_0$, two independent power series solutions exist, converging at least up to the nearest singularity of $p$ or $q$ in the **complex plane**.\n\nWatch out: complex singularities count. $\\dfrac{1}{1+x^2}$ is smooth on the real line yet limits the radius to $1$ at $x_0=0$.",
+      "searchQuery": "ordinary point series solution radius of convergence nearest singularity"
+    },
+    {
+      "id": "series-y-plus-y",
+      "title": "Recurrence for series solutions of $y'' + y = 0$ about $x = 0$?",
+      "body": "$a_{n+2} = -\\dfrac{a_n}{(n+2)(n+1)}$\n\nThe $x^n$ coefficient of $y''$ is $(n+2)(n+1)a_{n+2}$, and that of $y$ is $a_n$.\n\nThe even terms sum to $a_0\\cos x$ and the odd terms to $a_1\\sin x$.",
+      "searchQuery": "power series y'' + y = 0 recurrence cos sin"
+    },
+    {
+      "id": "series-coefficient-exponential",
+      "title": "For $y' - y = 0$ with $y(0) = 1$, find the series coefficient $a_3$. (number)",
+      "body": "$\\dfrac{1}{6}$\n\nThe recurrence is $(n+1)a_{n+1} = a_n$, so $a_n = \\dfrac{a_0}{n!}$ and $a_3 = \\dfrac{1}{3!}$.\n\nThus $y = \\sum \\dfrac{x^n}{n!} = e^x$.",
+      "answer": "1/6",
+      "acceptedAnswers": ["0.1667", "0.16667"],
+      "answerDisplay": "$\\dfrac{1}{6}$",
+      "searchQuery": "power series y' = y recurrence a_n = a_0/n!"
+    },
+    {
+      "id": "series-airy",
+      "title": "Recurrence for the **Airy equation** $y'' - xy = 0$ about $x=0$ (for $n \\ge 1$), and what is $a_2$?",
+      "body": "$(n+2)(n+1)a_{n+2} = a_{n-1}$, and $a_2 = 0$.\n\nThe $x^0$ coefficient gives $2a_2 = 0$; the shifted sum $\\sum a_nx^{n+1}$ starts at $x^1$.\n\nKey idea: the coefficients step by 3, so $a_0$ generates one series and $a_1$ another.",
+      "searchQuery": "Airy equation power series recurrence a_(n+2)"
+    },
+    {
+      "id": "series-radius-example",
+      "title": "Guaranteed minimum radius of convergence of series solutions about $x=0$ for $(1 + x^2)y'' + y = 0$? (number)",
+      "body": "1\n\nIn standard form $y'' + \\dfrac{1}{1+x^2}y = 0$, and the coefficient is singular at $x = \\pm i$.\n\nThe distance from $0$ to $\\pm i$ is $1$.",
+      "answer": "1",
+      "acceptedAnswers": ["one", "R = 1"],
+      "answerDisplay": "$1$",
+      "searchQuery": "radius of convergence series solution (1+x^2)y'' + y = 0"
+    },
+    {
+      "id": "regular-singular-frobenius",
+      "title": "What is a **regular singular point** $x_0$, and what series do we try there?",
+      "body": "A singular point where $(x - x_0)\\,p(x)$ and $(x - x_0)^2\\,q(x)$ are analytic.\n\nFrobenius series: $y = x^r\\sum_{n=0}^\\infty a_nx^n$ with $a_0 \\ne 0$, where $r$ may be non-integer or negative.\n\nExample: $x = 0$ is regular singular for $x^2y'' + xy' + (x^2-\\nu^2)y = 0$ (Bessel).",
+      "searchQuery": "regular singular point Frobenius method series x^r"
+    },
+    {
+      "id": "indicial-root-example",
+      "title": "Indicial root of $x^2y'' + 3xy' + y = 0$ at $x = 0$? (number)",
+      "body": "$r = -1$ (double)\n\nTry $y = x^r$: $r(r-1) + 3r + 1 = r^2 + 2r + 1 = (r+1)^2 = 0$.\n\nWatch out: with a double root the second solution involves $\\ln x$: $y = x^{-1}(c_1 + c_2\\ln x)$.",
+      "answer": "-1",
+      "acceptedAnswers": ["r = -1"],
+      "answerDisplay": "$r = -1$",
+      "searchQuery": "indicial equation x^2 y'' + 3xy' + y = 0 double root"
+    }
+  ]
+}

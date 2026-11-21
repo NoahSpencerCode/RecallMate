@@ -1,0 +1,845 @@
+{
+  "id": "biochem-molecules-enzymes",
+  "title": "Proteins, Enzymes & Biomolecules",
+  "course": "Biochemistry",
+  "description": "Amino acids and their properties, peptide bonds, protein structure and folding, hemoglobin and myoglobin, enzyme kinetics and inhibition, carbohydrates, lipids, membranes and nucleic acids.",
+  "cards": [
+    {
+      "id": "aa-zwitterion",
+      "title": "What is the net form of a free amino acid with no ionizable side chain near its isoelectric point?",
+      "body": "A **zwitterion**: $\\ce{-NH3+}$ and $\\ce{-COO-}$ on the same molecule, net charge $0$.\n\nAt pH 7 the $\\alpha$-carboxyl (pKa about 2) is deprotonated and the $\\alpha$-amino group (pKa about 9 to 10) is protonated.\n\nWhy: amino acids are crystalline, high-melting solids that dissolve well in water, not like neutral amines or acids.\nWatch out: a zwitterion has both charges but a net charge of zero, so it is not the same as an uncharged molecule.",
+      "searchQuery": "amino acid zwitterion isoelectric point"
+    },
+    {
+      "id": "aa-achiral-glycine",
+      "title": "Which of the 20 standard amino acids is achiral?",
+      "body": "Glycine\n\nIts side chain is $\\ce{H}$, so the $\\alpha$-carbon has two identical hydrogens and no stereocenter.\n\nKey idea: every other standard amino acid is chiral, and those in proteins are the **L** form.",
+      "answer": "glycine",
+      "acceptedAnswers": [
+        "gly",
+        "G"
+      ],
+      "searchQuery": "glycine only achiral amino acid"
+    },
+    {
+      "id": "aa-cys-r-config",
+      "title": "Almost all L-amino acids are $S$. Which one is $R$ even though it is an L-amino acid?",
+      "body": "Cysteine\n\nIts $\\ce{-CH2SH}$ side chain outranks $\\ce{-COOH}$ in the Cahn-Ingold-Prelog priorities because sulfur has a higher atomic number than oxygen.\n\nWhy: the spatial arrangement matches the other L-amino acids; only the priority order changes the label.\nWatch out: L/D describes configuration relative to glyceraldehyde; $R/S$ is a separate system.",
+      "searchQuery": "cysteine R configuration L-amino acid CIP priority"
+    },
+    {
+      "id": "aa-alpha-group-pka",
+      "title": "Roughly what pKa values do the $\\alpha$-carboxyl and $\\alpha$-amino groups of a free amino acid have?",
+      "body": "About $2$ for $\\alpha\\text{-}\\ce{COOH}$ and about $9$ to $10$ for $\\alpha\\text{-}\\ce{NH3+}$.\n\nThe nearby positive ammonium lowers the carboxyl pKa compared with acetic acid (about 4.8).\n\nExample: at pH 7 both groups are ionized, giving the zwitterion.\nTip: at pH above the amino pKa the group loses its proton and the molecule becomes an anion.",
+      "searchQuery": "amino acid alpha carboxyl amino pKa values"
+    },
+    {
+      "id": "aa-pi-glycine-calc",
+      "title": "Glycine has pKa values of $2.3$ and $9.6$. What is its pI? (one decimal, number only)",
+      "body": "$6.0$\n\nFor an amino acid with no ionizable side chain, $\\mathrm{pI} = \\frac{pK_1 + pK_2}{2}$.\n\n$\\frac{2.3 + 9.6}{2} = 5.95 \\approx 6.0$\n\nWhy: pI is the pH of net zero charge, midway between the two pKa values that bracket the neutral zwitterion.",
+      "answer": "6.0",
+      "acceptedAnswers": [
+        "5.95",
+        "5.9"
+      ],
+      "searchQuery": "calculate isoelectric point glycine pKa"
+    },
+    {
+      "id": "aa-pi-aspartate-calc",
+      "title": "Aspartate has pKa values of $2.0$ ($\\alpha$-COOH), $3.9$ (side chain) and $9.9$ ($\\alpha$-NH$_3^+$). What is its pI? (two decimals, number only)",
+      "body": "$2.95$\n\nFor an acidic amino acid, average the two **lowest** pKa values, since the neutral form sits between them: $\\frac{2.0 + 3.9}{2} = 2.95$.\n\nWatch out: do not include $9.9$; that deprotonation happens long after the net charge has become negative.",
+      "answer": "2.95",
+      "acceptedAnswers": [
+        "2.9",
+        "3.0"
+      ],
+      "searchQuery": "isoelectric point aspartic acid calculation acidic amino acid"
+    },
+    {
+      "id": "aa-pi-lysine-calc",
+      "title": "Lysine has pKa values of $2.2$, $9.0$ and $10.5$ (side chain). What is its pI? (two decimals, number only)",
+      "body": "$9.75$\n\nFor a basic amino acid, average the two **highest** pKa values: $\\frac{9.0 + 10.5}{2} = 9.75$.\n\nTip: draw the charge ladder $+2, +1, 0, -1$ and place pI between the two pKa values that surround the $0$ species.",
+      "answer": "9.75",
+      "acceptedAnswers": [
+        "9.8",
+        "9.7"
+      ],
+      "searchQuery": "isoelectric point lysine basic amino acid calculation"
+    },
+    {
+      "id": "aa-histidine-buffer",
+      "title": "Why is histidine so often found in enzyme active sites as an acid-base catalyst?",
+      "body": "Its imidazole side chain has a pKa near $6$, so at physiological pH it can both donate and accept protons.\n\nNo other standard side chain has a pKa this close to $7$.\n\nExample: His57 in chymotrypsin acts as a general base to activate the serine nucleophile.\nKey idea: **histidine** is the only residue that is partly protonated near pH 7.",
+      "searchQuery": "histidine imidazole pKa 6 acid base catalysis active site"
+    },
+    {
+      "id": "aa-hh-ratio",
+      "title": "A weak acid has pKa $6.4$. What is the ratio $[\\mathrm{A^-}]/[\\mathrm{HA}]$ at pH $7.4$? (number only)",
+      "body": "$10$\n\nHenderson-Hasselbalch: $\\mathrm{pH} = \\mathrm{p}K_a + \\log\\frac{[\\mathrm{A^-}]}{[\\mathrm{HA}]}$.\n\n$7.4 = 6.4 + \\log R$, so $\\log R = 1$ and $R = 10$.\n\nTip: every pH unit away from the pKa changes the ratio by a factor of $10$; at pH = pKa it is $1$.",
+      "answer": "10",
+      "acceptedAnswers": [
+        "10:1",
+        "10/1"
+      ],
+      "searchQuery": "Henderson-Hasselbalch ratio conjugate base weak acid"
+    },
+    {
+      "id": "aa-a280-tryptophan",
+      "title": "Which amino acid contributes most to a protein's absorbance at $280$ nm?",
+      "body": "Tryptophan\n\nIts indole ring has the largest extinction coefficient at 280 nm, followed by tyrosine; phenylalanine absorbs only weakly near 257 nm.\n\nWhy: a protein lacking Trp and Tyr gives almost no $A_{280}$ signal, so concentration estimates can be wrong.\nTip: $A_{280}$ also picks up nucleic acid contamination, which absorbs at 260 nm.",
+      "answer": "tryptophan",
+      "acceptedAnswers": [
+        "trp",
+        "W"
+      ],
+      "searchQuery": "tryptophan absorbance 280 nm protein concentration"
+    },
+    {
+      "id": "aa-code-trp",
+      "title": "What is the one-letter code for tryptophan?",
+      "body": "W\n\nThe most distinctive letter assignment; it resembles the double-ring shape of the indole group.\n\nMnemonic: **W**-ow, the huge double-ring side chain.",
+      "answer": "W",
+      "acceptedAnswers": [
+        "trp"
+      ],
+      "searchQuery": "tryptophan one letter code W amino acid"
+    },
+    {
+      "id": "aa-code-gln",
+      "title": "What is the one-letter code for glutamine?",
+      "body": "Q\n\nGlutamine is Q, glutamate (glutamic acid) is E, asparagine is N and aspartate is D.\n\nMnemonic: **Q**-tamine, glutamine; glutamate sounds like **E**-glutamate.",
+      "answer": "Q",
+      "acceptedAnswers": [
+        "gln"
+      ],
+      "searchQuery": "glutamine one letter code Q amino acid"
+    },
+    {
+      "id": "aa-code-lys",
+      "title": "What is the one-letter code for lysine?",
+      "body": "K\n\nArginine is R and histidine is H, the other basic residues.\n\nMnemonic: L is taken by leucine, so lysine gets the letter near it in its name, **K** (as in \"lysKine\").",
+      "answer": "K",
+      "acceptedAnswers": [
+        "lys"
+      ],
+      "searchQuery": "lysine one letter code K amino acid"
+    },
+    {
+      "id": "aa-proline-imino",
+      "title": "What structural feature makes proline unique among the standard amino acids?",
+      "body": "Its side chain loops back and bonds to the backbone nitrogen, forming a **pyrrolidine ring**.\n\nThe $\\alpha$-nitrogen is a secondary amine, so it has no N-H to donate in a helix and the $\\phi$ angle is locked near $-65^\\circ$.\n\nWhy: that rigidity disrupts $\\alpha$-helices and $\\beta$-sheets and makes proline common in turns.\nWatch out: proline is an imino acid in older terminology, but it is still an $\\alpha$-amino acid by modern definition.",
+      "searchQuery": "proline pyrrolidine ring secondary amine helix breaker"
+    },
+    {
+      "id": "aa-cystine-disulfide",
+      "title": "Two cysteine side chains oxidize to form a disulfide bond. What is the oxidized dimer called?",
+      "body": "Cystine\n\nThe reaction is $\\ce{2 R-SH -> R-S-S-R + 2H+ + 2e-}$.\n\nWhy: disulfides are common in secreted, extracellular proteins such as insulin and antibodies; the cytosol is reducing (high glutathione), so disulfides are rare there.\nWatch out: cysteine is the single residue, cystine is the oxidized dimer.",
+      "answer": "cystine",
+      "searchQuery": "cystine disulfide bond cysteine oxidation protein"
+    },
+    {
+      "id": "aa-hydroxyproline-vitc",
+      "title": "Which vitamin is a cofactor for prolyl hydroxylase, the enzyme that makes hydroxyproline in collagen?",
+      "body": "Vitamin C (ascorbate)\n\nAscorbate keeps the active-site iron in the Fe$^{2+}$ state.\n\nWhy: without hydroxyproline, collagen triple helices are unstable and tissues weaken, the basis of **scurvy**.\nExample: scurvy shows as bleeding gums, poor wound healing and fragile blood vessels.",
+      "answer": "vitamin C",
+      "acceptedAnswers": [
+        "ascorbate",
+        "ascorbic acid",
+        "C"
+      ],
+      "searchQuery": "vitamin C prolyl hydroxylase collagen scurvy"
+    },
+    {
+      "id": "aa-essential-nine",
+      "title": "Name the nine essential amino acids for adult humans.",
+      "body": "His, Ile, Leu, Lys, Met, Phe, Thr, Trp, Val\n\nHumans lack the pathways to make them, so they must come from the diet.\n\nMnemonic: **PVT TIM HALL** (Phe, Val, Thr, Trp, Ile, Met, His, Arg, Leu, Lys).\nWatch out: this mnemonic includes Arg, which is only conditionally essential (needed during growth), so the strict adult list is the other nine.",
+      "searchQuery": "nine essential amino acids list humans"
+    },
+    {
+      "id": "aa-charged-residues",
+      "title": "Which standard amino acids carry a charged side chain at pH 7?",
+      "body": "Negative: Asp and Glu. Positive: Lys and Arg (His is partly protonated).\n\nThe acidic side chains have pKa near $4$, while Lys is near $10.5$ and Arg near $12.5$.\n\nKey idea: **Arg** has the highest side-chain pKa, so it stays positive over almost the whole physiological range.",
+      "searchQuery": "charged amino acids acidic basic side chains pKa"
+    },
+    {
+      "id": "aa-selenocysteine",
+      "title": "Which \"21st amino acid\" is encoded by a UGA codon in a special context?",
+      "body": "Selenocysteine\n\nIt is cysteine with selenium in place of sulfur and needs its own tRNA and an SECIS element in the mRNA.\n\nExample: glutathione peroxidase and thioredoxin reductase contain selenocysteine at the active site.",
+      "answer": "selenocysteine",
+      "acceptedAnswers": [
+        "sec",
+        "U"
+      ],
+      "searchQuery": "selenocysteine 21st amino acid UGA codon"
+    },
+    {
+      "id": "aa-phosphorylated-residues",
+      "title": "Which three amino acids are phosphorylated by protein kinases in eukaryotes?",
+      "body": "Serine, threonine and tyrosine\n\nAll three have a side-chain $\\ce{-OH}$ that accepts a phosphate from ATP.\n\nWhy: phosphorylation adds two negative charges, which can change conformation and create binding sites.\nWatch out: histidine, aspartate and lysine are phosphorylated in bacterial signaling or special cases, but the $\\ce{-OH}$ trio dominates in eukaryotes.",
+      "searchQuery": "protein phosphorylation serine threonine tyrosine kinase"
+    },
+    {
+      "id": "aa-sulfur-containing",
+      "title": "Which two standard amino acids contain sulfur?",
+      "body": "Cysteine and methionine\n\nCys has a thiol $\\ce{-SH}$; Met has a thioether $\\ce{-S-CH3}$ and is the usual start residue.\n\nKey idea: only **Cys** can form disulfide bonds.",
+      "searchQuery": "sulfur containing amino acids cysteine methionine"
+    },
+    {
+      "id": "peptide-bond-planar",
+      "title": "Why is the peptide bond planar and not free to rotate?",
+      "body": "Resonance gives the C-N bond about $40\\%$ **double-bond character**.\n\nSo the six atoms $\\mathrm{C}_\\alpha$, C, O, N, H and the next $\\mathrm{C}_\\alpha$ lie in one plane, usually in the **trans** arrangement.\n\nWhy: only the $\\phi$ (N-C$_\\alpha$) and $\\psi$ (C$_\\alpha$-C) bonds rotate, which is what a Ramachandran plot shows.\nWatch out: the C-N bond length (about $1.33\\,\\mathrm{\\AA}$) is between single and double.",
+      "searchQuery": "peptide bond planar partial double bond resonance"
+    },
+    {
+      "id": "peptide-cis-proline",
+      "title": "Which peptide bonds are found in the cis form far more often than the usual trans form?",
+      "body": "Those preceding proline (Xaa-Pro bonds), about $5\\%$ cis.\n\nFor most residues the cis form is well under $1\\%$, because cis puts the side chains of neighboring residues in a steric clash.\n\nWhy: proline's ring makes cis and trans similar in energy.\nExample: **peptidyl-prolyl isomerases** such as cyclophilin speed up cis-trans interconversion, a slow step in folding.",
+      "searchQuery": "cis proline peptide bond prolyl isomerase folding"
+    },
+    {
+      "id": "peptide-bond-count",
+      "title": "How many peptide bonds are in a linear polypeptide of $50$ residues? (number only)",
+      "body": "49\n\nEach bond joins two neighboring residues, so $n$ residues have $n - 1$ bonds, and $n - 1$ water molecules are lost in forming them.\n\nExample: a tripeptide has 2 peptide bonds.",
+      "answer": "49",
+      "searchQuery": "number of peptide bonds in polypeptide n minus 1"
+    },
+    {
+      "id": "peptide-edman",
+      "title": "Which reagent labels the N-terminal residue in Edman degradation? (name or abbreviation)",
+      "body": "Phenyl isothiocyanate (PITC)\n\nPITC reacts with the free N-terminal amino group under mildly basic conditions. Mild acid then cleaves off that one residue as a phenylthiohydantoin (PTH) amino acid, which is identified by chromatography.\n\nWhy: the rest of the peptide stays intact, so the cycle can be repeated for sequencing.\nWatch out: Edman works from the N-terminus and fails if the N-terminus is blocked, such as by acetylation.",
+      "answer": "PITC",
+      "acceptedAnswers": [
+        "phenyl isothiocyanate",
+        "Edman reagent"
+      ],
+      "searchQuery": "Edman degradation phenyl isothiocyanate N-terminal sequencing"
+    },
+    {
+      "id": "peptide-trypsin",
+      "title": "Which protease cleaves on the carboxyl side of Lys and Arg (but not before Pro)?",
+      "body": "Trypsin\n\nIts specificity pocket has an Asp residue that binds the positively charged Lys or Arg side chain.\n\nExample: trypsin digestion gives predictable peptides, which is why it is the standard protease in protein mass spectrometry.\nWatch out: a Lys or Arg followed by proline is not cut.",
+      "answer": "trypsin",
+      "searchQuery": "trypsin cleaves lysine arginine carboxyl side"
+    },
+    {
+      "id": "peptide-cnbr",
+      "title": "Cyanogen bromide (CNBr) cleaves a peptide chain on the carboxyl side of which residue?",
+      "body": "Methionine\n\nThe sulfur attacks CNBr, and the carbonyl then cyclizes, leaving a C-terminal homoserine lactone on the upstream fragment.\n\nTip: a protein with $n$ Met residues gives $n + 1$ fragments, which is a quick check on a digest.",
+      "answer": "methionine",
+      "acceptedAnswers": [
+        "met",
+        "M"
+      ],
+      "searchQuery": "cyanogen bromide cleaves methionine peptide"
+    },
+    {
+      "id": "peptide-chymotrypsin",
+      "title": "Chymotrypsin preferentially cleaves after which kind of residues?",
+      "body": "Large hydrophobic (aromatic) residues: **Phe, Tyr and Trp**.\n\nIts S1 pocket is a deep hydrophobic cleft that fits those side chains; Leu is cleaved more slowly.\n\nWhy: compare trypsin, whose pocket contains a negatively charged Asp and prefers Lys or Arg.",
+      "searchQuery": "chymotrypsin specificity aromatic residues Phe Tyr Trp"
+    },
+    {
+      "id": "peptide-ramachandran",
+      "title": "Which two backbone torsion angles does a Ramachandran plot show?",
+      "body": "$\\phi$ (rotation about N-C$_\\alpha$) and $\\psi$ (rotation about C$_\\alpha$-C).\n\nSteric clashes between backbone and side-chain atoms forbid most of the plot; allowed regions correspond to $\\alpha$-helices, $\\beta$-strands and the left-handed helix.\n\nWatch out: $\\omega$, the angle about the peptide bond itself, is fixed near $180^\\circ$ (trans), so it is not plotted.\nExample: glycine, with no side chain, has a much larger allowed region.",
+      "searchQuery": "Ramachandran plot phi psi angles allowed regions"
+    },
+    {
+      "id": "helix-residues-per-turn",
+      "title": "How many amino acid residues are there per turn of a right-handed $\\alpha$-helix? (number only)",
+      "body": "3.6\n\nThe rise is $1.5\\,\\mathrm{\\AA}$ per residue, so one turn (the pitch) is $3.6 \\times 1.5 = 5.4\\,\\mathrm{\\AA}$.\n\nKey idea: side chains point outward, and residues $i$ and $i+3$ or $i+4$ lie on the same face, which gives amphipathic helices their pattern.",
+      "answer": "3.6",
+      "searchQuery": "alpha helix 3.6 residues per turn pitch 5.4 angstrom"
+    },
+    {
+      "id": "helix-length-calc",
+      "title": "An ideal $\\alpha$-helix rises $0.15$ nm per residue. How long, in nm, is a helix of $30$ residues? (number only)",
+      "body": "4.5\n\n$30 \\times 0.15\\,\\mathrm{nm} = 4.5\\,\\mathrm{nm}$.\n\nExample: a helix of about 25 residues, roughly 3.75 nm, is long enough to span a lipid bilayer's hydrophobic core of about 3 nm.",
+      "answer": "4.5",
+      "searchQuery": "alpha helix length rise per residue 0.15 nm calculation"
+    },
+    {
+      "id": "helix-hbond-pattern",
+      "title": "In an $\\alpha$-helix, the C=O of residue $i$ hydrogen-bonds to the N-H of which residue?",
+      "body": "Residue $i + 4$\n\nThe bonds run nearly parallel to the helix axis and enclose a ring of 13 atoms, so the helix is also called a $3.6_{13}$ helix.\n\nWhy: every backbone C=O and N-H is satisfied except at the ends, so helices are stable and the backbone is fully hydrogen-bonded.",
+      "answer": "i+4",
+      "acceptedAnswers": [
+        "n+4",
+        "4"
+      ],
+      "searchQuery": "alpha helix hydrogen bond i to i+4 pattern"
+    },
+    {
+      "id": "sheet-parallel-antiparallel",
+      "title": "Which $\\beta$-sheet arrangement has nearly linear, stronger backbone hydrogen bonds: parallel or antiparallel?",
+      "body": "Antiparallel\n\nIn an antiparallel sheet the N-H and C=O line up directly across from each other. In a parallel sheet the bonds are angled, so they are slightly longer and weaker.\n\nWhy: strands in a parallel sheet need loops that cross over, so parallel sheets are rarely just two strands and are usually buried in the core.\nKey idea: a strand is nearly extended, rising about $3.3$ to $3.5\\,\\mathrm{\\AA}$ per residue.",
+      "searchQuery": "antiparallel beta sheet hydrogen bonds stronger than parallel"
+    },
+    {
+      "id": "turn-beta-residues",
+      "title": "Which two residues are most common in tight $\\beta$-turns?",
+      "body": "Glycine and proline\n\nProline's fixed kink suits position 2, and glycine's flexibility fits the sterically crowded position 3.\n\nWhy: a $\\beta$-turn reverses the chain over four residues, and the C=O of residue $i$ hydrogen-bonds to the N-H of residue $i+3$.",
+      "answer": "glycine and proline",
+      "acceptedAnswers": [
+        "proline and glycine",
+        "gly and pro",
+        "pro and gly",
+        "Gly, Pro",
+        "Pro, Gly"
+      ],
+      "searchQuery": "beta turn glycine proline residues"
+    },
+    {
+      "id": "fold-hydrophobic-effect",
+      "title": "What is the main driving force for protein folding in water?",
+      "body": "The **hydrophobic effect**: burying nonpolar side chains in the core.\n\nOrdered water around exposed nonpolar groups is released, so the entropy of the solvent increases.\n\nWhy: the folded state's total stability is small, only about $20$ to $65\\,\\mathrm{kJ/mol}$, and the chain loses a lot of conformational entropy.\nWatch out: hydrogen bonds and van der Waals contacts matter for specificity but contribute less net free energy than the hydrophobic effect.",
+      "searchQuery": "hydrophobic effect driving force protein folding entropy water"
+    },
+    {
+      "id": "fold-anfinsen-enzyme",
+      "title": "Anfinsen showed that a denatured, reduced enzyme could spontaneously refold. Which enzyme did he use?",
+      "body": "Ribonuclease A\n\nHe unfolded it in urea and $\\beta$-mercaptoethanol, then removed both and the enzyme regained activity with correct disulfides.\n\nKey idea: the **amino acid sequence** contains all the information needed for the native fold.",
+      "answer": "ribonuclease A",
+      "acceptedAnswers": [
+        "RNase A",
+        "ribonuclease",
+        "bovine pancreatic ribonuclease",
+        "RNase"
+      ],
+      "searchQuery": "Anfinsen ribonuclease A refolding experiment"
+    },
+    {
+      "id": "fold-levinthal",
+      "title": "What is Levinthal's paradox?",
+      "body": "A protein could not fold by random search of all conformations, yet it folds in milliseconds to seconds.\n\nWith about three states per residue, a 100-residue chain has roughly $3^{100}$ conformations, far too many to sample.\n\nWhy: folding follows a **funneled energy landscape**, with local structure forming early and guiding the chain downhill.",
+      "searchQuery": "Levinthal paradox protein folding funnel energy landscape"
+    },
+    {
+      "id": "fold-chaperonins",
+      "title": "Which E. coli chaperonin system, consisting of a barrel and a lid, encloses unfolded proteins in an isolated chamber so they can fold?",
+      "body": "GroEL/GroES\n\nGroEL is a double-ring barrel, and GroES caps it. ATP hydrolysis drives cycles of binding and release.\n\nWhy: the chamber prevents aggregation with other unfolded chains.\nKey idea: **Hsp70** (DnaK in bacteria) is the other main chaperone class; it binds exposed hydrophobic stretches of nascent chains.",
+      "answer": "GroEL",
+      "acceptedAnswers": [
+        "GroEL/GroES",
+        "GroES",
+        "GroEL-GroES",
+        "GroEL and GroES"
+      ],
+      "searchQuery": "GroEL GroES chaperonin protein folding chamber"
+    },
+    {
+      "id": "fold-pdi",
+      "title": "Which enzyme catalyzes disulfide bond exchange so that proteins reach the correct disulfide pairing in the ER?",
+      "body": "Protein disulfide isomerase (PDI)\n\nIt breaks incorrect disulfides and forms new ones until the most stable pairing is found.\n\nWhy: random oxidation of eight cysteines in ribonuclease A could give 105 pairings, only one of which is native.",
+      "answer": "protein disulfide isomerase",
+      "acceptedAnswers": [
+        "PDI",
+        "disulfide isomerase"
+      ],
+      "searchQuery": "protein disulfide isomerase PDI endoplasmic reticulum folding"
+    },
+    {
+      "id": "fold-denaturants",
+      "title": "What is the difference in action between urea and $\\beta$-mercaptoethanol when denaturing a protein?",
+      "body": "Urea disrupts **noncovalent** interactions (hydrogen bonds and the hydrophobic effect); $\\beta$-mercaptoethanol (or DTT) **reduces disulfide bonds**.\n\nTo fully unfold a disulfide-containing protein you usually need both.\n\nExample: heat, extreme pH, detergents and guanidinium chloride are other denaturants that act on noncovalent forces.",
+      "searchQuery": "urea beta-mercaptoethanol denaturation noncovalent disulfide"
+    },
+    {
+      "id": "fold-collagen-glycine",
+      "title": "In the repeating Gly-X-Y sequence of collagen, which residue sits at every third position?",
+      "body": "Glycine\n\nThree left-handed polyproline-II-like chains wind into a right-handed triple helix. Every third residue lies in the crowded center, where only glycine's hydrogen fits.\n\nWhy: replacing Gly with a larger residue disrupts packing, as in **osteogenesis imperfecta**.\nExample: X and Y are often proline and 4-hydroxyproline.",
+      "answer": "glycine",
+      "acceptedAnswers": [
+        "gly",
+        "G"
+      ],
+      "searchQuery": "collagen triple helix glycine every third residue"
+    },
+    {
+      "id": "fold-prion",
+      "title": "What conformational change underlies prion diseases such as Creutzfeldt-Jakob disease?",
+      "body": "A normal, helix-rich cellular prion protein ($\\mathrm{PrP^C}$) refolds into a $\\beta$-sheet-rich, protease-resistant form ($\\mathrm{PrP^{Sc}}$).\n\nThe misfolded form acts as a template, converting more normal protein and forming aggregates.\n\nKey idea: an infectious agent here has **no nucleic acid**; its \"information\" is the protein conformation.",
+      "searchQuery": "prion PrPSc misfolding beta sheet template conversion"
+    },
+    {
+      "id": "hb-oxygen-capacity",
+      "title": "How many $\\ce{O2}$ molecules can one adult hemoglobin tetramer bind at most? (number only)",
+      "body": "4\n\nAdult Hb is $\\alpha_2\\beta_2$, and each of the four subunits carries one heme with an $\\ce{Fe^2+}$ that binds one $\\ce{O2}$.\n\nCompare: myoglobin is a monomer and binds only one.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "hemoglobin binds four oxygen molecules alpha2 beta2"
+    },
+    {
+      "id": "hb-sigmoidal-why",
+      "title": "Why is a sigmoidal oxygen-binding curve more useful for hemoglobin than a hyperbolic one?",
+      "body": "Hb binds $\\ce{O2}$ almost fully in the lungs (high $p_{\\ce{O2}}$) and releases much of it in the tissues, where $p_{\\ce{O2}}$ drops, over a narrow pressure range.\n\nA hyperbolic curve, like that of myoglobin, would release little oxygen in the same range.\n\nWhy: cooperativity makes the curve steep near the physiological range, so a small drop in $p_{\\ce{O2}}$ unloads a lot of $\\ce{O2}$.\nExample: Mb ($P_{50} \\approx 2.8$ torr) holds on to $\\ce{O2}$ until muscle is very oxygen-poor.",
+      "searchQuery": "hemoglobin sigmoidal curve cooperativity vs myoglobin hyperbolic"
+    },
+    {
+      "id": "hb-hill-myoglobin",
+      "title": "What is the Hill coefficient $n_H$ for myoglobin binding $\\ce{O2}$? (number only)",
+      "body": "1\n\nMyoglobin has a single binding site, so there is no cooperativity.\n\nFor hemoglobin $n_H \\approx 2.8$ (the maximum would be $4$, from four fully cooperative sites).\n\nKey idea: $n_H > 1$ is positive cooperativity and $n_H < 1$ is negative; the Hill coefficient is a measure of cooperativity, not the actual number of sites.",
+      "answer": "1",
+      "searchQuery": "Hill coefficient myoglobin 1 hemoglobin 2.8 cooperativity"
+    },
+    {
+      "id": "hb-p50-value",
+      "title": "About what $p_{\\ce{O2}}$ (in torr) gives $50\\%$ saturation (the $P_{50}$) for adult hemoglobin in blood? (number only)",
+      "body": "26\n\nHemoglobin's $P_{50}$ is about $26$ torr (mmHg), compared with about $2.8$ torr for myoglobin, so Mb has the higher oxygen affinity.\n\nWhy: lower $P_{50}$ means higher affinity; a right-shifted curve (higher $P_{50}$) means Hb releases oxygen more easily.",
+      "answer": "26",
+      "acceptedAnswers": [
+        "27"
+      ],
+      "searchQuery": "hemoglobin P50 26 torr oxygen affinity"
+    },
+    {
+      "id": "hb-t-r-states",
+      "title": "Which hemoglobin conformation has the lower oxygen affinity: the T state or the R state?",
+      "body": "The **T (tense)** state\n\nT is stabilized by salt bridges between subunits; the **R (relaxed)** state binds $\\ce{O2}$ much more tightly.\n\nWhy: binding $\\ce{O2}$ to a subunit breaks some salt bridges and tips the tetramer toward R, raising the affinity of the remaining subunits.\nMnemonic: **T**ense = **T**ough to bind; **R**elaxed = **R**eady to bind.",
+      "answer": "T state",
+      "acceptedAnswers": [
+        "T",
+        "tense",
+        "tense state",
+        "T-state"
+      ],
+      "searchQuery": "hemoglobin T state R state oxygen affinity salt bridges"
+    },
+    {
+      "id": "hb-bpg",
+      "title": "Which small molecule binds in the central cavity of deoxyhemoglobin and lowers its oxygen affinity?",
+      "body": "2,3-Bisphosphoglycerate (2,3-BPG)\n\nIts negative charges bind positive residues in the cavity between the two $\\beta$ chains, which stabilizes the T state.\n\nExample: at high altitude red cells make more BPG, shifting the curve right so more $\\ce{O2}$ is released in tissues.\nWatch out: BPG fits only in the deoxy (T) form, because the cavity narrows in R.",
+      "answer": "2,3-BPG",
+      "acceptedAnswers": [
+        "BPG",
+        "2,3-bisphosphoglycerate",
+        "2,3-diphosphoglycerate",
+        "2,3-DPG",
+        "DPG",
+        "bisphosphoglycerate"
+      ],
+      "searchQuery": "2,3-bisphosphoglycerate hemoglobin oxygen affinity T state"
+    },
+    {
+      "id": "hb-bohr-effect",
+      "title": "What does the Bohr effect say about the effect of lower pH or higher $\\ce{CO2}$ on hemoglobin's oxygen affinity?",
+      "body": "It **decreases** the affinity (right shift).\n\n$\\ce{H+}$ protonates certain residues (such as His146 of the $\\beta$ chain), which strengthens the salt bridges of the T state; $\\ce{CO2}$ also lowers pH and forms carbamates.\n\nWhy: active tissue makes $\\ce{CO2}$ and acid, so Hb releases more $\\ce{O2}$ where it is needed.\nKey idea: the reverse also holds; in the lungs, $\\ce{CO2}$ leaves, pH rises and Hb loads $\\ce{O2}$.",
+      "searchQuery": "Bohr effect hemoglobin pH CO2 oxygen affinity right shift"
+    },
+    {
+      "id": "hb-fetal",
+      "title": "Why does fetal hemoglobin ($\\alpha_2\\gamma_2$) have a higher oxygen affinity than adult hemoglobin?",
+      "body": "It binds 2,3-BPG **less tightly**.\n\nThe $\\gamma$ chain has a serine in place of the histidine at position 143 of the $\\beta$ chain, so one positive charge of the BPG-binding site is missing.\n\nWhy: the higher affinity lets the fetus take $\\ce{O2}$ from maternal blood across the placenta.",
+      "searchQuery": "fetal hemoglobin HbF lower BPG binding higher oxygen affinity"
+    },
+    {
+      "id": "hb-heme-histidines",
+      "title": "How is the heme iron coordinated in oxymyoglobin, and what role does the distal histidine play?",
+      "body": "Four bonds to the porphyrin nitrogens, a fifth to the **proximal His** (F8), and $\\ce{O2}$ as the sixth ligand.\n\nThe **distal His** (E7) hydrogen-bonds to the bound $\\ce{O2}$ and sterically bends bound CO.\n\nWhy: that reduces CO binding from about $20{,}000$ times tighter than $\\ce{O2}$ in free heme to about $200$ times in globins.\nWatch out: iron stays $\\ce{Fe^2+}$ in oxygenated hemoglobin; $\\ce{O2}$ does not oxidize it.",
+      "searchQuery": "heme iron proximal distal histidine oxygen binding myoglobin"
+    },
+    {
+      "id": "hb-methemoglobin",
+      "title": "What is methemoglobin, and why can it not carry oxygen?",
+      "body": "Hemoglobin whose heme iron has been oxidized from $\\ce{Fe^2+}$ to $\\ce{Fe^3+}$.\n\nThe ferric form cannot bind $\\ce{O2}$.\n\nExample: nitrites and some drugs cause methemoglobinemia; the enzyme **methemoglobin reductase** (NADH-dependent) normally keeps the level under about $1\\%$.\nTip: blood looks chocolate brown in methemoglobinemia, and patients appear cyanotic.",
+      "searchQuery": "methemoglobin Fe3+ cannot bind oxygen methemoglobin reductase"
+    },
+    {
+      "id": "hb-sickle-mechanism",
+      "title": "How does the Glu6Val substitution in the $\\beta$ chain cause hemoglobin S to polymerize?",
+      "body": "Valine creates a **hydrophobic patch** on the surface of deoxyHb S that fits into a pocket on another molecule.\n\nOnly the deoxy form has that pocket, so fibers form when $\\ce{O2}$ is low and distort the red cell.\n\nWhy: glutamate is charged and soluble, while valine is nonpolar and drives stickiness.\nWatch out: this is a surface mutation that changes solubility and not oxygen-binding itself.",
+      "searchQuery": "sickle cell hemoglobin S Glu6Val hydrophobic patch polymerization"
+    },
+    {
+      "id": "hb-mwc-model",
+      "title": "Which cooperativity model proposes that all subunits switch together between T and R states?",
+      "body": "The concerted model (Monod-Wyman-Changeux, MWC)\n\nIt says the tetramer exists in a T $\\rightleftharpoons$ R equilibrium and is always symmetric; $\\ce{O2}$ binding shifts the equilibrium toward R.\n\nWatch out: the **sequential** (Koshland-Nemethy-Filmer) model lets subunits change one at a time. Real Hb behaves in between.",
+      "answer": "MWC",
+      "acceptedAnswers": [
+        "concerted",
+        "Monod-Wyman-Changeux",
+        "concerted model",
+        "MWC model"
+      ],
+      "searchQuery": "MWC concerted model cooperativity hemoglobin sequential KNF"
+    },
+    {
+      "id": "hb-iron-motion",
+      "title": "What structural change at the heme starts the T to R transition when $\\ce{O2}$ binds?",
+      "body": "The iron moves into the plane of the porphyrin ring, pulling the proximal histidine and its helix.\n\nIn deoxyHb the high-spin $\\ce{Fe^2+}$ sits slightly out of the plane; oxygen binding makes it low-spin and slightly smaller so it fits.\n\nWhy: the pull on helix F is passed to the subunit interface and breaks salt bridges, favoring R.",
+      "searchQuery": "hemoglobin heme iron moves into plane oxygen binding T to R"
+    },
+    {
+      "id": "enz-catalyst-thermo",
+      "title": "What two thermodynamic quantities does an enzyme leave unchanged?",
+      "body": "$\\Delta G$ (overall free energy change) and $K_{eq}$.\n\nEnzymes lower the **activation energy** and speed up both the forward and reverse reactions equally.\n\nWhy: the free energies of reactants and products are state functions, so catalysts cannot change them.\nWatch out: an enzyme cannot make a reaction with $\\Delta G > 0$ proceed spontaneously.",
+      "searchQuery": "enzyme does not change Keq or delta G activation energy"
+    },
+    {
+      "id": "enz-ts-analogs",
+      "title": "Why are transition-state analogs such potent enzyme inhibitors?",
+      "body": "Enzymes bind the **transition state** more tightly than the substrate, so a stable molecule that mimics it binds extremely tightly.\n\nExample: oseltamivir (Tamiflu) resembles the transition state of neuraminidase as a mimic of the sialic acid cleavage intermediate.\n\nKey idea: catalysis comes mostly from tight binding of the transition state, not the substrate.",
+      "searchQuery": "transition state analog inhibitor enzyme tight binding"
+    },
+    {
+      "id": "kin-km-meaning",
+      "title": "At what rate does an enzyme obeying Michaelis-Menten kinetics turn over when $[S] = K_m$?",
+      "body": "$V_{max}/2$\n\nPlug in: $v_0 = \\frac{V_{max}[S]}{K_m + [S]} = \\frac{V_{max} K_m}{2 K_m} = \\frac{V_{max}}{2}$.\n\nKey idea: $K_m$ is the substrate concentration at half-maximal rate, and it is in concentration units.\nWatch out: $K_m$ equals the dissociation constant $K_d$ only when $k_{cat} \\ll k_{-1}$.",
+      "answer": "Vmax/2",
+      "acceptedAnswers": [
+        "half Vmax",
+        "1/2 Vmax",
+        "0.5 Vmax",
+        "half of Vmax"
+      ],
+      "answerDisplay": "$V_{max}/2$",
+      "searchQuery": "Michaelis constant Km substrate concentration half Vmax"
+    },
+    {
+      "id": "kin-calc-v0",
+      "title": "$V_{max} = 100\\,\\mu\\mathrm{M/min}$ and $K_m = 2\\,\\mathrm{mM}$. What is $v_0$, in $\\mu\\mathrm{M/min}$, at $[S] = 6\\,\\mathrm{mM}$? (number only)",
+      "body": "75\n\n$v_0 = \\frac{100 \\times 6}{2 + 6} = \\frac{600}{8} = 75\\,\\mu\\mathrm{M/min}$.\n\nTip: keep $[S]$ and $K_m$ in the same units; the ratio matters, so mM works without converting.",
+      "answer": "75",
+      "searchQuery": "Michaelis-Menten equation calculate initial velocity"
+    },
+    {
+      "id": "kin-calc-90pct",
+      "title": "What substrate concentration, as a multiple of $K_m$, gives $90\\%$ of $V_{max}$? (number only)",
+      "body": "9\n\n$0.9 = \\frac{[S]}{K_m + [S]}$ gives $0.9 K_m = 0.1 [S]$, so $[S] = 9 K_m$.\n\nWhy: the curve approaches $V_{max}$ slowly, which is why you cannot measure $V_{max}$ directly and instead fit the curve.\nTip: $[S] = 19 K_m$ gives $95\\%$.",
+      "answer": "9",
+      "acceptedAnswers": [
+        "9 Km"
+      ],
+      "searchQuery": "substrate concentration 90 percent Vmax 9 Km"
+    },
+    {
+      "id": "kin-calc-kcat",
+      "title": "An assay gives $V_{max} = 120\\,\\mu\\mathrm{M/min}$ with total enzyme $[E]_t = 0.5\\,\\mu\\mathrm{M}$. What is $k_{cat}$ in $\\mathrm{s^{-1}}$? (number only)",
+      "body": "4\n\n$k_{cat} = V_{max}/[E]_t = 120/0.5 = 240\\,\\mathrm{min^{-1}} = 4\\,\\mathrm{s^{-1}}$.\n\nWatch out: convert minutes to seconds; $k_{cat}$ is the turnover number, the number of substrate molecules converted per active site per second.",
+      "answer": "4",
+      "searchQuery": "kcat turnover number calculation Vmax enzyme concentration"
+    },
+    {
+      "id": "kin-catalytic-efficiency",
+      "title": "Which ratio, in units of $\\mathrm{M^{-1}s^{-1}}$, measures an enzyme's catalytic efficiency and specificity for a substrate?",
+      "body": "$k_{cat}/K_m$\n\nIt is the second-order rate constant at low $[S]$, where $v_0 \\approx \\frac{k_{cat}}{K_m}[E][S]$.\n\nKey idea: the upper limit is set by diffusion, about $10^8$ to $10^9\\,\\mathrm{M^{-1}s^{-1}}$; enzymes near it, like triose phosphate isomerase, are called **catalytically perfect**.\nTip: compare $k_{cat}/K_m$ across substrates to see which one an enzyme prefers.",
+      "answer": "kcat/Km",
+      "acceptedAnswers": [
+        "kcat over Km"
+      ],
+      "answerDisplay": "$k_{cat}/K_m$",
+      "searchQuery": "kcat/Km catalytic efficiency diffusion limit enzyme"
+    },
+    {
+      "id": "kin-lineweaver-burk",
+      "title": "What are the slope and intercepts of a Lineweaver-Burk plot of $1/v_0$ versus $1/[S]$?",
+      "body": "Slope $= K_m/V_{max}$; y-intercept $= 1/V_{max}$; x-intercept $= -1/K_m$.\n\nIt comes from inverting Michaelis-Menten: $\\frac{1}{v_0} = \\frac{K_m}{V_{max}}\\frac{1}{[S]} + \\frac{1}{V_{max}}$.\n\nWatch out: the points at low $[S]$ are weighted heavily and carry the most error, so nonlinear fitting is better for real data. The plot is mainly for diagnosing inhibition type.",
+      "searchQuery": "Lineweaver-Burk plot slope intercept Km Vmax double reciprocal"
+    },
+    {
+      "id": "kin-lb-calc-km",
+      "title": "A Lineweaver-Burk plot has an x-intercept of $-0.5\\,\\mathrm{mM^{-1}}$. What is $K_m$ in mM? (number only)",
+      "body": "2\n\nThe x-intercept is $-1/K_m$, so $K_m = 1/0.5 = 2\\,\\mathrm{mM}$.\n\nExample: with a y-intercept of $0.02\\,(\\mu\\mathrm{M/min})^{-1}$, $V_{max} = 1/0.02 = 50\\,\\mu\\mathrm{M/min}$.",
+      "answer": "2",
+      "searchQuery": "Lineweaver-Burk x-intercept negative reciprocal Km calculation"
+    },
+    {
+      "id": "inh-competitive-effect",
+      "title": "An inhibitor raises the apparent $K_m$ but leaves $V_{max}$ unchanged. What type of reversible inhibition is this?",
+      "body": "Competitive inhibition\n\nThe inhibitor binds the free enzyme at the active site and competes with substrate; enough substrate overcomes it.\n\nWhy: $V_{max}$ is reached at saturating $[S]$, where the inhibitor is outcompeted; $K_m$ appears larger because more substrate is needed to reach half-maximum.\nExample: malonate competes with succinate at succinate dehydrogenase.",
+      "answer": "competitive",
+      "acceptedAnswers": [
+        "competitive inhibition",
+        "competitive inhibitor"
+      ],
+      "searchQuery": "competitive inhibition Km increases Vmax unchanged"
+    },
+    {
+      "id": "inh-noncompetitive-effect",
+      "title": "A pure noncompetitive inhibitor binds E and ES with equal affinity. What happens to $V_{max}$ and $K_m$?",
+      "body": "$V_{max}$ **decreases**; $K_m$ is **unchanged**.\n\nThe inhibitor removes active enzyme from the pool, which behaves like having less enzyme, and substrate binding is unaffected.\n\nWhy: on a Lineweaver-Burk plot the lines meet on the x-axis at $-1/K_m$, with a larger y-intercept.\nWatch out: pure noncompetitive inhibition is rare; most noncompetitive inhibitors are really **mixed** (they bind E and ES with different affinity), which also changes $K_m$.",
+      "searchQuery": "noncompetitive inhibition Vmax decreases Km unchanged"
+    },
+    {
+      "id": "inh-uncompetitive-effect",
+      "title": "An inhibitor binds only to the enzyme-substrate complex. How do $V_{max}$ and $K_m$ change?",
+      "body": "Both **decrease** by the same factor, which is uncompetitive inhibition.\n\nLineweaver-Burk lines are **parallel**, with the same slope $K_m/V_{max}$ but a higher intercept.\n\nWhy: binding to ES pulls substrate binding forward (Le Chatelier), lowering the apparent $K_m$, while the dead-end ESI complex lowers $V_{max}$.\nExample: lithium inhibition of inositol monophosphatase is the classic example.",
+      "searchQuery": "uncompetitive inhibition parallel lines Vmax and Km decrease"
+    },
+    {
+      "id": "inh-mixed-effect",
+      "title": "How does mixed inhibition appear on a Lineweaver-Burk plot?",
+      "body": "The lines intersect to the **left of the y-axis**, so $V_{max}$ falls and $K_m$ changes.\n\nThe inhibitor binds both E and ES, but with different affinities ($K_i \\ne K_i'$).\n\nKey idea: if $K_i < K_i'$ (prefers E), $K_m$ rises; if $K_i > K_i'$ (prefers ES), $K_m$ falls. Pure noncompetitive is the special case $K_i = K_i'$.",
+      "searchQuery": "mixed inhibition Lineweaver-Burk lines intersect"
+    },
+    {
+      "id": "inh-competitive-calc",
+      "title": "$K_m = 2\\,\\mathrm{mM}$. A competitive inhibitor at $10\\,\\mu\\mathrm{M}$ has $K_i = 5\\,\\mu\\mathrm{M}$. What is the apparent $K_m$ in mM? (number only)",
+      "body": "6\n\n$K_m^{app} = K_m\\left(1 + \\frac{[I]}{K_i}\\right) = 2 \\times (1 + 2) = 6\\,\\mathrm{mM}$.\n\nWatch out: $V_{max}$ is unchanged for a competitive inhibitor; only $K_m$ is scaled up by the factor $\\alpha = 1 + [I]/K_i$.",
+      "answer": "6",
+      "searchQuery": "apparent Km competitive inhibitor Ki calculation"
+    },
+    {
+      "id": "inh-competitive-lb",
+      "title": "Where do Lineweaver-Burk lines with and without a competitive inhibitor intersect?",
+      "body": "On the **y-axis** at $1/V_{max}$.\n\nThe y-intercept is unchanged, while the slope and x-intercept change because $K_m^{app}$ rises.\n\nTip: **C**ompetitive lines **C**ross on the y-axis (same $V_{max}$); noncompetitive lines cross on the x-axis (same $K_m$).",
+      "searchQuery": "competitive inhibition Lineweaver-Burk lines intersect y-axis"
+    },
+    {
+      "id": "inh-irreversible-examples",
+      "title": "Name an irreversible inhibitor that covalently modifies the active-site serine of acetylcholinesterase and serine proteases.",
+      "body": "Diisopropylfluorophosphate (DFP), a nerve-agent-like organophosphate.\n\nIt phosphorylates the catalytic Ser, and the enzyme cannot be regenerated on a useful timescale.\n\nExample: aspirin acetylates a serine in cyclooxygenase, and penicillin acylates the transpeptidase serine in bacterial cell wall synthesis.",
+      "answer": "DFP",
+      "acceptedAnswers": [
+        "diisopropylfluorophosphate",
+        "diisopropyl fluorophosphonate"
+      ],
+      "searchQuery": "DFP irreversible inhibitor serine protease acetylcholinesterase"
+    },
+    {
+      "id": "kin-mm-assumptions",
+      "title": "Why must Michaelis-Menten kinetics be measured as an initial rate with $[S] \\gg [E]$?",
+      "body": "So that $[S]$ stays essentially constant and product has not accumulated enough for the reverse reaction or product inhibition to matter.\n\nThe model assumes a **steady state**: $[ES]$ stays constant over the measurement, since the rate of formation equals the rate of breakdown.\n\nWhy: once much substrate is used or substantial product forms, the measured rate no longer reflects $[S]_0$.\nTip: keep conversion under about $10\\%$ of the substrate.",
+      "searchQuery": "Michaelis-Menten steady state assumption initial velocity substrate excess"
+    },
+    {
+      "id": "allo-sigmoidal-kinetics",
+      "title": "How does an allosteric enzyme's rate-versus-$[S]$ curve differ from a Michaelis-Menten enzyme's?",
+      "body": "It is **sigmoidal**, not hyperbolic, because of cooperativity between subunits.\n\nThe substrate concentration at half $V_{max}$ is written $K_{0.5}$ (or $S_{0.5}$), not $K_m$.\n\nWhy: an allosteric activator shifts the curve left (lower $K_{0.5}$); an inhibitor shifts it right and makes it more sigmoidal.\nKey idea: allosteric enzymes do not obey the Michaelis-Menten equation, so $K_m$ is not defined.",
+      "searchQuery": "allosteric enzyme sigmoidal kinetics K0.5 cooperativity"
+    },
+    {
+      "id": "allo-atcase-inhibitor",
+      "title": "Which nucleotide is the feedback inhibitor of aspartate transcarbamoylase (ATCase)?",
+      "body": "CTP\n\nATCase makes N-carbamoylaspartate from carbamoyl phosphate and aspartate, the committed step of pyrimidine synthesis. CTP (the end product) stabilizes the T state; ATP stabilizes R.\n\nWhy: ATP activation signals that purines are plentiful, balancing the two nucleotide pools.\nKey idea: ATCase is the classic allosteric enzyme, built from 6 catalytic and 6 regulatory subunits.",
+      "answer": "CTP",
+      "acceptedAnswers": [
+        "cytidine triphosphate"
+      ],
+      "searchQuery": "ATCase aspartate transcarbamoylase CTP feedback inhibition"
+    },
+    {
+      "id": "reg-zymogen",
+      "title": "What is an inactive precursor of an enzyme, activated by proteolytic cleavage, called?",
+      "body": "A zymogen (proenzyme)\n\nExample: trypsinogen is activated to trypsin by enteropeptidase, and trypsin then activates chymotrypsinogen and other zymogens.\n\nWhy: it lets digestive enzymes be stored and secreted without digesting the cells that make them.\nWatch out: this is irreversible, unlike phosphorylation.",
+      "answer": "zymogen",
+      "acceptedAnswers": [
+        "proenzyme"
+      ],
+      "searchQuery": "zymogen proenzyme trypsinogen proteolytic activation"
+    },
+    {
+      "id": "mech-serine-nucleophile",
+      "title": "In the catalytic triad of chymotrypsin (Asp102, His57, Ser195), which residue is the nucleophile that attacks the peptide carbonyl?",
+      "body": "Serine (Ser195)\n\nHis57 acts as a general base that pulls the proton from Ser195, and Asp102 orients and stabilizes the protonated His.\n\nKey idea: this forms a covalent **acyl-enzyme** intermediate, and then water (activated by His) hydrolyzes it.\nWatch out: the Ser is nucleophilic only because of the triad; free serine is not very reactive.",
+      "answer": "serine",
+      "acceptedAnswers": [
+        "Ser195"
+      ],
+      "searchQuery": "chymotrypsin catalytic triad serine nucleophile"
+    },
+    {
+      "id": "mech-oxyanion-hole",
+      "title": "What is the role of the oxyanion hole in serine proteases?",
+      "body": "It stabilizes the negatively charged oxygen of the **tetrahedral intermediate** by hydrogen bonds from backbone N-H groups.\n\nThis lowers the energy of the transition state, which resembles that intermediate.\n\nWhy: the hole fits the tetrahedral geometry better than the planar substrate, so it helps only once the transition state is reached.",
+      "searchQuery": "oxyanion hole serine protease tetrahedral intermediate stabilization"
+    },
+    {
+      "id": "mech-burst-kinetics",
+      "title": "What did the \"burst\" of product release seen with chymotrypsin and $p$-nitrophenyl acetate reveal?",
+      "body": "A two-step mechanism: fast **acylation** (releasing the first product) and then slow **deacylation**.\n\nThe burst size equals the amount of active enzyme, which also allows active-site titration.\n\nWhy: if deacylation is rate-limiting, the acyl-enzyme builds up and the steady-state rate is lower than the initial burst.",
+      "searchQuery": "chymotrypsin burst kinetics acyl-enzyme p-nitrophenyl acetate"
+    },
+    {
+      "id": "ec-transferase-kinase",
+      "title": "To which EC enzyme class do kinases belong?",
+      "body": "Transferases (EC 2)\n\nKinases transfer a phosphoryl group from ATP to a substrate.\n\nThe seven classes: **1** oxidoreductases, **2** transferases, **3** hydrolases, **4** lyases, **5** isomerases, **6** ligases and **7** translocases (added in 2018).\nExample: hexokinase is EC 2.7.1.1; the 2.7 means phosphotransferases.",
+      "answer": "transferase",
+      "acceptedAnswers": [
+        "transferases",
+        "EC 2",
+        "class 2"
+      ],
+      "searchQuery": "EC enzyme classification kinase transferase class"
+    },
+    {
+      "id": "ec-ligase-atp",
+      "title": "Which EC enzyme class joins two molecules using energy from ATP hydrolysis?",
+      "body": "Ligases (EC 6), also called synthetases\n\nThey form C-C, C-O, C-N or C-S bonds coupled to ATP (or similar) cleavage.\n\nExample: DNA ligase seals nicks in the sugar–phosphate backbone of DNA.\nWatch out: do not confuse them with **lyases** (EC 4), which add or remove groups to form double bonds without ATP, or **synthases**, which do not require ATP.",
+      "answer": "ligase",
+      "acceptedAnswers": [
+        "ligases",
+        "synthetase",
+        "EC 6",
+        "synthetases"
+      ],
+      "searchQuery": "ligase EC 6 ATP joins two molecules synthetase"
+    },
+    {
+      "id": "mech-catalytic-strategies",
+      "title": "List the main catalytic strategies enzymes use to lower activation energy.",
+      "body": "- General acid-base catalysis\n- Covalent catalysis\n- Metal-ion catalysis\n- Proximity and orientation of substrates\n- Preferential binding of the transition state\n\nExample: chymotrypsin uses covalent catalysis (Ser195), general base catalysis (His57), and transition-state stabilization (oxyanion hole).\nKey idea: most enzymes combine several of these at once.",
+      "searchQuery": "enzyme catalytic mechanisms acid base covalent metal ion proximity"
+    },
+    {
+      "id": "mech-carbonic-anhydrase-zinc",
+      "title": "Which metal ion in the active site of carbonic anhydrase activates a bound water molecule?",
+      "body": "Zinc ($\\ce{Zn^2+}$)\n\nThe zinc lowers the pKa of its bound water so that hydroxide is present at neutral pH, and the hydroxide attacks $\\ce{CO2}$ to give bicarbonate.\n\nKey idea: carbonic anhydrase is one of the fastest enzymes known, with $k_{cat}$ around $10^6\\,\\mathrm{s^{-1}}$.",
+      "answer": "zinc",
+      "acceptedAnswers": [
+        "Zn",
+        "Zn2+"
+      ],
+      "searchQuery": "carbonic anhydrase zinc active site water hydroxide"
+    },
+    {
+      "id": "cof-biotin",
+      "title": "Which vitamin-derived cofactor carries activated $\\ce{CO2}$ in carboxylation reactions such as pyruvate carboxylase?",
+      "body": "Biotin\n\nIt is covalently attached to a lysine of the enzyme and carries $\\ce{CO2}$ on one of its ring nitrogens, using ATP to activate bicarbonate.\n\nWhy: dietary deficiency is rare, but raw egg whites contain **avidin**, which binds biotin extremely tightly.",
+      "answer": "biotin",
+      "acceptedAnswers": [
+        "vitamin B7",
+        "B7"
+      ],
+      "searchQuery": "biotin carboxylase cofactor carbon dioxide carrier"
+    },
+    {
+      "id": "carb-epimer-galactose",
+      "title": "Which common hexose is the C4 epimer of D-glucose?",
+      "body": "Galactose\n\nEpimers differ in configuration at exactly one stereocenter. D-Mannose is the C2 epimer of glucose.\n\nExample: galactose in lactose is converted to glucose by an epimerase after it is activated as UDP-galactose.\nWatch out: epimers are diastereomers, not enantiomers.",
+      "answer": "galactose",
+      "acceptedAnswers": [
+        "D-galactose"
+      ],
+      "searchQuery": "galactose C4 epimer of glucose epimers"
+    },
+    {
+      "id": "carb-anomeric-carbon",
+      "title": "When a sugar cyclizes into a hemiacetal or hemiketal ring, the new stereocenter is called what kind of carbon?",
+      "body": "The **anomeric carbon**\n\nIt is C1 in aldoses and C2 in ketoses such as fructose. The two forms are the $\\alpha$ and $\\beta$ anomers.\n\nWhy: in D-glucopyranose, $\\beta$ has the anomeric $\\ce{-OH}$ on the same side as the $\\ce{CH2OH}$ group (up in Haworth); $\\alpha$ has it opposite (down).\nKey idea: **mutarotation** interconverts the anomers in water through the open-chain form, giving about $64\\%$ $\\beta$ and $36\\%$ $\\alpha$ at equilibrium.",
+      "answer": "anomeric",
+      "acceptedAnswers": [
+        "anomeric carbon"
+      ],
+      "searchQuery": "anomeric carbon alpha beta anomers glucose mutarotation"
+    },
+    {
+      "id": "carb-aldohexose-stereoisomers",
+      "title": "How many stereoisomers does an open-chain aldohexose have? (number only)",
+      "body": "16\n\nAn aldohexose has four chiral centers (C2 to C5), so there are $2^4 = 16$ stereoisomers, 8 of them D and 8 L.\n\nWhy: a ketohexose has only three chiral centers, so it has $2^3 = 8$.\nTip: the D or L label comes from the chiral carbon farthest from the carbonyl (C5 in hexoses).",
+      "answer": "16",
+      "searchQuery": "aldohexose number of stereoisomers 2^n chiral centers"
+    },
+    {
+      "id": "carb-disaccharides-reducing",
+      "title": "Which common disaccharide is non-reducing because the anomeric carbons of both sugars are tied up in its glycosidic bond?",
+      "body": "Sucrose\n\nIt is glucose and fructose joined $\\alpha(1\\rightarrow\\beta 2)$, which uses both anomeric carbons.\n\nCompare: lactose (Gal $\\beta(1\\rightarrow4)$ Glc) and maltose (Glc $\\alpha(1\\rightarrow4)$ Glc) keep a free anomeric carbon on one residue, so they are reducing sugars.\nWhy: a reducing sugar can open its ring to expose an aldehyde that reduces $\\ce{Cu^2+}$ in Benedict's test.",
+      "answer": "sucrose",
+      "searchQuery": "sucrose nonreducing disaccharide anomeric carbon glycosidic bond"
+    },
+    {
+      "id": "carb-starch-cellulose",
+      "title": "Why can humans digest starch but not cellulose, even though both are glucose polymers?",
+      "body": "Starch has $\\alpha(1\\rightarrow4)$ linkages, which amylase cleaves; cellulose has $\\beta(1\\rightarrow4)$ linkages, which human enzymes cannot cleave.\n\nThe $\\beta$ linkage flips every other glucose, producing straight chains that H-bond into rigid fibrils; $\\alpha$ linkages give a helical, compact coil.\n\nExample: ruminants and termites rely on gut microbes that make cellulase.",
+      "searchQuery": "starch alpha 1-4 cellulose beta 1-4 linkage digestion"
+    },
+    {
+      "id": "carb-glycogen-branching",
+      "title": "How do glycogen and amylopectin differ in branching frequency?",
+      "body": "Glycogen has an $\\alpha(1\\rightarrow6)$ branch about every $8$ to $12$ residues; amylopectin about every $24$ to $30$.\n\nWhy: more branches mean more non-reducing ends, so glycogen can be mobilized quickly by many phosphorylase molecules working at once.\nKey idea: both branch points are $\\alpha(1\\rightarrow6)$ linkages, while the chains are $\\alpha(1\\rightarrow4)$.",
+      "searchQuery": "glycogen amylopectin branching frequency alpha 1-6 linkage"
+    },
+    {
+      "id": "carb-n-linked-residue",
+      "title": "N-linked glycosylation attaches a glycan to the side chain of which amino acid?",
+      "body": "Asparagine, within the sequon Asn-X-Ser/Thr (X is any residue except Pro).\n\nThis occurs in the ER, starting from a lipid-linked precursor ($\\ce{Glc3Man9GlcNAc2}$-dolichol).\n\nCompare: O-linked glycans are attached to the $\\ce{-OH}$ of Ser or Thr, typically in the Golgi, one sugar at a time.",
+      "answer": "asparagine",
+      "acceptedAnswers": [
+        "asn",
+        "N"
+      ],
+      "searchQuery": "N-linked glycosylation asparagine sequon Asn-X-Ser/Thr"
+    },
+    {
+      "id": "lipid-alpha-linolenic",
+      "title": "Which essential $\\omega$-3 fatty acid is $18{:}3(\\Delta^{9,12,15})$?",
+      "body": "$\\alpha$-Linolenic acid (ALA)\n\nHumans lack desaturases that put double bonds beyond $\\Delta^9$, so they must get ALA and linoleic acid ($18{:}2$, $\\omega$-6) from the diet.\n\nWhy: ALA is the precursor to EPA and DHA, though human conversion is limited.\nExample: flax and walnuts are rich in ALA.",
+      "answer": "alpha-linolenic acid",
+      "acceptedAnswers": [
+        "ALA",
+        "a-linolenic acid",
+        "linolenic acid",
+        "α-linolenic acid"
+      ],
+      "searchQuery": "alpha-linolenic acid omega-3 essential fatty acid 18:3"
+    },
+    {
+      "id": "lipid-cis-melting",
+      "title": "Why do unsaturated fatty acids with cis double bonds have lower melting points than saturated ones?",
+      "body": "A cis double bond puts a rigid **kink** in the chain, so the tails cannot pack tightly and van der Waals contacts are fewer.\n\nExample: stearic acid ($18{:}0$) melts near $70\\,^\\circ\\mathrm{C}$, while oleic acid ($18{:}1$ cis) melts near $13\\,^\\circ\\mathrm{C}$.\nWatch out: trans fats lack the kink, so they pack like saturated fats.",
+      "searchQuery": "cis double bond kink fatty acid melting point packing"
+    },
+    {
+      "id": "mem-cholesterol-fluidity",
+      "title": "How does cholesterol act as a fluidity buffer in animal cell membranes?",
+      "body": "At high temperature it **restricts** the motion of fatty acid tails; at low temperature it **prevents** tight packing and crystallization.\n\nIts rigid steroid ring lies next to the first carbons of the tails, and its small polar $\\ce{-OH}$ group sits at the aqueous surface.\n\nKey idea: cholesterol broadens the phase transition so the membrane stays fluid but not leaky.",
+      "searchQuery": "cholesterol membrane fluidity buffer temperature"
+    },
+    {
+      "id": "mem-flip-flop",
+      "title": "Why is transverse (flip-flop) diffusion of membrane lipids slow compared with lateral diffusion?",
+      "body": "A lipid must drag its polar head group through the hydrophobic core, a high energy barrier; lateral movement keeps heads in the aqueous surface.\n\nFlip-flop happens over hours to days unless catalyzed by **flippases**, floppases or scramblases.\n\nExample: flippases keep phosphatidylserine on the inner leaflet; its exposure on the outer leaflet signals apoptosis.",
+      "searchQuery": "membrane lipid flip-flop slow flippase lateral diffusion"
+    },
+    {
+      "id": "mem-na-k-atpase-ratio",
+      "title": "For each ATP hydrolyzed, how many $\\ce{Na+}$ ions does the $\\ce{Na+}/\\ce{K+}$-ATPase pump out of the cell? (number only)",
+      "body": "3\n\nThe pump moves $3\\,\\ce{Na+}$ out and $2\\,\\ce{K+}$ in per ATP, so it makes the membrane potential more negative inside.\n\nWhy: it is a P-type ATPase, forming a phospho-aspartate intermediate and cycling between E1 and E2 conformations.\nKey idea: **cardiac glycosides** such as digoxin inhibit it.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "sodium potassium ATPase 3 Na out 2 K in per ATP"
+    },
+    {
+      "id": "mem-glut4-insulin",
+      "title": "Which glucose transporter in muscle and fat moves to the plasma membrane in response to insulin?",
+      "body": "GLUT4\n\nInsulin signaling triggers fusion of GLUT4-containing vesicles with the membrane, and glucose enters by facilitated diffusion.\n\nCompare: GLUT2 (liver, pancreatic $\\beta$-cells) has a high $K_m$ and tracks blood glucose, while GLUT1 and GLUT3 operate constitutively.\nExample: exercise also moves GLUT4 to the surface, independent of insulin.",
+      "answer": "GLUT4",
+      "searchQuery": "GLUT4 insulin glucose transporter muscle adipose"
+    },
+    {
+      "id": "lipid-ceramide",
+      "title": "What is the backbone of sphingomyelin and glycosphingolipids, made of sphingosine plus a fatty acid?",
+      "body": "Ceramide\n\nSphingomyelin is ceramide with a phosphocholine head; cerebrosides and gangliosides have sugar head groups instead.\n\nWhy: sphingosine is an amino alcohol, and its amide-linked fatty acid makes ceramide the structural core of this lipid family.",
+      "answer": "ceramide",
+      "searchQuery": "ceramide sphingosine fatty acid sphingolipid backbone"
+    },
+    {
+      "id": "nuc-a260-conversion",
+      "title": "An $A_{260}$ of $1.0$ corresponds to about what concentration, in $\\mu\\mathrm{g/mL}$, of double-stranded DNA? (number only)",
+      "body": "50\n\nFor comparison, $A_{260} = 1$ is about $40\\,\\mu\\mathrm{g/mL}$ for RNA and $33\\,\\mu\\mathrm{g/mL}$ for single-stranded DNA.\n\nTip: a pure DNA sample has $A_{260}/A_{280} \\approx 1.8$ and pure RNA about $2.0$; a lower ratio suggests protein contamination.",
+      "answer": "50",
+      "searchQuery": "A260 1.0 equals 50 ug/mL double stranded DNA"
+    },
+    {
+      "id": "nuc-z-dna-handedness",
+      "title": "Is Z-DNA a left-handed or right-handed helix?",
+      "body": "Left-handed\n\nZ-DNA has about $12$ bp per turn and a zigzag backbone; B-DNA is right-handed with about $10.5$ bp per turn, and A-DNA is right-handed with about $11$.\n\nExample: alternating purine-pyrimidine runs (such as CGCGCG) and high salt favor Z-DNA.",
+      "answer": "left-handed",
+      "acceptedAnswers": [
+        "left",
+        "left handed"
+      ],
+      "searchQuery": "Z-DNA left-handed helix B-DNA A-DNA comparison"
+    },
+    {
+      "id": "nuc-melting-gc",
+      "title": "How does the GC content of a DNA molecule affect its melting temperature $T_m$, and why?",
+      "body": "Higher GC content gives a **higher** $T_m$.\n\nG-C pairs have three hydrogen bonds and stack more strongly than A-T pairs, which have two.\n\nWhy: melting also increases $A_{260}$ by about $30\\%$ (the **hyperchromic effect**) as stacked bases unstack.\nTip: $T_m$ also rises with salt concentration, since cations shield backbone phosphate repulsion.",
+      "searchQuery": "DNA melting temperature GC content hyperchromic effect"
+    }
+  ]
+}

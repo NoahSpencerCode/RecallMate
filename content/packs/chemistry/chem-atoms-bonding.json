@@ -1,0 +1,957 @@
+{
+  "id": "chem-atoms-bonding",
+  "title": "Atoms, Trends & Bonding",
+  "course": "General Chemistry I",
+  "description": "Electron configurations and their exceptions, periodic trends with reasons, lattice energy, formal charge, VSEPR, hybridization, polarity and IMFs.",
+  "cards": [
+    {
+      "id": "avogadro-number",
+      "title": "Avogadro's number: how many particles are in one mole of a substance? (4 significant figures)",
+      "body": "$6.022\\times10^{23}\\,\\mathrm{mol^{-1}}$\n\nThe **mole** is defined by fixing $N_A$ at exactly $6.02214076\\times10^{23}\\,\\mathrm{mol^{-1}}$ (2019 SI redefinition). A mole of $^{12}\\ce{C}$ atoms has a mass of about $12\\,\\mathrm{g}$, and each atom has a mass of $12\\,\\mathrm{u}$.\n\nExample: $0.50\\,\\mathrm{mol}$ of $\\ce{CO2}$ is $3.0\\times10^{23}$ molecules but $9.0\\times10^{23}$ atoms.\nWatch out: to count atoms, multiply by the number of atoms per formula unit (3 here).",
+      "answer": "6.022x10^23",
+      "acceptedAnswers": [
+        "6.022e23",
+        "6.022*10^23",
+        "6.02x10^23",
+        "6.02e23",
+        "6.02*10^23"
+      ],
+      "answerDisplay": "$6.022\\times10^{23}$",
+      "searchQuery": "Avogadro number value mole particles"
+    },
+    {
+      "id": "isotope-ion-counts",
+      "title": "How many protons, neutrons and electrons are in the ion $^{37}\\ce{Cl^-}$ ($Z = 17$)?",
+      "body": "17 protons, 20 neutrons, 18 electrons.\n\nNeutrons $= A - Z = 37 - 17 = 20$. The $1-$ charge means one **extra electron** beyond the 17 protons.\n\n$^{35}\\ce{Cl}$ and $^{37}\\ce{Cl}$ are isotopes: same $Z$, different neutron counts, essentially the same chemistry.\nTip: protons $= Z$; electrons $= Z -$ charge; neutrons $= A - Z$.",
+      "searchQuery": "protons neutrons electrons chloride ion Cl-37"
+    },
+    {
+      "id": "orbitals-in-n3-shell",
+      "title": "How many orbitals are in the $n = 3$ shell?",
+      "body": "9 orbitals ($n^2$).\n\n$\\ell$ runs from 0 to $n-1$ (3s, 3p, 3d) and $m_\\ell$ from $-\\ell$ to $+\\ell$, giving $1 + 3 + 5 = 9$ orbitals. They hold $2n^2 = 18$ electrons.\n\nWatch out: $n = 2$ with $\\ell = 2$ is not allowed, because $\\ell \\le n - 1$.",
+      "answer": "9",
+      "acceptedAnswers": [
+        "nine",
+        "9 orbitals"
+      ],
+      "searchQuery": "number of orbitals in n=3 shell n squared"
+    },
+    {
+      "id": "hunds-rule",
+      "title": "Which rule says nitrogen's three 2p electrons occupy separate orbitals with parallel spins instead of pairing up?",
+      "body": "Hund's rule.\n\nElectrons enter **degenerate orbitals** singly, with parallel spins, before any pairing. This minimizes electron-electron repulsion.\n\nIts partners: Aufbau (fill the lowest-energy orbitals first) and Pauli (at most 2 electrons per orbital, with opposite spins).\nExample: nitrogen's 2p electrons are $\\uparrow\\ \\uparrow\\ \\uparrow$, not $\\uparrow\\downarrow\\ \\uparrow\\ \\_$.",
+      "answer": "Hund's rule",
+      "acceptedAnswers": [
+        "Hund",
+        "Hund's",
+        "Hunds rule",
+        "Hunds",
+        "Hund rule"
+      ],
+      "searchQuery": "Hund's rule electron configuration nitrogen 2p"
+    },
+    {
+      "id": "cr-cu-exceptions",
+      "title": "What are the actual ground-state electron configurations of chromium ($\\ce{Cr}$) and copper ($\\ce{Cu}$)?",
+      "body": "$\\ce{Cr}$: $\\mathrm{[Ar]\\,3d^5\\,4s^1}$ and $\\ce{Cu}$: $\\mathrm{[Ar]\\,3d^{10}\\,4s^1}$\n\nNot the \"expected\" $\\mathrm{3d^4\\,4s^2}$ and $\\mathrm{3d^9\\,4s^2}$. A **half-filled or completely filled d subshell** is especially stable, so one 4s electron moves into 3d.\n\nKey idea: $\\ce{Mo}$ and $\\ce{Ag}$ follow the same pattern in the next period.",
+      "searchQuery": "chromium copper electron configuration exception"
+    },
+    {
+      "id": "atomic-radius-trend",
+      "title": "Why does atomic radius decrease from left to right across a period but increase down a group?",
+      "body": "Across: $Z_\\mathrm{eff}$ rises, pulling the same valence shell closer. Down: each period adds a shell with higher $n$, farther from the nucleus.\n\nProtons are added across a period, but same-shell electrons shield each other poorly, so **effective nuclear charge** climbs.\n\nExample: $\\ce{Na} > \\ce{Mg} > \\ce{Cl}$ and $\\ce{Li} < \\ce{Na} < \\ce{K}$.",
+      "searchQuery": "atomic radius periodic trend effective nuclear charge"
+    },
+    {
+      "id": "ionization-energy-exceptions",
+      "title": "First ionization energy generally rises across period 2. Why is it lower for $\\ce{O}$ than for $\\ce{N}$, and for $\\ce{B}$ than for $\\ce{Be}$?",
+      "body": "$\\ce{O}$: its fourth 2p electron is paired, and the extra electron-electron repulsion makes it easier to remove. $\\ce{B}$: its outer electron is in 2p, higher in energy than 2s and partly shielded by the 2s electrons.\n\n$\\ce{N}$'s half-filled $\\mathrm{2p^3}$ has no paired electrons, so it holds on tightly.\n\nKey idea: $IE_1$ generally rises across a period ($Z_\\mathrm{eff}$ up) and falls down a group (larger atoms).\nWatch out: the dips are at group 13 (below group 2) and group 16 (below group 15).",
+      "searchQuery": "first ionization energy exceptions oxygen nitrogen boron beryllium"
+    },
+    {
+      "id": "successive-ionization-jump",
+      "title": "An element has $IE_1 = 738$, $IE_2 = 1451$ and $IE_3 = 7733\\,\\mathrm{kJ/mol}$. Which group of the periodic table is it in?",
+      "body": "Group 2 (alkaline earth metals); the element is $\\ce{Mg}$.\n\nThe huge jump after $IE_2$ means the third electron must come from the **noble-gas core**. The number of electrons removed before the big jump equals the number of valence electrons.\n\nTip: look for the first jump of roughly 4 to 10 times the previous value.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "group 2",
+        "2A",
+        "IIA",
+        "II",
+        "group 2A",
+        "group IIA",
+        "group II",
+        "alkaline earth metals",
+        "alkaline earth metal",
+        "alkaline earth",
+        "alkaline-earth metals"
+      ],
+      "searchQuery": "successive ionization energies large jump group"
+    },
+    {
+      "id": "electronegativity-order",
+      "title": "Arrange $\\ce{Si}$, $\\ce{C}$, $\\ce{N}$, $\\ce{O}$ and $\\ce{F}$ in order of increasing electronegativity.",
+      "body": "$\\ce{Si} < \\ce{C} < \\ce{N} < \\ce{O} < \\ce{F}$\n\nElectronegativity rises across a period and up a group ($\\ce{Si}$ sits below $\\ce{C}$). Higher $Z_\\mathrm{eff}$ and a smaller radius let the nucleus pull bonding electrons harder.\n\nKey idea: $\\ce{F}$ (about 4.0 on the Pauling scale) is the most electronegative element.",
+      "searchQuery": "electronegativity trend order Si C N O F"
+    },
+    {
+      "id": "lattice-energy-charge",
+      "title": "Which has the largest lattice energy (in magnitude): $\\ce{KCl}$, $\\ce{NaCl}$, $\\ce{NaF}$ or $\\ce{MgO}$?",
+      "body": "$\\ce{MgO}$\n\nLattice energy is roughly $3800\\,\\mathrm{kJ/mol}$ for $\\ce{MgO}$, versus about $790\\,\\mathrm{kJ/mol}$ for $\\ce{NaCl}$.\n\nWhy: Coulomb's law gives lattice energy $\\propto q_1q_2/r$. $\\ce{Mg^2+}$ and $\\ce{O^2-}$ have 4 times the charge product of a $1+/1-$ pair, and both ions are small.\nTip: among $1+/1-$ salts, smaller ions win: $\\ce{NaF} > \\ce{NaCl} > \\ce{KCl}$.",
+      "answer": "MgO",
+      "acceptedAnswers": [
+        "magnesium oxide"
+      ],
+      "answerDisplay": "$\\ce{MgO}$",
+      "searchQuery": "lattice energy MgO NaCl comparison charge size"
+    },
+    {
+      "id": "formal-charge-co",
+      "title": "In the best Lewis structure of carbon monoxide, $\\ce{:C≡O:}$, what is the formal charge on carbon?",
+      "body": "$-1$\n\nFormula: $FC = V - N - B/2$, using valence ($V$), nonbonding ($N$) and bonding ($B$) electrons. For carbon: $4 - 2 - 6/2 = -1$; oxygen is $+1$.\n\nThe triple bond gives both atoms an **octet**, which matters more than putting the negative charge on the more electronegative atom.\nWatch out: CO is a rare case where the formal charges go \"the wrong way\" and the structure is still best.",
+      "answer": "-1",
+      "acceptedAnswers": [
+        "1-",
+        "negative 1",
+        "minus 1",
+        "negative one"
+      ],
+      "searchQuery": "formal charge carbon monoxide carbon -1"
+    },
+    {
+      "id": "sf4-molecular-geometry",
+      "title": "What is the molecular geometry (shape) of $\\ce{SF4}$?",
+      "body": "Seesaw.\n\n$\\ce{S}$ has 5 electron domains (4 bonds + 1 lone pair), so the electron geometry is **trigonal bipyramidal**. The lone pair sits in an equatorial position, which has fewer $90^\\circ$ repulsions.\n\nExample: $\\ce{ClF3}$ (2 lone pairs) is T-shaped and $\\ce{XeF2}$ (3 lone pairs) is linear.",
+      "answer": "seesaw",
+      "acceptedAnswers": [
+        "see-saw",
+        "sawhorse",
+        "seesaw shape"
+      ],
+      "searchQuery": "SF4 molecular geometry seesaw VSEPR"
+    },
+    {
+      "id": "hybridization-water-oxygen",
+      "title": "What is the hybridization of the oxygen atom in $\\ce{H2O}$?",
+      "body": "$sp^3$\n\nCount electron domains, not bonded atoms: 2 bonds + 2 lone pairs = 4 domains. The rule: 2 domains is $sp$, 3 is $sp^2$, 4 is $sp^3$.\n\nWatch out: oxygen having only two bonds does not make it $sp$.",
+      "answer": "sp3",
+      "acceptedAnswers": [
+        "sp^3"
+      ],
+      "answerDisplay": "$sp^3$",
+      "searchQuery": "hybridization of oxygen in water sp3 electron domains"
+    },
+    {
+      "id": "sigma-pi-count-hcn",
+      "title": "How many $\\sigma$ bonds and how many $\\pi$ bonds are in $\\ce{HCN}$ ($\\ce{H-C≡N}$)?",
+      "body": "2 $\\sigma$ bonds and 2 $\\pi$ bonds.\n\nEvery single bond is one $\\sigma$; a double bond is $\\sigma + \\pi$; a triple bond is $\\sigma + 2\\pi$. In $\\ce{H-C≡N}$ that is one $\\sigma$ for $\\ce{C-H}$ plus $\\sigma + 2\\pi$ for the triple bond.\n\nWhy: $\\sigma$ bonds form by head-on overlap, $\\pi$ bonds by side-by-side overlap of unhybridized p orbitals, so $\\pi$ bonds block rotation.",
+      "searchQuery": "sigma and pi bonds in HCN triple bond count"
+    },
+    {
+      "id": "polar-molecule-choice",
+      "title": "Which of these molecules is polar: $\\ce{CO2}$, $\\ce{BF3}$, $\\ce{CCl4}$ or $\\ce{SO2}$?",
+      "body": "$\\ce{SO2}$\n\nThe lone pair on $\\ce{S}$ makes it bent, so the $\\ce{S-O}$ bond dipoles don't cancel.\n\n$\\ce{CO2}$ (linear), $\\ce{BF3}$ (trigonal planar) and $\\ce{CCl4}$ (tetrahedral) all have polar bonds, but their **symmetric shapes** make the dipoles cancel.\nTip: polar molecule = polar bonds + an asymmetric shape.",
+      "answer": "SO2",
+      "acceptedAnswers": [
+        "sulfur dioxide",
+        "sulphur dioxide"
+      ],
+      "searchQuery": "polar molecule SO2 bent dipoles cancel symmetric"
+    },
+    {
+      "id": "imf-boiling-point-ranking",
+      "title": "Rank by boiling point: propane ($\\ce{CH3CH2CH3}$), dimethyl ether ($\\ce{CH3OCH3}$), ethanol ($\\ce{CH3CH2OH}$). All have molar masses near $45\\,\\mathrm{g/mol}$.",
+      "body": "Propane ($-42\\,^\\circ\\mathrm{C}$) < dimethyl ether ($-24\\,^\\circ\\mathrm{C}$) < ethanol ($78\\,^\\circ\\mathrm{C}$).\n\nSimilar size means similar dispersion forces, so the extra force decides: **dipole-dipole** for the ether, **hydrogen bonding** for ethanol.\n\nWatch out: the ether has $\\ce{O}$ but no $\\ce{O-H}$, so it can't H-bond with itself. A donor needs $\\ce{H}$ bonded directly to $\\ce{N}$, $\\ce{O}$ or $\\ce{F}$.",
+      "searchQuery": "boiling point ranking propane dimethyl ether ethanol hydrogen bonding"
+    },
+    {
+      "id": "atomic-number-identity",
+      "title": "Which subatomic particle's count determines which element an atom is?",
+      "body": "The proton: the number of protons is the atomic number, $Z$.\n\nChanging the neutron count gives an isotope of the same element; changing the electron count gives an ion of the same element.\n\nExample: every carbon atom has 6 protons.",
+      "answer": "protons",
+      "acceptedAnswers": [
+        "proton",
+        "number of protons",
+        "atomic number",
+        "Z"
+      ],
+      "searchQuery": "atomic number protons identify element"
+    },
+    {
+      "id": "average-atomic-mass",
+      "title": "Boron is 19.9% $^{10}\\ce{B}$ ($10.013\\,\\mathrm{u}$) and 80.1% $^{11}\\ce{B}$ ($11.009\\,\\mathrm{u}$). What is its average atomic mass, in u to 2 decimal places?",
+      "body": "$10.81\\,\\mathrm{u}$\n\nTake the abundance-weighted average, using fractions rather than percents: $(0.199)(10.013) + (0.801)(11.009) = 1.993 + 8.818$.\n\nTip: the average must lie closer to the mass of the more abundant isotope. Here 10.81 is near 11.009, as expected.",
+      "answer": "10.81",
+      "searchQuery": "average atomic mass boron isotopes weighted average"
+    },
+    {
+      "id": "isoelectronic-radius-order",
+      "title": "Rank the isoelectronic ions $\\ce{O^2-}$, $\\ce{F^-}$, $\\ce{Na^+}$ and $\\ce{Mg^2+}$ from largest to smallest.",
+      "body": "$\\ce{O^2-} > \\ce{F^-} > \\ce{Na^+} > \\ce{Mg^2+}$\n\nAll four have 10 electrons (the $\\ce{Ne}$ configuration), so size depends only on nuclear charge: from 8 protons up to 12, the same electron cloud is pulled in tighter.\n\nExample: radii in pm are about 140, 133, 102 and 72.\nKey idea: among isoelectronic species, more protons means a smaller radius.",
+      "searchQuery": "isoelectronic ions radius order O2- F- Na+ Mg2+"
+    },
+    {
+      "id": "cation-anion-size",
+      "title": "Is $\\ce{Na^+}$ larger or smaller than a $\\ce{Na}$ atom? Is $\\ce{Cl^-}$ larger or smaller than a $\\ce{Cl}$ atom?",
+      "body": "$\\ce{Na^+}$ is smaller than $\\ce{Na}$; $\\ce{Cl^-}$ is larger than $\\ce{Cl}$.\n\n$\\ce{Na^+}$ has lost its entire 3s shell, and its remaining electrons feel the same 11 protons. $\\ce{Cl^-}$ gains an electron in the same shell, so repulsion rises with no extra protons to hold it.\n\nKey idea: **cations shrink, anions expand** relative to their parent atoms.",
+      "searchQuery": "cation smaller anion larger than parent atom ionic radius"
+    },
+    {
+      "id": "photon-energy-500nm",
+      "title": "What is the energy of one photon of $500.\\,\\mathrm{nm}$ light? Give the number in units of $10^{-19}\\,\\mathrm{J}$, to 3 significant figures.",
+      "body": "$3.97\\times10^{-19}\\,\\mathrm{J}$\n\n$E = hc/\\lambda = (6.626\\times10^{-34}\\,\\mathrm{J\\,s})(2.998\\times10^{8}\\,\\mathrm{m/s})/(5.00\\times10^{-7}\\,\\mathrm{m})$.\n\nWatch out: convert nm to m first.\nExample: for a mole of photons, multiply by $N_A$ to get about $239\\,\\mathrm{kJ}$.",
+      "answer": "3.97",
+      "acceptedAnswers": [
+        "3.97x10^-19",
+        "3.97e-19",
+        "3.97*10^-19"
+      ],
+      "answerDisplay": "$3.97\\times10^{-19}\\,\\mathrm{J}$",
+      "searchQuery": "photon energy E = hc/lambda 500 nm"
+    },
+    {
+      "id": "photoelectric-intensity",
+      "title": "Light below a metal's threshold frequency ejects no electrons. What happens if you make that light much brighter?",
+      "body": "Still no electrons are ejected.\n\nEach electron absorbs a **single photon**, and a photon's energy depends only on its frequency ($E = h\\nu$), not on the light's intensity.\n\nAbove the threshold, brighter light ejects more electrons, but their maximum kinetic energy, $h\\nu - \\Phi$ ($\\Phi$ is the work function), still depends only on frequency.\nKey idea: intensity sets the number of photons; frequency sets the energy per photon.",
+      "searchQuery": "photoelectric effect threshold frequency intensity"
+    },
+    {
+      "id": "hydrogen-energy-levels",
+      "title": "Bohr model: what is the energy of the hydrogen atom's electron in level $n$?",
+      "body": "$E_n = -\\dfrac{2.18\\times10^{-18}\\,\\mathrm{J}}{n^2}$, or $-13.6\\,\\mathrm{eV}/n^2$\n\nEnergy is lowest (most negative) at $n = 1$ and rises toward 0 as $n \\to \\infty$, where the electron is free.\n\nExample: ionizing ground-state hydrogen takes $2.18\\times10^{-18}\\,\\mathrm{J}$ per atom, or $1312\\,\\mathrm{kJ/mol}$.\nWatch out: the energies are negative; the zero of energy is the free electron.",
+      "searchQuery": "Bohr model hydrogen energy levels formula"
+    },
+    {
+      "id": "hydrogen-balmer-wavelength",
+      "title": "What wavelength of light does a hydrogen atom emit when its electron drops from $n = 3$ to $n = 2$? Answer in nm, to 3 significant figures.",
+      "body": "$656\\,\\mathrm{nm}$ (red light).\n\n$\\Delta{E} = (2.18\\times10^{-18}\\,\\mathrm{J})(1/2^2 - 1/3^2) = 3.03\\times10^{-19}\\,\\mathrm{J}$, then $\\lambda = hc/\\Delta{E}$.\n\nKey idea: all of hydrogen's visible lines end at $n = 2$ (the **Balmer series**).",
+      "answer": "656",
+      "searchQuery": "hydrogen n=3 to n=2 wavelength Balmer 656 nm"
+    },
+    {
+      "id": "emission-highest-energy",
+      "title": "Which hydrogen transition emits the highest-energy photon: $n = 2 \\to 1$, $3 \\to 2$, $4 \\to 3$ or $5 \\to 4$?",
+      "body": "$n = 2 \\to 1$\n\nThe levels crowd together as $n$ grows ($E_n \\propto -1/n^2$), so the $2 \\to 1$ gap, three-quarters of the ionization energy, dwarfs the gaps between higher levels.\n\nExample: it is ultraviolet at $122\\,\\mathrm{nm}$, in the **Lyman series** (transitions ending at $n = 1$).",
+      "searchQuery": "hydrogen emission highest energy transition Lyman series"
+    },
+    {
+      "id": "de-broglie-wavelength",
+      "title": "What is the de Broglie wavelength $\\lambda$ of a particle with mass $m$ and speed $v$?",
+      "body": "$\\lambda = \\dfrac{h}{mv}$ (Planck's constant divided by momentum).\n\nEvery moving object has a wavelength, but only very light particles have one large enough to matter. Electron diffraction is the evidence.\n\nExample: a thrown baseball's wavelength is around $10^{-34}\\,\\mathrm{m}$, far too small to detect.",
+      "answer": "h/(mv)",
+      "acceptedAnswers": [
+        "h/mv",
+        "h/p",
+        "lambda = h/(mv)",
+        "lambda = h/mv",
+        "λ = h/(mv)",
+        "λ = h/mv"
+      ],
+      "answerDisplay": "$\\lambda = \\dfrac{h}{mv}$",
+      "searchQuery": "de Broglie wavelength h over mv"
+    },
+    {
+      "id": "quantum-number-meanings",
+      "title": "What does each quantum number, $n$, $\\ell$, $m_\\ell$ and $m_s$, describe?",
+      "body": "$n$: shell (size and energy). $\\ell$: subshell shape. $m_\\ell$: orbital orientation. $m_s$: electron spin.\n\n- $\\ell = 0, 1, 2, 3$ are s, p, d, f\n- $m_\\ell$ runs from $-\\ell$ to $+\\ell$\n- $m_s = +\\tfrac{1}{2}$ or $-\\tfrac{1}{2}$\n\nKey idea: the first three numbers specify an **orbital**; adding $m_s$ specifies one electron in it.",
+      "searchQuery": "four quantum numbers n l ml ms meaning"
+    },
+    {
+      "id": "invalid-quantum-numbers",
+      "title": "Is this set of quantum numbers allowed: $n = 3$, $\\ell = 1$, $m_\\ell = -2$, $m_s = +\\tfrac{1}{2}$?",
+      "body": "No.\n\n$m_\\ell$ runs from $-\\ell$ to $+\\ell$, so $\\ell = 1$ (a p subshell) allows only $-1$, $0$ and $+1$.\n\nTip: check $n \\ge 1$; $0 \\le \\ell \\le n - 1$; $|m_\\ell| \\le \\ell$; $m_s = \\pm\\tfrac{1}{2}$.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "not allowed",
+        "no, not allowed"
+      ],
+      "searchQuery": "allowed quantum numbers rules ml range"
+    },
+    {
+      "id": "d-subshell-capacity",
+      "title": "What is the maximum number of electrons in a subshell with $\\ell = 2$?",
+      "body": "10\n\n$\\ell = 2$ is a d subshell with $2\\ell + 1 = 5$ orbitals ($m_\\ell = -2$ to $+2$), each holding 2 electrons.\n\nTip: capacities are s 2, p 6, d 10, f 14.",
+      "answer": "10",
+      "acceptedAnswers": [
+        "ten"
+      ],
+      "searchQuery": "d subshell maximum electrons l=2"
+    },
+    {
+      "id": "radial-nodes-3p",
+      "title": "How many radial nodes does a 3p orbital have?",
+      "body": "1\n\nRadial nodes $= n - \\ell - 1 = 3 - 1 - 1 = 1$. Angular nodes $= \\ell = 1$ (one nodal plane), so there are $n - 1 = 2$ nodes in total.\n\nExample: a 3s orbital has 2 radial nodes and no angular nodes.",
+      "answer": "1",
+      "acceptedAnswers": [
+        "one"
+      ],
+      "searchQuery": "radial nodes 3p orbital n minus l minus 1"
+    },
+    {
+      "id": "pauli-exclusion-principle",
+      "title": "Which principle says no two electrons in an atom can have the same set of four quantum numbers?",
+      "body": "The Pauli exclusion principle.\n\nNo two electrons in an atom can have the same four quantum numbers. So an orbital (fixed $n$, $\\ell$, $m_\\ell$) holds at most 2 electrons, with opposite spins, $m_s = +\\tfrac{1}{2}$ and $-\\tfrac{1}{2}$.\n\nKey idea: this is why subshell capacities are 2, 6, 10 and 14.",
+      "answer": "Pauli exclusion principle",
+      "acceptedAnswers": [
+        "Pauli exclusion",
+        "Pauli principle",
+        "Pauli",
+        "exclusion principle",
+        "Pauli's exclusion principle",
+        "Pauli's principle"
+      ],
+      "searchQuery": "Pauli exclusion principle four quantum numbers"
+    },
+    {
+      "id": "aufbau-after-5s",
+      "title": "In the Aufbau filling order, which subshell fills immediately after 5s?",
+      "body": "4d\n\nSubshells fill in order of increasing $n + \\ell$; for ties, lower $n$ first. So 5s ($5 + 0$) is followed by 4d ($4 + 2$), then 5p ($5 + 1$).\n\nExample: the same rule puts 4s before 3d, and 4f after 6s.",
+      "answer": "4d",
+      "acceptedAnswers": [
+        "4d subshell"
+      ],
+      "searchQuery": "Aufbau filling order after 5s 4d"
+    },
+    {
+      "id": "sulfur-electron-configuration",
+      "title": "Write the ground-state electron configuration of sulfur ($Z = 16$) in noble-gas shorthand.",
+      "body": "$\\mathrm{[Ne]\\,3s^2\\,3p^4}$\n\n16 electrons: 10 in the neon core, then 2 in 3s and 4 in 3p.\n\nExample: by Hund's rule, two of the four 3p electrons are unpaired, so a sulfur atom has **2 unpaired electrons**.",
+      "answer": "[Ne] 3s2 3p4",
+      "acceptedAnswers": [
+        "[Ne]3s^2 3p^4",
+        "1s2 2s2 2p6 3s2 3p4",
+        "1s^2 2s^2 2p^6 3s^2 3p^4"
+      ],
+      "answerDisplay": "$\\mathrm{[Ne]\\,3s^2\\,3p^4}$",
+      "searchQuery": "sulfur electron configuration noble gas shorthand"
+    },
+    {
+      "id": "fe3-ion-configuration",
+      "title": "Iron is $\\mathrm{[Ar]\\,3d^6\\,4s^2}$. What is the ground-state electron configuration of $\\ce{Fe^3+}$?",
+      "body": "$\\mathrm{[Ar]\\,3d^5}$\n\nTransition metals lose their **4s electrons first**, before any 3d electrons. $\\ce{Fe^3+}$ loses both 4s electrons and one 3d.\n\nWatch out: $\\mathrm{[Ar]\\,3d^3\\,4s^2}$ is the classic wrong answer.\nExample: with five unpaired electrons, $\\ce{Fe^3+}$ is strongly paramagnetic.",
+      "answer": "[Ar] 3d5",
+      "acceptedAnswers": [
+        "[Ar]3d^5",
+        "[Ar] 3d5 4s0",
+        "[Ar] 3d^5 4s^0",
+        "1s2 2s2 2p6 3s2 3p6 3d5",
+        "1s^2 2s^2 2p^6 3s^2 3p^6 3d^5"
+      ],
+      "answerDisplay": "$\\mathrm{[Ar]\\,3d^5}$",
+      "searchQuery": "Fe3+ electron configuration transition metal ion 4s first"
+    },
+    {
+      "id": "fe2-unpaired-electrons",
+      "title": "How many unpaired electrons does a gaseous $\\ce{Fe^2+}$ ion have in its ground state?",
+      "body": "4\n\n$\\ce{Fe^2+}$ is $\\mathrm{[Ar]\\,3d^6}$. By Hund's rule, five electrons occupy the five 3d orbitals singly, and the sixth pairs with one of them.\n\nTip: write the d-orbital boxes and fill singly first; then count the lone arrows.",
+      "answer": "4",
+      "acceptedAnswers": [
+        "four"
+      ],
+      "searchQuery": "Fe2+ unpaired electrons 3d6 Hund's rule"
+    },
+    {
+      "id": "diamagnetic-ion-choice",
+      "title": "Which of these ions is diamagnetic: $\\ce{Zn^2+}$, $\\ce{Fe^3+}$, $\\ce{Cu^2+}$ or $\\ce{Mn^2+}$?",
+      "body": "$\\ce{Zn^2+}$, which is $\\mathrm{[Ar]\\,3d^{10}}$.\n\n**Diamagnetic** means every electron is paired, so the substance is weakly repelled by a magnetic field. Any unpaired electron makes a species **paramagnetic** (attracted).\n\nExample: $\\ce{Fe^3+}$ and $\\ce{Mn^2+}$ are $\\mathrm{3d^5}$ (5 unpaired), and $\\ce{Cu^2+}$ is $\\mathrm{3d^9}$ (1 unpaired).",
+      "answer": "Zn2+",
+      "acceptedAnswers": [
+        "Zn^2+",
+        "Zn+2",
+        "Zn^(2+)",
+        "Zn",
+        "zinc ion",
+        "zinc(II) ion"
+      ],
+      "answerDisplay": "$\\ce{Zn^2+}$",
+      "searchQuery": "diamagnetic ion Zn2+ paramagnetic unpaired electrons"
+    },
+    {
+      "id": "zeff-simple-estimate",
+      "title": "Estimate $Z_\\mathrm{eff}$ for a valence electron of chlorine using $Z_\\mathrm{eff} \\approx Z - (\\text{number of core electrons})$.",
+      "body": "About $+7$ ($17 - 10$)\n\nCore electrons shield almost completely, while same-shell electrons barely shield each other. Across period 3 this estimate climbs from $+1$ for $\\ce{Na}$ to $+7$ for $\\ce{Cl}$.\n\nWhy: that growing pull is why the atoms shrink and hold their electrons more tightly.\nExample: Slater's rules give a more realistic $+6.1$ for chlorine.",
+      "answer": "7",
+      "acceptedAnswers": [
+        "+7",
+        "seven"
+      ],
+      "searchQuery": "effective nuclear charge estimate chlorine Z minus core electrons"
+    },
+    {
+      "id": "largest-atom-choice",
+      "title": "Which atom is largest: $\\ce{K}$, $\\ce{Ca}$, $\\ce{Br}$ or $\\ce{Rb}$?",
+      "body": "$\\ce{Rb}$\n\nIt's the only one in period 5, so its valence electron occupies a higher shell. As a group 1 metal it also has the lowest $Z_\\mathrm{eff}$ in its period.\n\nExample: among the period-4 atoms, $\\ce{K} > \\ce{Ca} > \\ce{Br}$.\nTip: compare period first (more shells wins), then group (further left wins).",
+      "answer": "Rb",
+      "acceptedAnswers": [
+        "rubidium"
+      ],
+      "answerDisplay": "$\\ce{Rb}$",
+      "searchQuery": "largest atomic radius K Ca Br Rb periodic trend"
+    },
+    {
+      "id": "lowest-ionization-energy-choice",
+      "title": "Which has the lowest first ionization energy: $\\ce{Na}$, $\\ce{Mg}$, $\\ce{Al}$ or $\\ce{K}$?",
+      "body": "$\\ce{K}$ ($419\\,\\mathrm{kJ/mol}$, versus $496\\,\\mathrm{kJ/mol}$ for $\\ce{Na}$)\n\nIts 4s electron is farther from the nucleus and better shielded than sodium's 3s electron.\n\nWatch out: $\\ce{Al}$ ($578\\,\\mathrm{kJ/mol}$) is below $\\ce{Mg}$ ($738\\,\\mathrm{kJ/mol}$), because a 3p electron is easier to remove than a 3s electron.",
+      "answer": "K",
+      "acceptedAnswers": [
+        "potassium"
+      ],
+      "searchQuery": "lowest first ionization energy potassium Na Mg Al"
+    },
+    {
+      "id": "electron-affinity-cl-vs-f",
+      "title": "Which releases more energy when a gaseous atom gains an electron: $\\ce{F}$ or $\\ce{Cl}$?",
+      "body": "$\\ce{Cl}$ ($349$ versus $328\\,\\mathrm{kJ/mol}$ released), even though $\\ce{F}$ is more electronegative.\n\n$\\ce{F}$ is so small that an added electron is crowded by the seven valence electrons already there. That repulsion offsets its stronger nuclear attraction.\n\nKey idea: chlorine has the most exothermic electron affinity of any element.",
+      "answer": "Cl",
+      "acceptedAnswers": [
+        "chlorine"
+      ],
+      "searchQuery": "electron affinity chlorine greater than fluorine"
+    },
+    {
+      "id": "electron-affinity-definition",
+      "title": "Electron affinity is the energy change for which process? Write it for a generic element $\\ce{X}$.",
+      "body": "$\\ce{X(g) + e^- -> X^-(g)}$\n\nElectron affinity is defined for gaseous atoms. Most first electron affinities are negative (energy is released).\n\nWatch out: adding a second electron, as in $\\ce{O^-(g) + e^- -> O^2-(g)}$, always costs energy because the incoming electron is repelled by the anion.",
+      "searchQuery": "electron affinity definition gaseous atom gains electron equation"
+    },
+    {
+      "id": "metallic-character-trend",
+      "title": "In which directions does metallic character increase on the periodic table?",
+      "body": "Down a group and to the left across a period (the opposite of the ionization energy trend).\n\nMetallic character tracks how easily an atom gives up electrons. The most reactive metals ($\\ce{Cs}$, $\\ce{Fr}$) sit at the bottom left and the most reactive nonmetal ($\\ce{F}$) at the top right.\n\nExample: the **metalloids** lie along the staircase between them.",
+      "searchQuery": "metallic character periodic trend down group left"
+    },
+    {
+      "id": "aluminum-oxide-formula",
+      "title": "What is the formula of aluminum oxide?",
+      "body": "$\\ce{Al2O3}$\n\nThe charges must cancel: two $\\ce{Al^3+}$ give $+6$ and three $\\ce{O^2-}$ give $-6$.\n\nTip: each ion's charge becomes the other's subscript, then reduce.\nWatch out: $\\ce{Mg^2+}$ and $\\ce{O^2-}$ give $\\ce{MgO}$, not $\\ce{Mg2O2}$.",
+      "answer": "Al2O3",
+      "answerDisplay": "$\\ce{Al2O3}$",
+      "searchQuery": "aluminum oxide formula Al2O3 ionic charges"
+    },
+    {
+      "id": "iron-iii-sulfate-formula",
+      "title": "What is the formula of iron(III) sulfate?",
+      "body": "$\\ce{Fe2(SO4)3}$\n\nThe Roman numeral gives iron's charge, $+3$, and sulfate is $\\ce{SO4^2-}$. Two $\\ce{Fe^3+}$ ($+6$) balance three $\\ce{SO4^2-}$ ($-6$).\n\nWatch out: keep parentheses around a polyatomic ion that takes a subscript.",
+      "answer": "Fe2(SO4)3",
+      "answerDisplay": "$\\ce{Fe2(SO4)3}$",
+      "searchQuery": "iron(III) sulfate formula Fe2(SO4)3"
+    },
+    {
+      "id": "sulfite-ion-formula",
+      "title": "What is the formula of the sulfite ion?",
+      "body": "$\\ce{SO3^2-}$\n\nAn **-ite** ion has one fewer oxygen than the **-ate** ion with the same charge: sulfate $\\ce{SO4^2-}$ versus sulfite $\\ce{SO3^2-}$, nitrate $\\ce{NO3^-}$ versus nitrite $\\ce{NO2^-}$.\n\nExample: per-...-ate has one more O than -ate (perchlorate $\\ce{ClO4^-}$); hypo-...-ite has one fewer than -ite (hypochlorite $\\ce{ClO^-}$).",
+      "answer": "SO3^2-",
+      "acceptedAnswers": [
+        "SO32-",
+        "SO3^(2-)",
+        "SO3-2",
+        "SO3^-2"
+      ],
+      "answerDisplay": "$\\ce{SO3^2-}$",
+      "searchQuery": "sulfite ion formula SO3 2- polyatomic ate ite"
+    },
+    {
+      "id": "born-haber-lattice-energy",
+      "title": "Born–Haber cycle for $\\ce{NaCl}$, in kJ/mol: $\\ce{Na}$ sublimation 107, $IE_1$ 496, half the $\\ce{Cl-Cl}$ bond 122, $EA$ −349, $\\Delta{H}_\\mathrm{f}$ −411. Lattice energy, in kJ/mol?",
+      "body": "$787\\,\\mathrm{kJ/mol}$, the energy needed to separate the solid into gaseous ions.\n\nThe direct path equals the sum of the steps: $-411 = 107 + 496 + 122 - 349 - U$, so $U = 787$.\n\nWatch out: some textbooks define lattice energy for forming the lattice instead, which gives $-787\\,\\mathrm{kJ/mol}$.",
+      "answer": "787",
+      "acceptedAnswers": [
+        "+787",
+        "-787"
+      ],
+      "searchQuery": "Born-Haber cycle NaCl lattice energy calculation"
+    },
+    {
+      "id": "ionic-solid-conductivity",
+      "title": "Why doesn't solid $\\ce{NaCl}$ conduct electricity, while molten or dissolved $\\ce{NaCl}$ does?",
+      "body": "In the solid, the ions are locked in place in the lattice; melting or dissolving frees them to move and carry charge.\n\nIonic solids have no mobile electrons, unlike metals.\n\nExample: they're also **brittle**: shifting one layer of ions lines up like charges, which repel and split the crystal.",
+      "searchQuery": "why solid NaCl does not conduct electricity molten conducts"
+    },
+    {
+      "id": "electron-sea-model",
+      "title": "How does the electron-sea model of metallic bonding explain why metals conduct electricity and are malleable?",
+      "body": "Metal cations sit in a sea of delocalized valence electrons. The mobile electrons carry current, and because the bonding isn't directional, layers of cations can slide past each other.\n\nKey idea: that sliding is why metals are **malleable** and ductile.\nExample: ionic solids, by contrast, shatter when a shift pushes like charges together.",
+      "searchQuery": "electron sea model metallic bonding conductivity malleability"
+    },
+    {
+      "id": "network-covalent-solid",
+      "title": "Why does quartz ($\\ce{SiO2}$) melt only above $1600\\,^\\circ\\mathrm{C}$, while solid $\\ce{CO2}$ sublimes at $-78\\,^\\circ\\mathrm{C}$?",
+      "body": "Quartz is a **covalent network solid**: melting it means breaking strong $\\ce{Si-O}$ bonds throughout the crystal. Solid $\\ce{CO2}$ is a **molecular solid**, held together only by weak dispersion forces between separate $\\ce{O=C=O}$ molecules.\n\nWhy: silicon forms weak $\\pi$ bonds, so instead of double bonds it makes four single bonds to $\\ce{O}$, building a 3D network.",
+      "searchQuery": "quartz SiO2 network covalent solid vs CO2 molecular solid melting point"
+    },
+    {
+      "id": "sulfate-valence-electrons",
+      "title": "How many valence electrons must the Lewis structure of the sulfate ion, $\\ce{SO4^2-}$, show?",
+      "body": "32\n\n$\\ce{S}$ contributes 6, the four $\\ce{O}$ atoms contribute 24, and the $2-$ charge adds 2 more.\n\nTip: for a cation, subtract electrons instead: $\\ce{NH4^+}$ has $5 + 4 - 1 = 8$.",
+      "answer": "32",
+      "searchQuery": "sulfate ion valence electrons Lewis structure count"
+    },
+    {
+      "id": "octet-rule-exceptions",
+      "title": "What are the three kinds of exceptions to the octet rule? Give an example of each.",
+      "body": "Incomplete octet, odd number of electrons, expanded octet.\n\n- Incomplete octet: $\\ce{BF3}$ (boron has only 6 electrons)\n- Odd electron count: $\\ce{NO}$ and $\\ce{NO2}$ (radicals)\n- Expanded octet: $\\ce{SF6}$ and $\\ce{PCl5}$ (period 3 or below)\n\nWhy: an odd total electron count makes octets on every atom impossible.",
+      "searchQuery": "three exceptions to the octet rule examples"
+    },
+    {
+      "id": "no-expanded-octet-period-2",
+      "title": "Why can phosphorus form $\\ce{PCl5}$, while nitrogen never forms $\\ce{NCl5}$?",
+      "body": "Nitrogen is a small period-2 atom with only four valence orbitals (2s and 2p), so it can't hold more than 8 electrons. Larger period-3 atoms like $\\ce{P}$ can accommodate more than four electron pairs.\n\nWhy: intro textbooks credit phosphorus's empty 3d orbitals; modern bonding models attribute it mainly to size.\nKey idea: no expanded octets in period 2.",
+      "searchQuery": "why phosphorus PCl5 but nitrogen no NCl5 expanded octet"
+    },
+    {
+      "id": "formal-charge-nitrate",
+      "title": "In one resonance structure of nitrate, $\\ce{NO3^-}$ (one $\\ce{N=O}$ and two $\\ce{N-O}$ bonds), what is the formal charge on nitrogen?",
+      "body": "$+1$\n\n$FC = V - N - B/2 = 5 - 0 - 8/2 = +1$.\n\nCheck: each single-bonded $\\ce{O}$ is $-1$ ($6 - 6 - 1$) and the double-bonded $\\ce{O}$ is 0, so the formal charges sum to the ion's charge, $-1$.",
+      "answer": "+1",
+      "acceptedAnswers": [
+        "1",
+        "1+",
+        "positive 1",
+        "plus 1",
+        "positive one"
+      ],
+      "searchQuery": "formal charge nitrogen nitrate ion resonance structure"
+    },
+    {
+      "id": "formal-charge-best-structure",
+      "title": "Using formal charges, how do you pick the best of several valid Lewis structures?",
+      "body": "Choose the structure whose formal charges are closest to zero. If a negative formal charge is needed, put it on the most electronegative atom.\n\nExample: for $\\ce{CO2}$, $\\ce{O=C=O}$ (all zeros) beats a structure with $+1$ and $-1$ charges.\n\nTip: the formal charges must always sum to the species' overall charge.",
+      "searchQuery": "choose best Lewis structure formal charge rules"
+    },
+    {
+      "id": "resonance-hybrid-misconception",
+      "title": "True or false: a molecule with several resonance structures rapidly flips back and forth between them.",
+      "body": "False.\n\nThe molecule has one real structure, the **resonance hybrid**, a weighted average of the drawn structures. A single Lewis structure just can't show delocalized electrons.\n\nExample: ozone has two identical $\\ce{O-O}$ bonds (bond order 1.5) at all times.",
+      "answer": "false",
+      "acceptedAnswers": [
+        "F"
+      ],
+      "searchQuery": "resonance structures misconception hybrid ozone bond order"
+    },
+    {
+      "id": "carbonate-bond-order",
+      "title": "What is the average carbon–oxygen bond order in the carbonate ion, $\\ce{CO3^2-}$?",
+      "body": "$\\tfrac{4}{3} \\approx 1.33$\n\nThree equivalent resonance structures share one $\\ce{C=O}$ double bond among three positions: 4 bonds spread over 3 $\\ce{C-O}$ links.\n\nKey idea: all three bonds are the same length, between a single and a double bond.",
+      "answer": "4/3",
+      "acceptedAnswers": [
+        "1.33",
+        "1.333"
+      ],
+      "answerDisplay": "$\\tfrac{4}{3}$",
+      "searchQuery": "carbonate ion carbon oxygen bond order resonance"
+    },
+    {
+      "id": "neutrons-in-carbon-14",
+      "title": "How many neutrons are in an atom of $^{14}\\ce{C}$? (Carbon has $Z = 6$.)",
+      "body": "8\n\nNeutrons $= A - Z = 14 - 6$. The mass number $A$ counts **protons plus neutrons**.\n\nExample: $^{12}\\ce{C}$ has 6 neutrons; $^{14}\\ce{C}$ is the radioactive isotope used in radiocarbon dating.\nWatch out: the mass number is not the neutron count.",
+      "answer": "8",
+      "acceptedAnswers": [
+        "eight"
+      ],
+      "searchQuery": "neutrons in carbon-14 mass number minus atomic number"
+    },
+    {
+      "id": "electrons-in-mg-ion",
+      "title": "How many electrons does an $\\ce{Mg^2+}$ ion have? ($Z = 12$)",
+      "body": "10\n\nA neutral $\\ce{Mg}$ atom has 12 electrons; the $2+$ charge means it has **lost 2**. The ion is isoelectronic with $\\ce{Ne}$.\n\nTip: a positive charge means fewer electrons than protons, a negative charge means more.",
+      "answer": "10",
+      "acceptedAnswers": [
+        "ten"
+      ],
+      "searchQuery": "electrons in magnesium 2+ ion charge"
+    },
+    {
+      "id": "rutherford-gold-foil",
+      "title": "What did Rutherford's gold-foil experiment show about the structure of the atom?",
+      "body": "Nearly all of an atom's mass and positive charge sit in a tiny, dense **nucleus**; the rest of the atom is mostly empty space.\n\nMost $\\alpha$ particles passed straight through the foil, a few were deflected at large angles, and a very few bounced almost straight back.\n\nWatch out: Thomson's \"plum pudding\" model predicted only small deflections, which is why the results were a surprise.",
+      "searchQuery": "Rutherford gold foil experiment conclusion nucleus"
+    },
+    {
+      "id": "atomic-mass-unit-definition",
+      "title": "How is the atomic mass unit ($\\mathrm{u}$) defined?",
+      "body": "$\\tfrac{1}{12}$ of the mass of one $^{12}\\ce{C}$ atom.\n\nNumerically, $1\\,\\mathrm{u} \\approx 1.6605\\times10^{-27}\\,\\mathrm{kg}$. A proton or neutron is close to $1\\,\\mathrm{u}$.\n\nKey idea: this is why the molar mass of an element in g/mol matches its atomic mass in u.",
+      "searchQuery": "atomic mass unit definition one twelfth carbon-12"
+    },
+    {
+      "id": "valence-electrons-group-16",
+      "title": "How many valence electrons does an atom in group 16, such as $\\ce{S}$, have?",
+      "body": "6\n\nFor main-group elements, the **group number's last digit** gives the valence electron count: group 1 has 1, group 14 has 4, group 18 has 8 (2 for $\\ce{He}$).\n\nExample: oxygen, sulfur and selenium all have the configuration $ns^2np^4$ in their valence shell.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "six"
+      ],
+      "searchQuery": "valence electrons group 16 chalcogens number"
+    },
+    {
+      "id": "phosphorus-electron-configuration",
+      "title": "Write the ground-state electron configuration of phosphorus ($Z = 15$) in noble-gas shorthand.",
+      "body": "$\\mathrm{[Ne]\\,3s^2\\,3p^3}$\n\n15 electrons: 10 in the neon core, then 2 in 3s and 3 in 3p. By Hund's rule, the three 3p electrons are unpaired.\n\nTip: the period number tells you the valence shell ($n = 3$), and the group tells you how many electrons are in it (5).",
+      "answer": "[Ne] 3s2 3p3",
+      "acceptedAnswers": [
+        "[Ne]3s^2 3p^3",
+        "1s2 2s2 2p6 3s2 3p3",
+        "1s^2 2s^2 2p^6 3s^2 3p^3"
+      ],
+      "answerDisplay": "$\\mathrm{[Ne]\\,3s^2\\,3p^3}$",
+      "searchQuery": "phosphorus electron configuration noble gas shorthand"
+    },
+    {
+      "id": "cu-plus-configuration",
+      "title": "What is the ground-state electron configuration of $\\ce{Cu^+}$? (Copper atom: $\\mathrm{[Ar]\\,3d^{10}\\,4s^1}$.)",
+      "body": "$\\mathrm{[Ar]\\,3d^{10}}$\n\nThe 4s electron is removed first, leaving a **completely filled 3d subshell**. All electrons are paired, so $\\ce{Cu^+}$ is diamagnetic.\n\nExample: $\\ce{Cu^2+}$ removes one 3d electron too and is $\\mathrm{[Ar]\\,3d^9}$, which has one unpaired electron.",
+      "answer": "[Ar] 3d10",
+      "acceptedAnswers": [
+        "[Ar] 3d^10",
+        "[Ar] 3d10 4s0",
+        "[Ar] 3d^10 4s^0"
+      ],
+      "answerDisplay": "$\\mathrm{[Ar]\\,3d^{10}}$",
+      "searchQuery": "Cu+ copper(I) ion electron configuration 3d10"
+    },
+    {
+      "id": "mn-unpaired-electrons",
+      "title": "How many unpaired electrons does a ground-state manganese atom ($Z = 25$) have?",
+      "body": "5\n\nManganese is $\\mathrm{[Ar]\\,3d^5\\,4s^2}$. The five 3d electrons occupy five separate orbitals with parallel spins (Hund's rule), and the 4s electrons are paired.\n\nKey idea: a half-filled d subshell gives the **maximum number of unpaired electrons** for the d block.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "five"
+      ],
+      "searchQuery": "manganese unpaired electrons 3d5 Hund"
+    },
+    {
+      "id": "zn-atom-magnetism",
+      "title": "Is a ground-state zinc atom ($\\mathrm{[Ar]\\,3d^{10}\\,4s^2}$) paramagnetic or diamagnetic? (Type one word.)",
+      "body": "Diamagnetic.\n\nBoth the filled 3d subshell and the filled 4s orbital contain only paired electrons, so there is **no net magnetic moment** and the atom is weakly repelled by a magnetic field.\n\nExample: $\\ce{He}$, $\\ce{Mg}$ and $\\ce{Ca}$ atoms are diamagnetic for the same reason; $\\ce{Na}$ (one unpaired 3s electron) is paramagnetic.",
+      "answer": "diamagnetic",
+      "acceptedAnswers": [
+        "diamagnetic atom"
+      ],
+      "searchQuery": "zinc atom diamagnetic or paramagnetic paired electrons"
+    },
+    {
+      "id": "n4-shell-capacity",
+      "title": "What is the maximum number of electrons that can occupy the $n = 4$ shell?",
+      "body": "32\n\nThe shell holds $2n^2 = 2(16) = 32$ electrons: 4s (2), 4p (6), 4d (10) and 4f (14).\n\nTip: the first four shell capacities are 2, 8, 18 and 32.",
+      "answer": "32",
+      "acceptedAnswers": [
+        "thirty-two",
+        "thirty two"
+      ],
+      "searchQuery": "maximum electrons n=4 shell 2n squared"
+    },
+    {
+      "id": "smallest-radius-isoelectronic",
+      "title": "Which has the smallest radius: $\\ce{S^2-}$, $\\ce{Cl^-}$, $\\ce{K^+}$ or $\\ce{Ca^2+}$? (Type the ion, e.g. Na+.)",
+      "body": "$\\ce{Ca^2+}$\n\nAll four have 18 electrons (the $\\ce{Ar}$ configuration), so the species with the **most protons** pulls the cloud in tightest. $\\ce{Ca^2+}$ has 20 protons; $\\ce{S^2-}$ has only 16.\n\nKey idea: for isoelectronic species, radius decreases as nuclear charge increases.",
+      "answer": "Ca2+",
+      "acceptedAnswers": [
+        "Ca^2+",
+        "Ca+2",
+        "Ca^(2+)",
+        "calcium ion"
+      ],
+      "answerDisplay": "$\\ce{Ca^2+}$",
+      "searchQuery": "smallest isoelectronic ion Ca2+ K+ Cl- S2- radius"
+    },
+    {
+      "id": "second-ionization-largest",
+      "title": "Which has the largest second ionization energy: $\\ce{Na}$, $\\ce{Mg}$ or $\\ce{Al}$? (Type the symbol.)",
+      "body": "$\\ce{Na}$\n\nRemoving a second electron from $\\ce{Na^+}$ means breaking into the **noble-gas core** ($\\mathrm{2p^6}$), which costs about $4560\\,\\mathrm{kJ/mol}$. For $\\ce{Mg}$ ($1451$) and $\\ce{Al}$ ($1817$) the second electron is still a valence electron.\n\nTip: the element just after a noble gas has the largest $IE_2$ in its period.",
+      "answer": "Na",
+      "acceptedAnswers": [
+        "sodium"
+      ],
+      "searchQuery": "largest second ionization energy sodium noble gas core"
+    },
+    {
+      "id": "transition-metal-radius-trend",
+      "title": "Why does atomic radius change only slightly across the 3d transition metals, from $\\ce{Sc}$ to $\\ce{Zn}$?",
+      "body": "The added electrons go into the inner 3d subshell, where they **shield** the outer 4s electrons from the growing nuclear charge.\n\nSo $Z_\\mathrm{eff}$ on the 4s electrons rises only slightly, and the radius barely shrinks. Across main-group elements the added electrons go in the outer shell instead, which shields poorly.",
+      "searchQuery": "transition metals atomic radius nearly constant d electrons shielding"
+    },
+    {
+      "id": "lanthanide-contraction",
+      "title": "What is the lanthanide contraction, and what is one consequence?",
+      "body": "The steady decrease in atomic and ionic radii across the lanthanides (La to Lu) because 4f electrons **shield poorly** as nuclear charge grows.\n\nConsequence: the period-6 transition metals have nearly the same radii as the period-5 metals above them, so $\\ce{Zr}$ and $\\ce{Hf}$ behave very similarly and are hard to separate.",
+      "searchQuery": "lanthanide contraction 4f shielding Zr Hf radius"
+    },
+    {
+      "id": "halogen-group-number",
+      "title": "In which group of the periodic table are the halogens? (Number only.)",
+      "body": "Group 17\n\nThe halogens are $\\ce{F}$, $\\ce{Cl}$, $\\ce{Br}$, $\\ce{I}$ and $\\ce{At}$. Each has 7 valence electrons ($ns^2np^5$) and readily gains one electron to form $X^-$.\n\nExample: the alkali metals are group 1, the alkaline earth metals group 2, and the noble gases group 18.",
+      "answer": "17",
+      "acceptedAnswers": [
+        "group 17",
+        "7A",
+        "VIIA",
+        "group 7A",
+        "group VIIA"
+      ],
+      "searchQuery": "halogens group number periodic table group 17"
+    },
+    {
+      "id": "wavelength-to-frequency",
+      "title": "Light has a wavelength of $600.\\,\\mathrm{nm}$. What is its frequency, in units of $10^{14}\\,\\mathrm{Hz}$? (Number only, 3 significant figures; use $c = 3.00\\times10^8\\,\\mathrm{m/s}$.)",
+      "body": "$5.00\\times10^{14}\\,\\mathrm{Hz}$\n\n$c = \\lambda\\nu$, so $\\nu = \\dfrac{3.00\\times10^8\\,\\mathrm{m/s}}{6.00\\times10^{-7}\\,\\mathrm{m}}$.\n\nWatch out: convert nm to m ($1\\,\\mathrm{nm} = 10^{-9}\\,\\mathrm{m}$) before dividing.",
+      "answer": "5.00",
+      "answerDisplay": "$5.00$",
+      "searchQuery": "frequency from wavelength c = lambda nu 600 nm"
+    },
+    {
+      "id": "em-spectrum-energy-order",
+      "title": "Rank by increasing photon energy: visible light, X-rays, microwaves, ultraviolet.",
+      "body": "Microwaves < visible < ultraviolet < X-rays.\n\nPhoton energy $E = h\\nu = hc/\\lambda$, so higher frequency and shorter wavelength mean **more energy per photon**.\n\nMnemonic: the full order is radio, microwave, infrared, visible, ultraviolet, X-ray, gamma.",
+      "searchQuery": "electromagnetic spectrum order photon energy microwave visible UV X-ray"
+    },
+    {
+      "id": "photoelectric-max-ke",
+      "title": "A photon with energy $4.0\\,\\mathrm{eV}$ strikes a metal with work function $\\Phi = 2.5\\,\\mathrm{eV}$. What is the maximum kinetic energy of an ejected electron, in eV? (Number only.)",
+      "body": "$1.5\\,\\mathrm{eV}$\n\n$KE_\\mathrm{max} = h\\nu - \\Phi = 4.0 - 2.5$. The work function is the minimum energy needed to free an electron from the metal.\n\nWatch out: if $h\\nu < \\Phi$, no electrons are ejected, no matter how intense the light.",
+      "answer": "1.5",
+      "acceptedAnswers": [
+        "1.5 eV"
+      ],
+      "answerDisplay": "$1.5$",
+      "searchQuery": "photoelectric effect maximum kinetic energy work function"
+    },
+    {
+      "id": "heisenberg-uncertainty",
+      "title": "State Heisenberg's uncertainty principle for position and momentum.",
+      "body": "$\\Delta x\\,\\Delta p \\ge \\dfrac{h}{4\\pi}$\n\nThe more precisely a particle's position is known, the less precisely its momentum can be known, and vice versa.\n\nWhy: this is a property of matter waves, not a limit of our instruments. It is why electrons can't follow Bohr's fixed orbits and are described by orbitals instead.",
+      "searchQuery": "Heisenberg uncertainty principle position momentum h over 4 pi"
+    },
+    {
+      "id": "hydrogen-ground-to-n2",
+      "title": "How much energy must a ground-state hydrogen atom absorb to reach $n = 2$, in eV? (Number only, 3 significant figures.)",
+      "body": "$10.2\\,\\mathrm{eV}$\n\n$\\Delta E = 13.6\\,\\mathrm{eV}\\left(\\dfrac{1}{1^2} - \\dfrac{1}{2^2}\\right) = 13.6 \\times \\dfrac{3}{4}$.\n\nKey idea: an atom absorbs only photons whose energy **exactly matches** the gap between levels.",
+      "answer": "10.2",
+      "acceptedAnswers": [
+        "10.2 eV"
+      ],
+      "answerDisplay": "$10.2$",
+      "searchQuery": "hydrogen n=1 to n=2 excitation energy eV Bohr"
+    },
+    {
+      "id": "ionization-energy-from-n2",
+      "title": "How much energy, in kJ/mol, is needed to remove the electron from hydrogen atoms in the $n = 2$ level? (Number only, 3 significant figures; ionization from $n = 1$ takes $1312\\,\\mathrm{kJ/mol}$.)",
+      "body": "$328\\,\\mathrm{kJ/mol}$\n\nEnergy scales as $1/n^2$: $\\dfrac{1312}{2^2} = 328$.\n\nWatch out: the electron in $n = 2$ is already partway out, so ionizing it takes only a quarter of the ground-state energy.",
+      "answer": "328",
+      "acceptedAnswers": [
+        "328 kJ/mol"
+      ],
+      "answerDisplay": "$328$",
+      "searchQuery": "ionization energy hydrogen n=2 kJ/mol Bohr 1/n^2"
+    },
+    {
+      "id": "total-nodes-4f",
+      "title": "How many nodes (radial plus angular) does a 4f orbital have? (Number only.)",
+      "body": "3\n\nTotal nodes $= n - 1 = 3$. A 4f orbital has $\\ell = 3$ angular nodes and $n - \\ell - 1 = 0$ radial nodes.\n\nTip: radial nodes $= n - \\ell - 1$; angular nodes $= \\ell$; they add up to $n - 1$.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "total nodes 4f orbital n minus 1 radial angular"
+    },
+    {
+      "id": "calcium-phosphate-formula",
+      "title": "What is the formula of calcium phosphate? (Type it as plain text, e.g. Mg(OH)2.)",
+      "body": "$\\ce{Ca3(PO4)2}$\n\nCalcium is $\\ce{Ca^2+}$ and phosphate is $\\ce{PO4^3-}$. The least common multiple of 2 and 3 is 6, so 3 calcium ($+6$) balance 2 phosphate ($-6$).\n\nWatch out: put parentheses around the polyatomic ion when it takes a subscript.",
+      "answer": "Ca3(PO4)2",
+      "answerDisplay": "$\\ce{Ca3(PO4)2}$",
+      "searchQuery": "calcium phosphate formula Ca3(PO4)2 ionic charges"
+    },
+    {
+      "id": "ammonium-sulfate-formula",
+      "title": "What is the formula of ammonium sulfate? (Type it as plain text.)",
+      "body": "$\\ce{(NH4)2SO4}$\n\nAmmonium is $\\ce{NH4^+}$ and sulfate is $\\ce{SO4^2-}$, so two ammonium ions balance one sulfate.\n\nTip: the only common polyatomic cation is $\\ce{NH4^+}$; most other polyatomic ions are anions.",
+      "answer": "(NH4)2SO4",
+      "answerDisplay": "$\\ce{(NH4)2SO4}$",
+      "searchQuery": "ammonium sulfate formula (NH4)2SO4"
+    },
+    {
+      "id": "copper-i-oxide-name",
+      "title": "What is the systematic name of $\\ce{Cu2O}$? (Type it with the Roman numeral, e.g. iron(III) oxide.)",
+      "body": "Copper(I) oxide\n\nOxide is $\\ce{O^2-}$, so two copper ions must carry $+2$ in total: each is $\\ce{Cu+}$.\n\nWatch out: transition metals with several common charges need a **Roman numeral**. $\\ce{CuO}$ is copper(II) oxide.",
+      "answer": "copper(I) oxide",
+      "acceptedAnswers": [
+        "copper(1) oxide",
+        "copper I oxide",
+        "cuprous oxide"
+      ],
+      "searchQuery": "name of Cu2O copper(I) oxide Roman numeral"
+    },
+    {
+      "id": "bond-length-strength-order",
+      "title": "Compare a $\\ce{C-C}$ single bond, a $\\ce{C=C}$ double bond and a $\\ce{C#C}$ triple bond in length and strength.",
+      "body": "Length: single > double > triple. Strength: triple > double > single.\n\nTypical values: about 154, 134 and 120 pm, and about 347, 614 and 839 kJ/mol.\n\nWhy: more shared electron pairs pull the nuclei closer together and take more energy to break.\nWatch out: the triple bond is not three times as strong as a single bond, because the $\\pi$ bonds are weaker than the $\\sigma$ bond.",
+      "searchQuery": "bond length bond strength single double triple carbon bonds"
+    },
+    {
+      "id": "most-polar-bond-choice",
+      "title": "Which bond is the most polar: $\\ce{C-H}$, $\\ce{C-N}$, $\\ce{C-O}$ or $\\ce{C-F}$? (Type the bond, e.g. C-H.)",
+      "body": "$\\ce{C-F}$\n\nPolarity grows with the **electronegativity difference**. Using Pauling values, $\\ce{C}$ is 2.55 and $\\ce{F}$ is 3.98, a difference of 1.43, versus 0.89 for $\\ce{C-O}$, 0.49 for $\\ce{C-N}$ and 0.35 for $\\ce{C-H}$.\n\nExample: in a polar bond the more electronegative atom carries the partial negative charge, $\\delta^-$.",
+      "answer": "C-F",
+      "acceptedAnswers": [
+        "CF",
+        "carbon-fluorine",
+        "carbon fluorine"
+      ],
+      "answerDisplay": "$\\ce{C-F}$",
+      "searchQuery": "most polar bond electronegativity difference C-F C-O C-N C-H"
+    },
+    {
+      "id": "nitrate-valence-electrons",
+      "title": "How many valence electrons must the Lewis structure of the nitrate ion, $\\ce{NO3^-}$, show? (Number only.)",
+      "body": "24\n\n$\\ce{N}$ contributes 5, three $\\ce{O}$ atoms contribute 18, and the $1-$ charge adds 1.\n\nTip: add one electron per unit of negative charge; subtract one per unit of positive charge.",
+      "answer": "24",
+      "acceptedAnswers": [
+        "twenty-four",
+        "twenty four"
+      ],
+      "searchQuery": "nitrate ion valence electrons total Lewis structure"
+    },
+    {
+      "id": "xef4-central-lone-pairs",
+      "title": "How many lone pairs are on the central atom of $\\ce{XeF4}$? (Number only.)",
+      "body": "2\n\n$\\ce{Xe}$ has 8 valence electrons; four are shared in the four $\\ce{Xe-F}$ bonds, leaving 4 electrons, which is **2 lone pairs**.\n\nKey idea: 4 bonds + 2 lone pairs gives 6 electron domains, an octahedral arrangement with the lone pairs on opposite sides.",
+      "answer": "2",
+      "acceptedAnswers": [
+        "two"
+      ],
+      "searchQuery": "XeF4 lone pairs on xenon central atom"
+    },
+    {
+      "id": "n2-mo-bond-order",
+      "title": "What is the bond order of $\\ce{N2}$ according to molecular orbital theory? (Number only.)",
+      "body": "3\n\nBond order $= \\dfrac{(\\text{bonding electrons}) - (\\text{antibonding electrons})}{2}$. $\\ce{N2}$ has 10 valence electrons: 8 bonding and 2 antibonding, so $(8 - 2)/2 = 3$.\n\nExample: $\\ce{He2}$ would have bond order 0 (2 bonding, 2 antibonding), which is why helium is monatomic.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "searchQuery": "N2 bond order molecular orbital theory formula"
+    },
+    {
+      "id": "o2-paramagnetism-mo",
+      "title": "Why is $\\ce{O2}$ paramagnetic, even though its Lewis structure shows no unpaired electrons?",
+      "body": "Molecular orbital theory puts the last two valence electrons in two **degenerate $\\pi^*$ orbitals**, one each with parallel spins (Hund's rule), so $\\ce{O2}$ has 2 unpaired electrons.\n\nEvidence: liquid oxygen is attracted to a magnet.\nKey idea: the Lewis model gets bond order 2 right but cannot predict this magnetism.",
+      "searchQuery": "O2 paramagnetic molecular orbital theory pi star unpaired electrons"
+    },
+    {
+      "id": "nh3-geometry-angle",
+      "title": "What is the molecular geometry of $\\ce{NH3}$, and roughly what is the $\\ce{H-N-H}$ bond angle?",
+      "body": "Trigonal pyramidal, about $107^\\circ$.\n\n$\\ce{N}$ has 4 electron domains (3 bonds + 1 lone pair), so the electron geometry is tetrahedral. The lone pair repels the bonding pairs more strongly, squeezing the angle below $109.5^\\circ$.\n\nTip: lone pairs take up more space than bonding pairs, so the ranking is LP-LP > LP-BP > BP-BP.",
+      "searchQuery": "NH3 molecular geometry trigonal pyramidal bond angle lone pair"
+    },
+    {
+      "id": "water-bond-angle",
+      "title": "What is the $\\ce{H-O-H}$ bond angle in water, in degrees? (Number only, 1 decimal place.)",
+      "body": "$104.5^\\circ$\n\n$\\ce{O}$ has 4 electron domains (2 bonds + 2 lone pairs), a tetrahedral electron geometry with a **bent** molecular shape. The two lone pairs compress the angle further below $109.5^\\circ$ than the single lone pair does in $\\ce{NH3}$ ($107^\\circ$).",
+      "answer": "104.5",
+      "acceptedAnswers": [
+        "104.5 degrees"
+      ],
+      "answerDisplay": "$104.5$",
+      "searchQuery": "water bond angle 104.5 bent VSEPR"
+    },
+    {
+      "id": "xef4-geometry",
+      "title": "What is the molecular geometry of $\\ce{XeF4}$? (Type the shape.)",
+      "body": "Square planar.\n\nSix electron domains give an octahedral electron geometry. The two lone pairs occupy **opposite** positions to minimize repulsion, leaving the four $\\ce{F}$ atoms in a plane with $90^\\circ$ angles.\n\nExample: $\\ce{ICl4^-}$ is also square planar.",
+      "answer": "square planar",
+      "acceptedAnswers": [
+        "square-planar"
+      ],
+      "searchQuery": "XeF4 molecular geometry square planar VSEPR"
+    },
+    {
+      "id": "triiodide-geometry",
+      "title": "What is the molecular geometry of the triiodide ion, $\\ce{I3^-}$? (Type the shape.)",
+      "body": "Linear.\n\nThe central $\\ce{I}$ has 2 bonds and 3 lone pairs, so 5 domains in a trigonal bipyramidal arrangement. The three lone pairs sit in the **equatorial plane**, leaving the two bonded atoms on the axis at $180^\\circ$.\n\nExample: $\\ce{XeF2}$ is linear for the same reason.",
+      "answer": "linear",
+      "acceptedAnswers": [
+        "linear shape"
+      ],
+      "searchQuery": "triiodide ion I3- molecular geometry linear three lone pairs"
+    },
+    {
+      "id": "methane-bond-angle",
+      "title": "What is the ideal $\\ce{H-C-H}$ bond angle in methane, in degrees? (Number only, 1 decimal place.)",
+      "body": "$109.5^\\circ$\n\nFour equivalent bonding domains point to the corners of a **tetrahedron**, which maximizes the separation between them.\n\nWhy: the angle is $\\arccos(-1/3) \\approx 109.47^\\circ$.",
+      "answer": "109.5",
+      "acceptedAnswers": [
+        "109.5 degrees",
+        "109.47"
+      ],
+      "answerDisplay": "$109.5$",
+      "searchQuery": "methane tetrahedral bond angle 109.5 degrees"
+    },
+    {
+      "id": "sf6-hybridization",
+      "title": "What is the hybridization of sulfur in $\\ce{SF6}$? (Type it as plain text, e.g. sp3.)",
+      "body": "$sp^3d^2$\n\nSix bonding domains require six hybrid orbitals, giving an **octahedral** arrangement with $90^\\circ$ angles.\n\nWhy: one s, three p and two d orbitals mix. (Many modern treatments favor bonding models without d orbitals, but exam answers use this count.)",
+      "answer": "sp3d2",
+      "acceptedAnswers": [
+        "sp^3d^2"
+      ],
+      "answerDisplay": "$sp^3d^2$",
+      "searchQuery": "SF6 sulfur hybridization sp3d2 octahedral"
+    },
+    {
+      "id": "co2-carbon-hybridization",
+      "title": "What is the hybridization of the carbon atom in $\\ce{CO2}$? (Type it as plain text.)",
+      "body": "$sp$\n\nCarbon has 2 electron domains (two double bonds), so it uses two $sp$ hybrid orbitals for the $\\sigma$ bonds. The two unhybridized p orbitals form the two $\\pi$ bonds.\n\nKey idea: 2 domains is $sp$ (linear, $180^\\circ$).",
+      "answer": "sp",
+      "answerDisplay": "$sp$",
+      "searchQuery": "CO2 carbon hybridization sp linear pi bonds"
+    },
+    {
+      "id": "ethyne-sigma-pi-count",
+      "title": "How many $\\sigma$ bonds and how many $\\pi$ bonds are in ethyne, $\\ce{HC#CH}$?",
+      "body": "3 $\\sigma$ and 2 $\\pi$.\n\nThe $\\ce{C#C}$ triple bond is one $\\sigma$ plus two $\\pi$, and each $\\ce{C-H}$ bond is one $\\sigma$.\n\nWhy: each carbon is $sp$ hybridized; its two unhybridized p orbitals overlap sideways to make the two $\\pi$ bonds.",
+      "searchQuery": "ethyne acetylene sigma pi bonds count hybridization"
+    },
+    {
+      "id": "benzene-hybridization-pi",
+      "title": "What is the hybridization of each carbon in benzene, and what forms its delocalized $\\pi$ system?",
+      "body": "Each carbon is $sp^2$. The six unhybridized p orbitals overlap side by side above and below the ring, delocalizing six $\\pi$ electrons.\n\nThis delocalization is why all six $\\ce{C-C}$ bonds are equal in length (between single and double) and why benzene is unusually stable.",
+      "searchQuery": "benzene sp2 carbons delocalized pi system six electrons"
+    },
+    {
+      "id": "hydrogen-halide-boiling-point",
+      "title": "Which has the highest boiling point: $\\ce{HF}$, $\\ce{HCl}$, $\\ce{HBr}$ or $\\ce{HI}$? (Type the formula.)",
+      "body": "$\\ce{HF}$\n\nHydrogen bonding in $\\ce{HF}$ gives it a boiling point of about $20\\,^\\circ\\mathrm{C}$, versus $-85$, $-67$ and $-35\\,^\\circ\\mathrm{C}$ for $\\ce{HCl}$, $\\ce{HBr}$ and $\\ce{HI}$.\n\nWatch out: among the other three, boiling point rises with size ($\\ce{HCl} < \\ce{HBr} < \\ce{HI}$) because dispersion forces grow.",
+      "answer": "HF",
+      "acceptedAnswers": [
+        "hydrogen fluoride"
+      ],
+      "answerDisplay": "$\\ce{HF}$",
+      "searchQuery": "hydrogen halide boiling points HF hydrogen bonding"
+    },
+    {
+      "id": "pentane-neopentane-boiling",
+      "title": "Pentane boils at $36\\,^\\circ\\mathrm{C}$ and its isomer neopentane at $9.5\\,^\\circ\\mathrm{C}$. Why is neopentane's boiling point lower?",
+      "body": "Neopentane is compact and nearly spherical, so it has **less surface contact** between molecules and weaker dispersion forces. Pentane is long and chain-like and packs better.\n\nBoth have the same formula, $\\ce{C5H12}$, and the same molar mass, so shape is the only difference.\nKey idea: for similar molecules, more branching means a lower boiling point.",
+      "searchQuery": "pentane neopentane boiling point branching dispersion forces surface area"
+    },
+    {
+      "id": "ion-dipole-force",
+      "title": "Which intermolecular force is mainly responsible for dissolving $\\ce{NaCl}$ in water? (Type the force.)",
+      "body": "Ion-dipole forces.\n\nWater's partial negative end ($\\ce{O}$) surrounds $\\ce{Na^+}$ and its partial positive ends ($\\ce{H}$) surround $\\ce{Cl^-}$. The energy released by these attractions (hydration) compensates for breaking the lattice.\n\nTip: ion-dipole is the strongest of the intermolecular forces.",
+      "answer": "ion-dipole",
+      "acceptedAnswers": [
+        "ion dipole",
+        "ion-dipole forces",
+        "ion-dipole force",
+        "ion dipole forces",
+        "ion dipole force"
+      ],
+      "searchQuery": "ion-dipole force dissolving NaCl in water hydration"
+    },
+    {
+      "id": "graphite-vs-diamond-conductivity",
+      "title": "Why does graphite conduct electricity while diamond does not?",
+      "body": "In graphite each carbon is $sp^2$ and has one leftover p electron that is **delocalized** across its layer, so electrons can move. In diamond every carbon is $sp^3$ and all four valence electrons are locked in $\\sigma$ bonds.\n\nGraphite is also soft because its layers are held together only by weak dispersion forces and slide past one another.",
+      "searchQuery": "graphite conducts electricity diamond does not sp2 delocalized electrons"
+    }
+  ]
+}

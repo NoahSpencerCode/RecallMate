@@ -13,6 +13,8 @@ import { fileURLToPath } from 'node:url';
 
 let sharp;
 try {
+  // Installed on demand (npm install --no-save sharp), so it may be missing.
+  // eslint-disable-next-line import/no-unresolved
   sharp = (await import('sharp')).default;
 } catch {
   console.error('This script needs sharp: run `npm install --no-save sharp` first.');

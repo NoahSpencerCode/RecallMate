@@ -1,0 +1,1076 @@
+{
+  "id": "orgo-reactions-mechanisms",
+  "title": "Reactions & Mechanisms",
+  "course": "Organic Chemistry I & II",
+  "description": "Nucleophiles and electrophiles, SN1/SN2/E1/E2, carbocation rearrangements, alkene and alkyne additions, alcohols, oxidation and reduction, Grignards, carbonyl and enolate chemistry, aromatic substitution and Diels–Alder.",
+  "cards": [
+    {
+      "id": "nucleophile-vs-electrophile",
+      "title": "In a polar organic mechanism, what do a nucleophile and an electrophile each do with electrons?",
+      "body": "A nucleophile donates an electron pair; an electrophile accepts one.\n\nNucleophiles are electron-rich (lone pairs, π bonds, anions). Electrophiles are electron-poor (carbocations, polarized carbonyl carbons, alkyl halide carbons).\n\nKey idea: nucleophiles attack electrophiles, and nucleophilicity is a rate (kinetic) property, whereas basicity is thermodynamic.",
+      "searchQuery": "nucleophile electrophile definition electron pair donor acceptor"
+    },
+    {
+      "id": "curved-arrow-start",
+      "title": "In curved-arrow mechanisms, where must every arrow start?",
+      "body": "At a source of electrons: a lone pair or a bond.\n\nThe arrow ends where the electron pair goes: forming a new bond or becoming a lone pair. Arrows never start at an atom or a positive charge.\n\nWatch out: arrows show electron movement, not atom movement; a double-barbed arrow moves two electrons.",
+      "searchQuery": "curved arrow mechanism rules start at lone pair or bond"
+    },
+    {
+      "id": "better-leaving-group-water",
+      "title": "Which is the better leaving group: $\\ce{HO-}$ or $\\ce{H2O}$? (give the formula)",
+      "body": "H2O\n\nGood leaving groups are **weak bases**, the conjugate bases of strong acids. Water (conjugate acid $\\ce{H3O+}$, pKa about −1.7) is a much weaker base than hydroxide.\n\nExample: this is why alcohols must be protonated by acid before they undergo $\\mathrm{S_N1}$, $\\mathrm{S_N2}$ or E1 reactions.",
+      "answer": "H2O",
+      "acceptedAnswers": [
+        "water"
+      ],
+      "answerDisplay": "$\\ce{H2O}$",
+      "searchQuery": "leaving group ability water versus hydroxide weak base"
+    },
+    {
+      "id": "best-halide-leaving-group",
+      "title": "Which halide is the best leaving group in substitution and elimination reactions?",
+      "body": "iodide\n\nLeaving-group ability follows $\\ce{I-} > \\ce{Br-} > \\ce{Cl-} \\gg \\ce{F-}$, the order of increasing basicity. Iodide is large, polarizable and the weakest base of the group.\n\nWatch out: the same ordering holds for the strength of the corresponding hydrogen halide acids (HI strongest).",
+      "answer": "iodide",
+      "acceptedAnswers": [
+        "I-",
+        "I"
+      ],
+      "searchQuery": "best halide leaving group iodide trend"
+    },
+    {
+      "id": "tosylate-from-alcohol",
+      "title": "Which reagent (abbreviation) converts an alcohol $\\ce{ROH}$ into a tosylate $\\ce{ROTs}$, turning OH into a good leaving group?",
+      "body": "TsCl\n\nTosyl chloride with pyridine gives $\\ce{ROTs}$. The C–O bond is not broken, so the stereocenter keeps its configuration.\n\nExample: a later $\\mathrm{S_N2}$ on the tosylate inverts the center, giving net inversion from the alcohol.",
+      "answer": "TsCl",
+      "acceptedAnswers": [
+        "tosyl chloride",
+        "TsCl pyridine",
+        "p-toluenesulfonyl chloride"
+      ],
+      "answerDisplay": "$\\ce{TsCl}$",
+      "searchQuery": "tosyl chloride alcohol to tosylate leaving group retention"
+    },
+    {
+      "id": "nucleophilicity-protic-halides",
+      "title": "In a polar protic solvent such as methanol, which is the better nucleophile: $\\ce{I-}$ or $\\ce{F-}$?",
+      "body": "iodide\n\nIn protic solvents, small anions like fluoride are strongly **hydrogen bonded** and blunted, while large, polarizable iodide is less solvated and more nucleophilic.\n\nWatch out: in polar aprotic solvents (DMSO, DMF) this order reverses, because fluoride is then unsolvated.",
+      "answer": "iodide",
+      "acceptedAnswers": [
+        "I-",
+        "I"
+      ],
+      "searchQuery": "nucleophilicity trend halides polar protic solvent iodide fluoride"
+    },
+    {
+      "id": "neopentyl-sn2",
+      "title": "Is neopentyl bromide, $\\ce{(CH3)3CCH2Br}$, reactive in $\\mathrm{S_N2}$ reactions? (yes or no)",
+      "body": "no\n\nIt is a primary halide, but the bulky tert-butyl group on the adjacent (β) carbon **blocks backside attack**. It is about 100,000 times slower than ethyl bromide.\n\nWatch out: the carbon bearing the leaving group is not the only one that matters; β-branching also slows $\\mathrm{S_N2}$.",
+      "answer": "no",
+      "acceptedAnswers": [
+        "unreactive",
+        "very slow"
+      ],
+      "searchQuery": "neopentyl bromide SN2 unreactive steric hindrance beta branching"
+    },
+    {
+      "id": "sn1-rate-law",
+      "title": "What is the rate law of an $\\mathrm{S_N1}$ reaction? (write in terms of RX)",
+      "body": "rate = k[RX]\n\nIt is **first order** and independent of the nucleophile concentration, because the rate-determining step is ionization of the substrate.\n\nExample: doubling the nucleophile concentration does not change the rate; doubling [RX] doubles it.",
+      "answer": "k[RX]",
+      "acceptedAnswers": [
+        "rate = k[RX]",
+        "k[R-X]",
+        "first order"
+      ],
+      "answerDisplay": "$\\mathrm{rate} = k[\\mathrm{RX}]$",
+      "searchQuery": "SN1 rate law first order unimolecular k[RX]"
+    },
+    {
+      "id": "sn1-rate-determining-step",
+      "title": "What is the rate-determining step of an $\\mathrm{S_N1}$ reaction?",
+      "body": "Ionization of the substrate to form the carbocation.\n\nThe C–X bond breaks heterolytically to give $\\ce{R+}$ and $\\ce{X-}$. Nucleophile capture is fast and not rate-limiting.\n\nWhy: anything that stabilizes the carbocation (tertiary, allylic, benzylic, polar protic solvent) speeds the reaction.",
+      "searchQuery": "SN1 rate determining step carbocation formation ionization"
+    },
+    {
+      "id": "carbocation-stability-order",
+      "title": "Rank carbocations from most to least stable and give the main reason.",
+      "body": "3° > 2° > 1° > methyl, because of alkyl **hyperconjugation** and induction.\n\nNeighboring C–H and C–C σ bonds donate electron density into the empty p orbital. Allylic and benzylic cations are extra stable from resonance.\n\nExample: the allyl cation is about as stable as a secondary alkyl cation; the benzyl cation resembles a secondary-to-tertiary one.",
+      "searchQuery": "carbocation stability order hyperconjugation tertiary secondary primary"
+    },
+    {
+      "id": "methyl-shift-neopentyl-cation",
+      "title": "A secondary carbocation sits next to a quaternary carbon, as in $\\ce{(CH3)3C-CH+-CH3}$. What type of rearrangement gives a tertiary cation?",
+      "body": "1,2-methyl shift\n\nA methyl group migrates with its bonding pair to the cationic carbon, so the positive charge moves to the former quaternary carbon, forming the tertiary cation $\\ce{(CH3)2C+-CH(CH3)2}$.\n\nKey idea: rearrangements are 1,2-shifts of H or alkyl that move the charge to a more stable position.",
+      "answer": "methyl shift",
+      "acceptedAnswers": [
+        "1,2-methyl shift",
+        "alkyl shift",
+        "methyl migration",
+        "1,2 methyl shift"
+      ],
+      "searchQuery": "carbocation rearrangement 1,2-methyl shift tertiary"
+    },
+    {
+      "id": "hcl-3-3-dimethyl-1-butene",
+      "title": "$\\ce{HCl}$ adds to 3,3-dimethyl-1-butene. What is the major product (IUPAC name)?",
+      "body": "2-chloro-2,3-dimethylbutane\n\nProtonation gives the secondary cation $\\ce{(CH3)3C-CH+-CH3}$, which undergoes a **methyl shift** to the tertiary cation $\\ce{(CH3)2C+-CH(CH3)2}$. Chloride then adds to that carbon.\n\nWatch out: the unrearranged product, 2-chloro-3,3-dimethylbutane, is only minor.",
+      "answer": "2-chloro-2,3-dimethylbutane",
+      "acceptedAnswers": [
+        "2 chloro 2,3 dimethylbutane"
+      ],
+      "searchQuery": "HCl 3,3-dimethyl-1-butene methyl shift product"
+    },
+    {
+      "id": "heat-favors-elimination",
+      "title": "When a tertiary alkyl halide is solvolyzed in ethanol, does raising the temperature favor $\\mathrm{S_N1}$ or E1?",
+      "body": "E1\n\nElimination produces more molecules (an extra species is formed), so it has a more **positive entropy** and a higher activation energy; raising the temperature favors it.\n\nTip: heat favors elimination over substitution in general.",
+      "answer": "E1",
+      "acceptedAnswers": [
+        "elimination"
+      ],
+      "searchQuery": "temperature favors elimination over substitution E1 SN1"
+    },
+    {
+      "id": "e2-rate-law",
+      "title": "What is the rate law of an E2 reaction of an alkyl halide RX with a base B? (as typed)",
+      "body": "rate = k[RX][B]\n\nE2 is **bimolecular**: the base removes the β-hydrogen as the leaving group departs in a single concerted step, so both species appear in the rate-determining step.\n\nExample: doubling either [RX] or [base] doubles the rate.",
+      "answer": "k[RX][base]",
+      "acceptedAnswers": [
+        "rate = k[RX][base]",
+        "k[RX][B]",
+        "second order",
+        "rate=k[RX][B]"
+      ],
+      "answerDisplay": "$\\mathrm{rate} = k[\\mathrm{RX}][\\mathrm{B}]$",
+      "searchQuery": "E2 rate law second order bimolecular alkyl halide base"
+    },
+    {
+      "id": "tertiary-halide-strong-base",
+      "title": "A tertiary alkyl halide reacts with $\\ce{NaOEt}$ in ethanol. Which mechanism dominates?",
+      "body": "E2\n\nTertiary halides are too hindered for $\\mathrm{S_N2}$, and a **strong base** such as ethoxide forces bimolecular elimination rather than slow $\\mathrm{S_N1}$/E1 ionization.\n\nTip: tertiary + strong base = E2; tertiary + weak base/nucleophile = $\\mathrm{S_N1}$/E1.",
+      "answer": "E2",
+      "acceptedAnswers": [
+        "elimination"
+      ],
+      "searchQuery": "tertiary alkyl halide strong base E2 elimination NaOEt"
+    },
+    {
+      "id": "primary-halide-methoxide",
+      "title": "A primary alkyl halide (unhindered) reacts with $\\ce{NaOCH3}$ in $\\ce{CH3OH}$. Which mechanism dominates?",
+      "body": "SN2\n\nA primary substrate is easily approached from the back, and methoxide is a strong nucleophile that is not especially bulky, so substitution wins over elimination.\n\nWatch out: a bulky base such as tert-butoxide flips the outcome toward E2, even for primary halides.",
+      "answer": "SN2",
+      "acceptedAnswers": [
+        "substitution"
+      ],
+      "answerDisplay": "$\\mathrm{S_N2}$",
+      "searchQuery": "primary alkyl halide sodium methoxide SN2 substitution"
+    },
+    {
+      "id": "primary-halide-tbuok",
+      "title": "1-Bromobutane is treated with potassium tert-butoxide in tert-butanol. What is the major mechanism?",
+      "body": "E2\n\nThe tert-butoxide ion is bulky and a poor nucleophile, so it removes a β-hydrogen instead of attacking carbon. The major product is 1-butene.\n\nTip: bulky strong bases (tBuOK, LDA) favor E2 and the less-substituted (Hofmann) alkene.",
+      "answer": "E2",
+      "acceptedAnswers": [
+        "elimination"
+      ],
+      "searchQuery": "potassium tert-butoxide primary alkyl halide E2 bulky base"
+    },
+    {
+      "id": "williamson-ether-tbu-methyl",
+      "title": "To make tert-butyl methyl ether by a Williamson synthesis with $\\ce{(CH3)3CO-K+}$, which alkyl halide should you use (give the formula)?",
+      "body": "CH3I\n\nThe Williamson synthesis is an $\\mathrm{S_N2}$ reaction, so the alkyl halide must be **methyl or primary**. Using $\\ce{(CH3)3CCl}$ with methoxide would give mainly E2 elimination to isobutylene.\n\nKey idea: put the hindered group on the alkoxide, not on the alkyl halide.",
+      "answer": "CH3I",
+      "acceptedAnswers": [
+        "methyl iodide",
+        "iodomethane",
+        "CH3Br",
+        "methyl bromide"
+      ],
+      "answerDisplay": "$\\ce{CH3I}$",
+      "searchQuery": "Williamson ether synthesis tert-butyl methyl ether methyl iodide"
+    },
+    {
+      "id": "sn2-r-bromobutane-cyanide",
+      "title": "(R)-2-Bromobutane reacts with $\\ce{NaCN}$ by $\\mathrm{S_N2}$. What is the configuration (R or S) of the 2-cyanobutane formed?",
+      "body": "S\n\nThe $\\mathrm{S_N2}$ pathway inverts the stereocenter. In both compounds the priority order is leaving group or CN > ethyl > methyl > H, so inversion of geometry changes the label from R to S.\n\nWatch out: inversion of geometry only changes R/S if the priorities keep the same order, so check the CIP ranking.",
+      "answer": "S",
+      "acceptedAnswers": [
+        "(S)"
+      ],
+      "searchQuery": "SN2 inversion (R)-2-bromobutane cyanide product configuration"
+    },
+    {
+      "id": "sn2-nucleophile-azide-product",
+      "title": "Ethyl bromide reacts with sodium azide ($\\ce{NaN3}$) in DMF. What is the organic product (formula)?",
+      "body": "CH3CH2N3\n\nAzide is an excellent nucleophile for $\\mathrm{S_N2}$ in a polar aprotic solvent. The product, ethyl azide, can be reduced by $\\ce{LiAlH4}$ or $\\ce{H2}$/Pd to a primary amine.\n\nTip: azide then reduction is a clean way to make primary amines without over-alkylation.",
+      "answer": "CH3CH2N3",
+      "acceptedAnswers": [
+        "ethyl azide",
+        "C2H5N3",
+        "azidoethane"
+      ],
+      "answerDisplay": "$\\ce{CH3CH2N3}$",
+      "searchQuery": "alkyl halide sodium azide SN2 alkyl azide amine synthesis"
+    },
+    {
+      "id": "hbr-peroxides-propene",
+      "title": "Propene reacts with $\\ce{HBr}$ in the presence of peroxides ($\\ce{ROOR}$). What is the major product?",
+      "body": "1-bromopropane\n\nPeroxides initiate a **radical chain** mechanism. $\\ce{Br\\cdot}$ adds to the terminal carbon to give the more stable secondary radical, then abstracts H from HBr.\n\nWatch out: this anti-Markovnikov result works for HBr only, not HCl or HI.",
+      "answer": "1-bromopropane",
+      "acceptedAnswers": [
+        "n-propyl bromide",
+        "propyl bromide",
+        "1-propyl bromide"
+      ],
+      "searchQuery": "anti-Markovnikov HBr peroxides propene 1-bromopropane radical"
+    },
+    {
+      "id": "radical-hbr-mechanism-type",
+      "title": "What type of mechanism explains the anti-Markovnikov addition of $\\ce{HBr}$ to an alkene in the presence of peroxides?",
+      "body": "radical chain\n\nThe steps are initiation (peroxide cleaves to $\\ce{RO\\cdot}$, which makes $\\ce{Br\\cdot}$), then two propagation steps: $\\ce{Br\\cdot}$ adds to the alkene, and the carbon radical abstracts H from HBr.\n\nKey idea: the more stable carbon radical forms, which puts Br on the less substituted carbon.",
+      "answer": "radical",
+      "acceptedAnswers": [
+        "radical chain",
+        "free radical",
+        "radical chain mechanism",
+        "free-radical chain"
+      ],
+      "searchQuery": "radical chain mechanism HBr peroxide effect anti-Markovnikov"
+    },
+    {
+      "id": "acid-hydration-2-methylpropene",
+      "title": "2-Methylpropene is treated with dilute aqueous $\\ce{H2SO4}$. What is the major product?",
+      "body": "2-Methyl-2-propanol (tert-butyl alcohol)\n\nProtonation gives the **tertiary carbocation**, water attacks it, and loss of $\\ce{H+}$ gives the alcohol, with OH on the more substituted carbon (Markovnikov).\n\nWatch out: the reaction is reversible; concentrated acid and heat drive the reverse dehydration back to the alkene.",
+      "answer": "2-methyl-2-propanol",
+      "acceptedAnswers": [
+        "tert-butyl alcohol",
+        "tert-butanol",
+        "t-butanol",
+        "t-butyl alcohol",
+        "2-methylpropan-2-ol"
+      ],
+      "searchQuery": "acid catalyzed hydration of 2-methylpropene tert-butyl alcohol"
+    },
+    {
+      "id": "oxymercuration-no-rearrangement",
+      "title": "3,3-Dimethyl-1-butene reacts with (1) $\\ce{Hg(OAc)2}$, $\\ce{H2O}$ and (2) $\\ce{NaBH4}$. What is the product?",
+      "body": "3,3-dimethyl-2-butanol\n\nOxymercuration-demercuration gives **Markovnikov** hydration through a bridged mercurinium ion, so no free carbocation forms and there is no methyl shift.\n\nExample: acid-catalyzed hydration of the same alkene would give the rearranged tertiary alcohol, 2,3-dimethyl-2-butanol.",
+      "answer": "3,3-dimethyl-2-butanol",
+      "acceptedAnswers": [
+        "3,3-dimethylbutan-2-ol"
+      ],
+      "searchQuery": "oxymercuration demercuration no rearrangement 3,3-dimethyl-1-butene"
+    },
+    {
+      "id": "hydroboration-syn-addition",
+      "title": "Is the addition of $\\ce{BH3}$ across an alkene syn or anti?",
+      "body": "syn\n\nBoron and hydrogen add to the **same face** of the double bond in one concerted step. Oxidation with $\\ce{H2O2}$/$\\ce{NaOH}$ then replaces B with OH with retention.\n\nExample: hydroboration-oxidation of 1-methylcyclohexene gives trans-2-methylcyclohexanol, because H and OH add syn.",
+      "answer": "syn",
+      "acceptedAnswers": [
+        "syn addition",
+        "same face",
+        "suprafacial"
+      ],
+      "searchQuery": "hydroboration syn addition concerted stereochemistry"
+    },
+    {
+      "id": "bromonium-intermediate",
+      "title": "What key intermediate accounts for the anti addition of $\\ce{Br2}$ to an alkene?",
+      "body": "bromonium ion\n\nThe alkene attacks $\\ce{Br2}$ to form a three-membered cyclic **bromonium ion**. Bromide must attack from the opposite face, giving the anti (trans) product.\n\nExample: cyclohexene plus $\\ce{Br2}$ gives racemic trans-1,2-dibromocyclohexane.",
+      "answer": "bromonium ion",
+      "acceptedAnswers": [
+        "bromonium",
+        "cyclic bromonium ion",
+        "halonium ion",
+        "bridged bromonium ion"
+      ],
+      "searchQuery": "bromonium ion intermediate anti addition bromine alkene"
+    },
+    {
+      "id": "halohydrin-propene",
+      "title": "Propene reacts with $\\ce{Br2}$ in water. What is the major product (IUPAC name)?",
+      "body": "1-bromo-2-propanol\n\nWater is the solvent, so it attacks the bromonium ion at the more substituted carbon, which carries more positive charge. That puts OH on C2 and Br on C1.\n\nWatch out: this is **Markovnikov** in the sense that OH (the nucleophile) goes to the more substituted carbon.",
+      "answer": "1-bromo-2-propanol",
+      "acceptedAnswers": [
+        "1-bromopropan-2-ol"
+      ],
+      "searchQuery": "halohydrin formation propene bromine water regiochemistry"
+    },
+    {
+      "id": "hydrogenation-cis-product",
+      "title": "1,2-Dimethylcyclohexene is hydrogenated with $\\ce{H2}$ over Pd/C. Is the product cis- or trans-1,2-dimethylcyclohexane?",
+      "body": "cis\n\nBoth hydrogens add from the face of the alkene bound to the metal surface, so the addition is **syn**. The two methyl groups end up on the same side.\n\nTip: catalytic hydrogenation is syn; dissolving-metal reduction of alkynes is anti.",
+      "answer": "cis",
+      "acceptedAnswers": [
+        "cis-1,2-dimethylcyclohexane",
+        "meso"
+      ],
+      "searchQuery": "catalytic hydrogenation syn addition cis product dimethylcyclohexene"
+    },
+    {
+      "id": "epoxidation-reagent",
+      "title": "What common peroxy acid (abbreviation) converts an alkene into an epoxide?",
+      "body": "mCPBA\n\n**meta-Chloroperoxybenzoic acid** transfers an oxygen to the alkene in one concerted step (butterfly mechanism). The reaction is a stereospecific syn addition: a cis alkene gives a cis-substituted epoxide.\n\nExample: cyclohexene plus mCPBA gives cyclohexene oxide (7-oxabicyclo[4.1.0]heptane).",
+      "answer": "mCPBA",
+      "acceptedAnswers": [
+        "m-CPBA",
+        "meta-chloroperoxybenzoic acid",
+        "peroxy acid",
+        "peracid"
+      ],
+      "searchQuery": "mCPBA epoxidation alkene meta-chloroperoxybenzoic acid"
+    },
+    {
+      "id": "epoxide-acid-hydrolysis-trans",
+      "title": "Cyclohexene oxide is treated with aqueous $\\ce{H3O+}$. What is the product (IUPAC name, with stereo descriptor)?",
+      "body": "trans-1,2-cyclohexanediol\n\nWater attacks the protonated epoxide from the back side, opening it with inversion at that carbon. The OH groups end up **anti**, so the diol is trans (formed as a racemate).\n\nWatch out: OsO4 gives the cis diol, so epoxidation plus hydrolysis and OsO4 are complementary.",
+      "answer": "trans-1,2-cyclohexanediol",
+      "acceptedAnswers": [
+        "trans-cyclohexane-1,2-diol"
+      ],
+      "searchQuery": "epoxide acid hydrolysis trans diol cyclohexene oxide anti"
+    },
+    {
+      "id": "osmium-tetroxide-diol",
+      "title": "Cyclohexene reacts with $\\ce{OsO4}$ followed by $\\ce{NaHSO3}$ (or with cold, dilute $\\ce{KMnO4}$, $\\ce{NaOH}$). What is the product?",
+      "body": "cis-1,2-cyclohexanediol\n\nThe reagent adds both oxygens to the **same face** through a cyclic osmate ester, which is a syn dihydroxylation. The product is the meso (cis) diol.\n\nWhy it matters: OsO4 is toxic and costly, so it is often used catalytically with NMO.",
+      "answer": "cis-1,2-cyclohexanediol",
+      "acceptedAnswers": [
+        "cis-cyclohexane-1,2-diol"
+      ],
+      "searchQuery": "OsO4 syn dihydroxylation cyclohexene cis diol"
+    },
+    {
+      "id": "ozonolysis-cyclohexene",
+      "title": "Cyclohexene is treated with (1) $\\ce{O3}$ and (2) $\\ce{(CH3)2S}$. What is the product?",
+      "body": "hexanedial\n\nOzonolysis **cleaves the C=C bond** and gives a carbonyl at each carbon. In a ring, both ends stay in the same molecule, giving a dialdehyde, $\\ce{OHC(CH2)4CHO}$.\n\nWatch out: an oxidative workup ($\\ce{H2O2}$) would turn the aldehydes into carboxylic acids, giving hexanedioic (adipic) acid.",
+      "answer": "hexanedial",
+      "acceptedAnswers": [
+        "adipaldehyde",
+        "1,6-hexanedial",
+        "adipic dialdehyde"
+      ],
+      "searchQuery": "ozonolysis cyclohexene hexanedial dimethyl sulfide workup"
+    },
+    {
+      "id": "heat-of-hydrogenation-stability",
+      "title": "How does the heat of hydrogenation of an alkene relate to its stability?",
+      "body": "The more stable the alkene, the less heat it releases.\n\nAll alkenes with the same carbon skeleton give the same alkane, so differences in heat released reflect differences in the alkene's starting energy.\n\nExample: trans-2-butene releases about 27.6 kcal/mol and cis-2-butene about 28.6 kcal/mol, so trans is more stable by about 1 kcal/mol.",
+      "searchQuery": "heat of hydrogenation alkene stability trans cis comparison"
+    },
+    {
+      "id": "trans-more-stable-than-cis",
+      "title": "Which 2-butene isomer is more stable: cis or trans?",
+      "body": "trans\n\nIn the cis isomer the two methyl groups are on the same side and suffer **steric strain**. The trans isomer avoids it and is more stable by about 1 kcal/mol.\n\nTip: more substituted alkenes and trans alkenes are generally more stable.",
+      "answer": "trans",
+      "acceptedAnswers": [
+        "trans-2-butene",
+        "E",
+        "(E)-2-butene"
+      ],
+      "searchQuery": "trans-2-butene more stable than cis steric strain"
+    },
+    {
+      "id": "simmons-smith-reagent",
+      "title": "Which named reaction converts an alkene to a cyclopropane using $\\ce{CH2I2}$ and a zinc-copper couple?",
+      "body": "Simmons-Smith\n\nThe zinc carbenoid ($\\ce{ICH2ZnI}$) transfers a $\\ce{CH2}$ group in one concerted step. It is **stereospecific**: a cis alkene gives a cis-disubstituted cyclopropane.\n\nWatch out: no free carbene forms, so there is no rearrangement and no insertion.",
+      "answer": "Simmons-Smith",
+      "acceptedAnswers": [
+        "Simmons Smith",
+        "Simmons-Smith reaction"
+      ],
+      "searchQuery": "Simmons-Smith cyclopropanation CH2I2 Zn(Cu) alkene"
+    },
+    {
+      "id": "hydroboration-no-rearrangement-why",
+      "title": "Why do hydroboration-oxidation and oxymercuration avoid carbocation rearrangements, unlike acid-catalyzed hydration?",
+      "body": "Neither passes through a free carbocation.\n\nHydroboration is a concerted four-center addition, and oxymercuration uses a bridged **mercurinium ion** that holds the positive charge. Without a discrete cation there is no 1,2-shift.\n\nKey idea: use these methods when a rearrangement-prone alkene must give a clean alcohol.",
+      "searchQuery": "why no carbocation rearrangement hydroboration oxymercuration"
+    },
+    {
+      "id": "propyne-two-hbr",
+      "title": "Propyne reacts with 2 equivalents of $\\ce{HBr}$ (no peroxides). What is the product?",
+      "body": "2,2-dibromopropane\n\nThe first addition follows Markovnikov's rule to give 2-bromopropene, and the second puts the second Br on the same carbon, giving a **geminal** dibromide.\n\nWhy: bromine stabilizes the adjacent carbocation by lone-pair donation.",
+      "answer": "2,2-dibromopropane",
+      "acceptedAnswers": [
+        "2,2 dibromopropane"
+      ],
+      "searchQuery": "propyne two equivalents HBr geminal dibromide 2,2-dibromopropane"
+    },
+    {
+      "id": "alkyne-hydration-1-butyne",
+      "title": "1-Butyne is treated with $\\ce{H2O}$, $\\ce{H2SO4}$ and $\\ce{HgSO4}$. What is the product?",
+      "body": "2-butanone\n\nMarkovnikov addition of water gives an enol, which **tautomerizes** to the more stable ketone. A terminal alkyne therefore gives a methyl ketone.\n\nWatch out: hydration of an alkyne gives a carbonyl compound, not an alcohol.",
+      "answer": "2-butanone",
+      "acceptedAnswers": [
+        "butan-2-one",
+        "methyl ethyl ketone",
+        "MEK",
+        "butanone"
+      ],
+      "searchQuery": "alkyne hydration HgSO4 methyl ketone 1-butyne 2-butanone"
+    },
+    {
+      "id": "alkyne-hydroboration-1-butyne",
+      "title": "1-Butyne reacts with (1) disiamylborane (or 9-BBN) and (2) $\\ce{H2O2}$, $\\ce{NaOH}$. What is the product?",
+      "body": "butanal\n\nHydroboration puts boron on the terminal carbon (anti-Markovnikov); oxidation gives an enol that tautomerizes to the **aldehyde**.\n\nTip: use a bulky borane so that only one B–H adds to the alkyne rather than two.",
+      "answer": "butanal",
+      "acceptedAnswers": [
+        "butyraldehyde",
+        "butanaldehyde"
+      ],
+      "searchQuery": "alkyne hydroboration oxidation terminal alkyne aldehyde butanal"
+    },
+    {
+      "id": "alkyne-sodium-ammonia",
+      "title": "2-Butyne is treated with $\\ce{Na}$ in liquid $\\ce{NH3}$. What is the product?",
+      "body": "trans-2-butene\n\nA dissolving-metal reduction proceeds through a radical anion and a vinyl radical, giving the more stable **trans** (anti addition) alkene.\n\nWatch out: terminal alkynes are not reduced this way; they are deprotonated instead.",
+      "answer": "trans-2-butene",
+      "acceptedAnswers": [
+        "(E)-2-butene",
+        "E-2-butene",
+        "(E)-but-2-ene",
+        "trans-but-2-ene"
+      ],
+      "searchQuery": "Na NH3 alkyne reduction trans alkene dissolving metal"
+    },
+    {
+      "id": "alkyne-lindlar",
+      "title": "2-Butyne is treated with $\\ce{H2}$ and Lindlar's catalyst. What is the product?",
+      "body": "cis-2-butene\n\nThe poisoned palladium catalyst delivers both hydrogens to the same face (**syn addition**) and stops at the alkene stage.\n\nTip: Lindlar (or P-2 nickel) gives cis alkenes; Na/NH3 gives trans alkenes.",
+      "answer": "cis-2-butene",
+      "acceptedAnswers": [
+        "(Z)-2-butene",
+        "Z-2-butene",
+        "(Z)-but-2-ene",
+        "cis-but-2-ene"
+      ],
+      "searchQuery": "Lindlar catalyst alkyne to cis alkene syn hydrogenation"
+    },
+    {
+      "id": "acetylide-alkylation-propyne",
+      "title": "Propyne is treated with (1) $\\ce{NaNH2}$ and (2) $\\ce{CH3CH2Br}$. What is the product?",
+      "body": "2-pentyne\n\nThe acetylide anion is a strong nucleophile that displaces bromide in an $\\mathrm{S_N2}$ reaction, forming a new C–C bond: $\\ce{CH3C#C-CH2CH3}$.\n\nExample: this builds longer alkynes from terminal ones.",
+      "answer": "2-pentyne",
+      "acceptedAnswers": [
+        "pent-2-yne",
+        "ethylmethylacetylene"
+      ],
+      "searchQuery": "acetylide alkylation SN2 propyne ethyl bromide 2-pentyne"
+    },
+    {
+      "id": "acetylide-secondary-halide-fails",
+      "title": "Why does an acetylide ion give poor yields when treated with a secondary or tertiary alkyl halide?",
+      "body": "It acts as a base and causes E2 elimination.\n\nThe acetylide is a strong base and the hindered electrophile resists $\\mathrm{S_N2}$ backside attack, so elimination wins.\n\nTip: acetylide alkylation works with methyl and primary halides only.",
+      "searchQuery": "acetylide secondary alkyl halide E2 elimination alkylation limitation"
+    },
+    {
+      "id": "tertiary-alcohol-dehydration-mech",
+      "title": "What is the mechanism for acid-catalyzed dehydration of a tertiary alcohol?",
+      "body": "E1\n\nProtonation of the OH gives water as a leaving group, which departs to give a carbocation. A base (water) then removes a β-proton to form the alkene.\n\nTip: the order of ease is 3° > 2° > 1°, matching carbocation stability.",
+      "answer": "E1",
+      "acceptedAnswers": [
+        "elimination"
+      ],
+      "searchQuery": "acid catalyzed dehydration tertiary alcohol E1 mechanism"
+    },
+    {
+      "id": "alcohol-dehydration-rearrangement",
+      "title": "3-Methyl-2-butanol is heated with concentrated $\\ce{H2SO4}$. What is the major alkene (IUPAC name)?",
+      "body": "2-methyl-2-butene\n\nLoss of water gives a secondary cation, which undergoes a **hydride shift** from C3 to give a tertiary cation. Loss of H⁺ then forms the most substituted (Zaitsev) alkene.\n\nWatch out: dehydration passes through cations, so always check for 1,2-shifts.",
+      "answer": "2-methyl-2-butene",
+      "acceptedAnswers": [
+        "2-methylbut-2-ene",
+        "2-methyl-2-butene (zaitsev)"
+      ],
+      "searchQuery": "dehydration 3-methyl-2-butanol hydride shift 2-methyl-2-butene"
+    },
+    {
+      "id": "pocl3-dehydration",
+      "title": "Which reagent (formula), used with pyridine, dehydrates an alcohol by an E2 pathway and avoids carbocation rearrangements?",
+      "body": "POCl3\n\nThe OH reacts with $\\ce{POCl3}$ to form a dichlorophosphate, a good leaving group. Pyridine then acts as the base for **E2** elimination.\n\nWhy it matters: no carbocation forms, so there is no rearrangement and the conditions are milder than hot acid.",
+      "answer": "POCl3",
+      "acceptedAnswers": [
+        "phosphorus oxychloride",
+        "phosphoryl chloride"
+      ],
+      "answerDisplay": "$\\ce{POCl3}$",
+      "searchQuery": "POCl3 pyridine alcohol dehydration E2 no rearrangement"
+    },
+    {
+      "id": "socl2-alcohol-to-chloride",
+      "title": "Which reagent (formula) converts a primary alcohol into an alkyl chloride, giving only gaseous byproducts?",
+      "body": "SOCl2\n\nThionyl chloride gives $\\ce{R-Cl}$ plus $\\ce{SO2}$ and $\\ce{HCl}$, both gases that leave the mixture. With pyridine the chloride attacks by $\\mathrm{S_N2}$, giving **inversion** at a stereocenter.\n\nTip: it also converts carboxylic acids to acid chlorides.",
+      "answer": "SOCl2",
+      "acceptedAnswers": [
+        "thionyl chloride"
+      ],
+      "answerDisplay": "$\\ce{SOCl2}$",
+      "searchQuery": "thionyl chloride SOCl2 alcohol to alkyl chloride SN2"
+    },
+    {
+      "id": "pbr3-alcohol-to-bromide",
+      "title": "Which reagent (formula) converts a secondary alcohol into an alkyl bromide with inversion and no rearrangement?",
+      "body": "PBr3\n\nThe alcohol oxygen attacks phosphorus, creating a good leaving group, and bromide then displaces it by $\\mathrm{S_N2}$.\n\nWatch out: since it is $\\mathrm{S_N2}$, it works best on primary and secondary alcohols, not tertiary ones.",
+      "answer": "PBr3",
+      "acceptedAnswers": [
+        "phosphorus tribromide"
+      ],
+      "answerDisplay": "$\\ce{PBr3}$",
+      "searchQuery": "PBr3 alcohol to alkyl bromide SN2 inversion"
+    },
+    {
+      "id": "lucas-test-reactivity",
+      "title": "In the Lucas test ($\\ce{ZnCl2}$ in conc. $\\ce{HCl}$), which class of alcohol reacts immediately, giving cloudiness?",
+      "body": "tertiary\n\nThe reagent converts alcohols to alkyl chlorides by an $\\mathrm{S_N1}$ pathway, so 3° alcohols react at once, 2° in a few minutes, and 1° essentially not at room temperature.\n\nKey idea: reactivity tracks carbocation stability.",
+      "answer": "tertiary",
+      "acceptedAnswers": [
+        "3",
+        "3°",
+        "tertiary alcohol"
+      ],
+      "searchQuery": "Lucas test tertiary alcohol ZnCl2 HCl SN1 reactivity"
+    },
+    {
+      "id": "pcc-primary-alcohol",
+      "title": "1-Propanol is treated with PCC in $\\ce{CH2Cl2}$. What is the product?",
+      "body": "propanal\n\nPCC is a mild chromium(VI) oxidant used in the **absence of water**, so the reaction stops at the aldehyde.\n\nWatch out: with aqueous oxidants like Jones reagent, the aldehyde hydrate forms and is oxidized further to the acid.",
+      "answer": "propanal",
+      "acceptedAnswers": [
+        "propionaldehyde",
+        "propanaldehyde"
+      ],
+      "searchQuery": "PCC oxidation primary alcohol aldehyde propanal"
+    },
+    {
+      "id": "jones-primary-alcohol",
+      "title": "1-Butanol is treated with $\\ce{CrO3}$, $\\ce{H2SO4}$ and acetone (Jones reagent). What is the product?",
+      "body": "butanoic acid\n\nJones reagent is a strong aqueous chromic acid oxidant. A primary alcohol goes through the aldehyde and its hydrate and ends at the **carboxylic acid**.\n\nExample: a secondary alcohol stops at the ketone; a tertiary alcohol does not react.",
+      "answer": "butanoic acid",
+      "acceptedAnswers": [
+        "butyric acid",
+        "butanoate"
+      ],
+      "searchQuery": "Jones oxidation primary alcohol carboxylic acid butanoic acid"
+    },
+    {
+      "id": "cyclohexanol-oxidation",
+      "title": "Cyclohexanol is oxidized with $\\ce{Na2Cr2O7}$/$\\ce{H2SO4}$. What is the product?",
+      "body": "cyclohexanone\n\nA secondary alcohol is oxidized to a ketone, which has no H on the carbonyl carbon and resists further oxidation.\n\nTip: oxidation removes the carbinol H and the O–H hydrogen; this is the basis of the colour change from orange Cr(VI) to green Cr(III).",
+      "answer": "cyclohexanone",
+      "searchQuery": "oxidation of secondary alcohol cyclohexanol cyclohexanone dichromate"
+    },
+    {
+      "id": "tertiary-alcohol-no-oxidation",
+      "title": "Why can't a tertiary alcohol be oxidized by chromic acid or PCC?",
+      "body": "It has no hydrogen on the carbinol carbon.\n\nOxidation requires removing the C–H as the C=O forms, and without that hydrogen the reaction cannot proceed without breaking C–C bonds.\n\nKey idea: primary and secondary alcohols oxidize; tertiary alcohols do not.",
+      "searchQuery": "tertiary alcohol cannot oxidize no hydrogen carbinol carbon"
+    },
+    {
+      "id": "swern-oxidation",
+      "title": "Which named oxidation uses DMSO, oxalyl chloride and triethylamine to convert alcohols to aldehydes or ketones?",
+      "body": "Swern oxidation\n\nIt is a mild, metal-free oxidation run at low temperature (about −78 °C). Primary alcohols stop at the **aldehyde**, and secondary alcohols give ketones.\n\nWatch out: it releases dimethyl sulfide, which smells foul, plus CO and $\\ce{CO2}$.",
+      "answer": "Swern",
+      "acceptedAnswers": [
+        "Swern oxidation"
+      ],
+      "searchQuery": "Swern oxidation DMSO oxalyl chloride triethylamine"
+    },
+    {
+      "id": "nabh4-ketone-reduction",
+      "title": "2-Pentanone is treated with $\\ce{NaBH4}$ in methanol, then workup. What is the product?",
+      "body": "2-pentanol\n\nBorohydride delivers hydride to the carbonyl carbon. The oxygen is protonated by the solvent, giving a **secondary alcohol**.\n\nWatch out: the product is racemic, since hydride can attack either face of the planar ketone.",
+      "answer": "2-pentanol",
+      "acceptedAnswers": [
+        "pentan-2-ol"
+      ],
+      "searchQuery": "NaBH4 reduction ketone secondary alcohol 2-pentanone"
+    },
+    {
+      "id": "lialh4-ester-reduction",
+      "title": "Ethyl acetate is treated with (1) $\\ce{LiAlH4}$ and (2) $\\ce{H3O+}$. What alcohol(s) result?",
+      "body": "ethanol\n\nTwo equivalents form: $\\ce{LiAlH4}$ reduces the acyl part to a primary alcohol, and the alkoxy part is released as an alcohol. Here both parts are ethanol.\n\nKey idea: $\\ce{NaBH4}$ is too weak to reduce esters, but $\\ce{LiAlH4}$ is not.",
+      "answer": "ethanol",
+      "acceptedAnswers": [
+        "ethyl alcohol",
+        "EtOH"
+      ],
+      "searchQuery": "LiAlH4 reduces ester ethyl acetate two ethanol"
+    },
+    {
+      "id": "lialh4-carboxylic-acid",
+      "title": "Butanoic acid is treated with (1) $\\ce{LiAlH4}$ and (2) $\\ce{H3O+}$. What is the product?",
+      "body": "1-butanol\n\n$\\ce{LiAlH4}$ reduces carboxylic acids all the way to **primary alcohols**; the aldehyde intermediate is more reactive than the acid, so it cannot be isolated.\n\nWatch out: $\\ce{NaBH4}$ does not reduce carboxylic acids.",
+      "answer": "1-butanol",
+      "acceptedAnswers": [
+        "butan-1-ol",
+        "n-butanol",
+        "butanol"
+      ],
+      "searchQuery": "LiAlH4 reduces carboxylic acid primary alcohol butanoic acid"
+    },
+    {
+      "id": "epoxide-base-opening",
+      "title": "Propylene oxide (methyloxirane) reacts with $\\ce{NaOCH3}$ in $\\ce{CH3OH}$. What is the major product?",
+      "body": "1-methoxy-2-propanol\n\nUnder basic or nucleophilic conditions, the nucleophile attacks the **less hindered carbon** by $\\mathrm{S_N2}$, so methoxide ends up on the terminal $\\ce{CH2}$.\n\nWatch out: under acidic conditions, attack shifts toward the more substituted carbon.",
+      "answer": "1-methoxy-2-propanol",
+      "acceptedAnswers": [
+        "1-methoxypropan-2-ol"
+      ],
+      "searchQuery": "epoxide ring opening basic conditions less hindered carbon propylene oxide"
+    },
+    {
+      "id": "anisole-cleavage-hbr",
+      "title": "Anisole ($\\ce{C6H5OCH3}$) is heated with excess $\\ce{HBr}$. Which organic compounds form?",
+      "body": "phenol and bromomethane\n\nProtonated ether is cleaved by bromide attacking the **methyl** carbon by $\\mathrm{S_N2}$. Bromide cannot attack the sp2 aryl carbon, so no bromobenzene forms.\n\nTip: aryl alkyl ethers always cleave to a phenol plus an alkyl halide.",
+      "searchQuery": "anisole cleavage HBr phenol methyl bromide ether cleavage"
+    },
+    {
+      "id": "grignard-with-water",
+      "title": "What organic product forms when $\\ce{CH3MgBr}$ is exposed to water?",
+      "body": "methane\n\nA Grignard reagent is a strong base (the conjugate acid of a carbanion has pKa about 50), so water protonates it instantly: $\\ce{CH3MgBr + H2O -> CH4 + Mg(OH)Br}$.\n\nWhy: this is why Grignard reactions need **dry ether** and no OH, NH or acidic C–H groups on the substrate.",
+      "answer": "methane",
+      "acceptedAnswers": [
+        "CH4"
+      ],
+      "searchQuery": "Grignard reagent reacts with water methane strong base anhydrous"
+    },
+    {
+      "id": "grignard-co2-benzoic-acid",
+      "title": "Phenylmagnesium bromide is treated with (1) $\\ce{CO2}$ and (2) $\\ce{H3O+}$. What is the product?",
+      "body": "benzoic acid\n\nThe Grignard carbon attacks $\\ce{CO2}$ to give a carboxylate, which acid protonates. The product has **one more carbon** than the Grignard's alkyl group.\n\nTip: Grignard plus $\\ce{CO2}$ is a standard way to build a carboxylic acid from a halide.",
+      "answer": "benzoic acid",
+      "acceptedAnswers": [
+        "benzoate",
+        "C6H5COOH"
+      ],
+      "searchQuery": "Grignard carbon dioxide carboxylic acid benzoic acid synthesis"
+    },
+    {
+      "id": "grignard-formaldehyde",
+      "title": "$\\ce{CH3MgBr}$ reacts with formaldehyde, $\\ce{H2C=O}$, and then aqueous acid. What is the product?",
+      "body": "ethanol\n\nGrignard reagents add to the carbonyl carbon. Formaldehyde always gives a **primary alcohol** with one more carbon than the Grignard's R group.\n\nKey idea: formaldehyde gives 1° alcohols, other aldehydes give 2° alcohols, ketones give 3° alcohols.",
+      "answer": "ethanol",
+      "acceptedAnswers": [
+        "ethyl alcohol",
+        "CH3CH2OH"
+      ],
+      "searchQuery": "Grignard formaldehyde primary alcohol methylmagnesium bromide"
+    },
+    {
+      "id": "grignard-acetaldehyde",
+      "title": "$\\ce{CH3MgBr}$ reacts with acetaldehyde, then $\\ce{H3O+}$. What is the product?",
+      "body": "2-propanol\n\nThe methyl adds to the aldehyde carbon, giving an alkoxide that is protonated on workup. The product has two carbons on the carbinol carbon, so it is a **secondary alcohol**.\n\nExample: using ethylmagnesium bromide and formaldehyde would give 1-propanol instead.",
+      "answer": "2-propanol",
+      "acceptedAnswers": [
+        "propan-2-ol",
+        "isopropanol",
+        "isopropyl alcohol"
+      ],
+      "searchQuery": "Grignard aldehyde secondary alcohol methylmagnesium bromide acetaldehyde"
+    },
+    {
+      "id": "grignard-acetone",
+      "title": "$\\ce{CH3MgBr}$ reacts with acetone, then $\\ce{H3O+}$. What is the product?",
+      "body": "2-methyl-2-propanol\n\nA ketone gives a **tertiary alcohol**. Here the carbinol carbon bears three methyl groups, giving tert-butyl alcohol.\n\nWatch out: a Grignard reagent adds only once to an aldehyde or ketone, so the alcohol is the final product.",
+      "answer": "2-methyl-2-propanol",
+      "acceptedAnswers": [
+        "tert-butanol",
+        "tert-butyl alcohol",
+        "2-methylpropan-2-ol",
+        "t-butanol"
+      ],
+      "searchQuery": "Grignard ketone tertiary alcohol acetone methylmagnesium bromide"
+    },
+    {
+      "id": "grignard-ester-double-addition",
+      "title": "Methyl benzoate reacts with excess $\\ce{CH3MgBr}$, then $\\ce{H3O+}$. What is the product?",
+      "body": "2-phenyl-2-propanol\n\nThe first equivalent adds, then expels methoxide to give a ketone (acetophenone). The ketone is **more reactive** than the ester, so a second equivalent adds immediately.\n\nWatch out: esters give tertiary alcohols with two identical new R groups; you cannot stop at the ketone.",
+      "answer": "2-phenyl-2-propanol",
+      "acceptedAnswers": [
+        "2-phenylpropan-2-ol",
+        "dimethylphenylcarbinol",
+        "cumyl alcohol"
+      ],
+      "searchQuery": "Grignard ester two equivalents tertiary alcohol methyl benzoate"
+    },
+    {
+      "id": "grignard-ethylene-oxide",
+      "title": "$\\ce{CH3CH2MgBr}$ reacts with ethylene oxide, then $\\ce{H3O+}$. What is the product?",
+      "body": "1-butanol\n\nThe Grignard attacks the epoxide's less hindered carbon, opening the ring. The product is a primary alcohol with **two more carbons**: $\\ce{CH3CH2CH2CH2OH}$.\n\nTip: ethylene oxide plus RMgX lengthens a chain by two carbons.",
+      "answer": "1-butanol",
+      "acceptedAnswers": [
+        "butan-1-ol",
+        "n-butanol",
+        "butanol"
+      ],
+      "searchQuery": "Grignard ethylene oxide primary alcohol two carbon extension"
+    },
+    {
+      "id": "carbonyl-electrophilicity",
+      "title": "Why is the carbon of a C=O group electrophilic?",
+      "body": "Oxygen is more electronegative, so the C=O bond is polarized toward O.\n\nThe resonance form $\\ce{C+-O-}$ places partial positive charge on carbon, and nucleophiles attack there, pushing the π electrons onto oxygen.\n\nKey idea: nucleophilic addition to a carbonyl converts sp2 carbon to sp3 (a tetrahedral intermediate).",
+      "searchQuery": "carbonyl carbon electrophilic polarization nucleophilic addition"
+    },
+    {
+      "id": "aldehyde-more-reactive-than-ketone",
+      "title": "Toward nucleophilic addition, which is more reactive: acetaldehyde or acetone?",
+      "body": "acetaldehyde\n\nTwo effects: the aldehyde has less **steric hindrance** (one H instead of an alkyl group), and the second alkyl group in a ketone donates electron density that stabilizes the carbonyl.\n\nExample: formaldehyde is more reactive still.",
+      "answer": "acetaldehyde",
+      "acceptedAnswers": [
+        "ethanal"
+      ],
+      "searchQuery": "aldehydes more reactive than ketones nucleophilic addition steric electronic"
+    },
+    {
+      "id": "acetal-protecting-group",
+      "title": "A ketone reacts with ethylene glycol and an acid catalyst (with water removed). What functional group forms?",
+      "body": "acetal\n\nA cyclic acetal (technically a ketal) forms. It is stable to bases, Grignard reagents, hydrides and nucleophiles, and is removed by **aqueous acid**.\n\nTip: use it to protect a ketone while reacting an ester elsewhere in the molecule with $\\ce{LiAlH4}$.",
+      "answer": "acetal",
+      "acceptedAnswers": [
+        "ketal",
+        "cyclic acetal",
+        "dioxolane",
+        "1,3-dioxolane"
+      ],
+      "searchQuery": "acetal protecting group ketone ethylene glycol acid catalyst"
+    },
+    {
+      "id": "imine-ph-optimum",
+      "title": "Why is imine formation from a ketone and a primary amine fastest near pH 4-5?",
+      "body": "Acid must protonate the carbinolamine OH, but too much acid protonates the amine.\n\nAt low pH the amine becomes $\\ce{RNH3+}$ and is no longer nucleophilic. At high pH there is too little acid to turn OH into a leaving group (water).\n\nKey idea: the rate peaks where enough free amine and enough protonated intermediate coexist.",
+      "searchQuery": "imine formation pH 4-5 optimum carbinolamine mechanism"
+    },
+    {
+      "id": "enamine-from-secondary-amine",
+      "title": "A ketone reacts with a secondary amine such as pyrrolidine under acid catalysis. What functional group forms?",
+      "body": "enamine\n\nWith no N–H left on the iminium ion, loss of an **α-proton** gives a C=C–N unit instead of an imine.\n\nWhy it matters: enamines are enol-like nucleophiles used in the Stork enamine alkylation.",
+      "answer": "enamine",
+      "searchQuery": "enamine formation secondary amine ketone pyrrolidine"
+    },
+    {
+      "id": "wittig-methylenecyclohexane",
+      "title": "Cyclohexanone reacts with $\\ce{Ph3P=CH2}$. What is the organic product?",
+      "body": "methylenecyclohexane\n\nThe Wittig reaction swaps the C=O for a C=C: the carbonyl oxygen leaves as **triphenylphosphine oxide**, whose strong P=O bond drives the reaction.\n\nExample: it places the double bond exactly where the C=O was, unlike elimination routes.",
+      "answer": "methylenecyclohexane",
+      "acceptedAnswers": [
+        "methylidenecyclohexane"
+      ],
+      "searchQuery": "Wittig reaction cyclohexanone methylenecyclohexane phosphorus ylide"
+    },
+    {
+      "id": "cyanohydrin-formation",
+      "title": "What functional-group product forms when an aldehyde or ketone adds $\\ce{HCN}$ (from $\\ce{KCN}$/$\\ce{H+}$)?",
+      "body": "cyanohydrin\n\nCyanide adds to the carbonyl carbon and the alkoxide is protonated, giving a carbon bearing both OH and $\\ce{C#N}$. The new product has **one more carbon**.\n\nExample: acetone gives acetone cyanohydrin, $\\ce{(CH3)2C(OH)CN}$.",
+      "answer": "cyanohydrin",
+      "acceptedAnswers": [
+        "hydroxynitrile"
+      ],
+      "searchQuery": "cyanohydrin formation HCN aldehyde ketone nucleophilic addition"
+    },
+    {
+      "id": "ketone-alpha-pka",
+      "title": "What is the approximate pKa of an α-hydrogen of a simple ketone such as acetone?",
+      "body": "19\n\nThe enolate conjugate base is stabilized by resonance onto oxygen. Acetone's pKa is about 19-20, many units more acidic than an alkane's.\n\nExample: ester α-H are less acidic (about 25) and 1,3-diketones are about 9.",
+      "answer": "19",
+      "acceptedAnswers": [
+        "20",
+        "19.3",
+        "about 20"
+      ],
+      "searchQuery": "alpha hydrogen pKa ketone 19 enolate acidity"
+    },
+    {
+      "id": "lda-kinetic-enolate",
+      "title": "Which strong, bulky base (abbreviation) at −78 °C converts an unsymmetrical ketone mainly into its kinetic enolate?",
+      "body": "LDA\n\nLithium diisopropylamide removes the more accessible, **less substituted** α-proton quickly and irreversibly.\n\nKey idea: LDA at low temperature gives the kinetic (less substituted) enolate; weaker alkoxide bases in equilibrium give the thermodynamic (more substituted) one.",
+      "answer": "LDA",
+      "acceptedAnswers": [
+        "lithium diisopropylamide"
+      ],
+      "searchQuery": "LDA kinetic enolate less substituted unsymmetrical ketone low temperature"
+    },
+    {
+      "id": "aldol-addition-acetaldehyde",
+      "title": "Acetaldehyde is treated with dilute $\\ce{NaOH}$ at low temperature. What is the aldol addition product?",
+      "body": "3-hydroxybutanal\n\nThe enolate of one molecule adds to the carbonyl of a second: $\\ce{CH3CH(OH)CH2CHO}$, a **β-hydroxy aldehyde**.\n\nTip: aldol means aldehyde + alcohol; the new C–C bond is between the α-carbon and the carbonyl carbon.",
+      "answer": "3-hydroxybutanal",
+      "acceptedAnswers": [
+        "aldol",
+        "acetaldol",
+        "3-hydroxybutyraldehyde"
+      ],
+      "searchQuery": "aldol addition acetaldehyde 3-hydroxybutanal base"
+    },
+    {
+      "id": "aldol-condensation-product",
+      "title": "Heating the aldol product of acetaldehyde with base causes dehydration. What is the product?",
+      "body": "2-butenal\n\nThe β-hydroxy aldehyde loses water through an E1cB pathway to give an α,β-unsaturated aldehyde, $\\ce{CH3CH=CHCHO}$ (crotonaldehyde). The **conjugation** drives the dehydration.\n\nWatch out: the product has a C=C conjugated with C=O, which is why heating favors condensation.",
+      "answer": "2-butenal",
+      "acceptedAnswers": [
+        "but-2-enal",
+        "crotonaldehyde",
+        "(E)-2-butenal",
+        "trans-2-butenal"
+      ],
+      "searchQuery": "aldol condensation dehydration crotonaldehyde 2-butenal E1cB"
+    },
+    {
+      "id": "enolate-alkylation-cyclohexanone",
+      "title": "Cyclohexanone is treated with (1) LDA and (2) $\\ce{CH3I}$. What is the product?",
+      "body": "2-methylcyclohexanone\n\nThe enolate attacks methyl iodide by $\\mathrm{S_N2}$ at its α-carbon, forming a new C–C bond.\n\nWatch out: use methyl, primary or benzylic/allylic halides; secondary and tertiary halides undergo E2 with the enolate.",
+      "answer": "2-methylcyclohexanone",
+      "searchQuery": "enolate alkylation LDA methyl iodide 2-methylcyclohexanone SN2"
+    },
+    {
+      "id": "claisen-condensation-product",
+      "title": "Ethyl acetate is treated with $\\ce{NaOEt}$ in ethanol, then acid. What is the Claisen condensation product?",
+      "body": "ethyl 3-oxobutanoate\n\nThe ester enolate attacks a second ester and ethoxide is lost, giving $\\ce{CH3COCH2CO2Et}$ (ethyl acetoacetate), a **β-keto ester**.\n\nWhy: the final deprotonation of the very acidic β-keto ester (pKa about 11) drives the equilibrium, so a full equivalent of base is needed.",
+      "answer": "ethyl 3-oxobutanoate",
+      "acceptedAnswers": [
+        "ethyl acetoacetate",
+        "acetoacetic ester"
+      ],
+      "searchQuery": "Claisen condensation ethyl acetate ethyl acetoacetate beta-keto ester"
+    },
+    {
+      "id": "reductive-amination-reagent",
+      "title": "Which reagent (formula) selectively reduces an iminium ion in the presence of the starting ketone during reductive amination?",
+      "body": "NaBH3CN\n\nSodium cyanoborohydride is a **milder** hydride donor than $\\ce{NaBH4}$ at pH 6-7, so it reduces the protonated imine but not the ketone.\n\nExample: cyclohexanone, $\\ce{CH3NH2}$ and $\\ce{NaBH3CN}$ give N-methylcyclohexylamine in one pot.",
+      "answer": "NaBH3CN",
+      "acceptedAnswers": [
+        "sodium cyanoborohydride",
+        "NaBH(OAc)3",
+        "sodium triacetoxyborohydride"
+      ],
+      "answerDisplay": "$\\ce{NaBH3CN}$",
+      "searchQuery": "reductive amination sodium cyanoborohydride iminium selective"
+    },
+    {
+      "id": "wolff-kishner",
+      "title": "Which named reaction reduces a ketone C=O to $\\ce{CH2}$ using $\\ce{H2NNH2}$ and $\\ce{KOH}$ with heat?",
+      "body": "Wolff-Kishner\n\nThe ketone forms a hydrazone, which loses $\\ce{N2}$ under strong base to give the alkane.\n\nTip: Wolff-Kishner is basic, whereas **Clemmensen** ($\\ce{Zn(Hg)}$, $\\ce{HCl}$) is acidic; choose by what else the molecule tolerates.",
+      "answer": "Wolff-Kishner",
+      "acceptedAnswers": [
+        "Wolff Kishner",
+        "Wolff-Kishner reduction"
+      ],
+      "searchQuery": "Wolff-Kishner reduction hydrazine KOH ketone to alkane"
+    },
+    {
+      "id": "malonic-ester-butanoic",
+      "title": "Diethyl malonate is treated with $\\ce{NaOEt}$, then $\\ce{CH3CH2Br}$, then $\\ce{H3O+}$ and heat. What is the final carboxylic acid?",
+      "body": "butanoic acid\n\nThe malonate enolate is alkylated, then hydrolysis gives a diacid that **decarboxylates** on heating, leaving $\\ce{CH3CH2CH2COOH}$.\n\nKey idea: the malonic ester synthesis makes substituted acetic acids, here $\\ce{CH3CH2-CH2COOH}$.",
+      "answer": "butanoic acid",
+      "acceptedAnswers": [
+        "butyric acid"
+      ],
+      "searchQuery": "malonic ester synthesis alkylation decarboxylation butanoic acid"
+    },
+    {
+      "id": "gilman-conjugate-addition",
+      "title": "Which organometallic reagent type adds 1,4 (conjugate addition) to an α,β-unsaturated ketone, e.g. $\\ce{(CH3)2CuLi}$?",
+      "body": "Gilman reagent\n\nLithium dialkylcuprates are **soft nucleophiles** and deliver R to the β-carbon of an enone. Grignard and organolithium reagents usually add 1,2 to the carbonyl instead.\n\nExample: $\\ce{(CH3)2CuLi}$ plus cyclohexenone gives 3-methylcyclohexanone after workup.",
+      "answer": "Gilman",
+      "acceptedAnswers": [
+        "Gilman reagent",
+        "organocuprate",
+        "cuprate",
+        "lithium dialkylcuprate"
+      ],
+      "searchQuery": "Gilman reagent conjugate addition enone cuprate 1,4"
+    },
+    {
+      "id": "fischer-esterification-product",
+      "title": "Acetic acid is heated with ethanol and a catalytic amount of $\\ce{H2SO4}$. What is the product?",
+      "body": "ethyl acetate\n\nFischer esterification is an **equilibrium**. It is pushed toward the ester by using excess alcohol or by removing water.\n\nWatch out: the carbonyl oxygen is protonated first, which activates the acid toward attack by the alcohol.",
+      "answer": "ethyl acetate",
+      "acceptedAnswers": [
+        "ethyl ethanoate",
+        "CH3COOCH2CH3"
+      ],
+      "searchQuery": "Fischer esterification acetic acid ethanol ethyl acetate equilibrium"
+    },
+    {
+      "id": "acid-chloride-ammonia",
+      "title": "Acetyl chloride reacts with excess $\\ce{NH3}$. What is the organic product?",
+      "body": "acetamide\n\nAmmonia attacks the carbonyl by nucleophilic acyl substitution and chloride leaves. The second equivalent of $\\ce{NH3}$ neutralizes the $\\ce{HCl}$ formed, giving $\\ce{NH4Cl}$.\n\nTip: acid chlorides react rapidly with water, alcohols and amines at room temperature.",
+      "answer": "acetamide",
+      "acceptedAnswers": [
+        "ethanamide",
+        "CH3CONH2"
+      ],
+      "searchQuery": "acid chloride ammonia amide nucleophilic acyl substitution acetamide"
+    },
+    {
+      "id": "acid-derivative-reactivity-order",
+      "title": "Rank these carboxylic acid derivatives from most to least reactive toward nucleophiles: ester, acyl chloride, amide, anhydride.",
+      "body": "Acyl chloride > anhydride > ester > amide.\n\nReactivity tracks leaving-group ability and how little the substituent donates electrons into the C=O. Chloride is a great leaving group; the nitrogen of an amide donates strongly by **resonance**.\n\nKey idea: a more reactive derivative can be converted into a less reactive one, but not the reverse (without activation).",
+      "searchQuery": "carboxylic acid derivatives reactivity order acyl chloride anhydride ester amide"
+    },
+    {
+      "id": "saponification-product",
+      "title": "Ethyl acetate is heated with aqueous $\\ce{NaOH}$. What is the organic product (before any acidification)?",
+      "body": "sodium acetate\n\nHydroxide attacks the ester carbonyl, ethoxide leaves, and the acid formed is immediately deprotonated. This irreversible step makes **saponification** go to completion.\n\nWatch out: acidic hydrolysis is an equilibrium; basic hydrolysis is irreversible.",
+      "answer": "sodium acetate",
+      "acceptedAnswers": [
+        "sodium ethanoate",
+        "acetate",
+        "CH3COONa"
+      ],
+      "searchQuery": "saponification ester hydrolysis base sodium acetate irreversible"
+    },
+    {
+      "id": "nitrile-lialh4",
+      "title": "Propanenitrile is treated with (1) $\\ce{LiAlH4}$ and (2) water. What is the product?",
+      "body": "1-propanamine\n\n$\\ce{LiAlH4}$ adds two hydrides to the $\\ce{C#N}$ carbon, giving a **primary amine** with the same number of carbons: $\\ce{CH3CH2CH2NH2}$.\n\nExample: acid hydrolysis of a nitrile instead gives the carboxylic acid.",
+      "answer": "1-propanamine",
+      "acceptedAnswers": [
+        "propylamine",
+        "propan-1-amine",
+        "n-propylamine",
+        "1-aminopropane"
+      ],
+      "searchQuery": "nitrile reduction LiAlH4 primary amine propanenitrile"
+    },
+    {
+      "id": "cyclopentadienyl-anion-pi-electrons",
+      "title": "How many π electrons does the cyclopentadienyl anion have, making it aromatic by Hückel's rule?",
+      "body": "6\n\nThe ring has two C=C bonds (4 π electrons) plus the carbanion's lone pair in a p orbital, totaling 6 = 4n + 2 with $n = 1$.\n\nWhy it matters: this explains why cyclopentadiene has an unusually low pKa of about 16 for a hydrocarbon.",
+      "answer": "6",
+      "acceptedAnswers": [
+        "six"
+      ],
+      "searchQuery": "cyclopentadienyl anion aromatic Huckel rule 6 pi electrons"
+    },
+    {
+      "id": "nitration-electrophile",
+      "title": "What electrophile attacks benzene in nitration with $\\ce{HNO3}$ and $\\ce{H2SO4}$? (give the formula)",
+      "body": "NO2+\n\nSulfuric acid protonates nitric acid, which loses water to form the **nitronium ion**, $\\ce{NO2+}$.\n\nTip: in electrophilic aromatic substitution the first step (electrophile attack, forming the arenium ion) is rate-determining.",
+      "answer": "NO2+",
+      "acceptedAnswers": [
+        "nitronium",
+        "nitronium ion"
+      ],
+      "answerDisplay": "$\\ce{NO2+}$",
+      "searchQuery": "nitronium ion electrophile nitration benzene mechanism"
+    },
+    {
+      "id": "bromination-benzene-product",
+      "title": "Benzene reacts with $\\ce{Br2}$ and $\\ce{FeBr3}$. What is the product?",
+      "body": "bromobenzene\n\n$\\ce{FeBr3}$ polarizes $\\ce{Br2}$ to give a strongly electrophilic Br. Attack gives the arenium ion, then loss of H⁺ **restores aromaticity**.\n\nWatch out: benzene does not undergo addition with $\\ce{Br2}$ alone, because that would destroy aromatic stabilization.",
+      "answer": "bromobenzene",
+      "acceptedAnswers": [
+        "C6H5Br",
+        "phenyl bromide"
+      ],
+      "searchQuery": "bromination benzene FeBr3 electrophilic aromatic substitution bromobenzene"
+    },
+    {
+      "id": "friedel-crafts-propyl-rearrangement",
+      "title": "Benzene reacts with 1-chloropropane and $\\ce{AlCl3}$. What is the major product (IUPAC name)?",
+      "body": "isopropylbenzene\n\nThe primary carbocation-like species undergoes a **hydride shift** to the secondary cation, which then alkylates the ring, giving cumene.\n\nTip: to get n-propylbenzene, acylate with propanoyl chloride and then reduce the C=O (Clemmensen or Wolff-Kishner).",
+      "answer": "isopropylbenzene",
+      "acceptedAnswers": [
+        "cumene",
+        "(1-methylethyl)benzene",
+        "propan-2-ylbenzene",
+        "2-phenylpropane"
+      ],
+      "searchQuery": "Friedel-Crafts alkylation rearrangement 1-chloropropane cumene"
+    },
+    {
+      "id": "friedel-crafts-acylation-acetophenone",
+      "title": "Benzene reacts with $\\ce{CH3COCl}$ and $\\ce{AlCl3}$. What is the product?",
+      "body": "acetophenone\n\nThe electrophile is the **acylium ion**, $\\ce{CH3C#O+}$, which does not rearrange. The ketone product deactivates the ring, so only one acyl group is added.\n\nExample: unlike alkylation, acylation avoids rearrangement and polyalkylation.",
+      "answer": "acetophenone",
+      "acceptedAnswers": [
+        "methyl phenyl ketone",
+        "phenylethanone",
+        "1-phenylethanone",
+        "1-phenylethan-1-one"
+      ],
+      "searchQuery": "Friedel-Crafts acylation acetophenone acylium ion benzene"
+    },
+    {
+      "id": "nitro-group-director",
+      "title": "Is a nitro group on a benzene ring an ortho/para or a meta director in electrophilic aromatic substitution?",
+      "body": "meta\n\nThe nitro group withdraws electrons by resonance and induction, **deactivating** the ring. Ortho and para attack put positive charge next to the electron-poor nitrogen, so meta is the least bad.\n\nKey idea: strongly deactivating groups (NO2, CN, C=O, SO3H) are meta directors.",
+      "answer": "meta",
+      "acceptedAnswers": [
+        "meta director",
+        "meta-directing"
+      ],
+      "searchQuery": "nitro group meta director deactivating electrophilic aromatic substitution"
+    },
+    {
+      "id": "toluene-nitration-positions",
+      "title": "Nitration of toluene gives mainly which ring positions relative to the methyl group?",
+      "body": "ortho and para\n\nThe methyl group is **activating** (hyperconjugation and induction). Attack at ortho or para gives an arenium ion with a tertiary carbocation resonance form.\n\nWatch out: a mixture forms, so toluene reacts faster than benzene and gives both o- and p-nitrotoluene.",
+      "answer": "ortho and para",
+      "acceptedAnswers": [
+        "ortho/para",
+        "o,p",
+        "ortho para",
+        "ortho, para"
+      ],
+      "searchQuery": "toluene nitration ortho para activating methyl group directing"
+    },
+    {
+      "id": "diels-alder-butadiene-ethylene",
+      "title": "1,3-Butadiene reacts with ethylene in a Diels-Alder reaction. What is the product?",
+      "body": "cyclohexene\n\nThe diene (4 π electrons) and dienophile (2 π electrons) form two new σ bonds and one new π bond in a single concerted $[4+2]$ cycloaddition.\n\nWatch out: the diene must be able to adopt the **s-cis** conformation to react.",
+      "answer": "cyclohexene",
+      "searchQuery": "Diels-Alder butadiene ethylene cyclohexene [4+2] cycloaddition"
+    },
+    {
+      "id": "diels-alder-endo-rule",
+      "title": "Cyclopentadiene reacts with maleic anhydride. Which stereochemical product (exo or endo) is favored kinetically?",
+      "body": "endo\n\nThe anhydride carbonyls tuck beneath the developing π system, stabilized by **secondary orbital overlap**, so the endo adduct forms faster.\n\nExample: the endo product is the kinetic one; the exo can be more stable thermodynamically.",
+      "answer": "endo",
+      "acceptedAnswers": [
+        "the endo product"
+      ],
+      "searchQuery": "Diels-Alder endo rule cyclopentadiene maleic anhydride kinetic product"
+    },
+    {
+      "id": "radical-halogenation-selectivity",
+      "title": "In radical halogenation of alkanes, which halogen is more selective for the most substituted C–H: $\\ce{Cl2}$ or $\\ce{Br2}$?",
+      "body": "Br2\n\nThe hydrogen abstraction by $\\ce{Br\\cdot}$ is endothermic with a late, product-like transition state, so it is highly sensitive to radical stability.\n\nExample: bromination of propane gives about 97% 2-bromopropane, while chlorination gives roughly 55%.",
+      "answer": "Br2",
+      "acceptedAnswers": [
+        "bromine",
+        "bromination",
+        "Br"
+      ],
+      "answerDisplay": "$\\ce{Br2}$",
+      "searchQuery": "radical halogenation selectivity bromine versus chlorine Hammond postulate"
+    },
+    {
+      "id": "nbs-allylic-bromination",
+      "title": "Cyclohexene is treated with NBS and light (or peroxide). What is the product?",
+      "body": "3-bromocyclohexene\n\nNBS supplies a **low, steady concentration** of $\\ce{Br2}$, so allylic substitution by a radical chain beats addition across the double bond.\n\nWhy: the allylic C–H is weak (about 88 kcal/mol) because the allylic radical is resonance-stabilized.",
+      "answer": "3-bromocyclohexene",
+      "acceptedAnswers": [
+        "3-bromo-1-cyclohexene",
+        "allyl bromide cyclohexene"
+      ],
+      "searchQuery": "NBS allylic bromination cyclohexene 3-bromocyclohexene radical"
+    },
+    {
+      "id": "arenium-ion-intermediate",
+      "title": "What is the name of the resonance-stabilized carbocation intermediate formed when an electrophile attacks benzene?",
+      "body": "arenium ion\n\nAlso called the **sigma complex** or Wheland intermediate. The positive charge is delocalized over three ring carbons (ortho and para to the new bond), and the attacked carbon is sp3.\n\nKey idea: loss of H⁺ from that sp3 carbon restores aromaticity; it is fast compared with the electrophile attack.",
+      "answer": "arenium ion",
+      "acceptedAnswers": [
+        "sigma complex",
+        "Wheland intermediate",
+        "arenium",
+        "benzenium ion",
+        "σ complex"
+      ],
+      "searchQuery": "arenium ion sigma complex electrophilic aromatic substitution intermediate"
+    }
+  ]
+}

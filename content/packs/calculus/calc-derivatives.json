@@ -1,0 +1,1069 @@
+{
+  "id": "calc-derivatives",
+  "title": "Derivative Rules",
+  "course": "Calculus I",
+  "description": "Limit definition, power/product/quotient/chain rules, trig, exponential, log and inverse trig derivatives, implicit and logarithmic differentiation.",
+  "cards": [
+    {
+      "id": "limit-definition-of-derivative",
+      "title": "Write the limit definition of the derivative $f'(x)$.",
+      "body": "$f'(x) = \\lim_{h \\to 0} \\dfrac{f(x + h) - f(x)}{h}$, if the limit exists\n\nIt's the limit of secant slopes, i.e. the slope of the **tangent line**. Equivalent form at a point: $f'(a) = \\lim_{x \\to a} \\frac{f(x) - f(a)}{x - a}$.\n\nTip: Simplify the difference quotient before letting $h \\to 0$.",
+      "searchQuery": "limit definition of the derivative difference quotient"
+    },
+    {
+      "id": "differentiable-vs-continuous",
+      "title": "Differentiable at $a$ implies continuous at $a$. Is the converse true?",
+      "body": "No.\n\nCounterexample: $f(x) = |x|$ is continuous at $0$ but has a **corner** there: slope $-1$ from the left, $+1$ from the right, so $f'(0)$ does not exist. $f$ can also fail to be differentiable at a vertical tangent ($\\sqrt[3]{x}$ at $0$) or at a discontinuity.\n\nKey idea: differentiable is a stronger condition than continuous.",
+      "answer": "no",
+      "searchQuery": "differentiable implies continuous converse false absolute value"
+    },
+    {
+      "id": "derivative-of-sqrt-x",
+      "title": "$\\dfrac{d}{dx}\\left[\\sqrt{x}\\right] = \\,?$",
+      "body": "$\\frac{1}{2\\sqrt{x}}$\n\nRewrite $\\sqrt{x} = x^{1/2}$ and use the **power rule** $\\frac{d}{dx}[x^n] = nx^{n-1}$ (valid for any real $n$): $\\frac{1}{2}x^{-1/2}$. Same trick: $\\frac{d}{dx}\\left[\\frac{1}{x}\\right] = \\frac{d}{dx}\\left[x^{-1}\\right] = -\\frac{1}{x^2}$.\n\nTip: Rewrite roots and reciprocals as powers before differentiating.",
+      "answer": "1/(2sqrt(x))",
+      "acceptedAnswers": [
+        "1/(2sqrt x)",
+        "(1/2)x^(-1/2)",
+        "1/2x^(-1/2)",
+        "0.5x^(-0.5)",
+        "0.5x^-0.5",
+        "x^(-1/2)/2",
+        "1/(2x^(1/2))",
+        "1/(2x^0.5)"
+      ],
+      "answerDisplay": "$\\dfrac{1}{2\\sqrt{x}}$",
+      "searchQuery": "derivative of square root x 1/(2 sqrt x)"
+    },
+    {
+      "id": "product-rule",
+      "title": "Product rule: $\\dfrac{d}{dx}[f(x)g(x)] = \\,?$",
+      "body": "$f'(x)g(x) + f(x)g'(x)$\n\nDifferentiate **one factor at a time** and add the results.\n\nExample: $\\frac{d}{dx}[x^2 \\sin x] = 2x \\sin x + x^2 \\cos x$.\nWatch out: the derivative of a product is not the product of the derivatives, $f'(x)g'(x)$.",
+      "answer": "f'g + fg'",
+      "acceptedAnswers": [
+        "fg' + f'g",
+        "gf' + fg'",
+        "fg' + gf'",
+        "f'g + g'f",
+        "f'(x)g(x)+f(x)g'(x)",
+        "f(x)g'(x)+f'(x)g(x)"
+      ],
+      "answerDisplay": "$f'g + fg'$",
+      "searchQuery": "product rule derivative formula"
+    },
+    {
+      "id": "quotient-rule",
+      "title": "Quotient rule: $\\dfrac{d}{dx}\\left[\\dfrac{f}{g}\\right] = \\,?$",
+      "body": "$\\dfrac{f'g - fg'}{g^2}$\n\nThe order in the numerator matters because of the **minus sign**; in the product rule it doesn't.\n\nMnemonic: \"low d-high minus high d-low, over the square of what's below.\" Check: $\\frac{d}{dx}\\left[\\frac{1}{x}\\right] = \\frac{0 \\cdot x - 1 \\cdot 1}{x^2} = -\\frac{1}{x^2}$.",
+      "answer": "(f'g - fg')/g^2",
+      "acceptedAnswers": [
+        "(g f' - f g')/g^2",
+        "(f'g - gf')/g^2",
+        "(gf' - fg')/(g^2)",
+        "(f'(x)g(x)-f(x)g'(x))/g(x)^2",
+        "(f'(x)g(x)-f(x)g'(x))/(g(x))^2"
+      ],
+      "answerDisplay": "$\\dfrac{f'g - fg'}{g^2}$",
+      "searchQuery": "quotient rule derivative formula"
+    },
+    {
+      "id": "derivative-of-tan",
+      "title": "$\\dfrac{d}{dx}[\\tan x] = \\,?$",
+      "body": "$\\sec^2 x$\n\n**Quotient rule** on $\\frac{\\sin x}{\\cos x}$: $\\frac{\\cos x \\cdot \\cos x - \\sin x \\cdot (-\\sin x)}{\\cos^2 x} = \\frac{1}{\\cos^2 x}$, since $\\sin^2 x + \\cos^2 x = 1$.\n\nMnemonic: tan goes to sec squared.",
+      "answer": "sec^2 x",
+      "acceptedAnswers": [
+        "sec^2(x)",
+        "sec(x)^2",
+        "(sec x)^2",
+        "1/cos^2 x",
+        "1/cos^2(x)",
+        "1/(cos x)^2"
+      ],
+      "answerDisplay": "$\\sec^2 x$",
+      "searchQuery": "derivative of tan x sec squared"
+    },
+    {
+      "id": "derivative-of-sec",
+      "title": "$\\dfrac{d}{dx}[\\sec x] = \\,?$",
+      "body": "$\\sec x \\tan x$\n\n**Quotient rule** on $\\frac{1}{\\cos x}$: $\\frac{\\cos x \\cdot 0 - 1 \\cdot (-\\sin x)}{\\cos^2 x} = \\frac{\\sin x}{\\cos^2 x} = \\frac{1}{\\cos x} \\cdot \\frac{\\sin x}{\\cos x}$.\n\nTip: Remember it as sec times tan, with no square.",
+      "answer": "sec x tan x",
+      "acceptedAnswers": [
+        "sec(x)tan(x)",
+        "tan x sec x",
+        "tan(x)sec(x)"
+      ],
+      "answerDisplay": "$\\sec x \\tan x$",
+      "searchQuery": "derivative of sec x sec x tan x"
+    },
+    {
+      "id": "co-function-derivative-signs",
+      "title": "Which three of the six trig functions have derivatives that carry a minus sign?",
+      "body": "$\\cos$, $\\cot$ and $\\csc$ (the co- functions): $\\frac{d}{dx}[\\cos x] = -\\sin x$, $\\frac{d}{dx}[\\cot x] = -\\csc^2 x$, $\\frac{d}{dx}[\\csc x] = -\\csc x \\cot x$\n\n**Pattern**: take the partner's derivative, swap in co-functions, add a minus. $\\tan \\to \\sec^2$ becomes $\\cot \\to -\\csc^2$; $\\sec \\to \\sec \\tan$ becomes $\\csc \\to -\\csc \\cot$.\n\nMnemonic: every function whose name starts with 'co' gets a minus sign.",
+      "searchQuery": "trig derivatives minus sign cos cot csc"
+    },
+    {
+      "id": "chain-rule",
+      "title": "Chain rule: $\\dfrac{d}{dx}[f(g(x))] = \\,?$",
+      "body": "$f'(g(x)) \\cdot g'(x)$\n\nIn words: the derivative of the outside, **evaluated at the inside**, times the derivative of the inside.\n\nExample: $\\frac{d}{dx}[\\sin(x^2)] = \\cos(x^2) \\cdot 2x$.\nWatch out: forgetting the inner factor $2x$.",
+      "answer": "f'(g(x))g'(x)",
+      "acceptedAnswers": [
+        "g'(x)f'(g(x))"
+      ],
+      "answerDisplay": "$f'(g(x))\\,g'(x)$",
+      "searchQuery": "chain rule derivative composite function"
+    },
+    {
+      "id": "derivative-of-a-to-the-x",
+      "title": "$\\dfrac{d}{dx}[a^x] = \\,?$ (constant $a > 0$)",
+      "body": "$a^x \\ln a$\n\nWrite $a^x = e^{x \\ln a}$ and apply the **chain rule**.\n\nExample: $\\frac{d}{dx}[2^x] = 2^x \\ln 2$.\nWatch out: $x a^{x-1}$ is the power rule, which needs a variable base and a constant exponent.",
+      "answer": "a^x ln a",
+      "acceptedAnswers": [
+        "a^x ln(a)",
+        "a^x(ln a)",
+        "ln(a) a^x",
+        "(ln a)a^x",
+        "ln a * a^x"
+      ],
+      "answerDisplay": "$a^x \\ln a$",
+      "searchQuery": "derivative of a^x ln a exponential base a"
+    },
+    {
+      "id": "implicit-differentiation-circle",
+      "title": "Find $\\dfrac{dy}{dx}$ by implicit differentiation: $x^2 + y^2 = 25$.",
+      "body": "$\\frac{dy}{dx} = -\\frac{x}{y}$\n\n**Differentiate both sides** with respect to $x$: $2x + 2y \\frac{dy}{dx} = 0$, so $\\frac{dy}{dx} = -\\frac{x}{y}$. At $(3, 4)$ the tangent slope is $-\\frac{3}{4}$.\n\nWatch out: dropping the $\\frac{dy}{dx}$ that the chain rule attaches to $y$ terms: $\\frac{d}{dx}[y^2] = 2y \\frac{dy}{dx}$, not $2y$.\nTip: Collect every $\\frac{dy}{dx}$ term on one side, then solve for it last.",
+      "answer": "-x/y",
+      "acceptedAnswers": [
+        "-(x/y)",
+        "dy/dx=-x/y",
+        "y'=-x/y"
+      ],
+      "answerDisplay": "$-\\dfrac{x}{y}$",
+      "searchQuery": "implicit differentiation circle x^2+y^2=25 dy/dx"
+    },
+    {
+      "id": "derivative-of-arcsin",
+      "title": "$\\dfrac{d}{dx}[\\arcsin x] = \\,?$",
+      "body": "$\\frac{1}{\\sqrt{1 - x^2}}$\n\nThe formula holds for $-1 < x < 1$. $\\sin y = x \\implies \\cos y \\cdot y' = 1 \\implies y' = \\frac{1}{\\cos y} = \\frac{1}{\\sqrt{1 - x^2}}$, since $\\cos y \\ge 0$ for $y$ in $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$. $\\arccos x$ has the same derivative with a **minus sign**.\n\nWatch out: the slope blows up at $x = \\pm 1$.",
+      "answer": "1/sqrt(1-x^2)",
+      "acceptedAnswers": [
+        "(1-x^2)^(-1/2)",
+        "1/(sqrt(1-x^2))",
+        "1/sqrt(-x^2+1)"
+      ],
+      "answerDisplay": "$\\dfrac{1}{\\sqrt{1 - x^2}}$",
+      "searchQuery": "derivative of arcsin x 1/sqrt(1-x^2)"
+    },
+    {
+      "id": "derivative-of-arctan",
+      "title": "$\\dfrac{d}{dx}[\\arctan x] = \\,?$",
+      "body": "$\\frac{1}{1 + x^2}$\n\nThe formula holds for all real $x$. $\\tan y = x \\implies \\sec^2 y \\cdot y' = 1 \\implies y' = \\frac{1}{1 + \\tan^2 y} = \\frac{1}{1 + x^2}$. **Read in reverse**: $\\int \\frac{dx}{1 + x^2} = \\arctan x + C$.\n\nWatch out: the denominator is $1 + x^2$ with no square root; that's the arcsin pattern.",
+      "answer": "1/(1+x^2)",
+      "acceptedAnswers": [
+        "1/(x^2+1)",
+        "(1+x^2)^(-1)",
+        "(x^2+1)^(-1)"
+      ],
+      "answerDisplay": "$\\dfrac{1}{1 + x^2}$",
+      "searchQuery": "derivative of arctan x 1/(1+x^2)"
+    },
+    {
+      "id": "derivative-of-inverse-function",
+      "title": "$f(x) = x^3 + x$, so $f(1) = 2$. Find $(f^{-1})'(2)$.",
+      "body": "$\\frac{1}{4}$\n\n$(f^{-1})'(b) = \\frac{1}{f'(f^{-1}(b))}$. **Here** $f^{-1}(2) = 1$ and $f'(x) = 3x^2 + 1$, so $f'(1) = 4$.\n\nWatch out: evaluating $f'$ at $2$ instead of at $f^{-1}(2) = 1$ gives $\\frac{1}{13}$.\nTip: Find $f^{-1}(b)$ first by solving $f(x) = b$, often by inspection.",
+      "answer": "1/4",
+      "acceptedAnswers": [
+        "0.25"
+      ],
+      "answerDisplay": "$\\frac{1}{4}$",
+      "searchQuery": "derivative of inverse function formula f inverse prime"
+    },
+    {
+      "id": "derivative-of-log-base-a",
+      "title": "$\\dfrac{d}{dx}[\\log_a x] = \\,?$ ($a > 0$, $a \\ne 1$)",
+      "body": "$\\frac{1}{x \\ln a}$\n\n**Change of base**: $\\log_a x = \\frac{\\ln x}{\\ln a}$, and $\\frac{1}{\\ln a}$ is just a constant factor. With $a = e$ this is $\\frac{d}{dx}[\\ln x] = \\frac{1}{x}$.\n\nExample: $\\frac{d}{dx}[\\log_{10} x] = \\frac{1}{x \\ln 10}$.\nWatch out: $\\ln a$ is a constant, so it stays in the denominator.",
+      "answer": "1/(x ln a)",
+      "acceptedAnswers": [
+        "1/(x ln(a))",
+        "1/(ln(a) x)",
+        "1/(ln a * x)",
+        "(1/ln a)(1/x)"
+      ],
+      "answerDisplay": "$\\dfrac{1}{x \\ln a}$",
+      "searchQuery": "derivative of log base a of x 1/(x ln a)"
+    },
+    {
+      "id": "logarithmic-differentiation",
+      "title": "Use logarithmic differentiation: $\\dfrac{d}{dx}\\left[x^x\\right] = \\,?$ ($x > 0$)",
+      "body": "$x^x(\\ln x + 1)$\n\n$\\ln y = x \\ln x \\implies \\frac{y'}{y} = \\ln x + 1 \\implies y' = x^x(\\ln x + 1)$. Neither the power rule ($x \\cdot x^{x-1}$) nor the exponential rule ($x^x \\ln x$) applies: **base and exponent both vary**.\n\nTip: Reach for it when the variable is in both the base and the exponent.",
+      "answer": "x^x(ln x + 1)",
+      "acceptedAnswers": [
+        "x^x(1 + ln x)",
+        "x^x(ln(x)+1)",
+        "x^x(1+ln(x))",
+        "(ln x + 1)x^x",
+        "(1 + ln x)x^x",
+        "x^x ln x + x^x",
+        "x^x + x^x ln x"
+      ],
+      "answerDisplay": "$x^x(\\ln x + 1)$",
+      "searchQuery": "logarithmic differentiation x^x derivative"
+    },
+    {
+      "id": "derivative-as-tangent-slope",
+      "title": "Geometrically, what does $f'(a)$ represent?",
+      "body": "The slope of the tangent line to $y = f(x)$ at the point $(a, f(a))$\n\nIt's also the **instantaneous rate of change** of $f$ at $x = a$: the limit of average rates of change (secant slopes) over shrinking intervals.\n\nKey idea: the derivative is both a tangent slope and an instantaneous rate of change.",
+      "searchQuery": "geometric meaning of derivative tangent line slope"
+    },
+    {
+      "id": "average-vs-instantaneous-rate",
+      "title": "How does the average rate of change of $f$ on $[a, b]$ differ from the instantaneous rate at $a$?",
+      "body": "Average: $\\frac{f(b) - f(a)}{b - a}$, the slope of the secant line. Instantaneous: $f'(a)$, the limit of that quotient as $b \\to a$, the slope of the tangent line.\n\nFor a position function $s(t)$ these are **average velocity** and (instantaneous) velocity.\n\nMnemonic: secant for average, tangent for instantaneous.",
+      "searchQuery": "average rate of change vs instantaneous rate secant tangent"
+    },
+    {
+      "id": "difference-quotient-x-squared",
+      "title": "For $f(x) = x^2$, the difference quotient $\\dfrac{f(x + h) - f(x)}{h}$ simplifies to what (for $h \\ne 0$)?",
+      "body": "$2x + h$\n\n$(x + h)^2 - x^2 = 2xh + h^2$; divide by $h$. Letting $h \\to 0$ gives $f'(x) = 2x$. **Simplify before taking the limit**: substituting $h = 0$ first gives the useless $\\frac{0}{0}$.\n\nTip: Expand $(x + h)^2$, cancel the $x^2$ terms, then divide by $h$.",
+      "answer": "2x+h",
+      "acceptedAnswers": [
+        "h+2x"
+      ],
+      "answerDisplay": "$2x + h$",
+      "searchQuery": "difference quotient f(x+h)-f(x) over h for x squared"
+    },
+    {
+      "id": "tangent-line-example",
+      "title": "Equation of the tangent line to $y = x^3$ at $x = 1$?",
+      "body": "$y = 3x - 2$\n\nPoint: $(1, 1)$. Slope: $y' = 3x^2$, which is $3$ at $x = 1$.\n\n**Point-slope form**: $y - 1 = 3(x - 1)$. A common slip is using the formula $3x^2$ as the slope instead of its value at the point.\n\nTip: Find the point, then the slope, then use point-slope form.",
+      "answer": "y=3x-2",
+      "acceptedAnswers": [
+        "3x-2",
+        "y=-2+3x",
+        "y-1=3(x-1)"
+      ],
+      "answerDisplay": "$y = 3x - 2$",
+      "searchQuery": "tangent line to y=x^3 at x=1"
+    },
+    {
+      "id": "normal-line-slope",
+      "title": "The tangent line to a curve at a point has slope $m \\ne 0$. What is the slope of the normal line there?",
+      "body": "$-\\frac{1}{m}$\n\nThe normal line is **perpendicular** to the tangent, and perpendicular slopes multiply to $-1$. If $m = 0$, the normal line is vertical.\n\nExample: tangent slope $3$ gives normal slope $-\\frac{1}{3}$.\nMnemonic: flip it and change the sign.",
+      "answer": "-1/m",
+      "acceptedAnswers": [
+        "-m^(-1)"
+      ],
+      "answerDisplay": "$-\\dfrac{1}{m}$",
+      "searchQuery": "slope of normal line negative reciprocal of tangent slope"
+    },
+    {
+      "id": "leibniz-at-a-point",
+      "title": "In Leibniz notation, what does $\\left.\\dfrac{dy}{dx}\\right|_{x = a}$ mean when $y = f(x)$?",
+      "body": "$f'(a)$: the derivative $\\frac{dy}{dx}$ evaluated at $x = a$\n\n$\\frac{dy}{dx}$ isn't really a fraction, but it often acts like one, as in the **chain rule** $\\frac{dy}{dx} = \\frac{dy}{du} \\cdot \\frac{du}{dx}$.\n\nTip: The vertical bar means 'evaluate at'.",
+      "answer": "f'(a)",
+      "acceptedAnswers": [
+        "y'(a)"
+      ],
+      "answerDisplay": "$f'(a)$",
+      "searchQuery": "Leibniz notation dy/dx evaluated at x=a"
+    },
+    {
+      "id": "velocity-from-position",
+      "title": "Position $s(t) = t^2 + 3t$ (meters, $t$ in seconds). What is the instantaneous velocity at $t = 2$?",
+      "body": "$7\\ \\mathrm{m/s}$\n\n$v(t) = s'(t) = 2t + 3$, so $v(2) = 7$. Compare the **average velocity** on $[0, 2]$: $\\frac{s(2) - s(0)}{2} = \\frac{10}{2} = 5\\ \\mathrm{m/s}$.\n\nTip: Differentiate first, then plug in $t$.",
+      "answer": "7",
+      "acceptedAnswers": [
+        "7 m/s"
+      ],
+      "answerDisplay": "$7\\ \\mathrm{m/s}$",
+      "searchQuery": "instantaneous velocity from position function derivative"
+    },
+    {
+      "id": "velocity-acceleration-derivatives",
+      "title": "If $s(t)$ is position, what physical quantities are $s'(t)$ and $s''(t)$?",
+      "body": "$s'(t) = v(t)$ is velocity and $s''(t) = v'(t) = a(t)$ is acceleration\n\nSpeed is $|v(t)|$, which ignores direction. The third derivative $s'''(t)$ is called **jerk**.\n\nWatch out: speed is never negative, while velocity carries a sign.",
+      "searchQuery": "position velocity acceleration derivatives jerk"
+    },
+    {
+      "id": "derivative-of-abs-x",
+      "title": "$\\dfrac{d}{dx}|x| = \\,?$ for $x \\ne 0$",
+      "body": "$\\frac{x}{|x|}$\n\nThis is $1$ for $x > 0$ and $-1$ for $x < 0$. At $x = 0$ the one-sided slopes $-1$ and $1$ disagree (a **corner**), so $|x|$ is not differentiable there. Chain rule version: $\\frac{d}{dx}|u| = \\frac{u}{|u|} \\cdot u'$.\n\nTip: Think of the slopes: $-1$ left of $0$, $+1$ right of $0$.",
+      "answer": "x/|x|",
+      "acceptedAnswers": [
+        "|x|/x",
+        "sgn(x)",
+        "sign(x)",
+        "sgn x"
+      ],
+      "answerDisplay": "$\\dfrac{x}{|x|}$",
+      "searchQuery": "derivative of absolute value x over |x|"
+    },
+    {
+      "id": "differentiable-piecewise",
+      "title": "$f(x) = x^2$ for $x \\le 1$ and $f(x) = ax + b$ for $x > 1$. Which $a$ and $b$ make $f$ differentiable at $x = 1$?",
+      "body": "$a = 2$, $b = -1$\n\nContinuity: $a + b = 1$. Matching slopes: $a$ must equal the slope of $x^2$ at $1$, which is $2$.\n\nSo $b = -1$, and $y = 2x - 1$ is the tangent line to $y = x^2$ at $x = 1$. Differentiability needs **both conditions**.\n\nTip: Match the values first, then match the slopes.",
+      "searchQuery": "make piecewise function differentiable match value and slope"
+    },
+    {
+      "id": "power-rule",
+      "title": "Power rule: $\\dfrac{d}{dx}\\left[x^n\\right] = \\,?$",
+      "body": "$nx^{n-1}$\n\nThis holds for any real exponent $n$. Bring the exponent down, then **lower it by one**: $\\frac{d}{dx}[x^7] = 7x^6$. Special cases: $\\frac{d}{dx}[x] = 1$, and the derivative of a constant is $0$.\n\nWatch out: the power rule needs a constant exponent; $x^x$ and $2^x$ need other methods.",
+      "answer": "nx^(n-1)",
+      "answerDisplay": "$nx^{n-1}$",
+      "searchQuery": "power rule derivative x^n"
+    },
+    {
+      "id": "polynomial-derivative-example",
+      "title": "$\\dfrac{d}{dx}\\left[4x^5 - 3x^2 + 7x - 9\\right] = \\,?$",
+      "body": "$20x^4 - 6x + 7$\n\nDifferentiate **term by term** (sum and constant multiple rules): $4 \\cdot 5x^4 - 3 \\cdot 2x + 7 - 0$. The constant $-9$ disappears because a constant's graph is flat.\n\nTip: Constants vanish and constant multiples pass through.",
+      "answer": "20x^4-6x+7",
+      "acceptedAnswers": [
+        "20x^4+7-6x",
+        "7-6x+20x^4"
+      ],
+      "answerDisplay": "$20x^4 - 6x + 7$",
+      "searchQuery": "derivative of polynomial term by term"
+    },
+    {
+      "id": "negative-power-example",
+      "title": "$\\dfrac{d}{dx}\\left[\\dfrac{3}{x^2}\\right] = \\,?$",
+      "body": "$-\\frac{6}{x^3}$\n\nRewrite as $3x^{-2}$; the power rule gives $-6x^{-3}$, with **no quotient rule needed**.\n\nWatch out: the exponent goes down by one, from $-2$ to $-3$, not up to $-1$.\nTip: Rewrite $\\frac{c}{x^n}$ as $cx^{-n}$ before differentiating.",
+      "answer": "-6/x^3",
+      "acceptedAnswers": [
+        "-6x^(-3)",
+        "-6x^-3"
+      ],
+      "answerDisplay": "$-\\dfrac{6}{x^3}$",
+      "searchQuery": "derivative of 3/x^2 negative exponent"
+    },
+    {
+      "id": "fractional-power-example",
+      "title": "$\\dfrac{d}{dx}\\left[\\sqrt[3]{x^2}\\right] = \\,?$",
+      "body": "$\\frac{2}{3}x^{-1/3} = \\frac{2}{3\\sqrt[3]{x}}$\n\nRewrite $\\sqrt[3]{x^2} = x^{2/3}$ and apply the power rule: $\\frac{2}{3}x^{2/3 - 1}$. At $x = 0$ the derivative is undefined: the graph has a **cusp** there.\n\nTip: Rewrite roots as fractional powers first.",
+      "answer": "2/(3x^(1/3))",
+      "acceptedAnswers": [
+        "(2/3)x^(-1/3)",
+        "2/3x^(-1/3)",
+        "2x^(-1/3)/3",
+        "2/(3cbrt(x))",
+        "2/(3 cbrt x)"
+      ],
+      "answerDisplay": "$\\dfrac{2}{3\\sqrt[3]{x}}$",
+      "searchQuery": "derivative of cube root of x squared fractional exponent"
+    },
+    {
+      "id": "derivative-of-e-to-the-x",
+      "title": "$\\dfrac{d}{dx}\\left[e^x\\right] = \\,?$",
+      "body": "$e^x$\n\nThe function is its own derivative. That **singles out** $e$: it's the base whose graph has slope $1$ at $x = 0$, i.e. $\\lim_{h \\to 0} \\frac{e^h - 1}{h} = 1$.\n\nWatch out: the power rule doesn't apply, so it is not $xe^{x-1}$.\nMnemonic: $e^x$ is its own derivative, forever.",
+      "answer": "e^x",
+      "answerDisplay": "$e^x$",
+      "searchQuery": "derivative of e^x equals e^x"
+    },
+    {
+      "id": "derivative-of-ln-x",
+      "title": "$\\dfrac{d}{dx}[\\ln x] = \\,?$",
+      "body": "$\\frac{1}{x}$\n\nThis holds for $x > 0$. More generally $\\frac{d}{dx} \\ln|x| = \\frac{1}{x}$ for all $x \\ne 0$, which is why an **antiderivative** of $\\frac{1}{x}$ is $\\ln|x|$. Other bases: $\\frac{d}{dx} \\log_a x = \\frac{1}{x \\ln a}$.\n\nTip: For $\\ln u$ the derivative is $\\frac{u'}{u}$.",
+      "answer": "1/x",
+      "acceptedAnswers": [
+        "x^(-1)",
+        "x^-1"
+      ],
+      "answerDisplay": "$\\dfrac{1}{x}$",
+      "searchQuery": "derivative of ln x equals 1/x"
+    },
+    {
+      "id": "derivative-of-constant-trap",
+      "title": "$\\dfrac{d}{dx}\\left[e^{\\pi}\\right] = \\,?$",
+      "body": "$0$\n\n$e^\\pi \\approx 23.14$ is a **constant**: no $x$ appears. Neither the exponential rule (which would give $e^\\pi$) nor the power rule applies; the derivative of any constant is $0$.\n\nWatch out: a constant, even one as scary as $e^\\pi$, has derivative $0$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "derivative of e to the pi constant is zero"
+    },
+    {
+      "id": "derivative-of-sin",
+      "title": "$\\dfrac{d}{dx}[\\sin x] = \\,?$",
+      "body": "$\\cos x$\n\nThis holds when $x$ is in radians. It comes from the **limit definition**, using $\\lim_{h \\to 0} \\frac{\\sin h}{h} = 1$ and $\\lim_{h \\to 0} \\frac{\\cos h - 1}{h} = 0$. Check on the graph: $\\sin x$ is steepest at $x = 0$, where $\\cos 0 = 1$, and flat at $x = \\frac{\\pi}{2}$, where $\\cos \\frac{\\pi}{2} = 0$.\n\nWatch out: this rule needs radians.",
+      "answer": "cos x",
+      "acceptedAnswers": [
+        "cos(x)"
+      ],
+      "answerDisplay": "$\\cos x$",
+      "searchQuery": "derivative of sin x equals cos x radians"
+    },
+    {
+      "id": "derivative-of-cos",
+      "title": "$\\dfrac{d}{dx}[\\cos x] = \\,?$",
+      "body": "$-\\sin x$\n\nThe **minus sign** matches the graph: $\\cos x$ decreases on $(0, \\pi)$, where $\\sin x > 0$. Derivative cycle: $\\sin \\to \\cos \\to -\\sin \\to -\\cos \\to \\sin$.\n\nWatch out: the derivative of $\\cos x$ is $-\\sin x$, not $\\sin x$.",
+      "answer": "-sin x",
+      "acceptedAnswers": [
+        "-sin(x)",
+        "-(sin x)"
+      ],
+      "answerDisplay": "$-\\sin x$",
+      "searchQuery": "derivative of cos x equals negative sin x"
+    },
+    {
+      "id": "derivative-of-cot",
+      "title": "$\\dfrac{d}{dx}[\\cot x] = \\,?$",
+      "body": "$-\\csc^2 x$\n\n**Quotient rule** on $\\frac{\\cos x}{\\sin x}$: $\\frac{-\\sin^2 x - \\cos^2 x}{\\sin^2 x} = -\\frac{1}{\\sin^2 x}$. It mirrors $\\frac{d}{dx}[\\tan x] = \\sec^2 x$, with co-functions and a minus sign.\n\nMnemonic: cot is the co-function of tan, so it gets a minus sign.",
+      "answer": "-csc^2 x",
+      "acceptedAnswers": [
+        "-csc^2(x)",
+        "-csc(x)^2",
+        "-(csc x)^2",
+        "-1/sin^2 x",
+        "-1/sin^2(x)"
+      ],
+      "answerDisplay": "$-\\csc^2 x$",
+      "searchQuery": "derivative of cot x negative csc squared"
+    },
+    {
+      "id": "derivative-of-csc",
+      "title": "$\\dfrac{d}{dx}[\\csc x] = \\,?$",
+      "body": "$-\\csc x \\cot x$\n\n**Quotient rule** on $\\frac{1}{\\sin x}$: $\\frac{0 - \\cos x}{\\sin^2 x} = -\\frac{1}{\\sin x} \\cdot \\frac{\\cos x}{\\sin x}$. It mirrors $\\frac{d}{dx}[\\sec x] = \\sec x \\tan x$, with co-functions and a minus sign.\n\nMnemonic: csc is the co-function partner of sec, so it gets a minus sign.",
+      "answer": "-csc x cot x",
+      "acceptedAnswers": [
+        "-csc(x)cot(x)",
+        "-cot x csc x",
+        "-cot(x)csc(x)"
+      ],
+      "answerDisplay": "$-\\csc x \\cot x$",
+      "searchQuery": "derivative of csc x negative csc x cot x"
+    },
+    {
+      "id": "derivative-of-cube-difference-quotient",
+      "title": "For $f(x) = x^3$, the difference quotient $\\dfrac{f(x + h) - f(x)}{h}$ simplifies to what (for $h \\ne 0$)?",
+      "body": "$3x^2 + 3xh + h^2$\n\nExpand $(x + h)^3 = x^3 + 3x^2h + 3xh^2 + h^3$, subtract $x^3$ and divide by $h$. Letting $h \\to 0$ leaves $f'(x) = 3x^2$.\n\nTip: after dividing by $h$, every leftover term except $3x^2$ still has a factor of $h$.",
+      "answer": "3x^2+3xh+h^2",
+      "acceptedAnswers": [
+        "3x^2+h(3x+h)",
+        "h^2+3xh+3x^2"
+      ],
+      "answerDisplay": "$3x^2 + 3xh + h^2$",
+      "searchQuery": "difference quotient x cubed simplifies 3x^2+3xh+h^2"
+    },
+    {
+      "id": "derivative-from-definition-reciprocal",
+      "title": "Use the limit definition to find $\\dfrac{d}{dx}\\left[\\dfrac{1}{x}\\right]$.",
+      "body": "$-\\dfrac{1}{x^2}$\n\nCombine the fractions: $\\frac{\\frac{1}{x + h} - \\frac{1}{x}}{h} = \\frac{-h}{x(x + h)\\,h} = \\frac{-1}{x(x + h)}$. As $h \\to 0$ this tends to $-\\frac{1}{x^2}$.\n\nTip: with a fraction in the numerator, **combine over a common denominator** before cancelling $h$.",
+      "answer": "-1/x^2",
+      "acceptedAnswers": [
+        "-x^(-2)",
+        "-x^-2"
+      ],
+      "answerDisplay": "$-\\dfrac{1}{x^2}$",
+      "searchQuery": "limit definition derivative of 1/x gives -1/x^2"
+    },
+    {
+      "id": "derivative-units",
+      "title": "$P(t)$ is the number of bacteria after $t$ hours. What are the units of $P'(t)$?",
+      "body": "Bacteria per hour\n\n$P'(t)$ is the limit of $\\frac{\\Delta P}{\\Delta t}$, so its units are **units of output per unit of input**.\n\nExample: $P'(3) = 500$ means the population is growing at about $500$ bacteria per hour at $t = 3$.",
+      "answer": "bacteria per hour",
+      "acceptedAnswers": [
+        "bacteria/hour",
+        "bacteria/h",
+        "bacteria per h"
+      ],
+      "searchQuery": "units of the derivative bacteria per hour rate of change"
+    },
+    {
+      "id": "marginal-cost-meaning",
+      "title": "$C(x)$ is the cost of producing $x$ items. What does $C'(100)$ approximate?",
+      "body": "The extra cost of producing the $101$st item.\n\n$C'(x)$ is the **marginal cost**: the rate of change of cost per additional item. It approximates $C(101) - C(100)$ because one item is small next to $100$.\n\nWatch out: marginal cost is not the average cost $\\frac{C(x)}{x}$.",
+      "searchQuery": "marginal cost derivative of cost function meaning"
+    },
+    {
+      "id": "one-sided-derivative",
+      "title": "$f(x) = |x - 2|$. What is the left-hand derivative $\\lim_{h \\to 0^-} \\dfrac{f(2 + h) - f(2)}{h}$?",
+      "body": "$-1$\n\nHere $f(2 + h) - f(2) = |h|$, and for $h < 0$, $|h| = -h$, so the quotient is $\\frac{-h}{h} = -1$.\n\nThe right-hand derivative is $+1$. Since the **one-sided derivatives differ**, $f'(2)$ does not exist.",
+      "answer": "-1",
+      "answerDisplay": "$-1$",
+      "searchQuery": "left-hand derivative of absolute value at corner"
+    },
+    {
+      "id": "non-differentiable-cases",
+      "title": "In what four ways can $f$ fail to be differentiable at $x = a$?",
+      "body": "A **corner**, a **cusp**, a **vertical tangent**, or a **discontinuity** at $a$.\n\n- Corner: different one-sided slopes, like $|x|$ at $0$.\n- Cusp: slopes tend to $+\\infty$ on one side and $-\\infty$ on the other, like $x^{2/3}$ at $0$.\n- Vertical tangent: slope tends to $\\pm\\infty$ on both sides, like $\\sqrt[3]{x}$ at $0$.\n- Discontinuity: no limit of the quotient at all.\n\nKey idea: a smooth graph has a unique non-vertical tangent at every point.",
+      "searchQuery": "ways function fails differentiable corner cusp vertical tangent"
+    },
+    {
+      "id": "differentiable-implies-continuous-why",
+      "title": "Why does differentiability at $a$ force continuity at $a$?",
+      "body": "Because $f(x) - f(a) = \\dfrac{f(x) - f(a)}{x - a} \\cdot (x - a)$, and the right side tends to $f'(a) \\cdot 0 = 0$.\n\nSo $\\lim_{x \\to a} f(x) = f(a)$, which is exactly continuity at $a$.\n\nWatch out: the converse is false: $|x|$ is continuous at $0$ but has no derivative there.",
+      "searchQuery": "why differentiable implies continuous proof difference quotient"
+    },
+    {
+      "id": "constant-multiple-rule",
+      "title": "Constant multiple rule: $\\dfrac{d}{dx}[c\\,f(x)] = \\,?$",
+      "body": "$c\\,f'(x)$\n\nA constant factor just rides along: **pull it out**, differentiate, and put it back.\n\nExample: $\\frac{d}{dx}[5x^3] = 5 \\cdot 3x^2 = 15x^2$.\nWatch out: this works only for constants. In $x \\sin x$ the factor $x$ varies, so you need the product rule.",
+      "answer": "c f'(x)",
+      "acceptedAnswers": [
+        "f'(x)c"
+      ],
+      "answerDisplay": "$c\\,f'(x)$",
+      "searchQuery": "constant multiple rule derivative"
+    },
+    {
+      "id": "sum-rule",
+      "title": "Sum rule: $\\dfrac{d}{dx}[f(x) + g(x)] = \\,?$",
+      "body": "$f'(x) + g'(x)$\n\nDifferentiate **term by term**; the same holds for differences.\n\nExample: $\\frac{d}{dx}[x^2 + \\sin x] = 2x + \\cos x$.\nWatch out: this term-by-term rule is for sums only; products and quotients need their own rules.",
+      "answer": "f'(x) + g'(x)",
+      "acceptedAnswers": [
+        "g'(x) + f'(x)"
+      ],
+      "answerDisplay": "$f'(x) + g'(x)$",
+      "searchQuery": "sum rule for derivatives term by term"
+    },
+    {
+      "id": "reciprocal-rule",
+      "title": "Reciprocal rule: $\\dfrac{d}{dx}\\left[\\dfrac{1}{g(x)}\\right] = \\,?$",
+      "body": "$-\\dfrac{g'(x)}{g(x)^2}$\n\nIt's the quotient rule with $f = 1$ (so $f' = 0$), or the chain rule applied to $g^{-1}$.\n\nExample: $\\frac{d}{dx}\\left[\\frac{1}{x^2 + 1}\\right] = -\\frac{2x}{(x^2 + 1)^2}$.\nWatch out: the derivative of $\\frac{1}{g}$ is not $\\frac{1}{g'}$.",
+      "answer": "-g'(x)/g(x)^2",
+      "acceptedAnswers": [
+        "-g'/g^2",
+        "-g'(x)/(g(x))^2"
+      ],
+      "answerDisplay": "$-\\dfrac{g'(x)}{g(x)^2}$",
+      "searchQuery": "reciprocal rule derivative of 1 over g(x)"
+    },
+    {
+      "id": "derivative-of-pi-to-the-x",
+      "title": "$\\dfrac{d}{dx}\\left[\\pi^x\\right] = \\,?$",
+      "body": "$\\pi^x \\ln \\pi$\n\nThis is $\\frac{d}{dx}[a^x] = a^x \\ln a$ with $a = \\pi$: the base is a **constant** and the exponent is the variable.\n\nWatch out: don't use the power rule here. That's for $x^\\pi$, whose derivative is $\\pi x^{\\pi - 1}$.",
+      "answer": "pi^x ln(pi)",
+      "acceptedAnswers": [
+        "pi^x ln pi",
+        "ln(pi) pi^x"
+      ],
+      "answerDisplay": "$\\pi^x \\ln \\pi$",
+      "searchQuery": "derivative of pi to the x power exponential constant base"
+    },
+    {
+      "id": "derivative-of-x-to-the-pi",
+      "title": "$\\dfrac{d}{dx}\\left[x^{\\pi}\\right] = \\,?$",
+      "body": "$\\pi x^{\\pi - 1}$\n\nThe exponent $\\pi$ is a constant, so the **power rule** applies: bring it down and subtract one.\n\nWatch out: this is not $\\pi^x \\ln \\pi$, which is the derivative of $\\pi^x$ (variable exponent).",
+      "answer": "pi x^(pi-1)",
+      "acceptedAnswers": [
+        "x^(pi-1) pi"
+      ],
+      "answerDisplay": "$\\pi x^{\\pi - 1}$",
+      "searchQuery": "derivative of x to the pi power rule constant exponent"
+    },
+    {
+      "id": "product-rule-example",
+      "title": "$\\dfrac{d}{dx}\\left[(x^2 + 1)e^x\\right] = \\,?$",
+      "body": "$(x + 1)^2 e^x$\n\nTake $f = x^2 + 1$ and $g = e^x$: $2x e^x + (x^2 + 1)e^x = e^x(x^2 + 2x + 1)$.\n\nTip: **factor out the common factor** at the end; it keeps the answer short and often reveals the zeros.",
+      "answer": "(x+1)^2e^x",
+      "acceptedAnswers": [
+        "(x^2+2x+1)e^x",
+        "e^x(x^2+2x+1)",
+        "e^x(x+1)^2",
+        "2xe^x+(x^2+1)e^x"
+      ],
+      "answerDisplay": "$(x + 1)^2 e^x$",
+      "searchQuery": "product rule example (x^2+1)e^x derivative"
+    },
+    {
+      "id": "product-rule-three-factors",
+      "title": "Product rule for three factors: $(fgh)' = \\,?$",
+      "body": "$f'gh + fg'h + fgh'$\n\nDifferentiate **one factor at a time** and leave the other two alone, so each term has exactly one prime.\n\nExample: $\\frac{d}{dx}[x \\, e^x \\sin x] = e^x \\sin x + x e^x \\sin x + x e^x \\cos x$.\nWatch out: forgetting one of the three terms is the usual slip.",
+      "answer": "f'gh + fg'h + fgh'",
+      "acceptedAnswers": [
+        "f'gh+fgh'+fg'h",
+        "fg'h+f'gh+fgh'"
+      ],
+      "answerDisplay": "$f'gh + fg'h + fgh'$",
+      "searchQuery": "product rule for three factors formula (fgh)'"
+    },
+    {
+      "id": "quotient-rule-example",
+      "title": "$\\dfrac{d}{dx}\\left[\\dfrac{x}{x^2 + 1}\\right] = \\,?$",
+      "body": "$\\dfrac{1 - x^2}{(x^2 + 1)^2}$\n\nNumerator: $1 \\cdot (x^2 + 1) - x \\cdot 2x = 1 - x^2$. The denominator is the square of the original denominator.\n\nTip: the sign of the derivative is the sign of $1 - x^2$, so the function increases on $(-1, 1)$.",
+      "answer": "(1-x^2)/(x^2+1)^2",
+      "acceptedAnswers": [
+        "(1-x^2)/(1+x^2)^2"
+      ],
+      "answerDisplay": "$\\dfrac{1 - x^2}{(x^2 + 1)^2}$",
+      "searchQuery": "quotient rule example x over x^2+1 derivative"
+    },
+    {
+      "id": "derivative-of-x-ln-x",
+      "title": "$\\dfrac{d}{dx}[x \\ln x] = \\,?$ ($x > 0$)",
+      "body": "$\\ln x + 1$\n\nProduct rule: $1 \\cdot \\ln x + x \\cdot \\frac{1}{x}$. The extra $+1$ comes from $x \\cdot \\frac{1}{x}$.\n\nExample: the derivative is $0$ at $x = \\frac{1}{e}$, where $x \\ln x$ has its minimum value $-\\frac{1}{e}$.",
+      "answer": "ln x + 1",
+      "acceptedAnswers": [
+        "1 + ln x",
+        "ln(x)+1",
+        "1+ln(x)"
+      ],
+      "answerDisplay": "$\\ln x + 1$",
+      "searchQuery": "derivative of x ln x product rule"
+    },
+    {
+      "id": "derivative-of-e-to-kx",
+      "title": "$\\dfrac{d}{dx}\\left[e^{kx}\\right] = \\,?$ ($k$ a constant)",
+      "body": "$k\\,e^{kx}$\n\nChain rule: the outside is $e^u$, the inside is $u = kx$ with $u' = k$.\n\nExample: $\\frac{d}{dx}\\left[e^{-3x}\\right] = -3e^{-3x}$.\nWatch out: $e^{kx}$ is its own derivative only when $k = 1$; otherwise **the constant comes out front**.",
+      "answer": "k e^(kx)",
+      "acceptedAnswers": [
+        "e^(kx)k"
+      ],
+      "answerDisplay": "$k\\,e^{kx}$",
+      "searchQuery": "derivative of e^(kx) chain rule constant k"
+    },
+    {
+      "id": "derivative-of-exp-negative-x-squared",
+      "title": "$\\dfrac{d}{dx}\\left[e^{-x^2}\\right] = \\,?$",
+      "body": "$-2x\\,e^{-x^2}$\n\nThe outside is $e^u$ and the inside is $u = -x^2$ with $u' = -2x$.\n\nTip: this is the slope of the bell curve. It is positive for $x < 0$, zero at $x = 0$ (the peak) and negative for $x > 0$.",
+      "answer": "-2x e^(-x^2)",
+      "acceptedAnswers": [
+        "e^(-x^2)(-2x)"
+      ],
+      "answerDisplay": "$-2x\\,e^{-x^2}$",
+      "searchQuery": "derivative of e^(-x^2) bell curve chain rule"
+    },
+    {
+      "id": "derivative-of-ln-of-function",
+      "title": "$\\dfrac{d}{dx}\\left[\\ln(x^2 + 1)\\right] = \\,?$",
+      "body": "$\\dfrac{2x}{x^2 + 1}$\n\nIn general $\\frac{d}{dx}\\ln g(x) = \\frac{g'(x)}{g(x)}$: the **derivative of the inside over the inside**.\n\nWatch out: the answer is not $\\frac{1}{x^2 + 1}$; that forgets the inner factor $2x$.",
+      "answer": "2x/(x^2+1)",
+      "acceptedAnswers": [
+        "2x/(1+x^2)"
+      ],
+      "answerDisplay": "$\\dfrac{2x}{x^2 + 1}$",
+      "searchQuery": "derivative of ln(x^2+1) chain rule g prime over g"
+    },
+    {
+      "id": "derivative-of-ln-ln-x",
+      "title": "$\\dfrac{d}{dx}[\\ln(\\ln x)] = \\,?$ ($x > 1$)",
+      "body": "$\\dfrac{1}{x \\ln x}$\n\nThe outer $\\ln u$ gives $\\frac{1}{u}$ with $u = \\ln x$, and $u' = \\frac{1}{x}$, so the product is $\\frac{1}{\\ln x} \\cdot \\frac{1}{x}$.\n\nTip: the domain needs $\\ln x > 0$, which is why $x > 1$.",
+      "answer": "1/(x ln x)",
+      "acceptedAnswers": [
+        "1/(x ln(x))",
+        "1/(ln(x) x)"
+      ],
+      "answerDisplay": "$\\dfrac{1}{x \\ln x}$",
+      "searchQuery": "derivative of ln(ln x) chain rule"
+    },
+    {
+      "id": "derivative-of-sin-squared",
+      "title": "$\\dfrac{d}{dx}\\left[\\sin^2 x\\right] = \\,?$",
+      "body": "$2\\sin x \\cos x$\n\nRead $\\sin^2 x$ as $(\\sin x)^2$: the outer power gives $2\\sin x$, and the inner $\\sin x$ gives $\\cos x$. By the double-angle identity this equals $\\sin 2x$.\n\nWatch out: $\\sin^2 x$ is not $\\sin(x^2)$; the latter has derivative $2x\\cos(x^2)$.",
+      "answer": "2 sin x cos x",
+      "acceptedAnswers": [
+        "sin(2x)",
+        "sin 2x",
+        "2sin(x)cos(x)"
+      ],
+      "answerDisplay": "$2\\sin x \\cos x$",
+      "searchQuery": "derivative of sin squared x chain rule sin 2x"
+    },
+    {
+      "id": "derivative-of-cos-x-squared",
+      "title": "$\\dfrac{d}{dx}\\left[\\cos(x^2)\\right] = \\,?$",
+      "body": "$-2x \\sin(x^2)$\n\nThe outside is $\\cos u$, which gives $-\\sin u$, and the inside is $u = x^2$ with $u' = 2x$.\n\nWatch out: keep the $x^2$ **inside** the sine; don't turn it into $\\sin^2 x$.",
+      "answer": "-2x sin(x^2)",
+      "acceptedAnswers": [
+        "-2x sin x^2"
+      ],
+      "answerDisplay": "$-2x \\sin(x^2)$",
+      "searchQuery": "derivative of cos(x^2) chain rule"
+    },
+    {
+      "id": "derivative-of-cos-3x",
+      "title": "$\\dfrac{d}{dx}[\\cos 3x] = \\,?$",
+      "body": "$-3\\sin 3x$\n\nThe outside gives $-\\sin 3x$ and the inside $3x$ contributes the factor $3$.\n\nWatch out: two things are easy to lose, the **minus sign** from $\\cos$ and the $3$ from the inside.",
+      "answer": "-3 sin 3x",
+      "acceptedAnswers": [
+        "-3 sin(3x)"
+      ],
+      "answerDisplay": "$-3\\sin 3x$",
+      "searchQuery": "derivative of cos 3x chain rule"
+    },
+    {
+      "id": "derivative-of-tan-3x",
+      "title": "$\\dfrac{d}{dx}[\\tan 3x] = \\,?$",
+      "body": "$3\\sec^2 3x$\n\nThe outside gives $\\sec^2 3x$ and the inside $3x$ contributes a factor of $3$.\n\nTip: for $\\sin$, $\\cos$ and $\\tan$ of $kx$, the derivative gets an extra factor of $k$.",
+      "answer": "3 sec^2(3x)",
+      "acceptedAnswers": [
+        "3 sec^2 3x",
+        "3 sec(3x)^2"
+      ],
+      "answerDisplay": "$3\\sec^2 3x$",
+      "searchQuery": "derivative of tan 3x sec squared chain rule"
+    },
+    {
+      "id": "chain-power-example",
+      "title": "$\\dfrac{d}{dx}\\left[(3x^2 + 1)^4\\right] = \\,?$",
+      "body": "$24x(3x^2 + 1)^3$\n\nOuter: $u^4 \\to 4u^3$. Inner: $3x^2 + 1 \\to 6x$. Multiply: $4 \\cdot 6x = 24x$.\n\nKey idea: the generalized power rule is $\\frac{d}{dx}[g^n] = n\\,g^{n-1}\\,g'$.",
+      "answer": "24x(3x^2+1)^3",
+      "acceptedAnswers": [
+        "(3x^2+1)^3(24x)"
+      ],
+      "answerDisplay": "$24x(3x^2 + 1)^3$",
+      "searchQuery": "chain rule power example (3x^2+1)^4 derivative"
+    },
+    {
+      "id": "chain-sqrt-example",
+      "title": "$\\dfrac{d}{dx}\\left[\\sqrt{1 + x^2}\\right] = \\,?$",
+      "body": "$\\dfrac{x}{\\sqrt{1 + x^2}}$\n\nWrite it as $(1 + x^2)^{1/2}$: $\\frac{1}{2}(1 + x^2)^{-1/2} \\cdot 2x$.\n\nKey idea: in general $\\frac{d}{dx}\\sqrt{g} = \\frac{g'}{2\\sqrt{g}}$.",
+      "answer": "x/sqrt(1+x^2)",
+      "acceptedAnswers": [
+        "x/sqrt(x^2+1)"
+      ],
+      "answerDisplay": "$\\dfrac{x}{\\sqrt{1 + x^2}}$",
+      "searchQuery": "derivative of sqrt(1+x^2) chain rule"
+    },
+    {
+      "id": "chain-three-layers",
+      "title": "$\\dfrac{d}{dx}\\left[\\sin\\left(e^{x^2}\\right)\\right] = \\,?$",
+      "body": "$2x\\,e^{x^2}\\cos\\left(e^{x^2}\\right)$\n\nThere are **three layers**: $\\sin u$, then $u = e^v$, then $v = x^2$. Differentiate from the outside in: $\\cos(e^{x^2}) \\cdot e^{x^2} \\cdot 2x$.\n\nTip: label the layers first; each layer contributes exactly one factor.",
+      "searchQuery": "chain rule three layers sin(e^(x^2)) derivative"
+    },
+    {
+      "id": "chain-rule-leibniz",
+      "title": "Chain rule in Leibniz notation: if $y = f(u)$ and $u = g(x)$, then $\\dfrac{dy}{dx} = \\,?$",
+      "body": "$\\dfrac{dy}{du} \\cdot \\dfrac{du}{dx}$\n\nThe $du$'s seem to cancel, a good memory aid even though $\\frac{dy}{dx}$ is not literally a fraction.\n\nExample: $y = u^3$ and $u = 2x + 1$ give $3u^2 \\cdot 2 = 6(2x + 1)^2$.",
+      "answer": "dy/du * du/dx",
+      "acceptedAnswers": [
+        "(dy/du)(du/dx)"
+      ],
+      "answerDisplay": "$\\dfrac{dy}{du} \\cdot \\dfrac{du}{dx}$",
+      "searchQuery": "chain rule Leibniz notation dy/du du/dx"
+    },
+    {
+      "id": "chain-rule-numeric",
+      "title": "$h(x) = f(g(x))$ with $g(2) = 3$, $g'(2) = 4$ and $f'(3) = 5$. What is $h'(2)$?",
+      "body": "$20$\n\n$h'(2) = f'(g(2)) \\cdot g'(2) = f'(3) \\cdot 4 = 5 \\cdot 4$.\n\nWatch out: evaluate $f'$ at the **inner value** $g(2) = 3$, not at $2$.",
+      "answer": "20",
+      "answerDisplay": "$20$",
+      "searchQuery": "chain rule numeric composite derivative f(g(2))"
+    },
+    {
+      "id": "product-rule-numeric",
+      "title": "$f(1) = 2$, $f'(1) = 3$, $g(1) = 4$, $g'(1) = -1$. What is $(fg)'(1)$?",
+      "body": "$10$\n\n$(fg)'(1) = f'(1)g(1) + f(1)g'(1) = 3 \\cdot 4 + 2 \\cdot (-1) = 12 - 2$.\n\nWatch out: the product of the derivatives, $3 \\cdot (-1) = -3$, is the classic wrong answer.",
+      "answer": "10",
+      "answerDisplay": "$10$",
+      "searchQuery": "product rule numeric example (fg) at 1"
+    },
+    {
+      "id": "quotient-rule-numeric",
+      "title": "With $f(1) = 2$, $f'(1) = 3$, $g(1) = 4$, $g'(1) = -1$, what is $\\left(\\dfrac{f}{g}\\right)'(1)$?",
+      "body": "$\\dfrac{7}{8}$\n\n$\\frac{f'g - fg'}{g^2} = \\frac{3 \\cdot 4 - 2 \\cdot (-1)}{4^2} = \\frac{14}{16}$.\n\nWatch out: the minus in the numerator combines with $g'(1) = -1$ to give $+2$.",
+      "answer": "7/8",
+      "acceptedAnswers": [
+        "0.875"
+      ],
+      "answerDisplay": "$\\dfrac{7}{8}$",
+      "searchQuery": "quotient rule numeric example (f/g) at 1"
+    },
+    {
+      "id": "slope-sin-at-pi-over-3",
+      "title": "What is the slope of $y = \\sin x$ at $x = \\dfrac{\\pi}{3}$?",
+      "body": "$\\dfrac{1}{2}$\n\nThe slope is $\\frac{d}{dx}[\\sin x]$ at $\\frac{\\pi}{3}$, which is $\\cos\\frac{\\pi}{3} = \\frac{1}{2}$.\n\nTip: differentiate first, then evaluate; plugging in before differentiating gives the function value $\\frac{\\sqrt{3}}{2}$, not the slope.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\dfrac{1}{2}$",
+      "searchQuery": "slope of sin x at pi/3 derivative cos value"
+    },
+    {
+      "id": "derivative-of-x-sin-x",
+      "title": "$\\dfrac{d}{dx}[x \\sin x] = \\,?$",
+      "body": "$\\sin x + x\\cos x$\n\nProduct rule: $(1)(\\sin x) + x(\\cos x)$.\n\nWatch out: both factors vary, so $\\frac{d}{dx}[x\\sin x]$ is not $\\sin x$ alone, which would only follow if $x$ were a constant.",
+      "answer": "sin x + x cos x",
+      "acceptedAnswers": [
+        "x cos x + sin x",
+        "sin(x)+x cos(x)"
+      ],
+      "answerDisplay": "$\\sin x + x\\cos x$",
+      "searchQuery": "derivative of x sin x product rule"
+    },
+    {
+      "id": "derivative-of-sin-over-x",
+      "title": "$\\dfrac{d}{dx}\\left[\\dfrac{\\sin x}{x}\\right] = \\,?$",
+      "body": "$\\dfrac{x\\cos x - \\sin x}{x^2}$\n\nQuotient rule with $f = \\sin x$ and $g = x$: $\\frac{\\cos x \\cdot x - \\sin x \\cdot 1}{x^2}$.\n\nWatch out: it is not $\\frac{\\cos x}{1}$; you can't differentiate top and bottom separately.",
+      "answer": "(x cos x - sin x)/x^2",
+      "acceptedAnswers": [
+        "(x cos(x)-sin(x))/x^2"
+      ],
+      "answerDisplay": "$\\dfrac{x\\cos x - \\sin x}{x^2}$",
+      "searchQuery": "derivative of sin x over x quotient rule"
+    },
+    {
+      "id": "derivative-of-sin-100th",
+      "title": "$\\dfrac{d^{100}}{dx^{100}}[\\sin x] = \\,?$",
+      "body": "$\\sin x$\n\nThe derivatives cycle with period four: $\\sin x \\to \\cos x \\to -\\sin x \\to -\\cos x \\to \\sin x$. Since $100 = 4 \\cdot 25$, we are back at the start.\n\nTip: divide the order by $4$ and use the **remainder** to read off the answer.",
+      "answer": "sin x",
+      "acceptedAnswers": [
+        "sin(x)"
+      ],
+      "answerDisplay": "$\\sin x$",
+      "searchQuery": "100th derivative of sin x cycle of four"
+    },
+    {
+      "id": "nth-derivative-of-x-to-the-n",
+      "title": "$\\dfrac{d^n}{dx^n}\\left[x^n\\right] = \\,?$ ($n$ a positive integer)",
+      "body": "$n!$\n\nEach differentiation brings down the current exponent: $n \\cdot (n - 1) \\cdots 2 \\cdot 1$, leaving the constant $n!$.\n\nKey idea: differentiate once more and you get $0$, so the $(n+1)$st derivative of $x^n$ is $0$.",
+      "answer": "n!",
+      "answerDisplay": "$n!$",
+      "searchQuery": "nth derivative of x^n equals n factorial"
+    },
+    {
+      "id": "nth-derivative-of-e-to-2x",
+      "title": "$\\dfrac{d^n}{dx^n}\\left[e^{2x}\\right] = \\,?$",
+      "body": "$2^n e^{2x}$\n\nEach derivative multiplies by the factor $2$ from the chain rule, and $e^{2x}$ stays unchanged.\n\nExample: $\\frac{d^3}{dx^3}[e^{2x}] = 8e^{2x}$.",
+      "answer": "2^n e^(2x)",
+      "acceptedAnswers": [
+        "e^(2x)2^n"
+      ],
+      "answerDisplay": "$2^n e^{2x}$",
+      "searchQuery": "nth derivative of e^(2x) equals 2^n e^(2x)"
+    },
+    {
+      "id": "derivative-of-polynomial-high-order",
+      "title": "$\\dfrac{d^5}{dx^5}\\left[x^4 + 3x\\right] = \\,?$",
+      "body": "$0$\n\nEach derivative lowers a polynomial's degree by one, so the fourth derivative is the constant $24$ and the **fifth is zero**.\n\nKey idea: a polynomial of degree $n$ has $(n+1)$st derivative $0$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "fifth derivative of degree four polynomial is zero"
+    },
+    {
+      "id": "second-derivative-meaning",
+      "title": "What does the second derivative $f''(x)$ measure?",
+      "body": "The rate of change of the slope $f'$: it tells how the graph **bends** (concavity).\n\nIf $f'' > 0$ the slopes increase and the graph is concave up; if $f'' < 0$ it is concave down. In motion, $s''(t)$ is acceleration.\n\nKey idea: $f''$ is the derivative of the derivative, nothing more.",
+      "searchQuery": "meaning of second derivative rate of change of slope concavity"
+    },
+    {
+      "id": "second-derivative-example",
+      "title": "$f(x) = x^4 - 3x^2$. Find $f''(x)$.",
+      "body": "$12x^2 - 6$\n\nFirst derivative: $f'(x) = 4x^3 - 6x$. Differentiate again: $f''(x) = 12x^2 - 6$.\n\nWatch out: differentiate twice, in order; don't jump from $x^4$ to $12x^2$ without keeping the $-6$ from the $-3x^2$ term.",
+      "answer": "12x^2-6",
+      "acceptedAnswers": [
+        "-6+12x^2"
+      ],
+      "answerDisplay": "$12x^2 - 6$",
+      "searchQuery": "second derivative of x^4 - 3x^2"
+    },
+    {
+      "id": "log-diff-product-value",
+      "title": "Let $f(x) = x^2(x + 1)^3$. Use logarithmic differentiation to find $f'(1)$.",
+      "body": "$28$\n\n$\\ln f = 2\\ln x + 3\\ln(x + 1)$, so $\\frac{f'}{f} = \\frac{2}{x} + \\frac{3}{x + 1}$. At $x = 1$: $f(1) = 8$ and $\\frac{f'}{f} = 2 + \\frac{3}{2} = \\frac{7}{2}$, so $f'(1) = 8 \\cdot \\frac{7}{2}$.\n\nTip: the product rule gives the same value: $2 \\cdot 8 + 1 \\cdot 3 \\cdot 4 = 28$.",
+      "answer": "28",
+      "answerDisplay": "$28$",
+      "searchQuery": "logarithmic differentiation f(x)=x^2(x+1)^3 find f prime 1"
+    },
+    {
+      "id": "log-diff-x-to-sin-x",
+      "title": "$\\dfrac{d}{dx}\\left[x^{\\sin x}\\right] = \\,?$ ($x > 0$)",
+      "body": "$x^{\\sin x}\\left(\\cos x \\ln x + \\dfrac{\\sin x}{x}\\right)$\n\nTake logs: $\\ln y = \\sin x \\ln x$. Differentiate with the product rule: $\\frac{y'}{y} = \\cos x \\ln x + \\frac{\\sin x}{x}$. Then multiply by $y$.\n\nWatch out: the last step is to multiply by $y = x^{\\sin x}$, not to leave $\\frac{y'}{y}$.",
+      "searchQuery": "logarithmic differentiation x^(sin x) derivative"
+    },
+    {
+      "id": "when-to-use-log-differentiation",
+      "title": "When is logarithmic differentiation the right tool?",
+      "body": "When the **variable is in both the base and the exponent**, or for a messy product, quotient or power of many factors.\n\nTaking $\\ln$ turns powers into products and products into sums, which are easier to differentiate.\n\nExample: $\\frac{d}{dx}[x^x]$ needs it, while $\\frac{d}{dx}[x^3]$ and $\\frac{d}{dx}[3^x]$ don't.",
+      "searchQuery": "when to use logarithmic differentiation variable in base and exponent"
+    },
+    {
+      "id": "derivative-of-arccos",
+      "title": "$\\dfrac{d}{dx}[\\arccos x] = \\,?$",
+      "body": "$-\\dfrac{1}{\\sqrt{1 - x^2}}$\n\nIt holds for $-1 < x < 1$. Why: $\\arccos x = \\frac{\\pi}{2} - \\arcsin x$, so its derivative is the negative of the arcsin derivative.\n\nTip: each co-function inverse has the opposite sign of its partner.",
+      "answer": "-1/sqrt(1-x^2)",
+      "acceptedAnswers": [
+        "-(1-x^2)^(-1/2)"
+      ],
+      "answerDisplay": "$-\\dfrac{1}{\\sqrt{1 - x^2}}$",
+      "searchQuery": "derivative of arccos x negative 1/sqrt(1-x^2)"
+    },
+    {
+      "id": "derivative-of-arccot",
+      "title": "$\\dfrac{d}{dx}[\\operatorname{arccot} x] = \\,?$",
+      "body": "$-\\dfrac{1}{1 + x^2}$\n\nIt is the negative of $\\frac{d}{dx}[\\arctan x] = \\frac{1}{1 + x^2}$, because $\\operatorname{arccot} x = \\frac{\\pi}{2} - \\arctan x$ (on its usual range).\n\nTip: the inverse co-functions never need separate memorization, only a minus sign.",
+      "answer": "-1/(1+x^2)",
+      "acceptedAnswers": [
+        "-1/(x^2+1)"
+      ],
+      "answerDisplay": "$-\\dfrac{1}{1 + x^2}$",
+      "searchQuery": "derivative of arccot x negative 1/(1+x^2)"
+    },
+    {
+      "id": "derivative-of-arctan-2x",
+      "title": "$\\dfrac{d}{dx}[\\arctan 2x] = \\,?$",
+      "body": "$\\dfrac{2}{1 + 4x^2}$\n\nOutside: $\\frac{1}{1 + u^2}$ with $u = 2x$, so $\\frac{1}{1 + 4x^2}$. Inside: $u' = 2$.\n\nWatch out: $(2x)^2 = 4x^2$, not $2x^2$.",
+      "answer": "2/(1+4x^2)",
+      "acceptedAnswers": [
+        "2/(4x^2+1)"
+      ],
+      "answerDisplay": "$\\dfrac{2}{1 + 4x^2}$",
+      "searchQuery": "derivative of arctan 2x chain rule"
+    },
+    {
+      "id": "derivative-of-arcsin-x-over-2",
+      "title": "$\\dfrac{d}{dx}\\left[\\arcsin\\dfrac{x}{2}\\right] = \\,?$ ($|x| < 2$)",
+      "body": "$\\dfrac{1}{\\sqrt{4 - x^2}}$\n\nChain rule: $\\frac{1}{\\sqrt{1 - x^2/4}} \\cdot \\frac{1}{2}$. Since $\\sqrt{1 - x^2/4} = \\frac{\\sqrt{4 - x^2}}{2}$, the $2$'s cancel.\n\nTip: this form is the one to recognize in integrals: $\\int \\frac{dx}{\\sqrt{4 - x^2}} = \\arcsin\\frac{x}{2} + C$.",
+      "answer": "1/sqrt(4-x^2)",
+      "acceptedAnswers": [
+        "(4-x^2)^(-1/2)"
+      ],
+      "answerDisplay": "$\\dfrac{1}{\\sqrt{4 - x^2}}$",
+      "searchQuery": "derivative of arcsin(x/2) chain rule 1/sqrt(4-x^2)"
+    },
+    {
+      "id": "inverse-trig-minus-signs",
+      "title": "Which inverse trig derivatives carry a minus sign?",
+      "body": "$\\arccos$, $\\operatorname{arccot}$ and $\\operatorname{arccsc}$: the **co-function** inverses.\n\nEach is the negative of its partner: $\\arccos$ vs. $\\arcsin$, $\\operatorname{arccot}$ vs. $\\arctan$, $\\operatorname{arccsc}$ vs. $\\operatorname{arcsec}$.\n\nMnemonic: 'co' means a minus sign, just as for $\\cos$, $\\cot$ and $\\csc$.",
+      "searchQuery": "which inverse trig derivatives have minus signs arccos arccot arccsc"
+    },
+    {
+      "id": "derivative-of-sinh",
+      "title": "$\\dfrac{d}{dx}[\\sinh x] = \\,?$",
+      "body": "$\\cosh x$\n\nWith $\\sinh x = \\frac{e^x - e^{-x}}{2}$: differentiating gives $\\frac{e^x + e^{-x}}{2} = \\cosh x$.\n\nTip: $\\sinh$ and $\\cosh$ behave like $\\sin$ and $\\cos$ with the minus signs removed.",
+      "answer": "cosh x",
+      "acceptedAnswers": [
+        "cosh(x)"
+      ],
+      "answerDisplay": "$\\cosh x$",
+      "searchQuery": "derivative of hyperbolic sine sinh x equals cosh x"
+    },
+    {
+      "id": "derivative-of-cosh",
+      "title": "$\\dfrac{d}{dx}[\\cosh x] = \\,?$",
+      "body": "$\\sinh x$\n\nWith $\\cosh x = \\frac{e^x + e^{-x}}{2}$: differentiating gives $\\frac{e^x - e^{-x}}{2} = \\sinh x$.\n\nWatch out: there is **no minus sign**, unlike $\\frac{d}{dx}[\\cos x] = -\\sin x$.",
+      "answer": "sinh x",
+      "acceptedAnswers": [
+        "sinh(x)"
+      ],
+      "answerDisplay": "$\\sinh x$",
+      "searchQuery": "derivative of hyperbolic cosine cosh x equals sinh x"
+    },
+    {
+      "id": "implicit-xy-equals-one",
+      "title": "$xy = 1$. Find $\\dfrac{dy}{dx}$ by implicit differentiation.",
+      "body": "$-\\dfrac{y}{x}$\n\nThe left side needs the product rule: $y + x\\frac{dy}{dx} = 0$, so $\\frac{dy}{dx} = -\\frac{y}{x}$.\n\nCheck: solving first gives $y = \\frac{1}{x}$, with derivative $-\\frac{1}{x^2}$, which equals $-\\frac{y}{x}$.",
+      "answer": "-y/x",
+      "acceptedAnswers": [
+        "-1/x^2",
+        "-(y/x)"
+      ],
+      "answerDisplay": "$-\\dfrac{y}{x}$",
+      "searchQuery": "implicit differentiation xy=1 dy/dx equals -y/x"
+    },
+    {
+      "id": "implicit-folium-slope",
+      "title": "Find $\\dfrac{dy}{dx}$ at $(3, 3)$ on the curve $x^3 + y^3 = 6xy$.",
+      "body": "$-1$\n\nDifferentiate: $3x^2 + 3y^2y' = 6y + 6xy'$. Solve: $y' = \\frac{2y - x^2}{y^2 - 2x}$. At $(3, 3)$ this is $\\frac{6 - 9}{9 - 6} = -1$.\n\nWatch out: $6xy$ needs the product rule, so it contributes both $6y$ and $6xy'$.",
+      "answer": "-1",
+      "answerDisplay": "$-1$",
+      "searchQuery": "implicit differentiation folium x^3+y^3=6xy slope at (3,3)"
+    },
+    {
+      "id": "implicit-horizontal-tangent",
+      "title": "Find $\\dfrac{dy}{dx}$ at $(1, -2)$ on the curve $x^2 + xy + y^2 = 3$.",
+      "body": "$0$\n\nDifferentiate: $2x + y + xy' + 2yy' = 0$, so $y' = -\\frac{2x + y}{x + 2y}$. At $(1, -2)$ the numerator is $2 - 2 = 0$ and the denominator is $-3$.\n\nSo the tangent is **horizontal** there, since the slope is $0$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "implicit differentiation x^2+xy+y^2=3 slope at (1,-2)"
+    },
+    {
+      "id": "implicit-second-derivative",
+      "title": "For $x^2 + y^2 = 25$, find $\\dfrac{d^2y}{dx^2}$ in terms of $y$.",
+      "body": "$-\\dfrac{25}{y^3}$\n\nFrom $y' = -\\frac{x}{y}$, the quotient rule gives $y'' = -\\frac{y - x\\,y'}{y^2} = -\\frac{y + x^2/y}{y^2} = -\\frac{x^2 + y^2}{y^3}$, and $x^2 + y^2 = 25$.\n\nTip: substitute $y'$ back in, then simplify with the original equation.",
+      "answer": "-25/y^3",
+      "acceptedAnswers": [
+        "-25y^(-3)"
+      ],
+      "answerDisplay": "$-\\dfrac{25}{y^3}$",
+      "searchQuery": "second derivative implicit differentiation circle -25/y^3"
+    },
+    {
+      "id": "implicit-tangent-line",
+      "title": "Equation of the tangent line to $x^2 + y^2 = 25$ at $(3, 4)$?",
+      "body": "$y = -\\dfrac{3}{4}x + \\dfrac{25}{4}$\n\nThe slope is $-\\frac{x}{y} = -\\frac{3}{4}$, so $y - 4 = -\\frac{3}{4}(x - 3)$, which simplifies to $y = -\\frac{3}{4}x + \\frac{25}{4}$.\n\nCheck: the tangent at a point of a circle is perpendicular to the radius, whose slope there is $\\frac{4}{3}$.",
+      "answer": "y=-3x/4+25/4",
+      "acceptedAnswers": [
+        "y=(25-3x)/4",
+        "y=-0.75x+6.25",
+        "y-4=-3(x-3)/4"
+      ],
+      "answerDisplay": "$y = -\\dfrac{3}{4}x + \\dfrac{25}{4}$",
+      "searchQuery": "tangent line to circle x^2+y^2=25 at (3,4)"
+    },
+    {
+      "id": "implicit-differentiation-steps",
+      "title": "What are the steps of implicit differentiation?",
+      "body": "1. Differentiate both sides with respect to $x$.\n2. Whenever you differentiate a $y$-term, attach $\\frac{dy}{dx}$ (chain rule).\n3. Collect all $\\frac{dy}{dx}$ terms on one side.\n4. Factor out $\\frac{dy}{dx}$ and solve for it.\n\nThe answer usually involves both $x$ and $y$, so evaluate it at a point on the curve.\n\nWatch out: $\\frac{d}{dx}[y^2] = 2y\\frac{dy}{dx}$, and products like $xy$ need the product rule.",
+      "searchQuery": "steps of implicit differentiation"
+    },
+    {
+      "id": "inverse-derivative-quintic",
+      "title": "$f(x) = x^5 + x + 1$ and $f(1) = 3$. Find $(f^{-1})'(3)$.",
+      "body": "$\\dfrac{1}{6}$\n\n$(f^{-1})'(3) = \\frac{1}{f'(f^{-1}(3))} = \\frac{1}{f'(1)}$, and $f'(x) = 5x^4 + 1$ gives $f'(1) = 6$.\n\nTip: you never need a formula for $f^{-1}$, only the value $f^{-1}(3) = 1$ read off from $f(1) = 3$.",
+      "answer": "1/6",
+      "answerDisplay": "$\\dfrac{1}{6}$",
+      "searchQuery": "derivative of inverse function f(x)=x^5+x+1 at 3"
+    },
+    {
+      "id": "derive-ln-via-inverse",
+      "title": "Differentiate $e^y = x$ implicitly to find $\\dfrac{dy}{dx}$ for $y = \\ln x$, in terms of $x$.",
+      "body": "$\\dfrac{1}{x}$\n\nDifferentiating gives $e^y \\frac{dy}{dx} = 1$, so $\\frac{dy}{dx} = \\frac{1}{e^y}$. Since $e^y = x$, this is $\\frac{1}{x}$.\n\nKey idea: the same trick (differentiate $f(y) = x$) produces every inverse-function derivative.",
+      "answer": "1/x",
+      "acceptedAnswers": [
+        "x^(-1)"
+      ],
+      "answerDisplay": "$\\dfrac{1}{x}$",
+      "searchQuery": "derive derivative of ln x implicit differentiation e^y = x"
+    },
+    {
+      "id": "tangent-line-exp-at-zero",
+      "title": "Equation of the tangent line to $y = e^x$ at $x = 0$?",
+      "body": "$y = x + 1$\n\nPoint: $(0, 1)$. Slope: $\\frac{d}{dx}[e^x] = e^x$, which is $1$ at $x = 0$.\n\nKey idea: this line is the linear approximation $e^x \\approx 1 + x$ for small $x$.",
+      "answer": "y=x+1",
+      "acceptedAnswers": [
+        "x+1",
+        "y=1+x",
+        "1+x"
+      ],
+      "answerDisplay": "$y = x + 1$",
+      "searchQuery": "tangent line to e^x at x=0 y=x+1"
+    },
+    {
+      "id": "tangent-line-ln-at-one",
+      "title": "Equation of the tangent line to $y = \\ln x$ at $x = 1$?",
+      "body": "$y = x - 1$\n\nPoint: $(1, 0)$. Slope: $\\frac{d}{dx}[\\ln x] = \\frac{1}{x}$, which is $1$ at $x = 1$.\n\nWatch out: the point is $(1, 0)$, not $(1, 1)$, since $\\ln 1 = 0$.",
+      "answer": "y=x-1",
+      "acceptedAnswers": [
+        "x-1",
+        "y=-1+x",
+        "-1+x"
+      ],
+      "answerDisplay": "$y = x - 1$",
+      "searchQuery": "tangent line to ln x at x=1 y=x-1"
+    },
+    {
+      "id": "normal-line-example",
+      "title": "Equation of the normal line to $y = x^2$ at $x = 1$?",
+      "body": "$y = -\\dfrac{1}{2}x + \\dfrac{3}{2}$\n\nThe tangent slope is $2x = 2$, so the normal slope is $-\\frac{1}{2}$. Through $(1, 1)$: $y - 1 = -\\frac{1}{2}(x - 1)$.\n\nWatch out: flip the tangent slope **and** change its sign.",
+      "answer": "y=-x/2+3/2",
+      "acceptedAnswers": [
+        "y=(3-x)/2",
+        "y=-0.5x+1.5",
+        "y-1=-(x-1)/2"
+      ],
+      "answerDisplay": "$y = -\\dfrac{1}{2}x + \\dfrac{3}{2}$",
+      "searchQuery": "normal line to y=x^2 at x=1 equation"
+    },
+    {
+      "id": "horizontal-tangent-cubic",
+      "title": "At which values of $x$ does $y = x^3 - 3x$ have a horizontal tangent?",
+      "body": "$x = 1$ and $x = -1$.\n\nA horizontal tangent means $y' = 0$: $3x^2 - 3 = 3(x - 1)(x + 1) = 0$.\n\nThe points are $(1, -2)$ and $(-1, 2)$. Don't give only the $x$-values when a question asks for the **points**.",
+      "searchQuery": "where does y=x^3-3x have horizontal tangent"
+    },
+    {
+      "id": "particle-at-rest-velocity-zero",
+      "title": "$s(t) = t^3 - 6t^2 + 9t$ for $t \\ge 0$. At what times is the particle at rest?",
+      "body": "$t = 1$ and $t = 3$.\n\nAt rest means $v(t) = s'(t) = 0$: $3t^2 - 12t + 9 = 3(t - 1)(t - 3)$.\n\nWatch out: being at rest at an instant is not the same as being at the origin; the position there is $s(1) = 4$ and $s(3) = 0$.",
+      "searchQuery": "particle at rest velocity zero position function t^3-6t^2+9t"
+    }
+  ]
+}

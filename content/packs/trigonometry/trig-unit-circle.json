@@ -1,0 +1,1142 @@
+{
+  "id": "trig-unit-circle",
+  "title": "Unit Circle & Radians",
+  "course": "Precalculus",
+  "description": "Degree-radian conversion, arc length and sector area, exact values at special angles, ASTC signs, and reference and coterminal angles.",
+  "cards": [
+    {
+      "id": "radian-definition",
+      "title": "What is one radian, and about how many degrees is it?",
+      "body": "The central angle whose intercepted arc is exactly one radius long: about $57.3^\\circ$.\n\nThe circumference is $2\\pi r$, which is $2\\pi$ radii, so a full turn is $2\\pi$ radians.\n\nSo $360^\\circ = 2\\pi\\text{ rad}$ and $1\\text{ rad} = \\frac{180^\\circ}{\\pi} \\approx 57.3^\\circ$. Use **radians** whenever you apply $s = r\\theta$.\n\nKey idea: an angle in radians is arc length measured in radii.\nWatch out: one radian is not $1^\\circ$; it is a bit under $60^\\circ$.",
+      "searchQuery": "radian definition arc length equals radius degrees"
+    },
+    {
+      "id": "degrees-to-radians",
+      "title": "Convert $210^\\circ$ to radians (exact form).",
+      "body": "$\\dfrac{7\\pi}{6}$\n\nMultiply degrees by $\\frac{\\pi}{180}$: $210 \\cdot \\frac{\\pi}{180} = \\frac{7\\pi}{6}$.\n\nWhy: $180^\\circ = \\pi$ rad, so the factor $\\frac{\\pi}{180}$ cancels the degree unit.\n\nTip: $30^\\circ = \\frac{\\pi}{6}$, and $210^\\circ = 7 \\cdot 30^\\circ$, so you can count in sixths.",
+      "answer": "7pi/6",
+      "acceptedAnswers": [
+        "(7pi)/6",
+        "7/6pi",
+        "(7/6)pi"
+      ],
+      "answerDisplay": "$\\dfrac{7\\pi}{6}$",
+      "searchQuery": "convert degrees to radians 210 degrees"
+    },
+    {
+      "id": "radians-to-degrees",
+      "title": "Convert $\\frac{5\\pi}{3}$ radians to degrees.",
+      "body": "$300^\\circ$\n\nMultiply **radians** by $\\frac{180}{\\pi}$: $\\frac{5\\pi}{3} \\cdot \\frac{180}{\\pi} = 5 \\cdot 60 = 300$.\n\nTip: $\\frac{\\pi}{3} = 60^\\circ$, so $\\frac{5\\pi}{3}$ is $5$ of those, or $300^\\circ$.\nWatch out: use $\\frac{180}{\\pi}$ to go to degrees and $\\frac{\\pi}{180}$ to go to radians; swapping them is the usual slip.",
+      "answer": "300",
+      "acceptedAnswers": [
+        "300 degrees",
+        "300 degree",
+        "300°",
+        "300 deg"
+      ],
+      "answerDisplay": "$300^\\circ$",
+      "searchQuery": "convert radians to degrees 5pi/3"
+    },
+    {
+      "id": "arc-length",
+      "title": "Exact length of the arc cut off by a central angle of $\\frac{2\\pi}{3}$ on a circle of radius $6\\,\\text{cm}$?",
+      "body": "$4\\pi\\,\\text{cm} \\approx 12.57\\,\\text{cm}$\n\nUse $s = r\\theta$ with $\\theta$ in **radians**: $6 \\cdot \\frac{2\\pi}{3} = 4\\pi$ cm.\n\nWhy: radian measure is arc length divided by radius, so arc length is radius times angle.\nWatch out: plugging in degrees ($120$) gives $720$, which is wrong; convert to radians first.",
+      "answer": "4pi",
+      "acceptedAnswers": [
+        "4pi cm",
+        "4pi centimeters"
+      ],
+      "answerDisplay": "$4\\pi\\,\\text{cm}$",
+      "searchQuery": "arc length formula s = r theta radians"
+    },
+    {
+      "id": "sector-area",
+      "title": "Exact area of a sector with radius $4$ and central angle $\\frac{\\pi}{4}$?",
+      "body": "$2\\pi$ square units\n\nUse $A = \\frac{1}{2}r^2\\theta$ with $\\theta$ in **radians**: $\\frac{1}{2} \\cdot 16 \\cdot \\frac{\\pi}{4} = 2\\pi$ square units.\n\nWhy: $\\frac{\\pi}{4}$ is $\\frac{1}{8}$ of a full turn, and $\\frac{1}{8}$ of the disk area $\\pi r^2 = 16\\pi$ is $2\\pi$.\nWatch out: do not forget the $\\frac{1}{2}$ or square the angle.",
+      "answer": "2pi",
+      "acceptedAnswers": [
+        "2pi square units"
+      ],
+      "answerDisplay": "$2\\pi$",
+      "searchQuery": "sector area formula 1/2 r^2 theta"
+    },
+    {
+      "id": "unit-circle-coordinates",
+      "title": "If the terminal side of $\\theta$ meets the unit circle at $(x, y)$, what are $\\cos\\theta$, $\\sin\\theta$, and $\\tan\\theta$?",
+      "body": "$\\cos\\theta = x$, $\\sin\\theta = y$, $\\tan\\theta = \\frac{y}{x}$ (when $x \\ne 0$).\n\nEvery point on the unit circle is $(\\cos\\theta, \\sin\\theta)$, so cosine is the **$x$-coordinate** and sine is the **$y$-coordinate**.\n\nTangent is the ratio $\\frac{y}{x}$, defined only when $x \\ne 0$.\n\nExample: $\\theta = \\pi$ lands at $(-1, 0)$, so $\\cos\\pi = -1$, $\\sin\\pi = 0$ and $\\tan\\pi = 0$.\nMnemonic: cosine comes first alphabetically, like $x$ in the pair $(x, y)$.",
+      "searchQuery": "unit circle cosine sine tangent definition x y"
+    },
+    {
+      "id": "special-angle-pattern",
+      "title": "What pattern gives $\\sin\\theta$ at $\\theta = 0, \\frac{\\pi}{6}, \\frac{\\pi}{4}, \\frac{\\pi}{3}, \\frac{\\pi}{2}$, and how do the cosines relate?",
+      "body": "$\\sin\\theta = \\frac{\\sqrt{0}}{2}, \\frac{\\sqrt{1}}{2}, \\frac{\\sqrt{2}}{2}, \\frac{\\sqrt{3}}{2}, \\frac{\\sqrt{4}}{2}$, that is, $0, \\frac{1}{2}, \\frac{\\sqrt{2}}{2}, \\frac{\\sqrt{3}}{2}, 1$.\n\nThe sines at $0, \\frac{\\pi}{6}, \\frac{\\pi}{4}, \\frac{\\pi}{3}, \\frac{\\pi}{2}$ are the **square roots** of $0, 1, 2, 3, 4$, each divided by $2$.\n\nCosine runs the same list backward, from $\\cos 0 = 1$ down to $\\cos\\frac{\\pi}{2} = 0$. So $\\cos\\frac{\\pi}{6} = \\frac{\\sqrt{3}}{2}$ and $\\cos\\frac{\\pi}{3} = \\frac{1}{2}$.\n\nTip: you only have to memorize one quadrant; the others follow by reference angles and signs.",
+      "searchQuery": "unit circle special angles sine pattern sqrt over 2"
+    },
+    {
+      "id": "tan-pi-over-3",
+      "title": "Exact value of $\\tan\\frac{\\pi}{3}$?",
+      "body": "$\\sqrt{3}$\n\n$\\tan\\frac{\\pi}{3} = \\frac{\\sin(\\pi/3)}{\\cos(\\pi/3)} = \\frac{\\sqrt{3}/2}{1/2} = \\sqrt{3}$.\n\nTangent is the slope of the terminal side, and the $60^\\circ$ line is steeper than the $30^\\circ$ line.\n\nWatch out: do not swap it with $\\tan\\frac{\\pi}{6} = \\frac{\\sqrt{3}}{3}$, which is the smaller value.",
+      "answer": "sqrt(3)",
+      "acceptedAnswers": [
+        "sqrt3"
+      ],
+      "answerDisplay": "$\\sqrt{3}$",
+      "searchQuery": "tan pi/3 exact value sqrt 3"
+    },
+    {
+      "id": "tan-undefined",
+      "title": "For which angles $\\theta$ is $\\tan\\theta$ undefined? Give the general form and the angles in $[0, 2\\pi)$.",
+      "body": "$\\theta = \\frac{\\pi}{2} + k\\pi$ for any integer $k$; in $[0, 2\\pi)$ that's $\\frac{\\pi}{2}$ and $\\frac{3\\pi}{2}$.\n\n$\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}$ is undefined where $\\cos\\theta = 0$, that is, where $x = 0$ on the unit circle.\n\nThat happens at $\\theta = \\frac{\\pi}{2} + k\\pi$; in $[0, 2\\pi)$ these are $\\frac{\\pi}{2}$ and $\\frac{3\\pi}{2}$.\n\nKey idea: $\\sec\\theta$ is undefined at the **same angles**, since it also divides by cosine.",
+      "searchQuery": "tangent undefined angles pi/2 plus k pi"
+    },
+    {
+      "id": "astc-quadrant-signs",
+      "title": "Which trig functions are positive in each of the four quadrants?",
+      "body": "QI: all six. QII: sine and cosecant. QIII: tangent and cotangent. QIV: cosine and secant.\n\nThe signs come from $x = \\cos\\theta$, $y = \\sin\\theta$ and $\\tan\\theta = \\frac{y}{x}$.\n\n- **QI**: all six are positive\n- **QII**: sine and cosecant\n- **QIII**: tangent and cotangent\n- **QIV**: cosine and secant\n\nMnemonic: ASTC, \"All Students Take Calculus\", counterclockwise from QI.",
+      "searchQuery": "ASTC unit circle quadrant signs trig functions"
+    },
+    {
+      "id": "coterminal-angle",
+      "title": "Which angle in $[0, 2\\pi)$ is coterminal with $-\\frac{7\\pi}{6}$? Answer in radians.",
+      "body": "$\\dfrac{5\\pi}{6}$\n\nCoterminal angles differ by multiples of $2\\pi$. Add $2\\pi = \\frac{12\\pi}{6}$: $-\\frac{7\\pi}{6} + \\frac{12\\pi}{6} = \\frac{5\\pi}{6}$.\n\nExample: for $\\frac{17\\pi}{4}$, subtract $4\\pi$ to get $\\frac{\\pi}{4}$.\nTip: write $2\\pi$ with the same denominator as the angle before adding or subtracting.",
+      "answer": "5pi/6",
+      "acceptedAnswers": [
+        "(5pi)/6",
+        "5/6pi",
+        "(5/6)pi"
+      ],
+      "answerDisplay": "$\\dfrac{5\\pi}{6}$",
+      "searchQuery": "coterminal angle in 0 to 2pi negative radians"
+    },
+    {
+      "id": "reference-angle",
+      "title": "What is the reference angle of $\\theta = \\frac{7\\pi}{5}$, in radians?",
+      "body": "$\\dfrac{2\\pi}{5}$\n\nThe **reference angle** is the acute angle between the terminal side and the $x$-axis. $\\frac{7\\pi}{5}$ lies between $\\pi$ and $\\frac{3\\pi}{2}$, in QIII, so subtract $\\pi$: $\\frac{7\\pi}{5} - \\pi = \\frac{2\\pi}{5}$.\n\n- QII: $\\pi - \\theta$\n- QIII: $\\theta - \\pi$\n- QIV: $2\\pi - \\theta$\n\nTip: first place the angle by its decimal size, since $\\frac{7\\pi}{5}$ is $252^\\circ$.",
+      "answer": "2pi/5",
+      "acceptedAnswers": [
+        "(2pi)/5",
+        "2/5pi",
+        "(2/5)pi"
+      ],
+      "answerDisplay": "$\\dfrac{2\\pi}{5}$",
+      "searchQuery": "reference angle radians quadrant III 7pi/5"
+    },
+    {
+      "id": "point-at-2pi-over-3",
+      "title": "At what exact point does the terminal side of $\\theta = \\frac{2\\pi}{3}$ meet the unit circle?",
+      "body": "$\\left(-\\frac{1}{2}, \\frac{\\sqrt{3}}{2}\\right)$\n\n$\\frac{2\\pi}{3}$ is in QII with **reference angle** $\\frac{\\pi}{3}$. The point is $\\left(-\\cos\\frac{\\pi}{3}, \\sin\\frac{\\pi}{3}\\right) = \\left(-\\frac{1}{2}, \\frac{\\sqrt{3}}{2}\\right)$.\n\nWhy: in QII the $x$-coordinate (cosine) is negative and the $y$-coordinate (sine) is positive.\nTip: take the reference-angle point from QI, then attach the quadrant's signs.",
+      "searchQuery": "unit circle point 2pi/3 coordinates"
+    },
+    {
+      "id": "cos-5pi-over-4",
+      "title": "Exact value of $\\cos\\frac{5\\pi}{4}$?",
+      "body": "$-\\dfrac{\\sqrt{2}}{2}$\n\n$\\frac{5\\pi}{4} = \\pi + \\frac{\\pi}{4}$ is in QIII with reference angle $\\frac{\\pi}{4}$.\n\nCosine is the $x$-coordinate, which is negative in QIII, so $\\cos\\frac{5\\pi}{4} = -\\cos\\frac{\\pi}{4} = -\\frac{\\sqrt{2}}{2}$.\n\nWatch out: the reference angle gives the **size** only; the quadrant gives the sign.",
+      "answer": "-sqrt(2)/2",
+      "acceptedAnswers": [
+        "-sqrt2/2",
+        "-1/sqrt(2)",
+        "-1/sqrt2",
+        "-(sqrt(2)/2)",
+        "-(sqrt2)/2"
+      ],
+      "answerDisplay": "$-\\dfrac{\\sqrt{2}}{2}$",
+      "searchQuery": "cos 5pi/4 exact value unit circle"
+    },
+    {
+      "id": "sin-7pi-over-6",
+      "title": "Exact value of $\\sin\\frac{7\\pi}{6}$?",
+      "body": "$-\\dfrac{1}{2}$\n\n$\\frac{7\\pi}{6} = \\pi + \\frac{\\pi}{6}$ is in QIII with **reference angle** $\\frac{\\pi}{6}$.\n\nSine is the $y$-coordinate, which is negative in QIII, so $\\sin\\frac{7\\pi}{6} = -\\sin\\frac{\\pi}{6} = -\\frac{1}{2}$.\n\nWatch out: do not use $\\frac{\\sqrt{3}}{2}$; that is the cosine at the same reference angle.",
+      "answer": "-1/2",
+      "acceptedAnswers": [
+        "-0.5"
+      ],
+      "answerDisplay": "$-\\dfrac{1}{2}$",
+      "searchQuery": "sin 7pi/6 exact value unit circle"
+    },
+    {
+      "id": "tan-11pi-over-6",
+      "title": "Exact value of $\\tan\\frac{11\\pi}{6}$?",
+      "body": "$-\\dfrac{\\sqrt{3}}{3}$, equivalently $-\\dfrac{1}{\\sqrt{3}}$\n\n$\\frac{11\\pi}{6} = 2\\pi - \\frac{\\pi}{6}$ is in QIV with **reference angle** $\\frac{\\pi}{6}$.\n\nTangent $= \\frac{y}{x}$ is negative in QIV, so $\\tan\\frac{11\\pi}{6} = -\\tan\\frac{\\pi}{6} = -\\frac{\\sqrt{3}}{3}$.\n\nTip: $-\\frac{\\sqrt{3}}{3}$ and $-\\frac{1}{\\sqrt{3}}$ are the same number.",
+      "answer": "-sqrt(3)/3",
+      "acceptedAnswers": [
+        "-sqrt3/3",
+        "-1/sqrt(3)",
+        "-1/sqrt3",
+        "-(sqrt(3)/3)",
+        "-(sqrt3)/3"
+      ],
+      "answerDisplay": "$-\\dfrac{\\sqrt{3}}{3}$",
+      "searchQuery": "tan 11pi/6 exact value unit circle"
+    },
+    {
+      "id": "standard-position",
+      "title": "What does it mean for an angle to be in standard position?",
+      "body": "Its vertex is at the origin and its initial side lies along the positive $x$-axis.\n\nThe **terminal side** is where the rotation ends. Measuring every angle from the same ray is what lets unit-circle coordinates define the trig functions.\n\nKey idea: two angles in standard position are equal exactly when they share the same terminal side and the same rotation.",
+      "searchQuery": "angle standard position initial side terminal side"
+    },
+    {
+      "id": "positive-angle-direction",
+      "title": "In standard position, does a positive angle rotate clockwise or counterclockwise from the initial side?",
+      "body": "Counterclockwise.\n\nClockwise rotation gives a **negative** angle.\n\nExample: $-\\frac{\\pi}{2}$ ends on the negative $y$-axis, the same terminal side as $\\frac{3\\pi}{2}$.\n\nTip: this is the same convention as the polar angle in calculus.",
+      "answer": "counterclockwise",
+      "acceptedAnswers": [
+        "counter-clockwise",
+        "ccw",
+        "anticlockwise",
+        "anti-clockwise"
+      ],
+      "searchQuery": "positive angle direction counterclockwise standard position"
+    },
+    {
+      "id": "quadrantal-angles",
+      "title": "What is a quadrantal angle? List the quadrantal angles in $[0, 2\\pi)$.",
+      "body": "An angle whose terminal side lies on a coordinate axis. In $[0, 2\\pi)$: $0$, $\\frac{\\pi}{2}$, $\\pi$, and $\\frac{3\\pi}{2}$.\n\nIn general the quadrantal angles are $\\frac{k\\pi}{2}$ for integers $k$. They lie in **no quadrant**, and their unit-circle points are $(\\pm 1, 0)$ and $(0, \\pm 1)$.\n\nWatch out: at these angles one of $x$ or $y$ is $0$, so some functions are undefined (for example $\\tan\\frac{\\pi}{2}$).",
+      "searchQuery": "quadrantal angle definition terminal side on axis"
+    },
+    {
+      "id": "convert-135-degrees",
+      "title": "Convert $135^\\circ$ to radians (exact form).",
+      "body": "$\\dfrac{3\\pi}{4}$\n\n$135 \\cdot \\frac{\\pi}{180} = \\frac{135\\pi}{180} = \\frac{3\\pi}{4}$.\n\nTip: $135^\\circ = 3 \\cdot 45^\\circ$, and $45^\\circ = \\frac{\\pi}{4}$.",
+      "answer": "3pi/4",
+      "acceptedAnswers": [
+        "(3pi)/4",
+        "3/4pi",
+        "(3/4)pi"
+      ],
+      "answerDisplay": "$\\dfrac{3\\pi}{4}$",
+      "searchQuery": "convert 135 degrees to radians 3pi/4"
+    },
+    {
+      "id": "convert-negative-300-degrees",
+      "title": "Convert $-300^\\circ$ to radians (exact form).",
+      "body": "$-\\dfrac{5\\pi}{3}$\n\nThe sign carries through: $-300 \\cdot \\frac{\\pi}{180} = -\\frac{5\\pi}{3}$.\n\nTip: sanity check: it is **coterminal** with $\\frac{\\pi}{3}$, since $-\\frac{5\\pi}{3} + 2\\pi = \\frac{\\pi}{3}$.\nWatch out: do not drop the minus sign; the angle is clockwise.",
+      "answer": "-5pi/3",
+      "acceptedAnswers": [
+        "-(5pi)/3",
+        "(-5pi)/3",
+        "-5/3pi",
+        "-(5/3)pi"
+      ],
+      "answerDisplay": "$-\\dfrac{5\\pi}{3}$",
+      "searchQuery": "convert negative 300 degrees to radians"
+    },
+    {
+      "id": "one-degree-in-radians",
+      "title": "What is $1^\\circ$ in radians, exactly?",
+      "body": "$\\dfrac{\\pi}{180} \\approx 0.01745$\n\nIt is the conversion factor itself: $180^\\circ = \\pi\\text{ rad}$, so divide both sides by $180$.\n\nMultiplying a degree measure by $\\frac{\\pi}{180}$ converts it to **radians**.\nTip: $\\frac{\\pi}{180} \\approx 0.01745$, so a degree is a very small angle.",
+      "answer": "pi/180",
+      "acceptedAnswers": [
+        "(1/180)pi",
+        "1/180pi"
+      ],
+      "answerDisplay": "$\\dfrac{\\pi}{180}$",
+      "searchQuery": "one degree in radians pi/180"
+    },
+    {
+      "id": "convert-7pi-over-12-to-degrees",
+      "title": "Convert $\\frac{7\\pi}{12}$ radians to degrees.",
+      "body": "$105^\\circ$\n\nReplace $\\pi$ with $180^\\circ$: $\\frac{7 \\cdot 180^\\circ}{12} = 7 \\cdot 15^\\circ = 105^\\circ$.\n\nTip: each $\\frac{\\pi}{12}$ is $15^\\circ$, so count in steps of $15^\\circ$.",
+      "answer": "105",
+      "acceptedAnswers": [
+        "105 degrees",
+        "105°",
+        "105 deg"
+      ],
+      "answerDisplay": "$105^\\circ$",
+      "searchQuery": "convert 7pi/12 radians to degrees 105"
+    },
+    {
+      "id": "convert-2-5-radians-to-degrees",
+      "title": "Convert $2.5$ radians to degrees, to the nearest tenth of a degree.",
+      "body": "$143.2^\\circ$\n\nMultiply by $\\frac{180}{\\pi}$: $2.5 \\cdot \\frac{180}{\\pi} = \\frac{450}{\\pi} \\approx 143.24$, which rounds to $143.2^\\circ$.\n\nKey idea: a **radian** measure needn't contain $\\pi$; $2.5$ rad is just an arc $2.5$ radii long.",
+      "answer": "143.2",
+      "acceptedAnswers": [
+        "143.2 degrees",
+        "143.2°",
+        "143.2 deg"
+      ],
+      "answerDisplay": "$143.2^\\circ$",
+      "searchQuery": "convert 2.5 radians to degrees nearest tenth"
+    },
+    {
+      "id": "radian-dimensionless",
+      "title": "Why is radian measure considered dimensionless?",
+      "body": "A radian measure is a ratio of two lengths: $\\theta = \\frac{s}{r}$, arc length over radius.\n\nA radian measure is a **ratio of two lengths**: $\\theta = \\frac{s}{r}$, arc length over radius.\n\nThe length units cancel, which is why $s = r\\theta$ gives the arc length in the radius's units with no conversion factor.\n\nKey idea: \"rad\" is a label, not a physical unit.",
+      "searchQuery": "radian dimensionless ratio arc length over radius"
+    },
+    {
+      "id": "why-radians-in-calculus",
+      "title": "Why does calculus measure angles in radians rather than degrees?",
+      "body": "Only in radians do $\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1$ and $\\frac{d}{dx}\\sin x = \\cos x$ hold.\n\nOnly in **radians** do $\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1$ and $\\frac{d}{dx}\\sin x = \\cos x$ hold.\n\nIn degrees a stray factor appears: $\\frac{d}{dx}\\sin(x^\\circ) = \\frac{\\pi}{180}\\cos(x^\\circ)$.\n\nWhy: radians make arc length and angle the same number on the unit circle, which keeps these formulas clean.",
+      "searchQuery": "why radians calculus derivative sin x limit sin x over x"
+    },
+    {
+      "id": "calculator-mode-mistake",
+      "title": "A calculator returns $\\sin 30 \\approx -0.988$. What went wrong?",
+      "body": "It was in radian mode, so it computed the sine of $30$ radians, not $30^\\circ$.\n\nThe calculator was in **radian mode**, so it computed the sine of $30$ radians, not $30^\\circ$.\n\nDegree mode gives $\\sin 30^\\circ = 0.5$; so does entering $\\sin\\frac{\\pi}{6}$ in radian mode.\n\nTip: a sine of an acute angle is never negative, so a negative answer is a red flag.",
+      "searchQuery": "calculator sin 30 negative radian mode"
+    },
+    {
+      "id": "dms-to-decimal-degrees",
+      "title": "Convert $25^\\circ 15' 36''$ to decimal degrees.",
+      "body": "$25.26^\\circ$\n\nOne minute is $\\frac{1}{60}$ of a degree and one second is $\\frac{1}{3600}$ of a degree: $25 + \\frac{15}{60} + \\frac{36}{3600} = 25 + 0.25 + 0.01 = 25.26$.\n\nWatch out: minutes and seconds are base $60$, not decimals, so $25^\\circ 15'$ is not $25.15^\\circ$.",
+      "answer": "25.26",
+      "acceptedAnswers": [
+        "25.26 degrees",
+        "25.26°",
+        "25.26 deg"
+      ],
+      "answerDisplay": "$25.26^\\circ$",
+      "searchQuery": "degrees minutes seconds to decimal degrees 25 15 36"
+    },
+    {
+      "id": "complement-supplement-radians",
+      "title": "What are the complement and the supplement of $\\frac{\\pi}{5}$, in radians?",
+      "body": "Complement $\\frac{3\\pi}{10}$; supplement $\\frac{4\\pi}{5}$.\n\nComplementary angles sum to $\\frac{\\pi}{2}$: $\\frac{\\pi}{2} - \\frac{\\pi}{5} = \\frac{5\\pi - 2\\pi}{10} = \\frac{3\\pi}{10}$.\n\nSupplementary angles sum to $\\pi$: $\\pi - \\frac{\\pi}{5} = \\frac{4\\pi}{5}$.\n\nMnemonic: **C** comes before **S** and $90^\\circ$ before $180^\\circ$.",
+      "searchQuery": "complement supplement angle radians pi/5"
+    },
+    {
+      "id": "quadrant-of-4-radians",
+      "title": "In which quadrant does the terminal side of $\\theta = 4$ radians lie?",
+      "body": "Quadrant III.\n\n$\\pi \\approx 3.14 < 4 < \\frac{3\\pi}{2} \\approx 4.71$, so the terminal side is in **QIII**.\n\nTip: memorize the benchmarks $\\frac{\\pi}{2} \\approx 1.57$, $\\pi \\approx 3.14$, $\\frac{3\\pi}{2} \\approx 4.71$ and $2\\pi \\approx 6.28$.",
+      "answer": "III",
+      "acceptedAnswers": [
+        "QIII",
+        "quadrant III",
+        "Q3",
+        "3",
+        "third",
+        "quadrant 3",
+        "third quadrant",
+        "3rd"
+      ],
+      "searchQuery": "quadrant of 4 radians terminal side"
+    },
+    {
+      "id": "quadrant-of-negative-5pi-over-4",
+      "title": "In which quadrant does the terminal side of $-\\frac{5\\pi}{4}$ lie?",
+      "body": "Quadrant II.\n\nTurning clockwise, $-\\pi$ reaches the negative $x$-axis, and the extra $\\frac{\\pi}{4}$ carries it up into **QII**.\n\nTip: sanity check: $-\\frac{5\\pi}{4} + 2\\pi = \\frac{3\\pi}{4}$, a QII angle.\nTip: add $2\\pi$ to a negative angle to see where it really points.",
+      "answer": "II",
+      "acceptedAnswers": [
+        "QII",
+        "quadrant II",
+        "Q2",
+        "2",
+        "second",
+        "quadrant 2",
+        "second quadrant",
+        "2nd"
+      ],
+      "searchQuery": "quadrant of negative 5pi/4 terminal side"
+    },
+    {
+      "id": "arc-length-60-degrees",
+      "title": "Exact length of the arc subtended by a $60^\\circ$ central angle in a circle of radius $9$?",
+      "body": "$3\\pi \\approx 9.42$\n\nConvert first: $60^\\circ = \\frac{\\pi}{3}$, so $s = r\\theta = 9 \\cdot \\frac{\\pi}{3} = 3\\pi$.\n\nTip: sanity check: as a fraction of the circumference, $\\frac{60}{360} \\cdot 2\\pi \\cdot 9 = 3\\pi$.\nWatch out: the formula $s = r\\theta$ needs **radians**, not degrees.",
+      "answer": "3pi",
+      "acceptedAnswers": [
+        "3pi units"
+      ],
+      "answerDisplay": "$3\\pi$",
+      "searchQuery": "arc length 60 degree central angle radius 9"
+    },
+    {
+      "id": "central-angle-from-arc",
+      "title": "An arc of length $15\\,\\text{cm}$ lies on a circle of radius $6\\,\\text{cm}$. What central angle does it subtend, in radians?",
+      "body": "$2.5\\text{ rad}$\n\n$\\theta = \\frac{s}{r} = \\frac{15}{6} = 2.5$ rad. The centimeters cancel, leaving a pure number of **radians** (about $143^\\circ$).\n\nTip: the answer is in radians automatically, with no $\\pi$ needed.",
+      "answer": "2.5",
+      "acceptedAnswers": [
+        "2.5 rad",
+        "2.5 radians",
+        "5/2"
+      ],
+      "answerDisplay": "$2.5\\text{ rad}$",
+      "searchQuery": "central angle from arc length and radius theta = s/r"
+    },
+    {
+      "id": "radius-from-arc",
+      "title": "An arc of length $10\\pi$ subtends a central angle of $\\frac{5\\pi}{6}$. What is the radius?",
+      "body": "$12$\n\nRearrange $s = r\\theta$: $r = \\frac{s}{\\theta} = \\frac{10\\pi}{5\\pi/6} = 10\\pi \\cdot \\frac{6}{5\\pi} = 12$.\n\nWatch out: this works only with $\\theta$ in **radians**.",
+      "answer": "12",
+      "acceptedAnswers": [
+        "12 units"
+      ],
+      "answerDisplay": "$12$",
+      "searchQuery": "radius from arc length and central angle"
+    },
+    {
+      "id": "sector-area-120-degrees",
+      "title": "Exact area of a sector with radius $6$ and central angle $120^\\circ$?",
+      "body": "$12\\pi$\n\nA $120^\\circ$ sector is $\\frac{1}{3}$ of the disk: $\\frac{1}{3} \\cdot \\pi \\cdot 6^2 = 12\\pi$.\n\nCheck in **radians**: $\\frac{1}{2}r^2\\theta = \\frac{1}{2} \\cdot 36 \\cdot \\frac{2\\pi}{3} = 12\\pi$.\nTip: the fraction-of-a-circle method needs no conversion to radians.",
+      "answer": "12pi",
+      "acceptedAnswers": [
+        "12pi square units"
+      ],
+      "answerDisplay": "$12\\pi$",
+      "searchQuery": "sector area 120 degrees radius 6"
+    },
+    {
+      "id": "sector-area-from-arc-length",
+      "title": "A sector has radius $10$ and arc length $8$. What is its area?",
+      "body": "$40$\n\nSubstitute $\\theta = \\frac{s}{r}$ into $A = \\frac{1}{2}r^2\\theta$ to get $A = \\frac{1}{2}rs = \\frac{1}{2} \\cdot 10 \\cdot 8 = 40$.\n\nMnemonic: it looks like a triangle's area, with the arc as the base and the radius as the height.",
+      "answer": "40",
+      "acceptedAnswers": [
+        "40 square units"
+      ],
+      "answerDisplay": "$40$",
+      "searchQuery": "sector area from arc length A = 1/2 r s"
+    },
+    {
+      "id": "sector-angle-from-area",
+      "title": "A sector of radius $4$ has area $24$. What is its central angle, in radians?",
+      "body": "$3\\text{ rad}$\n\nSolve $A = \\frac{1}{2}r^2\\theta$ for $\\theta$: $\\theta = \\frac{2A}{r^2} = \\frac{48}{16} = 3$ rad.\n\nTip: sanity check: that is about $172^\\circ$, just under a half-turn.\nTip: any answer above $2\\pi \\approx 6.28$ would mean more than a full circle.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3 rad",
+        "3 radians"
+      ],
+      "answerDisplay": "$3\\text{ rad}$",
+      "searchQuery": "sector central angle from area radius theta = 2A/r^2"
+    },
+    {
+      "id": "angular-linear-speed",
+      "title": "For uniform circular motion, define angular speed $\\omega$ and linear speed $v$, and give the relation between them.",
+      "body": "$\\omega = \\frac{\\theta}{t}$ (angle swept per unit time) and $v = \\frac{s}{t}$ (arc length per unit time), so $v = r\\omega$.\n\n$\\omega = \\frac{\\theta}{t}$ is the angle swept per unit time and $v = \\frac{s}{t}$ is the arc length per unit time. With $s = r\\theta$ this gives $v = r\\omega$.\n\nWatch out: $\\omega$ must be in **radians** per unit time; convert rpm or degrees per second first.",
+      "searchQuery": "angular speed linear speed v = r omega"
+    },
+    {
+      "id": "linear-speed-wheel",
+      "title": "A wheel of radius $0.3\\,\\text{m}$ spins at $10\\,\\text{rad/s}$. How fast does a point on its rim move, in $\\text{m/s}$?",
+      "body": "$3\\,\\text{m/s}$\n\n$v = r\\omega = 0.3 \\cdot 10 = 3\\,\\text{m/s}$.\n\nRadians are dimensionless, so $\\text{m} \\cdot \\text{rad/s}$ is just $\\text{m/s}$.\nTip: units check: length times angle per time is length per time.",
+      "answer": "3",
+      "acceptedAnswers": [
+        "3 m/s",
+        "3 meters per second",
+        "3 m/sec"
+      ],
+      "answerDisplay": "$3\\,\\text{m/s}$",
+      "searchQuery": "linear speed of wheel rim v = r omega"
+    },
+    {
+      "id": "rpm-to-radians-per-second",
+      "title": "Convert $45$ revolutions per minute to radians per second (exact).",
+      "body": "$\\dfrac{3\\pi}{2}\\,\\text{rad/s} \\approx 4.71\\,\\text{rad/s}$\n\nEach revolution is $2\\pi$ rad and each minute is $60\\,\\text{s}$: $45 \\cdot \\frac{2\\pi}{60} = \\frac{90\\pi}{60} = \\frac{3\\pi}{2}$ rad/s, about $4.71$ rad/s.\n\nTip: to convert rpm to rad/s, multiply by $\\frac{\\pi}{30}$.",
+      "answer": "3pi/2",
+      "acceptedAnswers": [
+        "(3pi)/2",
+        "3/2pi",
+        "(3/2)pi",
+        "1.5pi",
+        "3pi/2 rad/s"
+      ],
+      "answerDisplay": "$\\dfrac{3\\pi}{2}\\,\\text{rad/s}$",
+      "searchQuery": "rpm to radians per second 45 rpm"
+    },
+    {
+      "id": "linear-speed-from-rpm",
+      "title": "A wheel of radius $2\\,\\text{ft}$ turns at $30$ rpm. What is the exact linear speed of a point on its rim, in $\\text{ft/min}$?",
+      "body": "$120\\pi\\,\\text{ft/min} \\approx 377\\,\\text{ft/min}$\n\nConvert to **radians** first: $\\omega = 30 \\cdot 2\\pi = 60\\pi\\,\\text{rad/min}$. Then $v = r\\omega = 2 \\cdot 60\\pi = 120\\pi\\,\\text{ft/min}$, about $377\\,\\text{ft/min}$.\n\nWatch out: using $30$ rpm directly in $v = r\\omega$ skips the $2\\pi$ per revolution.",
+      "answer": "120pi",
+      "acceptedAnswers": [
+        "120pi ft/min",
+        "120pi feet per minute"
+      ],
+      "answerDisplay": "$120\\pi\\,\\text{ft/min}$",
+      "searchQuery": "linear speed from rpm wheel radius 2 ft"
+    },
+    {
+      "id": "same-angular-speed-on-disk",
+      "title": "On a rigid spinning disk, which is the same for every point: angular speed or linear speed?",
+      "body": "Angular speed.\n\nEvery point sweeps the same angle in the same time, so $\\omega$ is shared.\n\nBut $v = r\\omega$ grows with distance from the center, so points on the rim move **fastest**.\n\nExample: the center point has $v = 0$ while $\\omega$ is unchanged.",
+      "answer": "angular speed",
+      "acceptedAnswers": [
+        "angular",
+        "angular velocity",
+        "omega"
+      ],
+      "searchQuery": "rigid rotating disk same angular speed all points"
+    },
+    {
+      "id": "latitude-arc-distance",
+      "title": "Two cities on the same meridian differ in latitude by $1^\\circ$. Using Earth's radius $3960\\,\\text{mi}$, how far apart are they, to the nearest mile?",
+      "body": "$69\\,\\text{mi}$\n\nThe arc subtends $1^\\circ = \\frac{\\pi}{180}$ rad at Earth's center: $s = r\\theta = 3960 \\cdot \\frac{\\pi}{180} = 22\\pi \\approx 69.1$ mi.\n\nTip: one degree of latitude is about $69$ miles, a good number to remember.",
+      "answer": "69",
+      "acceptedAnswers": [
+        "69 miles",
+        "69 mi"
+      ],
+      "answerDisplay": "$69\\,\\text{mi}$",
+      "searchQuery": "latitude one degree distance miles earth radius 3960"
+    },
+    {
+      "id": "unit-circle-arc-equals-angle",
+      "title": "On the unit circle, how does the arc length from $(1, 0)$ to the terminal point of $\\theta$ compare with $\\theta$ in radians?",
+      "body": "They're equal (for $\\theta \\ge 0$).\n\nWith $r = 1$, $s = r\\theta$ becomes $s = \\theta$.\n\nThat is why any real number $t$ can serve as an angle: travel a distance $|t|$ around the unit circle, counterclockwise if $t > 0$ and clockwise if $t < 0$.\n\nKey idea: on the unit circle, angle in radians and distance traveled are the **same number**.",
+      "searchQuery": "unit circle arc length equals angle radians"
+    },
+    {
+      "id": "wrap-arc-3pi",
+      "title": "Starting at $(1, 0)$, you travel an arc of length $3\\pi$ counterclockwise around the unit circle. At what point do you stop?",
+      "body": "$(-1, 0)$\n\nOn the unit circle arc length equals angle, so this is $\\theta = 3\\pi = 2\\pi + \\pi$: one full lap, then a half-turn more.\n\nYou end at $(\\cos\\pi, \\sin\\pi) = (-1, 0)$.\nTip: strip full laps of $2\\pi$ first.",
+      "answer": "(-1, 0)",
+      "acceptedAnswers": [
+        "-1, 0"
+      ],
+      "answerDisplay": "$(-1, 0)$",
+      "searchQuery": "wrap arc length 3pi around unit circle endpoint"
+    },
+    {
+      "id": "reciprocal-functions-unit-circle",
+      "title": "If the terminal side of $\\theta$ meets the unit circle at $(x, y)$, what are $\\csc\\theta$, $\\sec\\theta$, and $\\cot\\theta$?",
+      "body": "$\\csc\\theta = \\frac{1}{y}$, $\\sec\\theta = \\frac{1}{x}$, $\\cot\\theta = \\frac{x}{y}$.\n\nEach is undefined where its denominator is $0$: cosecant and cotangent when $y = 0$ (multiples of $\\pi$), secant when $x = 0$.\n\nMnemonic: **co**secant goes with **si**ne's $y$, and secant goes with cosine's $x$; each reciprocal has the \"other\" co-prefix.",
+      "searchQuery": "cosecant secant cotangent unit circle definition"
+    },
+    {
+      "id": "terminal-side-any-radius",
+      "title": "A point $(x, y) \\ne (0, 0)$ lies on the terminal side of $\\theta$, and $r = \\sqrt{x^2 + y^2}$. What are $\\sin\\theta$, $\\cos\\theta$, and $\\tan\\theta$?",
+      "body": "$\\sin\\theta = \\frac{y}{r}$, $\\cos\\theta = \\frac{x}{r}$, $\\tan\\theta = \\frac{y}{x}$ (when $x \\ne 0$).\n\nDividing by $r$ scales the point onto the unit circle at $\\left(\\frac{x}{r}, \\frac{y}{r}\\right)$, so any point on the ray works.\n\nWatch out: $r$ is a distance, so it is always **positive**; the signs come from $x$ and $y$.",
+      "searchQuery": "trig functions point on terminal side r = sqrt(x^2+y^2)"
+    },
+    {
+      "id": "terminal-point-cosine",
+      "title": "The terminal side of $\\theta$ passes through $(-3, 4)$. Find $\\cos\\theta$.",
+      "body": "$-\\dfrac{3}{5}$\n\n$r = \\sqrt{(-3)^2 + 4^2} = 5$, so $\\cos\\theta = \\frac{x}{r} = -\\frac{3}{5}$.\n\nTip: sanity check: the point is in QII, where cosine is **negative**.\nTip: check that $\\left(\\frac{x}{r}\\right)^2 + \\left(\\frac{y}{r}\\right)^2 = 1$.",
+      "answer": "-3/5",
+      "acceptedAnswers": [
+        "-0.6"
+      ],
+      "answerDisplay": "$-\\dfrac{3}{5}$",
+      "searchQuery": "cosine from terminal point (-3,4)"
+    },
+    {
+      "id": "terminal-point-cosecant",
+      "title": "The terminal side of $\\theta$ passes through $(5, -12)$. Find $\\csc\\theta$.",
+      "body": "$-\\dfrac{13}{12}$\n\n$r = \\sqrt{5^2 + (-12)^2} = 13$, so $\\sin\\theta = \\frac{y}{r} = -\\frac{12}{13}$ and $\\csc\\theta = \\frac{r}{y} = -\\frac{13}{12}$.\n\nWatch out: $r$ is always **positive**; the sign comes from $y$.",
+      "answer": "-13/12",
+      "answerDisplay": "$-\\dfrac{13}{12}$",
+      "searchQuery": "cosecant from terminal point (5,-12)"
+    },
+    {
+      "id": "angle-from-terminal-point",
+      "title": "The terminal side of $\\theta$ passes through $(-1, -\\sqrt{3})$. Find $\\theta$ in $[0, 2\\pi)$, in radians.",
+      "body": "$\\dfrac{4\\pi}{3}$\n\n$r = \\sqrt{1 + 3} = 2$, so $(\\cos\\theta, \\sin\\theta) = \\left(-\\frac{1}{2}, -\\frac{\\sqrt{3}}{2}\\right)$. That is **reference angle** $\\frac{\\pi}{3}$ in QIII, so $\\theta = \\pi + \\frac{\\pi}{3} = \\frac{4\\pi}{3}$.\n\nWatch out: $\\tan^{-1}$ alone would give $\\frac{\\pi}{3}$, the wrong quadrant.",
+      "answer": "4pi/3",
+      "acceptedAnswers": [
+        "(4pi)/3",
+        "4/3pi",
+        "(4/3)pi"
+      ],
+      "answerDisplay": "$\\dfrac{4\\pi}{3}$",
+      "searchQuery": "angle from terminal point (-1, -sqrt3) radians"
+    },
+    {
+      "id": "unit-circle-missing-coordinate",
+      "title": "The point $\\left(-\\frac{3}{5}, y\\right)$ is on the unit circle in Quadrant III. Find $y$.",
+      "body": "$-\\dfrac{4}{5}$\n\n$x^2 + y^2 = 1$ gives $y^2 = 1 - \\frac{9}{25} = \\frac{16}{25}$, so $y = \\pm\\frac{4}{5}$.\n\nIn QIII both coordinates are **negative**, so $y = -\\frac{4}{5}$.\nWatch out: the equation gives the size; the quadrant gives the sign.",
+      "answer": "-4/5",
+      "acceptedAnswers": [
+        "-0.8"
+      ],
+      "answerDisplay": "$-\\dfrac{4}{5}$",
+      "searchQuery": "unit circle missing coordinate x^2+y^2=1 quadrant III"
+    },
+    {
+      "id": "terminal-point-7pi-over-4",
+      "title": "At what exact point does the terminal side of $\\frac{7\\pi}{4}$ meet the unit circle?",
+      "body": "$\\left(\\frac{\\sqrt{2}}{2}, -\\frac{\\sqrt{2}}{2}\\right)$\n\n$\\frac{7\\pi}{4} = 2\\pi - \\frac{\\pi}{4}$ is in QIV with **reference angle** $\\frac{\\pi}{4}$: $x$ is positive, $y$ is negative, and both have size $\\frac{\\sqrt{2}}{2}$.\nTip: in QIV the signs are $(+, -)$.",
+      "answer": "(sqrt(2)/2, -sqrt(2)/2)",
+      "acceptedAnswers": [
+        "(sqrt2/2, -sqrt2/2)",
+        "(1/sqrt(2), -1/sqrt(2))",
+        "(1/sqrt2, -1/sqrt2)"
+      ],
+      "answerDisplay": "$\\left(\\dfrac{\\sqrt{2}}{2}, -\\dfrac{\\sqrt{2}}{2}\\right)$",
+      "searchQuery": "unit circle point 7pi/4 coordinates"
+    },
+    {
+      "id": "point-for-theta-plus-pi",
+      "title": "The terminal side of $\\theta$ meets the unit circle at $(a, b)$. Where does the terminal side of $\\theta + \\pi$ meet it?",
+      "body": "$(-a, -b)$\n\nAdding $\\pi$ is a half-turn, which sends each point to the opposite end of a diameter.\n\nSo $\\sin(\\theta + \\pi) = -\\sin\\theta$ and $\\cos(\\theta + \\pi) = -\\cos\\theta$, while $\\tan(\\theta + \\pi) = \\frac{-b}{-a} = \\tan\\theta$.\n\nKey idea: tangent repeats every $\\pi$, sine and cosine every $2\\pi$.",
+      "answer": "(-a, -b)",
+      "acceptedAnswers": [
+        "-a, -b"
+      ],
+      "answerDisplay": "$(-a, -b)$",
+      "searchQuery": "unit circle point theta plus pi half turn"
+    },
+    {
+      "id": "point-for-pi-minus-theta",
+      "title": "The terminal side of $\\theta$ meets the unit circle at $(a, b)$. Where does the terminal side of $\\pi - \\theta$ meet it?",
+      "body": "$(-a, b)$\n\n$\\pi - \\theta$ is the mirror image of $\\theta$ across the $y$-axis.\n\nSo supplementary angles share a sine and have opposite cosines: $\\sin(\\pi - \\theta) = \\sin\\theta$ and $\\cos(\\pi - \\theta) = -\\cos\\theta$.\nExample: $\\theta = \\frac{\\pi}{6}$ gives $\\pi - \\theta = \\frac{5\\pi}{6}$, and $\\sin\\frac{5\\pi}{6} = \\sin\\frac{\\pi}{6}$.",
+      "answer": "(-a, b)",
+      "acceptedAnswers": [
+        "-a, b"
+      ],
+      "answerDisplay": "$(-a, b)$",
+      "searchQuery": "unit circle point pi minus theta reflection"
+    },
+    {
+      "id": "tangent-is-slope",
+      "title": "$\\tan\\theta$ equals what geometric property of the terminal side of $\\theta$?",
+      "body": "Its slope.\n\nThe terminal side runs from the origin through $(\\cos\\theta, \\sin\\theta)$, so its slope is $\\frac{\\sin\\theta}{\\cos\\theta} = \\tan\\theta$.\n\nExample: the line $y = x$ makes a $45^\\circ$ angle, and $\\tan 45^\\circ = 1$.\nTip: a vertical line has no slope, matching $\\tan\\frac{\\pi}{2}$ being undefined.",
+      "answer": "slope",
+      "acceptedAnswers": [
+        "its slope",
+        "slope of the terminal side",
+        "rise over run"
+      ],
+      "searchQuery": "tangent as slope of terminal side unit circle"
+    },
+    {
+      "id": "sin-pi-over-4",
+      "title": "Exact value of $\\sin\\frac{\\pi}{4}$?",
+      "body": "$\\dfrac{\\sqrt{2}}{2}$\n\nThe $45^\\circ$ point has equal coordinates, and $x^2 + y^2 = 1$ forces $2x^2 = 1$, so $x = y = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$.\n\nTip: $\\sin\\frac{\\pi}{4}$ and $\\cos\\frac{\\pi}{4}$ are equal.",
+      "answer": "sqrt(2)/2",
+      "acceptedAnswers": [
+        "sqrt2/2",
+        "1/sqrt(2)",
+        "1/sqrt2",
+        "(sqrt(2))/2",
+        "(sqrt2)/2"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{2}}{2}$",
+      "searchQuery": "sin pi/4 exact value sqrt2/2"
+    },
+    {
+      "id": "cos-pi-over-6",
+      "title": "Exact value of $\\cos\\frac{\\pi}{6}$?",
+      "body": "$\\dfrac{\\sqrt{3}}{2}$\n\nThe $30^\\circ$ point is $\\left(\\frac{\\sqrt{3}}{2}, \\frac{1}{2}\\right)$, and cosine is the $x$-coordinate.\n\nTip: a small angle's point sits far to the right, so its cosine is the larger coordinate.\nWatch out: do not swap with $\\sin\\frac{\\pi}{6} = \\frac{1}{2}$.",
+      "answer": "sqrt(3)/2",
+      "acceptedAnswers": [
+        "sqrt3/2",
+        "(sqrt(3))/2",
+        "(sqrt3)/2"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{3}}{2}$",
+      "searchQuery": "cos pi/6 exact value sqrt3/2"
+    },
+    {
+      "id": "tan-45-degrees",
+      "title": "Exact value of $\\tan 45^\\circ$?",
+      "body": "$1$\n\nAt $45^\\circ$ the two coordinates are equal, so $\\tan 45^\\circ = \\frac{\\sqrt{2}/2}{\\sqrt{2}/2} = 1$.\n\nTip: tangent is $\\pm 1$ at every odd multiple of $45^\\circ$.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "tan 45 degrees exact value 1"
+    },
+    {
+      "id": "sin-3pi-over-2",
+      "title": "Exact value of $\\sin\\frac{3\\pi}{2}$?",
+      "body": "$-1$\n\n$\\frac{3\\pi}{2}$ points straight down, to $(0, -1)$, and sine is the $y$-coordinate.\n\nIts cosine is $0$, so $\\tan\\frac{3\\pi}{2}$ is undefined.\nTip: the four axis points are $(1,0)$, $(0,1)$, $(-1,0)$, $(0,-1)$ at $0$, $\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$.",
+      "answer": "-1",
+      "answerDisplay": "$-1$",
+      "searchQuery": "sin 3pi/2 value unit circle"
+    },
+    {
+      "id": "cot-pi-over-2",
+      "title": "Exact value of $\\cot\\frac{\\pi}{2}$?",
+      "body": "$0$\n\n$\\cot\\frac{\\pi}{2} = \\frac{\\cos(\\pi/2)}{\\sin(\\pi/2)} = \\frac{0}{1} = 0$.\n\nWatch out: $\\tan\\frac{\\pi}{2}$ is undefined, but cotangent at the same angle is simply $0$.",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "searchQuery": "cot pi/2 value cotangent"
+    },
+    {
+      "id": "sec-pi",
+      "title": "Exact value of $\\sec\\pi$?",
+      "body": "$-1$\n\n$\\pi$ lands at $(-1, 0)$, so $\\cos\\pi = -1$ and $\\sec\\pi = \\frac{1}{-1} = -1$.\n\nTip: secant equals $\\pm 1$ exactly where cosine does, at the multiples of $\\pi$.",
+      "answer": "-1",
+      "answerDisplay": "$-1$",
+      "searchQuery": "sec pi value secant"
+    },
+    {
+      "id": "cos-3pi-over-4",
+      "title": "Exact value of $\\cos\\frac{3\\pi}{4}$?",
+      "body": "$-\\dfrac{\\sqrt{2}}{2}$\n\n$\\frac{3\\pi}{4} = \\pi - \\frac{\\pi}{4}$ is in QII with **reference angle** $\\frac{\\pi}{4}$, and cosine is negative in QII.\n\nSo $\\cos\\frac{3\\pi}{4} = -\\cos\\frac{\\pi}{4} = -\\frac{\\sqrt{2}}{2}$.\nWatch out: $\\cos\\frac{3\\pi}{4}$ is not $+\\frac{\\sqrt{2}}{2}$; the $x$-coordinate is left of the $y$-axis.",
+      "answer": "-sqrt(2)/2",
+      "acceptedAnswers": [
+        "-sqrt2/2",
+        "-1/sqrt(2)",
+        "-1/sqrt2",
+        "-(sqrt(2)/2)",
+        "-(sqrt2)/2"
+      ],
+      "answerDisplay": "$-\\dfrac{\\sqrt{2}}{2}$",
+      "searchQuery": "cos 3pi/4 exact value"
+    },
+    {
+      "id": "sin-5pi-over-6",
+      "title": "Exact value of $\\sin\\frac{5\\pi}{6}$?",
+      "body": "$\\dfrac{1}{2}$\n\n$\\frac{5\\pi}{6} = \\pi - \\frac{\\pi}{6}$ is in QII with **reference angle** $\\frac{\\pi}{6}$. Sine is positive in QII, so $\\sin\\frac{5\\pi}{6} = \\sin\\frac{\\pi}{6} = \\frac{1}{2}$.\nTip: in QII sine keeps its sign and cosine flips.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\dfrac{1}{2}$",
+      "searchQuery": "sin 5pi/6 exact value"
+    },
+    {
+      "id": "tan-2pi-over-3",
+      "title": "Exact value of $\\tan\\frac{2\\pi}{3}$?",
+      "body": "$-\\sqrt{3}$\n\nThe point is $\\left(-\\frac{1}{2}, \\frac{\\sqrt{3}}{2}\\right)$, so $\\tan\\frac{2\\pi}{3} = \\frac{\\sqrt{3}/2}{-1/2} = -\\sqrt{3}$.\n\nTip: the **reference angle** $\\frac{\\pi}{3}$ gives the size; QII makes tangent negative.",
+      "answer": "-sqrt(3)",
+      "acceptedAnswers": [
+        "-sqrt3"
+      ],
+      "answerDisplay": "$-\\sqrt{3}$",
+      "searchQuery": "tan 2pi/3 exact value"
+    },
+    {
+      "id": "sec-2pi-over-3",
+      "title": "Exact value of $\\sec\\frac{2\\pi}{3}$?",
+      "body": "$-2$\n\n$\\cos\\frac{2\\pi}{3} = -\\frac{1}{2}$ (QII, **reference angle** $\\frac{\\pi}{3}$), and secant is its reciprocal: $\\frac{1}{-1/2} = -2$.\nTip: find cosine first, then flip the fraction.",
+      "answer": "-2",
+      "answerDisplay": "$-2$",
+      "searchQuery": "sec 2pi/3 exact value"
+    },
+    {
+      "id": "sin-4pi-over-3",
+      "title": "Exact value of $\\sin\\frac{4\\pi}{3}$?",
+      "body": "$-\\dfrac{\\sqrt{3}}{2}$\n\n$\\frac{4\\pi}{3} = \\pi + \\frac{\\pi}{3}$ is in QIII with **reference angle** $\\frac{\\pi}{3}$, and sine is negative in QIII.\n\nSo $\\sin\\frac{4\\pi}{3} = -\\frac{\\sqrt{3}}{2}$.\nWatch out: do not confuse it with $\\sin\\frac{2\\pi}{3} = +\\frac{\\sqrt{3}}{2}$, which is in QII.",
+      "answer": "-sqrt(3)/2",
+      "acceptedAnswers": [
+        "-sqrt3/2",
+        "-(sqrt(3))/2",
+        "-(sqrt3)/2",
+        "-(sqrt(3)/2)"
+      ],
+      "answerDisplay": "$-\\dfrac{\\sqrt{3}}{2}$",
+      "searchQuery": "sin 4pi/3 exact value"
+    },
+    {
+      "id": "tan-5pi-over-4",
+      "title": "Exact value of $\\tan\\frac{5\\pi}{4}$?",
+      "body": "$1$\n\nAt $\\frac{5\\pi}{4}$ the point is $\\left(-\\frac{\\sqrt{2}}{2}, -\\frac{\\sqrt{2}}{2}\\right)$, and two **negative**s make a positive ratio.\n\nTip: tangent is positive in QIII.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "tan 5pi/4 exact value"
+    },
+    {
+      "id": "csc-7pi-over-6",
+      "title": "Exact value of $\\csc\\frac{7\\pi}{6}$?",
+      "body": "$-2$\n\n$\\sin\\frac{7\\pi}{6} = -\\frac{1}{2}$ (QIII, **reference angle** $\\frac{\\pi}{6}$), so $\\csc\\frac{7\\pi}{6} = \\frac{1}{-1/2} = -2$.\nTip: find sine first, then take the reciprocal.",
+      "answer": "-2",
+      "answerDisplay": "$-2$",
+      "searchQuery": "csc 7pi/6 exact value"
+    },
+    {
+      "id": "cos-5pi-over-3",
+      "title": "Exact value of $\\cos\\frac{5\\pi}{3}$?",
+      "body": "$\\dfrac{1}{2}$\n\n$\\frac{5\\pi}{3} = 2\\pi - \\frac{\\pi}{3}$ is in QIV with **reference angle** $\\frac{\\pi}{3}$. Cosine is positive in QIV, so $\\cos\\frac{5\\pi}{3} = \\cos\\frac{\\pi}{3} = \\frac{1}{2}$.\nTip: in QIV cosine is positive and sine is negative.",
+      "answer": "1/2",
+      "acceptedAnswers": [
+        "0.5"
+      ],
+      "answerDisplay": "$\\dfrac{1}{2}$",
+      "searchQuery": "cos 5pi/3 exact value"
+    },
+    {
+      "id": "sec-11pi-over-6",
+      "title": "Exact value of $\\sec\\frac{11\\pi}{6}$?",
+      "body": "$\\dfrac{2\\sqrt{3}}{3}$\n\n$\\cos\\frac{11\\pi}{6} = \\frac{\\sqrt{3}}{2}$ (QIV, **reference angle** $\\frac{\\pi}{6}$), so $\\sec\\frac{11\\pi}{6} = \\frac{2}{\\sqrt{3}} = \\frac{2\\sqrt{3}}{3}$ after rationalizing.\nWatch out: $\\frac{2}{\\sqrt{3}}$ and $\\frac{2\\sqrt{3}}{3}$ are equal; the second is the rationalized form.",
+      "answer": "2sqrt(3)/3",
+      "acceptedAnswers": [
+        "2sqrt3/3",
+        "2/sqrt(3)",
+        "2/sqrt3",
+        "(2sqrt(3))/3",
+        "(2sqrt3)/3"
+      ],
+      "answerDisplay": "$\\dfrac{2\\sqrt{3}}{3}$",
+      "searchQuery": "sec 11pi/6 exact value rationalize"
+    },
+    {
+      "id": "cot-5pi-over-3",
+      "title": "Exact value of $\\cot\\frac{5\\pi}{3}$?",
+      "body": "$-\\dfrac{\\sqrt{3}}{3}$\n\nThe point is $\\left(\\frac{1}{2}, -\\frac{\\sqrt{3}}{2}\\right)$, so $\\cot\\frac{5\\pi}{3} = \\frac{x}{y} = \\frac{1/2}{-\\sqrt{3}/2} = -\\frac{1}{\\sqrt{3}} = -\\frac{\\sqrt{3}}{3}$.\nTip: $\\cot\\theta = \\frac{x}{y}$, the **reciprocal** of the slope.",
+      "answer": "-sqrt(3)/3",
+      "acceptedAnswers": [
+        "-sqrt3/3",
+        "-1/sqrt(3)",
+        "-1/sqrt3",
+        "-(sqrt(3)/3)",
+        "-(sqrt3)/3"
+      ],
+      "answerDisplay": "$-\\dfrac{\\sqrt{3}}{3}$",
+      "searchQuery": "cot 5pi/3 exact value"
+    },
+    {
+      "id": "tan-240-degrees",
+      "title": "Exact value of $\\tan 240^\\circ$?",
+      "body": "$\\sqrt{3}$\n\n$240^\\circ = 180^\\circ + 60^\\circ$ is in QIII, where tangent is **positive**, so $\\tan 240^\\circ = \\tan 60^\\circ = \\sqrt{3}$.\n\nTip: tangent has period $180^\\circ$, so $\\tan(\\theta + 180^\\circ) = \\tan\\theta$.",
+      "answer": "sqrt(3)",
+      "acceptedAnswers": [
+        "sqrt3"
+      ],
+      "answerDisplay": "$\\sqrt{3}$",
+      "searchQuery": "tan 240 degrees exact value"
+    },
+    {
+      "id": "sec-225-degrees",
+      "title": "Exact value of $\\sec 225^\\circ$?",
+      "body": "$-\\sqrt{2}$\n\n$\\cos 225^\\circ = -\\frac{\\sqrt{2}}{2}$ (QIII, **reference angle** $45^\\circ$), so $\\sec 225^\\circ = -\\frac{2}{\\sqrt{2}} = -\\sqrt{2}$.\nTip: $\\sec\\theta$ is $\\frac{1}{\\cos\\theta}$, so a negative cosine gives a negative secant.",
+      "answer": "-sqrt(2)",
+      "acceptedAnswers": [
+        "-sqrt2",
+        "-2/sqrt(2)",
+        "-2/sqrt2"
+      ],
+      "answerDisplay": "$-\\sqrt{2}$",
+      "searchQuery": "sec 225 degrees exact value"
+    },
+    {
+      "id": "csc-300-degrees",
+      "title": "Exact value of $\\csc 300^\\circ$?",
+      "body": "$-\\dfrac{2\\sqrt{3}}{3}$\n\n$\\sin 300^\\circ = -\\frac{\\sqrt{3}}{2}$ (QIV, **reference angle** $60^\\circ$), so $\\csc 300^\\circ = -\\frac{2}{\\sqrt{3}} = -\\frac{2\\sqrt{3}}{3}$.\nTip: $\\csc\\theta$ is $\\frac{1}{\\sin\\theta}$, so it has the same sign as sine.",
+      "answer": "-2sqrt(3)/3",
+      "acceptedAnswers": [
+        "-2sqrt3/3",
+        "-2/sqrt(3)",
+        "-2/sqrt3",
+        "-(2sqrt(3))/3",
+        "-(2sqrt3)/3"
+      ],
+      "answerDisplay": "$-\\dfrac{2\\sqrt{3}}{3}$",
+      "searchQuery": "csc 300 degrees exact value"
+    },
+    {
+      "id": "sin-negative-7pi-over-4",
+      "title": "Exact value of $\\sin\\left(-\\frac{7\\pi}{4}\\right)$?",
+      "body": "$\\dfrac{\\sqrt{2}}{2}$\n\nAdd $2\\pi$: $-\\frac{7\\pi}{4} + 2\\pi = \\frac{\\pi}{4}$, so the angle ends in QI and its sine is positive.\n\nWatch out: a **negative** angle does not make the sine negative; only the terminal side matters.",
+      "answer": "sqrt(2)/2",
+      "acceptedAnswers": [
+        "sqrt2/2",
+        "1/sqrt(2)",
+        "1/sqrt2",
+        "(sqrt(2))/2",
+        "(sqrt2)/2"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{2}}{2}$",
+      "searchQuery": "sin of negative 7pi/4 exact value"
+    },
+    {
+      "id": "tan-negative-5pi-over-6",
+      "title": "Exact value of $\\tan\\left(-\\frac{5\\pi}{6}\\right)$?",
+      "body": "$\\dfrac{\\sqrt{3}}{3}$\n\n$-\\frac{5\\pi}{6} + 2\\pi = \\frac{7\\pi}{6}$, in QIII, where tangent is positive; the **reference angle** $\\frac{\\pi}{6}$ gives the size.\n\nCheck with oddness: $\\tan\\left(-\\frac{5\\pi}{6}\\right) = -\\tan\\frac{5\\pi}{6} = -\\left(-\\frac{\\sqrt{3}}{3}\\right)$.\nTip: tangent is odd, so $\\tan(-x) = -\\tan x$.",
+      "answer": "sqrt(3)/3",
+      "acceptedAnswers": [
+        "sqrt3/3",
+        "1/sqrt(3)",
+        "1/sqrt3",
+        "(sqrt(3))/3",
+        "(sqrt3)/3"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{3}}{3}$",
+      "searchQuery": "tan of negative 5pi/6 exact value"
+    },
+    {
+      "id": "cos-13pi-over-6",
+      "title": "Exact value of $\\cos\\frac{13\\pi}{6}$?",
+      "body": "$\\dfrac{\\sqrt{3}}{2}$\n\n$\\frac{13\\pi}{6} = 2\\pi + \\frac{\\pi}{6}$, so it is **coterminal** with $\\frac{\\pi}{6}$ and has the same cosine.\n\nTip: strip off full turns of $2\\pi = \\frac{12\\pi}{6}$ first.",
+      "answer": "sqrt(3)/2",
+      "acceptedAnswers": [
+        "sqrt3/2",
+        "(sqrt(3))/2",
+        "(sqrt3)/2"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{3}}{2}$",
+      "searchQuery": "cos 13pi/6 exact value coterminal"
+    },
+    {
+      "id": "sin-11pi-over-3",
+      "title": "Exact value of $\\sin\\frac{11\\pi}{3}$?",
+      "body": "$-\\dfrac{\\sqrt{3}}{2}$\n\n$\\frac{11\\pi}{3} - 2\\pi = \\frac{5\\pi}{3}$, which is in QIV with **reference angle** $\\frac{\\pi}{3}$. Sine is negative in QIV, so $\\sin\\frac{11\\pi}{3} = -\\frac{\\sqrt{3}}{2}$.\nTip: subtract $2\\pi = \\frac{6\\pi}{3}$ to reduce the angle.",
+      "answer": "-sqrt(3)/2",
+      "acceptedAnswers": [
+        "-sqrt3/2",
+        "-(sqrt(3))/2",
+        "-(sqrt3)/2",
+        "-(sqrt(3)/2)"
+      ],
+      "answerDisplay": "$-\\dfrac{\\sqrt{3}}{2}$",
+      "searchQuery": "sin 11pi/3 exact value coterminal"
+    },
+    {
+      "id": "cos-480-degrees",
+      "title": "Exact value of $\\cos 480^\\circ$?",
+      "body": "$-\\dfrac{1}{2}$\n\n$480^\\circ - 360^\\circ = 120^\\circ$, in QII with **reference angle** $60^\\circ$. Cosine is negative there: $-\\cos 60^\\circ = -\\frac{1}{2}$.\nTip: $480^\\circ$ is one full turn plus $120^\\circ$.",
+      "answer": "-1/2",
+      "acceptedAnswers": [
+        "-0.5"
+      ],
+      "answerDisplay": "$-\\dfrac{1}{2}$",
+      "searchQuery": "cos 480 degrees exact value coterminal"
+    },
+    {
+      "id": "quadrant-sin-negative-tan-positive",
+      "title": "If $\\sin\\theta < 0$ and $\\tan\\theta > 0$, in which quadrant does $\\theta$ lie?",
+      "body": "Quadrant III.\n\nSine is negative in QIII and QIV; tangent is positive in QI and QIII. Only **QIII** has both.\n\nWhy: there $x$ and $y$ are both negative, so $\\frac{y}{x} > 0$.",
+      "answer": "III",
+      "acceptedAnswers": [
+        "QIII",
+        "quadrant III",
+        "Q3",
+        "3",
+        "third",
+        "quadrant 3",
+        "third quadrant",
+        "3rd"
+      ],
+      "searchQuery": "quadrant sine negative tangent positive"
+    },
+    {
+      "id": "quadrant-cos-negative-csc-positive",
+      "title": "If $\\cos\\theta < 0$ and $\\csc\\theta > 0$, in which quadrant does $\\theta$ lie?",
+      "body": "Quadrant II.\n\n$\\csc\\theta > 0$ means $\\sin\\theta > 0$ (QI or QII), and cosine is negative in QII and QIII. The overlap is **QII**.\n\nTip: convert each reciprocal function to its partner first.",
+      "answer": "II",
+      "acceptedAnswers": [
+        "QII",
+        "quadrant II",
+        "Q2",
+        "2",
+        "second",
+        "quadrant 2",
+        "second quadrant",
+        "2nd"
+      ],
+      "searchQuery": "quadrant cosine negative cosecant positive"
+    },
+    {
+      "id": "quadrant-sec-positive-cot-negative",
+      "title": "If $\\sec\\theta > 0$ and $\\cot\\theta < 0$, in which quadrant does $\\theta$ lie?",
+      "body": "Quadrant IV.\n\n$\\sec\\theta > 0$ means $\\cos\\theta > 0$ (QI or QIV), and $\\cot\\theta$ has the sign of $\\tan\\theta$, which is negative in QII and QIV. The overlap is **QIV**.\nTip: sketch the signs of $x$ and $y$ in each quadrant.",
+      "answer": "IV",
+      "acceptedAnswers": [
+        "QIV",
+        "quadrant IV",
+        "Q4",
+        "4",
+        "fourth",
+        "quadrant 4",
+        "fourth quadrant",
+        "4th"
+      ],
+      "searchQuery": "quadrant secant positive cotangent negative"
+    },
+    {
+      "id": "cosine-negative-quadrants",
+      "title": "In which two quadrants is $\\cos\\theta$ negative?",
+      "body": "Quadrants II and III.\n\nCosine is the $x$-coordinate, which is negative to the left of the $y$-axis. Secant, its **reciprocal**, has the same signs.\nTip: sine is negative in QIII and QIV, the lower half.",
+      "answer": "II and III",
+      "acceptedAnswers": [
+        "2 and 3",
+        "QII and QIII",
+        "Q2 and Q3",
+        "III and II",
+        "3 and 2",
+        "II, III",
+        "2, 3",
+        "second and third"
+      ],
+      "searchQuery": "quadrants where cosine is negative"
+    },
+    {
+      "id": "sign-of-sin-5",
+      "title": "Is $\\sin 5$ positive or negative, with $5$ in radians?",
+      "body": "Negative.\n\n$\\frac{3\\pi}{2} \\approx 4.71 < 5 < 2\\pi \\approx 6.28$, so $5$ rad ends in QIV, where $y$-coordinates are negative. In fact $\\sin 5 \\approx -0.96$.\n\nWatch out: here $5$ is in **radians**, not degrees; $\\sin 5^\\circ$ is positive.",
+      "answer": "negative",
+      "acceptedAnswers": [
+        "neg",
+        "less than 0",
+        "<0"
+      ],
+      "searchQuery": "sign of sin 5 radians quadrant"
+    },
+    {
+      "id": "sign-of-cos-2",
+      "title": "Is $\\cos 2$ positive or negative, with $2$ in radians?",
+      "body": "Negative.\n\n$\\frac{\\pi}{2} \\approx 1.57 < 2 < \\pi \\approx 3.14$, so $2$ rad ends in QII, where $x$-coordinates are negative. In fact $\\cos 2 \\approx -0.42$.\n\nWatch out: $2$ means **radians**; $\\cos 2^\\circ$ is positive.",
+      "answer": "negative",
+      "acceptedAnswers": [
+        "neg",
+        "less than 0",
+        "<0"
+      ],
+      "searchQuery": "sign of cos 2 radians quadrant"
+    },
+    {
+      "id": "reference-angle-sign-mistake",
+      "title": "A student writes $\\cos 210^\\circ = \\frac{\\sqrt{3}}{2}$ because its reference angle is $30^\\circ$. What is the correct exact value?",
+      "body": "$-\\dfrac{\\sqrt{3}}{2}$\n\nThe reference angle gives only the **size**. $210^\\circ$ is in QIII, where cosine is negative, so $\\cos 210^\\circ = -\\cos 30^\\circ = -\\frac{\\sqrt{3}}{2}$.\n\nTip: attach the quadrant's sign as a separate step.",
+      "answer": "-sqrt(3)/2",
+      "acceptedAnswers": [
+        "-sqrt3/2",
+        "-(sqrt(3))/2",
+        "-(sqrt3)/2",
+        "-(sqrt(3)/2)"
+      ],
+      "answerDisplay": "$-\\dfrac{\\sqrt{3}}{2}$",
+      "searchQuery": "cos 210 degrees reference angle sign mistake"
+    },
+    {
+      "id": "coterminal-angle-formula",
+      "title": "How do you write every angle coterminal with $\\theta$, in degrees and in radians?",
+      "body": "$\\theta + 360^\\circ k$ or $\\theta + 2\\pi k$, for any integer $k$.\n\nCoterminal angles share a terminal side, so all six trig functions agree on them.\n\nPositive $k$ adds full counterclockwise turns; **negative** $k$ removes them.\n\nKey idea: trig functions have period $2\\pi$, so adding $2\\pi k$ never changes their values.",
+      "searchQuery": "coterminal angles formula theta plus 360k"
+    },
+    {
+      "id": "coterminal-1000-degrees",
+      "title": "Find the angle in $[0^\\circ, 360^\\circ)$ that is coterminal with $1000^\\circ$.",
+      "body": "$280^\\circ$\n\nSubtract whole turns: $1000^\\circ - 2 \\cdot 360^\\circ = 280^\\circ$.\n\nTip: estimate first. $\\frac{1000}{360} \\approx 2.8$, so two full turns come off.",
+      "answer": "280",
+      "acceptedAnswers": [
+        "280 degrees",
+        "280°",
+        "280 deg"
+      ],
+      "answerDisplay": "$280^\\circ$",
+      "searchQuery": "coterminal angle 1000 degrees between 0 and 360"
+    },
+    {
+      "id": "coterminal-negative-250-degrees",
+      "title": "Find the angle in $[0^\\circ, 360^\\circ)$ that is coterminal with $-250^\\circ$.",
+      "body": "$110^\\circ$\n\nAdd one full turn: $-250^\\circ + 360^\\circ = 110^\\circ$, a QII angle.\n\nTip: for a **negative** angle, keep adding $360^\\circ$ until the result lands in range.",
+      "answer": "110",
+      "acceptedAnswers": [
+        "110 degrees",
+        "110°",
+        "110 deg"
+      ],
+      "answerDisplay": "$110^\\circ$",
+      "searchQuery": "coterminal angle negative 250 degrees"
+    },
+    {
+      "id": "coterminal-23pi-over-4",
+      "title": "Find the angle in $[0, 2\\pi)$ that is coterminal with $\\frac{23\\pi}{4}$. Answer in radians.",
+      "body": "$\\dfrac{7\\pi}{4}$\n\nIn quarters, $2\\pi = \\frac{8\\pi}{4}$, so remove two full turns: $\\frac{23\\pi}{4} - \\frac{16\\pi}{4} = \\frac{7\\pi}{4}$.\n\nTip: work in the fraction's own denominator to avoid slips.",
+      "answer": "7pi/4",
+      "acceptedAnswers": [
+        "(7pi)/4",
+        "7/4pi",
+        "(7/4)pi"
+      ],
+      "answerDisplay": "$\\dfrac{7\\pi}{4}$",
+      "searchQuery": "coterminal angle 23pi/4 between 0 and 2pi"
+    },
+    {
+      "id": "reference-angle-300-degrees",
+      "title": "What is the reference angle of $300^\\circ$, in degrees?",
+      "body": "$60^\\circ$\n\n$300^\\circ$ is in QIV, so the **reference angle** is $360^\\circ - 300^\\circ = 60^\\circ$.\n\nThat is why $\\cos 300^\\circ = \\frac{1}{2}$ and $\\sin 300^\\circ = -\\frac{\\sqrt{3}}{2}$.\nTip: in QIV subtract from $360^\\circ$.",
+      "answer": "60",
+      "acceptedAnswers": [
+        "60 degrees",
+        "60°",
+        "60 deg"
+      ],
+      "answerDisplay": "$60^\\circ$",
+      "searchQuery": "reference angle 300 degrees quadrant IV"
+    },
+    {
+      "id": "reference-angle-negative-135-degrees",
+      "title": "What is the reference angle of $-135^\\circ$, in degrees?",
+      "body": "$45^\\circ$\n\n$-135^\\circ$ is coterminal with $225^\\circ$ (QIII), and $225^\\circ - 180^\\circ = 45^\\circ$.\n\nWatch out: a **reference angle** is always positive and at most $90^\\circ$, even for a negative angle.",
+      "answer": "45",
+      "acceptedAnswers": [
+        "45 degrees",
+        "45°",
+        "45 deg"
+      ],
+      "answerDisplay": "$45^\\circ$",
+      "searchQuery": "reference angle of negative 135 degrees"
+    },
+    {
+      "id": "reference-angle-11pi-over-4",
+      "title": "What is the reference angle of $\\frac{11\\pi}{4}$, in radians?",
+      "body": "$\\dfrac{\\pi}{4}$\n\nFirst find the coterminal angle: $\\frac{11\\pi}{4} - 2\\pi = \\frac{3\\pi}{4}$, in QII. Then $\\pi - \\frac{3\\pi}{4} = \\frac{\\pi}{4}$.\nTip: reduce to $[0, 2\\pi)$ before finding the **reference angle**.",
+      "answer": "pi/4",
+      "acceptedAnswers": [
+        "(1/4)pi",
+        "1/4pi"
+      ],
+      "answerDisplay": "$\\dfrac{\\pi}{4}$",
+      "searchQuery": "reference angle 11pi/4 radians"
+    },
+    {
+      "id": "reference-angle-2-radians",
+      "title": "What is the reference angle of $\\theta = 2$ radians? Give an exact answer in radians.",
+      "body": "$\\pi - 2 \\approx 1.14$\n\n$2$ rad lies between $\\frac{\\pi}{2} \\approx 1.57$ and $\\pi \\approx 3.14$, so it is in QII, where the **reference angle** is $\\pi - \\theta$.\n\nKey idea: reference angles needn't be nice fractions of $\\pi$.",
+      "answer": "pi-2",
+      "acceptedAnswers": [
+        "-2+pi"
+      ],
+      "answerDisplay": "$\\pi - 2$",
+      "searchQuery": "reference angle 2 radians pi minus 2"
+    },
+    {
+      "id": "reference-angle-x-axis",
+      "title": "Is a reference angle measured to the $x$-axis or to the $y$-axis?",
+      "body": "The $x$-axis, always.\n\nExample: $120^\\circ$ has **reference angle** $60^\\circ$ (to the negative $x$-axis), not $30^\\circ$ (to the $y$-axis).\n\nWatch out: measuring to the $y$-axis swaps the sine and cosine values.",
+      "answer": "x-axis",
+      "acceptedAnswers": [
+        "x axis",
+        "x"
+      ],
+      "searchQuery": "reference angle measured to x-axis"
+    },
+    {
+      "id": "shared-reference-angle-sixths",
+      "title": "Which reference angle do $\\frac{5\\pi}{6}$, $\\frac{7\\pi}{6}$, and $\\frac{11\\pi}{6}$ share? Answer in radians.",
+      "body": "$\\dfrac{\\pi}{6}$\n\nThey are $\\pi - \\frac{\\pi}{6}$, $\\pi + \\frac{\\pi}{6}$ and $2\\pi - \\frac{\\pi}{6}$.\n\nTip: in lowest terms, a denominator of $6$ means **reference angle** $\\frac{\\pi}{6}$, $4$ means $\\frac{\\pi}{4}$, and $3$ means $\\frac{\\pi}{3}$.",
+      "answer": "pi/6",
+      "acceptedAnswers": [
+        "(1/6)pi",
+        "1/6pi"
+      ],
+      "answerDisplay": "$\\dfrac{\\pi}{6}$",
+      "searchQuery": "reference angle 5pi/6 7pi/6 11pi/6"
+    },
+    {
+      "id": "evaluate-sin-squared-plus-cos",
+      "title": "Evaluate exactly: $\\sin^2\\frac{\\pi}{4} + \\cos\\frac{\\pi}{3}$.",
+      "body": "$1$\n\n$\\sin^2\\frac{\\pi}{4} = \\left(\\frac{\\sqrt{2}}{2}\\right)^2 = \\frac{1}{2}$ and $\\cos\\frac{\\pi}{3} = \\frac{1}{2}$, so the sum is $1$.\n\nWatch out: $\\sin^2 x$ means $(\\sin x)^2$, not $\\sin(x^2)$.",
+      "answer": "1",
+      "answerDisplay": "$1$",
+      "searchQuery": "evaluate sin^2 pi/4 plus cos pi/3 exact"
+    },
+    {
+      "id": "evaluate-2-sin-cos-pi-over-6",
+      "title": "Evaluate exactly: $2\\sin\\frac{\\pi}{6}\\cos\\frac{\\pi}{6}$.",
+      "body": "$\\dfrac{\\sqrt{3}}{2}$\n\n$2 \\cdot \\frac{1}{2} \\cdot \\frac{\\sqrt{3}}{2} = \\frac{\\sqrt{3}}{2}$.\n\nIt equals $\\sin\\frac{\\pi}{3}$, an instance of the double-angle formula $2\\sin\\theta\\cos\\theta = \\sin 2\\theta$.\nTip: check by evaluating $\\sin\\frac{\\pi}{3} = \\frac{\\sqrt{3}}{2}$.",
+      "answer": "sqrt(3)/2",
+      "acceptedAnswers": [
+        "sqrt3/2",
+        "(sqrt(3))/2",
+        "(sqrt3)/2"
+      ],
+      "answerDisplay": "$\\dfrac{\\sqrt{3}}{2}$",
+      "searchQuery": "evaluate 2 sin cos pi/6 exact double angle"
+    },
+    {
+      "id": "csc-pi-undefined",
+      "title": "Exact value of $\\csc\\pi$?",
+      "body": "Undefined.\n\n$\\csc\\pi = \\frac{1}{\\sin\\pi} = \\frac{1}{0}$.\n\nCosecant and cotangent are undefined at every multiple of $\\pi$, where the unit-circle point has $y = 0$.\nWatch out: undefined is not the same as $0$.",
+      "answer": "undefined",
+      "acceptedAnswers": [
+        "does not exist",
+        "dne",
+        "undef",
+        "not defined"
+      ],
+      "searchQuery": "csc pi undefined cosecant multiples of pi"
+    },
+    {
+      "id": "compare-sin-1-cos-1",
+      "title": "Which is larger, $\\sin 1$ or $\\cos 1$, with $1$ in radians?",
+      "body": "$\\sin 1$\n\n$1\\text{ rad} \\approx 57.3^\\circ$, and between $45^\\circ$ and $90^\\circ$ a unit-circle point's $y$-coordinate exceeds its $x$-coordinate.\n\nIndeed $\\sin 1 \\approx 0.841$ and $\\cos 1 \\approx 0.540$.\nTip: sine and cosine cross at $\\frac{\\pi}{4} \\approx 0.785$; past that, sine is larger.",
+      "answer": "sin 1",
+      "acceptedAnswers": [
+        "sin(1)"
+      ],
+      "answerDisplay": "$\\sin 1$",
+      "searchQuery": "compare sin 1 and cos 1 radians"
+    }
+  ]
+}

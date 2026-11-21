@@ -6,6 +6,7 @@ import Animated, { FadeIn, FadeInDown, FadeOut, LinearTransition } from 'react-n
 import { Button } from '@/components/Button';
 import { Icon } from '@/components/Icon';
 import { IconButton } from '@/components/IconButton';
+import { RichText } from '@/components/rich/RichText';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
 import { TextField } from '@/components/TextField';
@@ -121,9 +122,9 @@ export function MemoryForm({ draftKey, heading, initial, submitLabel, saving, on
         <Text variant="label" tone="primary">
           Front of card
         </Text>
-        <Text variant="title" tone={title ? 'default' : 'subtle'} numberOfLines={4}>
+        <RichText variant="title" tone={title ? 'default' : 'subtle'} numberOfLines={4} inline>
           {title || 'What do you want to remember?'}
-        </Text>
+        </RichText>
         {requireAnswer && answer ? (
           <Animated.View entering={FadeIn} style={[styles.answerChip, { backgroundColor: colors.primarySoft }]}>
             <Text style={{ fontFamily: fonts.bold, fontSize: 13 }} tone="primary">
@@ -154,7 +155,7 @@ export function MemoryForm({ draftKey, heading, initial, submitLabel, saving, on
         placeholder="Shown after you answer. Add the why, an example, or a memory hook."
         value={body}
         onChangeText={setBody}
-        hint={limitHint(body.length, BODY_MAX)}
+        hint={limitHint(body.length, BODY_MAX) ?? 'Format math with $…$ (like $x^2$) and code with `backticks`.'}
         multiline
         minHeight={140}
         maxLength={BODY_MAX}

@@ -1,0 +1,746 @@
+{
+  "id": "diffeq-first-order",
+  "title": "First-Order Equations",
+  "course": "Differential Equations",
+  "description": "Classifying ODEs, separable, linear (integrating factor), exact and Bernoulli equations, existence and uniqueness, direction fields, autonomous equations and stability, modeling, and Euler’s method.",
+  "cards": [
+    {
+      "id": "ode-definition",
+      "title": "What is an **ordinary differential equation** (ODE)?",
+      "body": "An equation relating an unknown function of **one** independent variable to its derivatives.\n\nExample: $y' = 3y$ has unknown $y(x)$ and one variable $x$.\nWatch out: if the unknown depends on several variables and the equation has partial derivatives, it is a PDE, not an ODE.",
+      "searchQuery": "ordinary differential equation definition"
+    },
+    {
+      "id": "order-of-ode",
+      "title": "What is the **order** of $y''' + 2y' = x$? (number)",
+      "body": "3\n\nThe order is the highest derivative that appears, here $y'''$.\n\nKey idea: order counts derivatives, not powers or the number of terms.",
+      "answer": "3",
+      "acceptedAnswers": ["three", "third"],
+      "answerDisplay": "$3$",
+      "searchQuery": "order of a differential equation highest derivative"
+    },
+    {
+      "id": "order-vs-power",
+      "title": "What is the order of $(y')^4 + y'' = 0$? (number)",
+      "body": "2\n\nThe highest derivative is $y''$, so the order is 2.\n\nWatch out: the exponent 4 on $y'$ is a power (it affects linearity), not the order.",
+      "answer": "2",
+      "acceptedAnswers": ["two", "second"],
+      "answerDisplay": "$2$",
+      "searchQuery": "order versus degree differential equation example"
+    },
+    {
+      "id": "linear-first-order-form",
+      "title": "Standard form of a **linear** first-order ODE?",
+      "body": "$y' + p(x)\\,y = q(x)$\n\nThe unknown $y$ and $y'$ appear only to the first power, are not multiplied together, and sit inside no nonlinear function.\n\nExample: $y' + \\dfrac{2}{x}y = x$ is linear; $y' + y^2 = x$ is not.",
+      "searchQuery": "linear first order ODE standard form"
+    },
+    {
+      "id": "is-linear-y-squared",
+      "title": "Is $y' + y^2 = x$ linear? (yes/no)",
+      "body": "No\n\nThe term $y^2$ is a nonlinear function of the unknown.\n\nWhy: linear means $y$ and its derivatives appear only to the first power with coefficients depending on $x$ alone.\nTip: this one is Bernoulli-type (with $n=2$ after a rewrite), so a substitution can make it linear.",
+      "answer": "no",
+      "acceptedAnswers": ["nonlinear", "not linear", "n"],
+      "searchQuery": "how to tell if differential equation is linear",
+      "answerDisplay": "no (nonlinear)"
+    },
+    {
+      "id": "classify-xe-y",
+      "title": "Classify $y' = x\\,e^{y}$ by method type (one word).",
+      "body": "separable\n\nIt factors as $g(y)\\,h(x)$ with $g(y) = e^y$ and $h(x) = x$.\n\nNote: it is nonlinear because of $e^y$, so the linear method does not apply but separation does.",
+      "answer": "separable",
+      "acceptedAnswers": ["separable equation"],
+      "searchQuery": "separable differential equation recognize",
+      "answerDisplay": "separable"
+    },
+    {
+      "id": "general-vs-particular",
+      "title": "General solution vs particular solution of an ODE?",
+      "body": "The **general solution** is the whole family with arbitrary constants; a **particular solution** fixes the constants.\n\nExample: $y = Ce^{2x}$ is the general solution of $y' = 2y$; $y = 3e^{2x}$ is the particular one with $y(0)=3$.\n\nKey idea: initial conditions pick one curve from the family.",
+      "searchQuery": "general solution particular solution differential equation"
+    },
+    {
+      "id": "ivp-definition",
+      "title": "What is an **initial value problem** (IVP) for a first-order ODE?",
+      "body": "An ODE plus one condition: $y' = f(x,y),\\; y(x_0) = y_0$.\n\nThe goal is the single solution curve passing through the point $(x_0, y_0)$.\n\nWatch out: always apply the initial condition after finding the general solution, not before.",
+      "searchQuery": "initial value problem first order ODE definition"
+    },
+    {
+      "id": "number-of-constants",
+      "title": "How many arbitrary constants are in the general solution of a first-order ODE? (number)",
+      "body": "1\n\nIn general an order-$n$ ODE has an $n$-parameter family of solutions.\n\nExample: $y' = 2x$ gives $y = x^2 + C$.",
+      "answer": "1",
+      "acceptedAnswers": ["one"],
+      "answerDisplay": "$1$",
+      "searchQuery": "number of arbitrary constants general solution order"
+    },
+    {
+      "id": "explicit-vs-implicit",
+      "title": "What is an **implicit solution** of an ODE?",
+      "body": "A relation $F(x,y)=C$ that defines solutions $y(x)$ without being solved for $y$.\n\nExample: $y^2 = x^2 + C$ solves $y' = x/y$; solving for $y$ gives $y = \\pm\\sqrt{x^2 + C}$.\n\nTip: leave a solution implicit when solving for $y$ is messy or impossible.",
+      "searchQuery": "implicit solution differential equation explicit"
+    },
+    {
+      "id": "verify-power-solution",
+      "title": "For what constant $k$ is $y = x^2$ a solution of $xy' = ky$? (number)",
+      "body": "2\n\nSince $y' = 2x$, we get $xy' = 2x^2 = 2y$.\n\nSo $k = 2$.\n\nTip: to verify a solution, substitute it and its derivatives into the ODE.",
+      "answer": "2",
+      "acceptedAnswers": ["k=2"],
+      "answerDisplay": "$2$",
+      "searchQuery": "verify solution of differential equation by substitution"
+    },
+    {
+      "id": "autonomous-definition",
+      "title": "What is an **autonomous** first-order ODE?",
+      "body": "One where $x$ (or $t$) does not appear explicitly: $y' = f(y)$.\n\nExample: $y' = y(1-y)$ is autonomous; $y' = xy$ is not.\n\nKey idea: autonomous equations are always separable and can be analyzed with a phase line.",
+      "searchQuery": "autonomous differential equation definition"
+    },
+    {
+      "id": "separable-definition",
+      "title": "When is a first-order ODE **separable**?",
+      "body": "When it can be written $\\dfrac{dy}{dx} = g(x)\\,h(y)$.\n\nThen $\\dfrac{dy}{h(y)} = g(x)\\,dx$ and each side is integrated on its own.\n\nWatch out: $y' = x + y$ is not separable, because the right side is a sum, not a product.",
+      "searchQuery": "separable differential equation definition g(x)h(y)"
+    },
+    {
+      "id": "separable-steps",
+      "title": "Steps to solve $y' = g(x)h(y)$ by separation?",
+      "body": "1. Find roots of $h(y)$: constant (equilibrium) solutions.\n2. Rewrite as $\\dfrac{dy}{h(y)} = g(x)\\,dx$.\n3. Integrate both sides, adding one constant.\n4. Solve for $y$ if possible, then apply the initial condition.\n\nWatch out: step 1 matters because dividing by $h(y)$ can lose solutions.",
+      "searchQuery": "steps solve separable differential equation"
+    },
+    {
+      "id": "solve-y-prime-2xy",
+      "title": "General solution of $y' = 2xy$? (type $y$ with constant $C$)",
+      "body": "$y = Ce^{x^2}$\n\nSeparate: $\\dfrac{dy}{y} = 2x\\,dx$, so $\\ln|y| = x^2 + c$.\n\nExponentiate and absorb the sign: $y = Ce^{x^2}$, where $C=0$ gives the equilibrium $y=0$.",
+      "answer": "y = C e^(x^2)",
+      "acceptedAnswers": ["C e^(x^2)", "y = C exp(x^2)"],
+      "answerDisplay": "$y = Ce^{x^2}$",
+      "searchQuery": "solve y'=2xy separable differential equation"
+    },
+    {
+      "id": "solve-y-prime-x-over-y",
+      "title": "General (implicit) solution of $y' = \\dfrac{x}{y}$? (type with constant $C$)",
+      "body": "$y^2 = x^2 + C$\n\nSeparate: $y\\,dy = x\\,dx$, so $\\dfrac{y^2}{2} = \\dfrac{x^2}{2} + c$.\n\nMultiply by 2 and rename $2c$ as $C$.",
+      "answer": "y^2 = x^2 + C",
+      "acceptedAnswers": ["y^2 - x^2 = C", "y^2 = C + x^2", "x^2 - y^2 = C"],
+      "answerDisplay": "$y^2 = x^2 + C$",
+      "searchQuery": "solve y' = x/y separable hyperbola implicit solution"
+    },
+    {
+      "id": "lost-solutions",
+      "title": "Why can separation of variables lose solutions?",
+      "body": "Dividing by $h(y)$ assumes $h(y) \\ne 0$, so constant solutions $y = r$ with $h(r)=0$ may be missed.\n\nExample: $y' = y^2 - 1$ has equilibria $y = \\pm 1$ that the integrated formula may not include.\n\nTip: always solve $h(y) = 0$ first and list those constant solutions.",
+      "searchQuery": "separable equation lost solutions equilibrium division by zero"
+    },
+    {
+      "id": "ivp-exponential-decay",
+      "title": "Solve $y' = -2y$, $y(0) = 5$. (type $y$ as a function of $x$)",
+      "body": "$y = 5e^{-2x}$\n\nThe general solution is $y = Ce^{-2x}$, and $y(0) = C = 5$.\n\nKey idea: $y' = ky$ always gives $y = y_0 e^{kx}$.",
+      "answer": "y = 5e^(-2x)",
+      "acceptedAnswers": ["5e^(-2x)", "y = 5 exp(-2x)"],
+      "answerDisplay": "$y = 5e^{-2x}$",
+      "searchQuery": "solve y'=ky initial value exponential decay"
+    },
+    {
+      "id": "blow-up-y-squared",
+      "title": "Solve $y' = y^2$, $y(0) = 1$. (type $y$ as a function of $x$)",
+      "body": "$y = \\dfrac{1}{1-x}$\n\nSeparate: $\\dfrac{dy}{y^2} = dx$, so $-\\dfrac{1}{y} = x + c$, and $y(0)=1$ gives $c=-1$.\n\nWatch out: the solution blows up at $x = 1$, so it exists only for $x<1$. Nonlinear ODEs can have finite-time blow-up.",
+      "answer": "1/(1-x)",
+      "acceptedAnswers": ["y = 1/(1-x)", "(1-x)^(-1)", "-1/(x-1)"],
+      "answerDisplay": "$y = \\dfrac{1}{1-x}$",
+      "searchQuery": "y'=y^2 finite time blow up solution 1/(1-x)"
+    },
+    {
+      "id": "solve-e-x-minus-y",
+      "title": "General solution of $y' = e^{x-y}$? (type implicitly with constant $C$)",
+      "body": "$e^{y} = e^{x} + C$\n\nWrite $e^{x-y} = e^x e^{-y}$, so $e^{y}\\,dy = e^{x}\\,dx$.\n\nIntegrate both sides: $e^y = e^x + C$, equivalently $y = \\ln(e^x + C)$.",
+      "answer": "e^y = e^x + C",
+      "acceptedAnswers": ["y = ln(e^x + C)", "e^y = C + e^x"],
+      "answerDisplay": "$e^{y} = e^{x} + C$",
+      "searchQuery": "solve y' = e^(x-y) separable"
+    },
+    {
+      "id": "integrating-factor-formula",
+      "title": "Integrating factor $\\mu(x)$ for $y' + p(x)y = q(x)$?",
+      "body": "$\\mu(x) = e^{\\int p(x)\\,dx}$\n\nIt satisfies $\\mu' = p\\mu$, which makes the left side collapse: $(\\mu y)' = \\mu y' + p\\mu y$.\n\nTip: any antiderivative of $p$ works, so skip the constant.",
+      "searchQuery": "integrating factor linear first order formula e^(integral p)"
+    },
+    {
+      "id": "if-constant-coefficient",
+      "title": "Integrating factor for $y' + 3y = x$? (type in $x$)",
+      "body": "$e^{3x}$\n\nHere $p = 3$, so $\\mu = e^{\\int 3\\,dx} = e^{3x}$.\n\nThen $(e^{3x}y)' = xe^{3x}$.",
+      "answer": "e^(3x)",
+      "acceptedAnswers": ["exp(3x)"],
+      "answerDisplay": "$e^{3x}$",
+      "searchQuery": "integrating factor y'+3y=x e^(3x)"
+    },
+    {
+      "id": "if-two-over-x",
+      "title": "Integrating factor for $y' + \\dfrac{2}{x}y = x$ on $x>0$? (type in $x$)",
+      "body": "$x^2$\n\nHere $p = 2/x$, so $\\int p\\,dx = 2\\ln x$ and $\\mu = e^{2\\ln x} = x^2$.\n\nThen $(x^2 y)' = x^3$, so $y = \\dfrac{x^2}{4} + \\dfrac{C}{x^2}$.",
+      "answer": "x^2",
+      "acceptedAnswers": [],
+      "answerDisplay": "$x^2$",
+      "searchQuery": "integrating factor y' + 2y/x = x x^2"
+    },
+    {
+      "id": "if-negative-one",
+      "title": "Integrating factor for $y' - y = e^{2x}$? (type in $x$)",
+      "body": "$e^{-x}$\n\nHere $p = -1$, so $\\mu = e^{\\int -1\\,dx} = e^{-x}$.\n\nWatch out: the sign of $p$ comes with the sign in front of $y$ in standard form.",
+      "answer": "e^(-x)",
+      "acceptedAnswers": ["exp(-x)", "1/e^x"],
+      "answerDisplay": "$e^{-x}$",
+      "searchQuery": "integrating factor y' - y = e^(2x) e^(-x)"
+    },
+    {
+      "id": "why-integrating-factor-works",
+      "title": "Why does multiplying by $\\mu = e^{\\int p\\,dx}$ solve $y' + py = q$?",
+      "body": "It turns the left side into a product-rule derivative: $(\\mu y)' = \\mu q$.\n\nThen integrate: $\\mu y = \\int \\mu q\\,dx + C$.\n\nWhy: $\\mu' = p\\mu$, so $(\\mu y)' = \\mu y' + \\mu' y = \\mu(y' + py)$.\nKey idea: it converts a hard equation into a plain integral.",
+      "searchQuery": "why integrating factor works product rule linear ODE"
+    },
+    {
+      "id": "linear-solution-formula",
+      "title": "General solution formula for $y' + py = q$ using $\\mu$?",
+      "body": "$y = \\dfrac{1}{\\mu(x)}\\left(\\int \\mu(x)\\,q(x)\\,dx + C\\right)$\n\nThe constant $C$ goes with the integral, then everything is divided by $\\mu$.\n\nWatch out: divide the constant too. Writing $y = \\frac{1}{\\mu}\\int \\mu q\\,dx + C$ is a classic error.",
+      "searchQuery": "general solution formula linear first order ODE integrating factor"
+    },
+    {
+      "id": "standard-form-first",
+      "title": "What must you do to $x\\,y' + 2y = x^2$ before finding $p(x)$?",
+      "body": "Divide by $x$ to get $y' + \\dfrac{2}{x}y = x$.\n\nOnly then is $p(x) = 2/x$ and $q(x) = x$.\n\nWatch out: reading $p = 2$ straight from $xy' + 2y$ gives a wrong $\\mu$.",
+      "searchQuery": "put linear ODE in standard form before integrating factor"
+    },
+    {
+      "id": "solve-y-plus-y-e-neg-x",
+      "title": "General solution of $y' + y = e^{-x}$? (type with constant $C$)",
+      "body": "$y = (x + C)e^{-x}$\n\nWith $\\mu = e^{x}$: $(e^{x}y)' = e^{x}e^{-x} = 1$.\n\nSo $e^x y = x + C$, giving $y = (x+C)e^{-x}$.",
+      "answer": "y = (x + C)e^(-x)",
+      "acceptedAnswers": ["(x + C)e^(-x)", "y = x e^(-x) + C e^(-x)", "y = (x+C)/e^x"],
+      "answerDisplay": "$y = (x + C)e^{-x}$",
+      "searchQuery": "solve y' + y = e^(-x) integrating factor resonance"
+    },
+    {
+      "id": "solve-y-plus-2y-6-ivp",
+      "title": "Solve $y' + 2y = 6$, $y(0) = 0$. (type $y$ in $x$)",
+      "body": "$y = 3 - 3e^{-2x}$\n\nWith $\\mu = e^{2x}$: $(e^{2x}y)' = 6e^{2x}$, so $y = 3 + Ce^{-2x}$.\n\nThen $y(0) = 3 + C = 0$ gives $C = -3$.",
+      "answer": "y = 3 - 3e^(-2x)",
+      "acceptedAnswers": ["3 - 3e^(-2x)", "y = 3(1 - e^(-2x))", "3(1 - e^(-2x))"],
+      "answerDisplay": "$y = 3 - 3e^{-2x}$",
+      "searchQuery": "solve y' + 2y = 6 initial value integrating factor"
+    },
+    {
+      "id": "solve-xy-prime-plus-y",
+      "title": "General solution of $x y' + y = x$ on $x>0$? (type with constant $C$)",
+      "body": "$y = \\dfrac{x}{2} + \\dfrac{C}{x}$\n\nThe left side is already $(xy)'$, so $(xy)' = x$.\n\nIntegrate: $xy = \\dfrac{x^2}{2} + C$, then divide by $x$.",
+      "answer": "y = x/2 + C/x",
+      "acceptedAnswers": ["x/2 + C/x", "y = (x^2 + C)/(2x)", "y = x/2 + C x^(-1)"],
+      "answerDisplay": "$y = \\dfrac{x}{2} + \\dfrac{C}{x}$",
+      "searchQuery": "solve x y' + y = x linear ODE product rule"
+    },
+    {
+      "id": "solve-y-minus-y-over-x",
+      "title": "General solution of $y' - \\dfrac{y}{x} = x$ on $x>0$? (type with constant $C$)",
+      "body": "$y = x^2 + Cx$\n\nHere $p = -1/x$, so $\\mu = e^{-\\ln x} = 1/x$.\n\nThen $(y/x)' = 1$, so $y/x = x + C$.",
+      "answer": "y = x^2 + Cx",
+      "acceptedAnswers": ["x^2 + Cx", "y = Cx + x^2"],
+      "answerDisplay": "$y = x^2 + Cx$",
+      "searchQuery": "solve y' - y/x = x integrating factor 1/x"
+    },
+    {
+      "id": "homogeneous-linear-solution",
+      "title": "General solution of the homogeneous equation $y' + p(x)y = 0$?",
+      "body": "$y = C\\,e^{-\\int p(x)\\,dx}$\n\nIt is separable: $\\dfrac{dy}{y} = -p\\,dx$.\n\nKey idea: this is $C/\\mu$, the homogeneous part of every linear first-order solution.",
+      "searchQuery": "homogeneous linear first order ODE solution e^(-integral p)"
+    },
+    {
+      "id": "linear-solution-structure",
+      "title": "Structure of the general solution of $y' + py = q$?",
+      "body": "$y = y_h + y_p$: homogeneous solution plus any one particular solution.\n\nHere $y_h = Ce^{-\\int p}$ carries the constant.\n\nExample: $y' + 2y = 6$ has $y_h = Ce^{-2x}$ and $y_p = 3$.",
+      "searchQuery": "general solution homogeneous plus particular first order linear"
+    },
+    {
+      "id": "steady-state-limit",
+      "title": "For every solution of $y' + 2y = 6$, what is $\\lim_{x\\to\\infty} y$? (number)",
+      "body": "3\n\nThe general solution is $y = 3 + Ce^{-2x}$, and $e^{-2x} \\to 0$.\n\nKey idea: the decaying part is the transient; the constant $3$ is the steady state.",
+      "answer": "3",
+      "acceptedAnswers": ["y=3"],
+      "answerDisplay": "$3$",
+      "searchQuery": "steady state transient solution first order linear ODE"
+    },
+    {
+      "id": "linear-existence-interval",
+      "title": "For linear $y' + py = q$ with $p, q$ continuous on an interval $I$, where does the IVP solution exist?",
+      "body": "On the **whole interval** $I$ containing $x_0$, and it is unique.\n\nExample: $y' + \\dfrac{1}{x}y = 1$ with $y(1)=2$ is valid on $(0,\\infty)$.\n\nWatch out: nonlinear equations can fail this, such as $y' = y^2$ blowing up in finite time.",
+      "searchQuery": "linear first order ODE existence interval continuous coefficients"
+    },
+    {
+      "id": "variation-of-constants-first-order",
+      "title": "Idea of **variation of constants** for $y' + py = q$?",
+      "body": "Take $y_h = Ce^{-\\int p}$ and let $C$ vary: try $y = u(x)e^{-\\int p}$.\n\nSubstituting gives $u'e^{-\\int p} = q$, so $u = \\int q\\,e^{\\int p}\\,dx$.\n\nKey idea: it reproduces the integrating-factor formula and generalizes to higher order.",
+      "searchQuery": "variation of constants first order linear ODE"
+    },
+    {
+      "id": "exact-definition",
+      "title": "When is $M(x,y)\\,dx + N(x,y)\\,dy = 0$ **exact**?",
+      "body": "When $\\dfrac{\\partial M}{\\partial y} = \\dfrac{\\partial N}{\\partial x}$ (on a simply connected region with continuous partials).\n\nThen there is a potential $F$ with $F_x = M$, $F_y = N$, and solutions are $F(x,y) = C$.\n\nWhy: equal mixed partials $F_{xy} = F_{yx}$.",
+      "searchQuery": "exact differential equation condition M_y = N_x"
+    },
+    {
+      "id": "exact-2xy",
+      "title": "Solve the exact equation $2xy\\,dx + x^2\\,dy = 0$. (type the implicit solution with $C$)",
+      "body": "$x^2 y = C$\n\nHere $M_y = 2x = N_x$, so it is exact. Integrate $F_x = 2xy$: $F = x^2y + g(y)$, and $F_y = x^2$ gives $g' = 0$.\n\nSo $F = x^2 y$.",
+      "answer": "x^2 y = C",
+      "acceptedAnswers": ["y = C/x^2"],
+      "answerDisplay": "$x^2 y = C$",
+      "searchQuery": "solve exact equation 2xy dx + x^2 dy = 0"
+    },
+    {
+      "id": "not-exact-check",
+      "title": "Is $y\\,dx - x\\,dy = 0$ exact? (yes/no)",
+      "body": "No\n\nHere $M = y$, $N = -x$, so $M_y = 1$ but $N_x = -1$.\n\nTip: multiplying by $1/x^2$ makes it exact, since $d(y/x) = \\dfrac{x\\,dy - y\\,dx}{x^2}$. That is an integrating factor.",
+      "answer": "no",
+      "acceptedAnswers": ["not exact", "n"],
+      "answerDisplay": "no",
+      "searchQuery": "test exactness y dx - x dy not exact integrating factor"
+    },
+    {
+      "id": "exact-total-differential",
+      "title": "Why is an exact equation $M\\,dx + N\\,dy = 0$ equivalent to $dF = 0$?",
+      "body": "Because exact means $M\\,dx + N\\,dy = F_x\\,dx + F_y\\,dy = dF$ for some potential $F(x,y)$.\n\nThen $dF = 0$ means $F$ is constant along solutions, so $F(x,y) = C$.\n\nKey idea: the solution curves are the level curves of $F$.",
+      "searchQuery": "exact equation total differential potential function level curves"
+    },
+    {
+      "id": "exact-solution-steps",
+      "title": "Steps to solve an exact equation $M\\,dx + N\\,dy = 0$?",
+      "body": "1. Check $M_y = N_x$.\n2. Integrate $F = \\int M\\,dx + g(y)$.\n3. Differentiate in $y$ and set $F_y = N$ to find $g'(y)$.\n4. Integrate to get $g$; the solution is $F(x,y) = C$.\n\nWatch out: $g$ depends on $y$ only, so $g'$ must have no $x$ left in it; if it does, you made an error.",
+      "searchQuery": "steps solve exact differential equation potential function"
+    },
+    {
+      "id": "exact-quadratic",
+      "title": "Solve $(2x + y)\\,dx + (x + 2y)\\,dy = 0$. (type the implicit solution)",
+      "body": "$x^2 + xy + y^2 = C$\n\nHere $M_y = 1 = N_x$. From $F_x = 2x + y$: $F = x^2 + xy + g(y)$.\n\nThen $F_y = x + g'(y) = x + 2y$, so $g = y^2$.",
+      "answer": "x^2 + xy + y^2 = C",
+      "acceptedAnswers": ["y^2 + xy + x^2 = C"],
+      "answerDisplay": "$x^2 + xy + y^2 = C$",
+      "searchQuery": "solve (2x+y)dx + (x+2y)dy = 0 exact"
+    },
+    {
+      "id": "exact-find-k",
+      "title": "For what $k$ is $(kxy + 1)\\,dx + (x^2 + 3)\\,dy = 0$ exact? (number)",
+      "body": "2\n\nHere $M_y = kx$ and $N_x = 2x$.\n\nExactness requires $kx = 2x$ for all $x$, so $k = 2$.",
+      "answer": "2",
+      "acceptedAnswers": ["k=2", "two"],
+      "answerDisplay": "$2$",
+      "searchQuery": "find constant making differential equation exact"
+    },
+    {
+      "id": "exact-exp-sin",
+      "title": "Solve $e^{x}\\sin y\\,dx + e^{x}\\cos y\\,dy = 0$. (type the implicit solution)",
+      "body": "$e^{x}\\sin y = C$\n\nHere $M_y = e^x\\cos y = N_x$, so it is exact.\n\n$F_x = e^x\\sin y$ gives $F = e^x\\sin y + g(y)$, and $F_y = e^x\\cos y$ forces $g' = 0$.",
+      "answer": "e^x sin(y) = C",
+      "acceptedAnswers": ["e^x sin y = C"],
+      "answerDisplay": "$e^{x}\\sin y = C$",
+      "searchQuery": "solve e^x sin y dx + e^x cos y dy = 0 exact"
+    },
+    {
+      "id": "integrating-factor-x-only",
+      "title": "When does a non-exact equation have an integrating factor $\\mu(x)$, and what is it?",
+      "body": "When $\\dfrac{M_y - N_x}{N}$ depends on $x$ only. Then $\\mu(x) = \\exp\\left(\\int \\dfrac{M_y - N_x}{N}\\,dx\\right)$.\n\nWhy: requiring $(\\mu M)_y = (\\mu N)_x$ with $\\mu=\\mu(x)$ gives $\\mu' N = \\mu(M_y - N_x)$.\nWatch out: the sign order is $M_y - N_x$ over $N$.",
+      "searchQuery": "integrating factor depends on x only (M_y - N_x)/N"
+    },
+    {
+      "id": "integrating-factor-y-only",
+      "title": "When does a non-exact equation have an integrating factor $\\mu(y)$, and what is it?",
+      "body": "When $\\dfrac{N_x - M_y}{M}$ depends on $y$ only. Then $\\mu(y) = \\exp\\left(\\int \\dfrac{N_x - M_y}{M}\\,dy\\right)$.\n\nWhy: with $\\mu=\\mu(y)$, $(\\mu M)_y = (\\mu N)_x$ gives $\\mu' M + \\mu M_y = \\mu N_x$.\nWatch out: the numerator is flipped to $N_x - M_y$ compared with the $\\mu(x)$ case.",
+      "searchQuery": "integrating factor depends on y only (N_x - M_y)/M"
+    },
+    {
+      "id": "integrating-factor-example-x",
+      "title": "Integrating factor for $(3xy + y^2)\\,dx + (x^2 + xy)\\,dy = 0$? (type in $x$)",
+      "body": "$x$\n\nHere $M_y - N_x = (3x+2y) - (2x+y) = x + y$, and $N = x(x+y)$.\n\nSo $\\dfrac{M_y - N_x}{N} = \\dfrac{1}{x}$ and $\\mu = e^{\\ln x} = x$.",
+      "answer": "x",
+      "acceptedAnswers": ["mu = x"],
+      "answerDisplay": "$\\mu = x$",
+      "searchQuery": "find integrating factor non-exact equation example mu(x)"
+    },
+    {
+      "id": "integrating-factor-lost-solutions",
+      "title": "What can go wrong after multiplying a non-exact equation by an integrating factor $\\mu$?",
+      "body": "Solutions can be gained or lost where $\\mu = 0$.\n\nMultiplying by $\\mu$ can introduce curves $\\mu(x,y) = 0$ that solve the new equation but not the original.\n\nTip: check whether $\\mu = 0$ gives a solution of the original equation.",
+      "searchQuery": "integrating factor extraneous solutions mu equals zero"
+    },
+    {
+      "id": "separable-is-exact",
+      "title": "Is every separable equation $f(x)\\,dx + g(y)\\,dy = 0$ exact? Why?",
+      "body": "Yes.\n\nHere $M = f(x)$ and $N = g(y)$, so $M_y = 0 = N_x$.\n\nThe potential is $F = \\int f\\,dx + \\int g\\,dy$.",
+      "searchQuery": "separable equation special case of exact equation"
+    },
+    {
+      "id": "bernoulli-form",
+      "title": "Standard form of a **Bernoulli** equation?",
+      "body": "$y' + p(x)\\,y = q(x)\\,y^n$\n\nIt is nonlinear unless $n = 0$ or $n = 1$, but a substitution makes it linear.\n\nExample: $y' + y = xy^3$ has $n = 3$.",
+      "searchQuery": "Bernoulli differential equation standard form"
+    },
+    {
+      "id": "bernoulli-substitution",
+      "title": "Bernoulli substitution turning $y' + py = qy^n$ into a linear equation?",
+      "body": "$v = y^{1-n}$\n\nThen $v' = (1-n)y^{-n}y'$, and the equation becomes $v' + (1-n)p\\,v = (1-n)q$.\n\nTip: divide the original equation by $y^n$ first; it makes the algebra clean.",
+      "searchQuery": "Bernoulli equation substitution v = y^(1-n)"
+    },
+    {
+      "id": "bernoulli-sub-n3",
+      "title": "Substitution $v = ?$ for $y' + y = xy^3$ (in terms of $y$)",
+      "body": "$v = y^{-2}$\n\nHere $n = 3$, so $1 - n = -2$.\n\nResult: $v' - 2v = -2x$, which is linear.",
+      "answer": "y^(-2)",
+      "acceptedAnswers": ["1/y^2", "y^-2"],
+      "answerDisplay": "$v = y^{-2}$",
+      "searchQuery": "Bernoulli y' + y = x y^3 substitution"
+    },
+    {
+      "id": "bernoulli-solve-y-squared",
+      "title": "General solution of $y' + y = y^2$ (besides $y=0$)? (type with constant $C$)",
+      "body": "$y = \\dfrac{1}{1 + Ce^{x}}$\n\nWith $v = 1/y$: $v' = -y'/y^2 = -(1 - v)$, so $v' - v = -1$.\n\nThen $v = 1 + Ce^{x}$ and $y = 1/v$.",
+      "answer": "y = 1/(1 + Ce^x)",
+      "acceptedAnswers": ["1/(1 + Ce^x)", "y = 1/(1+C*exp(x))"],
+      "answerDisplay": "$y = \\dfrac{1}{1 + Ce^{x}}$",
+      "searchQuery": "solve Bernoulli equation y' + y = y^2"
+    },
+    {
+      "id": "bernoulli-trivial-cases",
+      "title": "Why is a Bernoulli equation linear already when $n = 0$ or $n = 1$?",
+      "body": "For $n = 0$ it is $y' + py = q$. For $n = 1$ it is $y' + (p - q)y = 0$.\n\nBoth are linear, so use an integrating factor.\n\nWatch out: for $n > 0$ the constant function $y = 0$ is also a solution that the substitution may lose.",
+      "searchQuery": "Bernoulli equation n=0 n=1 linear cases y=0 solution"
+    },
+    {
+      "id": "homogeneous-first-order",
+      "title": "Substitution for $y' = f(y/x)$, and what does it produce?",
+      "body": "Let $v = y/x$, so $y = xv$ and $y' = v + xv'$.\n\nThis gives the separable equation $x\\,v' = f(v) - v$.\n\nWhy: $x$ and $v$ separate: $\\dfrac{dv}{f(v) - v} = \\dfrac{dx}{x}$.",
+      "searchQuery": "homogeneous first order ODE substitution v = y/x"
+    },
+    {
+      "id": "homogeneous-solve-x-plus-y",
+      "title": "General solution of $y' = \\dfrac{x+y}{x}$ for $x>0$? (type with constant $C$)",
+      "body": "$y = x(\\ln x + C)$\n\nWith $v = y/x$: $v + xv' = 1 + v$, so $xv' = 1$.\n\nThen $v = \\ln x + C$ and $y = xv$.",
+      "answer": "y = x(ln x + C)",
+      "acceptedAnswers": ["y = x ln x + Cx", "y = x*ln(x) + C x", "y = x(ln(x) + C)", "x(ln x + C)"],
+      "answerDisplay": "$y = x(\\ln x + C)$",
+      "searchQuery": "solve y' = (x+y)/x homogeneous substitution"
+    },
+    {
+      "id": "homogeneous-x2-y2",
+      "title": "Solve $y' = \\dfrac{x^2 + y^2}{xy}$ for $x>0$ (implicit form).",
+      "body": "$y^2 = 2x^2\\ln x + Cx^2$\n\nWith $y = xv$: $v + xv' = \\dfrac{1}{v} + v$, so $v\\,v' = \\dfrac{1}{x}$.\n\nThen $\\dfrac{v^2}{2} = \\ln x + c$, and $y^2 = x^2v^2$.",
+      "searchQuery": "solve y' = (x^2+y^2)/(xy) homogeneous substitution"
+    },
+    {
+      "id": "linear-argument-substitution",
+      "title": "Substitution for $y' = f(ax + by + c)$ with $b \\ne 0$?",
+      "body": "Let $u = ax + by + c$, so $u' = a + b\\,f(u)$, which is separable.\n\nExample: $y' = (x+y)^2$ gives $u' = 1 + u^2$, so $u = \\tan(x + C)$ and $y = \\tan(x + C) - x$.",
+      "searchQuery": "substitution u = ax+by+c first order ODE separable"
+    },
+    {
+      "id": "existence-uniqueness-theorem",
+      "title": "Existence and uniqueness theorem for $y' = f(x,y)$, $y(x_0) = y_0$?",
+      "body": "If $f$ and $\\dfrac{\\partial f}{\\partial y}$ are continuous near $(x_0, y_0)$, there is a **unique** solution on some interval around $x_0$.\n\nWatch out: the guarantee is local. It does not say how long the interval is.\nKey idea: continuity of $f$ alone gives existence; the $y$-derivative condition gives uniqueness.",
+      "searchQuery": "existence and uniqueness theorem first order ODE Picard"
+    },
+    {
+      "id": "nonuniqueness-example",
+      "title": "$y' = 3y^{2/3}$, $y(0) = 0$ has the solution $y = 0$. Name a second solution. (type $y$ in $x$)",
+      "body": "$y = x^3$\n\nCheck: $y' = 3x^2$ and $3y^{2/3} = 3(x^3)^{2/3} = 3x^2$.\n\nWhy: $\\partial f/\\partial y = 2y^{-1/3}$ is unbounded at $y = 0$, so uniqueness fails.",
+      "answer": "y = x^3",
+      "acceptedAnswers": ["x^3"],
+      "answerDisplay": "$y = x^3$",
+      "searchQuery": "nonuniqueness IVP y' = 3y^(2/3) y(0)=0 x^3"
+    },
+    {
+      "id": "solution-curves-cannot-cross",
+      "title": "Why can two solution curves of $y' = f(x,y)$ never cross when the uniqueness theorem applies?",
+      "body": "A crossing point $(x_1, y_1)$ would give two solutions to the same IVP through that point.\n\nUniqueness forbids this, so curves are either identical or disjoint.\n\nExample: for $y' = y(1-y)$, solutions starting between $0$ and $1$ stay between $0$ and $1$.",
+      "searchQuery": "solution curves cannot intersect uniqueness theorem ODE"
+    },
+    {
+      "id": "blow-up-time",
+      "title": "$y' = y^2$, $y(0) = 2$ blows up at what $x$? (number)",
+      "body": "$\\dfrac{1}{2}$\n\nSeparating: $-\\dfrac{1}{y} = x + c$, and $y(0)=2$ gives $c = -\\tfrac12$.\n\nSo $y = \\dfrac{2}{1-2x}$, which blows up at $x = \\tfrac12$.",
+      "answer": "1/2",
+      "acceptedAnswers": ["0.5", "x = 1/2", "x=0.5"],
+      "answerDisplay": "$\\dfrac{1}{2}$",
+      "searchQuery": "y'=y^2 y(0)=2 interval of existence blow up"
+    },
+    {
+      "id": "abs-y-unique",
+      "title": "$f(y) = |y|$ has no derivative at $0$. Does $y' = |y|$, $y(0)=0$ still have a unique solution?",
+      "body": "Yes, only $y = 0$.\n\nThe theorem's condition (continuous $f_y$) is **sufficient, not necessary**. Here $|y|$ is Lipschitz, which is enough.\n\nWatch out: failing the hypothesis does not prove nonuniqueness, as in $y' = 3y^{2/3}$ where it really fails.",
+      "searchQuery": "Lipschitz condition uniqueness y'=|y| sufficient not necessary"
+    },
+    {
+      "id": "peano-existence",
+      "title": "What does continuity of $f(x,y)$ alone guarantee for $y' = f(x,y)$, $y(x_0)=y_0$?",
+      "body": "At least one solution exists on some interval around $x_0$ (Peano's theorem), but uniqueness is not guaranteed.\n\nExample: $y' = 3y^{2/3}$ is continuous, has solutions, and has more than one through $(0,0)$.",
+      "searchQuery": "Peano existence theorem continuity ODE"
+    },
+    {
+      "id": "infinite-solutions-y-over-x",
+      "title": "How many solutions of $y' = y/x$ pass through $(0, 0)$?",
+      "body": "Infinitely many.\n\nThe general solution is $y = Cx$, and every line through the origin works.\n\nWhy: $f = y/x$ is not continuous at $x = 0$, so the theorem does not apply at $(0,0)$.",
+      "searchQuery": "y' = y/x infinitely many solutions through origin"
+    },
+    {
+      "id": "theorem-local-only",
+      "title": "Why can a nonlinear IVP solution fail to extend to all $x$ even if $f$ is smooth?",
+      "body": "Solutions can grow without bound in finite $x$ (blow-up) and leave the domain.\n\nExample: $y' = y^2$, $y(0)=1$ gives $y = \\dfrac{1}{1-x}$, defined only for $x < 1$.\n\nKey idea: the interval of existence depends on the initial value, unlike the linear case.",
+      "searchQuery": "interval of existence depends on initial condition nonlinear ODE"
+    },
+    {
+      "id": "direction-field-definition",
+      "title": "What does a **direction field** (slope field) of $y' = f(x,y)$ show?",
+      "body": "At each grid point $(x,y)$, a short segment with slope $f(x,y)$.\n\nSolution curves follow the segments, so you can sketch them without solving the ODE.\n\nTip: compute slopes along isoclines, the curves $f(x,y) = k$.",
+      "searchQuery": "direction field slope field differential equation"
+    },
+    {
+      "id": "slope-field-value",
+      "title": "Slope of the direction field of $y' = x - y$ at $(3, 1)$? (number)",
+      "body": "2\n\nSubstitute: $f(3,1) = 3 - 1 = 2$.",
+      "answer": "2",
+      "acceptedAnswers": ["two"],
+      "answerDisplay": "$2$",
+      "searchQuery": "slope field value y' = x - y at a point"
+    },
+    {
+      "id": "isocline-zero-slope",
+      "title": "Where are the horizontal tangents (zero-slope isocline) of $y' = x - y$? (type the line)",
+      "body": "$y = x$\n\nSet $f(x,y) = x - y = 0$.\n\nKey idea: solution curves cross this line with a horizontal tangent, turning points of solutions.",
+      "answer": "y = x",
+      "acceptedAnswers": ["x = y", "x - y = 0"],
+      "answerDisplay": "$y = x$",
+      "searchQuery": "isocline zero slope y' = x - y"
+    },
+    {
+      "id": "autonomous-translation",
+      "title": "For an autonomous equation $y' = f(y)$, how are different solution curves related?",
+      "body": "Horizontal translates: if $y(x)$ is a solution, so is $y(x - c)$.\n\nThe slope field is the same along every vertical line, so slopes depend only on height.\n\nWhy: replacing $x$ by $x - c$ changes nothing, because $x$ does not appear in $f$.",
+      "searchQuery": "autonomous equation solutions horizontal translates"
+    },
+    {
+      "id": "equilibrium-definition",
+      "title": "What is an **equilibrium** solution of $y' = f(y)$, and how do you find it?",
+      "body": "A constant solution $y \\equiv y^*$, found by solving $f(y^*) = 0$.\n\nExample: $y' = y(1-y)$ has equilibria $y = 0$ and $y = 1$.\n\nKey idea: equilibria split the phase line into intervals where solutions are monotone.",
+      "searchQuery": "equilibrium solution autonomous ODE f(y)=0"
+    },
+    {
+      "id": "equilibria-logistic",
+      "title": "Equilibria of $y' = y(1-y)$? (list the values)",
+      "body": "$y = 0$ and $y = 1$\n\nThese are the roots of $y(1-y) = 0$.",
+      "answer": "0, 1",
+      "acceptedAnswers": ["0 and 1", "1, 0", "1 and 0", "y=0, y=1", "y = 0 and y = 1"],
+      "answerDisplay": "$y = 0,\\; y = 1$",
+      "searchQuery": "equilibria of logistic equation y'=y(1-y)"
+    },
+    {
+      "id": "stability-derivative-test",
+      "title": "Linearization test for stability of an equilibrium $y^*$ of $y' = f(y)$?",
+      "body": "If $f'(y^*) < 0$, it is **stable**. If $f'(y^*) > 0$, it is **unstable**.\n\nIf $f'(y^*) = 0$, the test is inconclusive; use the sign of $f$ on each side.\n\nWhy: near $y^*$, $y' \\approx f'(y^*)(y - y^*)$, which decays or grows exponentially.",
+      "searchQuery": "stability of equilibrium autonomous ODE f prime sign test"
+    },
+    {
+      "id": "phase-line",
+      "title": "How do you build a **phase line** for $y' = f(y)$?",
+      "body": "Mark the equilibria, then check the sign of $f$ on each interval between them.\n\n- $f > 0$: arrows point up (solutions increase).\n- $f < 0$: arrows point down.\n\nArrows toward an equilibrium on both sides mean it is stable.",
+      "searchQuery": "phase line autonomous differential equation sketch"
+    },
+    {
+      "id": "logistic-stable-equilibrium",
+      "title": "Which equilibrium of $y' = y(1-y)$ is stable? (number)",
+      "body": "1\n\n$f(y) = y - y^2$, so $f'(y) = 1 - 2y$.\n\nAt $y=1$, $f' = -1 < 0$ (stable); at $y=0$, $f' = 1 > 0$ (unstable).",
+      "answer": "1",
+      "acceptedAnswers": ["y=1"],
+      "answerDisplay": "$y = 1$",
+      "searchQuery": "stable equilibrium logistic equation y(1-y)"
+    },
+    {
+      "id": "unstable-classification",
+      "title": "Classify the equilibrium $y = 2$ of $y' = (y-2)(y+1)$ (stable/unstable/semistable).",
+      "body": "unstable\n\n$f = y^2 - y - 2$, so $f' = 2y - 1$ and $f'(2) = 3 > 0$.\n\nCheck: for $y$ slightly above 2, $f > 0$ (moves away); slightly below, $f < 0$ (moves away).",
+      "answer": "unstable",
+      "acceptedAnswers": ["unstable equilibrium", "a source"],
+      "answerDisplay": "unstable",
+      "searchQuery": "classify equilibrium stable unstable semistable example"
+    },
+    {
+      "id": "semistable-equilibrium",
+      "title": "Classify the equilibrium $y = 0$ of $y' = y^2$.",
+      "body": "semistable\n\nSince $y^2 \\ge 0$, solutions increase on both sides: they approach $0$ from below and leave it from above.\n\nWatch out: $f'(0) = 0$, so the derivative test says nothing; use the sign of $f$.",
+      "answer": "semistable",
+      "acceptedAnswers": ["semi-stable", "half-stable", "semistable equilibrium"],
+      "answerDisplay": "semistable",
+      "searchQuery": "semistable equilibrium y' = y^2"
+    },
+    {
+      "id": "autonomous-monotone",
+      "title": "Why is every solution of an autonomous $y' = f(y)$ monotone?",
+      "body": "Solutions cannot cross equilibria (uniqueness), so $f$ keeps one sign along a solution.\n\nTherefore $y$ is always increasing or always decreasing, and it tends to an equilibrium or to $\\pm\\infty$.\n\nExample: logistic solutions never oscillate around the carrying capacity.",
+      "searchQuery": "autonomous first order ODE solutions monotone no oscillation"
+    },
+    {
+      "id": "stable-equilibrium-sin",
+      "title": "Which equilibrium of $y' = \\sin y$ in $(0, 2\\pi)$ is stable? (value of $y$)",
+      "body": "$y = \\pi$\n\nHere $f' = \\cos y$, and $\\cos\\pi = -1 < 0$.\n\nThe equilibria $y = 0$ and $2\\pi$ have $\\cos = 1 > 0$, so they are unstable.",
+      "answer": "pi",
+      "acceptedAnswers": ["y = pi"],
+      "answerDisplay": "$y = \\pi$",
+      "searchQuery": "y' = sin y equilibria stability phase line"
+    },
+    {
+      "id": "newton-cooling-model",
+      "title": "Newton's law of cooling as an ODE (ambient temperature $T_a$, constant $k>0$)?",
+      "body": "$T' = -k\\,(T - T_a)$\n\nThe rate of change is proportional to the temperature difference with the surroundings.\n\nWatch out: the sign makes $T$ move toward $T_a$; writing $T' = -kT$ ignores the ambient temperature.",
+      "searchQuery": "Newton's law of cooling differential equation"
+    },
+    {
+      "id": "newton-cooling-solution",
+      "title": "Solution of $T' = -k(T - T_a)$ with $T(0) = T_0$?",
+      "body": "$T(t) = T_a + (T_0 - T_a)\\,e^{-kt}$\n\nLet $u = T - T_a$; then $u' = -ku$, so $u = u_0e^{-kt}$.\n\nKey idea: the temperature difference decays exponentially, and $T \\to T_a$.",
+      "searchQuery": "Newton's law of cooling solution T = Ta + (T0 - Ta)e^(-kt)"
+    },
+    {
+      "id": "cooling-find-k",
+      "title": "Coffee at $90\\,^\\circ\\mathrm{C}$ in a $20\\,^\\circ\\mathrm{C}$ room cools to $60\\,^\\circ\\mathrm{C}$ in 10 min. Find $k$ in $\\mathrm{min^{-1}}$ (3 decimals).",
+      "body": "$0.056$\n\n$T - 20 = 70e^{-kt}$, and at $t = 10$: $40 = 70e^{-10k}$.\n\nSo $k = \\dfrac{1}{10}\\ln\\dfrac{7}{4} \\approx 0.0560$.",
+      "answer": "0.056",
+      "acceptedAnswers": [],
+      "answerDisplay": "$k \\approx 0.056$",
+      "searchQuery": "Newton's law of cooling find k coffee example"
+    },
+    {
+      "id": "exponential-growth-model",
+      "title": "Solution of the growth/decay model $P' = kP$, $P(0) = P_0$?",
+      "body": "$P(t) = P_0\\,e^{kt}$\n\nGrowth if $k > 0$, decay if $k < 0$.\n\nExample: with $k = -0.1$ the quantity falls to $e^{-1} \\approx 37\\%$ of $P_0$ at $t = 10$.",
+      "searchQuery": "exponential growth decay differential equation P' = kP"
+    },
+    {
+      "id": "half-life-computation",
+      "title": "A substance obeys $y' = -0.1\\,y$ (time in years). Half-life in years (2 decimals)?",
+      "body": "$6.93$\n\nSolve $e^{-0.1t} = \\tfrac12$: $t = \\dfrac{\\ln 2}{0.1} \\approx 6.93$.\n\nKey idea: half-life is $\\dfrac{\\ln 2}{|k|}$ and does not depend on the starting amount.",
+      "answer": "6.93",
+      "acceptedAnswers": ["6.931"],
+      "answerDisplay": "$6.93$",
+      "searchQuery": "half-life from decay constant ln2 over k"
+    },
+    {
+      "id": "tripling-time",
+      "title": "A population obeying $P' = kP$ doubles in 5 years. How many years to triple? (2 decimals)",
+      "body": "$7.92$\n\nDoubling gives $k = \\dfrac{\\ln 2}{5}$, so tripling takes $t = \\dfrac{\\ln 3}{k} = 5\\,\\dfrac{\\ln 3}{\\ln 2} \\approx 7.92$.\n\nTip: no need for $P_0$; it cancels.",
+      "answer": "7.92",
+      "acceptedAnswers": ["7.925"],
+      "answerDisplay": "$7.92$",
+      "searchQuery": "population doubling time tripling time exponential growth"
+    },
+    {
+      "id": "logistic-equation",
+      "title": "The **logistic equation** with growth rate $r$ and carrying capacity $K$?",
+      "body": "$P' = rP\\left(1 - \\dfrac{P}{K}\\right)$\n\nFor small $P$ it grows like $e^{rt}$; as $P \\to K$ growth slows to zero.\n\nKey idea: $P = 0$ is unstable and $P = K$ is stable (for $r, K > 0$).",
+      "searchQuery": "logistic equation differential equation carrying capacity"
+    },
+    {
+      "id": "logistic-solution",
+      "title": "Solution of the logistic equation $P' = rP(1 - P/K)$ with $P(0) = P_0$?",
+      "body": "$P(t) = \\dfrac{K}{1 + \\left(\\dfrac{K}{P_0} - 1\\right)e^{-rt}}$\n\nIt is a Bernoulli equation with $n = 2$; with $v = 1/P$ it becomes linear.\n\nCheck: at $t = 0$, $P = \\dfrac{K}{K/P_0} = P_0$, and $P \\to K$ as $t \\to \\infty$.",
+      "searchQuery": "logistic equation solution formula K/(1+(K/P0-1)e^(-rt))"
+    },
+    {
+      "id": "logistic-max-growth",
+      "title": "At what population $P$ is logistic growth $P' = rP(1 - P/K)$ fastest?",
+      "body": "$P = \\dfrac{K}{2}$\n\n$P' = rP - \\dfrac{r}{K}P^2$ is a downward parabola in $P$ with vertex at $K/2$.\n\nThe maximum rate is $\\dfrac{rK}{4}$, which is also where the solution has its inflection point.",
+      "searchQuery": "logistic growth maximum rate half carrying capacity inflection"
+    },
+    {
+      "id": "mixing-tank-model",
+      "title": "Setup for a **mixing tank** problem: how do you write $x'(t)$ for the amount of solute?",
+      "body": "$x' = (\\text{rate in}) - (\\text{rate out})$, where rate out $= \\dfrac{x}{V}\\times(\\text{outflow rate})$.\n\nRate in is inflow concentration times inflow rate.\n\nExample: $0.5\\,\\mathrm{kg/L}$ in at $2\\,\\mathrm{L/min}$, tank $100\\,\\mathrm{L}$ well mixed, outflow $2\\,\\mathrm{L/min}$: $x' = 1 - \\dfrac{x}{50}$.",
+      "searchQuery": "mixing tank problem differential equation setup"
+    },
+    {
+      "id": "mixing-tank-limit",
+      "title": "Tank: $x' = 1 - \\dfrac{x}{50}$ ($x$ in kg), $x(0) = 0$. Find $\\lim_{t\\to\\infty} x$ in kg. (number)",
+      "body": "50\n\nThe equilibrium solves $1 - \\dfrac{x}{50} = 0$, so $x = 50$. The solution is $x = 50(1 - e^{-t/50})$.\n\nCheck: $0.5\\,\\mathrm{kg/L} \\times 100\\,\\mathrm{L} = 50\\,\\mathrm{kg}$, the inflow concentration fills the tank.",
+      "answer": "50",
+      "acceptedAnswers": ["50 kg"],
+      "answerDisplay": "$50$",
+      "searchQuery": "mixing tank steady state amount salt limit"
+    },
+    {
+      "id": "mixing-tank-changing-volume",
+      "title": "In a mixing problem, what changes if inflow rate $\\ne$ outflow rate?",
+      "body": "The volume varies: $V(t) = V_0 + (r_{in} - r_{out})t$, and the outflow term is $\\dfrac{x}{V(t)}\\,r_{out}$.\n\nThe ODE is still linear but has a non-constant coefficient.\n\nWatch out: using the constant $V_0$ in the outflow term gives a wrong equation.",
+      "searchQuery": "mixing problem varying volume inflow outflow differ"
+    },
+    {
+      "id": "rc-circuit-model",
+      "title": "ODE for the charge $q(t)$ on a capacitor in a series $RC$ circuit with constant source $E$?",
+      "body": "$R\\,q' + \\dfrac{q}{C} = E$\n\nFrom Kirchhoff's voltage law: $Ri + \\dfrac{q}{C} = E$ with $i = q'$.\n\nWith $q(0)=0$: $q = CE\\left(1 - e^{-t/RC}\\right)$.",
+      "searchQuery": "RC circuit differential equation charge capacitor"
+    },
+    {
+      "id": "rc-time-constant",
+      "title": "Time constant of the $RC$ circuit $R q' + q/C = E$? (in terms of $R$ and $C$)",
+      "body": "$\\tau = RC$\n\nThe transient decays like $e^{-t/RC}$, so after one $\\tau$ it has fallen to about 37% of its starting value.\n\nKey idea: a larger $R$ or $C$ means slower charging.",
+      "answer": "RC",
+      "acceptedAnswers": ["tau = RC"],
+      "answerDisplay": "$\\tau = RC$",
+      "searchQuery": "RC time constant tau = RC"
+    },
+    {
+      "id": "terminal-velocity",
+      "title": "Falling mass $m$ with drag $-kv$ obeys $mv' = mg - kv$. Terminal velocity? (in terms of $m, g, k$)",
+      "body": "$v_\\infty = \\dfrac{mg}{k}$\n\nSet $v' = 0$: $mg - kv = 0$.\n\nWhy: it is a stable equilibrium, and $v(t) = \\dfrac{mg}{k}\\left(1 - e^{-kt/m}\\right)$ when $v(0)=0$.",
+      "answer": "mg/k",
+      "acceptedAnswers": ["(m g)/k"],
+      "answerDisplay": "$\\dfrac{mg}{k}$",
+      "searchQuery": "terminal velocity linear drag mv' = mg - kv"
+    },
+    {
+      "id": "euler-method-formula",
+      "title": "**Euler's method** update for $y' = f(x,y)$ with step $h$?",
+      "body": "$y_{n+1} = y_n + h\\,f(x_n, y_n)$, with $x_{n+1} = x_n + h$.\n\nIt steps along the tangent line at the current point.\n\nTip: keep a table of $x_n$, $y_n$, $f(x_n,y_n)$, $y_{n+1}$.",
+      "searchQuery": "Euler's method formula y_{n+1} = y_n + h f"
+    },
+    {
+      "id": "euler-one-step",
+      "title": "Euler step for $y' = x + y$, $y(0) = 1$, $h = 0.1$: find $y_1$. (number)",
+      "body": "1.1\n\n$y_1 = 1 + 0.1(0 + 1) = 1.1$.",
+      "answer": "1.1",
+      "acceptedAnswers": [],
+      "answerDisplay": "$1.1$",
+      "searchQuery": "Euler method one step example y' = x + y"
+    },
+    {
+      "id": "euler-two-steps",
+      "title": "Continue: $y' = x + y$, $y(0)=1$, $h = 0.1$. Find $y_2$ by Euler's method. (number)",
+      "body": "1.22\n\n$y_2 = y_1 + h(x_1 + y_1) = 1.1 + 0.1(0.1 + 1.1) = 1.1 + 0.12 = 1.22$.\n\nFor reference, the exact value is $y(0.2) = 2e^{0.2} - 0.2 - 1 \\approx 1.2428$.",
+      "answer": "1.22",
+      "acceptedAnswers": [],
+      "answerDisplay": "$1.22$",
+      "searchQuery": "Euler method two steps y' = x + y h = 0.1"
+    },
+    {
+      "id": "euler-y-prime-y",
+      "title": "Euler's method for $y' = y$, $y(0)=1$, $h = 0.5$: approximate $y(1)$. (number)",
+      "body": "2.25\n\n$y_1 = 1 + 0.5(1) = 1.5$, then $y_2 = 1.5 + 0.5(1.5) = 2.25$.\n\nThe exact value is $e \\approx 2.718$; Euler underestimates because the solution is concave up.",
+      "answer": "2.25",
+      "acceptedAnswers": ["9/4"],
+      "answerDisplay": "$2.25$",
+      "searchQuery": "Euler method y' = y h = 0.5 approximate e"
+    },
+    {
+      "id": "euler-error-order",
+      "title": "Global error order of Euler's method in the step size $h$?",
+      "body": "$O(h)$: first order. Halving $h$ roughly halves the error.\n\nEach step has local error $O(h^2)$, but about $1/h$ steps accumulate it.\n\nWatch out: local error is $O(h^2)$ and global error is $O(h)$; do not mix them up.",
+      "searchQuery": "Euler's method global error order O(h)"
+    },
+    {
+      "id": "improved-euler",
+      "title": "**Improved Euler** (Heun) step for $y' = f(x,y)$?",
+      "body": "$y_{n+1} = y_n + \\dfrac{h}{2}\\left[f(x_n,y_n) + f\\big(x_n + h,\\; y_n + h f(x_n,y_n)\\big)\\right]$\n\nIt averages the slope at the start with the slope at the Euler-predicted endpoint.\n\nKey idea: global error is $O(h^2)$, much better than Euler.",
+      "searchQuery": "improved Euler method Heun's method formula"
+    }
+  ]
+}

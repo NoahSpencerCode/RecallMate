@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { ActivityIndicator, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { useEffect, useRef, useState, type ComponentRef } from 'react';
+import { ActivityIndicator, Linking, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -12,6 +12,7 @@ import { GradientBlobs } from '@/components/GradientBlobs';
 import { Icon } from '@/components/Icon';
 import { IconButton } from '@/components/IconButton';
 import { LoadError } from '@/components/LoadError';
+import { RichText } from '@/components/rich/RichText';
 import { Text } from '@/components/Text';
 import { TextField } from '@/components/TextField';
 import { useToast } from '@/components/Toast';
@@ -28,6 +29,8 @@ import { describeGap } from '@/lib/dates';
 import { friendlyError, isGoneError, isNotDueError } from '@/lib/errors';
 import { haptics } from '@/lib/haptics';
 import { nextGapDays } from '@/lib/schedule';
+import { fallbackSearchQuery, learnMoreUrl, plainText, splitAnswer } from '@/lib/rich';
+import { useKeyboardInset } from '@/lib/useKeyboardInset';
 import { useToday } from '@/lib/useToday';
 import { fonts, layout, palette, radii, spacing, springs, useScreenBackground, useTheme } from '@/theme';
 
@@ -40,6 +43,12 @@ const showKeyboardTips =
   Platform.OS === 'web' &&
   typeof window !== 'undefined' &&
   Boolean(window.matchMedia?.('(hover: hover) and (pointer: fine)').matches);
+
+/** Opens a link without leaving the review (a new tab on the web). */
+function openLink(url: string) {
+  if (Platform.OS === 'web') window.open(url, '_blank', 'noopener,noreferrer');
+  else void Linking.openURL(url);
+}
 
 function withoutLast<T extends { id: string }>(list: T[], id: string): T[] {
   for (let i = list.length - 1; i >= 0; i--) {
@@ -78,6 +87,8 @@ export default function Review() {
   const [shakeKey, setShakeKey] = useState(0);
   const [popKey, setPopKey] = useState(0);
   const [burst, setBurst] = useState(0);
+  const cardScroll = useRef<ComponentRef<typeof ScrollView>>(null);
+  const keyboardInset = useKeyboardInset();
 
   const saveReview = useReviewMemory({
     onFailed: (failed, error) => {
@@ -110,6 +121,10 @@ export default function Review() {
     bar.set(withSpring(total ? index / total : 0, springs.gentle));
   }, [bar, index, total]);
   const barStyle = useAnimatedStyle(() => ({ width: `${bar.get() * 100}%` }));
+
+  useEffect(() => {
+    cardScroll.current?.scrollTo({ y: 0, animated: false });
+  }, [index, outcome]);
 
   function close() {
     if (router.canGoBack()) router.back();
@@ -240,9 +255,9 @@ export default function Review() {
             </View>
           ) : null}
         </View>
-        <Text variant={card.title.length > 90 ? 'heading' : 'title'} style={styles.prompt}>
+        <RichText variant={plainText(card.title).length > 90 ? 'heading' : 'title'} style={styles.prompt}>
           {card.title}
-        </Text>
+        </RichText>
         <Text variant="small" tone="subtle">
           {typed ? 'Type your answer below.' : 'Answer it in your head, then flip the card.'}
         </Text>
@@ -256,6 +271,10 @@ export default function Review() {
           ? { icon: 'close-circle' as const, text: 'The answer was', fg: colors.danger, bg: colors.dangerSoft }
           : { icon: 'lightbulb-on' as const, text: 'Answer', fg: colors.primary, bg: colors.primarySoft };
 
+    // The body's first line states the answer; typed cards show the formatted answer instead.
+    const { answer: answerLine, explanation } = splitAnswer(card.body ?? '');
+    const searchQuery = card.search_query || fallbackSearchQuery(card.title, card.answer, pack?.title);
+
     const back = (
       <View style={[styles.face, { backgroundColor: colors.surface, borderColor: colors.border, borderBottomColor: banner.fg }]}>
         <View style={[styles.banner, { backgroundColor: banner.bg }]}>
@@ -264,24 +283,42 @@ export default function Review() {
             {banner.text}
           </Text>
         </View>
-        <Text variant="small" tone="subtle" numberOfLines={3}>
+        <RichText variant="small" tone="subtle" numberOfLines={3} inline>
           {card.title}
-        </Text>
-        {typed ? (
-          <Text variant="title" color={outcome === 'failed' ? colors.danger : colors.text}>
-            {prettyMath(card.answer ?? '')}
-          </Text>
-        ) : null}
+        </RichText>
+        {/* The answer, boxed so it stands out from the explanation. */}
+        <View style={[styles.answerBox, { backgroundColor: banner.bg, borderColor: banner.fg }]}>
+          {typed ? (
+            card.answer_display ? (
+              <RichText variant="title" color={outcome === 'failed' ? colors.danger : colors.text}>
+                {card.answer_display}
+              </RichText>
+            ) : (
+              <Text variant="title" color={outcome === 'failed' ? colors.danger : colors.text}>
+                {prettyMath(card.answer ?? '')}
+              </Text>
+            )
+          ) : (
+            <RichText variant={plainText(answerLine).length > 70 ? 'bodyStrong' : 'heading'}>{answerLine}</RichText>
+          )}
+        </View>
         {typed && lastTry && (outcome === 'failed' || overridden) ? (
           <Text variant="small" tone="muted">
             You typed: {lastTry}
           </Text>
         ) : null}
-        {card.body ? (
-          <Text variant="body" style={styles.body}>
-            {card.body}
+        {explanation ? <RichText variant="body">{explanation}</RichText> : null}
+        <Pressable
+          onPress={() => openLink(learnMoreUrl(searchQuery))}
+          accessibilityRole="link"
+          accessibilityLabel={`Learn more on Google: ${searchQuery}`}
+          style={({ pressed }) => [styles.learnMore, { borderColor: colors.border, opacity: pressed ? 0.7 : 1 }]}>
+          <Icon name="google" size={16} color={colors.primary} />
+          <Text variant="smallStrong" tone="primary" numberOfLines={1} style={styles.flex}>
+            Learn more: {searchQuery}
           </Text>
-        ) : null}
+          <Icon name="open-in-new" size={16} color={colors.textSubtle} />
+        </Pressable>
         {typed && outcome ? (
           <View style={styles.nextLine}>
             <Icon name="calendar-arrow-right" size={16} color={colors.textSubtle} />
@@ -294,9 +331,13 @@ export default function Review() {
       </View>
     );
 
+    // The card scrolls on its own, so a long explanation never pushes the buttons off screen.
     content = (
+      <>
       <ScrollView
-        contentContainerStyle={[styles.sessionScroll, { paddingBottom: insets.bottom + spacing.xl }]}
+        ref={cardScroll}
+        style={styles.flex}
+        contentContainerStyle={styles.cardScroll}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
         <FlipCard
@@ -307,8 +348,9 @@ export default function Review() {
           front={front}
           back={back}
         />
+      </ScrollView>
 
-        <View style={styles.controls}>
+        <View style={[styles.controls, styles.dock, { paddingBottom: (keyboardInset || insets.bottom) + spacing.lg }]}>
           {typed && !outcome ? (
             <Animated.View key={`answer-${card.id}`} entering={FadeInDown.springify().damping(16)} style={styles.answerArea}>
               <TextField
@@ -442,7 +484,7 @@ export default function Review() {
             </Animated.View>
           ) : null}
         </View>
-      </ScrollView>
+      </>
     );
   }
 
@@ -486,7 +528,19 @@ const styles = StyleSheet.create({
   fill: { height: '100%', borderRadius: radii.pill },
   stage: { flex: 1, width: '100%', maxWidth: layout.maxReadingWidth + spacing.xl * 2, alignSelf: 'center' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  sessionScroll: { flexGrow: 1, justifyContent: 'center', padding: spacing.xl, gap: spacing.xl },
+  cardScroll: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: spacing.xl, paddingVertical: spacing.lg },
+  dock: { paddingHorizontal: spacing.xl, paddingTop: spacing.sm },
+  answerBox: { borderWidth: 1.5, borderRadius: radii.lg, paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
+  learnMore: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    borderWidth: 1.5,
+    borderRadius: radii.pill,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    marginTop: spacing.xs,
+  },
   face: {
     borderRadius: radii.xl,
     borderWidth: 1.5,

@@ -1,0 +1,1014 @@
+{
+  "id": "sw-data-structures",
+  "title": "Big-O & Data Structures",
+  "course": "Data Structures",
+  "description": "O/Ω/Θ, loop analysis and amortized cost; arrays, linked lists, stacks, queues and deques; hash tables and Bloom filters; BSTs, AVL, red-black and B-trees; heaps, tries, graph representations, union–find, segment and Fenwick trees, LRU caches.",
+  "cards": [
+    {
+      "id": "asymptotic-notation",
+      "title": "$O$, $\\Omega$, $\\Theta$: which is an upper bound, which a lower bound, and which a tight bound?",
+      "body": "$O$ is the upper bound, $\\Omega$ the lower bound, and $\\Theta$ the tight bound.\n\n- $f(n) = O(g(n))$: $0 \\le f(n) \\le c\\,g(n)$ for all $n \\ge n_0$, for some constants $c > 0$ and $n_0$.\n- $f(n) = \\Omega(g(n))$: $f(n) \\ge c\\,g(n)$ eventually.\n- $f(n) = \\Theta(g(n))$: both, so $g$ bounds $f$ from above and below.\n\nWatch out: $O$ needn't be tight ($5n + 3 = O(n^2)$ is true), and $O$ doesn't mean \"worst case\". Any case (best, average, worst) can get an $O$, $\\Omega$ or $\\Theta$ bound.",
+      "searchQuery": "Big-O Omega Theta upper lower tight bound"
+    },
+    {
+      "id": "array-middle-insert",
+      "title": "Worst-case time to insert a value at an arbitrary index of an array that holds $n$ elements?",
+      "body": "$O(n)$\n\nEvery element after the insertion point shifts one slot right, so inserting at index $0$ moves all $n$ of them.\n\nKey idea: reading or overwriting `a[i]` is $O(1)$, because its address is computed directly as $\\text{base} + i \\cdot \\text{size}$.",
+      "answer": "O(n)",
+      "acceptedAnswers": [
+        "n",
+        "Theta(n)",
+        "linear",
+        "linear time"
+      ],
+      "answerDisplay": "$O(n)$",
+      "searchQuery": "array insert middle shift elements time complexity"
+    },
+    {
+      "id": "dynamic-array-append",
+      "title": "Amortized time per append on a dynamic array that doubles its capacity whenever it fills up?",
+      "body": "$O(1)$\n\nThat's **amortized** $O(1)$, even though an append that triggers a resize costs $O(n)$. Doubling means $n$ appends copy fewer than $2n$ elements in total.\n\nWhy: any constant growth factor above $1$ works (Java's `ArrayList` grows by $1.5\\times$).\nWatch out: growing by a fixed $k$ slots makes appends $O(n)$ amortized.",
+      "answer": "O(1)",
+      "acceptedAnswers": [
+        "1",
+        "constant",
+        "constant time",
+        "O(1) amortized",
+        "amortized O(1)",
+        "Theta(1)"
+      ],
+      "answerDisplay": "$O(1)$",
+      "searchQuery": "dynamic array amortized append doubling"
+    },
+    {
+      "id": "linked-list-insert-search",
+      "title": "Singly linked list with only a head pointer: time to insert at the front, and to search for a value?",
+      "body": "Insert at front: $O(1)$. Search: $O(n)$.\n\nInserting at the front just points the new node at the old head. Searching means walking **node by node**.\n\nWatch out: even a sorted linked list can't be binary-searched efficiently, since there's no $O(1)$ access to the middle node.",
+      "searchQuery": "singly linked list insert front search time complexity"
+    },
+    {
+      "id": "stack-vs-queue",
+      "title": "Stack vs queue: what removal order does each follow, and what do `push`/`pop` and `enqueue`/`dequeue` cost?",
+      "body": "Stack: LIFO (last in, first out). Queue: FIFO (first in, first out).\n\nA stack does `push` and `pop` at the top. A queue does `enqueue` at the back and `dequeue` at the front. All four operations are $O(1)$.\n\nWatch out: a queue on a plain array that shifts every element on `dequeue` makes it $O(n)$. Use a circular buffer, or a linked list with a tail pointer.",
+      "searchQuery": "stack LIFO queue FIFO push pop enqueue dequeue"
+    },
+    {
+      "id": "hash-load-factor",
+      "title": "A hash table stores $n$ keys in $m$ buckets (slots). What is its load factor $\\alpha$?",
+      "body": "$\\alpha = n/m$, the average number of keys per bucket.\n\nImplementations resize when $\\alpha$ passes a threshold ($0.75$ in Java's `HashMap`): they allocate more buckets and rehash every key in $O(n)$.\n\nWhy: resizing keeps the **load factor** bounded, so average operations stay $O(1)$.",
+      "answer": "n/m",
+      "acceptedAnswers": [
+        "keys/buckets",
+        "keys/slots",
+        "alpha = n/m",
+        "α = n/m"
+      ],
+      "answerDisplay": "$\\alpha = n/m$",
+      "searchQuery": "hash table load factor alpha n/m"
+    },
+    {
+      "id": "hash-search-average-vs-worst",
+      "title": "Hash table with chaining: average-case vs worst-case search time, and what causes the worst case?",
+      "body": "Average: $\\Theta(1 + \\alpha)$. Worst: $\\Theta(n)$.\n\nThe average holds under simple uniform hashing, and is $O(1)$ while the load factor $\\alpha$ stays bounded. The worst case happens when all $n$ keys hash to the same bucket (a poor hash function or adversarial keys).\n\nWatch out: \"hash lookups are $O(1)$\" is an **average-case** claim.",
+      "searchQuery": "hash table chaining search average worst case"
+    },
+    {
+      "id": "chaining-vs-open-addressing",
+      "title": "How does chaining differ from open addressing in resolving hash collisions?",
+      "body": "Chaining: each bucket holds a list of the keys that hash there. Open addressing: every key lives in the table array itself.\n\nWith chaining, $\\alpha$ can exceed $1$. With open addressing, a collision sends you probing other slots (linear, quadratic, double hashing), so $\\alpha \\le 1$ and should stay well below it.\n\nWatch out: open-addressing deletes need a \"deleted\" marker (**tombstone**) so later searches don't stop early.",
+      "searchQuery": "hash collision chaining versus open addressing"
+    },
+    {
+      "id": "bst-unbalanced-worst-case",
+      "title": "Worst-case time to search a binary search tree with $n$ nodes when the tree isn't kept balanced?",
+      "body": "$O(n)$\n\nBST operations take $O(h)$ for tree height $h$. Inserting keys in sorted order builds a degenerate chain with $h = n - 1$.\n\nWatch out: randomly built BSTs have expected height $O(\\log n)$, but that's not a guarantee. Self-balancing trees provide one.",
+      "answer": "O(n)",
+      "acceptedAnswers": [
+        "n",
+        "Theta(n)",
+        "linear",
+        "linear time"
+      ],
+      "answerDisplay": "$O(n)$",
+      "searchQuery": "binary search tree unbalanced worst case search"
+    },
+    {
+      "id": "balanced-bst-guarantee",
+      "title": "What worst-case time do AVL and red-black trees guarantee for search, insert, and delete with $n$ keys?",
+      "body": "$O(\\log n)$\n\nRotations keep the height logarithmic. AVL: every node's two subtree heights differ by at most $1$. Red-black: the coloring rules guarantee height $\\le 2\\log_2(n + 1)$.\n\nKey idea: AVL is more rigidly balanced; red-black does less rebalancing (at most $2$ rotations per insert and $3$ per delete).",
+      "answer": "O(log n)",
+      "acceptedAnswers": [
+        "log n",
+        "O(lg n)",
+        "lg n",
+        "Theta(log n)",
+        "O(log2 n)",
+        "O(log(n))",
+        "log(n)",
+        "logarithmic"
+      ],
+      "answerDisplay": "$O(\\log n)$",
+      "searchQuery": "AVL red-black tree worst case O(log n) guarantee"
+    },
+    {
+      "id": "binary-heap-operations",
+      "title": "Binary min-heap with $n$ elements: worst-case time for `insert`, `extract-min`, and peeking at the minimum?",
+      "body": "`insert`: $O(\\log n)$. `extract-min`: $O(\\log n)$. Peek: $O(1)$.\n\nInsert appends at the end and sifts up. Extract-min moves the last element to the root and sifts down. The minimum is always at the root.\n\nWhy: the tree is complete, so its height is $\\lfloor \\log_2 n \\rfloor$.\nWatch out: searching a heap for an arbitrary key is still $O(n)$.",
+      "searchQuery": "binary min-heap insert extract-min peek complexity"
+    },
+    {
+      "id": "heap-left-child-index",
+      "title": "In a 0-indexed array storing a binary heap, what is the index of the left child of the node at index $i$?",
+      "body": "$2i + 1$\n\nRight child: $2i + 2$. Parent: $\\lfloor (i - 1)/2 \\rfloor$.\n\nWatch out: CLRS uses 1-indexed arrays instead: left $2i$, right $2i + 1$, parent $\\lfloor i/2 \\rfloor$. Always check which convention a question uses.",
+      "answer": "2i+1",
+      "acceptedAnswers": [
+        "1+2i",
+        "i*2+1"
+      ],
+      "answerDisplay": "$2i + 1$",
+      "searchQuery": "binary heap array index left child 2i+1"
+    },
+    {
+      "id": "build-heap-linear",
+      "title": "Time to build a binary heap from an unsorted array of $n$ elements with bottom-up heapify (sift down from the last parent to the root)?",
+      "body": "$O(n)$, not $O(n \\log n)$.\n\nMost nodes sit near the bottom and sift down only a few levels: at most $\\lceil n/2^{h+1} \\rceil$ nodes have height $h$, and $\\sum_h h/2^h$ converges, so the total is **linear**.\n\nWatch out: inserting the $n$ elements one at a time costs $O(n \\log n)$ in the worst case.",
+      "answer": "O(n)",
+      "acceptedAnswers": [
+        "n",
+        "Theta(n)",
+        "linear",
+        "linear time"
+      ],
+      "answerDisplay": "$O(n)$",
+      "searchQuery": "build heap bottom-up heapify O(n) linear time"
+    },
+    {
+      "id": "trie-lookup",
+      "title": "Time to look up a key of length $L$ in a trie (prefix tree) that holds $n$ keys?",
+      "body": "$O(L)$\n\nThe cost depends on the key length $L$, independent of $n$, assuming $O(1)$ child lookup per character (e.g. an array indexed by letter).\n\nTip: tries make prefix queries like autocomplete fast. The cost is memory, since every node stores child pointers.",
+      "answer": "O(L)",
+      "acceptedAnswers": [
+        "L",
+        "Theta(L)"
+      ],
+      "answerDisplay": "$O(L)$",
+      "searchQuery": "trie prefix tree lookup time key length"
+    },
+    {
+      "id": "adjacency-list-vs-matrix",
+      "title": "Space needed for a graph with $V$ vertices and $E$ edges: adjacency list vs adjacency matrix?",
+      "body": "List: $\\Theta(V + E)$. Matrix: $\\Theta(V^2)$.\n\nA matrix answers \"is $(u, v)$ an edge?\" in $O(1)$ but wastes space on sparse graphs.\n\nWhy: a list makes iterating $u$'s neighbors $O(\\deg u)$, which is why BFS and DFS run in $O(V + E)$ on lists but $O(V^2)$ on a matrix.",
+      "searchQuery": "graph adjacency list versus adjacency matrix space"
+    },
+    {
+      "id": "union-find-complexity",
+      "title": "Union–find (disjoint sets) with union by rank and path compression: amortized time per operation on $n$ elements?",
+      "body": "$O(\\alpha(n))$ amortized, where $\\alpha$ is the inverse Ackermann function.\n\nSince $\\alpha(n) \\le 4$ for any practical $n$, it's effectively constant.\n\nWatch out: with neither optimization, trees can degenerate into chains and a `find` costs $O(n)$.",
+      "answer": "O(alpha(n))",
+      "acceptedAnswers": [
+        "alpha(n)",
+        "O(α(n))",
+        "α(n)",
+        "inverse ackermann",
+        "inverse ackermann function",
+        "O(inverse ackermann)"
+      ],
+      "answerDisplay": "$O(\\alpha(n))$",
+      "searchQuery": "union-find union by rank path compression inverse Ackermann"
+    },
+    {
+      "id": "adt-vs-data-structure",
+      "title": "What's the difference between an abstract data type (ADT) and a data structure?",
+      "body": "An ADT specifies which operations exist and how they behave; a data structure is a concrete way to implement them.\n\nA priority queue is an ADT (it offers `insert` and `extract-min`); a binary heap is one data structure that implements it.\n\nKey idea: one ADT can have several implementations with different costs, like a list stored as an array or as a linked list.",
+      "searchQuery": "abstract data type versus data structure difference"
+    },
+    {
+      "id": "growth-rate-order",
+      "title": "Order from slowest- to fastest-growing: $n!$, $2^n$, $n^2$, $n \\log n$, $\\log n$, $\\sqrt{n}$.",
+      "body": "$\\log n < \\sqrt{n} < n \\log n < n^2 < 2^n < n!$ (for large $n$)\n\nAny positive power of $n$ eventually beats any power of $\\log n$. Any exponential $c^n$ with $c > 1$ beats any polynomial.\n\nKey idea: $n!$ beats $c^n$ for every constant $c$.",
+      "searchQuery": "order of growth log n sqrt n n log n n^2 2^n n!"
+    },
+    {
+      "id": "drop-lower-order-terms",
+      "title": "Tightest simple Big-O bound for $f(n) = 3n^2 + 100n \\log n + 7$?",
+      "body": "$O(n^2)$\n\nKeep the fastest-growing term and drop its constant factor: $n^2$ eventually dominates $n \\log n$, whatever the coefficients.\n\nWatch out: $O(n^3)$ is also true, just not tight.",
+      "answer": "O(n^2)",
+      "acceptedAnswers": [
+        "n^2",
+        "Theta(n^2)",
+        "O(n2)",
+        "n2",
+        "quadratic"
+      ],
+      "answerDisplay": "$O(n^2)$",
+      "searchQuery": "Big-O drop lower order terms constants polynomial"
+    },
+    {
+      "id": "log-base-irrelevant",
+      "title": "Why are $O(\\log_2 n)$ and $O(\\log_{10} n)$ the same complexity class?",
+      "body": "Change of base: $\\log_2 n = \\dfrac{\\log_{10} n}{\\log_{10} 2} \\approx 3.32 \\log_{10} n$, so they differ only by a constant factor.\n\nBig-O ignores constant factors. That's why complexities just write $\\log n$.\n\nWatch out: the base does matter in an exponent: $2^{\\log_2 n} = n$, but $4^{\\log_2 n} = n^2$.",
+      "searchQuery": "logarithm base change Big-O constant factor"
+    },
+    {
+      "id": "exponential-base-matters",
+      "title": "Is $2^{2n} = O(2^n)$?",
+      "body": "No.\n\n$2^{2n} = 4^n$, and $4^n / 2^n = 2^n \\to \\infty$, so no constant $c$ makes $4^n \\le c \\cdot 2^n$ for all large $n$.\n\nKey idea: a constant added to the exponent is just a constant factor ($2^{n+1} = 2 \\cdot 2^n = O(2^n)$), but a constant multiplying the exponent changes the base.",
+      "searchQuery": "is 2^(2n) O(2^n) exponential base Big-O"
+    },
+    {
+      "id": "little-o-vs-big-o",
+      "title": "What does $f(n) = o(g(n))$ (little-o) mean, and how does it differ from $O(g(n))$?",
+      "body": "$f$ grows strictly slower than $g$: $f(n)/g(n) \\to 0$.\n\nEquivalently, for every $c > 0$, eventually $f(n) < c\\,g(n)$. Big-O also allows the same growth rate.\n\nExample: $2n = O(n)$ but $2n \\ne o(n)$, while $n = o(n^2)$.\nTip: little-$\\omega$ is the strict counterpart of $\\Omega$.",
+      "searchQuery": "little-o versus Big-O strictly slower growth"
+    },
+    {
+      "id": "sequential-loops-n-plus-m",
+      "title": "A function loops once over a list of length $n$, then, separately, over a list of length $m$. What is its running time?",
+      "body": "$O(n + m)$\n\nSequential steps add; nested steps multiply. Nesting one loop inside the other would give $O(nm)$.\n\nWatch out: don't collapse it to $O(n)$, since nothing says $m \\le n$.",
+      "answer": "O(n+m)",
+      "acceptedAnswers": [
+        "O(m+n)",
+        "n+m",
+        "m+n",
+        "Theta(n+m)",
+        "Theta(m+n)"
+      ],
+      "answerDisplay": "$O(n + m)$",
+      "searchQuery": "sequential loops running time O(n+m) two lists"
+    },
+    {
+      "id": "triangular-nested-loop",
+      "title": "Time complexity of this snippet as a function of $n$?\n```python\nfor i in range(n):\n    for j in range(i):\n        total += 1\n```",
+      "body": "$\\Theta(n^2)$\n\nThe inner loop runs $0 + 1 + \\cdots + (n - 1) = n(n - 1)/2$ times in total.\n\nKey idea: doing half the work of a full $n \\times n$ double loop changes only the constant.",
+      "answer": "O(n^2)",
+      "acceptedAnswers": [
+        "n^2",
+        "Theta(n^2)",
+        "O(n2)",
+        "n2",
+        "quadratic"
+      ],
+      "answerDisplay": "$\\Theta(n^2)$",
+      "searchQuery": "triangular nested loop time complexity n^2"
+    },
+    {
+      "id": "halving-loop",
+      "title": "Time complexity of this loop for a positive integer $n$?\n```python\nwhile n > 1:\n    n //= 2\n```",
+      "body": "$\\Theta(\\log n)$\n\nEach pass halves $n$, so it takes about $\\log_2 n$ passes to reach $1$.\n\nTip: any loop that divides or multiplies its counter by a constant factor runs a **logarithmic** number of times.",
+      "answer": "O(log n)",
+      "acceptedAnswers": [
+        "log n",
+        "Theta(log n)",
+        "O(lg n)",
+        "lg n",
+        "O(log(n))",
+        "log(n)",
+        "O(log2 n)",
+        "logarithmic"
+      ],
+      "answerDisplay": "$\\Theta(\\log n)$",
+      "searchQuery": "halving loop logarithmic time complexity"
+    },
+    {
+      "id": "nested-doubling-loop",
+      "title": "Time complexity of this snippet as a function of $n$?\n```python\nfor i in range(n):\n    j = 1\n    while j < n:\n        j *= 2\n```",
+      "body": "$\\Theta(n \\log n)$\n\nThe outer loop runs $n$ times, and each time the inner loop doubles $j$ until it reaches $n$, about $\\log_2 n$ steps.\n\nTip: independent nested loops multiply: $n \\cdot \\log n$.",
+      "answer": "O(n log n)",
+      "acceptedAnswers": [
+        "n log n",
+        "Theta(n log n)",
+        "O(n lg n)",
+        "n lg n",
+        "O(n log(n))",
+        "n log(n)",
+        "linearithmic"
+      ],
+      "answerDisplay": "$\\Theta(n \\log n)$",
+      "searchQuery": "nested loop doubling inner loop n log n"
+    },
+    {
+      "id": "harmonic-loop",
+      "title": "Time complexity as a function of $n$, if `work()` takes $O(1)$?\n```python\nfor i in range(1, n + 1):\n    for j in range(0, n, i):\n        work()\n```",
+      "body": "$\\Theta(n \\log n)$\n\nThe inner loop runs about $n/i$ times, so the total is about $n(1 + \\tfrac{1}{2} + \\cdots + \\tfrac{1}{n}) = nH_n$, and the harmonic number $H_n \\approx \\ln n$.\n\nExample: sieve-style loops have this shape.",
+      "answer": "O(n log n)",
+      "acceptedAnswers": [
+        "n log n",
+        "Theta(n log n)",
+        "O(n lg n)",
+        "n lg n",
+        "O(n log(n))",
+        "n log(n)",
+        "linearithmic"
+      ],
+      "answerDisplay": "$\\Theta(n \\log n)$",
+      "searchQuery": "harmonic series nested loop n log n"
+    },
+    {
+      "id": "sqrt-loop",
+      "title": "Time complexity of this loop as a function of $n$?\n```python\ni = 1\nwhile i * i <= n:\n    i += 1\n```",
+      "body": "$\\Theta(\\sqrt{n})$\n\nThe loop stops once $i^2 > n$, after about $\\sqrt{n}$ iterations.\n\nExample: trial-division primality tests rely on the same bound, since checking divisors up to $\\sqrt{n}$ is enough.",
+      "answer": "O(sqrt(n))",
+      "acceptedAnswers": [
+        "sqrt(n)",
+        "O(sqrt n)",
+        "sqrt n",
+        "Theta(sqrt(n))",
+        "O(n^0.5)",
+        "n^0.5",
+        "O(n^(1/2))",
+        "n^(1/2)"
+      ],
+      "answerDisplay": "$\\Theta(\\sqrt{n})$",
+      "searchQuery": "while loop i squared at most n time complexity"
+    },
+    {
+      "id": "recursion-stack-space",
+      "title": "How much call-stack space does this recursive function use for input $n$?\n```python\ndef fact(n):\n    return 1 if n <= 1 else n * fact(n - 1)\n```",
+      "body": "$O(n)$\n\nThe recursion goes $n$ levels deep, and every pending call holds a stack frame.\n\nWatch out: recursion depth counts as space even when no data structure is allocated. A loop would need only $O(1)$.",
+      "answer": "O(n)",
+      "acceptedAnswers": [
+        "n",
+        "Theta(n)",
+        "linear",
+        "linear space"
+      ],
+      "answerDisplay": "$O(n)$",
+      "searchQuery": "recursion call stack space factorial O(n)"
+    },
+    {
+      "id": "amortized-vs-average",
+      "title": "How does an amortized bound differ from an average-case bound?",
+      "body": "Amortized: the worst-case total cost of any sequence of $k$ operations, divided by $k$. Average-case: an expectation over some distribution of inputs.\n\nNo probability is involved in an **amortized** bound.\n\nExample: dynamic-array appends are $O(1)$ amortized on every sequence, even though a single append can cost $O(n)$.",
+      "searchQuery": "amortized analysis versus average case difference"
+    },
+    {
+      "id": "row-major-offset",
+      "title": "A 2D array with $R$ rows and $C$ columns is stored in row-major order. At what offset (in elements) from the start is element $[i][j]$, 0-indexed?",
+      "body": "$iC + j$\n\nRow-major order (C, and NumPy by default) stores each row contiguously: skip $i$ full rows of $C$ elements, then $j$ more.\n\nWatch out: column-major order (Fortran, MATLAB) uses $jR + i$ instead.",
+      "answer": "i*C + j",
+      "acceptedAnswers": [
+        "C*i + j",
+        "j + i*C",
+        "j + C*i"
+      ],
+      "answerDisplay": "$iC + j$",
+      "searchQuery": "row-major order 2D array element offset"
+    },
+    {
+      "id": "python-list-pop-front",
+      "title": "Time for `lst.pop(0)` on a Python list of $n$ elements?",
+      "body": "$O(n)$\n\nA Python `list` is a dynamic array, so removing the first element shifts the other $n - 1$ left. `lst.pop()` at the end is $O(1)$.\n\nTip: for a FIFO queue, use `collections.deque`, whose `popleft()` is $O(1)$.",
+      "answer": "O(n)",
+      "acceptedAnswers": [
+        "n",
+        "Theta(n)",
+        "linear",
+        "linear time"
+      ],
+      "answerDisplay": "$O(n)$",
+      "searchQuery": "Python list pop(0) time complexity"
+    },
+    {
+      "id": "list-vs-set-membership",
+      "title": "Average time of `x in items` when `items` is a Python `list` vs a `set` of $n$ elements?",
+      "body": "List: $O(n)$, a linear scan. Set: $O(1)$ on average, a hash lookup.\n\nWatch out: a membership test against a list inside a loop makes the loop $O(n^2)$.\nTip: build a set once in $O(n)$ instead.",
+      "searchQuery": "Python list versus set membership test time"
+    },
+    {
+      "id": "string-concat-loop",
+      "title": "Total time to build a Java `String` of length $n$ by executing `s += c` once per character?",
+      "body": "$\\Theta(n^2)$\n\nJava strings are immutable, so each `+=` copies the whole string so far: $1 + 2 + \\cdots + n$ character copies.\n\nTip: a `StringBuilder` (or Python's `''.join(parts)`) appends in amortized $O(1)$, for $O(n)$ total.",
+      "answer": "O(n^2)",
+      "acceptedAnswers": [
+        "n^2",
+        "Theta(n^2)",
+        "O(n2)",
+        "n2",
+        "quadratic"
+      ],
+      "answerDisplay": "$\\Theta(n^2)$",
+      "searchQuery": "Java string concatenation loop quadratic StringBuilder"
+    },
+    {
+      "id": "dynamic-array-shrink-quarter",
+      "title": "A dynamic array doubles when full. Why should it halve its capacity only when it falls to $1/4$ full, not $1/2$ full?",
+      "body": "Shrinking at half full lets a sequence alternate one push and one pop right at the boundary, forcing a $\\Theta(n)$ copy on every operation.\n\nWhy: shrinking at $1/4$ leaves the array half full after each resize, so $\\Theta(n)$ cheap operations must happen before the next resize, which keeps operations $O(1)$ amortized.",
+      "searchQuery": "dynamic array shrink at one quarter full amortized"
+    },
+    {
+      "id": "array-cache-locality",
+      "title": "Summing an array and summing a linked list are both $O(n)$. Why is the array usually much faster in practice?",
+      "body": "Cache locality: array elements are contiguous, so each cache line fetched brings several neighbors along.\n\nThe hardware prefetcher can stream ahead through an array. List nodes are scattered in memory, so each step can miss the cache, on top of pointer-chasing overhead.\n\nKey idea: Big-O hides constant factors like these.",
+      "searchQuery": "array versus linked list cache locality performance"
+    },
+    {
+      "id": "sorted-array-tradeoff",
+      "title": "Sorted array of $n$ keys: worst-case time to search for a key, and to insert a new one?",
+      "body": "Search: $O(\\log n)$ by binary search. Insert: $O(n)$.\n\nFinding the spot is fast, but every later element must shift.\n\nTip: a sorted array suits read-heavy data. A balanced BST gets $O(\\log n)$ for both operations.",
+      "searchQuery": "sorted array binary search insert time complexity"
+    },
+    {
+      "id": "doubly-linked-delete-node",
+      "title": "Time to delete a node from a doubly linked list when you already hold a pointer to that node?",
+      "body": "$O(1)$\n\nRelink its neighbors: `node.prev.next = node.next` and `node.next.prev = node.prev`.\n\nWatch out: in a singly linked list you'd need the predecessor, which takes $O(n)$ to find from the head.",
+      "answer": "O(1)",
+      "acceptedAnswers": [
+        "1",
+        "constant",
+        "constant time",
+        "Theta(1)"
+      ],
+      "answerDisplay": "$O(1)$",
+      "searchQuery": "doubly linked list delete node given pointer O(1)"
+    },
+    {
+      "id": "singly-linked-delete-tail",
+      "title": "A singly linked list keeps both head and tail pointers. Why is removing the last node still $O(n)$?",
+      "body": "The new tail is the second-to-last node, and with no `prev` pointers the only way to reach it is to walk from the head.\n\nAppending at the tail is $O(1)$, though.\n\nTip: that's why such a list works as a queue: enqueue at the tail, dequeue at the head.",
+      "searchQuery": "singly linked list remove last node tail pointer O(n)"
+    },
+    {
+      "id": "sentinel-node",
+      "title": "What is a sentinel (dummy) node in a linked list, and why use one?",
+      "body": "A permanent placeholder node at the head (and often the tail) that holds no real data.\n\nWhy: every real node then has a predecessor (and, with a tail sentinel, a successor), so insert and delete need no special cases for an empty list or for the first and last nodes.",
+      "searchQuery": "linked list sentinel dummy node purpose"
+    },
+    {
+      "id": "reverse-linked-list-space",
+      "title": "Extra space needed to reverse a singly linked list of $n$ nodes iteratively?",
+      "body": "$O(1)$ extra space, in $O(n)$ time.\n\nWalk the list once, flipping each `next` pointer:\n\n```python\nprev, cur = None, head\nwhile cur:\n    nxt = cur.next\n    cur.next = prev\n    prev, cur = cur, nxt\nreturn prev\n```\n\nWatch out: a recursive version also takes $O(n)$ time but uses $O(n)$ stack space.",
+      "answer": "O(1)",
+      "acceptedAnswers": [
+        "1",
+        "constant",
+        "constant space",
+        "Theta(1)"
+      ],
+      "answerDisplay": "$O(1)$",
+      "searchQuery": "reverse singly linked list iterative O(1) space"
+    },
+    {
+      "id": "floyd-cycle-detection",
+      "title": "How does Floyd's tortoise-and-hare algorithm detect a cycle in a linked list, and how much extra space does it use?",
+      "body": "Advance a slow pointer $1$ node and a fast pointer $2$ nodes per step; if they ever meet, there's a cycle.\n\nIf the fast one reaches the end, there's no cycle. Inside a cycle the fast pointer gains one node per step on the slow one, so they must meet.\n\nKey idea: it takes $O(n)$ time and $O(1)$ extra space, versus $O(n)$ space for a set of visited nodes.",
+      "searchQuery": "Floyd tortoise and hare cycle detection linked list"
+    },
+    {
+      "id": "floyd-cycle-start",
+      "title": "After Floyd's tortoise and hare meet inside a linked-list cycle, how do you find the node where the cycle begins?",
+      "body": "Move one pointer back to the head, then advance both one node at a time; they meet at the cycle's first node.\n\nWhy: if the cycle starts $\\mu$ nodes from the head, the meeting point is exactly $\\mu$ steps (mod the cycle length) before the cycle start, so both pointers arrive there together.",
+      "searchQuery": "Floyd cycle detection find start of cycle"
+    },
+    {
+      "id": "skip-list",
+      "title": "Skip list with $n$ elements: expected search time, and how is each node's number of levels chosen?",
+      "body": "Expected $O(\\log n)$ for search, insert and delete.\n\nA new node's levels come from coin flips: it's promoted one more level with probability $1/2$, so level $i$ holds about $n/2^i$ nodes.\n\nKey idea: it's a randomized alternative to balanced BSTs (Redis sorted sets, Java's `ConcurrentSkipListMap`).\nWatch out: the worst case is $O(n)$.",
+      "searchQuery": "skip list expected search time coin flip levels"
+    },
+    {
+      "id": "balanced-parentheses",
+      "title": "Which data structure checks whether a bracket string like `([]{})` is balanced in one left-to-right pass?",
+      "body": "A stack.\n\nPush each opening bracket; on a closing bracket, pop and check that it matches. The string is balanced iff no pop fails or mismatches and the stack ends empty, all in $O(n)$.\n\nExample: `([)]` fails, because the `)` meets a `[` on top of the stack.",
+      "answer": "stack",
+      "acceptedAnswers": [
+        "LIFO stack",
+        "LIFO"
+      ],
+      "searchQuery": "balanced parentheses check stack"
+    },
+    {
+      "id": "postfix-evaluation",
+      "title": "Evaluate the postfix (reverse Polish) expression `3 4 + 2 *` with a stack.",
+      "body": "$14$\n\nPush $3$ and $4$; `+` pops both and pushes $7$; push $2$; `*` pops $7$ and $2$ and pushes $14$.\n\nKey idea: the value left on the stack is the result, and postfix never needs parentheses.",
+      "answer": "14",
+      "acceptedAnswers": [
+        "fourteen"
+      ],
+      "searchQuery": "evaluate postfix reverse Polish notation stack"
+    },
+    {
+      "id": "queue-two-stacks",
+      "title": "A queue built from two stacks (push onto an inbox; pop from an outbox, refilling it from the inbox only when empty): amortized time per operation?",
+      "body": "$O(1)$ amortized.\n\nOne dequeue can cost $O(n)$ when it moves the whole inbox to the outbox.\n\nWhy: each element is pushed and popped at most twice in total, so $k$ operations cost $O(k)$.",
+      "answer": "O(1)",
+      "acceptedAnswers": [
+        "1",
+        "constant",
+        "constant time",
+        "O(1) amortized",
+        "amortized O(1)",
+        "Theta(1)"
+      ],
+      "answerDisplay": "$O(1)$",
+      "searchQuery": "queue using two stacks amortized time"
+    },
+    {
+      "id": "circular-buffer-next-index",
+      "title": "In a circular buffer (ring buffer) with capacity $C$ and 0-indexed slots, which index comes after index $i$?",
+      "body": "$(i + 1) \\bmod C$\n\nThe index wraps from $C - 1$ back to $0$.\n\nWhy: a queue's head and tail chase each other around a fixed array, with $O(1)$ enqueue and dequeue and no shifting.",
+      "answer": "(i+1) mod C",
+      "acceptedAnswers": [
+        "(i+1) % C",
+        "(1+i) mod C",
+        "(1+i) % C"
+      ],
+      "answerDisplay": "$(i + 1) \\bmod C$",
+      "searchQuery": "circular buffer ring buffer next index modulo"
+    },
+    {
+      "id": "python-deque",
+      "title": "Which Python standard-library type gives $O(1)$ appends and pops at both ends?",
+      "body": "`collections.deque` (a double-ended queue).\n\n`append`, `appendleft`, `pop` and `popleft` are all $O(1)$.\n\nWatch out: a `list` is $O(1)$ only at its right end, and indexing into the middle of a `deque` is $O(n)$.",
+      "answer": "deque",
+      "acceptedAnswers": [
+        "collections.deque",
+        "double-ended queue",
+        "double ended queue"
+      ],
+      "searchQuery": "Python collections deque O(1) both ends"
+    },
+    {
+      "id": "min-stack",
+      "title": "How can a stack support `push`, `pop` and `getMin` all in $O(1)$ time?",
+      "body": "Keep a second stack (or store a pair with each entry) holding the minimum of everything at or below that position.\n\n`push(x)` records `min(x, current_min)`, `pop` removes both, and `getMin` reads the top.\n\nWatch out: the cost is up to $O(n)$ extra space.",
+      "searchQuery": "min stack getMin constant time second stack"
+    },
+    {
+      "id": "monotonic-stack-next-greater",
+      "title": "Which technique finds the next greater element for every item of an array in $O(n)$ total time?",
+      "body": "A monotonic stack.\n\nScan left to right, keeping a stack of indices whose values never increase from bottom to top. Each new value pops every smaller value (it is their **next greater element**), then is pushed.\n\nKey idea: each index is pushed and popped at most once, so the total is $O(n)$.",
+      "answer": "monotonic stack",
+      "acceptedAnswers": [
+        "monotone stack",
+        "monotonic decreasing stack",
+        "decreasing stack",
+        "stack"
+      ],
+      "searchQuery": "monotonic stack next greater element O(n)"
+    },
+    {
+      "id": "sliding-window-max-deque",
+      "title": "To get the maximum of every length-$k$ window of an $n$-element array in $O(n)$ total, which data structure holds the candidates?",
+      "body": "A monotonic deque of indices whose values decrease from front to back.\n\nFor each new element, pop smaller values off the back, push it, and drop the front index once it leaves the window. The front is always the current max.\n\nKey idea: each index enters and leaves once, so it's $O(n)$, versus $O(nk)$ by brute force.",
+      "answer": "monotonic deque",
+      "acceptedAnswers": [
+        "deque",
+        "monotone deque",
+        "monotonic queue",
+        "decreasing deque",
+        "double-ended queue"
+      ],
+      "searchQuery": "sliding window maximum monotonic deque O(n)"
+    },
+    {
+      "id": "hash-table-no-order",
+      "title": "Why is a hash table a poor fit when you need the smallest key or every key in a range, and what should you use instead?",
+      "body": "Hashing scatters keys with no order, so the minimum, a successor or a range query means scanning all $n$ entries.\n\nTip: use a balanced BST (Java's `TreeMap`, C++'s `std::map`). It finds the min or a successor in $O(\\log n)$ and reports the $k$ keys in a range in $O(\\log n + k)$.",
+      "searchQuery": "hash table no ordering range query minimum balanced BST"
+    },
+    {
+      "id": "mutable-hash-keys",
+      "title": "Why is it a bug to mutate an object while it's being used as a key in a hash map?",
+      "body": "The entry sits in the bucket chosen by the key's old hash.\n\nIf you change a field that feeds the hash, lookups go to a different bucket, so the entry is effectively lost.\n\nTip: Python makes mutable built-ins like `list` unhashable for this reason. Use an immutable `tuple` as the key instead.",
+      "searchQuery": "mutating hash map key bug bucket hash changes"
+    },
+    {
+      "id": "equals-hashcode",
+      "title": "Two Java objects are equal by `equals()` but return different `hashCode()` values. What goes wrong when they're used as `HashMap` keys?",
+      "body": "Lookups miss: `HashMap` compares hash codes before calling `equals`.\n\nSo `map.get(b)` won't find the entry stored under the equal key `a`, and `put(b, v)` adds a second, duplicate entry.\n\nKey idea: equal objects must have equal hash codes, so override `hashCode` whenever you override `equals`.",
+      "searchQuery": "Java equals hashCode contract HashMap broken"
+    },
+    {
+      "id": "division-method-power-of-two",
+      "title": "With the division-method hash $h(k) = k \\bmod m$, why is a power of two such as $m = 2^{10}$ a poor table size?",
+      "body": "$k \\bmod 2^p$ is just the lowest $p$ bits of $k$, so keys that differ only in their higher bits all collide.\n\nExample: with $m = 2^{10} = 1024$, every multiple of $1024$ lands in slot $0$.\n\nTip: choose $m$ prime and not too close to a power of two, or use a hash that mixes all the bits first.",
+      "searchQuery": "division method hash table size power of two prime"
+    },
+    {
+      "id": "linear-probing-clustering",
+      "title": "Which open-addressing probe sequence suffers most from primary clustering, where occupied slots form long runs?",
+      "body": "Linear probing, which tries slots $(h(k) + i) \\bmod m$ for $i = 0, 1, 2, \\ldots$\n\nAny key that hashes into a run lengthens it, so long runs keep growing and probe counts climb steeply as $\\alpha$ nears $1$.\n\nTip: quadratic probing and double hashing avoid primary clustering, though linear probing is the most cache-friendly.",
+      "answer": "linear probing",
+      "acceptedAnswers": [
+        "linear"
+      ],
+      "searchQuery": "linear probing primary clustering open addressing"
+    },
+    {
+      "id": "open-addressing-expected-probes",
+      "title": "Open addressing under uniform hashing with load factor $\\alpha < 1$: upper bound on the expected number of probes in an unsuccessful search?",
+      "body": "$\\dfrac{1}{1 - \\alpha}$\n\nThe chance of needing more than $i$ probes is at most $\\alpha^i$, so the expected count is at most $1 + \\alpha + \\alpha^2 + \\cdots$\n\nExample: at $\\alpha = 0.5$ that's $2$ probes, but at $\\alpha = 0.9$ it's $10$, which is why tables resize well before they fill.",
+      "answer": "1/(1-alpha)",
+      "acceptedAnswers": [
+        "1/(1-α)",
+        "1/(1-a)"
+      ],
+      "answerDisplay": "$\\dfrac{1}{1 - \\alpha}$",
+      "searchQuery": "open addressing expected probes unsuccessful search 1/(1-alpha)"
+    },
+    {
+      "id": "depth-vs-height",
+      "title": "In a rooted tree, what is a node's depth, and what is its height?",
+      "body": "Depth: the number of edges on the path from the root down to the node (the root has depth $0$). Height: the number of edges on the longest path from the node down to a leaf (a leaf has height $0$).\n\nThe tree's height is the root's height, which equals the maximum depth.\n\nWatch out: some books count nodes instead of edges, so check the convention.",
+      "searchQuery": "tree node depth versus height definition"
+    },
+    {
+      "id": "max-nodes-height-h",
+      "title": "Maximum number of nodes in a binary tree of height $h$, with height counted in edges?",
+      "body": "$2^{h+1} - 1$\n\nLevel $d$ holds at most $2^d$ nodes, and $1 + 2 + 4 + \\cdots + 2^h = 2^{h+1} - 1$.\n\nKey idea: turned around, a binary tree with $n$ nodes has height at least $\\lfloor \\log_2 n \\rfloor$.",
+      "answer": "2^(h+1) - 1",
+      "acceptedAnswers": [
+        "-1 + 2^(h+1)",
+        "2*2^h - 1"
+      ],
+      "answerDisplay": "$2^{h+1} - 1$",
+      "searchQuery": "maximum nodes binary tree height h 2^(h+1)-1"
+    },
+    {
+      "id": "full-binary-tree-leaves",
+      "title": "A full binary tree (every node has $0$ or $2$ children) has $n$ internal nodes. How many leaves does it have?",
+      "body": "$n + 1$\n\nEach internal node has $2$ children, so the tree has $2n$ edges and therefore $2n + 1$ nodes, leaving $n + 1$ leaves.\n\nTip: a related count: any binary tree with $n$ nodes has $n + 1$ null child pointers.",
+      "answer": "n+1",
+      "acceptedAnswers": [
+        "1+n"
+      ],
+      "answerDisplay": "$n + 1$",
+      "searchQuery": "full binary tree internal nodes leaves count n+1"
+    },
+    {
+      "id": "bst-property",
+      "title": "What ordering property must every node of a binary search tree satisfy?",
+      "body": "Every key in its left subtree is less than the node's key, and every key in its right subtree is greater.\n\nIf duplicates are allowed, use a fixed rule, like \"equal goes right\".\n\nWatch out: checking each node only against its two children isn't enough. The bound covers whole subtrees, so validate by passing a `(low, high)` range down the recursion.",
+      "searchQuery": "binary search tree ordering property every node"
+    },
+    {
+      "id": "inorder-sorted",
+      "title": "Which depth-first traversal of a binary search tree visits its keys in sorted order?",
+      "body": "In-order: left subtree, then the node, then the right subtree.\n\nIt lists all $n$ keys in $O(n)$ time, so a BST yields a **sorted** sequence without a separate sort.\n\nTip: pre-order visits the node first; post-order visits it last.",
+      "answer": "in-order",
+      "acceptedAnswers": [
+        "inorder",
+        "in-order traversal",
+        "inorder traversal"
+      ],
+      "searchQuery": "BST in-order traversal sorted order"
+    },
+    {
+      "id": "preorder-worked",
+      "title": "Insert $5, 3, 8, 1, 4$ into an empty BST, in that order. What is the tree's pre-order traversal?",
+      "body": "$5, 3, 1, 4, 8$\n\nThe tree has $5$ at the root with children $3$ and $8$, and $1$ and $4$ under $3$. Pre-order visits the node, then its left subtree, then its right subtree.\n\nWatch out: in-order would give $1, 3, 4, 5, 8$ instead.",
+      "answer": "5 3 1 4 8",
+      "acceptedAnswers": [
+        "5, 3, 1, 4, 8",
+        "[5, 3, 1, 4, 8]"
+      ],
+      "answerDisplay": "$5, 3, 1, 4, 8$",
+      "searchQuery": "BST insert 5 3 8 1 4 pre-order traversal"
+    },
+    {
+      "id": "level-order-queue",
+      "title": "Level-order (breadth-first) traversal of a binary tree keeps the nodes waiting to be visited in which data structure?",
+      "body": "A queue (FIFO).\n\nDequeue a node, visit it, and enqueue its children. Nodes come out level by level, left to right.\n\nTip: swap in a stack and you get a depth-first order instead.",
+      "answer": "queue",
+      "acceptedAnswers": [
+        "FIFO queue",
+        "FIFO"
+      ],
+      "searchQuery": "level-order breadth-first traversal binary tree queue"
+    },
+    {
+      "id": "bst-delete-two-children",
+      "title": "When you delete a BST node that has two children, which node's key typically replaces it?",
+      "body": "Its in-order successor, the minimum of its right subtree.\n\nThe in-order predecessor (the maximum of the left subtree) works too.\n\nWhy: the successor has no left child, so removing it from its old position is the easy zero- or one-child case.",
+      "answer": "in-order successor",
+      "acceptedAnswers": [
+        "inorder successor",
+        "successor",
+        "in-order predecessor",
+        "inorder predecessor",
+        "predecessor",
+        "minimum of the right subtree",
+        "min of right subtree",
+        "leftmost node of the right subtree"
+      ],
+      "searchQuery": "BST delete node two children in-order successor"
+    },
+    {
+      "id": "catalan-bst-count",
+      "title": "How many structurally different BSTs can hold the three keys $1, 2, 3$?",
+      "body": "$5$\n\nTry each key as the root: root $1$ or root $3$ leaves the other two keys on one side ($2$ shapes each), and root $2$ gives $1$ shape.\n\nKey idea: in general the count is the Catalan number $C_n = \\dfrac{1}{n + 1}\\dbinom{2n}{n}$, and $C_3 = 5$.",
+      "answer": "5",
+      "acceptedAnswers": [
+        "five"
+      ],
+      "searchQuery": "number of binary search trees three keys Catalan"
+    },
+    {
+      "id": "tree-rotation",
+      "title": "What does a single rotation in a BST preserve, and what does it cost?",
+      "body": "It preserves the in-order sequence of keys, so the BST property still holds, while moving one node up and another down to change subtree heights.\n\nA rotation rewires a constant number of pointers, so it's $O(1)$.\n\nKey idea: AVL and red-black trees rebalance with rotations.",
+      "searchQuery": "BST rotation preserves in-order cost O(1)"
+    },
+    {
+      "id": "avl-lr-case",
+      "title": "AVL insertion: node $z$ becomes left-heavy, and its left child $y$ is right-heavy (the left-right case). Which rotations fix it?",
+      "body": "A double rotation: first rotate left at $y$, then rotate right at $z$.\n\nThe first rotation turns the shape into the left-left case, which a single right rotation at $z$ fixes.\n\nTip: the mirror (right-left) case rotates right at the child, then left at $z$.",
+      "searchQuery": "AVL left-right case double rotation"
+    },
+    {
+      "id": "avl-height-constant",
+      "title": "An AVL tree with $n$ nodes has height at most about $c \\log_2 n$. What is $c$, to two decimal places?",
+      "body": "$1.44$\n\nThe sparsest AVL trees are Fibonacci-like: one of height $h$ has at least $F_{h+3} - 1$ nodes, which gives $h < 1.4405 \\log_2(n + 2)$.\n\nKey idea: red-black trees allow heights up to $2\\log_2(n + 1)$, so AVL trees are the more tightly balanced of the two.",
+      "answer": "1.44",
+      "acceptedAnswers": [
+        "1/log2(phi)"
+      ],
+      "searchQuery": "AVL tree height bound 1.44 log n Fibonacci"
+    },
+    {
+      "id": "red-black-properties",
+      "title": "What rules define a red-black tree?",
+      "body": "Every node is red or black; the root and the NIL leaves are black; a red node's children are both black; and every root-to-NIL path has the same number of black nodes.\n\nThe last rule is the **black-height**. The \"no red child of a red node\" rule means no two reds in a row.\n\nKey idea: together these keep the longest root-to-leaf path at most twice as long as the shortest.",
+      "searchQuery": "red-black tree rules properties black-height"
+    },
+    {
+      "id": "treemap-red-black",
+      "title": "Java's `TreeMap` and C++'s `std::map` are typically implemented as which kind of balanced BST?",
+      "body": "A red-black tree.\n\nIt gives $O(\\log n)$ insert, delete and lookup plus sorted iteration.\n\nTip: their hash-based counterparts, `HashMap` and `std::unordered_map`, are $O(1)$ on average but unordered.",
+      "answer": "red-black tree",
+      "acceptedAnswers": [
+        "red-black",
+        "red black tree",
+        "rb tree",
+        "RB-tree"
+      ],
+      "searchQuery": "Java TreeMap C++ std::map red-black tree"
+    },
+    {
+      "id": "max-heap-property",
+      "title": "What is the max-heap property, and what shape must a binary heap have?",
+      "body": "Max-heap property: every node's key is $\\ge$ its children's keys. Shape: a complete binary tree.\n\nThe maximum sits at the root. Every level is full except possibly the last, which fills from the left, so the heap lives in an array with no pointers.\n\nWatch out: siblings aren't ordered, so a heap isn't sorted.",
+      "searchQuery": "max-heap property complete binary tree shape"
+    },
+    {
+      "id": "heap-insert-worked",
+      "title": "Insert $10$ into the max-heap stored as the array $[9, 7, 8, 3, 5]$. What is the array afterward?",
+      "body": "$[10, 7, 9, 3, 5, 8]$\n\nAppend $10$ at index $5$. Its parent at index $2$ holds $8$, so swap; the new parent at index $0$ holds $9$, so swap again, and $10$ becomes the root.\n\nTip: sift up compares only with the parent, so at most $\\lfloor \\log_2 n \\rfloor$ swaps.",
+      "answer": "10 7 9 3 5 8",
+      "acceptedAnswers": [
+        "10, 7, 9, 3, 5, 8",
+        "[10, 7, 9, 3, 5, 8]"
+      ],
+      "answerDisplay": "$[10, 7, 9, 3, 5, 8]$",
+      "searchQuery": "insert into max-heap array sift up worked example"
+    },
+    {
+      "id": "heap-extract-worked",
+      "title": "Run `extract-max` on the max-heap array $[9, 7, 8, 3, 5, 6]$. What is the array afterward?",
+      "body": "$[8, 7, 6, 3, 5]$\n\nRemove $9$ and move the last element, $6$, to the root. Sift down: its larger child is $8$, so swap; at index $2$ it has no children left, so it stops.\n\nWatch out: always swap with the **larger** child in a max-heap; otherwise the heap property breaks.",
+      "answer": "8 7 6 3 5",
+      "acceptedAnswers": [
+        "8, 7, 6, 3, 5",
+        "[8, 7, 6, 3, 5]"
+      ],
+      "answerDisplay": "$[8, 7, 6, 3, 5]$",
+      "searchQuery": "extract-max max-heap array sift down worked example"
+    },
+    {
+      "id": "min-heap-max-location",
+      "title": "Where in a binary min-heap of $n$ elements can the maximum be, and how long does finding it take?",
+      "body": "Among the leaves, the last $\\lceil n/2 \\rceil$ array slots (indices $\\lfloor n/2 \\rfloor$ to $n - 1$, 0-indexed), so you must scan them: $O(n)$.\n\nA heap only orders parents against children.\n\nKey idea: a heap is built for the min (or max), not for search.",
+      "searchQuery": "binary min-heap where is maximum element located"
+    },
+    {
+      "id": "heapq-max-heap",
+      "title": "Python's `heapq.heappush` and `heapq.heappop` maintain which kind of heap, and what's the classic trick for max-heap behavior?",
+      "body": "A binary min-heap stored in a plain list: both calls are $O(\\log n)$, and `heap[0]` is the smallest item.\n\nTip: for a max-heap, push negated keys (`heappush(h, -x)`) and negate again when popping, or push `(-priority, item)` tuples.",
+      "searchQuery": "Python heapq min-heap max-heap negate trick"
+    },
+    {
+      "id": "k-largest-min-heap",
+      "title": "Find the $k$ largest of $n$ items by streaming them through a min-heap capped at size $k$. Total time?",
+      "body": "$O(n \\log k)$\n\nPush each item, and when the heap exceeds $k$ items, pop its minimum. The heap always holds the $k$ largest seen so far.\n\nWhy: each operation costs $O(\\log k)$ and memory stays $O(k)$, so it works on streams.",
+      "answer": "O(n log k)",
+      "acceptedAnswers": [
+        "n log k",
+        "Theta(n log k)",
+        "O(n lg k)",
+        "n lg k",
+        "O(n log(k))",
+        "n log(k)"
+      ],
+      "answerDisplay": "$O(n \\log k)$",
+      "searchQuery": "k largest elements min-heap size k O(n log k)"
+    },
+    {
+      "id": "d-ary-heap-children",
+      "title": "In a 0-indexed $d$-ary heap (each node has up to $d$ children), what is the index of the first child of the node at index $i$?",
+      "body": "$di + 1$\n\nIts children occupy $di + 1$ through $di + d$, and the parent of $i$ is $\\lfloor (i - 1)/d \\rfloor$.\n\nKey idea: a larger $d$ makes the tree shallower ($\\log_d n$ levels), so sift-up gets cheaper, but sift-down compares up to $d$ children per level.",
+      "answer": "d*i + 1",
+      "acceptedAnswers": [
+        "i*d + 1",
+        "1 + d*i",
+        "1 + i*d"
+      ],
+      "answerDisplay": "$di + 1$",
+      "searchQuery": "d-ary heap array index first child di+1"
+    },
+    {
+      "id": "fibonacci-heap-decrease-key",
+      "title": "Amortized time of `decrease-key` in a Fibonacci heap?",
+      "body": "$O(1)$ amortized, versus $O(\\log n)$ in a binary heap.\n\nExtract-min is still $O(\\log n)$ amortized.\n\nKey idea: cheap `decrease-key` brings Dijkstra down to $O(E + V \\log V)$, though binary heaps often win in practice thanks to smaller constants.",
+      "answer": "O(1)",
+      "acceptedAnswers": [
+        "1",
+        "constant",
+        "constant time",
+        "O(1) amortized",
+        "amortized O(1)",
+        "Theta(1)"
+      ],
+      "answerDisplay": "$O(1)$",
+      "searchQuery": "Fibonacci heap decrease-key amortized O(1)"
+    },
+    {
+      "id": "trie-prefix-count",
+      "title": "How can a trie report how many stored words start with a given prefix of length $p$ in $O(p)$ time?",
+      "body": "Store a counter in every node and increment it on each insert that passes through.\n\nWalk down the prefix's characters and read the counter where you stop (or answer $0$ if the walk falls off the trie).\n\nWatch out: the cost is one integer per node.",
+      "searchQuery": "trie count words with prefix counter per node"
+    },
+    {
+      "id": "max-edges-undirected",
+      "title": "Maximum number of edges in a simple undirected graph with $V$ vertices?",
+      "body": "$\\dfrac{V(V - 1)}{2} = \\dbinom{V}{2}$\n\nOne edge per unordered pair of distinct vertices (no self-loops or parallel edges). A simple directed graph can have $V(V - 1)$.\n\nKey idea: so $E = O(V^2)$ and $\\log E = O(\\log V)$, which is why $O(E \\log E)$ and $O(E \\log V)$ are the same bound.",
+      "answer": "V(V-1)/2",
+      "acceptedAnswers": [
+        "n(n-1)/2",
+        "V choose 2",
+        "(V^2-V)/2",
+        "C(V,2)"
+      ],
+      "answerDisplay": "$\\dfrac{V(V - 1)}{2}$",
+      "searchQuery": "maximum edges simple undirected graph V(V-1)/2"
+    },
+    {
+      "id": "tree-edges",
+      "title": "How many edges does a tree with $V$ vertices have?",
+      "body": "$V - 1$\n\nA tree is connected and acyclic: removing any edge disconnects it, and adding any edge creates a cycle.\n\nKey idea: a forest of $c$ trees has $V - c$ edges, and every spanning tree of a connected graph has $V - 1$.",
+      "answer": "V-1",
+      "acceptedAnswers": [
+        "n-1",
+        "|V|-1"
+      ],
+      "answerDisplay": "$V - 1$",
+      "searchQuery": "number of edges in a tree V-1 connected acyclic"
+    },
+    {
+      "id": "handshake-sum-degrees",
+      "title": "In an undirected graph with $E$ edges, what is the sum of all vertex degrees?",
+      "body": "$2E$\n\nEach edge adds $1$ to the degree of each of its two endpoints (the **handshake lemma**).\n\nExample: the number of odd-degree vertices is even, and an adjacency list holds $2E$ entries.",
+      "answer": "2E",
+      "acceptedAnswers": [
+        "2|E|",
+        "twice the number of edges",
+        "E*2"
+      ],
+      "answerDisplay": "$2E$",
+      "searchQuery": "handshake lemma sum of degrees 2E"
+    },
+    {
+      "id": "sparse-vs-dense",
+      "title": "When is a graph called sparse vs dense, and which representation suits each?",
+      "body": "Sparse: $E$ is close to $V$ (say $E = O(V)$, like a road network). Dense: $E$ is close to $V^2$.\n\nTip: sparse graphs want adjacency lists ($\\Theta(V + E)$ space). Dense graphs can afford a matrix ($\\Theta(V^2)$), with $O(1)$ edge checks and little wasted space.",
+      "searchQuery": "sparse versus dense graph representation choice"
+    },
+    {
+      "id": "adjacency-matrix-power-walks",
+      "title": "For a graph with adjacency matrix $A$, what does the entry $(A^k)_{ij}$ count?",
+      "body": "The number of walks of length exactly $k$ from vertex $i$ to vertex $j$.\n\nFor $k = 2$, $(A^2)_{ij} = \\sum_m A_{im}A_{mj}$ counts the vertices $m$ with edges $i \\to m \\to j$.\n\nExample: in a simple undirected graph, $(A^2)_{ii}$ is the degree of $i$.",
+      "searchQuery": "adjacency matrix power A^k counts walks length k"
+    },
+    {
+      "id": "union-find-cycle-check",
+      "title": "Using union–find, how do you tell whether adding edge $(u, v)$ to an undirected graph would create a cycle?",
+      "body": "Check `find(u) == find(v)`.\n\nIf $u$ and $v$ already share a root, they're already connected, so the edge would close a cycle; otherwise call `union(u, v)`.\n\nExample: Kruskal's algorithm runs exactly this test on each edge, in order of weight.",
+      "searchQuery": "union-find detect cycle undirected graph edge find"
+    },
+    {
+      "id": "path-compression",
+      "title": "In union–find, what does path compression do during a `find`?",
+      "body": "It points every node visited on the way to the root directly at the root, so later finds from those nodes take one step.\n\nRecursively: `parent[x] = find(parent[x])`.\n\nKey idea: it needs no extra storage, and combined with union by rank (or size) it gives the near-constant $O(\\alpha(n))$ amortized bound.",
+      "searchQuery": "union-find path compression find parent root"
+    },
+    {
+      "id": "union-by-rank-only",
+      "title": "Union–find with union by rank (or size) but no path compression: worst-case time of one `find` on $n$ elements?",
+      "body": "$O(\\log n)$\n\nAlways hanging the shorter tree under the taller one means a tree of height $h$ has at least $2^h$ nodes, so no tree is taller than $\\log_2 n$.\n\nTip: adding path compression lowers the amortized cost to $O(\\alpha(n))$.",
+      "answer": "O(log n)",
+      "acceptedAnswers": [
+        "log n",
+        "Theta(log n)",
+        "O(lg n)",
+        "lg n",
+        "O(log(n))",
+        "log(n)",
+        "logarithmic"
+      ],
+      "answerDisplay": "$O(\\log n)$",
+      "searchQuery": "union by rank without path compression find O(log n)"
+    },
+    {
+      "id": "b-tree-keys-per-node",
+      "title": "In a B-tree of minimum degree $t$ (as in CLRS), how many keys can a non-root node hold?",
+      "body": "From $t - 1$ to $2t - 1$ keys, so an internal node has $t$ to $2t$ children.\n\nThe root may hold as few as $1$ key.\n\nWhy: when an insert meets a full node ($2t - 1$ keys), the node splits around its median key, which moves up into the parent.",
+      "searchQuery": "B-tree minimum degree t keys per node CLRS"
+    },
+    {
+      "id": "b-tree-fanout-why",
+      "title": "Why do B-trees store hundreds of keys per node instead of using a binary tree?",
+      "body": "Each node is sized to one disk page, and reading a page costs about as much as reading one key from it.\n\nA branching factor $b$ makes the height about $\\log_b n$: with $b \\approx 1000$, a billion keys fit in about $3$ levels.\n\nExample: a lookup takes a handful of page reads, versus about $30$ levels in a balanced binary tree.",
+      "searchQuery": "B-tree large fanout disk page height"
+    },
+    {
+      "id": "order-statistic-tree",
+      "title": "How can a balanced BST find the $k$-th smallest key in $O(\\log n)$ time?",
+      "body": "Store each node's subtree size.\n\nAt a node whose left subtree has $s$ keys: if $k = s + 1$, it's this node; if $k \\le s$, go left; otherwise go right and look for the $(k - s - 1)$-th smallest there.\n\nKey idea: inserts, deletes and rotations update the sizes along one path, so they stay $O(\\log n)$ too.",
+      "searchQuery": "order statistic tree k-th smallest subtree size"
+    },
+    {
+      "id": "segment-tree-ops",
+      "title": "Segment tree over $n$ numbers: time to build it, to answer a range-sum query, and to update one element?",
+      "body": "Build: $O(n)$. Range query: $O(\\log n)$. Point update: $O(\\log n)$.\n\nEach node stores the sum of one segment, and any query range splits into $O(\\log n)$ stored segments.\n\nTip: a plain prefix-sum array answers queries in $O(1)$ but needs $O(n)$ per update.",
+      "searchQuery": "segment tree build range sum query update complexity"
+    },
+    {
+      "id": "fenwick-lowbit",
+      "title": "A Fenwick (binary indexed) tree moves between indices with `i & -i`. What does that expression compute?",
+      "body": "The lowest set bit of $i$, as a value.\n\nFor $i = 12 = 1100_2$ it gives $4 = 100_2$ (two's complement makes this work).\n\nKey idea: a prefix-sum query repeats `i -= i & -i` and a point update repeats `i += i & -i`, so both take $O(\\log n)$ steps.",
+      "answer": "lowest set bit",
+      "acceptedAnswers": [
+        "lowest set bit of i",
+        "least significant set bit",
+        "least significant 1 bit",
+        "lowest 1 bit",
+        "lowest one bit",
+        "lowbit",
+        "largest power of 2 dividing i"
+      ],
+      "searchQuery": "Fenwick tree binary indexed tree i & -i lowest set bit"
+    },
+    {
+      "id": "lru-cache-design",
+      "title": "Which two data structures together give an LRU cache $O(1)$ `get` and `put`?",
+      "body": "A hash map from key to list node, plus a doubly linked list ordered by recency.\n\n`get` finds the node through the map and moves it to the front. `put` inserts at the front and, when the cache is full, evicts the tail node and deletes its key from the map.\n\nTip: Python's `OrderedDict` with `move_to_end` packages the same idea.",
+      "searchQuery": "LRU cache hash map doubly linked list O(1)"
+    },
+    {
+      "id": "amortized-methods",
+      "title": "Name the three standard methods of amortized analysis.",
+      "body": "Aggregate, accounting, and potential.\n\n- **Aggregate**: bound the total cost of $n$ operations, then divide by $n$.\n- **Accounting**: overcharge cheap operations and save the credit to pay for expensive ones.\n- **Potential**: amortized cost $\\hat{c}_i = c_i + \\Phi(D_i) - \\Phi(D_{i-1})$ for a potential function $\\Phi$ of the structure's state.\n\nKey idea: all three give worst-case guarantees on sequences, not averages over inputs.",
+      "searchQuery": "three methods of amortized analysis aggregate accounting potential"
+    },
+    {
+      "id": "binary-counter-amortized",
+      "title": "A $k$-bit binary counter starts at $0$ and is incremented $n$ times. Amortized number of bit flips per increment?",
+      "body": "$O(1)$: fewer than $2$ flips per increment.\n\nOne increment can flip all $k$ bits, but bit $i$ flips only once every $2^i$ increments, so the total is $\\sum_i \\lfloor n/2^i \\rfloor < 2n$.\n\nExample: going from $0111$ to $1000$ flips $4$ bits, but such expensive increments are rare.",
+      "answer": "O(1)",
+      "acceptedAnswers": [
+        "constant",
+        "Theta(1)",
+        "2",
+        "at most 2",
+        "less than 2",
+        "fewer than 2"
+      ],
+      "answerDisplay": "$O(1)$",
+      "searchQuery": "binary counter increment amortized bit flips"
+    },
+    {
+      "id": "universal-hashing",
+      "title": "What makes a family of hash functions universal, and why pick the hash function at random from one?",
+      "body": "For any two distinct keys $x \\ne y$, $\\Pr[h(x) = h(y)] \\le 1/m$ when $h$ is drawn at random from the family ($m$ buckets).\n\nNo fixed set of keys is then bad every time.\n\nWhy: with chaining, the expected chain length stays $O(1 + \\alpha)$, even against adversarial input.",
+      "searchQuery": "universal hashing family random hash function collision probability"
+    },
+    {
+      "id": "cuckoo-hashing",
+      "title": "Cuckoo hashing: what is its worst-case lookup time, and how does insertion make room?",
+      "body": "$O(1)$ worst case.\n\nA key can only be in one of two slots, $T_1[h_1(k)]$ or $T_2[h_2(k)]$, so a lookup checks at most two places.\n\nKey idea: insertion evicts any occupant, which moves to its other slot, possibly evicting another key in turn. If this loops, everything is rehashed with new hash functions. Inserts are expected $O(1)$ amortized.",
+      "searchQuery": "cuckoo hashing worst-case lookup two tables eviction"
+    },
+    {
+      "id": "bloom-filter-errors",
+      "title": "Which kind of error can a Bloom filter's membership test make: false positives or false negatives?",
+      "body": "False positives only.\n\nInserting sets $k$ hashed bits; a query says \"maybe present\" when all $k$ of its bits are set, possibly by other keys.\n\nWhy: a \"no\" is always right, because an inserted key's bits stay set (a plain Bloom filter can't delete).",
+      "answer": "false positives",
+      "acceptedAnswers": [
+        "false positive",
+        "false positives only",
+        "only false positives",
+        "positives"
+      ],
+      "searchQuery": "Bloom filter false positives no false negatives"
+    }
+  ]
+}
