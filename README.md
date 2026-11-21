@@ -108,6 +108,7 @@ The generated SQL upserts by id and removes cards you deleted from the JSON, so 
 ## Deploying
 
 1. **Supabase**: create a project, then `npx supabase link --project-ref <ref>` and `npx supabase db push` to apply the migrations. With the Supabase MCP connector, the same steps can be run from Claude. Under Authentication → URL Configuration, set the Site URL to your web app and add `https://<your-site>/**` to the redirect URLs; email links fall back to the Site URL when their redirect isn't allowed. Supabase's built-in email sender only delivers to your project's team members, a few emails an hour, so before inviting other people either set up custom SMTP (Authentication → Emails → SMTP settings) or turn off **Confirm email**.
+   - **Email templates:** paste `supabase/templates/confirmation.html` into Authentication → Emails → *Confirm signup* and `supabase/templates/recovery.html` into *Reset password* (subjects are in `supabase/config.toml`). Their links open the app's `/confirm` page, where a tap spends the one-time token, so mail scanners that open every link (Outlook Safe Links, many campus gateways) can't use it up first. Deploy the app before switching templates.
 2. **Web (Netlify)**: `netlify.toml` is included. Set `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` and `EXPO_PUBLIC_SITE_URL` in the site's environment variables.
 3. **iOS/Android (EAS)**: `npx eas-cli@latest build --profile production`, with the same `EXPO_PUBLIC_*` variables configured as EAS environment variables.
 
