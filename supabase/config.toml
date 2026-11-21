@@ -253,6 +253,17 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
+# Email links open the app's /confirm page, where a tap spends the one-time token, instead of
+# going straight to Supabase: mail scanners that open links can't use them up (src/app/confirm.tsx).
+# Production uses the same templates, pasted into Authentication → Emails in the dashboard.
+[auth.email.template.confirmation]
+subject = "Confirm your RecallMate account"
+content_path = "./supabase/templates/confirmation.html"
+
+[auth.email.template.recovery]
+subject = "Reset your RecallMate password"
+content_path = "./supabase/templates/recovery.html"
+
 # Uncomment to customize email template
 # [auth.email.template.invite]
 # subject = "You have been invited"

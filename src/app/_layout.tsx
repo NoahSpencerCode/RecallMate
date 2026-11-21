@@ -54,7 +54,7 @@ export default function RootLayout() {
 }
 
 /** Pages anyone can open; anything else needs an account. */
-const PUBLIC_PATHS = new Set(['/', '/welcome', '/sign-in', '/sign-up', '/forgot-password', '/reset-password', '/about']);
+const PUBLIC_PATHS = new Set(['/', '/welcome', '/sign-in', '/sign-up', '/forgot-password', '/reset-password', '/confirm', '/about']);
 
 // The address the web app was opened at, read before any sign-in redirect replaces it.
 const openedAt =
@@ -150,6 +150,7 @@ function RootNavigator({ fontsReady }: { fontsReady: boolean }) {
             <Stack.Screen name="(auth)" />
           </Stack.Protected>
           <Stack.Screen name="reset-password" />
+          <Stack.Screen name="confirm" />
           <Stack.Screen name="about" options={{ animation: 'slide_from_right' }} />
         </Stack>
       )}
