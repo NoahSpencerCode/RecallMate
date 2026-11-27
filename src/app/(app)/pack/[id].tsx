@@ -95,7 +95,7 @@ export default function PackDetail() {
       <View style={[styles.root, { backgroundColor: screenBackground, paddingTop: insets.top }]}>
         {isGoneError(pack.error) ? (
           <EmptyState icon="layers-off-outline" color={palette.pink} title="Pack not found" message="It may have been retired.">
-            <Button title="Back to packs" variant="secondary" onPress={() => router.replace('/packs')} />
+            <Button title="Back to Learn" variant="secondary" onPress={() => router.replace('/learn')} />
           </EmptyState>
         ) : (
           <LoadError title="Couldn’t load this pack" onRetry={() => void pack.refetch()} retrying={pack.isFetching} />
@@ -116,7 +116,7 @@ export default function PackDetail() {
             <IconButton
               icon="arrow-left"
               accessibilityLabel="Back"
-              onPress={() => (router.canGoBack() ? router.back() : router.replace('/packs'))}
+              onPress={() => (router.canGoBack() ? router.back() : router.replace('/learn'))}
               background="rgba(255,255,255,0.2)"
               color="#FFFFFF"
               style={styles.back}

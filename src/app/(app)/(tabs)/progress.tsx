@@ -19,7 +19,7 @@ import { Flame } from '@/components/StreakFlame';
 import { Text } from '@/components/Text';
 import { useToast } from '@/components/Toast';
 import { signOut as signOutOfThisDevice, useAuth } from '@/features/auth/AuthProvider';
-import { useProgress } from '@/features/progress/hooks';
+import { allCards, useProgress } from '@/features/progress/hooks';
 import { friendlyError } from '@/lib/errors';
 import { supabase } from '@/lib/supabase';
 import { useToday } from '@/lib/useToday';
@@ -36,7 +36,7 @@ export default function ProgressScreen() {
   const [signingOut, setSigningOut] = useState(false);
 
   const p = query.data;
-  const mix = p?.memories;
+  const mix = p ? allCards(p) : undefined;
   const mixTotal = mix ? Math.max(1, mix.fresh + mix.learning + mix.mastered) : 1;
   const streakLine = !p
     ? ''
@@ -185,6 +185,15 @@ export default function ProgressScreen() {
           <Button title="Sign out" variant="secondary" size="md" icon="logout" loading={signingOut} onPress={signOut} />
           <Button title="Delete account" variant="dangerGhost" size="md" icon="delete-outline" onPress={() => setConfirmDelete(true)} />
         </View>
+        <Button
+          title="Reset account…"
+          variant="ghost"
+          size="sm"
+          icon="restart"
+          accessibilityLabel="Reset account: erase all cards and start fresh"
+          onPress={() => router.push('/account/reset')}
+          style={styles.resetLink}
+        />
       </Card>
 
       <ConfirmDialog
@@ -236,4 +245,5 @@ const styles = StyleSheet.create({
   aboutIcon: { width: 48, height: 48, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
   aboutText: { flex: 1, gap: 2 },
   accountActions: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  resetLink: { alignSelf: 'flex-start', marginTop: spacing.md },
 });

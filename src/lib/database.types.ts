@@ -85,16 +85,168 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
-                },"reviews": {
+                },"profession_card_reports": {
                   Row: {
-                    "attempts": number,"id": number,"memory_id": string | null,"passed": boolean,"reviewed_at": string,"reviewed_on": string,"user_id": string
+                    "card_id": string,"created_at": string,"id": number,"note": string | null,"reason": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "attempts"?: number,"id"?: never,"memory_id"?: string | null,"passed": boolean,"reviewed_at"?: string,"reviewed_on": string,"user_id"?: string
+                    "card_id": string,"created_at"?: string,"id"?: never,"note"?: string | null,"reason": string,"user_id"?: string
                   }
                   Update: {
-                    "attempts"?: number,"id"?: never,"memory_id"?: string | null,"passed"?: boolean,"reviewed_at"?: string,"reviewed_on"?: string,"user_id"?: string
+                    "card_id"?: string,"created_at"?: string,"id"?: never,"note"?: string | null,"reason"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "profession_card_reports_card_id_fkey"
+      columns: ["card_id"]
+isOneToOne: false
+      referencedRelation: "profession_cards"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"profession_card_states": {
+                  Row: {
+                    "card_id": string,"due_on": string,"lapse_count": number,"last_reviewed_on": string | null,"opened_at": string,"opened_on": string,"profession_id": string,"review_count": number,"stage": number,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "card_id": string,"due_on": string,"lapse_count"?: number,"last_reviewed_on"?: string | null,"opened_at"?: string,"opened_on": string,"profession_id": string,"review_count"?: number,"stage"?: number,"user_id": string
+                  }
+                  Update: {
+                    "card_id"?: string,"due_on"?: string,"lapse_count"?: number,"last_reviewed_on"?: string | null,"opened_at"?: string,"opened_on"?: string,"profession_id"?: string,"review_count"?: number,"stage"?: number,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "profession_card_states_card_id_fkey"
+      columns: ["card_id"]
+isOneToOne: false
+      referencedRelation: "profession_cards"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "profession_card_states_profession_id_fkey"
+      columns: ["profession_id"]
+isOneToOne: false
+      referencedRelation: "professions"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"profession_cards": {
+                  Row: {
+                    "accepted_answers": (string)[],"answer": string | null,"answer_display": string | null,"as_of": string | null,"body": string,"checkpoint": boolean,"difficulty": number,"id": string,"kind": string,"module_id": string,"position": number,"profession_id": string,"refs": (string)[],"retired": boolean,"search_query": string | null,"tags": (string)[],"title": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "accepted_answers"?: (string)[],"answer"?: string | null,"answer_display"?: string | null,"as_of"?: string | null,"body": string,"checkpoint"?: boolean,"difficulty": number,"id": string,"kind": string,"module_id": string,"position": number,"profession_id": string,"refs"?: (string)[],"retired"?: boolean,"search_query"?: string | null,"tags"?: (string)[],"title": string
+                  }
+                  Update: {
+                    "accepted_answers"?: (string)[],"answer"?: string | null,"answer_display"?: string | null,"as_of"?: string | null,"body"?: string,"checkpoint"?: boolean,"difficulty"?: number,"id"?: string,"kind"?: string,"module_id"?: string,"position"?: number,"profession_id"?: string,"refs"?: (string)[],"retired"?: boolean,"search_query"?: string | null,"tags"?: (string)[],"title"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "profession_cards_module_id_fkey"
+      columns: ["module_id"]
+isOneToOne: false
+      referencedRelation: "profession_modules"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "profession_cards_profession_id_fkey"
+      columns: ["profession_id"]
+isOneToOne: false
+      referencedRelation: "professions"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"profession_enrollments": {
+                  Row: {
+                    "profession_id": string,"start_position": number,"started_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "profession_id": string,"start_position"?: number,"started_at"?: string,"user_id": string
+                  }
+                  Update: {
+                    "profession_id"?: string,"start_position"?: number,"started_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "profession_enrollments_profession_id_fkey"
+      columns: ["profession_id"]
+isOneToOne: false
+      referencedRelation: "professions"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"profession_modules": {
+                  Row: {
+                    "id": string,"planned_cards": number,"position": number,"practice": NonNullable<Json>,"profession_id": string,"refs": (string)[],"summary": string,"tier": number,"title": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "id": string,"planned_cards": number,"position": number,"practice"?: NonNullable<Json>,"profession_id": string,"refs"?: (string)[],"summary": string,"tier": number,"title": string
+                  }
+                  Update: {
+                    "id"?: string,"planned_cards"?: number,"position"?: number,"practice"?: NonNullable<Json>,"profession_id"?: string,"refs"?: (string)[],"summary"?: string,"tier"?: number,"title"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "profession_modules_profession_id_fkey"
+      columns: ["profession_id"]
+isOneToOne: false
+      referencedRelation: "professions"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "profession_modules_profession_id_tier_fkey"
+      columns: ["profession_id","tier"]
+isOneToOne: false
+      referencedRelation: "profession_tiers"
+      referencedColumns: ["profession_id","tier"]
+    }
+                  ]
+                },"profession_tiers": {
+                  Row: {
+                    "milestone": string | null,"name": string,"planned_cards": number,"profession_id": string,"slug": string,"summary": string,"tier": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "milestone"?: string | null,"name": string,"planned_cards": number,"profession_id": string,"slug": string,"summary": string,"tier": number
+                  }
+                  Update: {
+                    "milestone"?: string | null,"name"?: string,"planned_cards"?: number,"profession_id"?: string,"slug"?: string,"summary"?: string,"tier"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "profession_tiers_profession_id_fkey"
+      columns: ["profession_id"]
+isOneToOne: false
+      referencedRelation: "professions"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"professions": {
+                  Row: {
+                    "accent": string,"description": string,"gradient": (string)[],"icon": string,"id": string,"name": string,"planned_cards": number,"position": number,"tagline": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "accent": string,"description": string,"gradient": (string)[],"icon": string,"id": string,"name": string,"planned_cards": number,"position"?: number,"tagline": string
+                  }
+                  Update: {
+                    "accent"?: string,"description"?: string,"gradient"?: (string)[],"icon"?: string,"id"?: string,"name"?: string,"planned_cards"?: number,"position"?: number,"tagline"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"reviews": {
+                  Row: {
+                    "attempts": number,"id": number,"memory_id": string | null,"passed": boolean,"profession_card_id": string | null,"reviewed_at": string,"reviewed_on": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "attempts"?: number,"id"?: never,"memory_id"?: string | null,"passed": boolean,"profession_card_id"?: string | null,"reviewed_at"?: string,"reviewed_on": string,"user_id"?: string
+                  }
+                  Update: {
+                    "attempts"?: number,"id"?: never,"memory_id"?: string | null,"passed"?: boolean,"profession_card_id"?: string | null,"reviewed_at"?: string,"reviewed_on"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -102,6 +254,12 @@ isOneToOne: false
       columns: ["memory_id"]
 isOneToOne: false
       referencedRelation: "memories"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "reviews_profession_card_id_fkey"
+      columns: ["profession_card_id"]
+isOneToOne: false
+      referencedRelation: "profession_cards"
       referencedColumns: ["id"]
     }
                   ]
@@ -137,8 +295,36 @@ isOneToOne: false
 "fib":
 { Args: { "n": number }; Returns: number
                            },
+"get_profession_detail":
+{ Args: { "p_profession_id": string,"p_today": string }; Returns: Json
+                           },
+"get_profession_overview":
+{ Args: { "p_today": string }; Returns: Json
+                           },
 "get_progress":
 { Args: { "p_today": string }; Returns: Json
+                           },
+"next_schedule":
+{ Args: { "p_passed": boolean,"p_stage": number }; Returns: Record<string, unknown>
+                           },
+"open_next_profession_card":
+{ Args: { "p_profession_id": string,"p_today": string }; Returns: Json
+                           },
+"profession_due_cards":
+{ Args: { "p_limit"?: number,"p_profession_id": string,"p_today": string }; Returns: {
+              "accepted_answers": (string)[],"answer": string,"answer_display": string,"as_of": string,"body": string,"difficulty": number,"due_on": string,"id": string,"kind": string,"module_id": string,"module_title": string,"position": number,"refs": (string)[],"review_count": number,"search_query": string,"stage": number,"tags": (string)[],"title": string
+            }[]
+                           },
+"profession_module_cards":
+{ Args: { "p_module_id": string }; Returns: {
+              "checkpoint": boolean,"difficulty": number,"due_on": string,"id": string,"kind": string,"position": number,"stage": number,"title": string
+            }[]
+                           },
+"reset_account":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
+"reset_profession":
+{ Args: { "p_profession_id": string }; Returns: undefined
                            },
 "review_memory":
 { Args: { "p_attempts"?: number,"p_memory_id": string,"p_passed": boolean,"p_today": string }; Returns: {
@@ -163,6 +349,38 @@ isOneToOne: false
                           SetofOptions: {
         from: "*"
         to: "memories"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
+"review_profession_card":
+{ Args: { "p_attempts"?: number,"p_card_id": string,"p_passed": boolean,"p_today": string }; Returns: {
+              "card_id": string,
+"due_on": string,
+"lapse_count": number,
+"last_reviewed_on": string | null,
+"opened_at": string,
+"opened_on": string,
+"profession_id": string,
+"review_count": number,
+"stage": number,
+"user_id": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "profession_card_states"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
+"start_profession":
+{ Args: { "p_profession_id": string,"p_start_tier"?: number }; Returns: {
+              "profession_id": string,
+"start_position": number,
+"started_at": string,
+"user_id": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "profession_enrollments"
         isOneToOne: true
         isSetofReturn: false
       } }

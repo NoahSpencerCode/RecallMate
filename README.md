@@ -15,6 +15,7 @@ Runs on iOS, Android and the web from one Expo codebase. Web: https://recallmate
 - **Fibonacci scheduling.** A new card is due the next day; each correct review pushes it further out: 1, 1, 2, 3, 5, 8, 13… days. A miss resets it to tomorrow. Due dates are calendar days in your own timezone, so a card due today is reviewable all day.
 - **Typed-answer checking.** Cards can require an exact answer. You get 3 tries (with a shake on each miss); a one-letter slip earns a free retry instead of a strike. Formatting doesn't matter (`x²` = `x^2`, `π` = `pi`, case and spacing are ignored), meaning does.
 - **59 study packs of 100 cards (5,900 in all)** written for college courses across 16 subjects: Calculus, Trigonometry, Linear Algebra, Differential Equations, Biology, Anatomy & Physiology, Microbiology, Engineering, Software, Machine Learning, Discrete Math, Chemistry, Organic Chemistry, Biochemistry, Physics and Statistics. Math and chemistry are typeset like a textbook (KaTeX) and code is set in a monospace font. Adding a pack drip-feeds new cards (5 or 10 a day, or all at once) so reviews never pile up.
+- **Professions**: whole fields as one long path of cards, from zero to PhD-level knowledge, starting with Mathematics and Embedded AI Engineering. Learners open cards one at a time into their stack (as many as they like, once nothing is due), follow a 0 → PhD progress bar with milestones, can place out of tiers they already know with a short self-check, and can report a card that's wrong.
 - **Library** with instant search and filters by status (due, new, learning, mastered) and source. Every card is editable.
 - **Progress**: daily streaks, 30-day accuracy, a 12-week activity heatmap, a 7-day forecast and your card mix.
 - **Bold, animated UI**: chunky tactile buttons, 3D card flips, confetti, springy layout transitions, light and dark themes, and a desktop sidebar layout. Respects the system's reduce-motion setting.
@@ -29,7 +30,7 @@ Runs on iOS, Android and the web from one Expo codebase. Web: https://recallmate
 | Animation | Reanimated 4, react-native-svg, expo-linear-gradient, expo-haptics |
 | Data | Supabase (Postgres + Auth), TanStack Query for caching |
 | Security | Postgres Row Level Security: users can only ever read or change their own cards and reviews |
-| Tests | Jest (scheduling, dates, answer matching), pgTAP (RLS, scheduler, packs, stats) |
+| Tests | Jest (scheduling, dates, answer matching, review queue, the 0 → PhD bar, placement, content checks), pgTAP (RLS, scheduler, packs, professions, stats) |
 
 ## Getting started
 
@@ -59,6 +60,8 @@ To test on a physical phone, replace `127.0.0.1` in `.env.local` with your compu
 | `npm run db:test` | pgTAP database tests |
 | `npm run db:types` | Regenerate `src/lib/database.types.ts` from the local schema |
 | `npm run packs:build -- --out <file>` | Write a study-pack migration from `content/packs/` (see `content/README.md`) |
+| `npm run professions:build -- --profession <slug> --out <file>` | Write a profession content migration from `content/professions/` (see `content/professions/README.md`) |
+| `npm run professions:stats -- <slug>` | How much of a profession is written, against its plan |
 | `npm run build:web` | Production web export to `dist/` |
 
 ## Project structure
@@ -67,15 +70,17 @@ To test on a physical phone, replace `127.0.0.1` in `.env.local` with your compu
 src/
   app/                 Expo Router screens
     (auth)/            welcome, sign-in, sign-up, forgot-password
-    (app)/(tabs)/      Today, Library, Packs, Progress
+    (app)/(tabs)/      Today, Library, Learn (professions and packs), Progress
     (app)/review.tsx   review session
     (app)/memory/      create / edit cards
     (app)/pack/[id]    pack detail
+    (app)/profession/[id]/  a profession's page, the open-next loop, placement and module pages
   components/          design-system components (Button, Card, ProgressRing, Confetti…)
-  features/            auth, memories, packs, progress, review (data hooks + feature UI)
+  features/            auth, memories, packs, professions, progress, review (data hooks + feature UI)
   lib/                 Supabase client, dates, scheduling, errors
   theme/               color, type, spacing and motion tokens
 content/packs/         study packs: a folder per subject, a JSON file per pack
+content/professions/   professions: curriculum plans and card files per module
 supabase/
   migrations/          schema, RLS policies, RPCs, and generated pack content
   tests/               pgTAP tests
@@ -85,7 +90,7 @@ scripts/               pack migration builder, icon renderer
 
 ## How scheduling works
 
-All scheduling runs in Postgres (`public.review_memory`), so every device agrees. Each card has a `stage` (consecutive successful reviews) and a `due_on` date.
+All scheduling runs in Postgres (`public.next_schedule`, shared by memories and profession cards), so every device agrees. Each card has a `stage` (consecutive successful reviews) and a `due_on` date.
 
 - Created → due tomorrow.
 - Passed at stage *s* → stage *s + 1*, next review in `fib(s + 2)` days: 1, 2, 3, 5, 8, 13…

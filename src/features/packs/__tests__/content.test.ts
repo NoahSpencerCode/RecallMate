@@ -9,18 +9,12 @@ import { describe, expect, it } from '@jest/globals';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { normalizeAnswer } from '@/features/review/answerMatch';
-import { parseBlocks, parseRich, plainText, splitAnswer } from '@/lib/rich';
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const katex = require('katex') as typeof import('katex').default;
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-require('katex/contrib/mhchem');
+import { ID, markupProblems, normalizedPrompt, searchQueryProblems, typedAnswerProblems } from '@/lib/cardRules';
+import { parseBlocks, splitAnswer } from '@/lib/rich';
 
 const ROOT = join(__dirname, '..', '..', '..', '..', 'content', 'packs');
 const CARDS_PER_PACK = 100;
 const MIN_TYPED = 20;
-const ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const only = (process.env.PACKS ?? '')
   .split(',')
   .map((s) => s.trim())
@@ -47,34 +41,6 @@ const selected = categories.flatMap((category) =>
     .filter((packId) => !only.length || only.includes(packId) || only.includes(category.id))
     .map((packId) => ({ category, packId })),
 );
-
-/** Problems with one piece of marked-up text (a title, body or answerDisplay). */
-function markupProblems(where: string, text: string): string[] {
-  const problems: string[] = [];
-  for (const segment of parseRich(text)) {
-    if (segment.kind === 'math') {
-      try {
-        katex.renderToString(segment.tex, { throwOnError: true, displayMode: segment.display, strict: 'ignore' });
-      } catch (error) {
-        problems.push(`${where}: math doesn't compile: $${segment.tex}$ (${(error as Error).message.split('\n')[0]})`);
-      }
-    } else if (segment.kind === 'text') {
-      if (segment.text.includes('$')) problems.push(`${where}: stray "$" (close the math, or write \\$ for a dollar sign)`);
-      if (segment.text.includes('`')) problems.push(`${where}: stray backtick (close the code span)`);
-      if (segment.text.includes('**')) problems.push(`${where}: stray "**" (close the highlight on the same line)`);
-    }
-  }
-  return problems;
-}
-
-function plainAnswerProblems(where: string, value: unknown): string[] {
-  if (typeof value !== 'string' || !value.trim()) return [`${where}: must be non-empty text`];
-  const problems: string[] = [];
-  if (value.length > 80) problems.push(`${where}: over 80 characters, too long to type`);
-  if (/[$`\\]/.test(value)) problems.push(`${where}: must be plain typeable text (no $, \\ or backticks): ${value}`);
-  if (!normalizeAnswer(value)) problems.push(`${where}: normalizes to nothing: ${value}`);
-  return problems;
-}
 
 function packProblems(category: Category, packId: string): string[] {
   const file = join(ROOT, category.id, `${packId}.json`);
@@ -115,31 +81,15 @@ function packProblems(category: Category, packId: string): string[] {
       problems.push(`${at}: split the explanation into shorter paragraphs (blank lines between them)`);
     }
 
-    const query = card.searchQuery;
-    if (typeof query !== 'string' || !query.trim()) problems.push(`${at}: missing searchQuery`);
-    else if (query.length > 100 || /[$`\\*]/.test(query) || query.trim().split(/\s+/).length < 2) {
-      problems.push(`${at}: searchQuery must be 2+ plain words, at most 100 characters: ${query}`);
-    }
+    problems.push(...searchQueryProblems(at, card.searchQuery));
     problems.push(...markupProblems(`${at} title`, card.title ?? ''), ...markupProblems(`${at} body`, card.body ?? ''));
 
-    const prompt = plainText(card.title ?? '').toLowerCase().replace(/\s+/g, ' ').trim();
+    const prompt = normalizedPrompt(card.title ?? '');
     if (prompts.has(prompt)) problems.push(`${at}: same prompt as ${prompts.get(prompt)}`);
     prompts.set(prompt, card.id);
 
-    if (card.answer !== undefined) {
-      typed++;
-      problems.push(...plainAnswerProblems(`${at} answer`, card.answer));
-      const seen = new Set([normalizeAnswer(String(card.answer))]);
-      for (const alt of card.acceptedAnswers ?? []) {
-        problems.push(...plainAnswerProblems(`${at} acceptedAnswers`, alt));
-        const normalized = normalizeAnswer(String(alt));
-        if (seen.has(normalized)) problems.push(`${at}: accepted answer "${alt}" is the same as another after normalizing`);
-        seen.add(normalized);
-      }
-      if (card.answerDisplay !== undefined) problems.push(...markupProblems(`${at} answerDisplay`, card.answerDisplay));
-    } else if (card.acceptedAnswers?.length || card.answerDisplay !== undefined) {
-      problems.push(`${at}: acceptedAnswers/answerDisplay need an answer`);
-    }
+    if (card.answer !== undefined) typed++;
+    problems.push(...typedAnswerProblems(at, card));
   }
   if (cards.length && typed < MIN_TYPED) problems.push(`only ${typed} typed answers; aim for at least ${MIN_TYPED}`);
   return problems;
@@ -163,7 +113,7 @@ describe('study packs', () => {
         if (!existsSync(file)) continue;
         const pack = JSON.parse(readFileSync(file, 'utf8')) as Pack;
         for (const card of pack.cards ?? []) {
-          const prompt = plainText(card.title ?? '').toLowerCase().replace(/\s+/g, ' ').trim();
+          const prompt = normalizedPrompt(card.title ?? '');
           const other = seen.get(prompt);
           if (other && !other.startsWith(`${packId}/`)) problems.push(`${packId}/${card.id} repeats ${other}`);
           seen.set(prompt, `${packId}/${card.id}`);
