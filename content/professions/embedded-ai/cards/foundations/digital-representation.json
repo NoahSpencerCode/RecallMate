@@ -1,0 +1,744 @@
+{
+  "profession": "embedded-ai",
+  "module": "digital-representation",
+  "tier": 0,
+  "cards": [
+    {
+      "id": "digital-bit-definition",
+      "unit": "bits-and-binary",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **bit**?",
+      "body": "A binary digit: a single 0 or 1, the smallest piece of information a computer can store.\n\nThe word is short for \"binary digit\". One bit answers one yes-or-no question: on or off, true or false, 1 or 0.\n\nExample: A light switch is one bit: up means 1, down means 0. A row of 8 switches can show many more patterns than one switch can.\n\nKey idea: Everything a computer stores (numbers, text, photos, music) is built from long rows of bits.",
+      "searchQuery": "bit binary digit definition computer",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-why-two-states",
+      "unit": "bits-and-binary",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "Why does digital hardware store information as bits with only two states?",
+      "body": "Two states are easy to tell apart reliably, so small electrical disturbances can't turn one into the other.\n\nInside a chip, a wire carries a signal that is either high or low. If a wire had to tell ten different levels apart, a little electrical noise could push one level into the next. Two levels, far apart, are almost never confused.\n\nExample: It is easier to tell a lit room from a dark one than to tell ten shades of gray apart in poor light.\n\nWatch out: Two states per bit does not mean computers can only count to 1. Many bits side by side represent large numbers, as the next cards show.",
+      "searchQuery": "why computers use binary two states reliable",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage",
+        "Harris & Harris, DDCA RISC-V ed., ch. 1"
+      ]
+    },
+    {
+      "id": "digital-binary-base-2",
+      "unit": "bits-and-binary",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What does **binary** (base 2) mean when writing numbers?",
+      "body": "Numbers written with only the digits 0 and 1, where each place is worth twice the place to its right.\n\nCounting in binary goes 0, 1, 10, 11, 100, 101, 110, 111. Decimal runs out of digits after 9 and carries to 10; binary runs out after 1 and carries to 10.\n\nExample: The binary number `10` means two, not ten. `11` means three.\n\nWatch out: `101` could be binary or decimal. Context tells you which base is meant, and code uses markers such as the `0x` prefix, which a later unit shows.",
+      "searchQuery": "binary base 2 number system 0 and 1",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage",
+        "CS50x 2026, Week 0 notes: Computer Science and Problem Solving"
+      ]
+    },
+    {
+      "id": "digital-place-value",
+      "unit": "bits-and-binary",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "What is the **place value** of the bit in position $i$ of a binary number, when position 0 is the rightmost bit?",
+      "body": "$2^i$\n\nA place value is what a digit is worth because of where it sits. In decimal, $472 = 4\\times 10^2 + 7\\times 10^1 + 2\\times 10^0$: the places are worth 100, 10 and 1.\n\nIn binary the places are worth 1, 2, 4, 8, 16, and so on. For an 8-bit number, from the left (position 7) to the right (position 0), they are 128, 64, 32, 16, 8, 4, 2, 1.\n\nTip: Write those eight numbers above the bits when you convert by hand, then add only the place values that sit above a 1.",
+      "searchQuery": "binary place value power of two position",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-unsigned-integer",
+      "unit": "bits-and-binary",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is an **unsigned integer**?",
+      "body": "A whole number that is zero or positive, stored with every bit used for its size and none for a minus sign.\n\nAn integer is a whole number such as 0, 7 or 42. \"Unsigned\" means the number carries no sign, so it can't be negative.\n\nExample: With 8 bits, `00000000` is 0 and `11111111` is 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = 255. So 8 unsigned bits cover 0 to 255.\n\nKey idea: Later you will see how negative numbers are stored. Until then, every binary number here is unsigned.",
+      "searchQuery": "unsigned integer definition binary non-negative",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-light-switches-example",
+      "unit": "bits-and-binary",
+      "kind": "example",
+      "difficulty": 1,
+      "title": "Four light switches in a row read on, off, on, on from left to right. On means 1, and the leftmost switch is worth 8. What number do they show?",
+      "body": "11\n\nRead the switches as the bits `1011`. From the left the place values are 8, 4, 2, 1.\n\nExample: 1 × 8 + 0 × 4 + 1 × 2 + 1 × 1 = 8 + 2 + 1 = 11.\n\nTip: Add the place value only where there is a 1. The switches that are off contribute nothing.",
+      "searchQuery": "four bits binary 1011 equals 11 decimal",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-msb-lsb-example",
+      "unit": "bits-and-binary",
+      "kind": "example",
+      "difficulty": 1,
+      "title": "In the 8-bit number `10010110`, which bits are the **most significant bit (MSB)** and the **least significant bit (LSB)**, and what is each worth?",
+      "body": "The MSB is the leftmost bit, a 1 worth 128. The LSB is the rightmost bit, a 0 worth 1.\n\nThe most significant bit has the biggest place value, so it changes the number the most. The least significant bit has the smallest place value, 1.\n\nExample: `10010110` = 128 + 16 + 4 + 2 = 150. Flip the MSB and you get `00010110` = 22, a change of 128. Flip the LSB and you get `10010111` = 151, a change of 1.\n\nWatch out: \"Significant\" means how much the bit contributes to the value, not how important it is.",
+      "searchQuery": "most significant bit least significant bit binary",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-binary-to-decimal-problem",
+      "unit": "bits-and-binary",
+      "kind": "problem",
+      "difficulty": 1,
+      "title": "Convert the unsigned binary number `11010110` to decimal.",
+      "body": "214\n\nWrite the place values 128, 64, 32, 16, 8, 4, 2, 1 above the bits `1 1 0 1 0 1 1 0`.\n\nExample: Keep the places that sit above a 1: 128 + 64 + 16 + 4 + 2 = 214.\n\nTip: Check by counting the zeros you skipped: 32, 8 and 1 are missing, and 255 − 41 = 214.",
+      "searchQuery": "convert binary 11010110 to decimal 214",
+      "answer": "214",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-decimal-to-binary-problem",
+      "unit": "bits-and-binary",
+      "kind": "problem",
+      "difficulty": 1,
+      "title": "Write the decimal number 77 as an 8-bit unsigned binary number.",
+      "body": "`01001101`\n\nGo through the place values from the left. If the place value fits in what remains, write 1 and subtract it; otherwise write 0.\n\nExample: 128 does not fit (0). 64 fits (1), leaving 13. 32 (0). 16 (0). 8 fits (1), leaving 5. 4 fits (1), leaving 1. 2 (0). 1 fits (1), leaving 0. The bits are `01001101`.\n\nTip: Check by adding the place values that have a 1: 64 + 8 + 4 + 1 = 77.",
+      "searchQuery": "convert decimal 77 to 8-bit binary",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-power-of-two-definition",
+      "unit": "powers-of-two",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **power of two**?",
+      "body": "A number of the form $2^n$: $n$ copies of 2 multiplied together, with $2^0 = 1$.\n\nThe small raised number $n$ is called the exponent. For example, $2^3 = 2 \\times 2 \\times 2 = 8$. Each time the exponent goes up by 1, the number doubles.\n\nWhy: $2^0 = 1$ is the starting point before any doubling. It is also the place value of the rightmost bit.\n\nKey idea: Binary place values are exactly the powers of two, which is why they appear everywhere in computing.",
+      "searchQuery": "power of two definition exponent doubling",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-n-bits-distinct-values",
+      "unit": "powers-of-two",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "How many different values can $n$ bits represent?",
+      "body": "$2^n$\n\nEach extra bit doubles the number of patterns: 1 bit gives 2, 2 bits give 4 (`00`, `01`, `10`, `11`), 3 bits give 8, and so on.\n\nExample: 8 bits give $2^8 = 256$ different patterns.\n\nWatch out: This counts patterns, not the largest number. The next card turns the count into a largest value.",
+      "searchQuery": "n bits distinct values 2^n patterns",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-largest-unsigned-value",
+      "unit": "powers-of-two",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "What is the largest unsigned integer that fits in $n$ bits?",
+      "body": "$2^n - 1$\n\nThe $2^n$ patterns stand for the numbers 0 up to $2^n - 1$, because the count starts at 0 and zero uses one pattern.\n\nExample: 4 bits reach $2^4 - 1 = 15$, since `1111` = 8 + 4 + 2 + 1. 8 bits reach 255.\n\nWatch out: The classic off-by-one slip is to say 8 bits go up to 256. There are 256 values, but the biggest is 255.",
+      "searchQuery": "largest unsigned integer n bits 2^n minus 1",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-powers-2-to-16",
+      "unit": "powers-of-two",
+      "kind": "numbers",
+      "difficulty": 1,
+      "title": "What are the powers of two from $2^0$ up to $2^{16}$?",
+      "body": "1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536\n\nEach value is double the one before. Anchor points to remember: $2^8 = 256$, $2^{10} = 1024$ and $2^{16} = 65536$. The others follow by doubling or halving.\n\nExample: $2^7 = 128$ is the biggest place value in an 8-bit number, and $2^{16} = 65536$ is how many different values 16 bits can hold.\n\nTip: Practise saying the list out loud. These exact numbers show up constantly in memory sizes and number ranges.",
+      "searchQuery": "powers of two table 1 2 4 8 16 up to 65536",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ],
+      "tags": [
+        "powers-of-two"
+      ]
+    },
+    {
+      "id": "digital-ten-bits-thousand",
+      "unit": "powers-of-two",
+      "kind": "numbers",
+      "difficulty": 2,
+      "title": "Roughly how big are $2^{20}$, $2^{30}$ and $2^{40}$?",
+      "body": "About a million, a billion and a trillion: $10^6$, $10^9$ and $10^{12}$.\n\nBecause $2^{10} = 1024 \\approx 10^3$, every 10 more bits multiplies the size by about a thousand. So $2^{20} = (2^{10})^2 \\approx 10^6$, $2^{30} \\approx 10^9$ and $2^{40} \\approx 10^{12}$.\n\nExample: Exactly, $2^{20} = 1{,}048{,}576$ and $2^{30} = 1{,}073{,}741{,}824$. And $2^{32} = 4 \\times 2^{30} = 4{,}294{,}967{,}296$, about 4.3 billion.\n\nWatch out: The estimate drifts: the true value is 2.4% bigger than $10^3$ at $2^{10}$ and about 10% bigger than $10^{12}$ at $2^{40}$. Use it for quick sizing, not for exact counts.",
+      "searchQuery": "2^10 approx 1000 estimate 2^20 2^30 2^40 million billion",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ],
+      "tags": [
+        "powers-of-two"
+      ]
+    },
+    {
+      "id": "digital-bits-needed-problem",
+      "unit": "powers-of-two",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "You want to give each of 100 different items its own unsigned binary code. What is the fewest number of bits that works?",
+      "body": "7\n\nYou need $2^n \\geq 100$. Since $2^6 = 64$ is too small and $2^7 = 128$ is enough, 7 bits is the minimum.\n\nWhy it works: This is $\\lceil \\log_2 N \\rceil$ with $N = 100$. Here $\\log_2 100$ is the power you raise 2 to in order to get 100, about 6.64, and the ceiling symbol $\\lceil\\ \\rceil$ means round up to the next whole number, which gives 7.\n\nWatch out: Always round up. 6.64 bits is not a thing, and 6 bits would leave some items without a code.",
+      "searchQuery": "bits needed to represent 100 values ceiling log2",
+      "answer": "7",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-bits-for-a-million-problem",
+      "unit": "powers-of-two",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "How many bits are needed to give each of one million different items its own unsigned binary code?",
+      "body": "20\n\nYou need $2^n \\geq 10^6$. Here $2^{19} = 524{,}288$ is too small and $2^{20} = 1{,}048{,}576$ is enough.\n\nTip: The shortcut from the last cards gives the answer at once: $2^{20} \\approx 10^6$, so one million values takes about 20 bits. Always check one step below, since $2^{19}$ falls short.\n\nKey idea: $\\lceil \\log_2 N \\rceil$ grows slowly. Multiplying the number of items by 1000 adds only about 10 bits.",
+      "searchQuery": "bits needed one million values 2^20",
+      "answer": "20",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-hexadecimal-definition",
+      "unit": "hexadecimal",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is **hexadecimal** (base 16), and which digits does it use?",
+      "body": "A number system with 16 digits: 0 to 9, then A to F, where A = 10, B = 11, C = 12, D = 13, E = 14, F = 15.\n\nEach place is worth 16 times the place to its right, so the place values are 1, 16, 256, 4096 and so on. People often just say \"hex\".\n\nExample: The hex number `2F` is 2 × 16 + 15 = 47.\n\nWatch out: In hex, A to F are digits, not letters of a word. `F` alone means fifteen.",
+      "searchQuery": "hexadecimal base 16 digits A to F",
+      "refs": [
+        "CS50x 2026, Week 4 notes: Hexadecimal",
+        "CS:APP 3e, §2.1 Information Storage"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-nibble-definition",
+      "unit": "hexadecimal",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **nibble**?",
+      "body": "A group of 4 bits, which is exactly one hexadecimal digit.\n\nFour bits have $2^4 = 16$ patterns, from `0000` to `1111`, and hex has exactly 16 digits, from 0 to F. So one nibble matches one hex digit.\n\nExample: The nibble `1011` is 11, which is the hex digit B.\n\nKey idea: Two nibbles make a group of 8 bits, which gets its own name in a later unit.",
+      "searchQuery": "nibble 4 bits one hex digit",
+      "refs": [
+        "CS50x 2026, Week 4 notes: Hexadecimal",
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-binary-hex-grouping",
+      "unit": "hexadecimal",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "How do you convert a binary number to hexadecimal?",
+      "body": "Split the bits into groups of four, starting from the right, and write each group as one hex digit.\n\nThe nibble values to know: `0000` = 0 up to `1001` = 9, then `1010` = A, `1011` = B, `1100` = C, `1101` = D, `1110` = E, `1111` = F.\n\nExample: `101101` has six bits, so pad on the left to `0010 1101`. That is 2 and D, giving `2D`. Check: 45 in decimal, and 2 × 16 + 13 = 45.\n\nWhy it works: 16 is $2^4$, so one hex place is worth exactly four binary places, and nibbles never overlap.",
+      "searchQuery": "convert binary to hexadecimal group four bits nibble",
+      "refs": [
+        "CS50x 2026, Week 4 notes: Hexadecimal",
+        "CS:APP 3e, §2.1 Information Storage"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-0x-prefix-example",
+      "unit": "hexadecimal",
+      "kind": "example",
+      "difficulty": 1,
+      "title": "Code marks hex numbers with the **0x prefix**, as in `0x3F`, so they aren't mistaken for decimal. Write the binary number `11010110` as a hex number with that prefix.",
+      "body": "`0xD6`\n\nSplit into nibbles: `1101` and `0110`. The first is 13, which is D. The second is 6. So the hex digits are D and 6.\n\nWhy: Without a marker, `11` could be eleven in decimal, three in binary or seventeen in hex. The 0x prefix removes the doubt, and it works in C, C++ and Python.\n\nTip: Check by converting back: 0xD6 = 13 × 16 + 6 = 214, the same as the binary number.",
+      "searchQuery": "0x prefix hex binary 11010110 to 0xD6",
+      "refs": [
+        "CS50x 2026, Week 4 notes: Hexadecimal",
+        "CS:APP 3e, §2.1 Information Storage"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-rgb-colour-example",
+      "unit": "hexadecimal",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "A web **RGB color code** such as `#RRGGBB` gives the amounts of red, green and blue as three two-digit hex numbers, each from 00 (none) to FF (full). What does `#FF8000` mean?",
+      "body": "Red 255 (full), green 128 (half), blue 0 (none), which looks orange.\n\nSplit the code into pairs: `FF`, `80`, `00`. FF = 15 × 16 + 15 = 255. 80 = 8 × 16 = 128. 00 = 0.\n\nWhy it matters: Each pair has 256 possible values, so a code can name $256 \\times 256 \\times 256 = 16{,}777{,}216$ colors.\n\nTip: `#FFFFFF` is white (all lights full), `#000000` is black (all off).",
+      "searchQuery": "RGB colour code hex FF8000 red green blue",
+      "refs": [
+        "CS50x 2026, Week 0 notes: RGB"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-why-hex-in-programs",
+      "unit": "hexadecimal",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why do programmers write memory addresses and register values in hex?",
+      "body": "Hex is a compact way to write binary: each hex digit is exactly 4 bits, so a long bit pattern shrinks to a few digits that are easy to turn back into bits.\n\nA memory address is the number that says where a piece of data is stored. A register is a tiny, very fast storage spot inside the chip that runs programs, and it holds one value at a time.\n\nExample: A 32-bit value takes 32 binary digits but only 8 hex digits, as in `0xDEADBEEF`.\n\nWatch out: Hex is only a way of writing. The value stored is the same bits whether you show them as binary, decimal or hex. Decimal is awkward here because 10 is not a power of two, so decimal digits don't line up with bits.",
+      "searchQuery": "why programmers use hexadecimal memory addresses registers",
+      "refs": [
+        "CS50x 2026, Week 4 notes: Hexadecimal",
+        "CS:APP 3e, §2.1 Information Storage"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-hex-3f-problem",
+      "unit": "hexadecimal",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Convert `0x3F` to decimal.",
+      "body": "63\n\nThe place values are 16 and 1. The digit 3 sits in the 16s place and F is fifteen.\n\nExample: 3 × 16 + 15 × 1 = 48 + 15 = 63.\n\nTip: Check in binary: `0x3F` is `0011 1111`, six ones, which is $2^6 - 1 = 63$.",
+      "searchQuery": "convert hex 0x3F to decimal 63",
+      "answer": "63",
+      "refs": [
+        "CS50x 2026, Week 4 notes: Hexadecimal",
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-hex-1a2b-problem",
+      "unit": "hexadecimal",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Convert the four-digit hex value `0x1A2B` to decimal.",
+      "body": "6699\n\nUse the place values 4096, 256, 16 and 1, and remember A = 10 and B = 11.\n\nExample: 1 × 4096 + 10 × 256 + 2 × 16 + 11 × 1 = 4096 + 2560 + 32 + 11 = 6699.\n\nTip: Check the size. Four hex digits are 16 bits, so the value must be below $2^{16} = 65536$, and the top digit 1 puts it near 4096 to 8191.",
+      "searchQuery": "convert hex 0x1A2B to decimal 6699",
+      "checkpoint": true,
+      "answer": "6699",
+      "refs": [
+        "CS50x 2026, Week 4 notes: Hexadecimal",
+        "CS:APP 3e, §2.1 Information Storage"
+      ]
+    },
+    {
+      "id": "digital-byte-definition",
+      "unit": "bytes-and-units",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **byte**?",
+      "body": "A group of 8 bits.\n\nA byte has $2^8 = 256$ patterns (0 to 255), and it is written with exactly two hex digits (`00` to `FF`). It is the unit memory is normally counted in.\n\nExample: A plain English letter takes one byte, as the text unit will show.\n\nWatch out: Lowercase b means bit and capital B means byte. A link rated at 100 megabits per second moves at most 12.5 megabytes per second, since 100 ÷ 8 = 12.5.",
+      "searchQuery": "byte definition 8 bits memory unit",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage",
+        "NIST Reference on Constants, Units and Uncertainty: Prefixes for binary multiples"
+      ],
+      "tags": [
+        "units"
+      ]
+    },
+    {
+      "id": "digital-word-definition",
+      "unit": "bytes-and-units",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **word** in computer hardware?",
+      "body": "The natural chunk of data a processor handles at once, commonly 16, 32 or 64 bits.\n\nA processor is the chip that runs programs. Its word size is the width it works with most easily, so a 32-bit processor has 32-bit words (4 bytes) and a 64-bit processor has 64-bit words (8 bytes).\n\nExample: Adding two 32-bit numbers on a 32-bit processor is one step, because each number fits in a single word.\n\nWatch out: This \"word\" has nothing to do with English words. Some manuals fix the size no matter how wide the chip is: Intel's x86 manuals use \"word\" for 16 bits and Arm's use it for 32 bits, so check the manual.",
+      "searchQuery": "word size processor 16 32 64 bits definition",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage"
+      ],
+      "tags": [
+        "units"
+      ]
+    },
+    {
+      "id": "digital-si-vs-iec-prefixes",
+      "unit": "bytes-and-units",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What is the difference between kB and KiB (and between MB and MiB, GB and GiB)?",
+      "body": "kB, MB and GB count in powers of 1000 (1 kB = 1000 bytes); KiB, MiB and GiB count in powers of 1024 (1 KiB = 1024 bytes).\n\nThe decimal SI prefixes kilo, mega and giga stand for 1000, 1000² and 1000³. The **IEC binary prefixes** kibi, mebi and gibi (short for \"kilo binary\", \"mega binary\" and \"giga binary\") stand for 1024, 1024² and 1024³. The units are the kibibyte (KiB), mebibyte (MiB) and gibibyte (GiB).\n\nExample: 1 MB = 1,000,000 bytes, but 1 MiB = 1,048,576 bytes.\n\nWatch out: The little i marks the binary units (and kB uses a lowercase k while KiB uses a capital K). The difference is about 2.4% for kilo and grows to about 7.4% at giga.",
+      "searchQuery": "kB vs KiB SI prefix IEC binary prefix kibibyte",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage",
+        "NIST Reference on Constants, Units and Uncertainty: Prefixes for binary multiples"
+      ],
+      "tags": [
+        "units"
+      ]
+    },
+    {
+      "id": "digital-kib-mib-gib-numbers",
+      "unit": "bytes-and-units",
+      "kind": "numbers",
+      "difficulty": 2,
+      "title": "How many bytes are in 1 KiB, 1 MiB and 1 GiB?",
+      "body": "1 KiB = 1024 bytes ($2^{10}$), 1 MiB = 1,048,576 bytes ($2^{20}$), 1 GiB = 1,073,741,824 bytes ($2^{30}$).\n\nEach unit is 1024 times the one before it, so you only need the powers of two from the earlier unit.\n\nExample: 4 KiB is 4 × 1024 = 4096 bytes, which is $2^2 \\times 2^{10} = 2^{12}$.\n\nTip: These are exact by definition of the IEC prefixes. The values are what you get from $2^{10}$, $2^{20}$ and $2^{30}$ in the powers-of-two cards.",
+      "searchQuery": "KiB MiB GiB bytes 1024 1048576 1073741824",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage",
+        "NIST Reference on Constants, Units and Uncertainty: Prefixes for binary multiples"
+      ],
+      "tags": [
+        "units",
+        "powers-of-two"
+      ]
+    },
+    {
+      "id": "digital-drive-capacity-misconception",
+      "unit": "bytes-and-units",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that a drive sold as 256 GB is missing storage when the computer shows it as about 238 GiB?",
+      "body": "Nothing is missing: the maker counts in GB (1 GB = $10^9$ bytes) and the computer displays GiB (1 GiB = $2^{30}$ bytes). Same bytes, different unit.\n\nExample: $256 \\times 10^9 = 256{,}000{,}000{,}000$ bytes. Dividing by $2^{30} = 1{,}073{,}741{,}824$ gives about 238.4 GiB.\n\nWhy it matters: A GiB is bigger than a GB, so the same number of bytes gives a smaller figure in GiB. The gap is about 7% at this size.\n\nWatch out: Some operating systems show GB while still counting in 1024s. The label alone doesn't tell you which one is used.",
+      "searchQuery": "256 GB drive shows 238 GiB why GB vs GiB",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage",
+        "NIST Reference on Constants, Units and Uncertainty: Prefixes for binary multiples"
+      ],
+      "tags": [
+        "units"
+      ]
+    },
+    {
+      "id": "digital-kib-to-bytes-problem",
+      "unit": "bytes-and-units",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A small chip has 64 KiB of memory. How many bytes is that?",
+      "body": "65536\n\nMultiply by 1024 bytes per KiB: 64 × 1024 = 65,536.\n\nTip: 64 is $2^6$ and 1024 is $2^{10}$, so the answer is $2^{16}$. That is the same number as the count of values in 16 bits.",
+      "searchQuery": "64 KiB to bytes 65536 convert",
+      "answer": "65536",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage",
+        "NIST Reference on Constants, Units and Uncertainty: Prefixes for binary multiples"
+      ]
+    },
+    {
+      "id": "digital-files-in-storage-problem",
+      "unit": "bytes-and-units",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A storage chip holds 1 MiB. Each saved image file is 52 kB (1 kB = 1000 bytes). How many whole image files fit?",
+      "body": "20\n\nConvert both to bytes first: 1 MiB = 1,048,576 bytes and 52 kB = 52,000 bytes.\n\nExample: 1,048,576 ÷ 52,000 is about 20.2, so 20 whole files fit (20 × 52,000 = 1,040,000 bytes).\n\nWatch out: Mixing the units by treating both as 1024 gives 1024 ÷ 52, about 19.7, and you would wrongly say 19.",
+      "searchQuery": "storage capacity MiB files kB mixed units whole files",
+      "answer": "20",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage",
+        "NIST Reference on Constants, Units and Uncertainty: Prefixes for binary multiples"
+      ],
+      "tags": [
+        "units"
+      ]
+    },
+    {
+      "id": "digital-character-encoding-definition",
+      "unit": "text-encoding",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **character encoding**?",
+      "body": "An agreed table that gives each character (letter, digit, symbol) a number, which is then stored as bits.\n\nComputers only store numbers, so text works by agreeing that a certain number stands for a certain character. Any program reading the text must use the same table as the program that wrote it.\n\nExample: If the table says 65 means the letter A, then the bits for 65 (`01000001`) are read as an A.\n\nWatch out: Two different tables can give the same bits different meanings. That is the cause of garbled text.",
+      "searchQuery": "character encoding definition table of characters numbers",
+      "refs": [
+        "CS50x 2026, Week 0 notes: ASCII; Unicode"
+      ],
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "digital-ascii-definition",
+      "unit": "text-encoding",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is **ASCII**?",
+      "body": "An early character encoding that gives codes 0 to 127 (7 bits) to English letters, digits, punctuation and control codes.\n\nThe name stands for American Standard Code for Information Interchange. Codes 32 to 126 are the 95 printable characters (including the space, code 32). The rest are control codes, such as 10 for a new line.\n\nExample: The code for a space is 32, and the code for the exclamation mark is 33.\n\nKey idea: ASCII fits in one byte with the top bit left at 0. It covers English well but has no accented letters or other alphabets.",
+      "searchQuery": "ASCII definition 128 codes 7 bits printable control",
+      "refs": [
+        "CS50x 2026, Week 0 notes: ASCII; Unicode"
+      ],
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "digital-code-point-definition",
+      "unit": "text-encoding",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "In **Unicode**, what is a **code point**?",
+      "body": "The unique number Unicode gives to one character, written U+ followed by hex digits, such as U+0041 for A.\n\nUnicode is one standard that covers nearly all the world's writing systems, plus symbols and emoji. Its code points run from U+0000 to U+10FFFF, and the first 128 are the same as ASCII.\n\nExample: The letter é is U+00E9, the euro sign € is U+20AC and the grinning face emoji is U+1F600.\n\nWatch out: A code point is a number for a character, not yet a way of storing it in bytes. That comes next.",
+      "searchQuery": "unicode code point definition U+0041",
+      "refs": [
+        "CS50x 2026, Week 0 notes: ASCII; Unicode",
+        "The Unicode Standard, Core Specification, ch. 2 (General Structure)"
+      ],
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "digital-ascii-code-patterns",
+      "unit": "text-encoding",
+      "kind": "numbers",
+      "difficulty": 1,
+      "title": "What are the ASCII codes of the characters `A`, `a` and `0`?",
+      "body": "`A` = 65, `a` = 97 and `0` = 48.\n\nLetters and digits are in order, so `B` = 66, up to `Z` = 90, and `b` = 98, up to `z` = 122. The digits run from `0` = 48 to `9` = 57.\n\nExample: The code of `D` is 65 + 3 = 68. In hex, `A`, `a` and `0` are 0x41, 0x61 and 0x30.\n\nTip: A lowercase letter is its uppercase letter plus 32. In binary that is just one bit, the 32s place, switched on.",
+      "searchQuery": "ASCII codes A 65 a 97 0 48",
+      "refs": [
+        "CS50x 2026, Week 0 notes: ASCII; Unicode"
+      ],
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "digital-digit-character-example",
+      "unit": "text-encoding",
+      "kind": "example",
+      "difficulty": 1,
+      "title": "What ASCII code does the character `7` have?",
+      "body": "55\n\nThe character `0` has code 48, and the digits are in order, so `7` is 48 + 7 = 55.\n\nWatch out: The character `7` and the number 7 are different things. Code 7 is a control code (the terminal bell), not a digit.\n\nTip: To turn a digit character into its number, subtract the code of `0`. For `7` that is 55 − 48 = 7.",
+      "searchQuery": "ASCII code of character 7 is 55",
+      "refs": [
+        "CS50x 2026, Week 0 notes: ASCII; Unicode"
+      ],
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "digital-utf8-concept",
+      "unit": "text-encoding",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How does **UTF-8** store a Unicode code point?",
+      "body": "As 1 to 4 bytes: the 128 ASCII code points take 1 byte, and larger code points take 2, 3 or 4 bytes.\n\nA character that needs more than one byte is called a **multibyte character**. The byte count depends on the code point:\n\n- U+0000 to U+007F: 1 byte\n- U+0080 to U+07FF: 2 bytes\n- U+0800 to U+FFFF: 3 bytes\n- U+10000 to U+10FFFF: 4 bytes\n\nWhy it works: Plain ASCII text is already valid UTF-8, byte for byte. The first bits of the first byte tell the reader how many bytes the character uses.",
+      "searchQuery": "UTF-8 variable length 1 to 4 bytes code point",
+      "refs": [
+        "CS50x 2026, Week 0 notes: ASCII; Unicode",
+        "RFC 3629 (UTF-8, a transformation format of ISO 10646)"
+      ],
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "digital-utf8-byte-counts-numbers",
+      "unit": "text-encoding",
+      "kind": "numbers",
+      "difficulty": 2,
+      "title": "How many bytes does UTF-8 use for `A`, `é` and the emoji 😀?",
+      "body": "1 byte, 2 bytes and 4 bytes.\n\nA is U+0041, stored as the single byte 0x41. é is U+00E9, stored as the two bytes 0xC3 0xA9. The emoji is U+1F600, stored as the four bytes 0xF0 0x9F 0x98 0x80.\n\nExample: The euro sign € (U+20AC) takes 3 bytes, 0xE2 0x82 0xAC, and most Chinese characters also take 3.\n\nTip: Rule of thumb: English letters 1 byte, accented Latin letters 2, most other scripts 3, most emoji 4 (a few older symbol-style ones take 3).",
+      "searchQuery": "UTF-8 bytes for A é emoji 1 2 4",
+      "refs": [
+        "CS50x 2026, Week 0 notes: ASCII; Unicode",
+        "RFC 3629 (UTF-8, a transformation format of ISO 10646)"
+      ],
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "digital-string-length-concept",
+      "unit": "text-encoding",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why can a string's length in characters differ from its length in bytes?",
+      "body": "In UTF-8 some characters take more than one byte, so the byte count can be larger than the character count.\n\nExample: The word `héllo` has 5 characters but 6 bytes, because é takes 2 bytes and the other four letters take 1 each (1 + 2 + 1 + 1 + 1).\n\nWhy it matters: Programs that measure text in bytes, such as C's `strlen`, report 6 here, while Python's `len` reports 5 characters.\n\nWatch out: Reserving space by the number of characters can overflow a buffer. Reserve by bytes. (A buffer is a block of memory set aside to hold the text.)",
+      "searchQuery": "string length characters vs bytes UTF-8 strlen",
+      "refs": [
+        "CS50x 2026, Week 0 notes: ASCII; Unicode",
+        "RFC 3629 (UTF-8, a transformation format of ISO 10646)"
+      ],
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "digital-mojibake-example",
+      "unit": "text-encoding",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "A web page should show `café` but shows `cafÃ©`. What went wrong, and what is this kind of garbled text called?",
+      "body": "**Mojibake**: the UTF-8 bytes were read with the wrong encoding.\n\nIn UTF-8, é is the two bytes 0xC3 0xA9. A reader using an older single-byte table called Latin-1 shows each byte as its own character: 0xC3 is Ã and 0xA9 is ©.\n\nKey idea: Neither side made an arithmetic mistake. They disagreed about which table to use.\n\nTip: The fix is to read the data with the encoding it was written in, usually UTF-8.",
+      "searchQuery": "mojibake garbled text wrong encoding UTF-8 Latin-1",
+      "refs": [
+        "CS50x 2026, Week 0 notes: ASCII; Unicode"
+      ],
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "digital-unicode-vs-utf8-misconception",
+      "unit": "text-encoding",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that Unicode and UTF-8 are the same thing?",
+      "body": "Unicode assigns the numbers (code points); UTF-8 is just one way to store those numbers as bytes.\n\nOther ways exist, such as UTF-16 and UTF-32. The same character keeps one code point however it is stored.\n\nExample: é is always U+00E9. UTF-8 stores it as the two bytes 0xC3 0xA9, while UTF-16 stores it as one 16-bit unit, 0x00E9.\n\nKey idea: Two layers: Unicode picks the number for each character, an encoding such as UTF-8 turns that number into bytes.",
+      "searchQuery": "Unicode vs UTF-8 difference code point encoding",
+      "refs": [
+        "CS50x 2026, Week 0 notes: ASCII; Unicode",
+        "The Unicode Standard, Core Specification, ch. 2 (General Structure)"
+      ],
+      "tags": [
+        "text"
+      ]
+    },
+    {
+      "id": "digital-twos-complement-definition",
+      "unit": "twos-complement",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "How does **two's complement** store **signed integers** (whole numbers that may be negative) in $n$ bits?",
+      "body": "The top bit, the **sign bit**, has place value $-2^{n-1}$, and every other bit keeps its usual positive place value.\n\nFor 8 bits the place values are −128, 64, 32, 16, 8, 4, 2, 1. A sign bit of 1 means the number is negative.\n\nExample: `11111111` = −128 + 127 = −1. `10000000` = −128. `01111111` = 127.\n\nWhy it matters: The same adding circuit works for signed and unsigned numbers, so almost every processor uses two's complement.",
+      "searchQuery": "two's complement definition sign bit negative place value",
+      "refs": [
+        "CS:APP 3e, §2.2 Integer Representations",
+        "CS:APP 3e, §2.3 Integer Arithmetic"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-signed-range-concept",
+      "unit": "twos-complement",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What range of values can an $n$-bit two's-complement integer hold?",
+      "body": "$-2^{n-1}$ to $2^{n-1} - 1$.\n\nHalf the patterns have the sign bit set (negative) and half do not. Zero takes one of the non-negative patterns, so there is one more negative value than positive.\n\nExample: 8 bits hold −128 to 127 (256 values in all). 16 bits hold −32,768 to 32,767. 32 bits hold −2,147,483,648 to 2,147,483,647.\n\nWatch out: −128 has no positive partner in 8 bits, since +128 doesn't fit.",
+      "searchQuery": "signed integer range -2^(n-1) to 2^(n-1)-1 two's complement",
+      "refs": [
+        "CS:APP 3e, §2.2 Integer Representations",
+        "CS:APP 3e, §2.3 Integer Arithmetic"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-negate-invert-add-one",
+      "unit": "twos-complement",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How do you negate a two's-complement number?",
+      "body": "Invert every bit, then add 1.\n\nWhy: A number plus its bit-inverted copy gives all ones, which reads as −1. So the inverted copy is −1 − x, and adding 1 gives −x.\n\nExample: To get −3, start from `00000011`. Invert to `11111100`, add 1, and you get `11111101`. Reading it back: −128 + 125 = −3.\n\nWatch out: Negating −128 (`10000000`) gives `10000000` again. Its positive partner doesn't fit.",
+      "searchQuery": "negate two's complement invert bits add one",
+      "refs": [
+        "CS:APP 3e, §2.2 Integer Representations",
+        "CS:APP 3e, §2.3 Integer Arithmetic"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-temperature-example",
+      "unit": "twos-complement",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "A sensor stores −20 as an 8-bit two's-complement number. What hex value is stored?",
+      "body": "`0xEC`\n\nStart from +20, which is `00010100`. Invert to `11101011`, then add 1 to get `11101100`. In nibbles that is `1110` and `1100`, which is E and C.\n\nExample: Check with decimal: 256 − 20 = 236, and 0xEC = 14 × 16 + 12 = 236. Reading `11101100` directly: −128 + 64 + 32 + 8 + 4 = −20.\n\nTip: An 8-bit negative number x is stored as 256 + x. This is a handy way to check your work.",
+      "searchQuery": "-20 as 8-bit two's complement hex 0xEC",
+      "refs": [
+        "CS:APP 3e, §2.2 Integer Representations",
+        "CS:APP 3e, §2.3 Integer Arithmetic"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-number-format-misconception",
+      "unit": "twos-complement",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that the bit pattern `11111111` always means 255?",
+      "body": "A bit pattern has no meaning on its own: the same 8 bits are 255 as an unsigned integer but −1 as a two's-complement signed integer.\n\nA **number format** is the rule that says how to read bits as a number. Whoever reads the data must know which one was used.\n\nExample: In C, `uint8_t` and `int8_t` are both 8 bits. The pattern 0xFF is 255 in the first and −1 in the second.\n\nWatch out: Mixing up signed and unsigned reads is a common bug source. The bits don't change, only the reading does.",
+      "searchQuery": "bit pattern meaning depends number format signed unsigned 0xFF",
+      "refs": [
+        "CS:APP 3e, §2.2 Integer Representations",
+        "CS:APP 3e, §2.3 Integer Arithmetic"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-overflow-definition",
+      "unit": "twos-complement",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is **overflow**: what happens when the result of an addition doesn't fit in the available bits?",
+      "body": "A result too big for the available bits: the extra high bit is lost, so the value **wraps around** to the other end of the range.\n\nExample: In 8 unsigned bits, 255 + 1 is `1 00000000`. The ninth bit has nowhere to go, so the result is 0. In 8 signed bits, 127 + 1 wraps to −128.\n\nKey idea: Wrap-around works like a car's odometer rolling over from 999999 back to 000000.\n\nWatch out: Most processors don't stop or raise an error by themselves. In C, unsigned wrap-around is defined, but signed overflow is \"undefined behavior\" (the language promises nothing about the result), so don't rely on it.",
+      "searchQuery": "integer overflow wrap-around fixed width bits",
+      "refs": [
+        "CS:APP 3e, §2.2 Integer Representations",
+        "CS:APP 3e, §2.3 Integer Arithmetic"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-read-negative-problem",
+      "unit": "twos-complement",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Read `10110100` as an 8-bit two's-complement number. What decimal value is it?",
+      "body": "-76\n\nThe sign bit is 1, so the number is negative. Start from −128 and add the other place values that have a 1: 32, 16 and 4.\n\nExample: −128 + 32 + 16 + 4 = −128 + 52 = −76.\n\nTip: Check by negating. Invert to `01001011` and add 1 to get `01001100`, which is 64 + 8 + 4 = 76.",
+      "searchQuery": "read 10110100 8-bit two's complement -76",
+      "answer": "-76",
+      "refs": [
+        "CS:APP 3e, §2.2 Integer Representations",
+        "CS:APP 3e, §2.3 Integer Arithmetic"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-overflow-add-problem",
+      "unit": "twos-complement",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "In 8-bit two's complement, add `01100100` (100) and `00110010` (50). What signed value do the 8 result bits show?",
+      "body": "-106\n\nThe true sum, 150, is bigger than the largest 8-bit signed value, 127, so it overflows. The bit sum is `10010110`.\n\nExample: The sign bit is now 1. Reading it: −128 + 16 + 4 + 2 = −106. Check: 150 − 256 = −106.\n\nKey idea: Overflow shifts the answer by exactly 256 (that is $2^8$) for 8 bits. Two positives that add to a negative is the telltale sign.",
+      "searchQuery": "8-bit signed overflow 100 + 50 gives -106",
+      "checkpoint": true,
+      "answer": "-106",
+      "refs": [
+        "CS:APP 3e, §2.2 Integer Representations",
+        "CS:APP 3e, §2.3 Integer Arithmetic"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "digital-sign-extension-problem",
+      "unit": "twos-complement",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "**Sign extension** widens a number by copying its sign bit into the new top bits. Sign-extend the 8-bit two's-complement value `0xF6` to 16 bits. What is the result in hex?",
+      "body": "`0xFFF6`\n\n0xF6 is `11110110`, and its sign bit is 1, so it is negative: −128 + 64 + 32 + 16 + 4 + 2 = −10. Copy that 1 into the 8 new bits to get `11111111 11110110`.\n\nExample: As 16 bits, 0xFFF6 = −32768 + 32758 = −10, so the value is unchanged.\n\nWatch out: Filling the new bits with zeros gives 0x00F6 = 246, a different number. Zeros are right for unsigned values, copies of the sign bit for signed ones.",
+      "searchQuery": "sign extension 8-bit to 16-bit 0xF6 0xFFF6",
+      "refs": [
+        "CS:APP 3e, §2.2 Integer Representations",
+        "CS:APP 3e, §2.3 Integer Arithmetic"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    }
+  ]
+}

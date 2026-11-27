@@ -1,0 +1,59 @@
+{
+  "module": "number-formats",
+  "checker": "independent checker (Claude)",
+  "verdicts": [
+    {
+      "id": "number-problem-0-3-to-q15",
+      "verdict": "fixed",
+      "note": "Watch-out about truncation used a confusing 9830.9 example; reworded."
+    },
+    {
+      "id": "number-q-conversion-formula",
+      "verdict": "fixed",
+      "note": "Told learner to 'clip' before clipping is taught; now just says check the range."
+    },
+    {
+      "id": "number-problem-cancellation-rewrite",
+      "verdict": "fixed",
+      "note": "Claimed x^2 is computed exactly; it is computed directly with full relative accuracy."
+    },
+    {
+      "id": "number-code-isclose-tolerance",
+      "verdict": "fixed",
+      "note": "Ref pointed to Python Tutorial ch. 15, which does not cover math.isclose; now cites math.isclose docs (PEP 485)."
+    },
+    {
+      "id": "number-loss-scaling-concept",
+      "verdict": "fixed",
+      "note": "Gradient and loss were never taught; added a one-sentence gloss."
+    },
+    {
+      "id": "number-code-int8-dot-int16-vs-int32",
+      "verdict": "fixed",
+      "note": "Said 16 guard bits allow billions of worst-case products; correct figure is 131,071."
+    },
+    {
+      "id": "number-problem-1024-tap-q15-fir",
+      "verdict": "fixed",
+      "note": "FIR filter and tap were used undefined; defined in the prompt."
+    },
+    {
+      "id": "number-mac-accumulator-definition",
+      "verdict": "fixed",
+      "note": "FIR filters mentioned without explanation; added a short gloss."
+    },
+    {
+      "id": "number-accumulator-64-vs-32-trade-off",
+      "verdict": "fixed",
+      "note": "Implied only a 32-bit sum gets dual-16 MAC; M4 SMLALD does it with a 64-bit sum. Rewrote the other side around cores without a 64-bit MAC (Cortex-M0), and the SMLAL cost note."
+    }
+  ],
+  "summary": {
+    "reviewed": 55,
+    "ok": 46,
+    "fixed": 9,
+    "dropped": 0,
+    "added": 0,
+    "notes": "All C and Python snippets compiled and run (sanitizers clean); Q15/Q7, float32 encodings, FP16/BF16 limits, FMA, tie and accumulator numbers recomputed. Arm instruction facts (SSAT/USAT M3+M4, QADD M4 only, no saturation on M0) and CMSIS q15 FIR 64-bit vs fast 32-bit accumulator consistent with my knowledge; Yiu section numbers and Horowitz figures not independently re-verified."
+  }
+}

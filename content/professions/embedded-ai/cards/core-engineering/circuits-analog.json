@@ -1,0 +1,985 @@
+{
+  "profession": "embedded-ai",
+  "module": "circuits-analog",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "circuits-node-and-loop",
+      "unit": "kirchhoffs-laws",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "In circuit analysis, what are a **node** and a **loop**?",
+      "body": "A node is a point where two or more components join (wires between them count as the same node); a loop is a closed path through components that ends where it began.\n\nEvery point joined by plain wire, with no component in between, is one node and sits at one voltage. Trace a loop by walking from a node, through components, and back to the start without crossing the same node twice.\n\nExample: A battery with two resistors in series has 3 nodes: the battery's + terminal, the junction between the resistors, and the − terminal. It has a single loop: battery, first resistor, second resistor, back to the battery.\n\nWatch out: Two wires that merely cross on a schematic are not joined unless there is a dot at the crossing.",
+      "searchQuery": "node and loop circuit analysis definition",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.3 Kirchhoff's Rules"
+      ]
+    },
+    {
+      "id": "circuits-kcl",
+      "unit": "kirchhoffs-laws",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "State **Kirchhoff's current law (KCL)**.",
+      "body": "The currents flowing into a node add up to zero (counting currents flowing out as negative), so total current in equals total current out.\n\nWritten as an equation, $\\sum I_{\\text{in}} = \\sum I_{\\text{out}}$ at every node. It is the rule behind the current divider: a current that reaches a junction splits, and the pieces add back to the whole.\n\nExample: At a node, $3\\,\\mathrm{mA}$ flows in on one wire and $1\\,\\mathrm{mA}$ flows in on another. The third wire must carry $4\\,\\mathrm{mA}$ out.\n\nTip: Choose a direction for each unknown current before you write the equation. If a current comes out negative, it simply flows the opposite way.",
+      "searchQuery": "Kirchhoff current law node currents sum zero",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.3 Kirchhoff's Rules"
+      ]
+    },
+    {
+      "id": "circuits-kvl",
+      "unit": "kirchhoffs-laws",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "State **Kirchhoff's voltage law (KVL)**.",
+      "body": "Going once around any closed loop, the voltages add up to zero, counting rises as positive and drops as negative, so the total rise equals the total drop.\n\nIn a loop with one battery and some resistors, the battery raises the voltage by $V_s$ and each resistor drops it by $I\\cdot R$, so $V_s = \\sum I R$.\n\nExample: A $9\\,\\mathrm{V}$ battery drives two resistors in series. If the first drops $6\\,\\mathrm{V}$, the second must drop the remaining $3\\,\\mathrm{V}$.\n\nWatch out: Keep your signs consistent. Count a voltage as a rise when you walk through a source from − to +, and as a drop when you walk through a resistor in the direction the current flows.",
+      "searchQuery": "Kirchhoff voltage law loop sum zero",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.3 Kirchhoff's Rules"
+      ]
+    },
+    {
+      "id": "circuits-why-kirchhoff-holds",
+      "unit": "kirchhoffs-laws",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why do KCL and KVL hold? Which conservation law is behind each?",
+      "body": "KCL is conservation of charge; KVL is conservation of energy.\n\nWhy: Charge cannot pile up at a node in a steady circuit, so what flows in must flow out. And a charge that travels around a loop and returns to its start has the same energy it began with, so the energy it gains from sources equals what it gives up in components.\n\nKey idea: The laws are not extra rules about resistors. They hold for any component, which is why they work for every circuit in this module.\n\nWatch out: KVL assumes a changing magnetic field is not threading the loop. For the circuits here that is true, and the cases where it fails (large loops at high frequency) are rare in this course.",
+      "searchQuery": "Kirchhoff laws conservation of charge energy why",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.3 Kirchhoff's Rules"
+      ]
+    },
+    {
+      "id": "circuits-two-loop-currents",
+      "unit": "kirchhoffs-laws",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Two batteries feed a shared resistor. A $12\\,\\mathrm{V}$ source in series with $1\\,\\mathrm{k\\Omega}$ gives current $I_1$ into node $A$. A $3\\,\\mathrm{V}$ source in series with another $1\\,\\mathrm{k\\Omega}$ gives current $I_2$ into node $A$. A third $1\\,\\mathrm{k\\Omega}$ resistor joins $A$ to ground, carrying $I_3$ down; the negative ends of both sources are also at ground. Find $I_1$, $I_2$ and $I_3$ (a positive value means the current flows the way just described).",
+      "body": "$I_1 = 7\\,\\mathrm{mA}$, $I_2 = -2\\,\\mathrm{mA}$, $I_3 = 5\\,\\mathrm{mA}$.\n\nKCL at $A$: $I_1 + I_2 = I_3$. KVL around the left loop: $12 = 1\\cdot I_1 + 1\\cdot I_3$. KVL around the right loop: $3 = 1\\cdot I_2 + 1\\cdot I_3$ (currents in mA, resistances in kΩ, so the products are in volts).\n\nSubstitute: $I_1 = 12 - I_3$ and $I_2 = 3 - I_3$, so $15 - 2I_3 = I_3$, giving $I_3 = 5\\,\\mathrm{mA}$, $I_1 = 7$ and $I_2 = -2$.\n\nWhy: The negative $I_2$ means the $3\\,\\mathrm{V}$ source is being pushed backward: node $A$ sits at $5\\,\\mathrm{V}$, above the $3\\,\\mathrm{V}$ source, so current flows into its positive end (it is being charged).\n\nCheck: $7 + (-2) = 5$, and $5\\,\\mathrm{mA}\\times 1\\,\\mathrm{k\\Omega} = 5\\,\\mathrm{V}$ at node $A$ matches $12 - 7 = 5$ and $3 + 2 = 5$.",
+      "searchQuery": "two loop circuit Kirchhoff branch currents solve",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.3 Kirchhoff's Rules"
+      ]
+    },
+    {
+      "id": "circuits-node-equation",
+      "unit": "kirchhoffs-laws",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "A node $A$ is joined by resistors $R_1,\\dots,R_n$ to nodes at voltages $V_1,\\dots,V_n$. Write the KCL equation for $A$ in terms of voltages.",
+      "body": "$\\displaystyle \\sum_{k=1}^{n}\\frac{V_k - V_A}{R_k} = 0$\n\nEach term is the current flowing from neighbor $k$ into $A$, by Ohm's law (voltage across the resistor divided by its resistance). KCL says these currents add to zero.\n\nThis is **nodal analysis**: pick one node as the **reference node** (usually ground, $0\\,\\mathrm{V}$), write this equation for every other unknown node, and solve for the node voltages. Every current then follows from Ohm's law.\n\nTip: The reference node needs no equation of its own, because its voltage is $0$ by definition. With ground as the reference, a source whose − end is on ground also fixes the voltage at its + end, which removes another unknown.",
+      "searchQuery": "nodal analysis equation reference node ground formula",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.3 Kirchhoff's Rules"
+      ]
+    },
+    {
+      "id": "circuits-nodal-ladder",
+      "unit": "kirchhoffs-laws",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A $10\\,\\mathrm{V}$ source (its negative end at ground) feeds a ladder: $1\\,\\mathrm{k\\Omega}$ from the source to node $A$; $1\\,\\mathrm{k\\Omega}$ from $A$ to ground; $1\\,\\mathrm{k\\Omega}$ from $A$ to node $B$; $1\\,\\mathrm{k\\Omega}$ from $B$ to ground. Using nodal analysis with ground as the reference node, find $V_A$ and $V_B$.",
+      "body": "$V_A = 4\\,\\mathrm{V}$ and $V_B = 2\\,\\mathrm{V}$.\n\nNode $B$ (resistances in kΩ, voltages in volts): $(V_A - V_B)/1 = V_B/1$, so $V_B = V_A/2$.\n\nNode $A$: $(10 - V_A)/1 = V_A/1 + (V_A - V_B)/1$. Substituting $V_B = V_A/2$ gives $10 = 3V_A - V_A/2 = 2.5\\,V_A$, so $V_A = 4\\,\\mathrm{V}$ and $V_B = 2\\,\\mathrm{V}$.\n\nCheck: The source supplies $(10-4)/1 = 6\\,\\mathrm{mA}$. It splits into $4\\,\\mathrm{mA}$ to ground at $A$ and $2\\,\\mathrm{mA}$ onward to $B$, which then goes to ground. $4 + 2 = 6$, so KCL holds.\n\nTip: Two unknown nodes mean two equations. Write the farthest node first when it is simple, then substitute.",
+      "searchQuery": "nodal analysis ladder circuit two nodes solve",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.3 Kirchhoff's Rules"
+      ]
+    },
+    {
+      "id": "circuits-superposition",
+      "unit": "kirchhoffs-laws",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Node $A$ is fed from two sources, both with their negative ends at ground: a $9\\,\\mathrm{V}$ source through $1\\,\\mathrm{k\\Omega}$, and a $3\\,\\mathrm{V}$ source through $2\\,\\mathrm{k\\Omega}$. A $2\\,\\mathrm{k\\Omega}$ resistor connects $A$ to ground. Use **superposition** (one source at a time, the other replaced by a wire) to find $V_A$.",
+      "body": "$V_A = 5.25\\,\\mathrm{V}$\n\nSuperposition: in a circuit of resistors and voltage sources, any voltage equals the sum of what each source produces alone, with the other voltage sources replaced by wires (shorted).\n\nOnly the $9\\,\\mathrm{V}$ source on: the $2\\,\\mathrm{k\\Omega}$ to the shorted $3\\,\\mathrm{V}$ source is in parallel with the $2\\,\\mathrm{k\\Omega}$ to ground, giving $1\\,\\mathrm{k\\Omega}$. Divider: $9\\times 1/(1+1) = 4.5\\,\\mathrm{V}$.\n\nOnly the $3\\,\\mathrm{V}$ source on: the $1\\,\\mathrm{k\\Omega}$ and $2\\,\\mathrm{k\\Omega}$ to ground are in parallel, giving $2/3\\,\\mathrm{k\\Omega}$. Divider: $3\\times (2/3)/(2/3+2) = 0.75\\,\\mathrm{V}$.\n\nSum: $4.5 + 0.75 = 5.25\\,\\mathrm{V}$. Nodal analysis agrees: $(9-V)/1 + (3-V)/2 = V/2$ gives $4V = 21$.\n\nWatch out: Add voltages and currents, never powers. Power depends on the square of the total, so it does not superpose.",
+      "searchQuery": "superposition theorem two voltage sources resistor circuit",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.3 Kirchhoff's Rules"
+      ]
+    },
+    {
+      "id": "circuits-voltage-divider",
+      "unit": "dividers-thevenin",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **voltage divider**?",
+      "body": "Two resistors in series across a voltage, with the output taken from the junction between them.\n\nThe same current flows through both resistors (as long as nothing draws current from the junction), so the input voltage is shared between them in proportion to their resistances. The junction voltage is then a fixed fraction of the input.\n\nExample: Two equal resistors across $5\\,\\mathrm{V}$ share it equally, so the junction sits at $2.5\\,\\mathrm{V}$.\n\nWhy it matters: Dividers scale a voltage down so a sensor or battery reading fits the range of a microcontroller's analog input.",
+      "searchQuery": "voltage divider definition two resistors series output junction",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "circuits-divider-formula",
+      "unit": "dividers-thevenin",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "A divider has $R_1$ from $V_{in}$ to the output and $R_2$ from the output to ground. Give $V_{out}$ (unloaded).",
+      "body": "$V_{out} = V_{in}\\cdot \\dfrac{R_2}{R_1 + R_2}$\n\nWhy: The current through both resistors is $I = V_{in}/(R_1+R_2)$ (series circuit, Ohm's law). The output is the drop across $R_2$, which is $I\\cdot R_2$.\n\nExample: $V_{in} = 12\\,\\mathrm{V}$, $R_1 = 10\\,\\mathrm{k\\Omega}$, $R_2 = 2\\,\\mathrm{k\\Omega}$ gives $V_{out} = 12\\times 2/12 = 2\\,\\mathrm{V}$.\n\nWatch out: The resistor in the numerator is the one between the output and ground. Swap them and you get the voltage across $R_1$ instead.",
+      "searchQuery": "voltage divider formula Vout Vin R2 over R1 plus R2",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "circuits-potentiometer",
+      "unit": "dividers-thevenin",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **potentiometer**, and how does it work as a voltage divider?",
+      "body": "A resistor with three terminals: a fixed resistive track with a contact (the wiper) that slides along it, so the wiper voltage is an adjustable fraction of the voltage across the track.\n\nConnect the two ends of the track to a supply and to ground, and read the voltage at the wiper. The wiper splits the track into the two divider resistors, and moving it changes their ratio while their sum stays constant.\n\nExample: A $10\\,\\mathrm{k\\Omega}$ potentiometer across $3.3\\,\\mathrm{V}$ and ground gives $0.825\\,\\mathrm{V}$ with the wiper a quarter of the way along the track from the ground end (for a linear one).\n\nTip: Wired this way it gives a clean $0$ to $V_{in}$ control knob for a microcontroller's analog input.",
+      "searchQuery": "potentiometer wiper voltage divider adjustable three terminals",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "circuits-floating-input",
+      "unit": "dividers-thevenin",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that a digital input pin with nothing connected reads low (logic 0)?",
+      "body": "False: an unconnected (floating) input is not held at any voltage, so it picks up stray noise and can read high or low unpredictably.\n\nA **pull-up resistor** ties the pin to the supply voltage and a **pull-down resistor** ties it to ground, through a large resistance such as $10\\,\\mathrm{k\\Omega}$. Either gives the pin a defined level when nothing else drives it. A button or another circuit can still override it, because the resistor is weak.\n\nExample: A button connects a pin to ground when pressed. A pull-up to $3.3\\,\\mathrm{V}$ makes the pin read high until the button is pressed.\n\nWatch out: A digital input reads high or low depending on whether its voltage is above or below a threshold. A floating pin can sit near that threshold and flicker.",
+      "searchQuery": "floating input pull-up pull-down resistor digital pin undefined level",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "circuits-pullup-button-numbers",
+      "unit": "dividers-thevenin",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A button connects a microcontroller pin to ground when pressed. A $10\\,\\mathrm{k\\Omega}$ pull-up resistor joins the pin to $3.3\\,\\mathrm{V}$, and the pin draws no current itself. Give the pin voltage released and pressed, and the current through the resistor while pressed.",
+      "body": "$3.3\\,\\mathrm{V}$ released, $0\\,\\mathrm{V}$ pressed, and $0.33\\,\\mathrm{mA}$ through the resistor while pressed.\n\nReleased: no current flows, so there is no voltage drop across the resistor ($V = IR = 0$), and the pin sits at the full $3.3\\,\\mathrm{V}$.\n\nPressed: the button connects the pin straight to ground, so the pin is at $0\\,\\mathrm{V}$ and the whole $3.3\\,\\mathrm{V}$ falls across the resistor. By Ohm's law, $I = 3.3/10{,}000 = 0.33\\,\\mathrm{mA}$.\n\nWhy: A large resistor keeps the wasted current tiny while pressed. Too large (say $1\\,\\mathrm{M\\Omega}$) and the pin's own leakage and noise can start to matter.",
+      "searchQuery": "pull-up resistor button current 10k 3.3V pin voltage",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "circuits-loading-effect",
+      "unit": "dividers-thevenin",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is the **loading effect**, and how do **output impedance** and **input impedance** explain it?",
+      "body": "Connecting a load to a source's output lowers the output voltage; the drop stays small only when the load's input impedance is much larger than the source's output impedance.\n\nOutput impedance is the resistance a source presents at its output terminals (for a divider, $R_1$ in parallel with $R_2$). Input impedance is the resistance a load presents to whatever drives it. For resistive circuits, impedance simply means resistance.\n\nExample: A divider of two $10\\,\\mathrm{k\\Omega}$ resistors from $5\\,\\mathrm{V}$ gives $2.5\\,\\mathrm{V}$ unloaded. A $10\\,\\mathrm{k\\Omega}$ load puts $5\\,\\mathrm{k\\Omega}$ ($R_2$ in parallel with the load) below the output, so $V_{out} = 5\\times 5/15 = 1.67\\,\\mathrm{V}$.\n\nTip: The sag fraction is $R_{out}/(R_{out}+R_{load})$. A load $10\\times$ larger than the output impedance costs only about $9\\,\\%$ ($1/11$).",
+      "searchQuery": "loading effect output impedance input impedance voltage divider load sag",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "circuits-thevenin-equivalent",
+      "unit": "dividers-thevenin",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How do you find the **Thévenin equivalent** of a resistor network seen from two terminals?",
+      "body": "$V_{th}$ is the open-circuit voltage at the terminals, and $R_{th}$ is the resistance between them with every voltage source replaced by a wire; the network then acts like $V_{th}$ in series with $R_{th}$.\n\nSo any tangle of resistors and sources, seen from two terminals, can be replaced by one source and one resistor. A divider's $R_{th}$ is $R_1$ in parallel with $R_2$, which is exactly its output impedance.\n\nExample: A $10\\,\\mathrm{V}$ source with $R_1 = 2\\,\\mathrm{k\\Omega}$ and $R_2 = 3\\,\\mathrm{k\\Omega}$ gives, seen across $R_2$, $V_{th} = 10\\times 3/5 = 6\\,\\mathrm{V}$ and $R_{th} = 2\\,\\|\\,3 = 1.2\\,\\mathrm{k\\Omega}$. A $1.2\\,\\mathrm{k\\Omega}$ load then sees $6\\times 1.2/2.4 = 3\\,\\mathrm{V}$. The full circuit gives the same $3\\,\\mathrm{V}$.\n\nKey idea: Once you have $V_{th}$ and $R_{th}$, loading becomes a simple divider between $R_{th}$ and the load.",
+      "searchQuery": "Thevenin equivalent circuit V th R th how to find",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "circuits-adc-divider-design",
+      "unit": "dividers-thevenin",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A $0$–$5\\,\\mathrm{V}$ sensor must feed a microcontroller's ADC input (the pin that turns a voltage into a number), which accepts at most $3.3\\,\\mathrm{V}$. With $R_1 = 10\\,\\mathrm{k\\Omega}$ on top, what $R_2$ (to ground) gives exactly $3.3\\,\\mathrm{V}$ at $5\\,\\mathrm{V}$ in? Answer in $\\mathrm{k\\Omega}$ to one decimal place.",
+      "body": "$19.4\\,\\mathrm{k\\Omega}$\n\nSolve the divider for $R_2$: $3.3 = 5\\cdot R_2/(R_1+R_2)$ gives $R_2 = R_1\\cdot 3.3/(5-3.3) = 10\\times 1.941 = 19.4\\,\\mathrm{k\\Omega}$.\n\nReal parts come in standard values. $20\\,\\mathrm{k\\Omega}$ gives $5\\times 20/30 = 3.33\\,\\mathrm{V}$, slightly over the limit. $18\\,\\mathrm{k\\Omega}$ gives $5\\times 18/28 = 3.21\\,\\mathrm{V}$, safely under at the cost of a little range.\n\nWatch out: The divider's output impedance is $R_1\\,\\|\\,R_2$ (about $6.6\\,\\mathrm{k\\Omega}$ here). Many ADC **datasheets** (the maker's specification documents) name a maximum source impedance; if $6.6\\,\\mathrm{k\\Omega}$ is above your ADC's limit, scale both resistors down.",
+      "searchQuery": "divider 5V to 3.3V ADC resistor values design",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ],
+      "answer": "19.4",
+      "acceptedAnswers": [
+        "19.4k",
+        "19.4 kohm"
+      ],
+      "answerDisplay": "$19.4\\,\\mathrm{k\\Omega}$"
+    },
+    {
+      "id": "circuits-divider-resistor-size",
+      "unit": "dividers-thevenin",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A battery-powered device measures its $4.2\\,\\mathrm{V}$ cell with a divider that is connected all the time. Should the divider use $1\\,\\mathrm{k\\Omega}$ resistors or $100\\,\\mathrm{k\\Omega}$ resistors?",
+      "body": "$100\\,\\mathrm{k\\Omega}$, because the divider's constant drain must be tiny; $1\\,\\mathrm{k\\Omega}$ resistors would waste far too much battery.\n\nTwo equal $100\\,\\mathrm{k\\Omega}$ resistors across $4.2\\,\\mathrm{V}$ draw $4.2/200{,}000 = 21\\,\\mu\\mathrm{A}$. Two $1\\,\\mathrm{k\\Omega}$ resistors draw $2.1\\,\\mathrm{mA}$: that alone empties a $1000\\,\\mathrm{mAh}$ cell in about 20 days, while $21\\,\\mu\\mathrm{A}$ would take over 5 years.\n\nThe other side: large resistors give a high output impedance ($50\\,\\mathrm{k\\Omega}$ here), so the ADC input loads the divider more and picks up more noise.\n\nKey idea: Choose the divider's resistance by balancing wasted current (favors large) against loading and noise (favor small).",
+      "searchQuery": "voltage divider resistor value battery drain high resistance trade-off",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "circuits-capacitor",
+      "unit": "capacitors-rc",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **capacitor**, and what does it do in a circuit?",
+      "body": "A component of two conducting plates separated by an insulator that stores energy by holding charge on the plates.\n\nVoltage across the plates and stored charge go together. Current flows into a capacitor only while its voltage is changing; once it is charged and the voltage steady, no current flows and it acts like an open circuit.\n\nExample: A capacitor charged from a battery keeps its charge when you disconnect the battery, and can then push a brief current through a resistor.\n\nWatch out: Polarised (electrolytic) capacitors must be connected the right way round, with the marked negative side toward the lower voltage, or they can fail.",
+      "searchQuery": "capacitor definition two plates store charge energy",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "OpenStax University Physics Vol. 2 §10.5 RC Circuits"
+      ]
+    },
+    {
+      "id": "circuits-capacitance-farad",
+      "unit": "capacitors-rc",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "Define **capacitance** $C$ and the **farad**.",
+      "body": "Capacitance is the charge stored per volt, $C = Q/V$; one farad is one coulomb per volt, $1\\,\\mathrm{F} = 1\\,\\mathrm{C/V}$.\n\nRearranged, $Q = C\\cdot V$: more capacitance or more voltage stores more charge.\n\nExample: A $100\\,\\mathrm{nF}$ capacitor charged to $5\\,\\mathrm{V}$ holds $Q = 100\\times 10^{-9}\\times 5 = 0.5\\,\\mu\\mathrm{C}$.\n\nTip: A farad is huge. Parts in circuits are usually $\\mu\\mathrm{F}$ (power supplies), $\\mathrm{nF}$ (everyday filters and timing circuits) or $\\mathrm{pF}$ (radio and crystals).",
+      "searchQuery": "capacitance farad Q equals CV definition",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "OpenStax University Physics Vol. 2 §10.5 RC Circuits"
+      ]
+    },
+    {
+      "id": "circuits-capacitor-energy",
+      "unit": "capacitors-rc",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "How much energy $E$ does a capacitor $C$ store at voltage $V$?",
+      "body": "$E = \\tfrac{1}{2}\\,C\\,V^2$\n\nWhy: Adding charge gets harder as the voltage rises, so the energy is not $Q\\cdot V$. It is the average voltage ($V/2$) times the charge $Q = CV$, which gives $\\tfrac12 CV^2$.\n\nExample: $100\\,\\mu\\mathrm{F}$ at $5\\,\\mathrm{V}$ stores $\\tfrac12\\times 100\\times10^{-6}\\times 25 = 1.25\\,\\mathrm{mJ}$.\n\nWatch out: Energy grows with the square of voltage. Doubling the voltage stores four times the energy.",
+      "searchQuery": "capacitor stored energy half C V squared formula",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "OpenStax University Physics Vol. 2 §10.5 RC Circuits"
+      ]
+    },
+    {
+      "id": "circuits-rc-time-constant",
+      "unit": "capacitors-rc",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why does a capacitor charge through a resistor along an **exponential** curve, and what is the **time constant** $\\tau$?",
+      "body": "The charging current falls as the capacitor fills, so the remaining gap to the supply shrinks by the same factor in equal times; the time constant is $\\tau = R\\cdot C$, the time for that gap to shrink by a factor of $e$.\n\nWhy: The current is (supply − capacitor voltage) / $R$. As the capacitor voltage rises, the voltage across $R$ falls, so the current falls too. A rate proportional to the remaining gap is exponential decay of the gap.\n\nExample: $R = 10\\,\\mathrm{k\\Omega}$ and $C = 100\\,\\mathrm{nF}$ give $\\tau = 10{,}000\\times 100\\times 10^{-9} = 1\\,\\mathrm{ms}$.\n\nKey idea: A bigger resistor or capacitor means a longer $\\tau$. Units check: $\\Omega\\cdot\\mathrm{F}$ is seconds.",
+      "searchQuery": "RC time constant tau exponential charging why resistor capacitor",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "OpenStax University Physics Vol. 2 §10.5 RC Circuits"
+      ]
+    },
+    {
+      "id": "circuits-rc-charging-curve",
+      "unit": "capacitors-rc",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Give the **charging curve** of a capacitor, starting empty, through $R$ from a supply $V_s$, and the share of $V_s$ reached at $\\tau$ and at $5\\tau$.",
+      "body": "$V(t) = V_s\\left(1 - e^{-t/\\tau}\\right)$ with $\\tau = RC$; about $63\\,\\%$ of $V_s$ at $t=\\tau$ and about $99\\,\\%$ at $t=5\\tau$.\n\nMore points: $86.5\\,\\%$ at $2\\tau$, $95\\,\\%$ at $3\\tau$, $98.2\\,\\%$ at $4\\tau$, $99.3\\,\\%$ at $5\\tau$. So the capacitor is treated as fully charged after about $5\\tau$.\n\n**Discharging** through the resistor mirrors it: starting at $V_0$, $V(t) = V_0\\,e^{-t/\\tau}$, which falls to $37\\,\\%$ at $\\tau$ and under $1\\,\\%$ at $5\\tau$.\n\nWatch out: The curve never reaches $V_s$ exactly. The $5\\tau$ rule is a convenient cut-off, not a physical end point.",
+      "searchQuery": "RC charging curve formula 63 percent time constant 5 tau",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "OpenStax University Physics Vol. 2 §10.5 RC Circuits"
+      ],
+      "tags": [
+        "rc-circuits"
+      ]
+    },
+    {
+      "id": "circuits-rc-time-to-threshold",
+      "unit": "capacitors-rc",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A $100\\,\\mathrm{k\\Omega}$ resistor charges an empty $10\\,\\mu\\mathrm{F}$ capacitor from a $5\\,\\mathrm{V}$ supply. How many seconds until the capacitor voltage reaches $3.3\\,\\mathrm{V}$? Give the number to two decimal places.",
+      "body": "$1.08\\,\\mathrm{s}$\n\nHere $\\tau = RC = 100{,}000\\times 10\\times10^{-6} = 1\\,\\mathrm{s}$.\n\nSolve $3.3 = 5(1 - e^{-t/\\tau})$: $e^{-t/\\tau} = 1 - 0.66 = 0.34$, so $t = -\\tau\\ln 0.34 = 1.079\\,\\mathrm{s}$.\n\nCheck: $3.3\\,\\mathrm{V}$ is $66\\,\\%$ of the supply, just above the $63\\,\\%$ point at $\\tau$, so $t$ should be a little over $1\\,\\mathrm{s}$.\n\nTip: To find the time for a given fraction $f$ of the supply, use $t = -\\tau\\ln(1-f)$. For $90\\,\\%$ that is $2.3\\tau$.",
+      "searchQuery": "RC charge time to reach 3.3 V from 5 V 100k 10uF",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "OpenStax University Physics Vol. 2 §10.5 RC Circuits"
+      ],
+      "answer": "1.08",
+      "acceptedAnswers": [
+        "1.079",
+        "1.08 s"
+      ],
+      "answerDisplay": "$1.08\\,\\mathrm{s}$"
+    },
+    {
+      "id": "circuits-rc-code-charging-values",
+      "unit": "capacitors-rc",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Complete the NumPy line so the code prints the capacitor voltage at $t=\\tau$ and $t=5\\tau$ for an RC circuit charging from $5\\,\\mathrm{V}$ (the blank is the right-hand side):\n\n```python\nimport numpy as np\nR, C, vs = 10e3, 100e-9, 5.0\ntau = R * C\nt = np.array([1, 5]) * tau\nv = ____\nprint(v.round(2))\n```",
+      "body": "`vs * (1 - np.exp(-t / tau))`, which prints `[3.16 4.97]`.\n\nThis applies the charging curve $V_s(1-e^{-t/\\tau})$ to both times at once, because NumPy works element by element on the array `t`.\n\nCheck: $5\\times 0.632 = 3.16\\,\\mathrm{V}$ at $\\tau$ and $5\\times 0.9933 = 4.97\\,\\mathrm{V}$ at $5\\tau$ (here $\\tau = 1\\,\\mathrm{ms}$).\n\nTip: Put `t = np.linspace(0, 5 * tau, 200)` instead and hand `t` and `v` to Matplotlib's `plot` to draw the whole curve.",
+      "searchQuery": "numpy RC charging voltage exp code vs 1 minus exp",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "OpenStax University Physics Vol. 2 §10.5 RC Circuits"
+      ],
+      "tags": [
+        "rc-circuits"
+      ]
+    },
+    {
+      "id": "circuits-rc-debounce-design",
+      "unit": "capacitors-rc",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A push button bounces for up to about $5\\,\\mathrm{ms}$ after each press. To **debounce** it in hardware (hide the rapid on-off flicker), a pull-up resistor $R = 10\\,\\mathrm{k\\Omega}$ charges a capacitor that sits across the button, and the closed button shorts the capacitor to ground. What $C$ makes $\\tau$ about equal to the bounce time, and what standard value would you pick?",
+      "body": "$C \\approx 0.5\\,\\mu\\mathrm{F}$, so use $470\\,\\mathrm{nF}$, giving $\\tau = 4.7\\,\\mathrm{ms}$.\n\nSolve $\\tau = RC$ for $C$: $5\\times10^{-3}/10{,}000 = 0.5\\,\\mu\\mathrm{F}$. The nearest common capacitor value is $470\\,\\mathrm{nF}$.\n\nWhy it works: Each time the contacts flicker open, the pull-up has to charge the capacitor again, and a short gap recharges it only partly. So the voltage cannot jump to the high level until the button has stayed open for a while.\n\nWatch out: On release the pin rises with the same curve. If the logic threshold is $70\\,\\%$ of the supply, it takes $-\\tau\\ln 0.3 = 1.2\\tau\\approx 5.7\\,\\mathrm{ms}$. That delay is harmless for a human button, but check it against your requirement.",
+      "searchQuery": "hardware debounce RC button capacitor value pull-up 10k",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "OpenStax University Physics Vol. 2 §10.5 RC Circuits"
+      ],
+      "tags": [
+        "rc-circuits"
+      ]
+    },
+    {
+      "id": "circuits-rc-code-euler-step",
+      "unit": "capacitors-rc",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What does this Python code print? (It steps an RC charging circuit forward in small time steps.)\n\n```python\nR, C, vs, dt = 1e3, 1e-6, 5.0, 1e-4\nv = 0.0\nfor _ in range(10):\n    v += (vs - v) / (R * C) * dt\nprint(round(v, 3))\n```",
+      "body": "`3.257`\n\nEach step adds $(V_s - v)\\,\\Delta t/\\tau$, with $\\tau = RC = 1\\,\\mathrm{ms}$ and $\\Delta t = 0.1\\,\\mathrm{ms}$, so every step closes $10\\,\\%$ of the remaining gap: after 10 steps $v = 5(1-0.9^{10}) = 3.257$.\n\nThe exact curve at $t = 10\\,\\Delta t = 1\\,\\mathrm{ms} = \\tau$ is $5(1-e^{-1}) = 3.161\\,\\mathrm{V}$. The stepping result is a little high because each step uses the current at the start of the step, which is larger than the average over the step.\n\nTip: Smaller steps close the gap: with $\\Delta t = 10\\,\\mu\\mathrm{s}$ and 100 steps the loop gives about $3.17\\,\\mathrm{V}$.",
+      "searchQuery": "python simulate RC charging loop time step output 3.257",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "OpenStax University Physics Vol. 2 §10.5 RC Circuits"
+      ],
+      "tags": [
+        "rc-circuits"
+      ]
+    },
+    {
+      "id": "circuits-capacitor-reactance",
+      "unit": "rc-filters-frequency",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why does a capacitor's opposition to alternating signals (its **reactance** $X_C$) fall as the **frequency** rises?",
+      "body": "A faster-changing voltage makes the capacitor move charge in and out faster, so more current flows for the same voltage: $X_C = \\dfrac{1}{2\\pi f C}$.\n\n**Frequency** $f$ is how many times per second a signal repeats, in hertz. **Impedance** is a part's overall opposition to current (resistance, for resistors); **reactance** is the capacitor's contribution, measured in ohms but changing with frequency.\n\nExample: A $47\\,\\mathrm{nF}$ capacitor has $X_C = 1/(2\\pi\\times 1000\\times 47\\times10^{-9}) \\approx 3.4\\,\\mathrm{k\\Omega}$ at $1\\,\\mathrm{kHz}$, but only about $340\\,\\Omega$ at $10\\,\\mathrm{kHz}$.\n\nKey idea: At very low frequency (steady DC) the capacitor looks like an open circuit; at very high frequency it looks like a wire.",
+      "searchQuery": "capacitor reactance falls with frequency 1 over 2 pi f C",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 9"
+      ],
+      "tags": [
+        "filters"
+      ]
+    },
+    {
+      "id": "circuits-low-high-pass",
+      "unit": "rc-filters-frequency",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What do a **low-pass filter** and a **high-pass filter** do, and how are they built from one resistor and one capacitor?",
+      "body": "A low-pass filter passes slow signals and cuts fast ones; a high-pass filter does the opposite. In an RC low-pass the resistor is in series and the capacitor goes to ground; in an RC high-pass they swap places.\n\nBoth are voltage dividers in which one element, the capacitor, changes its reactance with frequency. In the low-pass, the capacitor to ground has a large reactance at low frequency (so the output follows the input) and a small one at high frequency (so it shorts the signal to ground).\n\nExample: A low-pass can smooth a noisy sensor voltage. A high-pass can remove a steady DC offset while letting a changing signal through.\n\nTip: A filter made of one resistor and one capacitor is called **first-order**. Its low-pass and high-pass forms share the same **cutoff frequency**, $f_c = 1/(2\\pi RC)$, the boundary between the frequencies they pass and those they cut.",
+      "searchQuery": "RC low-pass high-pass filter definition resistor capacitor",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 9"
+      ],
+      "tags": [
+        "filters"
+      ]
+    },
+    {
+      "id": "circuits-cutoff-formula",
+      "unit": "rc-filters-frequency",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "What is the **cutoff frequency** $f_c$ of a first-order RC filter?",
+      "body": "$f_c = \\dfrac{1}{2\\pi R C}$\n\nWhy: The cutoff is where the capacitor's reactance equals the resistance, $X_C = R$. Setting $1/(2\\pi f C) = R$ and solving for $f$ gives the formula.\n\nExample: $R = 10\\,\\mathrm{k\\Omega}$ and $C = 1\\,\\mu\\mathrm{F}$ give $f_c = 1/(2\\pi\\times 10^4\\times 10^{-6}) \\approx 15.9\\,\\mathrm{Hz}$.\n\nKey idea: This is the same $\\tau = RC$ as in charging, because $f_c = 1/(2\\pi\\tau)$. Slow circuits (large $\\tau$) have low cutoffs.",
+      "searchQuery": "RC filter cutoff frequency formula 1 over 2 pi RC",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 9"
+      ],
+      "tags": [
+        "filters"
+      ]
+    },
+    {
+      "id": "circuits-bode-plot",
+      "unit": "rc-filters-frequency",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "On a **Bode plot** of a first-order low-pass filter, how big is the gain at the cutoff, and how fast does it fall beyond it?",
+      "body": "At the cutoff the gain is $-3\\,\\mathrm{dB}$ (the **−3 dB point**, an amplitude of $0.707$); well beyond it the gain falls by $20\\,\\mathrm{dB}$ per decade (per tenfold rise in frequency).\n\nA Bode plot shows gain in dB against frequency on a log axis. Well below $f_c$ the curve is flat at $0\\,\\mathrm{dB}$; well above it, the curve becomes a straight line sloping down.\n\nWhy: Exactly, $\\left|V_{out}/V_{in}\\right| = 1/\\sqrt{1+(f/f_c)^2}$. At $f = f_c$ this is $1/\\sqrt2 = 0.707$ ($-3.01\\,\\mathrm{dB}$). At $f = 10 f_c$ it is $0.0995$ (about $-20\\,\\mathrm{dB}$) and at $100 f_c$ about $0.01$ ($-40\\,\\mathrm{dB}$): once well past the cutoff, each tenfold rise in frequency cuts the amplitude by another factor of ten.\n\nWatch out: The cutoff is not where the signal is gone. At $f_c$ the amplitude is still $70\\,\\%$.",
+      "searchQuery": "Bode plot first order low pass minus 3 dB 20 dB per decade",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 9"
+      ],
+      "tags": [
+        "filters"
+      ]
+    },
+    {
+      "id": "circuits-rc-lowpass-design",
+      "unit": "rc-filters-frequency",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Design an RC low-pass with $f_c = 1\\,\\mathrm{kHz}$ using $C = 100\\,\\mathrm{nF}$. What $R$ is needed, in $\\mathrm{k\\Omega}$ to one decimal place?",
+      "body": "$1.6\\,\\mathrm{k\\Omega}$\n\nRearrange $f_c = 1/(2\\pi RC)$ to $R = 1/(2\\pi f_c C) = 1/(2\\pi\\times 1000\\times 100\\times10^{-9}) = 1.59\\,\\mathrm{k\\Omega}$.\n\nThe nearest standard value is $1.6\\,\\mathrm{k\\Omega}$, which gives $f_c = 995\\,\\mathrm{Hz}$, within $1\\,\\%$ of the target.\n\nWatch out: Many $(R, C)$ pairs give the same $f_c$. Pick $C$ first from what is easy to buy, then calculate $R$. A very large $R$ gives the filter a high output impedance, so whatever it feeds loads it and it picks up noise; a very small $R$ draws a large current from the source at high frequencies, where the capacitor is nearly a short.",
+      "searchQuery": "RC low-pass 1 kHz 100 nF resistor value design cutoff",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 9"
+      ],
+      "answer": "1.6",
+      "acceptedAnswers": [
+        "1.59",
+        "1.6k",
+        "1.6 kohm"
+      ],
+      "answerDisplay": "$1.6\\,\\mathrm{k\\Omega}$",
+      "tags": [
+        "filters"
+      ]
+    },
+    {
+      "id": "circuits-anti-aliasing",
+      "unit": "rc-filters-frequency",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is an **anti-aliasing filter**, and why is it placed before an ADC?",
+      "body": "A low-pass filter ahead of an analog-to-digital converter (ADC) that weakens signals above half the sample rate before they are sampled, because those frequencies would otherwise appear as false lower ones.\n\nAn ADC measures the voltage a fixed number of times per second (the sample rate $f_s$). A tone faster than $f_s/2$ cannot be captured properly; it shows up as a slower tone at the wrong frequency, called an alias. After sampling, the alias cannot be told apart from a real signal.\n\nExample: Sampling at $f_s = 1\\,\\mathrm{kHz}$, a real $900\\,\\mathrm{Hz}$ tone appears as a $|900 - 1000| = 100\\,\\mathrm{Hz}$ tone.\n\nKey idea: The filter has to come before the sampling, in analog, because no later software can remove an alias.",
+      "searchQuery": "anti-aliasing filter ADC sample rate alias low-pass before sampling",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 9"
+      ],
+      "tags": [
+        "filters",
+        "adc"
+      ]
+    },
+    {
+      "id": "circuits-anti-alias-design",
+      "unit": "rc-filters-frequency",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "An ADC samples at $f_s = 2\\,\\mathrm{kHz}$. Using $R = 10\\,\\mathrm{k\\Omega}$, a first-order anti-aliasing filter should have $f_c = f_s/10 = 200\\,\\mathrm{Hz}$. What standard $C$ gets closest, and how much is a $1.8\\,\\mathrm{kHz}$ tone (which would alias to $200\\,\\mathrm{Hz}$) reduced?",
+      "body": "$C = 82\\,\\mathrm{nF}$ (giving $f_c \\approx 194\\,\\mathrm{Hz}$), and the $1.8\\,\\mathrm{kHz}$ tone is cut by only about $19\\,\\mathrm{dB}$.\n\n$C = 1/(2\\pi R f_c) = 1/(2\\pi\\times 10^4\\times 200) = 79.6\\,\\mathrm{nF}$, and the nearest standard value is $82\\,\\mathrm{nF}$.\n\nAttenuation: $1/\\sqrt{1+(1800/194)^2} = 0.107$, which is $-19.4\\,\\mathrm{dB}$, an amplitude factor of about $9$.\n\nWhy it matters: A first-order filter has no sharp edge, so an aliasing tone is only mildly reduced. Strong noise above $f_s/2$ needs a lower cutoff, a higher sample rate or a steeper filter built from more stages.",
+      "searchQuery": "anti-aliasing RC filter design ADC 2 kHz sample rate capacitor value",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 9"
+      ],
+      "tags": [
+        "filters",
+        "adc"
+      ]
+    },
+    {
+      "id": "circuits-filter-cutoff-tradeoff",
+      "unit": "rc-filters-frequency",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A temperature sensor is read once per second, with $50\\,\\mathrm{Hz}$ mains hum picked up on the wire. Should its RC low-pass have $f_c = 1\\,\\mathrm{Hz}$ or $f_c = 100\\,\\mathrm{Hz}$?",
+      "body": "$f_c = 1\\,\\mathrm{Hz}$: temperature changes slowly, so the filter can remove the hum without hurting the signal.\n\nAt $1\\,\\mathrm{Hz}$ the filter reduces $50\\,\\mathrm{Hz}$ by $1/\\sqrt{1+50^2} = 0.02$, about $-34\\,\\mathrm{dB}$. At $100\\,\\mathrm{Hz}$ it barely touches the hum: $50\\,\\mathrm{Hz}$ passes at $0.89$ ($-1\\,\\mathrm{dB}$).\n\nThe cost: a lower cutoff means a longer time constant. At $1\\,\\mathrm{Hz}$, $\\tau = 1/(2\\pi f_c) = 0.16\\,\\mathrm{s}$ and the output needs about $5\\tau = 0.8\\,\\mathrm{s}$ to settle after a step. At $100\\,\\mathrm{Hz}$ it settles in $8\\,\\mathrm{ms}$.\n\nKey idea: Put the cutoff just above the fastest signal change you care about, and as far below the noise as the response time allows.",
+      "searchQuery": "RC low-pass cutoff choice sensor noise response time trade-off mains hum",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 9"
+      ],
+      "tags": [
+        "filters"
+      ]
+    },
+    {
+      "id": "circuits-diode",
+      "unit": "diodes-leds",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **diode**, and what are its **forward voltage** and **reverse bias**?",
+      "body": "A two-terminal part that conducts in one direction only: with its anode more positive (forward bias) it conducts and drops a nearly fixed forward voltage, about $0.7\\,\\mathrm{V}$ for silicon; the other way round (reverse bias) it blocks.\n\nThe **anode** is the terminal conventional current enters and the **cathode** is the one it leaves. In forward bias it passes almost no current until the voltage nears its forward voltage; from there the current climbs steeply while the drop stays almost constant, at about $0.6$–$0.7\\,\\mathrm{V}$ for a silicon diode. In **reverse bias** it blocks, up to its rated reverse voltage.\n\nExample: A diode in series with a $5\\,\\mathrm{V}$ supply and a resistor leaves about $4.3\\,\\mathrm{V}$ for the resistor. Flip the diode and no current flows.\n\nTip: On a real diode, a stripe marks the cathode end.",
+      "searchQuery": "diode forward voltage reverse bias one way conduction anode cathode",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 5"
+      ]
+    },
+    {
+      "id": "circuits-led",
+      "unit": "diodes-leds",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **light-emitting diode (LED)**, and what forward voltage does it have?",
+      "body": "A diode that gives off light when current flows forward through it; its forward voltage depends on its color, from about $2\\,\\mathrm{V}$ for red to about $3\\,\\mathrm{V}$ or more for blue and white.\n\nTypical values at the rated current are about $1.8$–$2.2\\,\\mathrm{V}$ for red and about $3$–$3.5\\,\\mathrm{V}$ for blue and white. Brightness follows the current, not the voltage, and an LED conducts one way only, so its polarity matters (the longer leg is usually the anode).\n\nExample: On a $3.3\\,\\mathrm{V}$ supply, a red LED leaves about $1.3\\,\\mathrm{V}$ for the rest of the circuit, but a blue one only about $0.3\\,\\mathrm{V}$ or less.\n\nWatch out: With so little to spare, a blue or white LED's current on a $3.3\\,\\mathrm{V}$ rail depends heavily on its exact forward voltage, which varies from part to part. Check the datasheet's minimum and maximum $V_f$.",
+      "searchQuery": "LED forward voltage colour red blue light emitting diode",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 5"
+      ]
+    },
+    {
+      "id": "circuits-led-needs-resistor",
+      "unit": "diodes-leds",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that an LED needs no **current-limiting resistor** when the supply voltage is only slightly above its forward voltage?",
+      "body": "False: an LED's current rises very steeply with the voltage across it, so a tiny excess voltage drives a large current; the resistor is what sets the current.\n\nAbove its forward voltage, each extra tenth of a volt adds a lot of current, so without a resistor only the supply and the wiring limit it. Forward voltage also varies from part to part and with temperature, so you cannot reliably tune the supply to match it.\n\nExample: A supply only a few tenths of a volt above the forward voltage can push an LED well past its rated current and burn it out.\n\nTip: Always put a resistor in series, sized with $R = (V_{supply} - V_f)/I$.",
+      "searchQuery": "LED current limiting resistor needed why steep current voltage",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 5"
+      ]
+    },
+    {
+      "id": "circuits-led-resistor-value",
+      "unit": "diodes-leds",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A $3.3\\,\\mathrm{V}$ microcontroller pin drives a red LED ($V_f = 2.0\\,\\mathrm{V}$) through a series resistor, for $5\\,\\mathrm{mA}$. What resistance is needed, in ohms?",
+      "body": "$260\\,\\Omega$\n\nThe resistor drops whatever the LED does not: $3.3 - 2.0 = 1.3\\,\\mathrm{V}$. Ohm's law gives $R = 1.3/0.005 = 260\\,\\Omega$.\n\nReal parts come in standard values. The nearest, $270\\,\\Omega$, gives $I = 1.3/270 = 4.8\\,\\mathrm{mA}$, close enough for a bright indicator.\n\nCheck: With $270\\,\\Omega$ the resistor dissipates $1.3\\times 0.0048 = 6\\,\\mathrm{mW}$, far below a typical resistor's power rating.",
+      "searchQuery": "LED series resistor calculation 3.3V red LED 5 mA",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 5"
+      ],
+      "answer": "260",
+      "acceptedAnswers": [
+        "260 ohm",
+        "260 ohms",
+        "260R"
+      ],
+      "answerDisplay": "$260\\,\\Omega$"
+    },
+    {
+      "id": "circuits-flyback-diode",
+      "unit": "diodes-leds",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why is a **flyback diode** placed across a relay coil or motor winding?",
+      "body": "A coil resists a sudden stop in its current, so when its switch opens the coil's voltage spikes; the flyback diode gives that current a safe path to fade away.\n\nA **coil** is wire wound into loops (a relay is a switch moved by such a coil; a motor has coils too). It has **inductance**: it opposes any change in its current, and that opposition is what keeps the current flowing when the switch opens.\n\nWhy: The coil's current cannot drop to zero instantly. With nowhere to go, the voltage at the switch end shoots up, possibly to hundreds of volts, until something breaks down, which can destroy the switch.\n\nMount the diode across the coil with its cathode toward the supply, so in normal operation it is reverse biased and does nothing. When the switch opens, the diode conducts and clamps the node to about the supply plus $0.7\\,\\mathrm{V}$.\n\nExample: A relay on a $12\\,\\mathrm{V}$ supply is switched off: the node on the switch side stays near $12.7\\,\\mathrm{V}$ instead of spiking.\n\nWatch out: Fit the diode the right way round. Backward, it shorts the supply whenever the coil is on.",
+      "searchQuery": "flyback diode relay coil motor voltage spike protection",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 5"
+      ],
+      "tags": [
+        "protection"
+      ]
+    },
+    {
+      "id": "circuits-reverse-battery-schottky",
+      "unit": "diodes-leds",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A $9\\,\\mathrm{V}$ battery feeds a device drawing $200\\,\\mathrm{mA}$ through a series diode for reverse-battery protection. Compare a silicon diode ($V_f = 0.7\\,\\mathrm{V}$) with a **Schottky diode** ($V_f = 0.35\\,\\mathrm{V}$ at this current): find the voltage reaching the device and the power lost in each, and say what happens if the battery is reversed.",
+      "body": "Silicon: $8.3\\,\\mathrm{V}$ at the device and $140\\,\\mathrm{mW}$ lost; Schottky: $8.65\\,\\mathrm{V}$ and $70\\,\\mathrm{mW}$; reversed, either diode blocks and the device gets about $0\\,\\mathrm{V}$.\n\nVoltage at the device: $9 - V_f$. Power lost in the diode: $V_f\\times I = 0.7\\times 0.2 = 140\\,\\mathrm{mW}$ against $0.35\\times 0.2 = 70\\,\\mathrm{mW}$.\n\nA Schottky diode is built with a metal-to-semiconductor junction: it has a lower forward voltage and switches fast, at the price of more reverse leakage current.\n\nWhy it works: A reversed battery puts the diode in reverse bias, so no current flows and the device is spared. The diode must be rated for the reverse voltage (here at least $9\\,\\mathrm{V}$).",
+      "searchQuery": "series Schottky diode reverse battery protection voltage drop power loss",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 5"
+      ],
+      "tags": [
+        "protection"
+      ]
+    },
+    {
+      "id": "circuits-mosfet",
+      "unit": "mosfet-switches",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is an n-channel **MOSFET**, and what do its **gate**, **drain** and **source** do?",
+      "body": "A **transistor** (a three-terminal part in which one terminal controls current between the other two) in which the voltage on the gate controls the current flowing from drain to source.\n\nThe gate is insulated from the other two terminals, so it draws essentially no steady current; it only has to be charged to a voltage. An n-channel MOSFET turns on when the gate is raised sufficiently above the source, and off when the gate is pulled down to the source voltage.\n\nExample: With the source at ground, a gate at $0\\,\\mathrm{V}$ leaves the MOSFET off (an open switch from drain to source), and a gate at $3.3\\,\\mathrm{V}$ can turn it on.\n\nKey idea: Think of it as a switch driven by voltage rather than by current.",
+      "searchQuery": "n-channel MOSFET gate drain source voltage controlled switch definition",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4"
+      ],
+      "tags": [
+        "mosfet"
+      ]
+    },
+    {
+      "id": "circuits-threshold-voltage",
+      "unit": "mosfet-switches",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a MOSFET's **threshold voltage** $V_{GS(th)}$?",
+      "body": "The gate-to-source voltage at which the MOSFET just starts to conduct, defined at a tiny specified drain current.\n\nDatasheets quote it at a small drain current, usually $250\\,\\mu\\mathrm{A}$ or $1\\,\\mathrm{mA}$, so it marks the onset of conduction, not the point where the switch is fully on. Fully on needs a gate voltage well above $V_{GS(th)}$.\n\nExample: A part with $V_{GS(th)} = 2\\,\\mathrm{V}$ has only just begun to turn on at $V_{GS} = 2\\,\\mathrm{V}$; it will not carry an amp with a low resistance there.\n\nWatch out: The threshold varies from part to part. Datasheets give a minimum and maximum, so design around the maximum.",
+      "searchQuery": "MOSFET threshold voltage VGS(th) definition datasheet",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4"
+      ],
+      "tags": [
+        "mosfet"
+      ]
+    },
+    {
+      "id": "circuits-rds-on",
+      "unit": "mosfet-switches",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a MOSFET's **$R_{DS(on)}$**?",
+      "body": "The resistance between drain and source when the MOSFET is fully on, quoted at a stated gate voltage.\n\nIt is small, typically milliohms to tens of milliohms for good switching parts, so little voltage is lost across the switch. The datasheet gives it at specific $V_{GS}$ values (for example $2.5\\,\\mathrm{V}$, $4.5\\,\\mathrm{V}$ or $10\\,\\mathrm{V}$), and it is higher at a lower gate voltage.\n\nExample: With $R_{DS(on)} = 50\\,\\mathrm{m\\Omega}$ and a $2\\,\\mathrm{A}$ load, the drop across the MOSFET is $0.1\\,\\mathrm{V}$.\n\nWatch out: $R_{DS(on)}$ rises as the part heats up, often by $50\\,\\%$ or more, so allow margin.",
+      "searchQuery": "MOSFET RDS(on) on resistance drain source datasheet",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4"
+      ],
+      "tags": [
+        "mosfet"
+      ]
+    },
+    {
+      "id": "circuits-low-side-switch",
+      "unit": "mosfet-switches",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How does a **low-side switch** let a $3.3\\,\\mathrm{V}$ pin turn a $12\\,\\mathrm{V}$ load on and off?",
+      "body": "The load goes between the $12\\,\\mathrm{V}$ supply and the MOSFET's drain, the source goes to ground, and the pin drives the gate: the gate only ever sees $3.3\\,\\mathrm{V}$, while the load's current flows through the MOSFET to ground.\n\nThe switch sits on the ground side (\"low side\") of the load. With the gate low the MOSFET is off and the load has no return path. With the gate high the MOSFET turns on and pulls the bottom of the load to about $0\\,\\mathrm{V}$.\n\nExample: A $12\\,\\mathrm{V}$ motor draws $0.5\\,\\mathrm{A}$. The pin supplies almost no current at all; the MOSFET carries the $0.5\\,\\mathrm{A}$.\n\nWatch out: Tie the microcontroller's ground to the load supply's ground, or the gate has no common reference.",
+      "searchQuery": "low-side switch MOSFET microcontroller pin drive 12V load",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4"
+      ],
+      "tags": [
+        "mosfet"
+      ]
+    },
+    {
+      "id": "circuits-logic-level-misconception",
+      "unit": "mosfet-switches",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that any MOSFET with $V_{GS(th)} = 2\\,\\mathrm{V}$ is fully on when driven from a $3.3\\,\\mathrm{V}$ pin?",
+      "body": "False: the threshold is only where conduction starts; the part reaches its low $R_{DS(on)}$ at a higher gate voltage, which a standard MOSFET may need $10\\,\\mathrm{V}$ to achieve.\n\nA **logic-level MOSFET** is one whose datasheet guarantees a low $R_{DS(on)}$ at a gate voltage of $4.5\\,\\mathrm{V}$ or less, and ideally at $2.5\\,\\mathrm{V}$ or $3.3\\,\\mathrm{V}$, so a microcontroller pin can drive it.\n\nExample: A MOSFET whose $R_{DS(on)}$ is quoted only at $V_{GS} = 10\\,\\mathrm{V}$ may be a poor switch at $3.3\\,\\mathrm{V}$: its resistance could be many times higher, so it heats up and drops voltage.\n\nTip: Check the table of $R_{DS(on)}$ against $V_{GS}$, and choose a part rated at your actual gate voltage.",
+      "searchQuery": "logic level MOSFET 3.3V gate drive threshold not fully on",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4"
+      ],
+      "tags": [
+        "mosfet"
+      ]
+    },
+    {
+      "id": "circuits-mosfet-conduction-loss",
+      "unit": "mosfet-switches",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A logic-level MOSFET with $R_{DS(on)} = 40\\,\\mathrm{m\\Omega}$ (at the $3.3\\,\\mathrm{V}$ gate drive) carries a steady $2.5\\,\\mathrm{A}$. What power does it dissipate, and what voltage drops across it?",
+      "body": "$P = 0.25\\,\\mathrm{W}$ and $V_{DS} = 0.1\\,\\mathrm{V}$.\n\nWhen fully on the MOSFET behaves like a resistor, so the conduction loss is $P = I^2R_{DS(on)} = 2.5^2\\times 0.04 = 6.25\\times 0.04 = 0.25\\,\\mathrm{W}$. The drop is $V = IR = 2.5\\times 0.04 = 0.1\\,\\mathrm{V}$.\n\nCheck this against the part's limits: compare $0.25\\,\\mathrm{W}$ with the datasheet's maximum power dissipation (for a small surface-mount package often a fraction of a watt up to about a watt at room temperature), and with its maximum continuous drain current.\n\nWatch out: $R_{DS(on)}$ rises when hot, often by $50\\,\\%$ or more, so at temperature the loss may be $0.4\\,\\mathrm{W}$ or higher.",
+      "searchQuery": "MOSFET conduction loss I squared RDS(on) power dissipation 2.5 A",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4"
+      ],
+      "tags": [
+        "mosfet"
+      ]
+    },
+    {
+      "id": "circuits-gate-resistor-pulldown",
+      "unit": "mosfet-switches",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A $3.3\\,\\mathrm{V}$ pin drives a MOSFET gate through a $220\\,\\Omega$ gate resistor, and a $100\\,\\mathrm{k\\Omega}$ resistor joins the gate to ground. What is the largest current the pin must supply while charging the gate (ignore the pin's own resistance), and what steady current does the pin supply with the gate held high?",
+      "body": "About $15\\,\\mathrm{mA}$ at the first instant, then about $33\\,\\mu\\mathrm{A}$ when steady.\n\nAt the first instant the gate looks like an empty capacitor, i.e. a short, so only the gate resistor limits the current: $3.3/220 = 15\\,\\mathrm{mA}$. Once the gate is charged, the only path is through the pull-down: $3.3/(100{,}000 + 220) = 33\\,\\mu\\mathrm{A}$.\n\nWhy the gate resistor: It limits the pin's surge current and slightly slows each switching transition, which reduces ringing (a brief oscillation after a fast transition). Too large a value makes the MOSFET switch slowly and heat up while switching.\n\nWhy the pull-down: While the microcontroller starts up its pins can float, and a floating gate could turn the load on. The pull-down holds the gate low until the pin takes control.",
+      "searchQuery": "MOSFET gate resistor pull-down value gate charging current 220 ohm",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4"
+      ],
+      "tags": [
+        "mosfet"
+      ]
+    },
+    {
+      "id": "circuits-mosfet-vs-bjt",
+      "unit": "mosfet-switches",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Switching a $12\\,\\mathrm{V}$, $500\\,\\mathrm{mA}$ solenoid (an electromagnet that pulls a plunger) from a $3.3\\,\\mathrm{V}$ pin: a logic-level MOSFET or a **bipolar junction transistor (BJT)**?",
+      "body": "The MOSFET: its gate needs essentially no steady current, while a BJT needs about a tenth of the load current as base current.\n\nA BJT is a transistor with a base, collector and emitter, where a small base current controls a larger collector current. To switch it hard on, designers supply about $I_C/10$ as base current. For $500\\,\\mathrm{mA}$ that is $50\\,\\mathrm{mA}$ from the pin, more than most microcontroller pins can give. The MOSFET only needs its $R_{DS(on)}$ specified at a gate voltage of $3.3\\,\\mathrm{V}$ or less.\n\nThe other side: for small loads (say under $50\\,\\mathrm{mA}$) a BJT needs only a few milliamps of base current, is very cheap and drives easily with one resistor.\n\nKey idea: A MOSFET is voltage-controlled, so it suits loads from a few hundred milliamps up and switches held on for long periods; a BJT is current-controlled and suits small loads.",
+      "searchQuery": "MOSFET vs BJT switch microcontroller load base current gate",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 4"
+      ],
+      "tags": [
+        "mosfet"
+      ]
+    },
+    {
+      "id": "circuits-op-amp",
+      "unit": "op-amps",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is an **operational amplifier (op-amp)**, and what limits its output swing?",
+      "body": "A high-gain amplifier with two inputs, inverting ($-$) and non-inverting ($+$), whose output is $V_{out} = A\\,(V_+ - V_-)$ with a huge gain $A$ (often $100{,}000$ or more), limited to the voltages of its supply.\n\nBecause $A$ is so large, a difference of well under a millivolt between the inputs is enough to drive the output to its limit. The output cannot go beyond the supply rails (the positive and negative supply voltages); many op-amps stop well short of them, by a volt or more. A **rail-to-rail** op-amp can swing to within a few tens of millivolts of both rails at light load.\n\nExample: On a $0$ to $5\\,\\mathrm{V}$ supply, an op-amp whose output stops $1.5\\,\\mathrm{V}$ below the top rail cannot output more than about $3.5\\,\\mathrm{V}$, whatever its inputs do.\n\nTip: Used alone, with no feedback, an op-amp just slams to one rail or the other. Feedback is what makes it useful as an amplifier.",
+      "searchQuery": "operational amplifier definition open loop gain rail to rail output swing",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 8"
+      ],
+      "tags": [
+        "op-amps"
+      ]
+    },
+    {
+      "id": "circuits-negative-feedback-rules",
+      "unit": "op-amps",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is **negative feedback** in an op-amp circuit, and which two ideal-op-amp rules do you use to analyze such a circuit?",
+      "body": "Negative feedback sends part of the output back to the inverting input, which forces the two inputs to the same voltage ($V_+ = V_-$); the second rule, that the inputs draw no current, holds for any ideal op-amp.\n\nWhy: If $V_-$ falls below $V_+$, the huge gain pushes the output up, which through the feedback raises $V_-$ back toward $V_+$. The circuit settles with the difference almost zero, so the gain is set by the external resistors, not by the op-amp's huge and poorly controlled $A$. Real op-amp inputs draw almost no current (the input impedance is very high).\n\nUse the two rules to analyze any feedback circuit: write the input voltages as equal, assume no current enters the inputs, and apply Ohm's law and KCL.\n\nWatch out: The first rule holds only with negative feedback and only while the output is not stuck at a rail. The second holds with or without feedback.",
+      "searchQuery": "op-amp negative feedback golden rules inputs same voltage no current",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 8"
+      ],
+      "tags": [
+        "op-amps"
+      ]
+    },
+    {
+      "id": "circuits-noninverting-gain",
+      "unit": "op-amps",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "What is the voltage gain of a **non-inverting amplifier**, with feedback resistor $R_f$ from output to the inverting input and $R_g$ from that input to ground?",
+      "body": "$\\dfrac{V_{out}}{V_{in}} = 1 + \\dfrac{R_f}{R_g}$\n\nWhy: The input signal goes straight to the $+$ input. The ideal rules put $V_-$ at $V_{in}$ too, and $V_-$ comes from a divider on the output: $V_{in} = V_{out}\\,R_g/(R_f+R_g)$. Solving for $V_{out}/V_{in}$ gives the formula.\n\nExample: $R_f = 9\\,\\mathrm{k\\Omega}$ and $R_g = 1\\,\\mathrm{k\\Omega}$ give a gain of $10$, so $0.2\\,\\mathrm{V}$ in gives $2\\,\\mathrm{V}$ out.\n\nWatch out: The gain is never below $1$. The output has the same sign as the input.",
+      "searchQuery": "non-inverting amplifier gain 1 plus Rf over Rg formula",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 8"
+      ],
+      "tags": [
+        "op-amps"
+      ]
+    },
+    {
+      "id": "circuits-inverting-amp-problem",
+      "unit": "op-amps",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "An **inverting amplifier** has the input through $R_{in} = 10\\,\\mathrm{k\\Omega}$ to the inverting input and $R_f = 100\\,\\mathrm{k\\Omega}$ from output back to it; the $+$ input is grounded; the supplies are $\\pm 5\\,\\mathrm{V}$. Find $V_{out}$ for $V_{in} = +0.3\\,\\mathrm{V}$, and say what happens for $V_{in} = +0.8\\,\\mathrm{V}$.",
+      "body": "$V_{out} = -3.0\\,\\mathrm{V}$ for $0.3\\,\\mathrm{V}$; for $0.8\\,\\mathrm{V}$ the output clips near the negative rail instead of reaching $-8\\,\\mathrm{V}$.\n\nThe gain is $-R_f/R_{in} = -10$. The rules give the reasoning: $V_+ = 0$ so $V_- = 0$ (a virtual ground), the input current is $V_{in}/R_{in}$, none enters the op-amp, so all of it flows through $R_f$, and $V_{out} = -V_{in}R_f/R_{in}$.\n\nFor $0.8\\,\\mathrm{V}$ the ideal answer $-8\\,\\mathrm{V}$ lies beyond the $-5\\,\\mathrm{V}$ supply, so the output clips: it stops at the lowest voltage the op-amp can reach, within tens of millivolts of $-5\\,\\mathrm{V}$ for a rail-to-rail part and a volt or more above it for many others.\n\nWatch out: This amplifier's input impedance is only $R_{in}$ ($10\\,\\mathrm{k\\Omega}$ here), not high, so it can load a weak source.",
+      "searchQuery": "inverting amplifier gain minus Rf over Rin output clipping supply rail",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 8"
+      ],
+      "tags": [
+        "op-amps"
+      ]
+    },
+    {
+      "id": "circuits-voltage-follower",
+      "unit": "op-amps",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is a **voltage follower (buffer)**, and why is it used with a high-impedance sensor?",
+      "body": "A voltage follower is an op-amp with the signal on its $+$ input and its output tied directly to its inverting input, so $V_{out} = V_{in}$: gain $1$, but with very high input impedance and very low output impedance.\n\nIt is the non-inverting amplifier with $R_f = 0$ (and no $R_g$). Its job is to copy a voltage without drawing current from the source, so the source is not loaded, and then drive a load from the op-amp's own output.\n\nExample: A sensor with a $1\\,\\mathrm{V}$ output and $100\\,\\mathrm{k\\Omega}$ output impedance feeding a $100\\,\\mathrm{k\\Omega}$ load directly gives only $0.5\\,\\mathrm{V}$. Through a follower, the load sees about $1\\,\\mathrm{V}$.\n\nKey idea: A follower trades nothing in voltage but changes the impedance: it turns a weak source into a strong one.",
+      "searchQuery": "voltage follower buffer op-amp high impedance sensor loading",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 8"
+      ],
+      "tags": [
+        "op-amps"
+      ]
+    },
+    {
+      "id": "circuits-gain-bandwidth-product",
+      "unit": "op-amps",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is an op-amp's **gain-bandwidth product (GBW)**, and what does it say about the bandwidth of a non-inverting amplifier with gain $G$?",
+      "body": "For a typical op-amp, gain times bandwidth is roughly a constant, the GBW, so a non-inverting stage with gain $G$ has a usable bandwidth (up to its $-3\\,\\mathrm{dB}$ point) of about $\\mathrm{GBW}/G$.\n\nAn op-amp's own gain falls as frequency rises. Feedback trades gain for bandwidth: the higher the gain you set with the resistors, the lower the frequency where the amplifier stops keeping up. For an inverting stage with gain $-G$, use $1+G$ in place of $G$: its bandwidth is about $\\mathrm{GBW}/(1+G)$.\n\nExample: An op-amp with $\\mathrm{GBW} = 1\\,\\mathrm{MHz}$ gives about $1\\,\\mathrm{MHz}/10 = 100\\,\\mathrm{kHz}$ as a non-inverting stage with a gain of $10$, but only about $10\\,\\mathrm{kHz}$ at a gain of $100$.\n\nWatch out: A gain-of-$100$ stage meant for a $50\\,\\mathrm{kHz}$ signal fails with that $1\\,\\mathrm{MHz}$ part (about $10\\,\\mathrm{kHz}$ of bandwidth), even though the circuit looks fine on paper.",
+      "searchQuery": "gain bandwidth product op-amp definition bandwidth equals GBW over gain",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 8"
+      ],
+      "tags": [
+        "op-amps"
+      ]
+    },
+    {
+      "id": "circuits-sensor-amp-design",
+      "unit": "op-amps",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A sensor outputs $0$–$0.5\\,\\mathrm{V}$ and must fill a $0$–$3.3\\,\\mathrm{V}$ ADC range using a non-inverting stage. Pick $R_g = 10\\,\\mathrm{k\\Omega}$; what $R_f$ gives gain $6.6$, and what must be true of the op-amp (supply, GBW) if the signal is as fast as $20\\,\\mathrm{kHz}$?",
+      "body": "$R_f = 56\\,\\mathrm{k\\Omega}$, with an op-amp whose output can swing from near $0$ up to $3.3\\,\\mathrm{V}$ on its supply and whose GBW is comfortably above $20\\,\\mathrm{kHz}\\times 6.6 \\approx 130\\,\\mathrm{kHz}$.\n\nThe gain $1 + R_f/R_g = 6.6$ gives $R_f/R_g = 5.6$, so $R_f = 56\\,\\mathrm{k\\Omega}$. Then $0.5\\,\\mathrm{V}\\times 6.6 = 3.3\\,\\mathrm{V}$.\n\nBandwidth: the usable bandwidth is $\\mathrm{GBW}/6.6$, so a $1\\,\\mathrm{MHz}$ part gives about $150\\,\\mathrm{kHz}$, which is enough. Output swing: on a $5\\,\\mathrm{V}$ supply many parts that are not rail-to-rail still reach $3.3\\,\\mathrm{V}$, but check the datasheet's output swing; on a $3.3\\,\\mathrm{V}$ supply you need a rail-to-rail part, and even then it cannot quite reach the rail. On a single supply the input and output must also be able to work near $0\\,\\mathrm{V}$.\n\nWatch out: Input offset voltage, a small built-in error at the inputs, is multiplied by the gain. A $2\\,\\mathrm{mV}$ offset becomes about $13\\,\\mathrm{mV}$ at the output, $0.4\\,\\%$ of the $3.3\\,\\mathrm{V}$ range.",
+      "searchQuery": "non-inverting amplifier sensor ADC range gain 6.6 resistor values GBW",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 8"
+      ],
+      "tags": [
+        "op-amps",
+        "adc"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "circuits-comparator-vs-opamp",
+      "unit": "op-amps",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "To raise a flag when a $0$–$5\\,\\mathrm{V}$ signal crosses $2.5\\,\\mathrm{V}$, should you use a **comparator** or an op-amp with no feedback?",
+      "body": "A comparator, since it is built to run without feedback and switch quickly to a clean high or low output.\n\nA comparator compares its two inputs and outputs a high or low level, nothing in between. An op-amp used the same way can work, but it is not designed for it: it can be slow to recover once pushed to a rail, and its output may not match your logic levels.\n\nThe other side: for a slow, non-critical signal where a spare op-amp is already on the board, an op-amp works and saves a part.\n\nTip: Add a little hysteresis (a small gap between the rising and falling trip points) so noise near the threshold does not make the output chatter.",
+      "searchQuery": "comparator vs op-amp threshold detection open loop hysteresis",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 8"
+      ],
+      "tags": [
+        "op-amps"
+      ]
+    },
+    {
+      "id": "circuits-voltage-regulator",
+      "unit": "regulators-decoupling",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **voltage regulator**?",
+      "body": "A circuit that holds its output voltage steady even when the input voltage or the load current changes.\n\nA battery's voltage sags as it drains, and a supply's voltage shifts when the load changes. A regulator takes such an input and delivers a constant rail, such as $3.3\\,\\mathrm{V}$, for the microcontroller and sensors.\n\nExample: A $9\\,\\mathrm{V}$ battery that drifts down to $7\\,\\mathrm{V}$ can still feed a $3.3\\,\\mathrm{V}$ rail that stays at $3.3\\,\\mathrm{V}$.\n\nKey idea: A regulator that steps the voltage down needs its input to stay above the output by at least a minimum margin, or it can no longer hold the output. Other designs step a low input up instead.",
+      "searchQuery": "voltage regulator definition constant output voltage",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 11",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ],
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "circuits-ldo",
+      "unit": "regulators-decoupling",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **low-dropout regulator (LDO)**, and what is its **dropout voltage**?",
+      "body": "An LDO is a linear regulator that keeps regulating even when the input is only slightly above the output; the dropout voltage is the smallest input-minus-output difference at which it still regulates.\n\nA linear regulator acts like a variable resistor in series with the load, adjusting itself to hold the output steady. Because it is in series, the full load current flows through it, and the extra input voltage times that current is burned as heat. An LDO's dropout is small, often a few hundred millivolts or less at its rated current. Older regulators such as the 7805 need around $2\\,\\mathrm{V}$ of headroom.\n\nExample: A $3.3\\,\\mathrm{V}$ LDO with $0.3\\,\\mathrm{V}$ dropout regulates as long as the input is at least $3.6\\,\\mathrm{V}$.\n\nWatch out: Below that input the output simply follows the input down, minus the dropout.",
+      "searchQuery": "low dropout regulator LDO dropout voltage definition linear",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 11",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ],
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "circuits-ldo-loss-efficiency",
+      "unit": "regulators-decoupling",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A $9\\,\\mathrm{V}$ battery feeds a $3.3\\,\\mathrm{V}$ LDO that supplies $100\\,\\mathrm{mA}$ (ignore the LDO's own small supply current). How much power does the LDO waste, and what is its **efficiency** (output power divided by input power)?",
+      "body": "$0.57\\,\\mathrm{W}$ wasted and an efficiency of about $37\\,\\%$.\n\nThe LDO passes the same $0.1\\,\\mathrm{A}$ it delivers, so its loss is $(V_{in}-V_{out})\\,I = (9-3.3)\\times 0.1 = 0.57\\,\\mathrm{W}$.\n\nInput power is $9\\times 0.1 = 0.9\\,\\mathrm{W}$ and output power is $3.3\\times 0.1 = 0.33\\,\\mathrm{W}$, so efficiency $=0.33/0.9 = 36.7\\,\\%$. In general an LDO's efficiency is $V_{out}/V_{in}$.\n\nWatch out: $0.57\\,\\mathrm{W}$ is enough to make a small regulator package hot and drains the battery: nearly two thirds of the energy becomes heat.",
+      "searchQuery": "LDO power loss Vin minus Vout times I efficiency Vout over Vin",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 11",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ],
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "circuits-ldo-vs-buck",
+      "unit": "regulators-decoupling",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A $12\\,\\mathrm{V}$ adapter powers a board that draws $500\\,\\mathrm{mA}$ at $3.3\\,\\mathrm{V}$ all day. Use an LDO or a **buck converter**?",
+      "body": "A buck converter: an LDO would turn $4.35\\,\\mathrm{W}$ into heat, a buck only about $0.2\\,\\mathrm{W}$.\n\nA buck converter steps voltage down by switching a transistor on and off very fast and smoothing the result with a coil and a capacitor, so it wastes little. The LDO's loss is $(12-3.3)\\times 0.5 = 4.35\\,\\mathrm{W}$ at an efficiency of $3.3/12 = 27.5\\,\\%$. A buck at $90\\,\\%$ takes $1.65/0.9 = 1.83\\,\\mathrm{W}$ in for $1.65\\,\\mathrm{W}$ out, losing about $0.18\\,\\mathrm{W}$.\n\nThe other side: an LDO is a single part with almost no noise, cheap and simple. It wins when the voltage drop and current are small or for a quiet analog supply, where a buck's switching ripple would disturb the signal.\n\nKey idea: Compare $(V_{in}-V_{out})\\,I$ with the heat you can afford.",
+      "searchQuery": "LDO vs buck converter efficiency heat 12V to 3.3V trade-off",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 11",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ],
+      "tags": [
+        "power"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "circuits-boost-converter-choice",
+      "unit": "regulators-decoupling",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "A $3.3\\,\\mathrm{V}$ sensor node runs from two alkaline AA cells in series (about $3\\,\\mathrm{V}$ fresh, falling to about $2\\,\\mathrm{V}$). Which regulator type can hold $3.3\\,\\mathrm{V}$: an LDO, a buck converter or a **boost converter**?",
+      "body": "A boost converter, because the battery voltage is below $3.3\\,\\mathrm{V}$ for most of its life and, of these three, only a boost converter can step voltage up.\n\nLDOs and buck converters can only lower the voltage. A boost converter switches a transistor to store energy in a coil, then releases it at a higher voltage, trading more output voltage for less current.\n\nThe other side: boost converters add switching noise, cost and some always-on drain, and the node's efficiency drops a little. If the node's parts can run directly from the falling battery voltage, no regulator is needed at all.\n\nExample: At $2\\,\\mathrm{V}$ in and $3.3\\,\\mathrm{V}$ out, input current is about $1.65\\times$ the output current, plus conversion loss.",
+      "searchQuery": "boost converter step up battery below 3.3V LDO cannot trade-off",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 11",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ],
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "circuits-decoupling-capacitor",
+      "unit": "regulators-decoupling",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a **decoupling capacitor**, and where is it placed?",
+      "body": "A small capacitor connected between a chip's supply pin and ground, placed right at the pin, that supplies the chip's sudden bursts of current locally.\n\nDigital logic draws current in short spikes each time it switches. The capacitor holds a little charge close to the pin and hands it over faster than the distant regulator can, so the supply voltage at the chip stays steady. It also gives noise a short route to ground.\n\nExample: Each time its logic switches, a microcontroller may pull an extra $50\\,\\mathrm{mA}$ for a few nanoseconds. A $100\\,\\mathrm{nF}$ capacitor at the pin supplies that charge while its voltage dips only about $1.5\\,\\mathrm{mV}$ ($\\Delta V = I\\,\\Delta t/C$ for $3\\,\\mathrm{ns}$).\n\nWatch out: A decoupling capacitor far from the pin loses most of its effect, because the connecting trace (the copper track on the circuit board) adds the very resistance and inductance it is meant to bypass.",
+      "searchQuery": "decoupling capacitor definition supply pin ground place close",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 11",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ],
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "circuits-droop-ground-bounce",
+      "unit": "regulators-decoupling",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "Why do fast-switching digital loads cause **supply droop** and **ground bounce**?",
+      "body": "Every wire has a little inductance $L$ (it opposes changes in its current), so a fast current change $\\Delta I$ over a short time $\\Delta t$ creates a voltage $V = L\\,\\Delta I/\\Delta t$ across the supply and ground wiring.\n\nOn the supply side this makes the chip's supply voltage dip briefly (droop). On the ground side it lifts the chip's local ground above the board's ground (**ground bounce**). Either can cause a false logic level or a reset.\n\nExample: With $10\\,\\mathrm{nH}$ (roughly $1\\,\\mathrm{nH}$ per millimetre of trace), a $100\\,\\mathrm{mA}$ swing in $2\\,\\mathrm{ns}$ gives $10\\times10^{-9}\\times 0.1/(2\\times10^{-9}) = 0.5\\,\\mathrm{V}$.\n\nWhy it matters: Short, close decoupling reduces $L$ and $\\Delta I$ seen by the wiring, which is why placement matters as much as the capacitor value.",
+      "searchQuery": "supply droop ground bounce inductance L dI dt digital switching",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 11",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ],
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "circuits-decoupling-values",
+      "unit": "regulators-decoupling",
+      "kind": "numbers",
+      "difficulty": 4,
+      "title": "What decoupling values are typical for a microcontroller's supply?",
+      "body": "About $100\\,\\mathrm{nF}$ (ceramic) at every supply pin, plus a bulk capacitor of roughly $4.7$–$10\\,\\mu\\mathrm{F}$ nearby.\n\nA **bulk capacitor** is a larger capacitor that holds a bigger reserve of charge for slower, bigger current changes, while the small $100\\,\\mathrm{nF}$ parts handle the fastest spikes at each pin. This is a common rule of thumb rather than a standard; a chip's own hardware-design guide gives its exact requirements.\n\nExample: A microcontroller with four supply pins gets four $100\\,\\mathrm{nF}$ capacitors, one close to each pin, plus one bulk capacitor near the chip.\n\nTip: Keep the loop from the supply pin through the capacitor to ground as small as possible: put each $100\\,\\mathrm{nF}$ capacitor right beside its pin, or directly beneath it on the other side of the board, with short, wide connections.",
+      "searchQuery": "decoupling capacitor values 100 nF each supply pin bulk 10 uF microcontroller",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 11",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "ST AN4488, Getting started with STM32F4xxxx MCU hardware development"
+      ],
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "circuits-absolute-maximum-misconception",
+      "unit": "regulators-decoupling",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that a chip is safe to run at its **absolute maximum ratings**?",
+      "body": "False: absolute maximum ratings are limits beyond which damage can occur, not operating conditions; correct behavior is only promised inside the recommended operating conditions.\n\nA datasheet lists both. Recommended operating conditions give the supply and temperature ranges where the part meets its specifications. Absolute maximum ratings are stress limits; running near them can shorten the part's life, and exceeding them can destroy it immediately.\n\nExample: Suppose a $3.3\\,\\mathrm{V}$ chip lists $3.0$–$3.6\\,\\mathrm{V}$ as recommended and $4.0\\,\\mathrm{V}$ as an absolute maximum (illustrative numbers). A $3.9\\,\\mathrm{V}$ supply is within the absolute limit, yet far outside the range where the chip works as specified.\n\nTip: Design so that worst-case supply ripple, spikes and tolerances stay within the recommended range, and use the absolute maximums only as a safety margin check.",
+      "searchQuery": "absolute maximum ratings vs recommended operating conditions datasheet misconception",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 11",
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ],
+      "tags": [
+        "power"
+      ]
+    }
+  ]
+}

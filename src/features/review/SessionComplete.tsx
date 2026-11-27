@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, {
@@ -23,12 +22,16 @@ import { haptics } from '@/lib/haptics';
 import { useToday } from '@/lib/useToday';
 import { palette, radii, spacing, useTheme } from '@/theme';
 
+import type { SessionAction } from './types';
+
 type SessionCompleteProps = {
   reviewed: number;
   correct: number;
+  /** The buttons under the stats; the first is the main one. */
+  actions: SessionAction[];
 };
 
-export function SessionComplete({ reviewed, correct }: SessionCompleteProps) {
+export function SessionComplete({ reviewed, correct, actions }: SessionCompleteProps) {
   const { colors } = useTheme();
   const today = useToday();
   const { data: progress } = useProgress(today);
@@ -99,8 +102,17 @@ export function SessionComplete({ reviewed, correct }: SessionCompleteProps) {
         </Animated.View>
 
         <Animated.View entering={FadeInUp.delay(400).springify()} style={styles.actions}>
-          <Button title="Back to Today" icon="home-variant" fullWidth onPress={() => router.back()} />
-          <Button title="Explore packs" variant="secondary" fullWidth onPress={() => router.replace('/packs')} />
+          {actions.map((action, i) => (
+            <Button
+              key={action.title}
+              title={action.title}
+              icon={action.icon}
+              variant={action.variant ?? (i === 0 ? 'primary' : 'secondary')}
+              disabled={action.disabled}
+              fullWidth
+              onPress={action.onPress}
+            />
+          ))}
         </Animated.View>
       </ScrollView>
 

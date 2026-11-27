@@ -1,0 +1,418 @@
+{
+  "profession": "mathematics",
+  "module": "counting-probability-statistics",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "cps-multiplication-principle",
+      "unit": "counting-principles",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "State the **multiplication principle** of counting.",
+      "body": "If a first choice can be made in $m$ ways and, whatever it is, a second choice can then be made in $n$ ways, the two choices together can be made in $m \\cdot n$ ways.\n\nThe rule extends to any number of steps in a row: multiply the number of options at each step.\n\nExample: 3 shirts and 4 pairs of pants give $3 \\cdot 4 = 12$ outfits. A 3-digit code using the digits 0 to 9, repeats allowed, has $10 \\cdot 10 \\cdot 10 = 1000$ possibilities.\n\nKey idea: Break the task into steps, count the options at each step, and multiply. Only the number of options at a step must be fixed, not which options they are.",
+      "searchQuery": "multiplication principle counting choices multiply"
+    },
+    {
+      "id": "cps-casework-even-distinct-digits",
+      "unit": "counting-principles",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "How many three-digit numbers (100 to 999) are even and have three different digits?",
+      "body": "328\n\nSplit into cases that cannot overlap (**casework**), count each case with the multiplication principle, then add the totals. The **addition principle** says that when two kinds of outcome cannot happen together, the number of ways to get \"one or the other\" is the sum of the two counts.\n\nExample: The zero digit behaves differently, so split on the last digit.\n- Last digit 0: the hundreds digit has 9 choices (1 to 9) and the tens digit has 8 left, so $9 \\cdot 8 = 72$.\n- Last digit 2, 4, 6 or 8: $4$ choices for it, then 8 for the hundreds digit (1 to 9 without the last digit), then 8 for the tens digit (any digit not yet used), so $4 \\cdot 8 \\cdot 8 = 256$.\n\nTotal: $72 + 256 = 328$.\n\nWatch out: Cases must not overlap and must together cover every possibility.",
+      "searchQuery": "casework addition principle count even numbers distinct digits",
+      "answer": "328"
+    },
+    {
+      "id": "cps-factorial-permutations",
+      "unit": "counting-principles",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Give the formula for $P(n,k)$, the number of **permutations**: ordered arrangements of $k$ items chosen from $n$ different items.",
+      "body": "$P(n,k) = \\dfrac{n!}{(n-k)!} = n(n-1)\\cdots(n-k+1)$\n\nA **factorial** is $n! = n(n-1)\\cdots 2 \\cdot 1$, with $0! = 1$. So $n!$ is the number of ways to put all $n$ items in order.\n\nWhy: Place items one position at a time. There are $n$ choices for the first position, $n-1$ for the second, and so on, with $k$ factors in all. Multiplying them is the same as $n!/(n-k)!$.\n\nExample: The number of ways 8 runners can take first, second and third place is $P(8,3) = 8 \\cdot 7 \\cdot 6 = 336$.",
+      "searchQuery": "permutation formula n factorial over n minus k factorial"
+    },
+    {
+      "id": "cps-complementary-counting-seven",
+      "unit": "counting-principles",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "How many three-digit positive integers (100 to 999) contain at least one digit 7?",
+      "body": "252\n\nUse **complementary counting**: when \"at least one\" is awkward, count the opposite (no 7 at all) and subtract it from the total.\n\nTotal three-digit numbers: $900$. With no 7: hundreds digit has 8 choices (1 to 9 except 7), tens digit has 9 (0 to 9 except 7), units digit has 9. That is $8 \\cdot 9 \\cdot 9 = 648$.\n\nSo $900 - 648 = 252$.\n\nTip: Phrases like \"at least one\" and \"not all\" almost always call for the complement.",
+      "searchQuery": "complementary counting at least one digit 7 three-digit numbers",
+      "answer": "252"
+    },
+    {
+      "id": "cps-adjacent-pair-arrangement",
+      "unit": "counting-principles",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "In how many ways can 6 different people stand in a line if Ana and Ben must stand next to each other?",
+      "body": "240\n\nTreat Ana and Ben as one block. Then there are 5 things to arrange (the block and the other 4 people), which can be done in $5! = 120$ ways.\n\nInside the block, Ana and Ben can be in 2 orders, so the multiplication principle gives $120 \\cdot 2 = 240$.\n\nWatch out: Forgetting the factor of 2 for the order inside the block is the usual slip.",
+      "searchQuery": "arrange people in a line two must be adjacent factorial",
+      "answer": "240"
+    },
+    {
+      "id": "cps-double-counting-or-misconception",
+      "unit": "counting-principles",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is the number of integers from 1 to 100 that are multiples of 2 or of 5 not $50 + 20 = 70$?",
+      "body": "Multiples of 10 are counted in both lists, so you must subtract the overlap: $50 + 20 - 10 = 60$.\n\nThere are 50 multiples of 2 and 20 multiples of 5 in that range. The 10 multiples of 10 appear in both counts, so adding the counts counts each of them twice.\n\nKey idea: The addition principle needs cases that cannot overlap. When they can, add the counts and then subtract the overlap once.",
+      "searchQuery": "double counting overlapping cases multiples of 2 or 5 subtract overlap"
+    },
+    {
+      "id": "cps-combination-definition",
+      "unit": "combinations-and-binomial-theorem",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **combination**, and what does the **binomial coefficient** $\\binom{n}{k}$ count?",
+      "body": "A combination is a selection of $k$ items from $n$ different items where order does not matter, and $\\binom{n}{k}$ (\"$n$ choose $k$\") is the number of such selections.\n\nSo choosing the group {A, B, C} is the same selection as choosing {C, A, B}.\n\nExample: Choosing 2 of 4 friends for a trip gives $\\binom{4}{2} = 6$ groups: AB, AC, AD, BC, BD, CD.\n\nKey idea: Ask \"does the order of my picks matter?\" If not, it is a combination; if so, it is a permutation.",
+      "searchQuery": "combination definition n choose k binomial coefficient"
+    },
+    {
+      "id": "cps-combination-formula",
+      "unit": "combinations-and-binomial-theorem",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Give the formula for $\\binom{n}{k}$ in terms of factorials, and say why the division by $k!$ is there.",
+      "body": "$\\binom{n}{k} = \\dfrac{n!}{k!\\,(n-k)!} = \\dfrac{P(n,k)}{k!}$\n\nWhy: $P(n,k)$ counts ordered picks. Each group of $k$ items shows up in $k!$ of those ordered lists, one for every way to order its members, so $P(n,k)$ **overcounts** every group by the same factor $k!$. Dividing by $k!$ corrects it.\n\nExample: Committees of 3 from 5 people: $\\dfrac{5 \\cdot 4 \\cdot 3}{3!} = \\dfrac{60}{6} = 10$.\n\nTip: When every item is overcounted equally, divide by the overcount factor.",
+      "searchQuery": "combinations formula n factorial k factorial overcounting divide"
+    },
+    {
+      "id": "cps-president-vp-not-combination",
+      "unit": "combinations-and-binomial-theorem",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is the number of ways to choose a president and a vice-president from 10 people not $\\binom{10}{2}$?",
+      "body": "The two offices are different, so order matters: the answer is $P(10,2) = 10 \\cdot 9 = 90$, not $\\binom{10}{2} = 45$.\n\nPicking Ana as president and Ben as vice-president is a different result from picking Ben as president and Ana as vice-president. $\\binom{10}{2}$ treats those as the same pair and so gives half the right number.\n\nWatch out: Choosing a committee of 2 (no roles) is $\\binom{10}{2} = 45$. Giving the two people different roles brings the order back, and the count doubles.",
+      "searchQuery": "president vice-president permutation versus combination order matters"
+    },
+    {
+      "id": "cps-pascals-identity",
+      "unit": "combinations-and-binomial-theorem",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State **Pascal's identity** for binomial coefficients and give its counting proof.",
+      "body": "$\\dbinom{n}{k} = \\dbinom{n-1}{k-1} + \\dbinom{n-1}{k}$ for integers $1 \\le k \\le n-1$.\n\nWhy: Count the ways to choose $k$ items from $n$, and single out one item, say item 1. Either the group contains item 1, and you pick the other $k-1$ from the remaining $n-1$ items, or it does not, and you pick all $k$ from the remaining $n-1$ items. These two cases cannot overlap and cover everything.\n\nIn Pascal's triangle, this says each entry is the sum of the two entries just above it.\n\nExample: $\\binom{5}{2} = \\binom{4}{1} + \\binom{4}{2} = 4 + 6 = 10$.",
+      "searchQuery": "Pascal's identity binomial coefficient counting proof"
+    },
+    {
+      "id": "cps-binomial-theorem",
+      "unit": "combinations-and-binomial-theorem",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **binomial theorem** for $(x+y)^n$, where $n \\in \\mathbb{N}$.",
+      "body": "$(x+y)^n = \\displaystyle\\sum_{k=0}^{n} \\binom{n}{k}\\, x^{n-k} y^{k}$ for every $n \\in \\mathbb{N}$.\n\nThe symbol $\\sum_{k=0}^{n}$ means \"add up the terms for $k = 0, 1, \\dots, n$\".\n\nWhy: Expanding $(x+y)^n$ means multiplying $n$ factors and taking either $x$ or $y$ from each one. A term with $y^k$ arises by taking $y$ from exactly $k$ of the factors, and there are $\\binom{n}{k}$ ways to pick which ones.\n\nExample: The coefficient of $x^3$ in $(x+2)^5$ comes from $k = 2$: $\\binom{5}{2} \\cdot 2^2 = 10 \\cdot 4 = 40$.\n\nTip: The coefficients $\\binom{n}{k}$ are row $n$ of Pascal's triangle.",
+      "searchQuery": "binomial theorem expansion coefficient (x+y)^n sum"
+    },
+    {
+      "id": "cps-hockey-stick-identity",
+      "unit": "combinations-and-binomial-theorem",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Evaluate $\\binom{2}{2}+\\binom{3}{2}+\\binom{4}{2}+\\cdots+\\binom{10}{2}$ with the **hockey stick identity**.",
+      "body": "$\\dbinom{11}{3} = 165$\n\nThe hockey stick identity says $\\displaystyle\\sum_{i=r}^{n} \\binom{i}{r} = \\binom{n+1}{r+1}$. Here $r = 2$ and $n = 10$.\n\nWhy: Count the ways to choose $r+1$ numbers from $1, \\dots, n+1$. Group them by their largest number, which must be $i+1$ for some $i$ from $r$ to $n$. For each $i$, the other $r$ numbers come from the $i$ smaller ones, in $\\binom{i}{r}$ ways. Adding over all $i$ gives the left side.\n\nIn Pascal's triangle, the terms run down a diagonal and the total sits one step off the end, which makes the shape of a hockey stick.\n\nCheck: $1+3+6+10+15+21+28+36+45 = 165$.",
+      "searchQuery": "hockey stick identity sum of binomial coefficients diagonal Pascal"
+    },
+    {
+      "id": "cps-identical-candies-problem",
+      "unit": "combinations-and-binomial-theorem",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "In how many ways can 10 identical candies be given to 3 children if a child may receive none?",
+      "body": "66\n\nLine up the 10 candies and insert 2 dividers: everything before the first divider goes to child 1, between the dividers to child 2, after the second divider to child 3. Each arrangement of 10 candies and 2 dividers is one distribution.\n\nThat is 12 positions, and you choose which 2 hold the dividers: $\\binom{12}{2} = 66$.\n\nTip: The same trick counts shortest lattice paths. A path from $(0,0)$ to $(4,3)$ with steps right and up has 7 steps, of which you choose 3 to be \"up\", giving $\\binom{7}{3} = 35$ paths.",
+      "searchQuery": "identical objects distribution stars and bars lattice paths count",
+      "answer": "66"
+    },
+    {
+      "id": "cps-probability-equally-likely",
+      "unit": "probability-basics",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "How is the probability of an event computed when every outcome in the **sample space** is equally likely?",
+      "body": "$P(E) = \\dfrac{\\text{number of outcomes in } E}{\\text{number of outcomes in the sample space}}$\n\nThe **sample space** is the set of all possible outcomes. An **event** is any collection of those outcomes. **Equally likely outcomes** are outcomes with the same chance of occurring.\n\nExample: Rolling two fair dice has 36 equally likely outcomes. Six of them add to 7, so $P(\\text{sum is } 7) = \\tfrac{6}{36} = \\tfrac{1}{6}$.\n\nWatch out: The formula needs equally likely outcomes. The sums 2 through 12 are not equally likely, so you must count the 36 dice pairs, not the 11 sums.",
+      "searchQuery": "probability equally likely outcomes sample space event favorable over total"
+    },
+    {
+      "id": "cps-complement-at-least-one-head",
+      "unit": "probability-basics",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "A fair coin is flipped 3 times. What is the probability of at least one head?",
+      "body": "$\\tfrac{7}{8}$\n\nThe **complement** of an event $A$ is \"$A$ does not happen\", written $A^c$, and $P(A^c) = 1 - P(A)$.\n\nExample: The 3 flips have $2^3 = 8$ equally likely outcomes. \"No heads\" is only TTT, so $P(\\text{no heads}) = \\tfrac{1}{8}$. Therefore $P(\\text{at least one head}) = 1 - \\tfrac{1}{8} = \\tfrac{7}{8}$.\n\nTip: Counting the opposite is the probability version of complementary counting.",
+      "searchQuery": "complement rule probability at least one head three coin flips"
+    },
+    {
+      "id": "cps-independent-multiplication-rule",
+      "unit": "probability-basics",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "State the multiplication rule for two **independent events** $A$ and $B$.",
+      "body": "$P(A \\text{ and } B) = P(A)\\,P(B)$\n\nTwo events are **independent** when knowing that one happened does not change the probability of the other. In that case, the probability that both happen is the product.\n\nExample: Flip a fair coin and roll a fair die. The two results do not influence each other, so $P(\\text{heads and a 5 or 6}) = \\tfrac{1}{2} \\cdot \\tfrac{2}{6} = \\tfrac{1}{6}$.\n\nWatch out: The product rule holds only for independent events. Drawing two cards from a deck without putting the first back makes the draws dependent.",
+      "searchQuery": "independent events multiplication rule probability product"
+    },
+    {
+      "id": "cps-heart-or-face-card",
+      "unit": "probability-basics",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "One card is drawn at random from a standard 52-card deck. What is the probability that it is a heart or a face card (jack, queen or king)?",
+      "body": "$\\tfrac{11}{26}$\n\nUse the addition rule: $P(A \\text{ or } B) = P(A) + P(B) - P(A \\text{ and } B)$.\n\nThere are 13 hearts, 12 face cards, and 3 cards that are both (the jack, queen and king of hearts). So $\\tfrac{13}{52} + \\tfrac{12}{52} - \\tfrac{3}{52} = \\tfrac{22}{52} = \\tfrac{11}{26}$.\n\nIf $A$ and $B$ are **mutually exclusive**, meaning they cannot both happen, then $P(A \\text{ and } B) = 0$ and the rule becomes simply $P(A) + P(B)$.\n\nWatch out: Skipping the subtraction counts the three face cards of hearts twice.",
+      "searchQuery": "addition rule probability heart or face card overlap mutually exclusive"
+    },
+    {
+      "id": "cps-geometric-probability-circle-in-square",
+      "unit": "probability-basics",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A dart is equally likely to land at any point of a square target with side 10 cm. A circle of radius 4 cm is centered in the square. What is the probability the dart lands inside the circle?",
+      "body": "$\\dfrac{4\\pi}{25} \\approx 0.503$\n\nIn **geometric probability**, when every point of a region is equally likely, the probability of landing in a part is the ratio of areas (or lengths, for a segment).\n\nThe circle has area $\\pi \\cdot 4^2 = 16\\pi$ and the square has area $100$. So the probability is $\\dfrac{16\\pi}{100} = \\dfrac{4\\pi}{25} \\approx 0.503$.\n\nCheck: The circle fits inside the square because its diameter 8 is less than 10.",
+      "searchQuery": "geometric probability area ratio dart circle square"
+    },
+    {
+      "id": "cps-exclusive-not-independent",
+      "unit": "probability-basics",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why are two mutually exclusive events that each have positive probability never independent?",
+      "body": "If one happens, the other cannot, so $P(A \\text{ and } B) = 0$, but independence would require $P(A)P(B) > 0$.\n\nExample: On a single coin flip, \"heads\" and \"tails\" are mutually exclusive. Independence would need $P(\\text{heads and tails}) = \\tfrac{1}{2} \\cdot \\tfrac{1}{2} = \\tfrac{1}{4}$, yet it is $0$. Knowing the flip was heads tells you for certain it was not tails.\n\nWatch out: \"Mutually exclusive\" is about the events never happening together. \"Independent\" is about one event telling you nothing about the other. They are nearly opposite ideas.",
+      "searchQuery": "mutually exclusive versus independent events difference probability"
+    },
+    {
+      "id": "cps-conditional-probability-definition",
+      "unit": "conditional-probability",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define the **conditional probability** $P(A \\mid B)$ and give its formula.",
+      "body": "$P(A \\mid B) = \\dfrac{P(A \\text{ and } B)}{P(B)}$, the probability of $A$ given that $B$ has happened, for $P(B) > 0$.\n\nKnowing $B$ happened shrinks the sample space to just the outcomes in $B$. Then you ask what fraction of those are also in $A$.\n\nExample: A **two-way table** counts people by two traits at once. Suppose 80 of 200 students are in band, and 30 of those 80 also play chess. Then $P(\\text{chess} \\mid \\text{band}) = \\tfrac{30}{80} = \\tfrac{3}{8}$. This equals $\\tfrac{30/200}{80/200}$.\n\nTip: With a table, look only at the row or column of the given event and divide by its total.",
+      "searchQuery": "conditional probability definition P(A|B) two-way table"
+    },
+    {
+      "id": "cps-tree-diagram-two-draws",
+      "unit": "conditional-probability",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "A bag holds 5 red and 3 blue marbles. Two are drawn without replacement. What is the probability both are red?",
+      "body": "$\\tfrac{5}{14}$\n\nA **tree diagram** draws each stage as a set of branches labeled with probabilities. Multiply along a path, because $P(A \\text{ and } B) = P(A)\\,P(B \\mid A)$, and add the probabilities of different paths.\n\nThe path red then red has probability $\\tfrac{5}{8} \\cdot \\tfrac{4}{7} = \\tfrac{20}{56} = \\tfrac{5}{14}$. After one red marble is gone, 4 of the remaining 7 marbles are red.\n\nExample: The probability the second marble is red adds two paths: $\\tfrac{5}{8}\\cdot\\tfrac{4}{7} + \\tfrac{3}{8}\\cdot\\tfrac{5}{7} = \\tfrac{35}{56} = \\tfrac{5}{8}$.",
+      "searchQuery": "tree diagram probability without replacement conditional marbles"
+    },
+    {
+      "id": "cps-bayes-rule",
+      "unit": "conditional-probability",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State **Bayes' rule** for $P(A \\mid B)$.",
+      "body": "$P(A \\mid B) = \\dfrac{P(B \\mid A)\\,P(A)}{P(B)}$, where $P(B) = P(B \\mid A)P(A) + P(B \\mid A^c)P(A^c)$.\n\nWhy: The probability of \"$A$ and $B$\" can be written as $P(B \\mid A)P(A)$ or as $P(A \\mid B)P(B)$. Setting these equal and dividing by $P(B)$, which must be positive, gives the rule. The second formula for $P(B)$ splits $B$ into the part inside $A$ and the part outside it.\n\nWhy it matters: Bayes' rule reverses a conditional probability. You often know $P(\\text{result} \\mid \\text{condition})$ but want $P(\\text{condition} \\mid \\text{result})$.\n\nWatch out: $P(A \\mid B)$ and $P(B \\mid A)$ are generally different numbers.",
+      "searchQuery": "Bayes rule formula reverse conditional probability"
+    },
+    {
+      "id": "cps-independence-table-check",
+      "unit": "conditional-probability",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Of 200 people surveyed, 80 are in group X and 120 in group Y. Twenty people in X and 30 in Y answered yes. Are ‘yes’ and ‘in group X’ independent?",
+      "body": "Yes: $P(\\text{yes} \\mid X) = \\tfrac{20}{80} = \\tfrac{1}{4}$ equals $P(\\text{yes}) = \\tfrac{50}{200} = \\tfrac{1}{4}$.\n\nEvents $A$ and $B$ are independent exactly when $P(A \\mid B) = P(A)$: learning $B$ does not move the probability of $A$.\n\nCheck with the product rule: $P(\\text{yes and } X) = \\tfrac{20}{200} = \\tfrac{1}{10}$, and $P(\\text{yes})P(X) = \\tfrac{1}{4}\\cdot\\tfrac{2}{5} = \\tfrac{1}{10}$. They match.\n\nTip: If the conditional probability differs from the plain probability even a little, the events are not independent.",
+      "searchQuery": "test independence conditional probability two-way table P(A|B) equals P(A)"
+    },
+    {
+      "id": "cps-base-rate-fallacy-medical-test",
+      "unit": "conditional-probability",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "A disease affects 1 in 1,000 people. A test is positive for 99% of people who have it and also for 1% of healthy people. Why is ‘a positive test means a 99% chance you're sick’ false?",
+      "body": "Because the disease is so rare, most positive results are false positives: $P(\\text{sick} \\mid \\text{positive}) \\approx 9\\%$.\n\nThe **base rate** is how common the condition is before any test. Ignoring it is the base-rate fallacy.\n\nExample: Imagine 100,000 people. About 100 are sick, and 99 of them test positive. Of the 99,900 healthy people, 1% (about 999) also test positive. So $P(\\text{sick} \\mid \\text{positive}) = \\dfrac{99}{99 + 999} \\approx 0.09$.\n\nBayes' rule gives the same: $\\dfrac{0.99 \\cdot 0.001}{0.99 \\cdot 0.001 + 0.01 \\cdot 0.999} \\approx 0.09$.",
+      "searchQuery": "base rate fallacy medical test false positive Bayes rule",
+      "checkpoint": true
+    },
+    {
+      "id": "cps-random-variable-distribution",
+      "unit": "random-variables-and-expectation",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **random variable**, and what is its **probability distribution**?",
+      "body": "A random variable is a number determined by the outcome of a random process; its probability distribution lists each possible value $x$ with its probability $P(X = x)$, and these probabilities add to 1.\n\nExample: Let $X$ be the number of heads in two fair coin flips. Then $P(X=0) = \\tfrac{1}{4}$, $P(X=1) = \\tfrac{1}{2}$, $P(X=2) = \\tfrac{1}{4}$. The value 1 has probability $\\tfrac{1}{2}$ because HT and TH both give one head.\n\nTip: Capital $X$ names the random variable and lowercase $x$ names a particular value it might take.",
+      "searchQuery": "random variable probability distribution definition number of heads"
+    },
+    {
+      "id": "cps-expected-value-formula",
+      "unit": "random-variables-and-expectation",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Give the formula for the **expected value** $E[X]$ of a random variable $X$ that takes values $x$.",
+      "body": "$E[X] = \\displaystyle\\sum_x x \\cdot P(X = x)$, a probability-weighted average of the values.\n\nIt is the long-run average of $X$ over many repeats of the process.\n\nExample: For a fair die, $E[X] = 1\\cdot\\tfrac16 + 2\\cdot\\tfrac16 + \\cdots + 6\\cdot\\tfrac16 = \\tfrac{21}{6} = 3.5$.\n\nWhy: If you repeat the experiment $N$ times, the value $x$ appears about $N \\cdot P(X=x)$ times. Averaging gives $\\sum x\\,P(X=x)$.",
+      "searchQuery": "expected value formula sum x times probability weighted average"
+    },
+    {
+      "id": "cps-linearity-two-dice",
+      "unit": "random-variables-and-expectation",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "What is the expected total of two fair dice, and which rule makes it quick?",
+      "body": "$7$, by **linearity of expectation**: $E[X+Y] = E[X] + E[Y]$.\n\nEach die has expected value $3.5$, so the total has expected value $3.5 + 3.5 = 7$. There is no need to list all 36 outcomes.\n\nKey idea: Linearity holds always, even when $X$ and $Y$ are not independent. This makes it a powerful shortcut for counting expected successes: the expected number of heads in 100 fair flips is $100 \\cdot \\tfrac12 = 50$.\n\nWatch out: The same shortcut does not work for products: $E[XY] = E[X]E[Y]$ needs more than linearity.",
+      "searchQuery": "linearity of expectation expected sum two dice"
+    },
+    {
+      "id": "cps-fair-game-expected-value",
+      "unit": "random-variables-and-expectation",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "You pay 3 dollars to play: roll a fair die and win as many dollars as the number shown if it is 4 or more, otherwise win nothing. What is your expected net gain per play?",
+      "body": "$-0.5$ dollars per play: you lose 50 cents on average.\n\nExpected winnings: $4\\cdot\\tfrac16 + 5\\cdot\\tfrac16 + 6\\cdot\\tfrac16 + 0\\cdot\\tfrac36 = \\tfrac{15}{6} = 2.5$ dollars.\n\nNet gain is winnings minus the 3-dollar price, so $2.5 - 3 = -0.5$ dollars.\n\nTip: A game is fair when its expected net gain is zero. This game would be fair at a price of 2.50 dollars.",
+      "searchQuery": "expected value game decision fair price die win dollars",
+      "checkpoint": true
+    },
+    {
+      "id": "cps-binomial-guessing-quiz",
+      "unit": "random-variables-and-expectation",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A 20-question quiz has 4 choices per question, and a student guesses every answer at random. Name the distribution of the number correct and give its mean.",
+      "body": "Binomial with $n = 20$ and $p = \\tfrac14$, so the mean is $np = 5$.\n\nA **binomial distribution** counts the successes in $n$ independent trials that each succeed with the same probability $p$. It gives $P(X=k) = \\binom{n}{k}p^k(1-p)^{n-k}$.\n\nWhy the mean is $np$: Write $X$ as a sum of $n$ indicators, each worth 1 for a correct guess and 0 otherwise. Each has expected value $p$, and linearity adds them to $np$.\n\nWatch out: The trials must be independent and have the same $p$. Drawing cards without replacement does not qualify.",
+      "searchQuery": "binomial distribution mean np guessing quiz independent trials"
+    },
+    {
+      "id": "cps-expected-value-not-single-outcome",
+      "unit": "random-variables-and-expectation",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it wrong to read $E[X]$ as the value you should expect to see on a single trial?",
+      "body": "$E[X]$ is a long-run average, and it need not be a value $X$ can take.\n\nA fair die has $E[X] = 3.5$, but no roll ever shows 3.5. Over many rolls, the average of the results gets close to 3.5.\n\nExample: A game that pays 10 dollars with probability 0.1 and nothing otherwise has expected value $10 \\cdot 0.1 = 1$ dollar. On any single play you win either 10 dollars or nothing, never exactly 1 dollar.\n\nKey idea: Use expected value to compare choices that are repeated many times, not to predict one outcome.",
+      "searchQuery": "expected value misconception long-run average single trial die 3.5"
+    },
+    {
+      "id": "cps-standard-deviation-definition",
+      "unit": "descriptive-statistics",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **standard deviation** of a data set, and how is it computed?",
+      "body": "It measures spread as the typical distance of the values from their mean: $s = \\sqrt{\\dfrac{\\sum (x_i - \\bar{x})^2}{n-1}}$ for a sample of $n$ values with mean $\\bar{x}$.\n\nFor a whole population, divide by $n$ instead of $n-1$, and write $\\sigma$ with the population mean $\\mu$.\n\nExample: For 2, 4, 4, 4, 5, 5, 7, 9 the mean is 5. The squared distances are 9, 1, 1, 1, 0, 0, 4, 16, which add to 32. Treated as a whole population, $\\sigma = \\sqrt{32/8} = 2$. Treated as a sample, $s = \\sqrt{32/7} \\approx 2.14$.\n\nWatch out: Squaring then taking the root keeps distances above and below the mean from canceling.",
+      "searchQuery": "standard deviation formula sample population spread mean"
+    },
+    {
+      "id": "cps-iqr-boxplot-outlier",
+      "unit": "descriptive-statistics",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "For the data 2, 4, 4, 5, 7, 8, 9, 12, 30, find the **interquartile range** (use the median of each half, leaving out the overall median), and decide whether 30 is an outlier by the 1.5 × IQR rule.",
+      "body": "IQR $= 6.5$, and 30 is an outlier.\n\nThe median is 7. The lower half (2, 4, 4, 5) has median $Q_1 = 4$ and the upper half (8, 9, 12, 30) has median $Q_3 = 10.5$. The **interquartile range** is $Q_3 - Q_1 = 6.5$, the spread of the middle half of the data.\n\nThe upper fence is $Q_3 + 1.5 \\cdot 6.5 = 20.25$. Since $30 > 20.25$, it is an outlier. The lower fence $4 - 9.75 < 0$ catches nothing.\n\nA **box plot** draws a box from $Q_1$ to $Q_3$ with a line at the median. Whiskers reach the most extreme non-outliers (here 12) and outliers are shown as separate dots.\n\nTip: The IQR is not pulled around by extreme values the way the standard deviation is.",
+      "searchQuery": "interquartile range box plot outlier 1.5 IQR rule quartiles"
+    },
+    {
+      "id": "cps-z-score-formula",
+      "unit": "descriptive-statistics",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Give the formula for the **z-score** of a value $x$, and say what it measures.",
+      "body": "$z = \\dfrac{x - \\mu}{\\sigma}$, the number of standard deviations $x$ lies above (positive) or below (negative) the mean.\n\nFor sample data, use $\\bar{x}$ and $s$ in place of $\\mu$ and $\\sigma$.\n\nExample: A score of 85 on an exam with mean 70 and standard deviation 10 has $z = 1.5$. A score of 90 on another exam with mean 80 and standard deviation 5 has $z = 2$. The second score is the more impressive one relative to its group.\n\nKey idea: z-scores remove units, so they let you compare values from different scales.",
+      "searchQuery": "z-score formula standard deviations from the mean"
+    },
+    {
+      "id": "cps-normal-rule-iq",
+      "unit": "descriptive-statistics",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Test scores are roughly normal with mean 100 and standard deviation 15. About what percent of people score above 130?",
+      "body": "About 2.5%\n\nA **normal distribution** is symmetric and bell-shaped. The 68-95-99.7 rule says about 68% of values lie within 1 standard deviation of the mean, 95% within 2, and 99.7% within 3.\n\nHere $z = \\dfrac{130 - 100}{15} = 2$, so 130 is 2 standard deviations above the mean. About 95% lie within 2 standard deviations, leaving 5% in the two tails. By symmetry, half of that, 2.5%, is above 130.\n\nCheck: The exact normal value is about 2.3%, so the rule is a good rough guide.",
+      "searchQuery": "68-95-99.7 rule normal distribution z-score percent above"
+    },
+    {
+      "id": "cps-skewed-mean-misconception",
+      "unit": "descriptive-statistics",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is the mean a poor description of the typical value for a histogram with a long right tail?",
+      "body": "A few very large values drag the mean up, so it lands above the median; for skewed data the median is the better center.\n\nA **histogram** groups the data into intervals and draws a bar whose height shows how many values fall in each. When the bars trail off to the right, the distribution is right-skewed.\n\nExample: For 1, 2, 2, 3, 3, 4, 50 the mean is about 9.3, but six of the seven values are at most 4. The median is 3.\n\nTip: For skewed data, report the median and the IQR. For roughly symmetric data, the mean and standard deviation work well.",
+      "searchQuery": "skewed distribution mean versus median histogram right tail"
+    },
+    {
+      "id": "cps-population-sample-parameter",
+      "unit": "sampling-and-experiments",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the difference between a **population** and a **sample**, and between a **parameter** and a **statistic**?",
+      "body": "The population is the whole group you want to learn about; the sample is the part you actually measure. A parameter describes the population, and a statistic describes the sample.\n\nExample: A pollster asks 1,000 of the roughly 50 million voters in a country whom they support. The 52% in the sample is a statistic. The percentage among all voters is the parameter, which is unknown and is what the poll estimates.\n\nKey idea: You compute statistics to learn about parameters. Different samples give different statistics, but the parameter stays fixed.",
+      "searchQuery": "population sample parameter statistic difference definition"
+    },
+    {
+      "id": "cps-sampling-bias",
+      "unit": "sampling-and-experiments",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **sampling bias**, and why does random sampling help?",
+      "body": "Sampling bias is when the way a sample is chosen systematically favors some members of the population, so its results lean in one direction.\n\nIn a random sample, every member has the same chance of being picked, so no group is favored on purpose or by accident.\n\nExample: Surveying only students in the cafeteria line about lunch quality leaves out students who avoid the cafeteria. A poll where people choose to respond, such as an online vote, over-represents people with strong opinions.\n\nWatch out: A convenient sample is not a random sample, however big it is.",
+      "searchQuery": "sampling bias random sample voluntary response convenience"
+    },
+    {
+      "id": "cps-observational-vs-experiment-causation",
+      "unit": "sampling-and-experiments",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why can only a **randomized experiment**, not an **observational study**, support a claim that a treatment causes an effect?",
+      "body": "Random assignment makes the groups alike in everything except the treatment, so a later difference can be credited to the treatment.\n\nIn an observational study, researchers only record what happens, and people end up in a group by their own choices. The groups may then differ in other ways that also affect the result.\n\nExample: People who take vitamins may be healthier overall because they also exercise and eat well. A study that just compares vitamin users to non-users cannot separate those habits from the vitamin. If researchers randomly assign people to take a vitamin or not, such habits are spread evenly across both groups.\n\nKey idea: Random assignment is what gives an experiment its power to show cause.",
+      "searchQuery": "observational study versus randomized experiment causal claims random assignment"
+    },
+    {
+      "id": "cps-margin-of-error-poll",
+      "unit": "sampling-and-experiments",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "A poll of 1,000 randomly chosen voters finds 52% support a measure, with a margin of error of 3 percentage points. What does that tell you?",
+      "body": "The population percentage is plausibly between 49% and 55%, because a sample this size typically lands within about 3 points of the truth.\n\nThe **margin of error** describes the size of the sampling variation: how far a result could be from the truth simply because of which people the random draw happened to pick. It is usually quoted so that about 95% of random samples fall within it.\n\nA rough rule: for $n$ people, the margin is about $\\dfrac{1}{\\sqrt{n}}$, which is $\\tfrac{1}{\\sqrt{1000}} \\approx 3.2$ points. Four times as many people halves it.\n\nWatch out: The margin of error does not cover bias. A poll that skips part of the population can be off by far more.",
+      "searchQuery": "margin of error poll interpretation sampling variation 95 percent"
+    },
+    {
+      "id": "cps-big-sample-biased-misconception",
+      "unit": "sampling-and-experiments",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why does a very large sample not fix a biased sampling method?",
+      "body": "A bigger sample reduces random variation but not systematic bias, so a large biased sample is just a precisely wrong answer.\n\nExample: An online vote that attracts 100,000 responses is still made up of people who chose to respond, and their views may differ from the population's. Collecting twice as many such responses leaves the lean unchanged.\n\nKey idea: Size controls luck; random selection controls bias. A small random sample can beat a huge self-selected one.",
+      "searchQuery": "large sample does not fix bias random selection sample size"
+    },
+    {
+      "id": "cps-scatterplot-describe",
+      "unit": "correlation-and-regression",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How do you describe a **scatterplot**?",
+      "body": "By its direction (positive or negative), its form (straight or curved) and its strength (how closely the points follow the pattern), and by mentioning any outliers.\n\nA scatterplot shows each case as a point $(x, y)$, where $x$ and $y$ are two measurements of the same case, such as a person's height and weight.\n\nExample: Hours studied against exam score usually trends upward in a roughly straight band: a positive, linear, moderately strong pattern.\n\nTip: Say \"positive\" when $y$ tends to rise as $x$ rises, and \"negative\" when $y$ tends to fall.",
+      "searchQuery": "scatterplot describe direction form strength outliers"
+    },
+    {
+      "id": "cps-correlation-coefficient-r",
+      "unit": "correlation-and-regression",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does the **correlation coefficient** $r$ measure, and what values can it take?",
+      "body": "$r$ measures the strength and direction of a linear relationship between two variables, and $-1 \\le r \\le 1$.\n\nIts sign gives the direction. A value near $\\pm 1$ means the points hug a straight line, and a value near $0$ means there is little linear pattern. It has no units. One formula is $r = \\dfrac{1}{n-1}\\sum z_x z_y$, the average product of paired z-scores.\n\nWatch out: $r$ only sees straight-line patterns. The seven points $(x, x^2)$ with $x = -3, -2, \\dots, 3$ have $r = 0$ although $y$ is fully determined by $x$.",
+      "searchQuery": "correlation coefficient r meaning range linear strength"
+    },
+    {
+      "id": "cps-least-squares-slope",
+      "unit": "correlation-and-regression",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Give the slope of the **least-squares line** $\\hat{y} = b_0 + b_1 x$ in terms of $r$, $s_x$ and $s_y$.",
+      "body": "$b_1 = r\\,\\dfrac{s_y}{s_x}$, and the line always passes through $(\\bar{x}, \\bar{y})$.\n\nThe least-squares line is the line that makes the sum of squared residuals as small as possible. A **residual** is the observed $y$ minus the predicted $\\hat{y}$.\n\nExample: Suppose study hours have mean 5 and $s_x = 2$, scores have mean 70 and $s_y = 10$, and $r = 0.8$. Then $b_1 = 0.8 \\cdot \\tfrac{10}{2} = 4$, so $\\hat{y} = 70 + 4(x - 5)$, and a student who studies 7 hours is predicted to score 78.\n\nTip: The slope says how much $\\hat{y}$ changes, on average, for one more unit of $x$.",
+      "searchQuery": "least squares line slope r sy over sx passes through means residual"
+    },
+    {
+      "id": "cps-residual-interpretation",
+      "unit": "correlation-and-regression",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "The points $(1,2), (2,4), (3,5), (4,4), (5,5)$ have least-squares line $\\hat{y} = 2.2 + 0.6x$. What is the residual at $x = 3$, and what does it mean?",
+      "body": "$+1$: the observed value 5 is 1 above the predicted value 4.0, so the line under-predicts there.\n\nAt $x = 3$ the line predicts $2.2 + 0.6 \\cdot 3 = 4.0$, and the residual is observed minus predicted, $5 - 4 = 1$.\n\nThe slope 0.6 means that each extra unit of $x$ goes with an average increase of 0.6 in $y$.\n\nCheck: The five residuals are $-0.8, 0.6, 1, -0.6, -0.2$ and they add to 0, as they always do for a least-squares line.",
+      "searchQuery": "residual observed minus predicted least squares line example interpret slope"
+    },
+    {
+      "id": "cps-correlation-not-causation",
+      "unit": "correlation-and-regression",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why does a strong correlation between two variables not show that one **causes** the other?",
+      "body": "A third factor or reversed direction can create the pattern: correlation shows that variables move together, not why.\n\n**Causation** means that changing one variable produces a change in the other.\n\nExample: Ice-cream sales and drownings rise together across the months of a year. Neither causes the other: hot weather drives both.\n\nWatch out: Even a very large $r$ proves no cause. Only a randomized experiment, where researchers assign the values of the first variable, can support a causal claim.",
+      "searchQuery": "correlation does not imply causation lurking variable example"
+    }
+  ]
+}

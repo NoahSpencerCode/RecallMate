@@ -1,0 +1,1146 @@
+{
+  "profession": "embedded-ai",
+  "module": "digital-logic",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "dl-digital-abstraction",
+      "unit": "digital-abstraction",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is the **digital abstraction**?",
+      "body": "Treating a continuous voltage as just a 0 or a 1, according to which range it falls in, and ignoring its exact value.\n\nEach range is a **logic level**: voltages from 0 V up to a low threshold count as logic 0 (low), and voltages from a high threshold up to the supply voltage count as logic 1 (high). Voltages in the gap between the two thresholds are not supposed to occur except briefly while a signal switches.\n\nWhy: Real wires carry voltages that wobble. Agreeing to read only \"low\" or \"high\" lets designers build huge circuits without tracking every millivolt.\n\nExample: On a 3.3 V board, 0.2 V and 0.5 V both mean logic 0, and 3.0 V and 3.3 V both mean logic 1.",
+      "searchQuery": "digital abstraction voltage logic levels 0 and 1",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L01 Course Mechanics and Digital Abstraction"
+      ],
+      "tags": [
+        "logic-levels"
+      ]
+    },
+    {
+      "id": "dl-logic-thresholds",
+      "unit": "digital-abstraction",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What do the four datasheet thresholds $V_{IL}$, $V_{IH}$, $V_{OL}$ and $V_{OH}$ mean?",
+      "body": "$V_{IL}$: highest input voltage still read as 0. $V_{IH}$: lowest input voltage read as 1. $V_{OL}$: highest voltage a driver outputs for 0. $V_{OH}$: lowest voltage a driver outputs for 1.\n\nThe first letter says input (I) or output (O); the second says low (L) or high (H). The input values describe what a receiver accepts; the output values are what a driver promises, so $V_{OL} < V_{IL}$ and $V_{OH} > V_{IH}$.\n\nKey idea: The output promise is stricter than the input requirement. That gap is what absorbs noise.\n\nWatch out: An input between $V_{IL}$ and $V_{IH}$ is in the forbidden zone, and the receiver may read it as either value. Datasheets also quote $V_{OL}$ and $V_{OH}$ at a stated load current; draw more current and the output moves toward the middle.",
+      "searchQuery": "VIL VIH VOL VOH logic thresholds meaning",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L01 Course Mechanics and Digital Abstraction"
+      ],
+      "tags": [
+        "logic-levels"
+      ]
+    },
+    {
+      "id": "dl-noise-margin",
+      "unit": "digital-abstraction",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **noise margin**, and how are the low and high noise margins computed?",
+      "body": "$NM_L = V_{IL} - V_{OL}$ and $NM_H = V_{OH} - V_{IH}$: how much unwanted voltage a worst-case valid output can pick up before the receiver might misread it.\n\nTake the worst output a driver may legally produce and compare it with the worst input a receiver still accepts. The difference is the room left for noise.\n\nExample: A driver that outputs exactly $V_{OH} = 2.4\\,\\mathrm{V}$ into a receiver with $V_{IH} = 2.0\\,\\mathrm{V}$ survives a 0.4 V dip on the wire. A 0.5 V dip could be read as a 0 or as garbage.\n\nWatch out: The margins are computed from guaranteed worst-case values, so they are the safe minimum. Real outputs are usually closer to the rails.",
+      "searchQuery": "noise margin NML NMH VOH VIH formula",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L01 Course Mechanics and Digital Abstraction"
+      ],
+      "tags": [
+        "logic-levels"
+      ]
+    },
+    {
+      "id": "dl-noise-tolerance-concept",
+      "unit": "digital-abstraction",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why can a chain of digital gates tolerate electrical noise that would corrupt an analog signal?",
+      "body": "Each gate re-drives its output to a clean level whenever its input is inside the valid range, so noise is wiped out at every stage instead of piling up.\n\nIn an analog chain the voltage itself carries the information, so noise cannot be told apart from signal. It adds up from stage to stage and amplifiers boost it along with the signal.\n\nIn a digital chain any input within the noise margin produces an output within $V_{OL}$ or $V_{OH}$. The next gate sees a fresh, clean value.\n\nWatch out: The protection has a cliff. Noise smaller than the margin is erased completely, but noise larger than the margin flips a bit outright. Ground bounce and a missing decoupling capacitor are common ways to exceed it.",
+      "searchQuery": "why digital signals tolerate noise restoring logic",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L01 Course Mechanics and Digital Abstraction"
+      ],
+      "tags": [
+        "logic-levels"
+      ]
+    },
+    {
+      "id": "dl-ttl-levels-numbers",
+      "unit": "digital-abstraction",
+      "kind": "numbers",
+      "difficulty": 2,
+      "title": "What are the guaranteed levels of the classic 5 V TTL **logic family** (7400 series): $V_{IL}$, $V_{IH}$, $V_{OL}$, $V_{OH}$?",
+      "body": "$V_{IL}=0.8\\,\\mathrm{V}$, $V_{IH}=2.0\\,\\mathrm{V}$, $V_{OL}=0.4\\,\\mathrm{V}$, $V_{OH}=2.4\\,\\mathrm{V}$ (worst-case limits at a 5 V supply)\n\nA **logic family** is a set of gates and chips built to share voltage levels and drive each other directly. TTL and CMOS are families; so is 3.3 V LVTTL, which specifies the same four numbers and is common on microcontroller pins.\n\nExample: $NM_L = 0.8 - 0.4 = 0.4\\,\\mathrm{V}$ and $NM_H = 2.4 - 2.0 = 0.4\\,\\mathrm{V}$.\n\nWatch out: These are guaranteed limits, not typical values. Other families, such as 5 V CMOS, put their input thresholds at fractions of the supply voltage and so need more than 2.0 V to read a 1.",
+      "searchQuery": "TTL logic levels 0.8 V 2.0 V 0.4 V 2.4 V",
+      "tags": [
+        "logic-levels"
+      ],
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "TI SN7400 datasheet (SDLS025), recommended operating conditions and electrical characteristics: https://www.ti.com/lit/gpn/sn7400"
+      ]
+    },
+    {
+      "id": "dl-noise-margin-problem",
+      "unit": "digital-abstraction",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A logic family guarantees $V_{OL}=0.33\\,\\mathrm{V}$, $V_{IL}=1.35\\,\\mathrm{V}$, $V_{IH}=3.15\\,\\mathrm{V}$ and $V_{OH}=3.84\\,\\mathrm{V}$. Find $NM_L$ and $NM_H$. Which logic level is more fragile?",
+      "body": "$NM_L = 1.02\\,\\mathrm{V}$ and $NM_H = 0.69\\,\\mathrm{V}$; the high level is more fragile.\n\nLow side: $NM_L = V_{IL} - V_{OL} = 1.35 - 0.33 = 1.02\\,\\mathrm{V}$.\n\nHigh side: $NM_H = V_{OH} - V_{IH} = 3.84 - 3.15 = 0.69\\,\\mathrm{V}$.\n\nWhy it matters: The smaller of the two margins sets how much noise the line can take. Here a 0.8 V dip on a high level could already be misread, while a 0.8 V bump on a low level is still safe.\n\nTip: Check that both margins are positive. A negative margin means the driver's guaranteed output is not even a valid input for the receiver.",
+      "searchQuery": "compute noise margins from VOL VIL VIH VOH",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L01 Course Mechanics and Digital Abstraction"
+      ],
+      "tags": [
+        "logic-levels"
+      ]
+    },
+    {
+      "id": "dl-3v3-to-5v-problem",
+      "unit": "digital-abstraction",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A 3.3 V microcontroller output guarantees $V_{OH} \\ge 2.4\\,\\mathrm{V}$ and $V_{OL} \\le 0.4\\,\\mathrm{V}$. It drives a 5 V CMOS input with $V_{IH}=3.5\\,\\mathrm{V}$ and $V_{IL}=1.5\\,\\mathrm{V}$. Can the two be wired directly?",
+      "body": "No: a guaranteed high of 2.4 V is below the 3.5 V needed to read a 1, so a **level shifter** (a circuit that converts logic levels between two supply voltages) is needed.\n\nLow side: $NM_L = 1.5 - 0.4 = 1.1\\,\\mathrm{V}$, which is fine.\n\nHigh side: $NM_H = 2.4 - 3.5 = -1.1\\,\\mathrm{V}$. The margin is negative, so the receiver may read the 1 as a 0.\n\nTip: Read the receiver's own $V_{IH}$. Many \"5 V\" parts have TTL-compatible inputs with $V_{IH}=2.0\\,\\mathrm{V}$. For those the same 3.3 V output works directly, with $NM_H = 2.4 - 2.0 = 0.4\\,\\mathrm{V}$.",
+      "searchQuery": "3.3 V output to 5 V input level shifter VIH",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L01 Course Mechanics and Digital Abstraction"
+      ],
+      "tags": [
+        "logic-levels"
+      ]
+    },
+    {
+      "id": "dl-5v-to-3v3-tradeoff",
+      "unit": "digital-abstraction",
+      "kind": "trade-off",
+      "difficulty": 2,
+      "title": "A 5 V sensor output must reach a 3.3 V microcontroller pin that is not 5 V tolerant. Which fits better: a resistor divider or a level shifter chip?",
+      "body": "A two-resistor divider is enough for a slow, one-way signal; use a level shifter chip for fast or bidirectional lines.\n\nExample: A 1 kΩ resistor in series with the pin and a 2 kΩ resistor to ground give $5 \\times 2/3 = 3.33\\,\\mathrm{V}$. The pin sees a source resistance of $1\\,\\mathrm{k\\Omega} \\parallel 2\\,\\mathrm{k\\Omega} \\approx 667\\,\\Omega$; with 10 pF of pin capacitance the time constant is about 6.7 ns, so edges stay clean up to a few MHz.\n\nThe other side: A divider cannot drive the 5 V side, so it fails on bidirectional buses such as I2C. It also rounds fast edges and wastes current: $5\\,\\mathrm{V}/3\\,\\mathrm{k\\Omega} \\approx 1.7\\,\\mathrm{mA}$ whenever the line is high.\n\nWatch out: Wiring 5 V straight into a pin that is not 5 V tolerant can exceed its absolute maximum ratings and damage it.",
+      "searchQuery": "resistor divider vs level shifter 5V to 3.3V logic",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)"
+      ],
+      "tags": [
+        "logic-levels"
+      ]
+    },
+    {
+      "id": "dl-logic-gate-definition",
+      "unit": "boolean-algebra-gates",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **logic gate**, and which six gates should you know?",
+      "body": "A circuit that outputs a Boolean function of its binary inputs; the six basic gates are AND, OR, NOT, NAND, NOR and XOR.\n\n- AND: 1 only if all inputs are 1\n- OR: 1 if at least one input is 1\n- NOT: flips its single input\n- **NAND**: NOT of AND, so 0 only when all inputs are 1\n- **NOR**: NOT of OR, so 1 only when all inputs are 0\n- **XOR**: 1 when the inputs differ (exclusive OR), written $A \\oplus B$\n\nKey idea: Every gate is a tiny truth table made of transistors. Bigger circuits are just gates wired together.",
+      "searchQuery": "logic gates AND OR NOT NAND NOR XOR truth tables",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L02 Combinational Devices and Boolean Algebra"
+      ],
+      "tags": [
+        "boolean"
+      ]
+    },
+    {
+      "id": "dl-truth-table",
+      "unit": "boolean-algebra-gates",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **truth table**?",
+      "body": "A table listing a logic function's output for every combination of its inputs.\n\nA function of $n$ inputs has $2^n$ rows, one per input combination. That is why truth tables are practical for a handful of inputs and hopeless for 32.\n\nExample: The 2-input AND function:\n\n```text\nA B | Y\n0 0 | 0\n0 1 | 0\n1 0 | 0\n1 1 | 1\n```\n\nTip: List the input rows in binary counting order (00, 01, 10, 11). You will not skip or repeat a row.",
+      "searchQuery": "truth table definition 2^n rows logic function",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L02 Combinational Devices and Boolean Algebra"
+      ],
+      "tags": [
+        "boolean"
+      ]
+    },
+    {
+      "id": "dl-boolean-algebra",
+      "unit": "boolean-algebra-gates",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is **Boolean algebra**, and how are AND, OR and NOT written in it?",
+      "body": "The algebra of variables that are 0 or 1, combined with AND (written $AB$), OR (written $A+B$) and NOT (written $\\overline{A}$).\n\nIt gives rules for rewriting a logic expression into an equal, cheaper one. Useful identities:\n\n- $A + 0 = A$ and $A \\cdot 1 = A$\n- $A + \\overline{A} = 1$ and $A\\,\\overline{A} = 0$\n- $A + AB = A$\n\nEach can be checked with a truth table.\n\nWatch out: The $+$ means OR, not addition. In Boolean algebra $1 + 1 = 1$.",
+      "searchQuery": "Boolean algebra AND OR NOT notation identities",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L02 Combinational Devices and Boolean Algebra"
+      ],
+      "tags": [
+        "boolean"
+      ]
+    },
+    {
+      "id": "dl-de-morgan",
+      "unit": "boolean-algebra-gates",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "State **De Morgan's laws**.",
+      "body": "$\\overline{AB} = \\overline{A} + \\overline{B}$ and $\\overline{A+B} = \\overline{A}\\,\\overline{B}$\n\nMnemonic: Break the bar, change the operator. An inverted AND becomes an OR of inverted inputs, and an inverted OR becomes an AND of inverted inputs.\n\nWhy: $\\overline{AB}$ is 0 only when both inputs are 1. $\\overline{A} + \\overline{B}$ is also 0 only when both inputs are 1, since each term is 0 only when its input is 1.\n\nExample: $\\overline{A + B\\overline{C}} = \\overline{A}\\,(\\overline{B\\overline{C}}) = \\overline{A}\\,(\\overline{B} + C)$.\n\nKey idea: A NAND gate is an OR gate with inverted inputs, and a NOR gate is an AND gate with inverted inputs.",
+      "searchQuery": "De Morgan's laws Boolean algebra break the bar",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L02 Combinational Devices and Boolean Algebra"
+      ],
+      "tags": [
+        "boolean"
+      ]
+    },
+    {
+      "id": "dl-nand-universal",
+      "unit": "boolean-algebra-gates",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why is NAND called a **universal gate**?",
+      "body": "NOT, AND and OR can each be built from NAND gates alone, and any logic function can be written with those three.\n\n- NOT: tie both inputs together: $\\overline{A} = \\overline{A \\cdot A}$\n- AND: a NAND followed by a NAND used as NOT (2 gates)\n- OR: invert both inputs, then NAND them: $A + B = \\overline{\\overline{A}\\,\\overline{B}}$ (3 gates, by De Morgan)\n\nNOR is universal for the mirror-image reason.\n\nWhy it matters: A chip can be built from one repeated cell. CMOS NAND is also cheap, so real designs lean on it.\n\nExample: Any logic function can be written with only AND, OR and NOT (the next cards show how), so a chip made of NAND gates alone can compute any function.",
+      "searchQuery": "NAND universal gate build NOT AND OR",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L02 Combinational Devices and Boolean Algebra"
+      ],
+      "tags": [
+        "boolean"
+      ]
+    },
+    {
+      "id": "dl-sop-xor-example",
+      "unit": "boolean-algebra-gates",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Write XOR of $A$ and $B$ as a **sum of products**. What is each product called?",
+      "body": "$Y = \\overline{A}B + A\\overline{B}$, an OR of two **minterms**.\n\nA **minterm** is a product that contains every input variable, complemented or not, and is 1 for exactly one row of the truth table. A **sum of products** is an OR of the minterms for the rows where the output is 1.\n\nExample: XOR is 1 on rows $(A,B) = (0,1)$ and $(1,0)$. The row $(0,1)$ becomes $\\overline{A}B$: write a variable plain where the row has a 1 and complemented where it has a 0. The row $(1,0)$ becomes $A\\overline{B}$.\n\nTip: This recipe always works, so any truth table can be turned into AND, OR and NOT gates. The result is correct but not always the smallest.",
+      "searchQuery": "sum of products minterm truth table XOR",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L02 Combinational Devices and Boolean Algebra"
+      ],
+      "tags": [
+        "boolean"
+      ]
+    },
+    {
+      "id": "dl-simplify-problem",
+      "unit": "boolean-algebra-gates",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Simplify $F = A\\overline{B} + AB + \\overline{A}B$ with Boolean identities.",
+      "body": "$F = A + B$\n\nStep 1: factor the first two terms: $A\\overline{B} + AB = A(\\overline{B} + B) = A \\cdot 1 = A$.\n\nStep 2: now $F = A + \\overline{A}B$. Distribute OR over AND: $A + \\overline{A}B = (A + \\overline{A})(A + B) = 1 \\cdot (A + B) = A + B$.\n\nTip: Check with the truth table. $F$ is 0 only when $A = B = 0$, which is exactly the OR function. Three AND terms collapsed into one gate.",
+      "searchQuery": "simplify Boolean expression AB' + AB + A'B identities",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L02 Combinational Devices and Boolean Algebra"
+      ],
+      "tags": [
+        "boolean"
+      ]
+    },
+    {
+      "id": "dl-sop-from-table-problem",
+      "unit": "boolean-algebra-gates",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A 3-input function is 1 only for $(A,B,C) = (0,0,1)$, $(0,1,1)$ and $(1,0,0)$, and 0 for every other row. Write it as a sum of minterms, then simplify.",
+      "body": "$F = \\overline{A}\\,\\overline{B}C + \\overline{A}BC + A\\overline{B}\\,\\overline{C}$, which simplifies to $\\overline{A}C + A\\overline{B}\\,\\overline{C}$.\n\nOne minterm per row where $F=1$, using a plain variable for a 1 and a complemented variable for a 0: $(0,0,1) \\to \\overline{A}\\,\\overline{B}C$, $(0,1,1) \\to \\overline{A}BC$, $(1,0,0) \\to A\\overline{B}\\,\\overline{C}$.\n\nSimplify: the first two minterms differ only in $B$, so $\\overline{A}\\,\\overline{B}C + \\overline{A}BC = \\overline{A}C(\\overline{B}+B) = \\overline{A}C$.\n\nWatch out: The third minterm shares no pair with the others (it differs from both in at least two variables), so it stays as it is.",
+      "searchQuery": "truth table to sum of minterms simplify 3 variables",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L02 Combinational Devices and Boolean Algebra"
+      ],
+      "tags": [
+        "boolean"
+      ]
+    },
+    {
+      "id": "dl-bitwise-ops-code",
+      "unit": "boolean-algebra-gates",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume `uint8_t` is 8 bits and `int` is 32 bits. What does this print?\n\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void) {\n    uint8_t a = 0xCA, b = 0x6C;\n    printf(\"%02X %02X %02X %02X\\n\", (unsigned)(a & b),\n           (unsigned)(a | b), (unsigned)(a ^ b),\n           (unsigned)(uint8_t)~a);\n}\n```",
+      "body": "`48 EE A6 35`\n\nThe operators apply the gate truth tables to each bit pair at once, like 8 gates working in parallel. With $a = 1100\\,1010_2$ and $b = 0110\\,1100_2$:\n\n- `a & b` = `0100 1000` = `0x48` (AND)\n- `a | b` = `1110 1110` = `0xEE` (OR)\n- `a ^ b` = `1010 0110` = `0xA6` (XOR)\n- `~a` = `0011 0101` = `0x35` (NOT of every bit)\n\nWatch out: `~a` promotes `a` to `int` first, giving `0xFFFFFF35`. The cast back to `uint8_t` throws away the upper bits. A NAND is `~(a & b)` and needs the same cast.",
+      "searchQuery": "C bitwise operators AND OR XOR NOT uint8_t example",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)"
+      ],
+      "tags": [
+        "boolean",
+        "c-bit-ops"
+      ]
+    },
+    {
+      "id": "dl-bitwise-vs-logical-code",
+      "unit": "boolean-algebra-gates",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume a 32-bit two's complement `int`. What does this print?\n\n```c\n#include <stdio.h>\nint main(void) {\n    int a = 1, b = 2;\n    printf(\"%d %d %d %d\\n\", a & b, a && b, !a, ~a);\n}\n```",
+      "body": "`0 1 0 -2`\n\n`a & b` is a bitwise AND: `01 & 10` has no bit in common, so 0. `a && b` is a logical AND: both values are nonzero, so 1.\n\n`!a` is a logical NOT: a nonzero value becomes 0. `~a` inverts all 32 bits, turning `0...0001` into `1...1110`, which is $-2$ in two's complement.\n\nWatch out: `if (flags & MASK)` and `if (flags && MASK)` are different tests. Likewise `!` and `~` are not interchangeable: `!x` gives 0 or 1, `~x` flips every bit.",
+      "searchQuery": "C bitwise AND vs logical AND NOT vs tilde",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)"
+      ],
+      "tags": [
+        "boolean",
+        "c-bit-ops"
+      ]
+    },
+    {
+      "id": "dl-combinational-logic",
+      "unit": "combinational-design",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is **combinational logic**?",
+      "body": "Logic whose outputs depend only on the current values of its inputs, with no memory of the past.\n\nIt is built from gates with no feedback loops. Give it the same inputs and, once it has settled, it gives the same output every time.\n\nExample: An adder, a multiplexer and a decoder are combinational. A circuit that counts button presses is not, because its output depends on how many presses came before.\n\nWatch out: \"Depends only on the current inputs\" still allows a short delay. After an input changes, the output takes a moment to settle (see the delay cards below).",
+      "searchQuery": "combinational logic definition outputs depend only on inputs",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L03 Combinational Design"
+      ],
+      "tags": [
+        "combinational"
+      ]
+    },
+    {
+      "id": "dl-multiplexer",
+      "unit": "combinational-design",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **multiplexer** (mux), and how many select inputs does an 8:1 mux need?",
+      "body": "A circuit that passes one of $N$ data inputs to its output, chosen by select inputs; an $N$-input mux needs $\\log_2 N$ select bits, so 3 for 8:1.\n\nA 2:1 mux has one select bit $S$ and computes $Y = \\overline{S}D_0 + SD_1$: with $S=0$ it passes $D_0$, with $S=1$ it passes $D_1$.\n\nExample: A microcontroller can route one of eight input pins to a single converter input with an 8:1 mux, using 3 select lines.\n\nKey idea: A $k$-select-bit mux can also implement any function of $k$ variables: tie its $2^k$ data inputs to the truth table's output column and feed the variables to the select inputs.",
+      "searchQuery": "multiplexer definition select inputs log2 N mux",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L03 Combinational Design"
+      ],
+      "tags": [
+        "combinational"
+      ]
+    },
+    {
+      "id": "dl-karnaugh-map",
+      "unit": "combinational-design",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **Karnaugh map**, and how do you read a minimal expression from it?",
+      "body": "A truth table drawn as a grid in Gray-code order, so neighboring cells differ in exactly one input; circling groups of adjacent 1s gives product terms.\n\nRules for the groups:\n\n- each group is a rectangle of 1, 2, 4 or 8 cells (a power of two), with no 0s inside\n- the grid wraps around, so the left and right edges are neighbors\n- use as few, as large groups as possible, covering every 1\n- each group becomes one product term containing only the variables that stay constant across the group\n\nLayout of a 3-variable map, with $m_i$ the cell for row number $i$ (cells in columns ordered 00, 01, 11, 10):\n\n```text\n      BC: 00 01 11 10\n  A=0     m0 m1 m3 m2\n  A=1     m4 m5 m7 m6\n```\n\nWhy: Two neighbors differ in one variable $X$, and $PX + P\\overline{X} = P$ drops it.",
+      "searchQuery": "Karnaugh map definition Gray code groups minimal expression",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L03 Combinational Design"
+      ],
+      "tags": [
+        "combinational"
+      ]
+    },
+    {
+      "id": "dl-kmap-problem",
+      "unit": "combinational-design",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Use a Karnaugh map to minimize $F(A,B,C) = \\sum m(1,3,5,6,7)$, meaning $F=1$ exactly on rows 1, 3, 5, 6 and 7, where $A$ is the most significant bit of the row number.",
+      "body": "$F = C + AB$\n\nFill the map (rows are $A$, columns are $BC$ in the order 00, 01, 11, 10):\n\n```text\n      BC: 00 01 11 10\n  A=0      0  1  1  0\n  A=1      0  1  1  1\n```\n\nThe four 1s in the columns 01 and 11 form one group of four: $C=1$ throughout and the other variables vary, so it contributes just $C$. The remaining 1 (row 6, $A=1$, $BC=10$) pairs with the 1 at row 7 above it: $A=B=1$, giving $AB$.\n\nWatch out: Row 7 may be used in both groups. Overlap is allowed, and it is what makes the groups larger.",
+      "searchQuery": "Karnaugh map 3 variable minimize sum of minterms example",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L03 Combinational Design"
+      ],
+      "tags": [
+        "combinational"
+      ]
+    },
+    {
+      "id": "dl-decoder-address",
+      "unit": "combinational-design",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What does a **decoder** do, and how does **address decoding** select a memory or peripheral?",
+      "body": "A $k$-input decoder raises exactly one of its $2^k$ outputs, the one numbered by its input; fed the top address bits, it selects which chip responds.\n\nExample: A 16-bit address bus with a 2-to-4 decoder on the top two bits $A_{15}A_{14}$: `00` selects the first chip, `01` the second, `10` the third and `11` the fourth. Each chip then owns a block of $2^{14}$ addresses, 16 KiB. The decoder outputs are the chip-select lines.\n\nKey idea: The remaining address bits go to every chip and pick the byte inside the selected one. At any moment only the selected chip listens or drives.\n\nWatch out: An encoder does the reverse: it turns \"which of $2^k$ inputs is active\" back into a $k$-bit number.",
+      "searchQuery": "decoder address decoding chip select 2-to-4",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L03 Combinational Design"
+      ],
+      "tags": [
+        "combinational"
+      ]
+    },
+    {
+      "id": "dl-tpd-tcd-concept",
+      "unit": "combinational-design",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why does a combinational circuit have two delays, **propagation delay** $t_{pd}$ and **contamination delay** $t_{cd}$?",
+      "body": "$t_{pd}$ is the longest time from an input change until the output is guaranteed settled; $t_{cd}$ is the shortest time until the output may begin to change.\n\nDifferent input changes take different routes and times through the circuit, so one number cannot describe both worries: \"is my result ready yet?\" needs the maximum, and \"have I disturbed the old value too early?\" needs the minimum.\n\nExample: With $t_{cd} = 15\\,\\mathrm{ps}$ and $t_{pd} = 30\\,\\mathrm{ps}$, the old output stays valid for at least 15 ps after the input changes, may be garbage between 15 ps and 30 ps, and is the correct new value after 30 ps.\n\nTip: Datasheets mostly give the maximum delay. When no minimum is given, the safe assumption for $t_{cd}$ is zero.",
+      "searchQuery": "propagation delay contamination delay combinational circuit",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L04 Combinational Design Tradeoffs"
+      ],
+      "tags": [
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-critical-path-problem",
+      "unit": "combinational-design",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Gate propagation delays: NAND 20 ps, XOR 40 ps, AND 30 ps. The circuit is $n_1=\\mathrm{NAND}(A,B)$, $n_2=\\mathrm{XOR}(n_1,C)$, $Y=\\mathrm{AND}(n_2,D)$. Which input-to-output path is slowest, and what is $t_{pd}$ of the whole circuit?",
+      "body": "The path $A$ (or $B$) → NAND → XOR → AND is the **critical path** (the slowest path from any input to the output); $t_{pd} = 20 + 40 + 30 = 90\\,\\mathrm{ps}$.\n\nAdd up each path: $A$ or $B$ goes through all three gates, $20 + 40 + 30 = 90$ ps. $C$ goes through XOR and AND, $40 + 30 = 70$ ps. $D$ goes through AND only, 30 ps.\n\nKey idea: The circuit's $t_{pd}$ is the delay of its critical path. Speeding up a gate that is off the critical path changes nothing.\n\nExample: Making the XOR 10 ps faster gives $t_{pd} = 80$ ps, since the critical path runs through it. Making only the route from $D$ faster changes nothing.",
+      "searchQuery": "critical path propagation delay sum gate delays problem",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L04 Combinational Design Tradeoffs"
+      ],
+      "tags": [
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-glitch-tradeoff",
+      "unit": "combinational-design",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A combinational output can produce a **glitch**, a brief unwanted pulse while its inputs change. When is it worth adding extra gates to remove one?",
+      "body": "Only when the output drives something that reacts to a short pulse, such as a reset line or a control pin on another chip; if the output is used only after it has settled, ignore the glitch.\n\nCause: Paths of unequal delay. Take $F = AB + \\overline{A}C$ with $B = C = 1$, so $F$ should stay 1 as $A$ falls. The $AB$ term turns off immediately, but the $\\overline{A}C$ term turns on only after the inverter delay. For a moment both are 0 and $F$ dips to 0.\n\nFix: Add the redundant term $BC$. It holds $F$ at 1 while $B = C = 1$ regardless of $A$. On a Karnaugh map, it is a group covering the two adjacent groups that otherwise only touch.\n\nThe other side: The extra gates cost area and power, and they cannot remove every glitch in a multi-input change. If the next stage samples the output only after $t_{pd}$, the glitch is harmless.",
+      "searchQuery": "combinational glitch hazard redundant term consensus",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 2 (Combinational Logic Design)",
+        "MIT 6.191 (Fall 2026), L04 Combinational Design Tradeoffs"
+      ],
+      "tags": [
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-half-adder",
+      "unit": "arithmetic-alu",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **half adder**?",
+      "body": "A circuit that adds two single bits: sum $S = A \\oplus B$ and carry out $C_{out} = AB$.\n\nIt follows the binary addition table: $0+0=00$, $0+1=01$, $1+0=01$, $1+1=10$. The right bit is the sum (an XOR) and the left bit is the carry (an AND).\n\nWhy \"half\": It has no carry-in input, so it can add only the lowest bit position. Wider numbers need the full adder, which also accepts a carry from the position below.\n\nExample: $1 + 1$: $S = 1 \\oplus 1 = 0$ and $C_{out} = 1 \\cdot 1 = 1$, giving $10_2$.",
+      "searchQuery": "half adder sum XOR carry AND definition",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)",
+        "MIT 6.191 (Fall 2026), Lab 2 (ALU)"
+      ],
+      "tags": [
+        "arithmetic"
+      ]
+    },
+    {
+      "id": "dl-full-adder",
+      "unit": "arithmetic-alu",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What are the inputs, outputs and equations of a **full adder**?",
+      "body": "Inputs $A$, $B$, $C_{in}$; outputs $S = A \\oplus B \\oplus C_{in}$ and $C_{out} = AB + C_{in}(A \\oplus B)$.\n\nThe sum bit is 1 when an odd number of the three inputs are 1. The carry-out is 1 when at least two of the three inputs are 1 (a majority), which equals $AB + AC_{in} + BC_{in}$.\n\nExample: $1 + 1 + 1 = 11_2$, so $S = 1$ and $C_{out} = 1$.\n\nTip: A full adder is two half adders plus an OR gate: the first half adder adds $A$ and $B$, the second adds $C_{in}$ to that sum, and the OR combines their two carries.",
+      "searchQuery": "full adder equations sum carry out carry in",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)",
+        "MIT 6.191 (Fall 2026), Lab 2 (ALU)"
+      ],
+      "tags": [
+        "arithmetic"
+      ]
+    },
+    {
+      "id": "dl-ripple-carry-adder",
+      "unit": "arithmetic-alu",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How do you build an $N$-bit **ripple-carry adder**, and why is it slow for large $N$?",
+      "body": "Chain $N$ full adders, each stage's $C_{out}$ feeding the next stage's $C_{in}$; the carry may have to travel through all $N$ stages, so the delay grows in proportion to $N$.\n\nStage 0 adds the lowest bits (with $C_{in}=0$ for plain addition). Stage $i$ cannot finish its sum bit until the carry from stage $i-1$ arrives.\n\nExample: $\\texttt{0xFFFFFFFF} + 1$ is the worst case for 32 bits. The carry created at bit 0 must ripple through every stage. If each stage passes the carry in 25 ps, that is about 0.8 ns for the carries alone.\n\nWatch out: The delay depends on the data. Many additions finish early because the carry stops after a few stages, but a design must allow for the worst case.",
+      "searchQuery": "ripple-carry adder chain full adders carry delay N",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)",
+        "MIT 6.191 (Fall 2026), Lab 2 (ALU)"
+      ],
+      "tags": [
+        "arithmetic",
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-alu-definition",
+      "unit": "arithmetic-alu",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is an **ALU**, and what does its operation-select input do?",
+      "body": "The arithmetic logic unit: a combinational circuit that computes one of several operations on two $N$-bit inputs, chosen by an operation-select input, and reports status flags.\n\nA small ALU might use a 2-bit select: `00` add, `01` subtract, `10` AND, `11` OR. Inside, an adder and a few gates each compute a result, and a multiplexer driven by the select input passes the chosen one to the output.\n\nExample: The **zero flag** (Z) is 1 when every bit of the result is 0, which is a wide NOR of the result bits. The negative flag (N) is a copy of the result's top bit.\n\nWhy it matters: Every CPU has one. A conditional branch such as \"branch if equal\" is typically a subtraction whose zero flag is then tested.",
+      "searchQuery": "ALU arithmetic logic unit operation select zero flag",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)",
+        "MIT 6.191 (Fall 2026), Lab 2 (ALU)"
+      ],
+      "tags": [
+        "arithmetic"
+      ]
+    },
+    {
+      "id": "dl-subtract-problem",
+      "unit": "arithmetic-alu",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "In 8 bits, use the adder trick $A + \\overline{B} + 1$ (with $\\overline{B}$ meaning every bit of $B$ inverted) to compute $5 - 7$. Give the result in hex and the carry out of the top bit.",
+      "body": "`0xFE`, which is $-2$ in two's complement, with carry out 0.\n\n$B = 7 = 0000\\,0111_2$, so $\\overline{B} = 1111\\,1000_2 = \\texttt{0xF8}$. Then $\\texttt{0x05} + \\texttt{0xF8} + 1 = \\texttt{0xFE}$, and the sum is below $\\texttt{0x100}$, so nothing carries out.\n\nWhy it works: In two's complement, $-B = \\overline{B} + 1$, so $A - B = A + \\overline{B} + 1$. One adder subtracts if the operand is inverted and the carry-in is set to 1.\n\nWatch out: A carry out of 0 here means a borrow happened ($5 < 7$ as unsigned numbers). On Arm, the C flag after a subtraction is this carry out, so C=0 means borrow; for $5 - 3$ the carry out is 1.",
+      "searchQuery": "subtraction two's complement adder invert B plus 1 carry",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)",
+        "MIT 6.191 (Fall 2026), Lab 2 (ALU)"
+      ],
+      "tags": [
+        "arithmetic"
+      ]
+    },
+    {
+      "id": "dl-carry-vs-overflow",
+      "unit": "arithmetic-alu",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is the difference between the **carry flag** and the **overflow flag** after an addition?",
+      "body": "The carry flag (C) signals unsigned overflow, a carry out of the top bit; the overflow flag (V) signals signed overflow, a result whose sign is wrong because the carry into the top bit differs from the carry out of it.\n\nThe hardware computes both from the same bits, and software tests whichever matches how it interprets the numbers.\n\nExample, 8 bits: $\\texttt{0x7F} + \\texttt{0x01} = \\texttt{0x80}$. Unsigned, $127 + 1 = 128$ fits, so C=0. Signed, $127 + 1$ should be 128 but the result reads as $-128$, so V=1.\n\nExample, 8 bits: $\\texttt{0xFF} + \\texttt{0x01} = \\texttt{0x00}$. Unsigned, $255 + 1 = 256$ does not fit, so C=1. Signed, $-1 + 1 = 0$ is correct, so V=0.\n\nTip: V can only occur when both operands have the same sign and the result has the opposite sign.",
+      "searchQuery": "carry flag vs overflow flag unsigned signed overflow",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)",
+        "MIT 6.191 (Fall 2026), Lab 2 (ALU)"
+      ],
+      "tags": [
+        "arithmetic",
+        "number-formats"
+      ]
+    },
+    {
+      "id": "dl-carry-detect-code",
+      "unit": "arithmetic-alu",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume `uint8_t` is 8 bits and `int` is 32 bits. What does this print?\n\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void) {\n    uint8_t a = 200, b = 100;\n    uint8_t s = a + b;\n    int carry = s < a;\n    printf(\"%u %d\\n\", (unsigned)s, carry);\n}\n```",
+      "body": "`44 1`\n\n$200 + 100 = 300$ is computed as an `int`, then stored into a `uint8_t`, which keeps the value modulo 256: $300 - 256 = 44$. The wrapped sum is smaller than the operand `a`, which can only happen if a carry out of the top bit was lost.\n\nKey idea: `s < a` is the software version of the carry flag for unsigned addition, with no wider type needed.\n\nWatch out: This detects unsigned carry only. Signed overflow cannot be tested this way, because signed overflow is undefined behavior in C.",
+      "searchQuery": "C detect unsigned overflow sum less than operand carry",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)"
+      ],
+      "tags": [
+        "arithmetic",
+        "number-formats"
+      ]
+    },
+    {
+      "id": "dl-flags-problem",
+      "unit": "arithmetic-alu",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "An 8-bit ALU adds $\\texttt{0x80} + \\texttt{0x80}$. Give the result and the flags N, Z, C and V.",
+      "body": "Result `0x00`; N=0, Z=1, C=1, V=1.\n\n$\\texttt{0x80} + \\texttt{0x80} = \\texttt{0x100}$. The low 8 bits are all 0, so Z=1, and the top bit of the result is 0, so N=0. The 1 that spilled out of bit 7 sets C=1.\n\nSigned view: $-128 + (-128) = -256$ does not fit in 8 bits. Two negative operands gave a non-negative result, so V=1.\n\nWhy it matters: The result is \"zero\" and a naive check of Z alone would call the addition harmless. A program that treats these bytes as signed must test V, and one that treats them as unsigned must test C.",
+      "searchQuery": "ALU flags N Z C V 0x80 + 0x80 8-bit addition",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)",
+        "MIT 6.191 (Fall 2026), Lab 2 (ALU)"
+      ],
+      "tags": [
+        "arithmetic",
+        "number-formats"
+      ]
+    },
+    {
+      "id": "dl-cla-tradeoff",
+      "unit": "arithmetic-alu",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "For a fast 32-bit adder, which is better, ripple-carry or **carry-lookahead adder**, and what does the faster one cost?",
+      "body": "Carry-lookahead is faster, its delay growing roughly with $\\log N$ rather than $N$, but it costs more gates and area; ripple-carry wins when speed is not critical and area or power is.\n\nHow it works: For each bit, compute \"generate\" ($G = AB$: this bit makes a carry by itself) and \"propagate\" ($P = A \\oplus B$: this bit passes a carry along). Combine them in a tree of lookahead blocks, so the carries for all positions come out in parallel instead of one after another.\n\nThe other side: The lookahead tree adds many gates and wires. For an 8-bit microcontroller ALU or a path that is not on the critical path, the small ripple-carry adder is enough and saves area and power.\n\nTip: Real designs often mix them, such as ripple-carry inside 4-bit blocks and lookahead between blocks.",
+      "searchQuery": "carry-lookahead adder vs ripple-carry speed area trade-off",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)",
+        "MIT 6.191 (Fall 2026), Lab 2 (ALU)"
+      ],
+      "tags": [
+        "arithmetic",
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-nmos-pmos",
+      "unit": "cmos-and-power",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "How do an **nMOS transistor** and a **pMOS transistor** differ as switches?",
+      "body": "An nMOS switch turns on when its gate is high (above its source by more than the threshold) and passes a 0 well; a pMOS switch turns on when its gate is low and passes a 1 well.\n\nBoth connect drain to source when on and are open when off. The nMOS is the better connection to ground, the pMOS the better connection to the supply voltage, so each is used on the side it handles well.\n\nMnemonic: The pMOS symbol has a small circle (a bubble) at its gate: it needs the gate inverted, a low level, to turn on.\n\nWatch out: The pMOS threshold voltage is negative: its gate must be below its source by at least that amount, not merely below the supply.",
+      "searchQuery": "nMOS vs pMOS transistor switch gate high low",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L05 CMOS"
+      ],
+      "tags": [
+        "cmos"
+      ]
+    },
+    {
+      "id": "dl-cmos-inverter",
+      "unit": "cmos-and-power",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **CMOS inverter**, and what does CMOS stand for?",
+      "body": "One pMOS from the supply to the output and one nMOS from the output to ground, with their gates joined as the input; CMOS is complementary metal-oxide-semiconductor, meaning both transistor types are used as a pair.\n\nInput 0: the pMOS is on and the nMOS is off, so the output is pulled up to the supply (a 1). Input 1: the nMOS is on and the pMOS is off, so the output is pulled down to ground (a 0).\n\nWhy it matters: In both steady states one transistor is off, so no direct path exists from supply to ground. A CMOS gate that is not switching draws almost no current.\n\nWatch out: While the input is crossing the middle voltage, both transistors conduct for a moment, which draws a brief burst of current from the supply.",
+      "searchQuery": "CMOS inverter pMOS nMOS complementary pull-up pull-down",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L05 CMOS"
+      ],
+      "tags": [
+        "cmos"
+      ]
+    },
+    {
+      "id": "dl-cmos-nand",
+      "unit": "cmos-and-power",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How is a 2-input NAND gate built in CMOS?",
+      "body": "Two pMOS transistors in parallel from the supply to the output, and two nMOS transistors in series from the output to ground; input $A$ drives one transistor of each type and input $B$ the other.\n\nThe output is pulled low only if both nMOS conduct in series, which needs $A = B = 1$. If either input is 0, its pMOS turns on and pulls the output up. That is the NAND truth table.\n\nKey idea: The pull-up network is the dual of the pull-down network: series in one is parallel in the other. This guarantees exactly one network conducts for any input.\n\nWatch out: CMOS gates are naturally inverting. A NAND takes 4 transistors, but an AND needs a NAND plus an inverter, 6 transistors, which is why designs use NAND and NOR where they can.",
+      "searchQuery": "CMOS NAND gate transistor structure series parallel",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L05 CMOS"
+      ],
+      "tags": [
+        "cmos"
+      ]
+    },
+    {
+      "id": "dl-static-power",
+      "unit": "cmos-and-power",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **static power**, and what causes it in a CMOS circuit?",
+      "body": "Power drawn when nothing is switching, caused by **leakage current**: small currents that flow through transistors that are supposed to be off.\n\nAn \"off\" transistor still passes a trickle of current. Each gate leaks only a tiny amount, but a chip has millions or billions of them.\n\nWhy it matters: Leakage grows as transistors shrink and thresholds drop, and it rises sharply with temperature. In a microcontroller's deep-sleep mode, with nothing switching, leakage is what sets the sleep current.\n\nWatch out: Static power is paid even when the chip does nothing, so slowing the clock does not reduce it. Lowering the supply voltage, or switching the block's supply off, does.",
+      "searchQuery": "static power leakage current CMOS definition sleep",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L05 CMOS"
+      ],
+      "tags": [
+        "cmos",
+        "power"
+      ]
+    },
+    {
+      "id": "dl-dynamic-power-formula",
+      "unit": "cmos-and-power",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the **dynamic power** formula for a CMOS circuit and name each symbol.",
+      "body": "$P_{dyn} = \\alpha\\, C\\, V^2 f$\n\n$\\alpha$ is the **activity factor** (the average fraction of clock cycles in which a node switches from 0 to 1), $C$ is the **switched capacitance** (the total capacitance charged and discharged by that switching), $V$ the supply voltage and $f$ the clock frequency.\n\nWhy: Each time a node is charged from 0 to $V$, the supply delivers energy $C V^2$; half is stored on the capacitance and half is lost as heat, and the stored half is lost as heat when the node discharges. A node charges $\\alpha f$ times per second, so power is $\\alpha f \\cdot C V^2$.\n\nCheck units: $\\mathrm{F} \\cdot \\mathrm{V}^2 \\cdot \\mathrm{Hz} = \\mathrm{J/s} = \\mathrm{W}$.\n\nTip: The clock network itself switches every cycle, so its $\\alpha$ is 1; data nodes typically have much smaller $\\alpha$.",
+      "searchQuery": "CMOS dynamic power formula alpha C V^2 f",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L05 CMOS"
+      ],
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "dl-dynamic-power-problem",
+      "unit": "cmos-and-power",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A block has activity factor $\\alpha = 0.15$, switched capacitance $C = 2\\,\\mathrm{nF}$, supply $V = 1.0\\,\\mathrm{V}$ and clock $f = 200\\,\\mathrm{MHz}$. What is its dynamic power, in mW?",
+      "body": "$60\\,\\mathrm{mW}$\n\n$P_{dyn} = \\alpha C V^2 f = 0.15 \\times 2\\times10^{-9}\\,\\mathrm{F} \\times (1.0\\,\\mathrm{V})^2 \\times 2\\times10^{8}\\,\\mathrm{Hz} = 0.06\\,\\mathrm{W}$.\n\nExample: The same block at $\\alpha = 0.3$ (busier data) would draw 120 mW. Power is proportional to activity.\n\nWatch out: This is the dynamic part only. Leakage power is added on top and does not depend on $\\alpha$ or $f$.",
+      "answer": "60",
+      "answerDisplay": "$60\\,\\mathrm{mW}$",
+      "searchQuery": "dynamic power calculation alpha 0.15 2 nF 1 V 200 MHz",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L05 CMOS"
+      ],
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "dl-power-scaling-problem",
+      "unit": "cmos-and-power",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A core dissipates 40 mW of dynamic power at 1.2 V and 100 MHz. If $\\alpha$ and $C$ do not change, what is its dynamic power at 0.9 V and 50 MHz, in mW?",
+      "body": "$11.25\\,\\mathrm{mW}$\n\nPower scales with $V^2 f$, so the new power is $40 \\times (0.9/1.2)^2 \\times (50/100) = 40 \\times 0.5625 \\times 0.5 = 11.25$ mW.\n\nWhy it matters: Cutting voltage by 25% and frequency by 50% cut power by 72%. The voltage change alone accounts for a factor of 0.5625 in energy per cycle, since energy per cycle is $\\alpha C V^2$.\n\nTip: When $V$ and $f$ both halve, power falls by $2^2 \\times 2 = 8$. Dynamic power scales with $f$ linearly and with $V$ quadratically.",
+      "answer": "11.25",
+      "answerDisplay": "$11.25\\,\\mathrm{mW}$",
+      "searchQuery": "dynamic power scaling voltage frequency 0.9 V 50 MHz",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L05 CMOS"
+      ],
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "dl-voltage-lever-tradeoff",
+      "unit": "cmos-and-power",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A processor has timing slack and must use less power. Which saves more: lowering only the clock frequency, or lowering the supply voltage along with it?",
+      "body": "Lower the supply voltage along with the frequency: power falls as $V^2 f$ and energy per operation as $V^2$, while lowering $f$ alone does not reduce the energy per operation.\n\nHalving $f$ alone halves the power, but the same job now takes twice as long, so the energy for the job is unchanged (and leakage is paid for twice as long). Halving $V$ as well divides power by 8 and energy per operation by 4.\n\nThe other side: Gates slow down at lower voltage, so a lower $V$ only works if the clock is slowed too. The voltage cannot be dropped below the point where transistors still switch reliably (a margin above the threshold voltage). Leakage, which lowering $f$ does not touch, becomes the floor.\n\nKey idea: Voltage enters squared, so it is the strongest lever for dynamic power.",
+      "searchQuery": "lower supply voltage vs lower frequency power energy per operation",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 1 (From Zero to One)",
+        "MIT 6.191 (Fall 2026), L05 CMOS"
+      ],
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "dl-sequential-logic",
+      "unit": "latches-flip-flops",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **sequential logic**?",
+      "body": "Logic whose outputs depend on the current inputs and on stored state, a memory of past inputs.\n\nIt contains memory elements whose contents feed back into the logic. The same input can therefore produce different outputs at different times.\n\nExample: A button that toggles an LED. Pressing it (same input) turns the LED on the first time and off the next time, because the circuit remembers the LED's present state.\n\nKey idea: Most digital systems are combinational logic in between memory elements. The memory elements hold the state; the combinational logic computes the next state.",
+      "searchQuery": "sequential logic definition state memory feedback",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L06 Sequential Circuits and Finite State Machines"
+      ],
+      "tags": [
+        "sequential"
+      ]
+    },
+    {
+      "id": "dl-sr-latch",
+      "unit": "latches-flip-flops",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is an **SR latch**, and what do its inputs S and R do?",
+      "body": "A one-bit memory made of two cross-coupled NOR gates: S=1 sets Q to 1, R=1 resets Q to 0, S=R=0 holds the value, and S=R=1 is not allowed.\n\nEach gate's output feeds the other gate's input. With S=R=0 the loop reinforces whichever state it is in, so Q holds its value indefinitely.\n\nWatch out: S=R=1 forces both outputs to 0, so Q and its complement are no longer opposites. If S and R then drop to 0 together, the final state is unpredictable.\n\nKey idea: This feedback loop is the simplest circuit that remembers a bit.",
+      "searchQuery": "SR latch cross-coupled NOR set reset hold",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L06 Sequential Circuits and Finite State Machines"
+      ],
+      "tags": [
+        "sequential"
+      ]
+    },
+    {
+      "id": "dl-d-latch",
+      "unit": "latches-flip-flops",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **D latch**, and when does its output follow its input?",
+      "body": "A one-bit storage element with a data input D and an enable input: while enable is 1 it is transparent (Q follows D), and while enable is 0 it holds the last value.\n\nIt is level-sensitive: it reacts to the level of the enable, not to a moment in time. It is built from an SR latch with $S = D \\cdot EN$ and $R = \\overline{D} \\cdot EN$, so the forbidden S=R=1 case can never occur.\n\nWatch out: While transparent, every change on D races straight through to Q. If Q feeds back into D through logic, the signal can loop around uncontrolled. That is the problem the flip-flop solves.",
+      "searchQuery": "D latch transparent level-sensitive enable definition",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L06 Sequential Circuits and Finite State Machines"
+      ],
+      "tags": [
+        "sequential"
+      ]
+    },
+    {
+      "id": "dl-d-flip-flop",
+      "unit": "latches-flip-flops",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **D flip-flop**, and what is a **clock edge**?",
+      "body": "A one-bit storage element that copies D to Q only at the active clock edge (usually the rising 0-to-1 transition of the clock) and holds Q at all other times.\n\nThe clock is a signal that toggles regularly at the clock frequency. A **clock edge** is the instant it changes: rising (0 to 1) or falling (1 to 0). Most designs use only one kind.\n\nWhy it is edge-triggered: A D flip-flop is two D latches back to back. The first is open while the clock is low, the second while it is high, so there is never a moment when D has a clear path to Q.\n\nTip: Circuit diagrams mark a flip-flop's clock input with a small triangle.",
+      "searchQuery": "D flip-flop edge-triggered clock edge rising definition",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L06 Sequential Circuits and Finite State Machines"
+      ],
+      "tags": [
+        "sequential"
+      ]
+    },
+    {
+      "id": "dl-register-concept",
+      "unit": "latches-flip-flops",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How does a clocked **register** hold state between clock edges?",
+      "body": "A register is $N$ D flip-flops sharing one clock: at each edge it captures its $N$-bit input, and its outputs stay constant until the next edge.\n\nSo the logic after the register sees a stable value for the whole clock period, and the result it computes in that time is captured at the next edge. Each register stage is one step of the computation.\n\nExample: A 32-bit CPU register is 32 flip-flops on one clock.\n\nTip: A register with an enable input loads only when the enable is 1. Inside, a mux in front of each D input chooses between new data and the flip-flop's own Q, so with enable 0 the value is fed back and held for any number of cycles.",
+      "searchQuery": "register N flip-flops shared clock enable hold state",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: sequential building blocks)",
+        "MIT 6.191 (Fall 2026), L06 Sequential Circuits and Finite State Machines"
+      ],
+      "tags": [
+        "sequential"
+      ]
+    },
+    {
+      "id": "dl-reset-sync-async",
+      "unit": "latches-flip-flops",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How does a **synchronous reset** differ from an **asynchronous reset** on a flip-flop?",
+      "body": "A synchronous reset clears the flip-flop only at a clock edge; an asynchronous reset clears it immediately, whenever the reset input is asserted, without waiting for a clock.\n\nSynchronous: the reset is just another input to the D logic. It needs a running clock, but it obeys the same timing rules as everything else.\n\nAsynchronous: a dedicated pin that works even with no clock, such as at power-up. But a glitch on the reset line can wipe the state, and releasing the reset close to a clock edge can break the flip-flop's timing requirements.\n\nTip: A common practice is to assert reset asynchronously and release it in step with the clock.",
+      "searchQuery": "synchronous reset vs asynchronous reset flip-flop",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: sequential building blocks)",
+        "MIT 6.191 (Fall 2026), L06 Sequential Circuits and Finite State Machines"
+      ],
+      "tags": [
+        "sequential"
+      ]
+    },
+    {
+      "id": "dl-counter-example",
+      "unit": "latches-flip-flops",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "A 3-bit **counter** (a register that adds 1 to its own value at each clock edge) holds `110`. What does it hold after 3 more clock edges?",
+      "body": "`001`: it goes 110 (6), 111 (7), 000 (0), 001 (1), wrapping around after 111.\n\nA counter is a register whose input is its own output plus 1: $D = Q + 1$. The adder computes $Q+1$ during the clock period, and the register captures it at the edge.\n\nWhy it matters: Bit 0 toggles at every edge, so it runs at half the clock frequency. Bit $k$ toggles at $f/2^{k+1}$. A counter is therefore also a frequency divider and a timer.\n\nExample: Clocked at 1 MHz, bit 2 of a counter has a period of 8 clock periods, which is 8 µs, so it runs at 125 kHz.",
+      "searchQuery": "counter flip-flops register plus one wrap around frequency divider",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: sequential building blocks)",
+        "MIT 6.191 (Fall 2026), L06 Sequential Circuits and Finite State Machines"
+      ],
+      "tags": [
+        "sequential"
+      ]
+    },
+    {
+      "id": "dl-ff-follows-d-misconception",
+      "unit": "latches-flip-flops",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that a D flip-flop's output Q follows its input D whenever the clock is high?",
+      "body": "That describes a D latch. A D flip-flop samples D only at the clock edge, and changes on D at any other time have no effect on Q.\n\nExample: The clock rises, then D changes from 0 to 1 a little while later with the clock still high. A latch passes the change through at once. A flip-flop ignores it and shows it only after the next edge.\n\nWhy it matters: Because Q changes only at edges, values advance exactly one register stage per clock. With latches the new value could race through several stages in one clock phase.\n\nWatch out: D still has to be steady around the clock edge itself. The next unit covers how long.",
+      "searchQuery": "flip-flop vs latch output follows input clock high edge-triggered",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L06 Sequential Circuits and Finite State Machines"
+      ],
+      "tags": [
+        "sequential"
+      ]
+    },
+    {
+      "id": "dl-shift-register-code",
+      "unit": "latches-flip-flops",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A **shift register** is a chain of flip-flops in which every bit moves one place along at each clock edge while a new bit enters at one end. Assume `uint8_t` is 8 bits. This C model clocks in the bits 1, 0, 1, 1 in that order. What does it print?\n\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void) {\n    uint8_t sr = 0;\n    int in[] = {1, 0, 1, 1};\n    for (int i = 0; i < 4; i++)\n        sr = (uint8_t)(((sr << 1) | in[i]) & 0x0F);\n    printf(\"%X\\n\", (unsigned)sr);\n}\n```",
+      "body": "`B`, which is `1011` in binary.\n\nEach loop pass is one clock edge: shift left, put the new bit at the bottom, and keep only 4 bits (`& 0x0F`), like a 4-flip-flop chain. The state goes `0001`, `0010`, `0101`, `1011`.\n\nThe first bit to enter ends up at the top after four edges, and the newest bit sits at the bottom.\n\nWhy it matters: A shift register turns a serial stream, one bit per clock, into parallel data, and the reverse. Many serial interfaces work this way.",
+      "searchQuery": "shift register C model clock in bits serial to parallel",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: sequential building blocks)",
+        "MIT 6.191 (Fall 2026), L06 Sequential Circuits and Finite State Machines"
+      ],
+      "tags": [
+        "sequential"
+      ]
+    },
+    {
+      "id": "dl-fsm-definition",
+      "unit": "finite-state-machines",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **finite state machine** (FSM)?",
+      "body": "A circuit or program that is always in exactly one of a finite number of states, and moves between states according to its inputs.\n\nA **state** is a summary of the past that matters for deciding what to do next. A **transition** is a move from one state to another, triggered by an input (or by a clock edge).\n\nExample: A traffic light has the states red, green and yellow. A vending machine has \"waiting\", \"has 50 cents\", \"dispensing\". A serial-protocol parser has \"waiting for start byte\", \"reading length\", \"reading data\".\n\nTip: With $N$ states, hardware needs at least $\\lceil \\log_2 N \\rceil$ bits of storage.",
+      "searchQuery": "finite state machine definition states transitions",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L06-L07 (sequential circuits and FSMs)"
+      ],
+      "tags": [
+        "fsm"
+      ]
+    },
+    {
+      "id": "dl-state-diagram",
+      "unit": "finite-state-machines",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **state diagram**, and how does it relate to a state table?",
+      "body": "A drawing with a circle for each state and an arrow for each transition, labeled with the input that triggers it; the state table lists the same transitions as rows of (current state, input) to next state.\n\nExample: A traffic light that changes on a timer tick:\n\n```text\nstate  | tick -> next\nRED    |      -> GREEN\nGREEN  |      -> YELLOW\nYELLOW |      -> RED\n```\n\nIn the diagram this is three circles joined in a ring by arrows labeled \"tick\".\n\nTip: Check every state has an arrow for every possible input. A missing one is an unspecified behavior, which usually turns into a bug.",
+      "searchQuery": "state diagram state table FSM traffic light",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L06-L07 (sequential circuits and FSMs)"
+      ],
+      "tags": [
+        "fsm"
+      ]
+    },
+    {
+      "id": "dl-fsm-structure",
+      "unit": "finite-state-machines",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What are the three parts of a hardware FSM, and what is **next-state logic**?",
+      "body": "A state register, next-state logic and output logic; the next-state logic is the combinational logic that computes the next state from the current state and the inputs.\n\nAt each clock edge, the register loads the value the next-state logic is presenting. The output logic computes the outputs from the state (and sometimes the inputs).\n\nExample: A traffic light with 3 states needs a 2-bit register. The next-state logic maps `RED`, `GREEN`, `YELLOW` to the next of the three, and the output logic turns the state into three lamp signals.\n\nWhy it matters: The loop from the register's output through the next-state logic back to its input is safe only because the register changes once per edge, not continuously.",
+      "searchQuery": "FSM state register next-state logic output logic structure",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L06-L07 (sequential circuits and FSMs)"
+      ],
+      "tags": [
+        "fsm"
+      ]
+    },
+    {
+      "id": "dl-moore-mealy",
+      "unit": "finite-state-machines",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How does a **Moore machine** differ from a **Mealy machine**?",
+      "body": "In a Moore machine the outputs depend only on the current state; in a Mealy machine they depend on the current state and the current inputs.\n\nMoore outputs change only after a clock edge moves the machine to a new state, so they are clean and predictable. A Mealy machine can react to an input in the same cycle and often needs fewer states, but its output can change whenever an input does, glitches included.\n\nIn diagrams a Moore machine writes the output inside each state circle; a Mealy machine labels each arrow \"input / output\".\n\nTip: If the output must be stable for the whole clock period, choose Moore. If one cycle of reaction time matters or states are scarce, consider Mealy.",
+      "searchQuery": "Moore machine vs Mealy machine outputs depend on",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L06-L07 (sequential circuits and FSMs)"
+      ],
+      "tags": [
+        "fsm"
+      ]
+    },
+    {
+      "id": "dl-seq-detector-example",
+      "unit": "finite-state-machines",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "A machine reads a serial bit stream and must output 1 when the last three bits were 101, overlapping patterns included. How many states does a Mealy design need, and what do they mean?",
+      "body": "3 states: S0 (no useful progress), S1 (the last bit was 1), S2 (the last two bits were 10).\n\nTransitions, written input to next state: S0: 0 to S0, 1 to S1. S1: 0 to S2, 1 to S1. S2: 0 to S0; 1 to S1, with output 1 (101 just completed).\n\nWhy S1, not S0: After 101 the final 1 can start the next pattern, so the machine goes to S1. The stream 10101 therefore produces two detections.\n\nWatch out: A Moore design needs a 4th state, \"just detected\", because its output may depend on the state alone.",
+      "searchQuery": "sequence detector 101 Mealy FSM overlapping states",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L06-L07 (sequential circuits and FSMs)"
+      ],
+      "tags": [
+        "fsm"
+      ]
+    },
+    {
+      "id": "dl-fsm-switch-code",
+      "unit": "finite-state-machines",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A turnstile FSM starts `LOCKED`. Event `c` is a coin (unlocks it) and `p` is a push (locks it); any other event changes nothing. Assume a 32-bit `int` and that enum constants count from 0. What does this print for the events `cppcc`?\n\n```c\n#include <stdio.h>\ntypedef enum { LOCKED, UNLOCKED } State;\nstatic State step(State s, char e) {\n    switch (s) {\n    case LOCKED:   return e == 'c' ? UNLOCKED : LOCKED;\n    case UNLOCKED: return e == 'p' ? LOCKED : UNLOCKED;\n    }\n    return s;\n}\nint main(void) {\n    State s = LOCKED;\n    for (const char *p = \"cppcc\"; *p; p++) s = step(s, *p);\n    printf(\"%d\\n\", s);\n}\n```",
+      "body": "`1`, which is `UNLOCKED`.\n\nThe state is the variable `s`, and `step` is the transition function: one `case` per state. The trace is `LOCKED`, then `c` gives `UNLOCKED`, `p` gives `LOCKED`, `p` stays `LOCKED`, `c` gives `UNLOCKED`, `c` stays `UNLOCKED`.\n\nWhy it works: An `enum` gives the states names, so the code reads like the state diagram.\n\nTip: With `-Wall`, the compiler warns about an enum value missing from a `switch` that has no `default`. That catches a forgotten state when you add one later.",
+      "searchQuery": "C finite state machine enum switch turnstile example",
+      "refs": [
+        "White, Making Embedded Systems 2e, ch. 6 (Managing the Flow of Activity)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)"
+      ],
+      "tags": [
+        "fsm",
+        "c-fsm"
+      ]
+    },
+    {
+      "id": "dl-fsm-table-code",
+      "unit": "finite-state-machines",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A turnstile should unlock on a coin, lock on a push and otherwise stay put, so after COIN, COIN it must be `UNLOCKED`. Assume a 32-bit `int`. This table-driven version prints 0 instead of 1. Which table entry is wrong, and what should it be?\n\n```c\n#include <stdio.h>\ntypedef enum { LOCKED, UNLOCKED } State;\ntypedef enum { COIN, PUSH } Event;\nstatic const State next[2][2] = {   /* [state][event] */\n    { UNLOCKED, LOCKED },           /* from LOCKED   */\n    { LOCKED,   LOCKED },           /* from UNLOCKED */\n};\nint main(void) {\n    State s = LOCKED;\n    s = next[s][COIN];\n    s = next[s][COIN];\n    printf(\"%d\\n\", s);\n}\n```",
+      "body": "`next[UNLOCKED][COIN]`, the first entry of the second row, should be `UNLOCKED`, not `LOCKED`.\n\nThe first COIN gives `next[LOCKED][COIN] = UNLOCKED`. The second COIN looks up `next[UNLOCKED][COIN]`, which wrongly says `LOCKED`, so the program prints 0.\n\nWhy it matters: A transition table is the state table written as data. The code is one lookup, `s = next[s][e]`, and changing the behavior means editing a row, not logic.\n\nTip: Compared with a `switch`, a table makes a missing or wrong transition easy to spot, since every (state, event) cell is visible.",
+      "searchQuery": "C transition table FSM next state array lookup",
+      "refs": [
+        "White, Making Embedded Systems 2e, ch. 6 (Managing the Flow of Activity)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)"
+      ],
+      "tags": [
+        "fsm",
+        "c-fsm"
+      ]
+    },
+    {
+      "id": "dl-fsm-detector-code",
+      "unit": "finite-state-machines",
+      "kind": "code",
+      "difficulty": 3,
+      "checkpoint": true,
+      "title": "This C model of the 101 detector (S0: no progress, S1: last bit 1, S2: last two bits 10) reads the string `10101101`. Assume ASCII. What does it print?\n\n```c\n#include <stdio.h>\ntypedef enum { S0, S1, S2 } State;\nint main(void) {\n    State s = S0;\n    int hits = 0;\n    for (const char *p = \"10101101\"; *p; p++) {\n        int bit = *p - '0';\n        switch (s) {\n        case S0: s = bit ? S1 : S0; break;\n        case S1: s = bit ? S1 : S2; break;\n        case S2: hits += bit; s = bit ? S1 : S0; break;\n        }\n    }\n    printf(\"%d\\n\", hits);\n}\n```",
+      "body": "`3`\n\nTrace the states: after `1` S1, `0` S2, `1` hit and S1, `0` S2, `1` hit and S1, `1` S1, `0` S2, `1` hit and S1. Hits happen on the last bit of each `101`.\n\nThe string contains 101 starting at positions 0, 2 and 5 (counting from 0). The matches at 0 and 2 overlap on the shared `1`, which the machine counts because S2 on a 1 goes to S1, not S0.\n\nWhy it matters: This is a Mealy machine: the hit (`hits += bit`) happens on the transition from S2, not from a state of its own.",
+      "searchQuery": "C sequence detector 101 FSM switch state count",
+      "refs": [
+        "White, Making Embedded Systems 2e, ch. 6 (Managing the Flow of Activity)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)"
+      ],
+      "tags": [
+        "fsm",
+        "c-fsm"
+      ]
+    },
+    {
+      "id": "dl-event-driven-code",
+      "unit": "finite-state-machines",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "In **event-driven firmware**, code runs only when something happens (a button press, a timer tick), instead of waiting in a delay loop. Here `on_event()` is called once per event. The events are COIN then PUSH, so `passes` should end at 1. Assume a 32-bit `int`. What does this print, and what is the one-word fix?\n\n```c\n#include <stdio.h>\ntypedef enum { LOCKED, UNLOCKED } State;\ntypedef enum { COIN, PUSH } Event;\nstatic int passes = 0;\nstatic void on_event(Event e) {\n    State s = LOCKED;\n    if (s == LOCKED && e == COIN) s = UNLOCKED;\n    else if (s == UNLOCKED && e == PUSH) { passes++; s = LOCKED; }\n}\nint main(void) {\n    on_event(COIN);\n    on_event(PUSH);\n    printf(\"%d\\n\", passes);\n}\n```",
+      "body": "`0`; the state variable is reset on every call, so declare it `static`.\n\n`s` is an automatic variable: it is created as `LOCKED` at each call and destroyed on return, so the PUSH event always finds `LOCKED` and `passes` never changes. With `static State s = LOCKED;` the state lives in static storage and survives between calls.\n\nWhy it matters: An event-driven FSM keeps its state between events, in a `static` variable or a file-scope one. The processor can sleep between events and wake only to run the handler, which saves power.\n\nWatch out: This bug is silent. The code compiles without warnings and each call looks right on its own.",
+      "searchQuery": "event-driven firmware state machine static variable handler",
+      "refs": [
+        "White, Making Embedded Systems 2e, ch. 6 (Managing the Flow of Activity)"
+      ],
+      "tags": [
+        "fsm",
+        "c-fsm"
+      ]
+    },
+    {
+      "id": "dl-state-encoding-tradeoff",
+      "unit": "finite-state-machines",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A 12-state FSM is built in an FPGA. Which **state encoding** (the choice of bit pattern for each state) is usually better: binary with 4 flip-flops, or **one-hot encoding** with 12 flip-flops of which exactly one is 1?",
+      "body": "One-hot, usually, on an FPGA where flip-flops are plentiful: its next-state logic is simpler and faster. Binary saves flip-flops when they are scarce.\n\nOne-hot: being in a state is just one flip-flop reading 1. Each flip-flop's next value is an OR of a few ANDs, taken from the states that can lead to it, and the outputs are read straight from state bits. Binary needs gates to decode the 4-bit state before it can be used.\n\nThe other side: One-hot costs 12 flip-flops against $\\lceil \\log_2 12 \\rceil = 4$, and it leaves $2^{12} - 12$ unused bit patterns, which a fault could produce. In a small chip or ASIC where flip-flops cost real area, binary can be the smaller design.\n\nTip: Synthesis tools can recode states for you, so the encoding often becomes a setting rather than something you write by hand.",
+      "searchQuery": "one-hot vs binary state encoding FSM FPGA trade-off",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L06-L07 (sequential circuits and FSMs)"
+      ],
+      "tags": [
+        "fsm"
+      ]
+    },
+    {
+      "id": "dl-setup-time",
+      "unit": "sequential-timing",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **setup time** ($t_{setup}$) of a flip-flop?",
+      "body": "The minimum time before the active clock edge during which D must already be stable.\n\nThe flip-flop's internal first latch needs this long to capture the value reliably. If D changes inside the setup window, the flip-flop may store the wrong value or become unstable.\n\nExample: With $t_{setup} = 0.3\\,\\mathrm{ns}$, the data must settle at least 0.3 ns before the clock edge.\n\nKey idea: Setup is about data arriving too late. Together with hold time it defines a small window around each clock edge in which D must not change.",
+      "searchQuery": "setup time flip-flop definition before clock edge",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L08 Arithmetic Pipelines"
+      ],
+      "tags": [
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-hold-time",
+      "unit": "sequential-timing",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **hold time** ($t_{hold}$) of a flip-flop?",
+      "body": "The minimum time after the active clock edge during which D must stay stable.\n\nThe internal latch is still closing just after the edge, so D must not move during that moment.\n\nExample: With $t_{hold} = 0.1\\,\\mathrm{ns}$, data must stay unchanged until 0.1 ns after the edge. New data arriving 0.05 ns after the edge breaks the rule.\n\nWatch out: Hold is about data changing too soon after the edge, which is a problem for fast paths, not slow ones.",
+      "searchQuery": "hold time flip-flop definition after clock edge",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L08 Arithmetic Pipelines"
+      ],
+      "tags": [
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-clock-to-q",
+      "unit": "sequential-timing",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **clock-to-Q delay**: $t_{pcq}$, and what is $t_{ccq}$?",
+      "body": "$t_{pcq}$ is the longest time from the clock edge until Q is guaranteed to hold its new value; $t_{ccq}$ is the shortest time until Q may begin to change.\n\nAfter the edge, Q does not change instantly. $t_{pcq}$ is the delay that every path through the following logic has to wait out before its input is valid, and $t_{ccq}$ is the earliest moment the old Q value can begin to be disturbed, which matters for hold checks.\n\nKey idea: These mirror the combinational pair $t_{pd}$ and $t_{cd}$. The same rule holds: the maximum matters for \"ready in time\" and the minimum for \"not too soon\".",
+      "searchQuery": "clock-to-Q delay tpcq tccq flip-flop",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L08 Arithmetic Pipelines"
+      ],
+      "tags": [
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-fmax-formula",
+      "unit": "sequential-timing",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "What is the minimum clock period $T_c$ for a path from one register to the next, and the **maximum clock frequency** $f_{max}$?",
+      "body": "$T_c \\ge t_{pcq} + t_{pd} + t_{setup}$, so $f_{max} = 1/T_c$.\n\nData launched at one clock edge leaves the register after $t_{pcq}$, crosses the logic in at most $t_{pd}$ (the critical path), and must be stable $t_{setup}$ before the next edge. The three delays must fit in one clock period.\n\nThe register's $t_{pcq} + t_{setup}$ is a fixed overhead paid on every path.\n\nTip: To go faster, shorten the logic. Slowing the clock always fixes a setup violation, since $T_c$ is the only thing on the left of the inequality.",
+      "searchQuery": "minimum clock period tpcq tpd tsetup maximum frequency",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L09 Design Tradeoffs"
+      ],
+      "tags": [
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-fmax-problem",
+      "unit": "sequential-timing",
+      "kind": "problem",
+      "difficulty": 3,
+      "checkpoint": true,
+      "title": "A register-to-register path has $t_{pcq}=0.5\\,\\mathrm{ns}$, $t_{setup}=0.3\\,\\mathrm{ns}$ and a critical path in the logic of $t_{pd}=9.2\\,\\mathrm{ns}$. What is the maximum clock frequency, in MHz?",
+      "body": "$100\\,\\mathrm{MHz}$\n\n$T_c \\ge t_{pcq} + t_{pd} + t_{setup} = 0.5 + 9.2 + 0.3 = 10.0\\,\\mathrm{ns}$, so $f_{max} = 1/(10\\,\\mathrm{ns}) = 100\\,\\mathrm{MHz}$.\n\nWatch out: Halving the logic delay does not double the speed. With $t_{pd} = 4.6\\,\\mathrm{ns}$, $T_c = 0.5 + 4.6 + 0.3 = 5.4\\,\\mathrm{ns}$ and $f_{max} \\approx 185\\,\\mathrm{MHz}$, because the 0.8 ns register overhead stays.",
+      "answer": "100",
+      "answerDisplay": "$100\\,\\mathrm{MHz}$",
+      "searchQuery": "maximum clock frequency calculation tpcq tpd tsetup 100 MHz",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L09 Design Tradeoffs"
+      ],
+      "tags": [
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-clock-skew-concept",
+      "unit": "sequential-timing",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "How does **clock skew**, the difference in clock arrival time between two flip-flops, affect the setup and hold constraints?",
+      "body": "Worst-case skew tightens both: $T_c \\ge t_{pcq} + t_{pd} + t_{setup} + t_{skew}$ and $t_{ccq} + t_{cd} \\ge t_{hold} + t_{skew}$.\n\nIf the capturing flip-flop's clock arrives late, new data from the launching flip-flop has more time to arrive (good for setup) but also more time to race through and overwrite the value that the capturing flip-flop should still be holding (bad for hold). If it arrives early, the effect is reversed. Skew can go either way, so the design must allow for the worst case on both.\n\nThe hold constraint compares the fastest path ($t_{ccq} + t_{cd}$) with $t_{hold}$ plus skew.\n\nWatch out: $T_c$ does not appear in the hold constraint, so slowing the clock cannot fix a hold violation. Add delay to the short path or reduce the skew instead.",
+      "searchQuery": "clock skew setup hold constraints tccq tcd thold",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L09 Design Tradeoffs"
+      ],
+      "tags": [
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-metastability-misconception",
+      "unit": "sequential-timing",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that a flip-flop sampling an input that changes right at the clock edge always settles quickly to a clean 0 or 1?",
+      "body": "It can become **metastable**: Q hovers at an in-between voltage for an unpredictable time before falling to 0 or 1, possibly longer than a clock period.\n\nIf D changes inside the setup and hold window, the flip-flop's internal feedback loop can be left balanced between the two stable states, like a ball on a hilltop. Which way it falls, and when, is random. The chance that it is still undecided falls exponentially with the time allowed.\n\nWhy it matters: Downstream gates may read the in-between voltage differently, so one sees a 1 and another a 0, which breaks the circuit's logic.\n\nWatch out: It cannot be designed away for inputs that change at arbitrary times, such as a button. It can only be made extremely unlikely.",
+      "searchQuery": "metastability flip-flop setup hold violation in-between voltage",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L09 Design Tradeoffs"
+      ],
+      "tags": [
+        "timing"
+      ]
+    },
+    {
+      "id": "dl-synchronizer-tradeoff",
+      "unit": "sequential-timing",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "A button signal changes at arbitrary times relative to a 100 MHz clock. A **synchronizer** (flip-flops in a row, all on the receiving clock) feeds it into the logic. Why use two flip-flops rather than one, and when add a third?",
+      "body": "Two: the first may go metastable, and a full clock period lets it resolve before the second samples it; add a third for a very fast clock or when failure is unacceptable, at the cost of one more cycle of latency.\n\nWith one flip-flop, a metastable output feeds the logic directly. With two, the second flip-flop only sees a problem if the first is still undecided a whole period later. Each added stage gives the signal another period to settle, which improves the mean time between failures by a huge factor.\n\nThe other side: Each stage adds a cycle of latency. For a button at 100 MHz, two or three cycles is 20 to 30 ns, which is nothing next to human timing, so the extra stage is cheap.\n\nWatch out: Use this for a single bit. A multi-bit value cannot be synchronized bit by bit, since the bits may be caught on different cycles.",
+      "searchQuery": "two flip-flop synchronizer asynchronous input metastability button",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 3 (Sequential Logic Design)",
+        "MIT 6.191 (Fall 2026), L09 Design Tradeoffs"
+      ],
+      "tags": [
+        "timing"
+      ]
+    }
+  ]
+}

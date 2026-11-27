@@ -1,0 +1,648 @@
+{
+  "profession": "mathematics",
+  "module": "euclidean-geometry",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "euclidean-postulate-versus-theorem",
+      "unit": "points-lines-angles-and-proof",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "In a deductive system such as Euclid's geometry, what is the difference between a **postulate** and a **theorem**?",
+      "body": "A postulate is a statement accepted without proof, as a starting point; a theorem is a statement that has been proved from the postulates, definitions and earlier theorems.\n\nEverything starts from a few **undefined terms** (point, line, plane), which are described but not defined, then definitions built on them, then postulates. Every later claim must be justified by a chain back to those.\n\nWhy: You can't prove everything, or the proofs would never start. Choosing a small, clearly stated list of postulates makes every theorem checkable.\n\nExample: \"Two points lie on exactly one line\" is a postulate. \"Vertical angles are equal\" is a theorem, because it follows from the postulates (as the next cards show).\n\nWatch out: \"Postulate\" does not mean \"obvious\" or \"unproved guess\". It means \"assumed for this system, and every theorem depends on it\".",
+      "searchQuery": "postulate versus theorem Euclid undefined terms definitions",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 2 (The Nature of Deductive Reasoning)"
+      ]
+    },
+    {
+      "id": "euclidean-conditional-converse-contrapositive",
+      "unit": "points-lines-angles-and-proof",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Write the **converse** and the **contrapositive** of the **conditional statement** \"if $P$, then $Q$\". Which one always has the same truth value as the original?",
+      "body": "Converse: \"if $Q$, then $P$\". Contrapositive: \"if not $Q$, then not $P$\". Only the contrapositive is guaranteed to be true exactly when the original is.\n\nA **conditional statement** is a sentence of the form \"if $P$, then $Q$\", where $P$ is the hypothesis and $Q$ the conclusion. Almost every theorem in geometry is one.\n\nKey idea: A statement and its contrapositive say the same thing in two ways, so proving the contrapositive proves the original.\n\nExample: Original: \"if two angles are vertical angles, then they are equal\". Contrapositive: \"if two angles are not equal, then they are not vertical angles\". Converse: \"if two angles are equal, then they are vertical angles\", which is false (two right angles need not be vertical angles).",
+      "searchQuery": "converse contrapositive conditional statement if then",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 2 (The Nature of Deductive Reasoning)"
+      ]
+    },
+    {
+      "id": "euclidean-converse-not-automatically-true",
+      "unit": "points-lines-angles-and-proof",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that if a theorem is true, its **converse** must also be true?",
+      "body": "A true \"if $P$, then $Q$\" says nothing about \"if $Q$, then $P$\": the converse can fail, so it needs its own proof or a counterexample.\n\nExample: \"If a figure is a square, then it is a rectangle\" is true. Its converse, \"if a figure is a rectangle, then it is a square\", is false: a rectangle that is $2$ by $3$ is a counterexample.\n\nWhy it matters: Geometry has many pairs where both directions hold (and then we say \"if and only if\") and many where only one does. Each direction is a separate theorem.\n\nWatch out: The parallel-line theorems come in pairs for exactly this reason. \"Parallel lines give equal alternate interior angles\" and \"equal alternate interior angles give parallel lines\" are proved separately, and only the first needs the parallel postulate.",
+      "searchQuery": "converse of true statement not necessarily true counterexample",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 2 (The Nature of Deductive Reasoning)"
+      ]
+    },
+    {
+      "id": "euclidean-parallel-postulate",
+      "unit": "points-lines-angles-and-proof",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "State the **parallel postulate** (in the form that says how many lines pass through a point and stay parallel to a given line).",
+      "body": "Given a line and a point not on it, there is exactly one line through the point that is parallel to the given line.\n\nTwo lines in a plane are parallel when they never meet. That a parallel exists can be shown from the earlier postulates; it is the \"exactly one\" (uniqueness) that has to be assumed.\n\nWhy it matters: Without it, there is no way to prove that alternate interior angles are equal or that a triangle's angles add to $180^\\circ$. Geometries that drop it, such as the geometry on a sphere or the hyperbolic plane, have triangles whose angles don't add to $180^\\circ$.\n\nTip: The original wording of Euclid's fifth postulate is longer and about lines that meet; the \"one parallel\" form above is equivalent to it in the presence of the other postulates.",
+      "searchQuery": "parallel postulate exactly one parallel through point Playfair",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 6 (Parallel Lines)",
+        "Kiselev, Planimetry, ch. 1 (parallel lines)"
+      ]
+    },
+    {
+      "id": "euclidean-vertical-angles-equal-proof",
+      "unit": "points-lines-angles-and-proof",
+      "kind": "theorem",
+      "difficulty": 2,
+      "title": "**Vertical angles theorem:** when two lines cross, what is true of each pair of vertical angles, and what is the one-line proof?",
+      "body": "Vertical angles are equal. Proof: each of them is supplementary to the same neighboring angle, so both equal $180^\\circ$ minus it.\n\nLet lines cross to make angles $\\angle 1, \\angle 2, \\angle 3$ in order around the point, so $\\angle 1$ and $\\angle 3$ are vertical. Then $\\angle 1 + \\angle 2 = 180^\\circ$ and $\\angle 2 + \\angle 3 = 180^\\circ$, because each pair lies along a straight line. Subtract: $\\angle 1 = \\angle 3$.\n\nKey idea: This is the model of a geometry proof: every step is a postulate, a definition or a known theorem, and the last line is what we wanted.\n\nWatch out: The proof uses only the fact that angles on a straight line add to $180^\\circ$. It needs no parallel lines and no measurement.",
+      "searchQuery": "vertical angles theorem proof supplementary",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 3 (Lines and Angles)"
+      ]
+    },
+    {
+      "id": "euclidean-alternate-interior-angles-theorem",
+      "unit": "points-lines-angles-and-proof",
+      "kind": "theorem",
+      "difficulty": 2,
+      "title": "State the **alternate interior angles theorem**: a transversal crosses two parallel lines. What are **alternate interior angles** and what is true of them?",
+      "body": "If a transversal crosses two parallel lines, the alternate interior angles are equal.\n\nAlternate interior angles lie between the two lines, on opposite sides of the transversal. **Corresponding angles** sit in the same position at each crossing (both above-right, say) and are equal too.\n\nWhy: Corresponding angles are equal by the parallel postulate (otherwise a second parallel through the point could be drawn). The alternate interior angle is vertical to the corresponding one, so it is equal as well.\n\nWatch out: The converse also holds: if alternate interior angles are equal, the lines are parallel. The theorem as stated, parallel implies equal, is the direction that needs the parallel postulate.",
+      "searchQuery": "alternate interior angles corresponding angles parallel lines transversal theorem",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 6 (Parallel Lines)",
+        "Kiselev, Planimetry, ch. 1 (parallel lines)"
+      ]
+    },
+    {
+      "id": "euclidean-triangle-angle-sum-proof",
+      "unit": "points-lines-angles-and-proof",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Prove that the angles of any triangle $ABC$ add up to $180^\\circ$, using the parallel postulate. What auxiliary line do you draw?",
+      "body": "Draw the line through $A$ parallel to $BC$; alternate interior angles then carry $\\angle B$ and $\\angle C$ up to $A$.\n\nOutline:\n1. Through $A$ draw the line $\\ell$ parallel to $BC$ (it exists and is unique by the parallel postulate).\n2. Mark points $P$ and $Q$ on $\\ell$, on either side of $A$, with $P$ on the side of $B$.\n3. $\\angle PAB = \\angle B$ and $\\angle QAC = \\angle C$, as alternate interior angles (transversals $AB$ and $AC$ cross the parallels $\\ell$ and $BC$).\n4. The angles $\\angle PAB$, $\\angle BAC$, $\\angle CAQ$ together fill a straight line at $A$, so they add to $180^\\circ$.\n5. Substitute: $\\angle B + \\angle A + \\angle C = 180^\\circ$.\n\nWhy it matters: Nearly everything later, from exterior angles to angle sums of polygons, grows from this.\n\nExample: A triangle with angles $50^\\circ$ and $60^\\circ$ has third angle $180^\\circ - 110^\\circ = 70^\\circ$.",
+      "searchQuery": "proof triangle angle sum 180 degrees parallel line through vertex",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 6 (Parallel Lines)",
+        "Kiselev, Planimetry, ch. 1 (the straight line)"
+      ]
+    },
+    {
+      "id": "euclidean-rigid-motion-definition",
+      "unit": "rigid-motions-and-congruence",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **rigid motion**, and what are the three basic kinds: **translation**, **reflection** and **rotation**?",
+      "body": "A rigid motion moves every point of the plane so that all distances stay the same; the basic kinds are a translation (slide), a reflection (flip across a line) and a rotation (turn about a point).\n\nBecause distances are kept, a rigid motion also keeps angles, straightness and shape: a figure comes out the same size and shape, only in a new place or position.\n\n- **Translation:** every point moves the same distance in the same direction.\n- **Reflection:** every point jumps to the mirror image across a fixed line, the line of reflection.\n- **Rotation:** every point turns by the same angle about a fixed center.\n\nWhy it matters: These are the only moves that never stretch or squash, so they give a precise meaning to \"the same shape and size\".\n\nWatch out: A dilation (zoom in or out) is not rigid, because it changes distances.",
+      "searchQuery": "rigid motion translation reflection rotation definition",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 8 (Transformations)"
+      ]
+    },
+    {
+      "id": "euclidean-composition-two-reflections",
+      "unit": "rigid-motions-and-congruence",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Reflect the point $(1, 2)$ across the line $x = 0$, then reflect the result across the line $x = 3$. Where does it end up, and which single rigid motion does the pair equal?",
+      "body": "$(7, 2)$: the pair of reflections equals a translation by $6$ to the right, which is twice the distance between the two parallel lines.\n\nReflecting across $x = 0$ sends $(1, 2)$ to $(-1, 2)$. Reflecting across $x = 3$ sends a point at horizontal position $x$ to $6 - x$, so $(-1, 2)$ goes to $(7, 2)$. The net move is $6$ to the right, for any starting point.\n\nKey idea: Composing two rigid motions (doing one, then the other) gives another rigid motion.\n\n- Two reflections in **parallel** lines a distance $d$ apart make a translation by $2d$, perpendicular to the lines.\n- Two reflections in lines that cross at an angle $\\theta$ make a rotation by $2\\theta$ about the crossing point.\n\nWatch out: Order matters in general. Swapping the order of the two reflections above gives a translation to the left instead.",
+      "searchQuery": "composition of two reflections parallel lines translation twice distance",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 8 (Transformations)"
+      ]
+    },
+    {
+      "id": "euclidean-congruent-figures-definition",
+      "unit": "rigid-motions-and-congruence",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What does it mean for two figures to be **congruent figures**, and what follows for their matching parts?",
+      "body": "Two figures are congruent when some rigid motion (or a chain of them) carries one exactly onto the other; matching sides and matching angles are then equal.\n\nFor triangles we write $\\triangle ABC \\cong \\triangle DEF$ and list the vertices in matching order: $A$ lands on $D$, $B$ on $E$, $C$ on $F$. That order says which sides and angles correspond, so $AB = DE$, $\\angle B = \\angle E$, and so on.\n\nKey idea: \"Corresponding parts of congruent triangles are equal\" is how congruence is used: prove the triangles congruent first, then read off an equal pair of sides or angles.\n\nWatch out: A mirror image is still congruent, because a reflection is a rigid motion. Congruent does not mean you can slide it on top without flipping it over.",
+      "searchQuery": "congruent figures definition rigid motion corresponding parts",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 4 (Congruence)"
+      ]
+    },
+    {
+      "id": "euclidean-sas-congruence-theorem",
+      "unit": "rigid-motions-and-congruence",
+      "kind": "theorem",
+      "difficulty": 2,
+      "title": "State the **SAS congruence** test for triangles, including which angle has to be matched.",
+      "body": "If two sides and the **included** angle (the angle between them) of one triangle equal the matching two sides and included angle of another, the triangles are congruent.\n\nKey idea: Move the first triangle so the equal angles coincide. Equal sides then lie along the same two rays, and being equally long they end at the same points, so the third sides join the same two points and the triangles coincide.\n\nExample: $AB = DE = 5$, $AC = DF = 7$ and $\\angle A = \\angle D = 40^\\circ$ gives $\\triangle ABC \\cong \\triangle DEF$, hence $BC = EF$ without measuring them.\n\nWatch out: The angle must be between the two sides. If it is not (side, side, angle elsewhere), the test fails; a later card gives the counterexample.\n\nTip: Some axiom systems take SAS as a postulate, and others prove it from rigid motions. Either way, every other congruence test can be derived from it.",
+      "searchQuery": "SAS congruence triangles included angle theorem",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 4 (Congruence)",
+        "Kiselev, Planimetry, ch. 1 (congruence tests for triangles)"
+      ]
+    },
+    {
+      "id": "euclidean-sss-asa-aas-hl-tests",
+      "unit": "rigid-motions-and-congruence",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Besides SAS, name the other four standard congruence tests (**SSS congruence**, **ASA congruence**, AAS, HL) and say what each one matches.",
+      "body": "SSS: all three pairs of sides. ASA: two angles and the side between them. AAS: two angles and a side not between them. HL: the hypotenuse and one leg of two right triangles.\n\nWhy each works:\n- **SSS:** three side lengths pin down a triangle's shape, since only one triangle can be built on a given base with given distances to the third corner (on one side of the base, up to a flip).\n- **ASA:** the side fixes the base, and the two angles fix the directions of the other sides, so the third corner is fixed.\n- **AAS:** the angles add to $180^\\circ$ with the third, so the third angles match too; that is ASA.\n- **HL:** the Pythagorean theorem forces the second legs to be equal, so it reduces to SSS.\n\nWatch out: Three matching angles (AAA) do not work: a small and a large equilateral triangle have all angles $60^\\circ$ but are not congruent. They are the same shape, which is *similarity*, a later topic.",
+      "searchQuery": "SSS ASA AAS HL congruence tests right triangle",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 4 (Congruence)",
+        "Kiselev, Planimetry, ch. 1 (congruence tests for triangles)"
+      ]
+    },
+    {
+      "id": "euclidean-isosceles-base-angles-theorem",
+      "unit": "rigid-motions-and-congruence",
+      "kind": "theorem",
+      "difficulty": 2,
+      "title": "State the **isosceles triangle theorem**: what is true of the angles opposite the equal sides, and how does SAS prove it?",
+      "body": "In a triangle with two equal sides, the angles opposite those sides (the base angles) are equal. Proof: $\\triangle ABC \\cong \\triangle ACB$ by SAS.\n\nLet $AB = AC$. Compare $\\triangle ABC$ with the same triangle read in the other order, $\\triangle ACB$. Then $AB = AC$, $AC = AB$ and the included angle $\\angle A$ is shared, so the two are congruent by SAS. Matching parts give $\\angle B = \\angle C$.\n\nWhy it matters: It turns \"two equal sides\" into \"two equal angles\", and is the first result in geometry that uses a triangle's symmetry as a proof tool.\n\nTip: An **isosceles** triangle has two equal sides, and an **equilateral** triangle has three equal sides. The theorem then forces all three angles of an equilateral triangle to be equal, so each is $60^\\circ$.",
+      "searchQuery": "isosceles triangle base angles equal proof SAS",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 4 (Congruence)",
+        "Kiselev, Planimetry, ch. 1 (isosceles triangles)"
+      ]
+    },
+    {
+      "id": "euclidean-kite-diagonal-sss-problem",
+      "unit": "rigid-motions-and-congruence",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "In quadrilateral $ABCD$, $AB = AD$ and $CB = CD$. Prove that the diagonal $AC$ cuts $\\angle BAD$ into two equal angles.",
+      "body": "$\\triangle ABC \\cong \\triangle ADC$ by SSS, so $\\angle BAC = \\angle DAC$.\n\nOutline:\n1. $AB = AD$ (given).\n2. $CB = CD$ (given).\n3. $AC = AC$ (shared side).\n4. By SSS, $\\triangle ABC \\cong \\triangle ADC$.\n5. Corresponding parts are equal, so $\\angle BAC = \\angle DAC$ (and likewise $\\angle BCA = \\angle DCA$).\n\nKey idea: When two triangles share a side, the shared side supplies the third equal pair for free.\n\nWatch out: Write the vertices of the congruence in matching order, $A \\leftrightarrow A$, $B \\leftrightarrow D$, $C \\leftrightarrow C$, before reading off angles; otherwise it is easy to pair the wrong ones.",
+      "searchQuery": "kite diagonal bisects angle proof SSS congruence",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 4 (Congruence)"
+      ]
+    },
+    {
+      "id": "euclidean-ssa-counterexample",
+      "unit": "rigid-motions-and-congruence",
+      "kind": "counterexample",
+      "difficulty": 2,
+      "title": "Give a counterexample showing that **SSA** (two sides and a non-included angle) does not guarantee congruence.",
+      "body": "Triangles with $AC = 8$, $BC = 5$ and $\\angle A = 30^\\circ$ that have $AB = 4\\sqrt{3} + 3$ in one and $AB = 4\\sqrt{3} - 3$ in the other: they match in SSA but are not congruent.\n\nDraw a ray from $A$ and a second ray at $30^\\circ$ to it, and mark $C$ on the second ray with $AC = 8$. The distance from $C$ down to the first ray is $\\tfrac{1}{2} \\cdot 8 = 4$ (a $30^\\circ$-$60^\\circ$-$90^\\circ$ triangle), with foot $H$ at distance $4\\sqrt{3}$ from $A$.\n\nA circle of radius $5$ around $C$ meets the first ray where $CB = 5$, that is $HB = \\sqrt{25 - 16} = 3$ either side of $H$. Both points work, giving $AB = 4\\sqrt{3} + 3$ or $4\\sqrt{3} - 3$.\n\nWhy: The angle is not between the two given sides, so the \"third corner\" can be on either side of $H$: the circle cuts the ray twice.\n\nTip: SSA is safe when the angle is a right angle (that is HL) or when the side opposite the angle is at least as long as the other given side.",
+      "searchQuery": "SSA ambiguous case counterexample not congruent triangles",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 4 (Congruence)"
+      ]
+    },
+    {
+      "id": "euclidean-parallelogram-definition",
+      "unit": "triangle-and-quadrilateral-theorems",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **parallelogram**, and which three properties follow from the definition (sides, angles, diagonals)?",
+      "body": "A parallelogram is a four-sided figure whose two pairs of opposite sides are parallel. Its opposite sides are equal, its opposite angles are equal, and its diagonals bisect each other (cut each other in half).\n\nWhy: Draw a diagonal. Alternate interior angles (from the parallel sides) give two equal angle pairs, and the diagonal is shared, so the two triangles are congruent by ASA. Matching parts give equal opposite sides and equal opposite angles. For the diagonals, let them cross at $O$: $\\triangle AOB \\cong \\triangle COD$ by ASA (alternate interior angles, and $AB = CD$), so $AO = CO$ and $BO = DO$.\n\n- A **rectangle** is a parallelogram with four right angles; its diagonals are equal.\n- A **rhombus** is a parallelogram with four equal sides; its diagonals are perpendicular.\n\nWatch out: A figure with just one pair of parallel sides (a trapezoid) is not a parallelogram, and these properties don't hold for it.",
+      "searchQuery": "parallelogram definition properties opposite sides diagonals bisect",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 7 (Quadrilaterals)",
+        "Kiselev, Planimetry, ch. 1 (parallelograms and trapezoids)"
+      ]
+    },
+    {
+      "id": "euclidean-exterior-angle-theorem",
+      "unit": "triangle-and-quadrilateral-theorems",
+      "kind": "theorem",
+      "difficulty": 2,
+      "title": "State the **exterior angle theorem**: how does an exterior angle of a triangle relate to the interior angles?",
+      "body": "An exterior angle of a triangle (formed by extending one side) equals the sum of the two interior angles at the other two vertices.\n\nWhy: Extend side $BC$ past $C$. The exterior angle at $C$ and the interior angle $\\angle C$ are supplementary, so the exterior angle is $180^\\circ - \\angle C$. The angle sum says $\\angle A + \\angle B = 180^\\circ - \\angle C$, which is the same number.\n\nExample: A triangle has interior angles $50^\\circ$ and $60^\\circ$ at $A$ and $B$. The exterior angle at $C$ is $50^\\circ + 60^\\circ = 110^\\circ$, and as a check $\\angle C = 70^\\circ$, which is supplementary to it.\n\nTip: It saves a step in angle chasing: you read an exterior angle straight off the two far interior angles.",
+      "searchQuery": "exterior angle theorem triangle sum of remote interior angles",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 5 (Inequalities)"
+      ]
+    },
+    {
+      "id": "euclidean-triangle-inequality-theorem",
+      "unit": "triangle-and-quadrilateral-theorems",
+      "kind": "theorem",
+      "difficulty": 2,
+      "title": "State the **triangle inequality**: how must any two sides of a triangle compare with the third?",
+      "body": "In any triangle, the sum of two sides is greater than the third side. Three lengths $a, b, c$ form a triangle exactly when each is less than the sum of the other two.\n\nKey idea: The straight segment is the shortest way between two points, so going from $B$ to $C$ by way of $A$ can't be shorter than going directly.\n\nExample: Lengths $3, 4, 8$ cannot form a triangle, because $3 + 4 = 7 < 8$: the two short sides can't reach across. Lengths $3, 4, 5$ can.\n\nTip: To test three lengths, you only need to check that the two smaller ones add to more than the largest.\n\nWatch out: Equality, as in $3, 4, 7$, gives a flat figure with all three corners on one line, not a triangle.",
+      "searchQuery": "triangle inequality theorem sum of two sides greater than third",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 5 (Inequalities)",
+        "Kiselev, Planimetry, ch. 1"
+      ]
+    },
+    {
+      "id": "euclidean-midsegment-theorem",
+      "unit": "triangle-and-quadrilateral-theorems",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **midsegment theorem**: a **midsegment** joins the midpoints of two sides of a triangle. What is true of it?",
+      "body": "A midsegment is parallel to the third side and exactly half as long as it.\n\nKey idea: In $\\triangle ABC$ let $D$ and $E$ be the midpoints of $AB$ and $AC$. Extend $DE$ to $F$ so that $EF = DE$. Then $\\triangle ADE \\cong \\triangle CFE$ by SAS (vertical angles at $E$), so $CF = AD = DB$ and $CF \\parallel AB$. Hence $DBCF$ is a parallelogram (one pair of opposite sides, equal and parallel, is enough), which gives $DF \\parallel BC$ and $DF = BC$, so $DE = \\tfrac{1}{2}BC$.\n\nExample: A triangle has sides $10, 14, 16$. The midsegment parallel to the side of length $16$ has length $8$, and the three midsegments together form a triangle of perimeter $5 + 7 + 8 = 20$.\n\nWatch out: A midsegment joins *midpoints*. A segment that is merely parallel to a side, but starts elsewhere, is not half its length.",
+      "searchQuery": "midsegment theorem triangle parallel half third side",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 7 (Quadrilaterals)",
+        "Kiselev, Planimetry, ch. 1 (parallelograms and trapezoids)"
+      ]
+    },
+    {
+      "id": "euclidean-centroid-circumcenter-incenter",
+      "unit": "triangle-and-quadrilateral-theorems",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Which three kinds of line in a triangle meet at the **centroid**, the **circumcenter** and the **incenter**?",
+      "body": "Medians meet at the centroid, perpendicular bisectors of the sides meet at the circumcenter, and angle bisectors meet at the incenter.\n\n- A **median** joins a vertex to the midpoint of the opposite side (not the statistics median). The three meet at the **centroid**, the triangle's balance point, which is $\\tfrac{2}{3}$ of the way from each vertex along its median.\n- A **perpendicular bisector** of a side is the line through its midpoint at right angles to it. The three meet at the **circumcenter**, which is equally far from the three vertices, so a circle centered there passes through all of them.\n- An **angle bisector** is the line that splits an angle into two equal angles. The three meet at the **incenter**, which is equally far from the three sides, so a circle centered there touches all three sides from inside.\n\nWhy it works: Exactly the points on a perpendicular bisector are equally far from its two endpoints, and exactly the points on an angle bisector are equally far from the angle's two sides. Two such lines meet at a point that is equidistant from all three vertices (or sides), so it lies on the third one too.\n\nWatch out: The incenter and the centroid are always inside the triangle. The circumcenter need not be.",
+      "searchQuery": "centroid circumcenter incenter medians perpendicular bisectors angle bisectors",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 13 (The Concurrence Theorems)",
+        "Kiselev, Planimetry, ch. 2 (four concurrency points in a triangle)"
+      ]
+    },
+    {
+      "id": "euclidean-diagonals-perpendicular-rhombus-problem",
+      "unit": "triangle-and-quadrilateral-theorems",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "$ABCD$ is a parallelogram whose diagonals $AC$ and $BD$ are perpendicular. Prove that it is a rhombus.",
+      "body": "The diagonals bisect each other at $O$, so $\\triangle AOB \\cong \\triangle AOD$ by SAS, giving $AB = AD$; together with equal opposite sides, all four sides are equal.\n\nOutline:\n1. In a parallelogram the diagonals cut each other in half, so $BO = DO$.\n2. $AO = AO$ (shared) and $\\angle AOB = \\angle AOD = 90^\\circ$ (given perpendicular, and the two angles are supplementary and equal).\n3. By SAS, $\\triangle AOB \\cong \\triangle AOD$, so $AB = AD$.\n4. Opposite sides of a parallelogram are equal, so $CD = AB$ and $CB = AD$.\n5. Therefore $AB = BC = CD = DA$, and $ABCD$ is a rhombus.\n\nWhy it matters: This is the converse of \"the diagonals of a rhombus are perpendicular\", and it shows that perpendicular diagonals are exactly what separate a rhombus from other parallelograms.\n\nWatch out: The hypothesis \"parallelogram\" is needed. A kite also has perpendicular diagonals, but it is not a rhombus unless all its sides are equal.",
+      "searchQuery": "parallelogram perpendicular diagonals is rhombus proof",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 7 (Quadrilaterals)"
+      ]
+    },
+    {
+      "id": "euclidean-circumcenter-can-be-outside",
+      "unit": "triangle-and-quadrilateral-theorems",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that the **circumcenter**, like the centroid and incenter, always lies inside its triangle?",
+      "body": "In an obtuse triangle the circumcenter lies outside; in a right triangle it is the midpoint of the hypotenuse; only in an acute triangle is it inside.\n\nExample: Take $A = (0, 0)$, $B = (4, 0)$, $C = (1, 1)$. The angle at $C$ is obtuse. The perpendicular bisector of $AB$ is $x = 2$, and the points equally far from $A$ and $C$ satisfy $x + y = 1$, so the circumcenter is $(2, -1)$, below the triangle. Check: its squared distance to $A$, $B$ and $C$ is $5$ each.\n\nKey idea: The biggest angle decides it: acute gives an inside circumcenter, a right angle puts it on the longest side, and an obtuse angle puts it outside, beyond the longest side.\n\nWatch out: The centroid is always inside (it is a balance point) and so is the incenter (it is the center of a circle inside the triangle), but the circumcenter is the one that can escape.",
+      "searchQuery": "circumcenter outside obtuse triangle right triangle midpoint hypotenuse",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 13 (The Concurrence Theorems)"
+      ]
+    },
+    {
+      "id": "euclidean-dilation-definition",
+      "unit": "similarity",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **dilation**, and what do its center and **scale factor** $k$ do to a point?",
+      "body": "A dilation with center $O$ and scale factor $k > 0$ sends every point $P$ to the point $P'$ on ray $OP$ with $OP' = k \\cdot OP$; the center stays fixed.\n\nIf $k > 1$ the figure is enlarged, if $0 < k < 1$ it is shrunk, and if $k = 1$ nothing moves. Every distance between points is multiplied by $k$, but every angle is unchanged, so the image has the same shape as the original.\n\nExample: Dilate $P$ with $OP = 4$ using $k = 2.5$: then $OP' = 10$ on the same ray. A segment of length $6$ becomes a segment of length $15$, parallel to the original.\n\nWatch out: A dilation is not a rigid motion, because it changes lengths (unless $k = 1$).",
+      "searchQuery": "dilation definition center scale factor",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 10 (Similarity)"
+      ]
+    },
+    {
+      "id": "euclidean-similar-triangles-definition",
+      "unit": "similarity",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "When are two triangles **similar triangles**, and what is the ratio of their matching sides?",
+      "body": "Two triangles are similar when their matching angles are equal and their matching sides are in the same ratio, the scale factor $k$; equivalently, one is the image of the other under a dilation followed by a rigid motion.\n\nWe write $\\triangle ABC \\sim \\triangle DEF$, with the vertices in matching order, and then $\\dfrac{DE}{AB} = \\dfrac{EF}{BC} = \\dfrac{FD}{CA} = k$.\n\nExample: A triangle with sides $3, 4, 5$ and one with sides $6, 8, 10$ are similar with $k = 2$, and both have the same three angles.\n\nKey idea: Similar means \"same shape, maybe different size\". Congruent triangles are the special case $k = 1$.",
+      "searchQuery": "similar triangles definition equal angles proportional sides",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 10 (Similarity)",
+        "Kiselev, Planimetry, ch. 3 (Similarity)"
+      ]
+    },
+    {
+      "id": "euclidean-aa-similarity-theorem",
+      "unit": "similarity",
+      "kind": "theorem",
+      "difficulty": 2,
+      "checkpoint": true,
+      "title": "State **AA similarity**: what must two triangles share to be similar, and why are two angles enough?",
+      "body": "If two angles of one triangle equal two angles of another, the triangles are similar.\n\nWhy: The third angles are equal too, because each triangle's angles add up to $180^\\circ$. Now dilate one triangle so that a side matches the corresponding side of the other; the two triangles then have two equal angles and an equal side between them, so they are congruent by ASA.\n\nExample: A triangle with angles $40^\\circ$ and $75^\\circ$ is similar to any triangle with angles $75^\\circ$ and $65^\\circ$, since the missing angles are $65^\\circ$ and $40^\\circ$ in the other order.\n\nTip: Two other tests work as well. SAS similarity: two sides in the same ratio and the included angles equal. SSS similarity: all three side ratios equal.",
+      "searchQuery": "AA similarity theorem two angles triangles similar",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 10 (Similarity)",
+        "Kiselev, Planimetry, ch. 3 (Similarity)"
+      ]
+    },
+    {
+      "id": "euclidean-side-splitter-theorem",
+      "unit": "similarity",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **side-splitter theorem**: a line parallel to side $BC$ of $\\triangle ABC$ meets $AB$ at $D$ and $AC$ at $E$. What proportion holds?",
+      "body": "$\\dfrac{AD}{DB} = \\dfrac{AE}{EC}$: the parallel line cuts the two sides it crosses in the same ratio (and $\\dfrac{AD}{AB} = \\dfrac{AE}{AC}$ too).\n\nWhy: Since $DE \\parallel BC$, the corresponding angles at $D$ and $B$ are equal, and $\\angle A$ is shared, so $\\triangle ADE \\sim \\triangle ABC$ by AA. That gives $\\dfrac{AD}{AB} = \\dfrac{AE}{AC}$, which rearranges into the form above.\n\nExample: If $AD = 4$, $DB = 6$ and $AE = 6$, then $\\dfrac{4}{6} = \\dfrac{6}{EC}$, so $EC = 9$.\n\nWatch out: The converse is true as well: if $D$ and $E$ divide the sides in the same ratio, then $DE \\parallel BC$. The midsegment theorem is the case where the ratio is $1$.",
+      "searchQuery": "side splitter theorem parallel line divides sides proportionally",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 10 (Similarity)",
+        "Kiselev, Planimetry, ch. 3 (Similarity)"
+      ]
+    },
+    {
+      "id": "euclidean-similar-length-area-volume-scaling",
+      "unit": "similarity",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "If two figures are similar with scale factor $k$, by what factor do **lengths**, **areas** and **volumes** scale?",
+      "body": "Lengths scale by $k$, areas by $k^2$ and volumes by $k^3$.\n\nWhy: Area counts how many unit squares fit; each unit square is stretched by $k$ in both directions, so each becomes $k^2$ times as large. A volume stretches in three directions, giving $k^3$.\n\nExample: On a map where $1\\ \\mathrm{cm}$ stands for $0.5\\ \\mathrm{km}$, a map region of $1\\ \\mathrm{cm}^2$ stands for $0.5^2 = 0.25\\ \\mathrm{km}^2$ on the ground. A solid scaled by $3$ in length has $27$ times the volume.\n\nWatch out: The area ratio is the square of the length ratio. Tripling the sides of a triangle makes the area $9$ times as large, not $3$ times.",
+      "searchQuery": "similar figures scale factor k area k squared volume k cubed",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 10 (Similarity)",
+        "Kiselev, Planimetry, ch. 3 (Similarity)"
+      ]
+    },
+    {
+      "id": "euclidean-right-triangle-altitude-geometric-mean",
+      "unit": "similarity",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "In a right triangle, the **altitude** (the perpendicular segment from the right-angle corner to the hypotenuse) splits the hypotenuse into pieces of length $4$ and $9$. Find the altitude and both legs.",
+      "body": "Altitude $6$, legs $2\\sqrt{13}$ and $3\\sqrt{13}$: the altitude is the **geometric mean** of the two pieces, and each leg is the geometric mean of the hypotenuse and its adjacent piece.\n\nThe geometric mean of two positive numbers $x$ and $y$ is $\\sqrt{xy}$. With pieces $p = 4$, $q = 9$ and hypotenuse $c = 13$:\n\n- Altitude: $h^2 = pq = 36$, so $h = 6$.\n- Leg next to $p$: $a^2 = pc = 52$, so $a = 2\\sqrt{13}$.\n- Leg next to $q$: $b^2 = qc = 117$, so $b = 3\\sqrt{13}$.\n\nWhy: The altitude cuts the triangle into two smaller right triangles, each similar to the whole by AA (each shares an angle with it and has a right angle). Equating ratios of matching sides gives these three relations.\n\nTip: Check with the Pythagorean theorem: $a^2 + b^2 = 52 + 117 = 169 = 13^2$.",
+      "searchQuery": "right triangle altitude hypotenuse geometric mean relations",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 11 (The Right Triangle)",
+        "Kiselev, Planimetry, ch. 3 (Similarity)"
+      ]
+    },
+    {
+      "id": "euclidean-angle-bisector-theorem-problem",
+      "unit": "similarity",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "In $\\triangle ABC$, $AB = 6$, $AC = 9$ and $BC = 10$. The **angle bisector** from $A$ (the line splitting $\\angle A$ into two equal angles) meets $BC$ at $D$. Find $BD$.",
+      "body": "4\n\nBy the angle bisector theorem, the bisector from $A$ splits the opposite side in the ratio of the adjacent sides: $\\dfrac{BD}{DC} = \\dfrac{AB}{AC} = \\dfrac{6}{9} = \\dfrac{2}{3}$.\n\nSo $BD$ is $\\dfrac{2}{5}$ of $BC$: $BD = \\dfrac{2}{5} \\cdot 10 = 4$, and $DC = 6$.\n\nWhy it works: Draw through $C$ a line parallel to $AD$, meeting the extension of $BA$ at $E$. Equal corresponding and alternate angles make $\\angle AEC = \\angle ACE$, so $AE = AC$ (a triangle with two equal angles has the two sides opposite them equal: the converse of the isosceles theorem). The side-splitter theorem in $\\triangle BCE$ gives $\\dfrac{BD}{DC} = \\dfrac{BA}{AE} = \\dfrac{AB}{AC}$.\n\nWatch out: The ratio is of the sides next to the angle ($AB$ to $AC$), and the bisector cuts the *opposite* side $BC$, not the other two.",
+      "answer": "4",
+      "searchQuery": "angle bisector theorem find segment length triangle sides ratio",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 10 (Similarity)",
+        "Kiselev, Planimetry, ch. 3 (Similarity)"
+      ]
+    },
+    {
+      "id": "euclidean-equal-angles-not-similar-polygons",
+      "unit": "similarity",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that any two figures with equal corresponding angles must be similar?",
+      "body": "That holds for triangles (AA), but not for other polygons: for four or more sides, angles don't fix the shape, so side ratios must match as well.\n\nExample: A $1 \\times 2$ rectangle and a $1 \\times 3$ rectangle have four equal right angles, yet the sides are in ratios $1:1$ and $2:3$, so there is no single scale factor. (Equal sides do not force similarity either: a square and a non-square rhombus have equal sides but different angles.)\n\nWhy: In a triangle, two angles fix the third and the side ratios follow. A rectangle's angles are all $90^\\circ$ whatever its length and width, so they carry no information about its proportions.\n\nTip: For polygons, similar means *both* equal angles *and* proportional sides. Triangles are special: one of the two conditions implies the other.",
+      "searchQuery": "similar polygons need proportional sides and equal angles rectangles not similar",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 10 (Similarity)"
+      ]
+    },
+    {
+      "id": "euclidean-compass-straightedge-rules",
+      "unit": "constructions",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What are the only tools and moves allowed in a **construction** with **compass** and **straightedge**?",
+      "body": "A straightedge draws a line through two points you already have (it has no markings), and a compass draws a circle with a chosen center and a chosen radius (through a chosen point, or equal to a distance between two points you already have); new points are only the places where such lines and circles cross.\n\nA **construction** is a step-by-step recipe that uses only these moves to produce a figure with a stated property, such as a midpoint or a bisected angle, together with a reason it works.\n\nWhy it matters: These rules are Euclid's, and they make every result a matter of proof, not of measuring. You may not measure with a ruler or a protractor, or slide a marked edge.\n\nTip: A construction is only complete when you can justify it, usually by showing that the figure you drew contains congruent triangles.",
+      "searchQuery": "compass and straightedge construction rules allowed moves",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 4 (Congruence), construction lessons",
+        "Kiselev, Planimetry, ch. 1 (basic construction problems)"
+      ]
+    },
+    {
+      "id": "euclidean-perpendicular-bisector-construction",
+      "unit": "constructions",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What is the **perpendicular bisector** of a segment $AB$, and how do you construct it with compass and straightedge?",
+      "body": "It is the line through the midpoint of $AB$ at right angles to $AB$; it is made by drawing two equal circles centered at $A$ and $B$ and joining their two crossing points.\n\nSteps: set the compass wider than half of $AB$; draw a circle around $A$ and a circle of the same radius around $B$; they cross at $P$ and $Q$; the line $PQ$ is the perpendicular bisector.\n\nWhy it works: $PA = PB = QA = QB$ (all equal to the radius). Then $\\triangle APQ \\cong \\triangle BPQ$ by SSS, so $\\angle APQ = \\angle BPQ$. Let $PQ$ meet $AB$ at $M$. Then $\\triangle APM \\cong \\triangle BPM$ by SAS, so $AM = BM$ and the two angles at $M$ are equal and supplementary, hence $90^\\circ$ each.\n\nTip: Every point on this line is equally far from $A$ and $B$. To drop a perpendicular from a point $P$ to a line, draw a circle around $P$ that crosses the line twice and take the perpendicular bisector of the segment between those two points; to get a parallel through $P$, draw a line through $P$ perpendicular to that perpendicular (two lines perpendicular to the same line are parallel).",
+      "searchQuery": "perpendicular bisector construction compass straightedge proof SSS",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 4 (Congruence), construction lessons",
+        "Kiselev, Planimetry, ch. 1 (basic construction problems)"
+      ]
+    },
+    {
+      "id": "euclidean-regular-hexagon-in-circle",
+      "unit": "constructions",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "How do you construct a regular hexagon inscribed in a given circle with compass and straightedge, and why does the compass setting work?",
+      "body": "Keep the compass at the circle's radius and step around the circle from any starting point, marking six points; joining them in order gives the hexagon.\n\nWhy: Take the center $O$ and two neighboring marked points $X$, $Y$. Then $OX = OY$ (radii) and $XY$ is also one radius by the way we stepped, so $\\triangle OXY$ is equilateral, with a $60^\\circ$ angle at $O$. Six of these $60^\\circ$ angles fill the full turn $360^\\circ$, so the sixth step lands exactly where you started.\n\nExample: Joining every other marked point gives an equilateral triangle inscribed in the circle.\n\nTip: The side of the hexagon equals the circle's radius. To construct an equilateral triangle on a given segment $AB$ alone, draw circles of radius $AB$ around $A$ and around $B$; either crossing point is the third vertex.",
+      "searchQuery": "construct regular hexagon inscribed circle compass radius six steps",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 4 (Congruence), construction lessons",
+        "Kiselev, Planimetry, ch. 2 (construction problems)"
+      ]
+    },
+    {
+      "id": "euclidean-angle-bisector-construction-problem",
+      "unit": "constructions",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Construct the bisector of a given angle $\\angle ABC$ with compass and straightedge, and prove that your ray really splits the angle into two equal angles.",
+      "body": "Mark equal distances $BP = BQ$ on the two sides, draw equal circles around $P$ and $Q$ to meet at $R$, and the ray $BR$ is the angle bisector; $\\triangle BPR \\cong \\triangle BQR$ by SSS.\n\nAn **angle bisector** is the ray from the vertex that cuts the angle into two equal angles.\n\nSteps:\n1. Draw a circle around $B$; it crosses the two sides at $P$ and $Q$, so $BP = BQ$.\n2. Using the same radius for both (more than half of $PQ$), draw circles around $P$ and around $Q$ that cross inside the angle at $R$, so $PR = QR$.\n3. Draw ray $BR$.\n\nWhy it works: $BP = BQ$, $PR = QR$ and $BR$ is shared, so $\\triangle BPR \\cong \\triangle BQR$ by SSS. Matching angles are equal: $\\angle PBR = \\angle QBR$.\n\nWatch out: If the circles around $P$ and $Q$ are too small they don't meet. The radius must exceed half of $PQ$.",
+      "searchQuery": "angle bisector construction compass proof SSS congruence",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 4 (Congruence), construction lessons",
+        "Kiselev, Planimetry, ch. 1 (basic construction problems)"
+      ]
+    },
+    {
+      "id": "euclidean-angle-trisection-impossible",
+      "unit": "constructions",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that, with enough cleverness, any angle can be trisected using only compass and straightedge?",
+      "body": "It is impossible in general: Pierre Wantzel proved in 1837 that a general angle cannot be trisected, and $60^\\circ$ is an angle that can't be split into three $20^\\circ$ angles.\n\nSome special angles can be trisected, such as $90^\\circ$ (because $30^\\circ$ can be constructed). The theorem says there is no single recipe that works for every angle.\n\nWhy: Lengths you can construct start from the given ones and grow only by adding, subtracting, multiplying, dividing and taking square roots. Trisecting $60^\\circ$ would give a $20^\\circ$ angle, and building that angle would produce a length $x$ solving the cubic $8x^3 - 6x - 1 = 0$. That cubic has no solution of the constructible kind.\n\nWatch out: Trisection tricks that seem to work use a marked ruler or folding paper. They break Euclid's rules. Doubling the cube and squaring the circle are impossible for similar reasons.",
+      "searchQuery": "angle trisection impossible compass straightedge Wantzel 1837",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 4 (Congruence), construction lessons",
+        "Kiselev, Planimetry, ch. 2 (construction problems)"
+      ]
+    },
+    {
+      "id": "euclidean-chord-tangent-definition",
+      "unit": "circle-theorems",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **chord** of a circle, and what is a **tangent line**?",
+      "body": "A chord is a segment joining two points of the circle; a tangent line is a line that touches the circle at exactly one point.\n\nA diameter is the longest chord, because it passes through the center. A line that meets the circle in two points (and so contains a chord) is called a **secant**; a tangent just grazes the circle.\n\nKey idea: The point where a tangent touches the circle is the point of tangency. The radius to that point is at right angles to the tangent (see the tangent-length card).\n\nWatch out: A line meets a circle in zero, one or two points, never more. Tangent means *exactly one* common point, so it never enters the inside of the circle.",
+      "searchQuery": "chord tangent line circle definition point of tangency",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 12 (Circles)",
+        "Kiselev, Planimetry, ch. 2 (The Circle)"
+      ]
+    },
+    {
+      "id": "euclidean-central-inscribed-angle-definition",
+      "unit": "circle-theorems",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are a **central angle** and an **inscribed angle** of a circle, and what do they have in common?",
+      "body": "A central angle has its vertex at the center of the circle; an inscribed angle has its vertex on the circle, with both sides being chords. Both open onto an **arc**, the part of the circle between the two points where the angle's sides meet it.\n\nFor a central angle, the arc measure is the same number of degrees as the angle itself; so a central angle of $80^\\circ$ cuts off an $80^\\circ$ arc.\n\nExample: Let $A$ and $B$ be two points on a circle with center $O$. $\\angle AOB$ is a central angle. If $P$ is any other point of the circle, $\\angle APB$ is an inscribed angle, and both cut off arc $AB$ (the arc not containing $P$).\n\nWatch out: Always say which arc an angle opens onto. Two points split a circle into two arcs, and an angle belongs to the one lying inside it.",
+      "searchQuery": "central angle inscribed angle definition arc intercepted",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 12 (Circles)",
+        "Kiselev, Planimetry, ch. 2 (The Circle)"
+      ]
+    },
+    {
+      "id": "euclidean-inscribed-angle-theorem",
+      "unit": "circle-theorems",
+      "kind": "theorem",
+      "difficulty": 3,
+      "checkpoint": true,
+      "title": "State the **inscribed angle theorem**, and name two consequences (angle in a semicircle; angles on the same arc).",
+      "body": "An inscribed angle is half the central angle that opens onto the same arc. Consequences: an angle inscribed in a semicircle is $90^\\circ$, and inscribed angles on the same arc are equal.\n\nKey idea: Suppose one side of the inscribed angle $\\angle APB$ is a diameter $PA$ through the center $O$. Then $OP = OB$, so $\\triangle OPB$ is isosceles with equal base angles $\\angle P$ and $\\angle B$. The central angle $\\angle AOB$ is an exterior angle of this triangle, so it equals $\\angle P + \\angle B = 2\\angle P$. Other positions of $P$ reduce to this one by adding or subtracting two such angles.\n\nExample: A central angle of $100^\\circ$ means every inscribed angle on that arc is $50^\\circ$. If the arc is a half circle, the central angle is $180^\\circ$ and the inscribed angle is $90^\\circ$.\n\nWatch out: The two angles must open onto the *same* arc. An inscribed angle on the opposite arc is supplementary to this one, not equal.",
+      "searchQuery": "inscribed angle theorem half central angle semicircle 90 degrees",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 12 (Circles)",
+        "Kiselev, Planimetry, ch. 2 (The Circle)"
+      ]
+    },
+    {
+      "id": "euclidean-tangent-length-example",
+      "unit": "circle-theorems",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "A point $P$ is $13$ from the center $O$ of a circle of radius $5$. A tangent from $P$ touches the circle at $T$. How long is $PT$? (Number only.)",
+      "body": "12\n\nThe radius $OT$ is perpendicular to the tangent $PT$, so $\\triangle OTP$ is a right triangle with hypotenuse $OP = 13$ and leg $OT = 5$. Then $PT = \\sqrt{13^2 - 5^2} = \\sqrt{144} = 12$ (a $5$-$12$-$13$ triple).\n\nWhy: Every point of the tangent line other than $T$ lies outside the circle, so is farther than $5$ from $O$. So $T$ is the point of the line closest to $O$, and the shortest segment from a point to a line is the perpendicular one.\n\nTip: Two tangents drawn from the same outside point have equal lengths, since the two right triangles share the hypotenuse $OP$ and have equal legs (the radii), so they are congruent by HL.",
+      "answer": "12",
+      "searchQuery": "tangent perpendicular to radius find tangent length Pythagorean",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 12 (Circles)",
+        "Kiselev, Planimetry, ch. 2 (The Circle)"
+      ]
+    },
+    {
+      "id": "euclidean-arc-length-sector-area-formula",
+      "unit": "circle-theorems",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "A **sector** of a circle of radius $r$ has central angle $\\theta$ in degrees. What are the arc length and the area of the sector?",
+      "body": "Arc length $= \\dfrac{\\theta}{360}\\cdot 2\\pi r$ and sector area $= \\dfrac{\\theta}{360}\\cdot \\pi r^2$.\n\nA **sector** is the region bounded by two radii and the arc between them, like a slice of pizza.\n\nWhy: The angle $\\theta$ is the fraction $\\frac{\\theta}{360}$ of a full turn, so its arc and sector are that same fraction of the whole circumference $2\\pi r$ and the whole area $\\pi r^2$.\n\nExample: For $r = 6$ and $\\theta = 60^\\circ$, the fraction is $\\frac{1}{6}$: arc length $\\frac{1}{6}\\cdot 12\\pi = 2\\pi$ and sector area $\\frac{1}{6}\\cdot 36\\pi = 6\\pi$.\n\nTip: Sector area is also $\\frac{1}{2} r \\cdot (\\text{arc length})$, which matches the area of a triangle with a curved base.",
+      "searchQuery": "arc length sector area formula degrees fraction of circle",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 14 (Regular Polygons and the Circle)",
+        "Kiselev, Planimetry, ch. 2 (The Circle)"
+      ]
+    },
+    {
+      "id": "euclidean-power-of-a-point-theorem",
+      "unit": "circle-theorems",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **power of a point** theorem for two chords $AB$ and $CD$ that cross at a point $P$ inside a circle. What are its versions for a point outside?",
+      "body": "$PA \\cdot PB = PC \\cdot PD$. For a point $P$ outside, every line through $P$ that meets the circle at $X$ and $Y$ gives the same product $PX \\cdot PY$, and for a tangent touching at $T$ this is $PT^2$.\n\nThat common product is called the **power of the point** $P$.\n\nWhy: For crossing chords, $\\triangle PAD \\sim \\triangle PCB$ by AA: the angles at $P$ are vertical, and $\\angle DAB = \\angle DCB$ are inscribed angles on the same arc $DB$. Matching ratios give $\\frac{PA}{PC} = \\frac{PD}{PB}$.\n\nExample: Chords cross with $PA = 3$, $PB = 8$ and $PC = 4$. Then $3 \\cdot 8 = 4 \\cdot PD$, so $PD = 6$. For a tangent of length $6$ from an outside point, any secant through it has $PX \\cdot PY = 36$: with $PX = 4$, $PY = 9$.\n\nWatch out: For a secant from outside, $PX$ and $PY$ are the distances from $P$ to the *near* and *far* points, measured from $P$, not just the length of the chord.",
+      "searchQuery": "power of a point theorem intersecting chords secant tangent",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 12 (Circles)",
+        "Kiselev, Planimetry, ch. 2 (The Circle)"
+      ]
+    },
+    {
+      "id": "euclidean-chord-distance-from-center-problem",
+      "unit": "circle-theorems",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A circle has radius $13$ and a chord $AB$ of length $24$. Find the distance from the center to $AB$. A second chord $CD$ is the same distance from the center. What is its length?",
+      "body": "Distance $5$, and $CD = 24$: chords that are equally far from the center are equal in length.\n\nOutline:\n1. Let $O$ be the center and $M$ the foot of the perpendicular from $O$ to $AB$. In isosceles $\\triangle OAB$ ($OA = OB = 13$) the perpendicular from $O$ to the base also bisects it (the two right triangles are congruent by HL), so $AM = 12$.\n2. In right $\\triangle OMA$: $OM = \\sqrt{13^2 - 12^2} = \\sqrt{25} = 5$.\n3. For $CD$ at the same distance $5$, the same computation gives half-length $\\sqrt{13^2 - 5^2} = 12$, so $CD = 24$.\n\nKey idea: The distance from the center, the radius and half the chord form a right triangle, so any one of the three is fixed by the other two.\n\nWatch out: \"Distance from the center to a chord\" means the perpendicular distance. That is the shortest distance, and the one that bisects the chord.",
+      "searchQuery": "chord distance from center equal chords equidistant radius 13 chord 24",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 12 (Circles)",
+        "Kiselev, Planimetry, ch. 2 (The Circle)"
+      ]
+    },
+    {
+      "id": "euclidean-opposite-angles-only-cyclic",
+      "unit": "circle-theorems",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that opposite angles of every quadrilateral add up to $180^\\circ$?",
+      "body": "That holds only for a **cyclic quadrilateral**, one whose four vertices lie on a single circle; for a general quadrilateral, opposite angles need not add to $180^\\circ$.\n\nExample: A parallelogram with angles $60^\\circ$, $120^\\circ$, $60^\\circ$, $120^\\circ$ has opposite angles that add up to $120^\\circ$ and $240^\\circ$, so it is not cyclic. A rectangle is cyclic ($90^\\circ + 90^\\circ = 180^\\circ$).\n\nWhy: In a cyclic quadrilateral, two opposite angles are inscribed angles opening onto two arcs that together make the whole circle, $360^\\circ$. Each angle is half its arc, so the two add up to $\\frac{1}{2} \\cdot 360^\\circ = 180^\\circ$.\n\nTip: The converse is true as well: a quadrilateral whose opposite angles add up to $180^\\circ$ can be inscribed in a circle. This is the test for \"are these four points on one circle?\".",
+      "searchQuery": "cyclic quadrilateral opposite angles supplementary only if inscribed",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 12 (Circles)",
+        "Kiselev, Planimetry, ch. 2 (The Circle)"
+      ]
+    },
+    {
+      "id": "euclidean-apothem-regular-polygon-area",
+      "unit": "area-and-volume",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **apothem** of a regular polygon, and how does it give the polygon's area?",
+      "body": "The apothem is the perpendicular distance from the center of a regular polygon to one of its sides; the area is $\\tfrac{1}{2} \\cdot \\text{apothem} \\cdot \\text{perimeter}$.\n\nA regular polygon has all sides equal and all angles equal.\n\nWhy: Join the center to every vertex. This cuts a regular polygon with $n$ sides into $n$ congruent triangles, each with base one side $s$ and height the apothem $a$. The total is $n \\cdot \\tfrac{1}{2} s a = \\tfrac{1}{2} a (ns)$, and $ns$ is the perimeter.\n\nExample: A regular hexagon with side $6$ is made of six equilateral triangles of side $6$, so its apothem is the height of one, $3\\sqrt{3}$. Its perimeter is $36$, so the area is $\\tfrac{1}{2} \\cdot 3\\sqrt{3} \\cdot 36 = 54\\sqrt{3}$.\n\nWatch out: The apothem is not the distance from the center to a corner. That is the circumradius, and it is longer.",
+      "searchQuery": "apothem regular polygon area half apothem perimeter",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 14 (Regular Polygons and the Circle)",
+        "Kiselev, Planimetry, ch. 5 (Areas)"
+      ]
+    },
+    {
+      "id": "euclidean-cavalieri-principle",
+      "unit": "area-and-volume",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State **Cavalieri's principle** for two solids, and say how it explains why a leaning stack of coins has the same volume as a straight stack.",
+      "body": "If two solids lie between the same pair of parallel planes and every plane parallel to those cuts them in cross-sections of equal area, then the two solids have equal volume.\n\nKey idea: Volume is built up from slices. If every slice at every height has the same area, the totals must be the same, however the slices are shifted or the shape leans.\n\nExample: Slide the coins of a straight stack sideways to make it lean. Each coin is the same size and at the same height, so each cross-section is unchanged, and the volume is unchanged. A slanted cylinder of height $h$ and base area $B$ therefore has volume $B h$, just like a straight one.\n\nWatch out: The slices must have equal area at *every* height, and \"height\" is the perpendicular distance between the planes, not the length of a slanted edge.\n\nTip: The same idea works for areas of plane figures: equal lengths of cross-cut lines at every height give equal areas.",
+      "searchQuery": "Cavalieri's principle equal cross-sections equal volume",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 15 (Geometric Solids)",
+        "Kiselev, Planimetry, ch. 5 (Areas)"
+      ]
+    },
+    {
+      "id": "euclidean-heron-formula",
+      "unit": "area-and-volume",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State **Heron's formula** for the area of a triangle with side lengths $a$, $b$, $c$.",
+      "body": "Area $= \\sqrt{s(s-a)(s-b)(s-c)}$, where $s = \\dfrac{a+b+c}{2}$ is half the perimeter.\n\nWhy it matters: It gives the area from the three side lengths alone, with no height needed.\n\nExample: Sides $13, 14, 15$: $s = 21$, so the area is $\\sqrt{21 \\cdot 8 \\cdot 7 \\cdot 6} = \\sqrt{7056} = 84$. Check with $3, 4, 5$: $s = 6$ and $\\sqrt{6 \\cdot 3 \\cdot 2 \\cdot 1} = 6$, which is $\\tfrac{1}{2} \\cdot 3 \\cdot 4$.\n\nWatch out: $s$ is the *semi*perimeter, half the perimeter. Each factor $s - a$, $s - b$, $s - c$ is positive exactly when the triangle inequality holds, and one of them is $0$ for a flat triangle, which correctly gives area $0$.\n\nTip: It is proved by algebra from the Pythagorean theorem applied to the height; the formula is handy when a triangle is given by three sides.",
+      "searchQuery": "Heron's formula triangle area semiperimeter three sides",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 9 (Area)",
+        "Kiselev, Planimetry, ch. 5 (Areas)"
+      ]
+    },
+    {
+      "id": "euclidean-pyramid-cone-volume",
+      "unit": "area-and-volume",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "What is the volume of a **pyramid** or a **cone** with base area $B$ and height $h$, and where does the factor $\\tfrac{1}{3}$ come from?",
+      "body": "$V = \\tfrac{1}{3} B h$ for every pyramid and every cone, where $h$ is the perpendicular height from the apex to the base plane.\n\nA **pyramid** has a polygon for its base and triangular faces that meet at one point, the apex. A **cone** is the same with a circular base, so for a cone $B = \\pi r^2$.\n\nWhy: A cube of side $s$ can be cut into three congruent pyramids that share one corner as apex, each with a square face as its base, so each has volume $\\tfrac{1}{3} s^3 = \\tfrac{1}{3} B h$. Stretching the cube into a box with a square base and any height cuts the same way into three pyramids of equal volume, so the formula holds for every height. Any pyramid or cone with the same base area $B$ and height $h$ as such a square pyramid has the same cross-section at every height (the slice at distance $d$ from the apex has area $\\left(\\frac{d}{h}\\right)^2 B$, by the scaling of areas), so by Cavalieri's principle it has the same volume.\n\nExample: A square pyramid with base side $6$ and height $5$ has $V = \\tfrac{1}{3} \\cdot 36 \\cdot 5 = 60$.",
+      "searchQuery": "pyramid cone volume one third base area height Cavalieri",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 15 (Geometric Solids)",
+        "Kiselev, Planimetry, ch. 5 (Areas)"
+      ]
+    },
+    {
+      "id": "euclidean-sphere-volume-surface-area",
+      "unit": "area-and-volume",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Using Cavalieri's principle, show that a **sphere** of radius $r$ has volume $\\tfrac{4}{3}\\pi r^3$. What is its **surface area**?",
+      "body": "$V = \\tfrac{4}{3}\\pi r^3$, and the surface area (the area of the sphere's outer skin) is $4\\pi r^2$.\n\nCompare a hemisphere of radius $r$ with a cylinder of radius $r$ and height $r$ from which a cone has been removed (the cone's tip is at the center of the cylinder's bottom face, and it opens up to the top face). At height $h$ above the base:\n\n- The hemisphere's slice is a disk of radius $\\sqrt{r^2 - h^2}$, area $\\pi(r^2 - h^2)$.\n- The cylinder-minus-cone slice is a ring: $\\pi r^2 - \\pi h^2$, the same area.\n\nBy Cavalieri the volumes agree: $\\pi r^3 - \\tfrac{1}{3}\\pi r^3 = \\tfrac{2}{3}\\pi r^3$ for the hemisphere, so the sphere is $\\tfrac{4}{3}\\pi r^3$.\n\nKey idea: Cut the sphere's skin into many tiny patches and join each to the center to make thin pyramids of height $r$. Their volumes add to $\\tfrac{1}{3} \\cdot (\\text{surface area}) \\cdot r = \\tfrac{4}{3}\\pi r^3$, so the surface area is $4\\pi r^2$, four times the area of the circle through the center.",
+      "searchQuery": "sphere volume 4/3 pi r cubed Cavalieri hemisphere cylinder cone surface area 4 pi r squared",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 15 (Geometric Solids)",
+        "Kiselev, Planimetry, ch. 5 (Areas)"
+      ]
+    },
+    {
+      "id": "euclidean-isosceles-trapezoid-area-problem",
+      "unit": "area-and-volume",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "An isosceles trapezoid (two equal legs, one pair of parallel sides) has parallel sides $14$ and $6$ and legs $5$. Find its area. (Number only.)",
+      "body": "30\n\nDrop perpendiculars from the ends of the short side to the long side. They cut off two congruent right triangles, each with base $\\frac{14 - 6}{2} = 4$ and hypotenuse $5$, so the height is $\\sqrt{25 - 16} = 3$.\n\nArea $= \\tfrac{1}{2}(14 + 6) \\cdot 3 = 30$.\n\nWhy the formula works: Cut a trapezoid with parallel sides $a$ and $b$ and height $h$ along a diagonal into two triangles. Their bases are $a$ and $b$ and both have height $h$, so the area is $\\tfrac{1}{2} a h + \\tfrac{1}{2} b h = \\tfrac{1}{2}(a + b)h$.\n\nTip: Equivalently, the area is the average of the two parallel sides times the height.",
+      "answer": "30",
+      "searchQuery": "area of isosceles trapezoid parallel sides 14 and 6 legs 5",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 9 (Area)",
+        "Kiselev, Planimetry, ch. 5 (Areas)"
+      ]
+    },
+    {
+      "id": "euclidean-cone-slant-height-misconception",
+      "unit": "area-and-volume",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "A cone has radius $3$ and **slant height** $5$ (the distance along the surface from the tip to the base edge). Why is its volume not $\\tfrac{1}{3}\\pi \\cdot 3^2 \\cdot 5$?",
+      "body": "The volume formula needs the perpendicular height $h = \\sqrt{5^2 - 3^2} = 4$, not the slant height, so $V = \\tfrac{1}{3}\\pi \\cdot 9 \\cdot 4 = 12\\pi$ (not $15\\pi$).\n\nThe slant height $\\ell$ belongs to the surface area: the curved part has area $\\pi r \\ell = 15\\pi$ and the base disk has $\\pi r^2 = 9\\pi$, so the total **surface area** is $24\\pi$.\n\nWhy: Volume stacks flat slices at right angles to the axis, so it uses the height measured along the axis. The slant height is measured along the skin, and is longer than the height.\n\nWatch out: The same trap appears in pyramids: use the height from the apex straight down to the base plane for volume, and the slanted height of a face for face areas.",
+      "searchQuery": "cone slant height versus height volume formula surface area pi r l",
+      "refs": [
+        "Jacobs, Geometry 3e, ch. 15 (Geometric Solids)",
+        "Kiselev, Planimetry, ch. 5 (Areas)"
+      ]
+    }
+  ]
+}

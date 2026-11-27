@@ -103,6 +103,13 @@ describe('highlights and blocks', () => {
     ]);
   });
 
+  it('boxes "Why it matters" and "Why it works" like "Why"', () => {
+    expect(parseBlocks('Why it matters: it swaps limits.\n\nWhy it works: monotone convergence.')).toEqual([
+      { kind: 'callout', callout: 'why', label: 'Why it matters', text: 'It swaps limits.' },
+      { kind: 'callout', callout: 'why', label: 'Why it works', text: 'Monotone convergence.' },
+    ]);
+  });
+
   it('starts callout text as a sentence without changing case that matters', () => {
     expect(startSentence("don't divide by zero")).toBe("Don't divide by zero");
     expect(startSentence('a common slip')).toBe('A common slip');

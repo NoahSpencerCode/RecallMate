@@ -19,6 +19,16 @@ describe('friendlyError', () => {
     expect(friendlyError(reviewed)).toMatch(/already reviewed/);
   });
 
+  it('explains profession errors', () => {
+    const reset = { code: 'P0002', message: 'Card mathematics/limits is not in your stack' };
+    expect(isGoneError(reset)).toBe(true);
+    expect(friendlyError(reset)).toMatch(/isn’t in your stack/);
+    expect(friendlyError({ code: 'P0002', message: 'Start this profession first' })).toMatch(/Start this profession/);
+    expect(friendlyError({ code: 'P0002', message: 'Profession nope not found' })).toMatch(/profession isn’t available/);
+    expect(friendlyError({ code: '22023', message: 'That tier has no cards yet' })).toMatch(/isn’t ready yet/);
+    expect(isNotDueError({ code: '22023', message: 'Card is not due until 2026-11-25' })).toBe(true);
+  });
+
   it('tells password and email validation apart', () => {
     expect(friendlyError({ code: 'validation_failed', message: 'Password cannot be longer than 72 characters' })).toMatch(/72/);
     expect(friendlyError({ code: 'validation_failed', message: 'Unable to validate email address: invalid format' })).toMatch(

@@ -1,0 +1,188 @@
+{
+  "module": "homology",
+  "checker": "independent checker (Claude)",
+  "verdicts": [
+    {
+      "id": "homology-projective-space-cells",
+      "verdict": "fixed",
+      "note": "The CP^n chart said that scaling so z_n > 0 makes the point determined by (z_0, ..., z_{n-1}) with |z| < 1, but that also needs the unit-vector normalization. Added the normalization, z_n = sqrt(1 - |w|^2), and how the boundary sphere maps to CP^{n-1}."
+    },
+    {
+      "id": "homology-suspension-mapping-cylinder",
+      "verdict": "fixed",
+      "note": "The title used 'cellular map' before the card that defines it. Moved homology-cellular-map (content unchanged) to just before this card. The watch-out now says why a non-cellular f breaks this cell structure, and that cellular approximation comes later in the unit."
+    },
+    {
+      "id": "homology-homotopy-extension-property",
+      "verdict": "fixed",
+      "note": "The quantifier over Z was implicit, and the 'equivalently' clause left out that the extended homotopy must start at the given extension F_0, so it was not equivalent. Restated both, gave the retract equivalence in both directions, and added why ([0,1], {0} ∪ {1/k}) fails the HEP. Prop. 0.16 is confirmed."
+    },
+    {
+      "id": "homology-hawaiian-earring-not-cw",
+      "verdict": "fixed",
+      "note": "The prompt allowed other answers: circles of radius 1 + 1/n plus the limit circle form a compact union that is also not CW. The prompt now asks for countably many circles through one point with radii tending to 0."
+    },
+    {
+      "id": "homology-delta-complex",
+      "verdict": "fixed",
+      "note": "The watch-out contrasted Δ-complexes with 'simplicial complex', a term not yet taught. It now contrasts them with triangulations of surfaces, which were taught."
+    },
+    {
+      "id": "homology-rp2-simplicial",
+      "verdict": "fixed",
+      "note": "The closing note used 'augmentation-zero chains' before reduced homology introduces the augmentation. It now says '0-chains whose coefficients sum to 0', under a Why label instead of Watch out."
+    },
+    {
+      "id": "homology-singular-homology-definition",
+      "verdict": "fixed",
+      "note": "'Uncountable even for a point-like space' is false if read as a point: C_n(pt) = Z, as homology-point-homology shows. It now says the rank is already uncountable for X = [0,1]."
+    },
+    {
+      "id": "homology-prism-operator-proof",
+      "verdict": "fixed",
+      "note": "Step 4's 'faces that drop some v_j or w_j with j interior cancel in pairs' was garbled. It now names the shared faces that cancel, the two end faces that give gσ - fσ, and the faces over ∂Δ^n that give -P∂σ (checked against the sign computation)."
+    },
+    {
+      "id": "homology-hurewicz-degree-one",
+      "verdict": "fixed",
+      "note": "The reference pointed to Hatcher §2.1, but the theorem is Theorem 2A.1 in §2.A."
+    },
+    {
+      "id": "homology-hurewicz-proof",
+      "verdict": "fixed",
+      "note": "Same reference fix: Hatcher §2.A, not §2.1."
+    },
+    {
+      "id": "homology-pseudo-projective-plane-h1",
+      "verdict": "fixed",
+      "note": "The tip was muddled: it talked about one new cell and then 'the relation vectors', and it assumed generators of an arbitrary π_1. It now states the rule for a wedge of k circles with 2-cells attached along words w_j. The references changed from §2.1 to §1.2 (van Kampen) and §2.A (Hurewicz)."
+    },
+    {
+      "id": "homology-relative-homology",
+      "verdict": "fixed",
+      "note": "The watch-out said H_n(X,A) and the quotient space 'agree for good pairs'. The correct relation is with the reduced homology of X/A, and 'good pair' is only defined later. It now states H_n(X,A) ≅ H̃_n(X/A) for a CW complex and a nonempty subcomplex, without the undefined term."
+    },
+    {
+      "id": "homology-long-exact-sequence-pair",
+      "verdict": "fixed",
+      "note": "The example gave away the answer to homology-disk-sphere-pair. It is replaced with H_n(X, x_0) ≅ H̃_n(X)."
+    },
+    {
+      "id": "homology-connecting-homomorphism-construction",
+      "verdict": "fixed",
+      "note": "The tip gave away the next card's answer, the short exact sequence for a triple. It is replaced with the naturality of the connecting map."
+    },
+    {
+      "id": "homology-excision-theorem",
+      "verdict": "fixed",
+      "note": "'Why it matters' had excision backwards: it said one may 'cut away material far from A', but the excised set lies deep inside A, with its closure in int A. Rewritten."
+    },
+    {
+      "id": "homology-good-pair-quotient",
+      "verdict": "fixed",
+      "note": "homology-simplicial-equals-singular, homology-reflection-degree, homology-cellular-chain-complex and homology-cellular-homology-proof all use 'H̃_n of a wedge is the direct sum', but no card stated it. Added it here as a consequence, via the pair (⊔X_α, ⊔x_α), together with the wedge-of-spheres case."
+    },
+    {
+      "id": "homology-good-pair-quotient-proof",
+      "verdict": "fixed",
+      "note": "The watch-out was wrong: good pairs have no 'closed neighborhood hypothesis'. Step 1 uses the deformation retraction, and closedness of A is what makes the step-3 excisions legal. Also removed the five lemma, which the proof does not use, and made step 4 name the map it proves is an isomorphism instead of a 'middle vertical map' of a diagram that is never drawn."
+    },
+    {
+      "id": "homology-invariance-of-dimension",
+      "verdict": "fixed",
+      "note": "The excision in step 1 needs points to be closed in X. Added that hypothesis (it holds in R^n)."
+    },
+    {
+      "id": "homology-retract-splitting",
+      "verdict": "fixed",
+      "note": "The watch-out claimed the splitting fails whenever A is not a retract, but it only can fail. It now shows the failure explicitly for S^1 ⊂ D^2."
+    },
+    {
+      "id": "homology-eilenberg-steenrod-axioms",
+      "verdict": "fixed",
+      "note": "'Only h_0(pt) is nonzero' is wrong when the coefficient group is 0; it now says 'can be nonzero'. 'Satisfies them by this unit' now credits the previous unit too. The uniqueness statement for CW pairs, with additivity, was checked against Milnor's theorem."
+    },
+    {
+      "id": "homology-simplicial-equals-singular",
+      "verdict": "fixed",
+      "note": "The tip misused 'cell-like spaces', which is a different technical term, and called this theorem an instance of the uniqueness theorem. It now says the same five-lemma induction drives the uniqueness theorem on CW pairs. 'Infinite complexes' was corrected to 'infinite-dimensional'."
+    },
+    {
+      "id": "homology-reflection-degree",
+      "verdict": "fixed",
+      "note": "Step 3 said ∂g_± generates H_{n-1}(E), which is false for n = 1 because H_0(S^0) = Z^2; it now says H̃_{n-1}(E). Step 2 now names the wedge formula it uses, which homology-good-pair-quotient now states. The argument was otherwise checked and is correct."
+    },
+    {
+      "id": "homology-antipodal-map-degree",
+      "verdict": "fixed",
+      "note": "It referred to 'the reflection of the previous card', which does not make sense when the card is reviewed on its own. It now names the reflection in the last coordinate and shows that conjugation keeps the degree."
+    },
+    {
+      "id": "homology-even-sphere-fixed-or-antipodal",
+      "verdict": "fixed",
+      "note": "The watch-out ('the two degrees ±1 agree in sign because n+1 is even') was garbled. It now says that for odd n, deg a = 1 = deg id, so there is no contradiction."
+    },
+    {
+      "id": "homology-free-action-even-sphere",
+      "verdict": "fixed",
+      "note": "The watch-out used 'lens spaces' before the card that defines them. It now says that odd spheres admit free actions of every finite cyclic group."
+    },
+    {
+      "id": "homology-suspension-preserves-degree",
+      "verdict": "fixed",
+      "note": "The key idea ('every degree occurs on every sphere') gave away homology-power-map-degree's answer and was not the idea of this proof; replaced. Step 2 relied on plain excision, whose closure hypothesis fails for (SX, C_-X). It now uses the good-pair isomorphism with SX/C_-X = C_+X/X."
+    },
+    {
+      "id": "homology-local-degree-formula",
+      "verdict": "fixed",
+      "note": "The local degree was defined as the integer by which f_* acts between two groups that are 'both ≅ Z', which fixes it only up to sign. Both groups are now identified with H_n(S^n) by excision and the exact sequence, using one generator, as in Hatcher. Also added n ≥ 1."
+    },
+    {
+      "id": "homology-polynomial-sphere-degree",
+      "verdict": "fixed",
+      "note": "Step 3 jumped from 'holomorphic maps preserve orientation' to 'local degree +1', a fact no card proves. It is now proved: near z_i, p is homotoped to its linear part and then to a translation, with y never gaining preimages. The rational-map tip needed P and Q coprime: P = Q = z gives a constant map."
+    },
+    {
+      "id": "homology-cellular-chain-complex",
+      "verdict": "fixed",
+      "note": "It used c_n without defining it. It now says the group is free abelian on the n-cells."
+    },
+    {
+      "id": "homology-attaching-degree",
+      "verdict": "fixed",
+      "note": "The Σ_g example repeated the key step of homology-surface-homology-cellular, and the next card does the torus case too. It is replaced with the exponent-sum rule and the Klein bottle word aba^{-1}b, which gives degrees 0 and 2."
+    },
+    {
+      "id": "homology-cellular-boundary-formula",
+      "verdict": "fixed",
+      "note": "'∂g generates H_{n-1}(S^{n-1})' fails for n = 1; it now says H̃_{n-1}."
+    },
+    {
+      "id": "homology-cellular-homology-theorem",
+      "verdict": "fixed",
+      "note": "'H_n(X) is independent of the chosen cell structure' says nothing, since singular homology involves no cell structure; the point is that H_n^CW(X) is independent of it. The example repeated homology-cellular-chain-complex's even-dimensions example and is replaced with S^n."
+    },
+    {
+      "id": "homology-cpn-cellular",
+      "verdict": "fixed",
+      "note": "The watch-out overclaimed ('works only because all cells have the same parity'). The real condition is that no two cells lie in adjacent dimensions. The tip used CP^∞ without defining it; it now defines it and gives the odd degrees too."
+    },
+    {
+      "id": "homology-moore-space-construction",
+      "verdict": "fixed",
+      "note": "It asserted without construction that maps S^n → ∨S^n with prescribed degrees exist. Added the pinch-map construction and the remark that each attaching map meets only finitely many spheres. The section-level reference §2.2 is right."
+    },
+    {
+      "id": "homology-sphere-product-cellular",
+      "verdict": "fixed",
+      "note": "The main argument with p_1 and p_2 is correct. The watch-out, however, claimed a nonzero top-cell coefficient would make H_n finite, which is false for n = m = 1 (H_1 would be Z ⊕ Z/c). It is replaced with a correct second check: the class of e^n × e^0 maps to a generator of H_n(S^n) under p_1, so it cannot have finite order."
+    }
+  ],
+  "summary": {
+    "reviewed": 70,
+    "ok": 35,
+    "fixed": 35,
+    "dropped": 0,
+    "added": 0
+  }
+}

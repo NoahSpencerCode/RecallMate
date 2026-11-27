@@ -362,13 +362,15 @@ export type RichBlock =
 /** Line prefixes that turn a paragraph into a callout box. */
 export const CALLOUTS: Record<string, { kind: CalloutKind; label: string }> = {
   'Why:': { kind: 'why', label: 'Why' },
+  'Why it matters:': { kind: 'why', label: 'Why it matters' },
+  'Why it works:': { kind: 'why', label: 'Why it works' },
   'Example:': { kind: 'example', label: 'Example' },
   'Watch out:': { kind: 'watch', label: 'Watch out' },
   'Tip:': { kind: 'tip', label: 'Tip' },
   'Mnemonic:': { kind: 'mnemonic', label: 'Memory hook' },
   'Key idea:': { kind: 'key', label: 'Key idea' },
 };
-const CALLOUT_LINE = /^(Why:|Example:|Watch out:|Tip:|Mnemonic:|Key idea:)\s*/;
+const CALLOUT_LINE = /^(Why:|Why it matters:|Why it works:|Example:|Watch out:|Tip:|Mnemonic:|Key idea:)\s*/;
 const BULLET = /^[-•]\s+/;
 const NUMBERED = /^\d+[.)]\s+/;
 

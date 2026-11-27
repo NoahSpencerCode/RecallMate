@@ -1,0 +1,595 @@
+{
+  "profession": "embedded-ai",
+  "module": "developer-tooling",
+  "tier": 0,
+  "cards": [
+    {
+      "id": "dev-shell-vs-terminal",
+      "unit": "shell-basics",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **shell**, and how is it different from a **terminal**?",
+      "body": "The shell is the program that reads the commands you type and runs them; the terminal is the window where you type and read the output.\n\nWhen you open a terminal app, it starts a shell inside it. Common shells are bash and zsh (zsh is the default on recent Macs). You type a line such as `ls`, press Enter, and the shell finds the program called `ls`, runs it and shows what it prints.\n\nWhy it matters: Almost every developer tool in this course (Git, Python, compilers, programmers for chips) is driven from a shell, and a shell can repeat the same steps from a file instead of you clicking.\n\nWatch out: People use \"terminal\" and \"shell\" as if they were one thing. They are separate: you can run a different shell inside the same terminal window.",
+      "searchQuery": "shell versus terminal difference bash zsh",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-flags-and-help",
+      "unit": "shell-basics",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **command-line flag**, and how do you find out which flags a command accepts?",
+      "body": "A flag is an option, written with a leading `-` or `--`, that changes how a command behaves; run `man command` or `command --help` to see the flags.\n\nExample: In `ls -l Documents`, `ls` is the command, `-l` is a flag (show a long listing) and `Documents` is an argument (the thing the command works on). Short flags can be combined: `ls -la` means `ls -l -a`.\n\n`man ls` opens the manual page for `ls`. Scroll with the arrow keys or the space bar and press `q` to quit.\n\nWatch out: Flags differ between systems. The `ls` on macOS and the `ls` on Linux accept different flags, and some commands have no `--help`. When one way fails, try the other, and trust `man` on your own machine.",
+      "searchQuery": "command line flag option man page help",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-working-directory",
+      "unit": "shell-basics",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is the shell's **working directory**, and which command prints it?",
+      "body": "The folder the shell is currently \"in\"; `pwd` (print working directory) prints it.\n\nCommands that take a file name look in the working directory by default. If it is `/home/sam/projects`, then `ls` lists that folder and `cat notes.txt` opens `/home/sam/projects/notes.txt`. \"Directory\" and \"folder\" mean the same thing. Change it with `cd`.\n\nExample: `pwd` might print `/home/sam/projects`.\n\nWatch out: The error \"No such file or directory\" often means you are in a different folder than you think. Run `pwd` and `ls` first.",
+      "searchQuery": "working directory pwd print current folder shell",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-absolute-vs-relative-path",
+      "unit": "shell-basics",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "How does an **absolute path** differ from a **relative path**?",
+      "body": "An absolute path starts at the root `/` and names the same place wherever you are; a relative path starts from the working directory.\n\nThree shortcuts help with relative paths: `.` is the current folder, `..` is its parent folder, and `~` is your **home directory**, your personal folder (for example `/home/sam` on Linux or `/Users/sam` on macOS).\n\nExample: With working directory `/home/sam/projects`, the paths `robot/main.py` and `/home/sam/projects/robot/main.py` name the same file. `../notes.txt` is `/home/sam/notes.txt`, and `~/notes.txt` is the same file when your home directory is `/home/sam`.\n\nWatch out: A relative path that works in one folder breaks in another. In scripts that must run from anywhere, prefer absolute paths or `~`.",
+      "searchQuery": "absolute path relative path home directory dot dotdot tilde",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-cd-pwd-trace",
+      "unit": "shell-basics",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "Assume the working directory is `/home/sam/projects` and the folders `robot/src` and `robot/docs` exist. What does the last command print?\n\n```bash\ncd robot/src\ncd ../docs\npwd\n```",
+      "body": "`/home/sam/projects/robot/docs`\n\nThe first `cd` uses a relative path, so the shell lands in `/home/sam/projects/robot/src`. In the second, `..` means \"go up one folder\" (to `robot`) and then `docs` goes down into the sibling folder. `pwd` prints where you ended up.\n\nTip: `cd` with no argument (or `cd ~`) jumps to your home directory, and `cd -` returns to the previous folder.",
+      "searchQuery": "cd pwd dotdot relative path trace output",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-file-commands-trace",
+      "unit": "shell-basics",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "A folder contains only the file `a.txt`. What does the last command print?\n\n```bash\ncp a.txt b.txt\nmv a.txt c.txt\nrm b.txt\nmkdir old\nmv c.txt old\nls\n```",
+      "body": "`old`\n\nStep by step: `cp` copies, leaving `a.txt` and `b.txt`. `mv a.txt c.txt` renames, leaving `b.txt` and `c.txt`. `rm b.txt` deletes one, leaving `c.txt`. `mkdir old` creates a folder, and `mv c.txt old` moves the file into it because `old` is an existing folder. Only `old` is left in the working folder (`ls old` would show `c.txt`).\n\nWatch out: `rm` has no undo. There is no recycle bin: the file is gone at once. `rm -r folder` removes a folder and everything in it, so run `ls folder` first and read the command twice before pressing Enter.",
+      "searchQuery": "mkdir cp mv rm shell file commands no undo",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-ls-l-permissions",
+      "unit": "shell-basics",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "The command `ls -l run.sh` prints the line below. Who is allowed to run `run.sh` as a program?\n\n```text\n-rw-r--r--  1 sam  staff  58 Mar  3 10:15 run.sh\n```",
+      "body": "Nobody: no one has execute (`x`) permission, so `./run.sh` fails with \"Permission denied\".\n\nThe first ten characters are the **file permissions**. The first character is the type (`-` for an ordinary file, `d` for a directory). The next three characters are for the owner (`rw-`), the next three for the owner's group (`r--`) and the last three for everyone else (`r--`). In each group, `r` means read, `w` means write, `x` means execute (run), and `-` means that permission is missing.\n\nSo the owner `sam` can read and change the file, and everyone else can only read it.\n\nTip: Read the string in groups: `-` `rw-` `r--` `r--`.",
+      "searchQuery": "ls -l file permissions rwx owner group others",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-chmod-plus-x",
+      "unit": "shell-basics",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "`ls -l` shows `-rw-r--r--` for the script `run.sh`. Type the command that adds execute permission to it.",
+      "body": "`chmod +x run.sh`\n\n**chmod** (change mode) edits a file's permissions. `+x` adds execute permission; afterwards `ls -l` shows `-rwxr-xr-x`, and you can run the file with `./run.sh`.\n\nWhy: The `./` says \"the file in this folder\". The shell does not look in the working directory for commands unless you point at it with a path.\n\nWatch out: `chmod +x` makes a file runnable, but it must still contain something the system knows how to run, such as a script that names its interpreter.",
+      "searchQuery": "chmod +x make script executable",
+      "answer": "chmod +x run.sh",
+      "acceptedAnswers": [
+        "chmod a+x run.sh",
+        "chmod u+x run.sh",
+        "chmod 755 run.sh",
+        "chmod +x ./run.sh",
+        "chmod a+x ./run.sh",
+        "chmod u+x ./run.sh",
+        "chmod 755 ./run.sh"
+      ],
+      "answerDisplay": "`chmod +x run.sh`",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-standard-streams",
+      "unit": "pipes-and-redirection",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What are **stdin**, **stdout** and **stderr**?",
+      "body": "The three standard streams every command has: stdin (standard input) is its input, stdout (standard output) is its normal output, and stderr (standard error) carries its error messages.\n\nBy default stdin comes from the keyboard, and stdout and stderr are both shown on the screen. Because they are separate streams, you can send the results to a file while error messages still appear on screen.\n\nExample: `ls notes.txt missing.txt` prints `notes.txt` on stdout and a \"No such file or directory\" message on stderr.\n\nWatch out: On screen, stdout and stderr look identical. You only find out which stream a line came from when you redirect one of them.",
+      "searchQuery": "stdin stdout stderr standard streams",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-redirect-overwrite-append",
+      "unit": "pipes-and-redirection",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "Assume `list.txt` does not exist at first. What does the last command print? (`echo` prints its arguments as one line; `wc -l` counts lines.)\n\n```bash\necho one > list.txt\necho two >> list.txt\necho three > list.txt\necho four >> list.txt\nwc -l list.txt\n```",
+      "body": "`2 list.txt`\n\n**Redirection** sends a stream somewhere other than the screen. `>` writes stdout to a file and replaces whatever was in it; `>>` appends to the end. After line 3 the file holds only `three`, and line 4 adds `four`, so it has two lines. (macOS pads the number with spaces.)\n\nWatch out: `>` destroys the old contents without asking. If you meant to add to a log, use `>>`.",
+      "searchQuery": "shell redirection > >> overwrite append wc -l",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-redirect-stderr",
+      "unit": "pipes-and-redirection",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "`notes.txt` exists but `nothere.txt` does not. Where does each piece of output go?\n\n```bash\nls notes.txt nothere.txt > out.txt 2> err.txt\n```",
+      "body": "Nothing appears on screen: `out.txt` receives `notes.txt` and `err.txt` receives the \"No such file or directory\" error message.\n\n`>` redirects stdout (it is short for `1>`), and `2>` redirects stderr. The numbers 1 and 2 identify the two output streams.\n\nWatch out: With only `> out.txt`, the error message would still appear on screen, because stderr was not redirected.\n\nTip: To send both streams to one file, write `> all.txt 2>&1` (the `2>&1` means \"send stderr to wherever stdout goes\").",
+      "searchQuery": "redirect stderr 2> shell error output file",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-pipe-concept",
+      "unit": "pipes-and-redirection",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "What does the pipe `|` do between two commands?",
+      "body": "It feeds the stdout of the left command into the stdin of the right command.\n\nA **pipe** lets small tools be combined. Each does one job, and the output of one becomes the input of the next, with no temporary file in between.\n\nExample: `ls | wc -l` counts the entries in a folder. When its output goes into a pipe, `ls` prints one name per line, and `wc -l` counts the lines.\n\nWatch out: A pipe carries only stdout. Error messages from the left command (stderr) still go to the screen.",
+      "searchQuery": "shell pipe operator stdout stdin chain commands",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-regex-grep",
+      "unit": "pipes-and-redirection",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **regular expression**, and what do `^`, `$` and `.` mean in a simple one?",
+      "body": "A pattern that describes text to match; in one, `^` matches the start of a line, `$` the end of a line and `.` any single character.\n\nThe command **grep** prints the lines of its input that match a pattern. `grep 'ERROR' log.txt` finds lines containing ERROR, `grep '^ERROR' log.txt` only lines that begin with it, and `grep 'h.t'` matches `hat`, `hot` and `hit`. Square brackets match one character from a set: `[ab]` matches `a` or `b`.\n\nTip: Put the pattern in single quotes so the shell leaves characters like `$` and `*` alone.\n\nWatch out: `.` is not a literal dot. To match a real dot, write `\\.`.",
+      "searchQuery": "regular expression grep caret dollar dot pattern",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell",
+        "MIT Missing Semester 2026: Code Quality (regular expressions)"
+      ]
+    },
+    {
+      "id": "dev-pipeline-grep-sort-uniq",
+      "unit": "pipes-and-redirection",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "`fruit.txt` holds the six lines shown. What does this pipeline print?\n\n```text\napple\nbanana\napple\ncherry\nbanana\napple\n```\n\n```bash\ngrep '^[ab]' fruit.txt | sort | uniq -c | head -n 1\n```",
+      "body": "`3 apple`\n\nStep by step: `grep '^[ab]'` keeps the lines starting with `a` or `b` (five lines, `cherry` is dropped). `sort` puts them in order: three `apple`, then two `banana`. `uniq -c` collapses repeated lines and puts a count in front, giving `3 apple` and `2 banana` (the counts are padded with spaces). `head -n 1` keeps only the first line.\n\nWatch out: `uniq` only merges lines that are next to each other, so you almost always run `sort` first.\n\nTip: `tail -n 1` keeps the last line instead. `head` and `tail` show the start and the end of any input.",
+      "searchQuery": "grep sort uniq -c head pipeline count lines",
+      "checkpoint": true,
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell",
+        "MIT Missing Semester 2026: Code Quality (regular expressions)"
+      ]
+    },
+    {
+      "id": "dev-shebang-script",
+      "unit": "pipes-and-redirection",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "`hi.sh` has been made executable with `chmod +x hi.sh`. What does `./hi.sh Ada` print?\n\n```bash\n#!/bin/bash\nname=$1\necho \"Hello, $name\"\n```",
+      "body": "`Hello, Ada`\n\nA **shell script** is a text file of shell commands that you can run like a program. Its first line, the **shebang** (`#!` followed by the path of a program), tells the system which interpreter should run the file. Here that is `/bin/bash`.\n\nInside the script, `$1` is the first argument (here `Ada`), much like `sys.argv[1]` in Python.\n\nWatch out: There must be no spaces around `=` in an assignment. `name = $1` is an error, because the shell reads `name` as a command.",
+      "searchQuery": "bash script shebang positional argument",
+      "refs": [
+        "MIT Missing Semester 2026: Course Overview + Introduction to the Shell"
+      ]
+    },
+    {
+      "id": "dev-environment-variable",
+      "unit": "environment-and-processes",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is an **environment variable**, and how do you print one in the shell?",
+      "body": "A named piece of text that the shell hands to every program it starts; `echo $HOME` prints the value of `HOME`.\n\nPrograms read environment variables to learn about their surroundings. `HOME` is your home directory, `USER` is your login name, and `PATH` (covered below) tells the shell where programs live. Python reads them through `os.environ`.\n\nWatch out: You write the `$` when reading a variable but not when setting one. `echo HOME` just prints the word HOME.",
+      "searchQuery": "environment variable echo HOME shell",
+      "refs": [
+        "MIT Missing Semester 2026: Command-line Environment"
+      ]
+    },
+    {
+      "id": "dev-export-child-process",
+      "unit": "environment-and-processes",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this print? (`python3 -c` runs the quoted Python code; `os.environ.get('GREETING')` gives the variable's value, or `None` if it is not set.)\n\n```bash\nGREETING=hello\npython3 -c \"import os; print(os.environ.get('GREETING'))\"\nexport GREETING=hi\npython3 -c \"import os; print(os.environ.get('GREETING'))\"\n```",
+      "body": "`None` on the first line, then `hi`.\n\nA plain assignment such as `GREETING=hello` creates a variable that exists only inside the shell. **export** marks a variable so that every program started afterwards receives a copy, which is why the second Python run sees `hi`.\n\nWatch out: Exports last only for that shell session, and a program can never change its parent's variables. To make a setting permanent, put the `export` line in your shell's startup file (`~/.bashrc` or `~/.zshrc`).",
+      "searchQuery": "export environment variable child process shell",
+      "refs": [
+        "MIT Missing Semester 2026: Command-line Environment"
+      ]
+    },
+    {
+      "id": "dev-path-lookup",
+      "unit": "environment-and-processes",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "How does the shell find the program when you type a command name like `python3`?",
+      "body": "It searches the folders listed in the `PATH` variable, from left to right, and runs the first match.\n\n**PATH** is an environment variable holding folders separated by colons, for example `/usr/local/bin:/usr/bin:/bin`. `which python3` prints the full path of the program that would run. If no folder has a match, you get \"command not found\".\n\nExample: If two folders on PATH both contain a program named `python3`, the one in the earlier folder wins.\n\nWatch out: A script in your working folder is not found by name, because the working folder is normally not on PATH. Run it as `./script.sh`: a name containing a slash skips the PATH search.",
+      "searchQuery": "PATH variable which command search folders",
+      "refs": [
+        "MIT Missing Semester 2026: Command-line Environment"
+      ]
+    },
+    {
+      "id": "dev-exit-code-success",
+      "unit": "environment-and-processes",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "By convention, which exit code does a command return when it succeeds? (Type the number.)",
+      "body": "`0`\n\nAn **exit code** is a small integer that a program hands back to the shell when it finishes. `0` means success and any other number means some kind of failure. The shell stores the code of the last command in `$?`, so `echo $?` prints it.\n\nExample: `grep` exits with 0 if it found a match and 1 if no line matched, so `grep hello notes.txt` followed by `echo $?` prints `1` when `notes.txt` has no `hello`.\n\nWatch out: The convention looks backwards if you think in true and false: in the shell, 0 counts as \"success\" and \"true\".",
+      "searchQuery": "exit code zero success shell status",
+      "answer": "0",
+      "acceptedAnswers": [
+        "zero"
+      ],
+      "answerDisplay": "`0`",
+      "refs": [
+        "MIT Missing Semester 2026: Command-line Environment"
+      ]
+    },
+    {
+      "id": "dev-and-or-chaining",
+      "unit": "environment-and-processes",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "`true` always exits with code 0 and `false` always exits with code 1. What does this print?\n\n```bash\nfalse || echo B\ntrue && echo A\nfalse && echo C\necho $?\n```",
+      "body": "`B`, then `A`, then `1`\n\n`&&` runs the next command only if the previous one succeeded (exit code 0). `||` runs it only if the previous one failed. Line 1: `false` fails, so `echo B` runs. Line 2: `true` succeeds, so `echo A` runs. Line 3: `false` fails, so `echo C` is skipped.\n\n`$?` holds the exit code of the last command that actually ran, which was `false` on line 3, so it prints `1`.\n\nExample: `make && ./run` starts the program only if the build worked.\n\nWatch out: `;` is different: `a ; b` runs `b` whatever happened to `a`.",
+      "searchQuery": "shell && || exit code chaining commands",
+      "refs": [
+        "MIT Missing Semester 2026: Command-line Environment"
+      ]
+    },
+    {
+      "id": "dev-stop-program-signal",
+      "unit": "environment-and-processes",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Fill in both blanks to stop a program that never ends: the key combination in terminal 1, and the command in terminal 2 (the program's process ID is 4821).\n\n```bash\n# Terminal 1 (runs forever):\npython3 loop.py     # press ____ to stop it\n# Terminal 2:\n____ 4821\n```",
+      "body": "`Ctrl-C`, and `kill`.\n\nA **signal** is a short message the operating system delivers to a running program (a process). Ctrl-C makes the terminal send the signal **SIGINT** (interrupt) to the program in the foreground, which by default ends it. `kill 4821` sends a signal to the process with that process ID (PID); its default is SIGTERM, a polite request to terminate.\n\nWatch out: `kill -9 4821` sends SIGKILL, which a program cannot ignore, but it gives no chance to clean up. Use it only when the polite signals fail.\n\nTip: A program stopped by a signal usually reports an exit code of 128 plus the signal number, so after Ctrl-C `echo $?` typically prints 130.",
+      "searchQuery": "ctrl-c SIGINT kill process signal stop program",
+      "refs": [
+        "MIT Missing Semester 2026: Command-line Environment"
+      ]
+    },
+    {
+      "id": "dev-venv-definition",
+      "unit": "venv-and-pip",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a Python **virtual environment** (venv)?",
+      "body": "A self-contained folder with its own Python interpreter and its own set of installed packages, used for one project.\n\nA **package** is reusable code that someone else wrote and published, such as `requests` or `numpy`. A **dependency** is a package your project needs in order to run. Packages you install while a venv is active go inside that folder, not into the Python shared by the whole computer.\n\nExample: `python3 -m venv .venv` creates a venv in a folder called `.venv`.\n\nTip: A venv is disposable. Delete the folder and nothing else on your computer is affected; you can recreate it from your list of dependencies.\n\nWatch out: Don't move or rename a venv folder. It remembers its own location and breaks. Delete it and create a new one instead.",
+      "searchQuery": "python virtual environment venv package dependency",
+      "refs": [
+        "MIT Missing Semester 2026: Packaging and Shipping Code (dependencies and environments)",
+        "The Python Tutorial, ch. 12 (Virtual Environments and Packages)"
+      ]
+    },
+    {
+      "id": "dev-venv-isolation",
+      "unit": "venv-and-pip",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why does each Python project get its own virtual environment?",
+      "body": "Two projects can need different versions of the same package, and one shared Python can hold only one version of it at a time.\n\nExample: Project A was written for `numpy` 1.26 and project B needs `numpy` 2.x. If both used one shared installation, upgrading for B could break A. With one venv each, both work side by side.\n\nIsolation also keeps the project's list of dependencies honest: it contains only what that project installed, so a teammate can rebuild the same setup.\n\nWatch out: If you forget to activate the venv, `pip install` goes into the wrong Python. Check that your prompt shows `(.venv)` or that `which python` points into the `.venv` folder.",
+      "searchQuery": "why virtual environment per project dependency conflict",
+      "refs": [
+        "MIT Missing Semester 2026: Packaging and Shipping Code (dependencies and environments)",
+        "The Python Tutorial, ch. 12 (Virtual Environments and Packages)"
+      ]
+    },
+    {
+      "id": "dev-venv-create-activate",
+      "unit": "venv-and-pip",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Fill in the two blanks to create a virtual environment in a folder named `.venv` and activate it (macOS or Linux shell).\n\n```bash\npython3 -m ____ .venv\nsource .venv/bin/____\npip install requests\n```",
+      "body": "`venv` and `activate`.\n\n`python3 -m venv .venv` runs the standard library module `venv`, which builds the folder. `source .venv/bin/activate` changes the shell's PATH so that `python` and `pip` come from the `.venv` folder, and your prompt gains a `(.venv)` prefix. Run `deactivate` to leave.\n\n**pip** is Python's package installer. `pip install requests` downloads the package from PyPI (the Python Package Index, the public package repository) and installs it into the active venv.\n\nWatch out: On Windows the activation command is `.venv\\Scripts\\activate`.",
+      "searchQuery": "python -m venv activate pip install",
+      "refs": [
+        "MIT Missing Semester 2026: Packaging and Shipping Code (dependencies and environments)",
+        "The Python Tutorial, ch. 12 (Virtual Environments and Packages)"
+      ]
+    },
+    {
+      "id": "dev-requirements-freeze",
+      "unit": "venv-and-pip",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this command, run inside an active environment, write into `requirements.txt`?\n\n```bash\npip freeze > requirements.txt\n```",
+      "body": "One line per installed package with its exact version, such as `numpy==1.26.4`.\n\nThe file **requirements.txt** lists a project's dependencies. On another computer, in a fresh venv, `pip install -r requirements.txt` installs them again. Fixing exact versions with `==` is called **version pinning**, and it makes every install get the same code.\n\n`pip freeze` also lists packages that were installed only because your packages need them. A file that records the exact version of everything is called a **lock file**; a frozen `requirements.txt` plays that role, and tools such as Poetry and uv write dedicated lock files.\n\nWatch out: Run it with the venv active. In the shared Python, it would list every unrelated package on the computer.",
+      "searchQuery": "pip freeze requirements.txt version pinning lock file",
+      "refs": [
+        "MIT Missing Semester 2026: Packaging and Shipping Code (dependencies and environments)",
+        "The Python Tutorial, ch. 12 (Virtual Environments and Packages)"
+      ]
+    },
+    {
+      "id": "dev-semantic-versioning",
+      "unit": "venv-and-pip",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "In **semantic versioning**, what do the three numbers of version `2.4.1` mean?",
+      "body": "MAJOR.MINOR.PATCH: 2 is the major version (changes that can break old code), 4 the minor version (new features that keep old code working) and 1 the patch (bug fixes only).\n\nSo going from `2.4.1` to `2.4.2` should be safe, `2.5.0` adds something new, and `3.0.0` may need changes in your code.\n\nWatch out: Compare the numbers one at a time, not as decimals. Version `1.10.0` is newer than `1.9.3`.\n\nWatch out: Not every project follows the scheme strictly, and versions starting with `0.` (like `0.3.2`) promise nothing about stability.",
+      "searchQuery": "semantic versioning major minor patch meaning",
+      "refs": [
+        "MIT Missing Semester 2026: Packaging and Shipping Code (dependencies and environments)",
+        "The Python Tutorial, ch. 12 (Virtual Environments and Packages)"
+      ]
+    },
+    {
+      "id": "dev-version-specifiers",
+      "unit": "venv-and-pip",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Which versions does each line of this requirements file allow?\n\n```text\nnumpy==1.26.4\nrequests>=2.0\npandas~=2.1.3\n```",
+      "body": "`==1.26.4`: exactly that version. `>=2.0`: 2.0 or any newer version. `~=2.1.3`: at least 2.1.3 but below 2.2.\n\n`~=` is the \"compatible release\" specifier: it allows newer patch versions but not a new minor version, so `pandas~=2.1.3` accepts 2.1.3 and 2.1.9 but not 2.2.0.\n\nWatch out: A loose range like `>=2.0` can install different versions on different days, so two people may get different behavior from the same file.\n\nTip: Applications you ship are often pinned exactly with `==`; libraries that others install usually allow ranges.",
+      "searchQuery": "requirements.txt version specifiers == >= ~= compatible release",
+      "refs": [
+        "MIT Missing Semester 2026: Packaging and Shipping Code (dependencies and environments)",
+        "The Python Tutorial, ch. 12 (Virtual Environments and Packages)"
+      ]
+    },
+    {
+      "id": "dev-git-repository",
+      "unit": "git-basics",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a Git **repository**, and which command creates one?",
+      "body": "A project folder plus the hidden `.git` folder that stores its complete history; `git init` creates one.\n\nGit is a version-control tool: it records versions of your files so you can look back or undo. All of that record lives in the `.git` folder inside your project.\n\nExample: `mkdir blink`, then `cd blink`, then `git init` turns the empty folder `blink` into a repository.\n\nWatch out: Deleting `.git` deletes the history but leaves your current files. And don't run `git init` in your home directory, which would make one giant repository of everything.",
+      "searchQuery": "git repository git init .git folder",
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 2 Git Basics (§2.1–2.3)"
+      ]
+    },
+    {
+      "id": "dev-git-staging-area",
+      "unit": "git-basics",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is Git's **staging area**, and which command puts a change into it?",
+      "body": "A holding area where you collect the changes that will go into the next commit; `git add <file>` puts a change there.\n\nYour changes move through three places: the working folder (what you edit), the staging area, and the repository (the saved history, made of commits; the next card explains them). `git status` shows which changes are staged and which are not.\n\nWhy it matters: The staging area lets you commit related changes together, even if you edited several unrelated files since the last commit.\n\nWatch out: If you edit a file after `git add`, the new edit is not staged. Run `git add` again.",
+      "searchQuery": "git staging area git add index",
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 2 Git Basics (§2.1–2.3)"
+      ]
+    },
+    {
+      "id": "dev-commit-snapshot-parent",
+      "unit": "git-basics",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How does Git store history: what is a **commit**, and how are commits linked?",
+      "body": "A commit is a snapshot of the whole project at one moment, with a message, and it points to its parent, the commit before it.\n\nA **snapshot** records the state of all tracked files, not a list of edits; Git simply reuses unchanged files, so it stays small. Each commit has an ID (a long hex string; the first seven characters are usually enough). Following the parent pointers from the newest commit gives the whole history.\n\n`git log` prints exactly that chain, newest commit first. After three commits it lists three entries.\n\nWhy it matters: Because every commit is a full snapshot, you can return to any earlier commit.",
+      "searchQuery": "git commit snapshot parent history git log",
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 2 Git Basics (§2.1–2.3)",
+        "Pro Git 2e, §1.3 What is Git?"
+      ]
+    },
+    {
+      "id": "dev-git-init-add-commit",
+      "unit": "git-basics",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume Git is installed, your name and email are configured, and the default branch is `main`. What does the last command report?\n\n```bash\ngit init\necho \"print('hi')\" > app.py\ngit add app.py\ngit commit -m \"Add app.py\"\ngit status\n```",
+      "body": "`nothing to commit, working tree clean` (on branch `main`).\n\n`git init` creates the repository, `git add app.py` stages the new file, and `git commit` records the snapshot with the **commit message** given after `-m`. Nothing has changed since, so `git status` reports a clean working tree.\n\nTip: A good commit message starts with a short summary line (around 50 characters) that says what the change does, in the style \"Add app.py\" or \"Fix debounce delay\". Months later, `git log` reads like a story.\n\nWatch out: Without `-m`, Git opens a text editor for the message. If you didn't expect that, save and close it.",
+      "searchQuery": "git init add commit status clean working tree",
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 2 Git Basics (§2.1–2.3)",
+        "Pro Git 2e, §2.2 Recording Changes to the Repository",
+        "MIT Missing Semester 2026: Beyond the Code (commit messages)"
+      ]
+    },
+    {
+      "id": "dev-git-diff",
+      "unit": "git-basics",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does the last command show?\n\n```bash\necho \"x = 1\" > a.py\ngit add a.py\ngit commit -m \"Add a.py\"\necho \"x = 2\" > a.py\ngit diff\n```",
+      "body": "A `-x = 1` line and a `+x = 2` line: the edit that is not yet staged.\n\n`git diff` compares your working folder with the staging area. Since nothing is staged here, that means the last commit, and it prints the differences. Lines starting with `-` were removed and lines starting with `+` were added.\n\nWatch out: Once you run `git add a.py`, plain `git diff` shows nothing, because the change is now staged. Use `git diff --staged` to see what the next commit will contain.",
+      "searchQuery": "git diff unstaged changes plus minus lines",
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 2 Git Basics (§2.1–2.3)",
+        "Pro Git 2e, §2.2 Recording Changes to the Repository"
+      ]
+    },
+    {
+      "id": "dev-gitignore",
+      "unit": "git-basics",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "A folder holds `main.c`, `main.o`, `notes.txt`, `build/out.bin` and a `.gitignore` file with the two lines shown. Which files does `git add .` stage?\n\n```text\nbuild/\n*.o\n```",
+      "body": "`.gitignore`, `main.c` and `notes.txt`; not `main.o` or `build/out.bin`.\n\nA **.gitignore** file lists patterns of files Git should leave out of the repository. Here `build/` ignores the whole folder and `*.o` ignores every file ending in `.o`. Typical entries are build outputs, virtual environments (`.venv/`) and editor files.\n\nThe `.gitignore` file itself is staged like any other file, which is what you want: the whole team then shares the same rules.\n\nWatch out: Ignoring only affects files Git isn't tracking yet. A file already committed stays tracked until you remove it from Git with `git rm --cached <file>`.",
+      "searchQuery": "gitignore patterns build outputs git add dot",
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 2 Git Basics (§2.1–2.3)",
+        "Pro Git 2e, §2.2 Recording Changes to the Repository (Ignoring Files)"
+      ]
+    },
+    {
+      "id": "dev-git-branch",
+      "unit": "git-branching",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a Git **branch**?",
+      "body": "A movable pointer (a name) to one commit; when you commit on a branch, the pointer moves forward to the new commit.\n\nA branch is not a copy of your files. It is a tiny label on the chain of commits, so creating one is instant. Branches let you try a feature on its own line of work without disturbing `main`.\n\nExample: `git switch -c feature` creates a branch called `feature` and switches to it; `git branch` lists the branches.\n\nWatch out: Switching branches changes the files in your working folder to match that branch's latest commit. Commit or save your work first.",
+      "searchQuery": "git branch pointer to commit switch -c",
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 3 Git Branching (§3.1–3.6)"
+      ]
+    },
+    {
+      "id": "dev-git-head",
+      "unit": "git-branching",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is **HEAD** in Git?",
+      "body": "A pointer to where you are now: normally the current branch, and through it the commit you have checked out.\n\nWhen you commit, Git makes the new commit with the commit HEAD points to as its parent, then moves the branch that HEAD points to. `git switch other` points HEAD at `other` and updates your files. `git log` shows it as `HEAD -> main`.\n\nWatch out: If HEAD points straight at a commit instead of a branch (a \"detached HEAD\", for example after checking out an old commit ID), new commits belong to no branch and are easy to lose. Create a branch before you keep working.",
+      "searchQuery": "git HEAD pointer current branch detached head",
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 3 Git Branching (§3.1–3.6)"
+      ]
+    },
+    {
+      "id": "dev-git-fast-forward-merge",
+      "unit": "git-branching",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "On `feature` you made two commits after branching from `main`, and `main` has gained no commits since. What does `git merge feature` do while you are on `main`?\n\n```bash\ngit switch main\ngit merge feature\n```",
+      "body": "It fast-forwards: the `main` pointer simply moves up to the latest commit of `feature`, and no new commit is created.\n\nTo **merge** is to bring the commits of another branch into the current one. When the current branch has no new commits of its own, Git has nothing to combine and just slides the pointer forward.\n\nExample: If `main` had also gained a commit, the histories would have diverged. Git would then create a merge commit with two parents.\n\nTip: After merging, `git branch -d feature` deletes the label. The commits stay in the history.",
+      "searchQuery": "git merge fast-forward branch pointer moves",
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 3 Git Branching (§3.1–3.6)"
+      ]
+    },
+    {
+      "id": "dev-merge-conflict-markers",
+      "unit": "git-branching",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "After `git merge feature` on `main`, Git reports a **merge conflict** and `settings.py` contains the text below. What do you do to finish the merge?\n\n```text\n<<<<<<< HEAD\ndelay_ms = 500\n=======\ndelay_ms = 200\n>>>>>>> feature\n```",
+      "body": "Edit the file to the version you want and delete the three marker lines, then run `git add settings.py` and `git commit`.\n\nA merge conflict happens when both branches changed the same lines in different ways, so Git cannot choose. The part between `<<<<<<< HEAD` and `=======` is from your current branch (`main`); the part between `=======` and `>>>>>>> feature` comes from the branch being merged. You may keep one side or combine them, for example `delay_ms = 300`.\n\nTip: `git status` lists the files still in conflict, and `git merge --abort` backs out of the merge.\n\nWatch out: If you commit while the marker lines are still in the file, Git accepts it, but the code no longer runs.",
+      "searchQuery": "git merge conflict markers resolve add commit",
+      "checkpoint": true,
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 3 Git Branching (§3.1–3.6)"
+      ]
+    },
+    {
+      "id": "dev-merge-vs-rebase",
+      "unit": "git-branching",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "When should you merge and when should you rebase?",
+      "body": "Merge to combine work and keep the history as it happened; **rebase** only to tidy your own commits that nobody else has, and never rebase commits others already have.\n\nA merge adds a new commit with two parents and leaves your existing commits untouched. `git rebase main` instead replays your commits one by one on top of the latest `main`, as new commits with new IDs, giving a straight line of history.\n\nWhy: Rebasing rewrites commits. If a teammate already has the old ones, their history and yours no longer match, and fixing that is painful.\n\nExample: Before sharing a feature branch, rebase it onto `main` to get a clean line. After sharing it, merge.",
+      "searchQuery": "git merge versus rebase when to use",
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 3 Git Branching (§3.1–3.6)"
+      ]
+    },
+    {
+      "id": "dev-git-remote-commands",
+      "unit": "git-branching",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Fill in the three blanks (a **remote** is a copy of the repository stored on another computer, such as a server or GitHub).\n\n```bash\ngit ____ https://example.com/robot.git   # copy a remote repository to your machine\ngit ____                                  # upload your new commits to the remote\ngit ____                                  # download new commits and merge them\n```",
+      "body": "`clone`, `push` and `pull`.\n\n`git clone` copies the whole repository, including its history, and remembers the source as a remote named `origin`. `git push` uploads your commits on the current branch to the remote. `git pull` is `git fetch` (download new commits without touching your files) followed by a merge into your current branch.\n\nWatch out: A push is rejected if the remote has commits you don't have. Pull first, resolve any conflicts, then push again.",
+      "searchQuery": "git clone push pull remote origin fetch",
+      "refs": [
+        "MIT Missing Semester 2026: Version Control and Git",
+        "Pro Git 2e, ch. 3 Git Branching (§3.1–3.6)",
+        "Pro Git 2e, §2.5 Working with Remotes"
+      ]
+    },
+    {
+      "id": "dev-stack-trace",
+      "unit": "reading-errors-debugging",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **stack trace** (Python calls it a traceback)?",
+      "body": "The list of function calls that were active when an error happened, with file names and line numbers, followed by the **error message**.\n\nIn Python, the last line is the error message: the type of error and a short text, such as `ZeroDivisionError: division by zero`. The frame just above it is where the error happened, and the frames higher up show how the program got there. Python prints the oldest call first, so read from the bottom up.\n\nWatch out: The order differs between languages. Java, for instance, prints the error first and the most recent call right below it.\n\nTip: When a compiler prints a long list of errors, fix the first one and recompile. Later errors are often side effects of the first.",
+      "searchQuery": "stack trace traceback read error message",
+      "refs": [
+        "MIT Missing Semester 2026: Debugging and Profiling"
+      ]
+    },
+    {
+      "id": "dev-read-traceback",
+      "unit": "reading-errors-debugging",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print before it crashes, and what is the last line of the traceback?\n\n```python\ndef average(nums):\n    return sum(nums) / len(nums)\n\ndef report(data):\n    for name, nums in data.items():\n        print(name, average(nums))\n\nreport({\"a\": [1, 2], \"b\": []})\n```",
+      "body": "`a 1.5`, then a traceback ending in `ZeroDivisionError: division by zero`.\n\nThe first entry `\"a\"` works and prints `a 1.5`. For `\"b\"` the list is empty, so `sum(nums)` is 0 and `len(nums)` is 0, and `0 / 0` raises the error. The traceback lists three frames: line 8 (the call to `report`), line 6 (inside `report`) and line 2 (inside `average`, the innermost, listed last).\n\nTip: Find the lowest frame that is in your own code. The crash happened in `average`, but the real fix may belong in the caller: should `report` skip empty lists?",
+      "searchQuery": "python traceback read ZeroDivisionError last line",
+      "refs": [
+        "MIT Missing Semester 2026: Debugging and Profiling",
+        "The Python Tutorial, ch. 8 (Errors and Exceptions)"
+      ]
+    },
+    {
+      "id": "dev-mre-example",
+      "unit": "reading-errors-debugging",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Your 200-line program crashes at `total += int(row[2])`. How do you turn this into a **minimal reproducible example**?",
+      "body": "Remove everything that is not needed, step by step, until the shortest program that still shows the same error remains, using made-up data instead of your files.\n\nExample: The program reads a large CSV file and ends with `ValueError: invalid literal for int() with base 10: 'N/A'`. Replace the file with one hard-coded row such as `[\"a\", \"b\", \"N/A\"]`. Delete the loop, the other columns and the unrelated code. In the end `int(\"N/A\")` alone reproduces the error, and the cause is clear: a missing-value marker reached `int`.\n\nWhy it matters: Often, shrinking the program shows you the bug yourself. If it doesn't, anyone you ask can run your short example and see the problem.\n\nWatch out: Re-run after every cut. If the error disappears, you removed something that matters, so put it back.",
+      "searchQuery": "minimal reproducible example shrink bug report debugging",
+      "refs": [
+        "MIT Missing Semester 2026: Debugging and Profiling",
+        "MIT Missing Semester 2026: Beyond the Code (minimal reproducible examples)"
+      ]
+    },
+    {
+      "id": "dev-logging-levels",
+      "unit": "reading-errors-debugging",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print? (`logging` writes to stderr by default.)\n\n```python\nimport logging\nlogging.basicConfig(level=logging.INFO)\nlogging.debug(\"raw=%s\", 42)\nlogging.info(\"started\")\nlogging.warning(\"low battery\")\n```",
+      "body": "`INFO:root:started` and `WARNING:root:low battery`; the debug message is hidden.\n\n**Logging** records messages with a severity level: DEBUG, INFO, WARNING, ERROR and CRITICAL, from least to most serious. Only messages at the configured level or above are shown, and `level=logging.INFO` hides DEBUG. The default format is `LEVEL:logger name:message`, and `root` is the default logger's name.\n\nWhy it matters: Unlike `print`, you can turn the detail up or down by changing one setting, without editing or deleting lines.\n\nTip: Without `basicConfig`, the default level is WARNING, so `info` messages vanish.",
+      "searchQuery": "python logging levels basicConfig debug info warning",
+      "refs": [
+        "MIT Missing Semester 2026: Debugging and Profiling",
+        "The Python Tutorial, ch. 11 (Brief Tour of the Standard Library, Part II: Logging)"
+      ]
+    },
+    {
+      "id": "dev-pdb-breakpoint",
+      "unit": "reading-errors-debugging",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "The program below is run with `python3 demo.py`. At the `(Pdb)` prompt, what does typing `p y` show?\n\n```python\ndef f(x):\n    y = x * 2\n    breakpoint()\n    return y + 1\n\nprint(f(5))\n```",
+      "body": "`10`\n\nA **breakpoint** is a place where the program pauses so you can look around. Calling `breakpoint()` starts **pdb**, Python's built-in debugger, just before the next line runs. By then `y = x * 2` has already run with `x` equal to 5, so `p y` prints 10.\n\nCommands at the `(Pdb)` prompt: `p expr` prints a value, `l` lists the code, `n` runs the next line, `c` continues, and `q` quits. After `c`, the program prints `11`.\n\nWatch out: Remove `breakpoint()` before you commit or ship the code.",
+      "searchQuery": "python pdb breakpoint print variable debugger",
+      "refs": [
+        "MIT Missing Semester 2026: Debugging and Profiling",
+        "Python Library Reference: pdb, the Python debugger"
+      ]
+    },
+    {
+      "id": "dev-pdb-step-over-into",
+      "unit": "reading-errors-debugging",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "pdb has paused at line 4. Which command stops next inside `double`, and which runs the call and stops at line 5?\n\n```python\ndef double(x):        # line 1\n    return x * 2      # line 2\n\na = double(3)         # line 4 (paused here)\nb = a + 1             # line 5\n```",
+      "body": "`s` steps into `double`; `n` steps over it, running the call and stopping at line 5.\n\nStep over (`n`, \"next\") runs a whole line, including any function it calls, and stops at the following line. Step into (`s`, \"step\") enters the function so you can watch it line by line. Other debuggers use the same ideas under different keys; in VS Code they are F10 (step over) and F11 (step into).\n\nTip: Step over the calls you trust and step into the one you suspect. If you stepped into a function by mistake, `r` runs until it returns.",
+      "searchQuery": "pdb step over step into n s command",
+      "refs": [
+        "MIT Missing Semester 2026: Debugging and Profiling"
+      ]
+    }
+  ]
+}

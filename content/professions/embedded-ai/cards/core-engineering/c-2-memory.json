@@ -1,0 +1,1121 @@
+{
+  "profession": "embedded-ai",
+  "module": "c-2-memory",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "m-memory-address",
+      "unit": "pointers-and-addresses",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "In C, what is a memory **address**?",
+      "body": "The number that names one byte of memory: byte 0, byte 1, byte 2, and so on.\n\nThink of memory as one very long row of numbered boxes, each holding one byte. The number on a box is its address. A variable that needs several bytes, such as a 4-byte `int`, occupies several boxes in a row, and its address is the address of the first one.\n\nWhy it matters: Every variable and every function you write lives at some address. Pointers are how C lets you work with those numbers directly.\n\nTip: Addresses are normally written in hexadecimal, for example `0x20000400`, because that is easier to read than a long decimal number.",
+      "searchQuery": "memory address byte numbered C definition",
+      "refs": [
+        "K&R 2e, §5.1 Pointers and Addresses"
+      ]
+    },
+    {
+      "id": "m-pointer-definition",
+      "unit": "pointers-and-addresses",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "In C, what is a **pointer**?",
+      "body": "A variable whose value is a memory address.\n\nAn `int` variable holds a number. A pointer variable holds the address of some other variable, so it \"points to\" that variable. Through the pointer you can read or change what lives at that address.\n\nExample: If `x` is stored at address `0x2000`, then a pointer `p` that points to `x` holds the value `0x2000`. The pointer is itself a variable with its own address.\n\nKey idea: A pointer stores where something is, not what it is.",
+      "searchQuery": "C pointer definition variable holds address",
+      "refs": [
+        "K&R 2e, §5.1 Pointers and Addresses"
+      ]
+    },
+    {
+      "id": "m-pointer-type-meaning",
+      "unit": "pointers-and-addresses",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why does every C pointer have a **pointer type** such as `int *` or `char *`, when it only holds an address?",
+      "body": "The type tells the compiler how many bytes to access and how to interpret them when you dereference the pointer.\n\nAn address alone says where something starts, not how big it is. An `int *` says \"an `int` lives here\", so `*p` reads 4 bytes (with a 32-bit `int`) as a signed integer. A `char *` says \"a `char` lives here\", so `*p` reads 1 byte.\n\nWhy: The same address can be read in different ways. The pointer type is what picks the way.\n\nWatch out: A plain address carries no size. Mixing up pointer types is how you read the wrong number of bytes.",
+      "searchQuery": "C pointer type int pointer char pointer bytes read",
+      "refs": [
+        "K&R 2e, §5.1 Pointers and Addresses"
+      ]
+    },
+    {
+      "id": "m-uninitialised-pointer-misconception",
+      "unit": "pointers-and-addresses",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that writing `int *p;` gives you an integer you can store into with `*p = 5;`?",
+      "body": "Because `int *p;` creates only a pointer variable, not an `int` for it to point at.\n\nUntil you assign an address to `p`, it holds a garbage value (if it is a local variable). Writing `*p = 5;` then stores 5 at some random address, which is undefined behavior: a crash at best, silent corruption at worst.\n\nExample: Correct use gives the pointer something real to point at first.\n\n```c\nint n;\nint *p = &n;\n*p = 5;\n```\n\nTip: Initialize every pointer when you declare it, to the address of a real object or to `NULL`.",
+      "searchQuery": "C uninitialised pointer wild pointer dereference",
+      "refs": [
+        "K&R 2e, §5.1 Pointers and Addresses"
+      ]
+    },
+    {
+      "id": "m-address-of-and-deref",
+      "unit": "pointers-and-addresses",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume a 32-bit `int`. What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int x = 7;\n    int *p = &x;\n    *p = 9;\n    printf(\"%d\\n\", x);\n    return 0;\n}\n```",
+      "body": "`9`\n\n`&x` is the **address-of operator**: it gives the address of `x`, which is stored in `p`. `*p` is the **dereference operator**: it means \"the object at the address in `p`\", so `*p = 9;` writes 9 into `x` itself.\n\nWhy: `p` and `x` are two ways to reach the same bytes. Changing one is visible through the other.\n\nWatch out: The `*` in the declaration `int *p` is part of the type. The `*` in `*p = 9` is the dereference operator. Same symbol, different jobs.",
+      "searchQuery": "C address-of operator dereference operator example",
+      "refs": [
+        "K&R 2e, §5.1 Pointers and Addresses"
+      ]
+    },
+    {
+      "id": "m-printf-percent-p",
+      "unit": "pointers-and-addresses",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Fill in the blank so the program prints the address of `x`:\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int x = 7;\n    printf(\"______\\n\", ______);\n    return 0;\n}\n```",
+      "body": "`printf(\"%p\\n\", (void *)&x);`\n\n`%p` is the format specifier for printing a pointer value, usually shown in hexadecimal. It expects a `void *`, so you cast the pointer with `(void *)` to stay within the standard.\n\nExample: A typical 64-bit desktop prints something like `0x7ffee3b4a8ac`. The exact number changes from machine to machine and often from run to run.\n\nWatch out: Never use `%d` for an address. On a 64-bit machine an `int` is too narrow to hold it.",
+      "searchQuery": "C printf percent p print address void pointer cast",
+      "refs": [
+        "K&R 2e, §5.1 Pointers and Addresses"
+      ]
+    },
+    {
+      "id": "m-swap-with-pointers",
+      "unit": "pointers-and-addresses",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Write the body of this function so it swaps the two integers that the caller's pointers point to.\n\n```c\nvoid swap(int *a, int *b)\n{\n    /* your code */\n}\n```",
+      "body": "`int t = *a; *a = *b; *b = t;`\n\nSave the value at `a` in a temporary, copy the value at `b` into the place `a` points to, then put the saved value where `b` points. All three steps go through `*`, so they change the caller's variables.\n\nExample: With `int x = 1, y = 2;`, the call `swap(&x, &y);` leaves `x` as 2 and `y` as 1. The caller passes addresses with `&`.\n\nWatch out: Writing `a = b;` would only change the local pointer `a`, not the integers.",
+      "searchQuery": "C swap function using pointers to int",
+      "refs": [
+        "K&R 2e, §5.2 Pointers and Function Arguments"
+      ]
+    },
+    {
+      "id": "m-swap-by-value-fails",
+      "unit": "pointers-and-addresses",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print, and why?\n\n```c\n#include <stdio.h>\nvoid swap(int a, int b)\n{\n    int t = a;\n    a = b;\n    b = t;\n}\nint main(void)\n{\n    int x = 1, y = 2;\n    swap(x, y);\n    printf(\"%d %d\\n\", x, y);\n    return 0;\n}\n```",
+      "body": "`1 2`: nothing is swapped, because C passes copies of the arguments.\n\nWhen `swap(x, y)` runs, `a` and `b` are new variables that start as copies of 1 and 2. The function swaps those copies and then they disappear. `x` and `y` in `main` never change.\n\nWhy: To change a caller's variable, the function must receive its address. That is exactly what `swap(int *a, int *b)` is for.\n\nKey idea: Pass by value means the function works on copies. Passing a pointer is the way to let it reach the original.",
+      "searchQuery": "C pass by value swap does not work copies",
+      "refs": [
+        "K&R 2e, §5.2 Pointers and Function Arguments"
+      ]
+    },
+    {
+      "id": "m-null-dereference",
+      "unit": "pointers-and-addresses",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "On a typical desktop operating system, what happens when this runs?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int *p = NULL;\n    printf(\"%d\\n\", *p);\n    return 0;\n}\n```",
+      "body": "The program crashes with a segmentation fault; the behavior is undefined.\n\n`NULL` is the **NULL pointer**: a special pointer value that means \"points to nothing\". C guarantees it never equals the address of a real object, so reading through it is always a bug. A desktop operating system leaves address 0 unmapped, so the access is stopped and the program is killed.\n\nWatch out: On many microcontrollers address 0 is real memory or holds the vector table, so a NULL dereference may not crash. It silently reads or writes the wrong thing instead.\n\nTip: Compare a pointer with `NULL` before using it if it might not point at anything, as in `if (p != NULL)`.",
+      "searchQuery": "C NULL pointer dereference segmentation fault",
+      "refs": [
+        "K&R 2e, §5.1 Pointers and Addresses",
+        "CS50x 2026, Week 4 notes: Pointers"
+      ]
+    },
+    {
+      "id": "m-pointer-size-cortex-m",
+      "unit": "pointers-and-addresses",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "On a 32-bit Arm Cortex-M (4-byte pointers), what does this print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    printf(\"%zu %zu\\n\", sizeof(char *), sizeof(double *));\n    return 0;\n}\n```",
+      "body": "`4 4`\n\nEvery object pointer on that machine holds an address as wide as the machine's address, 32 bits or 4 bytes. It does not matter that a `char` is 1 byte and a `double` is 8 bytes: that size describes the target, not the pointer.\n\nExample: On a typical 64-bit desktop the same program prints `8 8`.\n\nWhy it matters: Code that assumes a pointer fits in an `int` works on some targets and breaks on others. Use `size_t` or `uintptr_t` when you need an integer that holds an address.",
+      "searchQuery": "sizeof pointer 32-bit cortex-m 4 bytes",
+      "refs": [
+        "K&R 2e, §5.1 Pointers and Addresses"
+      ]
+    },
+    {
+      "id": "m-reassign-vs-write-through",
+      "unit": "pointers-and-addresses",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int a = 1, b = 2;\n    int *p = &a;\n    p = &b;\n    *p = 5;\n    printf(\"%d %d\\n\", a, b);\n    return 0;\n}\n```",
+      "body": "`1 5`\n\n`p = &b;` changes which variable `p` points to; `a` is untouched. After that, `*p = 5;` writes through `p`, and `p` now points at `b`, so `b` becomes 5.\n\nWhy: Assigning to `p` moves the arrow. Assigning to `*p` changes the thing the arrow points at. Keeping the two apart is the most common pointer skill to practise.\n\nTip: Draw boxes for `a`, `b` and `p`, with an arrow from `p`, and redraw the arrow after each line.",
+      "searchQuery": "C pointer reassign vs dereference assign trace",
+      "refs": [
+        "K&R 2e, §5.1 Pointers and Addresses"
+      ]
+    },
+    {
+      "id": "m-pointer-arithmetic-definition",
+      "unit": "pointer-arithmetic-arrays",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "In C, what does **pointer arithmetic** mean when you add an integer $n$ to a pointer `p`?",
+      "body": "`p + n` points $n$ elements past `p`, which is $n \\times$ `sizeof(*p)` bytes further on.\n\nC scales the step by the size of the thing the pointer points to. If `p` is an `int *` and `int` is 4 bytes, then `p + 1` is 4 bytes after `p`, and `p + 3` is 12 bytes after.\n\nWhy: You almost always want \"the next element\", not \"the next byte\". Scaling by the element size means the same expression works for any element type.\n\nWatch out: Arithmetic is only meaningful inside one array (or one past its end). Stepping elsewhere is undefined behavior.",
+      "searchQuery": "C pointer arithmetic p + n scaled sizeof element",
+      "refs": [
+        "K&R 2e, §5.4 Address Arithmetic"
+      ]
+    },
+    {
+      "id": "m-array-decay-definition",
+      "unit": "pointer-arithmetic-arrays",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is **array decay** in C?",
+      "body": "In most expressions, including a function call, an array's name turns into a pointer to its first element.\n\nGiven `int a[4];`, the expression `a` usually means `&a[0]`, of type `int *`. That is why passing an array to a function really passes only a pointer: the function receives no copy and no length.\n\nExample: The calls `f(a)` and `f(&a[0])` pass exactly the same thing.\n\nWatch out: Two places where the array does not decay are `sizeof a` and `&a`. They still see the whole array.",
+      "searchQuery": "C array decay array name pointer to first element",
+      "refs": [
+        "K&R 2e, §5.3 Pointers and Arrays",
+        "CS:APP 3e, §3.8 Array Allocation and Access"
+      ]
+    },
+    {
+      "id": "m-element-address-formula",
+      "unit": "pointer-arithmetic-arrays",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How does C compute the **element address** of `a[i]`, given the array's base address?",
+      "body": "Base address $+\\ i \\times$ `sizeof(a[0])`; in pointer form that is `a + i`, so `a[i]` means `*(a + i)`.\n\nThe compiler multiplies the index by the element size and adds that to the base. Because `a + i` is itself pointer arithmetic, indexing is just a dereference of a computed pointer.\n\nExample: With `int32_t a[]` starting at `0x1000`, element 3 lives at $0x1000 + 3 \\times 4 =$ `0x100C`.\n\nWhy it matters: This is why array indices start at 0. Element 0 sits at offset $0 \\times$ `sizeof` from the base.",
+      "searchQuery": "C array element address base plus index times size",
+      "refs": [
+        "K&R 2e, §5.3 Pointers and Arrays",
+        "CS:APP 3e, §3.8 Array Allocation and Access"
+      ]
+    },
+    {
+      "id": "m-sizeof-array-parameter-misconception",
+      "unit": "pointer-arithmetic-arrays",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that `sizeof(arr)` inside `void f(int arr[])` gives the size of the caller's array?",
+      "body": "Because the parameter `int arr[]` is really `int *arr`, so `sizeof(arr)` is the size of a pointer.\n\nThe array decayed to a pointer at the call. Inside `f` the length is gone. On a 32-bit Cortex-M, an `int a[4]` in the caller has `sizeof(a)` of 16, but `sizeof(arr)` inside `f` is 4.\n\nWhy: C passes only the address of the first element, so the function cannot tell how many elements follow.\n\nTip: Pass the length as a second parameter, as in `void f(int *arr, size_t n)`. In the caller, `sizeof(a) / sizeof(a[0])` still gives the element count.",
+      "searchQuery": "C sizeof array parameter pointer decay function",
+      "refs": [
+        "K&R 2e, §5.3 Pointers and Arrays"
+      ]
+    },
+    {
+      "id": "m-index-vs-deref-same",
+      "unit": "pointer-arithmetic-arrays",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume a 32-bit `int`. What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int a[4] = {5, 6, 7, 8};\n    int *p = a;\n    printf(\"%d %d %d\\n\", a[2], *(a + 2), p[2]);\n    return 0;\n}\n```",
+      "body": "`7 7 7`\n\nAll three expressions name the third element. `a[2]` is defined as `*(a + 2)`, and `p` holds the same address as `a` (the array decayed), so `p[2]` is `*(p + 2)`.\n\nWhy: Indexing works on any pointer, not just on array names.\n\nWatch out: `p[2]` and `*p + 2` are very different. The second reads the first element and adds 2 to the value: `*p + 2` is 7 here only by coincidence of the data.",
+      "searchQuery": "C array index equals pointer dereference plus offset",
+      "refs": [
+        "K&R 2e, §5.3 Pointers and Arrays"
+      ]
+    },
+    {
+      "id": "m-pointer-comparison-loop",
+      "unit": "pointer-arithmetic-arrays",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume a 32-bit `int`. What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int a[5] = {1, 2, 3, 4, 5};\n    int sum = 0;\n    for (int *p = a; p < a + 5; p++)\n        sum += *p;\n    printf(\"%d\\n\", sum);\n    return 0;\n}\n```",
+      "body": "`15`\n\n`p` starts at the first element and `p++` moves it to the next one. The test `p < a + 5` is a **pointer comparison**: it asks whether `p` is still before the address one past the last element. When `p` reaches `a + 5` the loop stops, so exactly five elements are summed.\n\nWhy: Comparing pointers with `<`, `>` or `==` is allowed when both point into the same array (or one past its end). It is the pointer version of an index compared with the length.\n\nWatch out: Comparing pointers that belong to different arrays has no defined meaning.",
+      "searchQuery": "C pointer comparison loop end pointer sum array",
+      "refs": [
+        "K&R 2e, §5.4 Address Arithmetic"
+      ]
+    },
+    {
+      "id": "m-char-pointer-walk",
+      "unit": "pointer-arithmetic-arrays",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\nint count(char *s)\n{\n    char *p = s;\n    while (*p != '\\0')\n        p++;\n    return (int)(p - s);\n}\nint main(void)\n{\n    char word[] = \"stack\";\n    printf(\"%d\\n\", count(word));\n    return 0;\n}\n```",
+      "body": "`5`\n\nA `char *` walks a string one byte at a time. The loop advances `p` until it sits on the null terminator `'\\0'`. Subtracting two pointers into the same array gives the number of elements between them, here 5 (the characters `s`, `t`, `a`, `c`, `k`).\n\nWhy: Strings carry no length, so the terminator is the only signal to stop. That is also why `strlen` has to walk the whole string.\n\nExample: For a `char *` one element is one byte, so here the pointer difference is also the byte distance.",
+      "searchQuery": "C char pointer walk string null terminator strlen",
+      "refs": [
+        "K&R 2e, §5.5 Character Pointers and Functions"
+      ]
+    },
+    {
+      "id": "m-const-pointer-variants",
+      "unit": "pointer-arithmetic-arrays",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Given the declarations below, which two of the four statements are compile errors?\n\n```c\nchar buf[] = \"hi\";\nconst char *p = buf;\nchar *const q = buf;\n/* A */ *p = 'x';\n/* B */ p = \"yo\";\n/* C */ *q = 'x';\n/* D */ q = \"yo\";\n```",
+      "body": "A and D.\n\n`const char *p` is a **pointer to const**: the characters are read-only through `p`, but `p` itself can be pointed elsewhere. So `*p = 'x'` (A) is an error and `p = \"yo\"` (B) is fine.\n\n`char *const q` is a **const pointer**: `q` can never be reassigned, but the characters it points to can be changed. So `q = \"yo\"` (D) is an error and `*q = 'x'` (C) is fine.\n\nMnemonic: Read the declaration from the right, \"p is a pointer to const char\" and \"q is a const pointer to char\". Whatever `const` sits next to is what you cannot change.",
+      "searchQuery": "C const char pointer vs const pointer to char",
+      "refs": [
+        "K&R 2e, §5.5 Character Pointers and Functions",
+        "CS50x 2026, Week 4 notes: Pointers"
+      ]
+    },
+    {
+      "id": "m-problem-element-address",
+      "unit": "pointer-arithmetic-arrays",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A `uint16_t buf[8]` starts at address `0x20000100`, and `uint16_t *p = &buf[3];`. What address does `p + 4` hold, and which element is it?",
+      "body": "`0x2000010E`, the address of `buf[7]`, the last element.\n\nEach `uint16_t` is 2 bytes. Element 3 is at $0x20000100 + 3 \\times 2 =$ `0x20000106`. Adding 4 elements adds $4 \\times 2 = 8$ bytes: $0x106 + 8 = 0x10E$. Check from the base: $0x100 + 7 \\times 2 = 0x10E$.\n\nWhy it matters: Pointer addition counts elements, not bytes. If you add 4 to the number in the address by hand, you get the wrong answer.\n\nWatch out: `p + 5` would be one past the last element. That address may be computed and compared, but it must not be dereferenced.",
+      "searchQuery": "pointer arithmetic uint16_t array address 0x20000100 element",
+      "refs": [
+        "K&R 2e, §5.4 Address Arithmetic",
+        "CS:APP 3e, §3.8 Array Allocation and Access"
+      ]
+    },
+    {
+      "id": "m-problem-pointer-subtraction",
+      "unit": "pointer-arithmetic-arrays",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "On a 32-bit Cortex-M, `int32_t arr[6];` with `int32_t *p = &arr[1];` and `int32_t *q = &arr[5];`. What is `q - p`, and how many bytes apart are the two addresses?",
+      "body": "`q - p` is 4 elements, and the addresses are 16 bytes apart.\n\nSubtracting two pointers into the same array gives the number of elements between them: $5 - 1 = 4$. Each `int32_t` is 4 bytes, so the byte distance is $4 \\times 4 = 16$.\n\nWhy: Pointer subtraction is the reverse of pointer addition: `p + (q - p)` equals `q`. The result is a signed integer type (`ptrdiff_t`).\n\nWatch out: To get the byte distance you must convert the pointers first, for example by casting both to `char *` before subtracting.",
+      "searchQuery": "C pointer subtraction number of elements between pointers ptrdiff_t",
+      "refs": [
+        "K&R 2e, §5.4 Address Arithmetic"
+      ]
+    },
+    {
+      "id": "m-struct-definition",
+      "unit": "structs-unions-typedef",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "In C, what is a **struct**?",
+      "body": "A type that groups several named members, possibly of different types, into one block of memory.\n\nMembers are stored in the order you declare them. You declare the type once, then make variables of it.\n\nExample:\n\n```c\nstruct Point {\n    int x;\n    int y;\n};\nstruct Point p = { 3, 4 };\n```\n\nWhy it matters: A struct lets you pass a sensor reading, a packet header or a configuration as one object, instead of a pile of loose variables.",
+      "searchQuery": "C struct definition members group data",
+      "refs": [
+        "K&R 2e, §6.1–6.4 (structures, functions, arrays of and pointers to structures)"
+      ]
+    },
+    {
+      "id": "m-arrow-operator-concept",
+      "unit": "structs-unions-typedef",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "When do you use `.` and when `->` for **member access** in C?",
+      "body": "Use `.` on a struct object and `->` on a pointer to a struct: `p->x` means `(*p).x`.\n\nThe arrow first follows the pointer and then picks the member, so it saves you the parentheses. They are needed in `(*p).x` because `.` binds tighter than `*`, so `*p.x` would be read as `*(p.x)`.\n\nExample: With `struct Point pt;` and `struct Point *p = &pt;`, the expressions `pt.x`, `p->x` and `(*p).x` all name the same member.\n\nWatch out: Using `.` on a pointer, or `->` on a struct object, is a compile error. That error is the sign you mixed them up.",
+      "searchQuery": "C struct member access dot vs arrow operator pointer",
+      "refs": [
+        "K&R 2e, §6.1–6.4 (structures, functions, arrays of and pointers to structures)"
+      ]
+    },
+    {
+      "id": "m-alignment-padding-definition",
+      "unit": "structs-unions-typedef",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What are **alignment** and **padding** in a C struct?",
+      "body": "Alignment is the rule that an object sits at an address that is a multiple of its alignment requirement (for a basic type, usually its size); padding is the unused bytes the compiler adds to obey it.\n\nA `uint32_t` has to start at a multiple of 4, a `uint16_t` at a multiple of 2, a `uint8_t` anywhere. The compiler inserts padding bytes between members so each member is aligned, and at the end so the struct's size is a multiple of its strictest member's alignment.\n\nWhy: Some CPUs fault on a misaligned access (for example a Cortex-M0 on a 32-bit load), and others are slower. Alignment keeps each access to one clean transfer.\n\nWatch out: Padding is invisible in the source but counts in `sizeof`, in memory use and in anything that copies the struct byte by byte.",
+      "searchQuery": "C struct alignment padding bytes sizeof",
+      "refs": [
+        "CS:APP 3e, §3.9 Heterogeneous Data Structures"
+      ]
+    },
+    {
+      "id": "m-union-definition",
+      "unit": "structs-unions-typedef",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "In C, what is a **union**, and how big is it?",
+      "body": "A union is a type whose members all share the same memory, so it is as big as its largest member (plus any padding).\n\nWriting one member overwrites the bytes the others use. A union is for \"one of these alternatives at a time\", or for looking at the same bytes in two ways.\n\nExample: In `union U { uint32_t w; uint8_t b[4]; };` the 4-byte `w` and the 4-element `b` occupy the same 4 bytes, so `sizeof(union U)` is 4.\n\nTip: Embedded code often wraps a union and a tag field in a struct, so the tag records which alternative is currently valid.",
+      "searchQuery": "C union definition members share memory size",
+      "refs": [
+        "K&R 2e, §6.8 Unions",
+        "CS:APP 3e, §3.9 Heterogeneous Data Structures"
+      ]
+    },
+    {
+      "id": "m-struct-copy-vs-pointer",
+      "unit": "structs-unions-typedef",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\nstruct Pt { int x; int y; };\nvoid bump_copy(struct Pt p) { p.x++; }\nvoid bump_ptr(struct Pt *p) { p->x++; }\nint main(void)\n{\n    struct Pt a = { 1, 2 };\n    bump_copy(a);\n    bump_ptr(&a);\n    printf(\"%d %d\\n\", a.x, a.y);\n    return 0;\n}\n```",
+      "body": "`2 2`\n\nC passes a struct by value like any other variable, so `bump_copy` works on a copy and changes nothing in `main`. `bump_ptr` receives the address, and `p->x++` changes the caller's `x` from 1 to 2.\n\nWhy it matters: A large struct passed by value is copied in full on every call. Passing a pointer sends just one address, which is cheaper on a small microcontroller.\n\nTip: If the function must not modify the struct, take a `const struct Pt *` so the compiler enforces it.",
+      "searchQuery": "C pass struct by value vs pointer arrow operator",
+      "refs": [
+        "K&R 2e, §6.1–6.4 (structures, functions, arrays of and pointers to structures)"
+      ]
+    },
+    {
+      "id": "m-typedef-enum",
+      "unit": "structs-unions-typedef",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\ntypedef enum { RED, GREEN = 5, BLUE } Color;\ntypedef struct { Color c; int n; } Item;\nint main(void)\n{\n    Item it = { BLUE, 3 };\n    printf(\"%d %d\\n\", (int)it.c, it.n);\n    return 0;\n}\n```",
+      "body": "`6 3`\n\nAn `enum` constant with no value is one more than the one before it. `RED` is 0, `GREEN` is set to 5, so `BLUE` is 6.\n\nA **typedef** gives a type a new name. `typedef struct { ... } Item;` lets you write `Item it;` instead of `struct Item it;`, and `Color` works the same way for the enum.\n\nWatch out: `typedef` creates no new type, only another name for an existing one. It makes code shorter and lets you change a type in one place.",
+      "searchQuery": "C typedef struct enum constants values",
+      "refs": [
+        "K&R 2e, §6.7 Typedef"
+      ]
+    },
+    {
+      "id": "m-array-of-structs",
+      "unit": "structs-unions-typedef",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume a 32-bit `int`. What does this program print?\n\n```c\n#include <stdio.h>\nstruct Pt { int x; int y; };\nint main(void)\n{\n    struct Pt pts[3] = { {1, 2}, {3, 4}, {5, 6} };\n    struct Pt *p = pts;\n    p++;\n    p->y = 9;\n    printf(\"%d %d\\n\", pts[1].y, (int)sizeof(pts));\n    return 0;\n}\n```",
+      "body": "`9 24`\n\n`p++` moves the pointer by one whole `struct Pt`, which is 8 bytes, so `p` now points at `pts[1]`. Then `p->y = 9;` changes that element's `y` from 4 to 9. The array holds 3 structs of 8 bytes each, so `sizeof(pts)` is 24.\n\nWhy: Pointer arithmetic scales by the size of the pointed-to type. For a struct pointer, one step is one whole struct.\n\nExample: The expression `(p + 2)->x` reads the `x` of the third struct.",
+      "searchQuery": "C array of structs pointer arithmetic arrow sizeof",
+      "refs": [
+        "K&R 2e, §6.1–6.4 (structures, functions, arrays of and pointers to structures)"
+      ]
+    },
+    {
+      "id": "m-union-type-punning",
+      "unit": "structs-unions-typedef",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "On a little-endian machine with a 32-bit `uint32_t`, what does this print?\n\n```c\n#include <stdio.h>\n#include <stdint.h>\nunion U { uint32_t w; uint8_t b[4]; };\nint main(void)\n{\n    union U u;\n    u.w = 0x11223344u;\n    printf(\"%02x %02x\\n\", u.b[0], u.b[3]);\n    return 0;\n}\n```",
+      "body": "`44 11`\n\nWriting `u.w` and reading `u.b` is **type punning**: looking at the same bytes as a different type. A little-endian machine stores the least significant byte first, so `b[0]` is `0x44` and `b[3]` is `0x11`.\n\nOn a big-endian machine the output would be `11 44`.\n\nWatch out: The result depends on byte order, so it is not portable. Also, reading a different member than you last wrote is allowed in C but is undefined behavior in C++. Padding bytes and trap values add more portability traps.",
+      "searchQuery": "C union type punning little-endian bytes of uint32_t",
+      "refs": [
+        "K&R 2e, §6.8 Unions",
+        "CS:APP 3e, §3.9 Heterogeneous Data Structures"
+      ]
+    },
+    {
+      "id": "m-problem-struct-size",
+      "unit": "structs-unions-typedef",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "On a 32-bit Arm Cortex-M, what is `sizeof` this struct, and at which byte offset does each member start?\n\n```c\nstruct S {\n    uint8_t  a;\n    uint32_t b;\n    uint8_t  c;\n};\n```",
+      "body": "`sizeof(struct S)` is 12; the offsets are `a` at 0, `b` at 4 and `c` at 8.\n\n`a` takes byte 0. `b` must start at a multiple of 4, so 3 padding bytes follow `a` and `b` starts at 4 and ends at 8. `c` goes at byte 8. The struct's alignment is 4, so its size is rounded up to a multiple of 4 and 3 more padding bytes are added at the end: 12.\n\nWhy: Only 6 of the 12 bytes hold data. The other 6 are padding.\n\nTip: `offsetof(struct S, b)` from `<stddef.h>` gives a member's offset, so you can check the layout instead of counting by hand.",
+      "searchQuery": "C struct size padding uint8_t uint32_t uint8_t offsets",
+      "refs": [
+        "CS:APP 3e, §3.9 Heterogeneous Data Structures"
+      ]
+    },
+    {
+      "id": "m-problem-reorder-fields",
+      "unit": "structs-unions-typedef",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "On a 32-bit Arm Cortex-M, this struct is 12 bytes. Reorder its fields to make it as small as possible, and give the new size.\n\n```c\nstruct T {\n    uint8_t  a;\n    uint16_t b;\n    uint8_t  c;\n    uint32_t d;\n};\n```",
+      "body": "Put the widest first: `d`, then `b`, then `a` and `c` in either order. The size drops from 12 to 8.\n\nIn the original order: `a` at 0, 1 padding byte, `b` at 2, `c` at 4, 3 padding bytes, `d` at 8, for 12 bytes. In the new order: `d` at 0 to 4, `b` at 4 to 6, `a` at 6 and `c` at 7, so the struct is exactly 8 bytes with no padding.\n\nKey idea: Sort members from largest alignment to smallest and padding mostly disappears.\n\nWatch out: If the struct is a wire format or a hardware register map, you must not reorder it. Its field order is fixed by the outside world.",
+      "searchQuery": "C reorder struct members reduce padding size",
+      "refs": [
+        "CS:APP 3e, §3.9 Heterogeneous Data Structures"
+      ]
+    },
+    {
+      "id": "m-trade-off-bitfields-vs-masks",
+      "unit": "structs-unions-typedef",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "You are writing a driver for a hardware control register whose fields sit at fixed bit positions. Do you describe it with C **bit-fields** in a struct, or with shifts and masks on a `uint32_t`?",
+      "body": "Shifts and masks win for registers, because the layout of a C bit-field is up to the compiler.\n\nA **bit-field** is a struct member declared with a width in bits, such as `unsigned mode : 3;`. The standard leaves much about them to the compiler to choose and document: whether the first field sits at the low or the high end of the word, how fields are packed into the storage unit, and whether a plain `int` field is signed. A compiler may also access the register with a different width than the hardware expects.\n\nBit-fields do read nicely, and a driver tied to one known compiler can use them. Some vendor headers do.\n\nWhy it matters: A masked version, such as `(reg >> 4) & 0x7`, behaves the same on every compiler.\n\nTip: Reserve bit-fields for data private to your program, where you do not care about the bit layout.",
+      "searchQuery": "C bit-fields vs masks hardware register portability",
+      "refs": [
+        "K&R 2e, §6.9 Bit-fields"
+      ]
+    },
+    {
+      "id": "m-memory-layout-regions",
+      "unit": "stack-vs-heap",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What are the five regions of a C program's **memory layout**, in the usual order from low to high addresses?",
+      "body": "Text (the code), data, bss, the heap, then the stack at the top.\n\nThe **text segment** holds the machine code. The **data segment** holds globals and statics that start with a non-zero value. The **bss** holds the ones that start at zero. The **heap** grows upward as you ask for memory, and the **stack** grows downward from the top of the address space.\n\nExample: On a microcontroller, the text and the initial values for the data live in flash. At startup, code copies those values into RAM and zeroes the bss. The heap and stack share the rest of the RAM.\n\nWhy it matters: Heap and stack grow toward each other. If either runs too far, it corrupts the other.",
+      "searchQuery": "C program memory layout text data bss heap stack",
+      "refs": [
+        "CS:APP 3e, §3.7 Procedures",
+        "CS:APP 3e, §9.9 Dynamic Memory Allocation"
+      ]
+    },
+    {
+      "id": "m-bss-definition",
+      "unit": "stack-vs-heap",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is the **bss**, and which variables end up there?",
+      "body": "The bss is the region for global and static variables that start at zero (or have no initializer); it takes no space in the program file.\n\nBecause every byte starts at zero, the file only needs to record how big the region is. The startup code zeroes that much RAM before `main` runs.\n\nExample: `int total;` and `static int count = 0;` go to the bss, while `int limit = 5;` goes to the data segment, because its starting value must be stored in the file.\n\nWhy it matters: On a microcontroller this means large zero-initialized arrays cost RAM but no flash.",
+      "searchQuery": "C bss segment zero-initialised globals static",
+      "refs": [
+        "CS:APP 3e, §3.7 Procedures"
+      ]
+    },
+    {
+      "id": "m-stack-frame-definition",
+      "unit": "stack-vs-heap",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **stack frame**?",
+      "body": "The block of stack memory that one function call uses for its local variables, saved registers and return address.\n\nA frame is created when a function is called and thrown away when it returns. Each new call puts its frame on top of the caller's frame, so the stack is a last-in, first-out pile.\n\nWhy: This is why each call to a recursive function gets its own copy of the local variables, and why locals vanish when the function returns.\n\nKey idea: The cost of a call is a frame, and frames add up as calls nest.",
+      "searchQuery": "C stack frame function call locals return address",
+      "refs": [
+        "CS:APP 3e, §3.7 Procedures"
+      ]
+    },
+    {
+      "id": "m-heap-definition",
+      "unit": "stack-vs-heap",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is the **heap**, and who decides how long its memory lives?",
+      "body": "The heap is the region from which a program requests blocks at run time; the program itself decides when each block is released.\n\nA call such as `malloc(n)` reserves `n` bytes of heap and hands back a pointer to them. That block stays valid until the program gives it back, no matter which function made the request. This is unlike a local variable, which dies when its function returns.\n\nTip: Both lifetime and size are chosen at run time. That freedom is the reason for the heap, and the reason it needs care.",
+      "searchQuery": "C heap definition dynamic memory run time block lifetime",
+      "refs": [
+        "CS:APP 3e, §9.9 Dynamic Memory Allocation"
+      ]
+    },
+    {
+      "id": "m-example-call-chain-frames",
+      "unit": "stack-vs-heap",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "In this program, how many stack frames exist while `g` is running, and which frame is removed first?\n\n```c\nvoid g(void) { }\nvoid f(void) { g(); }\nint main(void) { f(); return 0; }\n```",
+      "body": "Three frames exist (`main`, `f`, `g`), and `g`'s frame is removed first.\n\n`main` calls `f`, which puts its frame on top of `main`'s. `f` calls `g`, whose frame goes on top again. When `g` returns, its frame is popped; then `f`'s; then `main`'s. The most recent call finishes first.\n\nWhy it matters: The deepest chain of calls sets the most stack the program ever needs. Estimating that depth is how you size a stack on a microcontroller.\n\nWatch out: A recursive function adds one frame per level, so a deep recursion can use much more stack than its source suggests.",
+      "searchQuery": "C call stack frames order main f g popped",
+      "refs": [
+        "CS:APP 3e, §3.7 Procedures"
+      ]
+    },
+    {
+      "id": "m-misconception-local-keeps-value",
+      "unit": "stack-vs-heap",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that an ordinary local `int count = 0;` followed by `count++;` remembers its value from one call to the next?",
+      "body": "Because an ordinary local has automatic storage: it is created fresh on each call and destroyed on return.\n\nEvery call re-runs `int count = 0;` on a new copy, so the old value is gone. To keep a value between calls, declare the variable `static`. A **static** local has **static storage**: one copy for the whole run of the program, set up before `main` starts.\n\nExample: A function with `static int n = 0; n++; return n;` returns 1, 2, 3 on three calls. With a plain `int n` it returns 1 every time.\n\nWatch out: A static local lives in the data or bss region, not on the stack, and all callers share it.",
+      "searchQuery": "C static local variable keeps value between calls automatic storage",
+      "refs": [
+        "K&R 2e, §4.6 Static Variables"
+      ]
+    },
+    {
+      "id": "m-return-pointer-to-local",
+      "unit": "stack-vs-heap",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What is wrong with this program, and what are two ways to fix it?\n\n```c\n#include <stdio.h>\nint *make(void)\n{\n    int x = 42;\n    return &x;\n}\nint main(void)\n{\n    int *p = make();\n    printf(\"%d\\n\", *p);\n    return 0;\n}\n```",
+      "body": "`make` returns the address of a local variable that no longer exists once `make` returns, so `p` is a dangling pointer and `*p` is undefined behavior.\n\n`x` lives in `make`'s stack frame. When the function returns, that frame is released and its memory is reused by the next call. The program may print 42, print garbage or crash, and a compiler warning (`-Wall`) usually flags it.\n\nFixes:\n- Make `x` `static`, so it survives the return.\n- Let the caller own the storage: pass in `int *out` and write the result through it.\n\nHeap memory also works, but the caller then has to free it.",
+      "searchQuery": "C return pointer to local variable dangling pointer stack frame",
+      "refs": [
+        "CS:APP 3e, §3.7 Procedures"
+      ]
+    },
+    {
+      "id": "m-large-local-array-overflow",
+      "unit": "stack-vs-heap",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This function runs on a Cortex-M whose whole stack is 4 KiB. What goes wrong, and how would you fix it?\n\n```c\n#include <string.h>\nvoid fill(void)\n{\n    char buf[8192];\n    memset(buf, 0, sizeof buf);\n}\n```",
+      "body": "`buf` needs 8192 bytes of automatic storage, twice the entire stack, so calling `fill` causes a stack overflow.\n\nA **stack overflow** happens when the stack grows past its reserved region and tramples whatever lies next to it. On a microcontroller there is often no operating system to catch it, so it can silently corrupt other variables or end in a hardware fault.\n\nFixes: Make the buffer `static` (it then lives in the bss and is counted when the program is linked), reduce its size, or process the data in smaller chunks.\n\nTip: Treat any local array larger than a few hundred bytes with suspicion on a small target.",
+      "searchQuery": "C stack overflow large local array microcontroller 4 KiB stack",
+      "refs": [
+        "CS:APP 3e, §3.7 Procedures"
+      ]
+    },
+    {
+      "id": "m-classify-storage-duration",
+      "unit": "stack-vs-heap",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "For each variable in this code, say whether its storage is automatic, static or dynamic: `g`, `n`, `loc`, and the int that `p` points to.\n\n```c\n#include <stdlib.h>\nint g = 5;\nvoid f(void)\n{\n    static int n;\n    int loc = 1;\n    int *p = malloc(sizeof *p);\n}\n```",
+      "body": "`g` and `n` are static, `loc` is automatic, and the int `*p` is dynamic (`p` itself is automatic).\n\nStatic storage lasts for the whole program: file-scope variables like `g`, and `static` locals like `n`. Automatic storage is the default for locals: created on entry to the block and gone at exit. Dynamic storage is memory taken from the heap by `malloc` and kept until it is freed.\n\nWatch out: The pointer `p` and the block it points to are separate things. `p` is a local variable on the stack; the block is on the heap and would outlive `p`.\n\nTip: Ask two questions about any variable: where is it declared, and was it created by `malloc`?",
+      "searchQuery": "C storage duration automatic static dynamic classification",
+      "refs": [
+        "K&R 2e, §4.6 Static Variables",
+        "CS:APP 3e, §9.9 Dynamic Memory Allocation"
+      ]
+    },
+    {
+      "id": "m-trade-off-scratch-buffer",
+      "unit": "stack-vs-heap",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A function on a 4 KiB-stack microcontroller needs a 2 KiB scratch buffer while it runs. Should the buffer be a local array, a `static` array or heap memory?",
+      "body": "A `static` array: it adds no stack pressure and its size is fixed at build time.\n\nA 2 KiB local would use half the stack, and one deeper call chain overflows it. A heap block can fail at run time, and how long it takes to get is hard to predict. A static array's size shows up in the build's memory report, so you know before the device ships whether it fits.\n\nThe other side: A static buffer occupies RAM all the time, even when the function is idle, and the function is no longer safe to call from two tasks or an interrupt at once. A local array is released automatically on return and is safe when several tasks call the function at once.\n\nTip: Prefer static or global buffers for large, fixed-size work areas on small targets.",
+      "searchQuery": "embedded static buffer vs stack local vs heap trade-off",
+      "refs": [
+        "CS:APP 3e, §3.7 Procedures",
+        "CS:APP 3e, §9.9 Dynamic Memory Allocation"
+      ]
+    },
+    {
+      "id": "m-malloc-definition",
+      "unit": "malloc-and-free",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does `malloc` do, what does it return, and what are the contents of what it returns?",
+      "body": "`void *malloc(size_t size)` reserves `size` bytes on the heap and returns a pointer to them, or `NULL` if it cannot; the bytes are uninitialised.\n\nDeclared in `<stdlib.h>`. Because it returns `void *`, you can assign the result to any pointer type in C without a cast. The block holds whatever bytes were there before, so you must write to it before you read it.\n\nExample: `int *a = malloc(10 * sizeof *a);` asks for room for 10 ints. Writing `sizeof *a` keeps the size right even if you later change the type of `a`.\n\nWatch out: Always test the result against `NULL` before using it. On a small device, running out is a real possibility.",
+      "searchQuery": "C malloc returns void pointer NULL uninitialised heap bytes",
+      "refs": [
+        "K&R 2e, §8.7 Example: A Storage Allocator",
+        "CS50x 2026, Week 4 notes: Copying and malloc"
+      ]
+    },
+    {
+      "id": "m-free-definition",
+      "unit": "malloc-and-free",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What must be true of a pointer you pass to `free`, and how many times may you do it?",
+      "body": "It must be exactly the pointer that `malloc`, `calloc` or `realloc` returned (or `NULL`), and it may be freed only once.\n\n`free(p)` returns the block to the allocator so it can be handed out again. Passing `NULL` is allowed and does nothing. Passing a pointer into the middle of a block, a pointer to a local variable, or the same pointer a second time is undefined behavior.\n\nKey idea: Every successful allocation needs exactly one matching `free`. Fewer leaks memory, more corrupts it.\n\nTip: Decide for each block which part of the program owns it. The owner is the one that frees it.",
+      "searchQuery": "C free pointer must come from malloc once only",
+      "refs": [
+        "K&R 2e, §8.7 Example: A Storage Allocator",
+        "CS:APP 3e, §9.11 Common Memory-Related Bugs in C Programs"
+      ]
+    },
+    {
+      "id": "m-memory-leak-definition",
+      "unit": "malloc-and-free",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **memory leak**?",
+      "body": "A heap block that was allocated and never freed, so that the program can no longer reach it or reuse it.\n\nThe block stays reserved until the program ends, and once the last pointer to it is lost nothing can ever free it. One small leak is harmless. A leak on every pass of a loop or every message received slowly uses up the heap.\n\nExample: A device leaks 32 bytes per message and receives 10 messages a second. A 64 KiB heap holds 65,536 bytes, and the leak uses 320 bytes a second, so the heap is gone in about 205 s, a little over 3 minutes.\n\nWhy it matters: Leaks matter most on devices that run for months without a restart.",
+      "searchQuery": "C memory leak definition heap never freed",
+      "refs": [
+        "CS:APP 3e, §9.11 Common Memory-Related Bugs in C Programs",
+        "CS50x 2026, Week 4 notes: Copying and malloc"
+      ]
+    },
+    {
+      "id": "m-misconception-free-nulls-pointer",
+      "unit": "malloc-and-free",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that after `free(p)` the pointer `p` is `NULL` or otherwise safe to use?",
+      "body": "Because `free` releases the block but leaves `p` unchanged, so `p` becomes a dangling pointer.\n\nA **dangling pointer** holds the address of memory that is no longer yours. Reading or writing through it is a **use-after-free**, which is undefined behavior. It may seem to work for a while, because the old bytes are often still there, and then fail later when the allocator reuses the block.\n\nFix: Set the pointer to `NULL` right after freeing it.\n\n```c\nfree(p);\np = NULL;\n```\n\nWatch out: Any other copy of the pointer is still dangling. Setting `p = NULL` also turns an accidental second `free(p)` into a harmless no-op.",
+      "searchQuery": "C use after free dangling pointer free does not set NULL",
+      "refs": [
+        "CS:APP 3e, §9.11 Common Memory-Related Bugs in C Programs"
+      ]
+    },
+    {
+      "id": "m-calloc-zeroed",
+      "unit": "malloc-and-free",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume a 32-bit `int`. What does this program print, and how does `calloc` differ from `malloc`?\n\n```c\n#include <stdio.h>\n#include <stdlib.h>\nint main(void)\n{\n    int *a = calloc(4, sizeof *a);\n    if (a == NULL)\n        return 1;\n    printf(\"%d %d\\n\", a[0], a[3]);\n    free(a);\n    return 0;\n}\n```",
+      "body": "`0 0`: `calloc` returns memory with every byte set to zero, while `malloc` leaves the contents undefined.\n\n`calloc(count, size)` allocates room for `count` items of `size` bytes each and clears it. Here that is $4 \\times 4 = 16$ zero bytes.\n\nWhy it matters: Most implementations of `calloc` also check that `count * size` does not overflow, and returns `NULL` if it would. A hand-written `malloc(count * size)` has no such check.\n\nTip: Use `calloc` when you want zeros. When you will overwrite every byte anyway, `malloc` skips the clearing work.",
+      "searchQuery": "C calloc zero initialised vs malloc count size",
+      "refs": [
+        "CS:APP 3e, §9.9 Dynamic Memory Allocation",
+        "CS50x 2026, Week 4 notes: Copying and malloc"
+      ]
+    },
+    {
+      "id": "m-malloc-null-check-free",
+      "unit": "malloc-and-free",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Fill in the three blanks to allocate an array of `n` ints, handle failure, and release it.\n\n```c\n#include <stdlib.h>\nint fill(size_t n)\n{\n    int *a = ______(n * sizeof *a);\n    if (______)\n        return -1;\n    for (size_t i = 0; i < n; i++)\n        a[i] = (int)i;\n    ______(a);\n    return 0;\n}\n```",
+      "body": "`malloc`, `a == NULL`, `free`\n\n`malloc` reserves the memory. The `NULL` test comes before any use of `a`, and returns an error code so the caller can react. `free(a)` releases the block on the success path, before the function ends.\n\nWatch out: Every exit path must free what was allocated. An early `return` placed after the `malloc` and before the `free` is a leak.\n\nTip: Keeping one `free` at the end and jumping to it from the error paths avoids forgetting it.",
+      "searchQuery": "C malloc check NULL free array pattern fill blanks",
+      "refs": [
+        "K&R 2e, §8.7 Example: A Storage Allocator",
+        "CS50x 2026, Week 4 notes: Copying and malloc"
+      ]
+    },
+    {
+      "id": "m-realloc-safe-idiom",
+      "unit": "malloc-and-free",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What is the bug in the first line below, and what is the safe form?\n\n```c\na = realloc(a, new_size);\n```",
+      "body": "If `realloc` fails it returns `NULL` and leaves the old block allocated, so overwriting `a` loses the only pointer to it and leaks it. Use a temporary.\n\n```c\nint *tmp = realloc(a, new_size);\nif (tmp == NULL) {\n    free(a);\n    return -1;\n}\na = tmp;\n```\n\n`realloc(p, n)` resizes a block to `n` bytes, keeping the old contents up to the smaller size. It may move the block to a new address, so always use the pointer it returns.\n\nWatch out: After a successful `realloc`, any other pointer into the old block may be dangling.",
+      "searchQuery": "C realloc safe idiom temporary pointer leak on failure",
+      "refs": [
+        "CS:APP 3e, §9.9 Dynamic Memory Allocation",
+        "CS:APP 3e, §9.11 Common Memory-Related Bugs in C Programs"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "m-double-free-asan",
+      "unit": "malloc-and-free",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Compiled with `-fsanitize=address`, what does AddressSanitizer report when this runs?\n\n```c\n#include <stdlib.h>\nint main(void)\n{\n    char *s = malloc(16);\n    free(s);\n    free(s);\n    return 0;\n}\n```",
+      "body": "An error saying \"attempting double-free\", with stack traces showing where the block was allocated and where it was freed.\n\nA **double free** is calling `free` twice on the same pointer. It is undefined behavior. Without a checking tool it can corrupt the allocator's bookkeeping, so the crash shows up much later and somewhere else.\n\nWhy: AddressSanitizer remembers which blocks are freed, so it catches the second call at once and points at both calls.\n\nTip: Build tests with `-fsanitize=address -g`, to get line numbers in the report. Valgrind reports the same bug for a normal build.",
+      "searchQuery": "C double free AddressSanitizer attempting double-free report",
+      "refs": [
+        "CS:APP 3e, §9.11 Common Memory-Related Bugs in C Programs",
+        "https://clang.llvm.org/docs/AddressSanitizer.html"
+      ]
+    },
+    {
+      "id": "m-leak-valgrind",
+      "unit": "malloc-and-free",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "How much memory does this program leak in total, and what does Valgrind's leak check call it? (Assume it is built without optimization, `-O0`.)\n\n```c\n#include <stdlib.h>\nvoid f(void)\n{\n    char *s = malloc(100);\n    s[0] = 'a';\n}\nint main(void)\n{\n    for (int i = 0; i < 3; i++)\n        f();\n    return 0;\n}\n```",
+      "body": "300 bytes in 3 blocks; `valgrind --leak-check=full ./prog` reports them as \"definitely lost\".\n\nEach call to `f` allocates 100 bytes and then loses the only pointer `s` when it returns, so nothing can free the block. Three calls leave three lost blocks.\n\n**Valgrind** is a tool that runs your program on a simulated CPU and watches every heap access and allocation. It reports leaks, uses of freed memory and reads of uninitialised bytes. Compile with `-g` to get line numbers.\n\nWatch out: With optimization on (`-O2`) a compiler can see that the block is never used and delete the `malloc` altogether, so there is nothing left to leak. Test leak checks on an unoptimised build.\n\nTip: On Linux, AddressSanitizer also reports leaks when the program exits. Valgrind needs no special compile flags.",
+      "searchQuery": "C memory leak valgrind --leak-check=full definitely lost",
+      "refs": [
+        "CS:APP 3e, §9.11 Common Memory-Related Bugs in C Programs",
+        "https://valgrind.org/docs/manual/quick-start.html"
+      ]
+    },
+    {
+      "id": "m-trade-off-malloc-vs-static",
+      "unit": "malloc-and-free",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "For firmware that must run for months, do you allocate buffers with `malloc` while running, or allocate everything at start-up (or statically)?",
+      "body": "Allocate at start-up or statically: it removes run-time allocation failures and a timing cost you cannot predict.\n\nA running device cannot recover well from `malloc` returning `NULL` at a bad moment. The time a `malloc` takes can vary with the heap's state, which is a problem when a deadline must be met. Long uptimes also invite fragmentation. Coding standards such as MISRA C:2012 (rule 21.3) forbid `malloc` and `free` for these reasons.\n\nThe other side: Static sizing has to reserve for the worst case, which wastes RAM when the average is far lower. Dynamic allocation is flexible when sizes are truly unknown.\n\nTip: A common compromise is to allocate during start-up and never `free` afterwards.",
+      "searchQuery": "embedded no malloc after startup static allocation MISRA",
+      "refs": [
+        "CS:APP 3e, §9.9 Dynamic Memory Allocation",
+        "MISRA C:2012, rule 21.3"
+      ]
+    },
+    {
+      "id": "m-trade-off-pool-vs-malloc",
+      "unit": "malloc-and-free",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A device creates and destroys thousands of identical 64-byte message objects over weeks. Do you use general `malloc` and `free`, or a **fixed-size block pool**?",
+      "body": "A fixed-size block pool: every block is interchangeable, so **fragmentation** cannot stop an allocation.\n\nFragmentation means that enough memory is free in total but split into holes too small for the request. Example: two free holes of 50 bytes cannot serve a 64-byte request, although 100 bytes are free. In a pool every free block fits every request, and allocating and freeing take a short, fixed time.\n\nThe other side: A pool serves one block size, so objects of other sizes need their own pool, and a pool's reserved memory is not available to anything else. General `malloc` suits objects with widely varying sizes and short runs.\n\nKey idea: Make all blocks the same size and holes stop mattering.",
+      "searchQuery": "fragmentation fixed-size block pool vs malloc embedded",
+      "refs": [
+        "CS:APP 3e, §9.9 Dynamic Memory Allocation"
+      ]
+    },
+    {
+      "id": "m-bit-mask-definition",
+      "unit": "bit-manipulation",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **bit mask**?",
+      "body": "A value whose 1 bits mark which bits of another value an operation should affect.\n\nYou combine the mask with the data using `&`, `|` or `^`. A 1 in the mask means \"this bit is in play\"; a 0 means \"leave it alone\".\n\nExample: To keep only the low nibble of a byte, AND with the mask `0x0F`. The byte `0xB5` becomes `0x05`, because the upper four bits are masked off.\n\nWhy it matters: Hardware registers pack many separate settings into one word. Masks are how code reads or changes one setting without disturbing the others.",
+      "searchQuery": "C bit mask definition AND OR select bits",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators",
+        "CS:APP 3e, §2.1 Information Storage (bit-level operations in C)"
+      ]
+    },
+    {
+      "id": "m-set-clear-toggle-test",
+      "unit": "bit-manipulation",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How do you **set**, **clear**, **toggle** and test bit `n` of an unsigned integer `x` in C?",
+      "body": "Set: `x |= (1u << n);` Clear: `x &= ~(1u << n);` Toggle: `x ^= (1u << n);` Test: `(x >> n) & 1u`.\n\nThe expression `1u << n` builds a mask with only bit `n` on. OR with that mask forces the bit to 1. AND with its complement `~` forces it to 0 and leaves every other bit as it was. XOR flips the bit. To test, shift the bit down to position 0 and mask off the rest.\n\nMnemonic: OR sets, AND-NOT clears, XOR flips.\n\nWatch out: Clearing needs the inverted mask. `x &= (1u << n)` would instead wipe every other bit.",
+      "searchQuery": "C set clear toggle test bit n mask idioms |= &= ~ ^=",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators",
+        "CS:APP 3e, §2.1 Information Storage (bit-level operations in C)"
+      ]
+    },
+    {
+      "id": "m-misconception-one-shl-31",
+      "unit": "bit-manipulation",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that `1 << 31` is a safe way to build the mask for bit 31 when `int` is 32 bits?",
+      "body": "Because `1` is a signed `int`, and shifting a 1 into its sign bit overflows; the result is not representable, so it is undefined behavior. Write `1u << 31`.\n\nBit operations are only safely defined on unsigned types. The value $2^{31}$ does not fit in a 32-bit signed `int`. With `1u` the shift happens in `unsigned int`, where the result $2^{31}$ is `0x80000000` and is well defined.\n\nWhy it matters: A mask for the top bit is common in flag words and registers. The bug often hides until a compiler or option changes how the expression is folded.\n\nTip: Make `u` a habit: `1u << n`, and use `UINT32_C(1)` or `1ul` when you need a wider constant.",
+      "searchQuery": "C 1 << 31 undefined behaviour signed shift use 1u",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators",
+        "CS:APP 3e, §2.1 Information Storage (bit-level operations in C)"
+      ]
+    },
+    {
+      "id": "m-read-modify-write-definition",
+      "unit": "bit-manipulation",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **read-modify-write** update of a register or word?",
+      "body": "Read the whole word, change only the bits you mean to change, and write the whole word back.\n\nYou cannot normally write a single bit to a 32-bit register. The write replaces all 32 bits, so you first read the current value, apply a mask to change just your field, and store the result.\n\nExample: `reg |= (1u << 3);` is a read-modify-write: it reads `reg`, ORs in bit 3 and writes the result back.\n\nWatch out: The three steps are not one uninterruptible step. If an interrupt changes the same register between the read and the write, its change can be overwritten.",
+      "searchQuery": "C read-modify-write register bit field update",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators"
+      ]
+    },
+    {
+      "id": "m-code-set-clear-toggle-trace",
+      "unit": "bit-manipulation",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume a 32-bit `unsigned int`. What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    unsigned x = 0x0F;\n    x |= 1u << 6;\n    x &= ~(1u << 1);\n    x ^= 1u << 0;\n    printf(\"%x\\n\", x);\n    return 0;\n}\n```",
+      "body": "`4c`\n\nWork through it in binary, low byte only. Start: `0000 1111` (`0x0F`). Set bit 6: `0100 1111` (`0x4F`). Clear bit 1: `0100 1101` (`0x4D`). Toggle bit 0, which was 1: `0100 1100` (`0x4C`).\n\nWhy: Each line touches exactly one bit. Every other bit keeps its value, because the masks have a single 1 (or, with `~`, a single 0).\n\nTip: Writing the byte in binary under each line is the fastest way to check a mask expression by hand.",
+      "searchQuery": "C bitwise trace |= &= ~ ^= output 4c",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators"
+      ]
+    },
+    {
+      "id": "m-code-shift-logical-arithmetic",
+      "unit": "bit-manipulation",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "On a typical compiler with a 32-bit `int` and `unsigned int`, what does this print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int a = -16;\n    unsigned b = 0xFFFFFFF0u;\n    printf(\"%d %x\\n\", a >> 2, b >> 2);\n    return 0;\n}\n```",
+      "body": "`-4 3ffffffc`\n\nA **logical shift** moves bits right and fills the vacated top bits with 0. An **arithmetic shift** fills them with copies of the sign bit, which keeps a negative number negative. For unsigned `b`, `>>` is always logical: `0xFFFFFFF0 >> 2` is `0x3FFFFFFC`. For the signed `a`, almost every compiler uses an arithmetic shift, giving $-16 / 4 = -4$.\n\nWatch out: For a negative signed value the C standard calls `>>` implementation-defined, so portable code does its shifting on unsigned types.\n\nTip: Do bit-level work on `uint32_t`, `uint8_t` and friends. That way the shift always behaves the same.",
+      "searchQuery": "C logical shift vs arithmetic shift signed unsigned right shift",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators",
+        "CS:APP 3e, §2.1 Information Storage (bit-level operations in C)"
+      ]
+    },
+    {
+      "id": "m-code-field-extraction",
+      "unit": "bit-manipulation",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\n#include <stdint.h>\nstatic uint32_t field(uint32_t r)\n{\n    return (r >> 4) & 0x7u;\n}\nint main(void)\n{\n    printf(\"%u\\n\", (unsigned)field(0xB5));\n    return 0;\n}\n```",
+      "body": "`3`\n\n`field` performs **field extraction**: it pulls out bits 6:4. Shifting right by 4 moves that field down to bit 0, then `& 0x7` keeps only 3 bits. `0xB5` is `1011 0101`; bits 6:4 are `011`, which is 3.\n\nWhy: Shift first, then mask. A 3-bit field needs a mask of 3 ones, `0x7`; a field `w` bits wide needs `(1u << w) - 1`.\n\nWatch out: If you mask before shifting, the mask has to be shifted too: `r & (0x7u << 4)` leaves the field still sitting at bits 6:4, as 0x30.",
+      "searchQuery": "C bit field extraction shift and mask bits 6:4",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators"
+      ]
+    },
+    {
+      "id": "m-code-insert-field-rmw",
+      "unit": "bit-manipulation",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Complete the read-modify-write so that bits 6:4 of `reg` become `val`, and every other bit is unchanged.\n\n```c\n#include <stdint.h>\nuint32_t set_field(uint32_t reg, uint32_t val)\n{\n    return ______;\n}\n```",
+      "body": "`(reg & ~(0x7u << 4)) | ((val & 0x7u) << 4)`\n\nFirst clear the field: `0x7u << 4` is the mask for bits 6:4, and `~` turns it into a mask that keeps everything else. Then OR in the new value, which is masked to 3 bits so it cannot spill into the neighboring bits, and shifted up into place.\n\nExample: With `reg = 0xFFFF` and `val = 2`, the first part gives `0xFF8F`. The second part is `0x20`. The result is `0xFFAF`.\n\nWatch out: Skipping the clear step ORs the new bits on top of the old ones, so the field ends up with the OR of the two.",
+      "searchQuery": "C insert bit field read-modify-write clear then or shifted value",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators"
+      ]
+    },
+    {
+      "id": "m-code-shift-by-width",
+      "unit": "bit-manipulation",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A 32-bit target calls `shl(1, 32)`. What is wrong with this function, and what is a safe version?\n\n```c\n#include <stdint.h>\nuint32_t shl(uint32_t x, unsigned n)\n{\n    return x << n;\n}\n```",
+      "body": "Shifting by the type's width (32) or more is undefined behavior; guard it: `return n < 32 ? x << n : 0;`\n\nThe C standard only defines a shift when the count is smaller than the bit width of the promoted left operand. The hardware disagrees about the rest. An x86 shift keeps only the low 5 bits of the count, so `1 << 32` can give 1. A Cortex-M shift by 32 gives 0. The compiler may assume the case never happens and optimize around it.\n\nWhy it matters: Counts that come from data (a field width, a bit index from input) must be range-checked.\n\nTip: The same rule makes `x << -1` undefined: the count must be non-negative as well.",
+      "searchQuery": "C shift by width undefined behaviour shift count 32 bits",
+      "refs": [
+        "CS:APP 3e, §2.1 Information Storage (bit-level operations in C)",
+        "https://en.cppreference.com/w/c/language/operator_arithmetic"
+      ]
+    },
+    {
+      "id": "m-problem-power-of-two",
+      "unit": "bit-manipulation",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Write a C expression that is true exactly when an unsigned `x` is a power of two (1, 2, 4, 8, ...), and explain why it works.",
+      "body": "`x != 0 && (x & (x - 1)) == 0`\n\nA power of two has exactly one 1 bit. Subtracting 1 turns that bit into 0 and every lower bit into 1, so the two numbers share no 1 bits, and `x & (x - 1)` is 0. Any other non-zero number has a higher bit that stays on in both.\n\nExample: `8 = 1000`, `7 = 0111`, and `1000 & 0111 = 0000`. But `12 = 1100`, `11 = 1011`, and `1100 & 1011 = 1000`, which is not 0.\n\nWatch out: For `x == 0` the AND is also 0, so you need the `x != 0` test. Without it, zero is wrongly reported as a power of two.",
+      "searchQuery": "C power of two test x & (x - 1) bit trick",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators"
+      ]
+    },
+    {
+      "id": "m-problem-decode-status-register",
+      "unit": "bit-manipulation",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A 32-bit status register has a 4-bit `mode` in bits 3:0, an `enable` flag in bit 7 and an 8-bit `count` in bits 15:8. It reads `0x0000A385`. What are `mode`, `enable` and `count`?",
+      "body": "`mode` is 5, `enable` is 1 and `count` is `0xA3`, which is 163.\n\nSplit the value into bytes: the low byte is `0x85` and the next is `0xA3`. In the low byte `0x85` = `1000 0101`, so bits 3:0 are `0101` (5), and bit 7 is 1. The field in bits 15:8 is the second byte, `0xA3`: $10 \\times 16 + 3 = 163$.\n\nIn code:\n- `mode = r & 0xFu;`\n- `enable = (r >> 7) & 1u;`\n- `count = (r >> 8) & 0xFFu;`\n\nTip: Align each field to a hex digit boundary if you can. Reading nibbles in hex is far quicker than counting bits.",
+      "searchQuery": "C decode status register bit fields mask shift 0xA385",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators",
+        "CS:APP 3e, §2.1 Information Storage (bit-level operations in C)"
+      ]
+    },
+    {
+      "id": "m-volatile-definition",
+      "unit": "volatile-and-mmio",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does the `volatile` qualifier tell the C compiler?",
+      "body": "That the object can change, or be observed, outside the program's own flow, so every access written in the source must really happen, in order.\n\nFor a `volatile` object the compiler may not keep its value in a CPU register between uses, merge two reads into one, drop a write whose value is never read back, or reorder it against other `volatile` accesses.\n\nWhy it matters: A hardware register changes by itself, and writing to it can start an action. Treating it as ordinary memory breaks both.\n\nExample: `volatile uint32_t *p;` declares a pointer to a `uint32_t` that must be accessed exactly as the code says.",
+      "searchQuery": "C volatile qualifier meaning every access must happen",
+      "refs": [
+        "K&R 2e, Appendix A (Reference Manual: type qualifiers)",
+        "https://en.cppreference.com/w/c/language/volatile"
+      ]
+    },
+    {
+      "id": "m-memory-mapped-register-definition",
+      "unit": "volatile-and-mmio",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **memory-mapped register** in a microcontroller?",
+      "body": "A control or status register of a peripheral that appears at a fixed address in the ordinary address space, so ordinary loads and stores reach it.\n\nReading it may return the state of the hardware, such as \"transfer finished\", and writing it sets the hardware's behavior or starts an action. The address, called the **register address**, is given in the chip's reference manual, and it never changes at run time.\n\nExample: To switch on an LED, firmware stores a 1 to the bit of an output register at one agreed address.\n\nKey idea: To the program a register looks like a variable, but to the hardware it is a lever or a gauge.",
+      "searchQuery": "memory-mapped register microcontroller fixed address peripheral",
+      "refs": [
+        "K&R 2e, Appendix A (Reference Manual: type qualifiers)"
+      ]
+    },
+    {
+      "id": "m-optimiser-assumes-memory-private",
+      "unit": "volatile-and-mmio",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why can a **compiler optimization** turn `while ((STATUS & 1u) == 0) { }` into an endless loop when `STATUS` is not `volatile`?",
+      "body": "Because the compiler assumes memory changes only when the program itself changes it, so it reads `STATUS` once and reuses that value.\n\nNothing inside the **polling loop** writes to `STATUS`, so the compiler concludes that the value cannot change between passes. It loads the register once, and then either skips the loop or spins on the old value forever.\n\nWhy: The optimizer knows nothing about the hardware. `volatile` is how you tell it that the memory has an outside life.\n\nExample: At `-O2` the compiler emits a single load and then a branch to itself. At `-O0` the same code often works, which is why this bug shows up only in release builds.",
+      "searchQuery": "C compiler optimisation hoists load polling loop without volatile",
+      "refs": [
+        "https://en.cppreference.com/w/c/language/volatile"
+      ]
+    },
+    {
+      "id": "m-misconception-volatile-atomic",
+      "unit": "volatile-and-mmio",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that declaring a variable `volatile` makes `counter++` safe to do from an interrupt or from another core?",
+      "body": "Because `volatile` affects only what the compiler may do; it does not make the operation atomic or order it against another core.\n\n**Atomicity** means an operation happens as one indivisible step. `counter++` on a `volatile int` is still three steps: read, add 1, write. An interrupt (or another core) that changes `counter` between the read and the write has its update lost.\n\nLikewise `volatile` does not tell the processor or its caches to keep accesses in order between cores.\n\nFix: Disable interrupts around the update, use a hardware atomic instruction or an atomic type, or use a lock. You meet these when you study safe multithreading.\n\nWatch out: `volatile` is the right tool for a flag that one side writes and the other only reads, for a single value no wider than the machine's natural word.",
+      "searchQuery": "C volatile not atomic counter++ interrupt multicore misconception",
+      "refs": [
+        "https://en.cppreference.com/w/c/language/volatile"
+      ]
+    },
+    {
+      "id": "m-code-register-macro",
+      "unit": "volatile-and-mmio",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A 32-bit output register sits at address `0x48000014`. Fill in the macro so that `OUT = 1u;` writes to it and `x = OUT;` reads from it.\n\n```c\n#include <stdint.h>\n#define OUT ______\n```",
+      "body": "`(*(volatile uint32_t *)0x48000014u)`\n\nRead it from the inside out. The number `0x48000014u` is the register address. Casting it to `volatile uint32_t *` says \"this is a pointer to a volatile 32-bit value\". The leading `*` dereferences that pointer, so the whole macro behaves like a variable that you can read and write.\n\nWatch out: Leave out `volatile` and the code may compile fine and then fail only when optimization is on.\n\nTip: Put the outer parentheses around the macro so it expands safely inside bigger expressions.",
+      "searchQuery": "C macro volatile uint32_t pointer cast fixed address register",
+      "refs": [
+        "K&R 2e, Appendix A (Reference Manual: type qualifiers)"
+      ]
+    },
+    {
+      "id": "m-code-polling-loop-fix",
+      "unit": "volatile-and-mmio",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Bit 0 of a status register at `0x40000000` means \"ready\". This code can hang when optimized. What is wrong, and what is the fix?\n\n```c\n#include <stdint.h>\n#define STATUS (*(uint32_t *)0x40000000u)\nvoid wait_ready(void)\n{\n    while ((STATUS & 1u) == 0) { }\n}\n```",
+      "body": "`STATUS` is not `volatile`; define it as `(*(volatile uint32_t *)0x40000000u)` so the loop re-reads the register every pass.\n\nWithout `volatile` the optimizer sees a loop that never writes `STATUS`, so it hoists one load out of the loop. If the first value had the ready bit clear, the loop spins forever, however the hardware changes later. With `volatile`, a load is performed on every iteration.\n\nWhy it matters: This is one of the best-known embedded bugs. Debug builds without optimization work and the release build hangs.\n\nTip: Poll with a timeout counter in real firmware, so a dead peripheral cannot hang the program.",
+      "searchQuery": "C polling loop status register volatile fix optimised hang",
+      "refs": [
+        "https://en.cppreference.com/w/c/language/volatile"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "m-code-isr-shared-flag",
+      "unit": "volatile-and-mmio",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A flag is set by an interrupt handler and waited on in `main`. What should change in the declaration, and why?\n\n```c\nstatic int done;\n\nvoid timer_isr(void)\n{\n    done = 1;\n}\n\nint main(void)\n{\n    while (!done) { }\n    return 0;\n}\n```",
+      "body": "Declare it `static volatile int done;`.\n\nThe compiler analyses `main` alone and sees no code that sets `done` inside the loop. It may read the flag once and spin forever on that old value. `volatile` forces a fresh read on every pass, so the write made by the handler is seen.\n\nWhy: The interrupt handler runs outside the normal flow of the program, so the compiler cannot see the connection. `volatile` is the signal that tells it a write may come from elsewhere.\n\nWatch out: `volatile` is enough for a single-word flag like this. It does not protect a multi-word value, such as a 64-bit timestamp, from being read half-updated.",
+      "searchQuery": "C volatile flag set in interrupt handler main loop waits",
+      "refs": [
+        "https://en.cppreference.com/w/c/language/volatile"
+      ]
+    },
+    {
+      "id": "m-code-pointer-to-volatile",
+      "unit": "volatile-and-mmio",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Which declaration makes the register's contents `volatile`: `volatile uint32_t *p;` or `uint32_t *volatile q;`? What does the other one mean?",
+      "body": "`volatile uint32_t *p;` is a pointer to volatile data, so reads and writes of `*p` are volatile. `uint32_t *volatile q;` is a volatile pointer to ordinary data.\n\nRead the declarations the way you read `const`: the qualifier applies to what is on its left (or, when it comes first, to the type right after it). In `uint32_t *volatile q` the `volatile` is attached to the pointer variable `q` itself. The memory it points at is treated as normal memory.\n\nWatch out: For a hardware register, the data being accessed is what must be volatile, so write `volatile uint32_t *`.\n\nTip: Use `volatile uint32_t *const p = (volatile uint32_t *)0x40000000u;` to also stop the pointer itself from being changed.",
+      "searchQuery": "C pointer to volatile vs volatile pointer declaration register",
+      "refs": [
+        "K&R 2e, Appendix A (Reference Manual: type qualifiers)",
+        "https://en.cppreference.com/w/c/language/volatile"
+      ]
+    },
+    {
+      "id": "m-code-back-to-back-writes",
+      "unit": "volatile-and-mmio",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A hardware register `OUT` must see a 1 and then a 0 to produce a pulse. What goes wrong with this code when `OUT` is not `volatile`, and what does the compiler emit?\n\n```c\n#include <stdint.h>\n#define OUT (*(uint32_t *)0x48000014u)\nvoid pulse(void)\n{\n    OUT = 1u;\n    OUT = 0u;\n}\n```",
+      "body": "The compiler may delete the first store, because the second overwrites it before anything reads it, so the pulse never happens.\n\nFor ordinary memory this is a correct optimization: a value that is never read is wasted work. For a register the first write is the action. Making `OUT` `volatile` obliges the compiler to emit both stores in order.\n\nWhy it matters: The generated code in a test with `-O2` contains only the store of 0, and the hardware never sees the 1.\n\nTip: When behavior changes between `-O0` and `-O2`, look first for a missing `volatile`, then for undefined behavior.",
+      "searchQuery": "C volatile dead store elimination two writes register pulse",
+      "refs": [
+        "https://en.cppreference.com/w/c/language/volatile"
+      ]
+    },
+    {
+      "id": "m-function-pointer-definition",
+      "unit": "function-pointers-callbacks",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **function pointer** in C, and how do you declare one that points to a function taking two `int`s and returning an `int`?",
+      "body": "A variable that holds the address of a function, so the function can be chosen and called at run time. Declaration: `int (*fp)(int, int);`\n\nFunctions live in memory too, so they have addresses. You get one by naming the function, with no parentheses: `fp = add;`. You call through the pointer like a function: `fp(2, 3)`.\n\nWatch out: The parentheses around `*fp` matter. `int *fp(int, int);` declares a function that returns an `int *`.\n\nWhy it matters: Function pointers let you pass behavior as data: a sort order, an interrupt handler, a state's action.",
+      "searchQuery": "C function pointer declaration syntax and call",
+      "refs": [
+        "K&R 2e, §5.11 Pointers to Functions"
+      ]
+    },
+    {
+      "id": "m-callback-concept",
+      "unit": "function-pointers-callbacks",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is a **callback**, and why do callback APIs usually also take a `void *` argument?",
+      "body": "A callback is a function you give to other code, by passing a function pointer, so that code can call you back later; the `void *` carries your own data to it.\n\nThe library (or the hardware driver) knows when something should happen. It cannot know what your program wants to do, so you hand it a function. Because the callback is called from elsewhere, it has no access to your local variables. The extra `void *` argument, often called `ctx` or `user_data`, is a pointer you supply and the library passes back unchanged.\n\nExample: A timer driver might have `timer_start(period, on_tick, &state)`. When the period ends, it calls `on_tick(&state)`.\n\nWatch out: A callback run from an interrupt must be short and must follow interrupt rules.",
+      "searchQuery": "C callback function pointer context user data",
+      "refs": [
+        "K&R 2e, §5.11 Pointers to Functions"
+      ]
+    },
+    {
+      "id": "m-code-call-through-pointer",
+      "unit": "function-pointers-callbacks",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\nint add(int a, int b) { return a + b; }\nint mul(int a, int b) { return a * b; }\nint main(void)\n{\n    int (*op)(int, int) = add;\n    printf(\"%d \", op(3, 4));\n    op = mul;\n    printf(\"%d\\n\", op(3, 4));\n    return 0;\n}\n```",
+      "body": "`7 12`\n\n`op` first holds the address of `add`, so `op(3, 4)` calls `add` and gives 7. After `op = mul;` the same call expression runs `mul` and gives 12. The call site is unchanged; only the pointer's value changed.\n\nWhy: This is the mechanism behind most run-time choices of behavior in C. Nothing is searched or looked up: the call jumps straight to the stored address.\n\nTip: A `typedef` such as `typedef int (*binop_t)(int, int);` makes declarations that use this type much easier to read.",
+      "searchQuery": "C function pointer call add mul reassign output",
+      "refs": [
+        "K&R 2e, §5.11 Pointers to Functions"
+      ]
+    },
+    {
+      "id": "m-code-qsort-comparator",
+      "unit": "function-pointers-callbacks",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "`qsort` calls your **qsort comparator** with pointers to two elements. Fill in the return line so the ints are sorted ascending, without risking overflow.\n\n```c\n#include <stdlib.h>\nint cmp(const void *pa, const void *pb)\n{\n    int x = *(const int *)pa;\n    int y = *(const int *)pb;\n    return ______;\n}\n/* sort: qsort(a, n, sizeof a[0], cmp); */\n```",
+      "body": "`(x > y) - (x < y)`\n\nThe comparator must return a negative number if the first element sorts first, zero if they are equal and a positive number if it sorts after. `(x > y) - (x < y)` gives $-1$, $0$ or $1$ using only comparisons.\n\nWatch out: `return x - y;` looks neat but overflows for values far apart, such as `INT_MAX` and $-1$, and signed overflow is undefined behavior.\n\nWhy `const void *`: `qsort` is generic, so it passes untyped pointers, and your function casts them back to the real element type. Swap `x` and `y` in the return line to sort descending.",
+      "searchQuery": "C qsort comparator int ascending return (x>y)-(x<y) overflow",
+      "refs": [
+        "K&R 2e, §5.11 Pointers to Functions",
+        "https://en.cppreference.com/w/c/algorithm/qsort"
+      ]
+    },
+    {
+      "id": "m-code-dispatch-table",
+      "unit": "function-pointers-callbacks",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\ntypedef void (*handler_t)(void);\nstatic void cmd_a(void) { puts(\"A\"); }\nstatic void cmd_b(void) { puts(\"B\"); }\nstatic void cmd_c(void) { puts(\"C\"); }\nstatic const handler_t table[] = { cmd_a, cmd_b, cmd_c };\nint main(void)\n{\n    table[2]();\n    table[0]();\n    return 0;\n}\n```",
+      "body": "`C` and then `A`, on two lines.\n\n`table` is a **dispatch table**, also called a **jump table**: an array of function pointers indexed by a command number. `table[2]` is `cmd_c`, and the trailing `()` calls it. `table[0]` is `cmd_a`.\n\nWhy it matters: A command code from a UART, a state number or an interrupt number becomes an array index. That replaces a long chain of `if` or `switch` with one lookup and one call.\n\nWatch out: Always check the index before using it: `if (i < sizeof table / sizeof table[0])`. An out-of-range index jumps to whatever bytes lie beyond the array.",
+      "searchQuery": "C dispatch table array of function pointers jump table",
+      "refs": [
+        "K&R 2e, §5.11 Pointers to Functions"
+      ]
+    },
+    {
+      "id": "m-code-read-declarations",
+      "unit": "function-pointers-callbacks",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "Read each C **declarator** aloud: A `int (*fp)(void *);`, B `int *fp(void *);`, C `void (*table[4])(void);`",
+      "body": "A: `fp` is a pointer to a function that takes a `void *` and returns an `int`. B: `fp` is a function taking a `void *` and returning a pointer to `int`. C: `table` is an array of 4 pointers to functions taking no arguments and returning nothing.\n\nRule: Start at the name, then go right as far as the brackets allow, then left, and use parentheses to change the order. In A, the parentheses bind `*` to `fp` first, so it is a pointer; only then do the `(void *)` and the `int` apply to what it points at.\n\nWatch out: Drop the parentheses (A to B) and the meaning changes completely.\n\nTip: When a declaration is hard to read, build it up with `typedef` one step at a time.",
+      "searchQuery": "C complicated declarations read function pointer array declarator",
+      "refs": [
+        "K&R 2e, §5.12 Complicated Declarations"
+      ]
+    },
+    {
+      "id": "m-code-callback-with-context",
+      "unit": "function-pointers-callbacks",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\nvoid on_tick(void *ctx)\n{\n    int *n = ctx;\n    (*n)++;\n}\nvoid run(void (*cb)(void *), void *ctx, int times)\n{\n    for (int i = 0; i < times; i++)\n        cb(ctx);\n}\nint main(void)\n{\n    int count = 0;\n    run(on_tick, &count, 3);\n    printf(\"%d\\n\", count);\n    return 0;\n}\n```",
+      "body": "`3`\n\n`run` calls the callback three times and passes the same `ctx` pointer each time. `on_tick` turns the `void *` back into an `int *` and increments the value it points to, which is `count` in `main`. So `count` goes 0, 1, 2, 3.\n\nWhy: The `void *` lets the generic code carry any data without knowing its type. It is the C stand-in for the \"captured variables\" of a closure.\n\nWatch out: The compiler cannot check that `ctx` really points to an `int`. If you pass the wrong kind of pointer, the cast is silently wrong.",
+      "searchQuery": "C callback context pointer increment counter",
+      "refs": [
+        "K&R 2e, §5.11 Pointers to Functions"
+      ]
+    },
+    {
+      "id": "m-trade-off-switch-vs-table",
+      "unit": "function-pointers-callbacks",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "A firmware command parser must dispatch about 40 dense command codes (0 to 39) to handler functions. Do you use a `switch` statement or a table of function pointers?",
+      "body": "A `const` table of function pointers indexed by the code, with a bounds check: it is compact, easy to extend and can be kept in flash.\n\nAdding a command means adding one table entry, and the dispatch code does not change. A 40-case `switch` is long to maintain, although a good compiler may turn a dense `switch` into a jump table of its own.\n\nThe other side: For a handful of commands, or when handlers need inlining or different argument types, a `switch` is clearer and the compiler checks more of it. A table also has no type safety if you cast the pointers, and an unchecked index is a classic crash or security hole.\n\nTip: Mark the table `const` so that it sits in flash and cannot be overwritten by a stray write.",
+      "searchQuery": "C switch vs function pointer table command dispatch embedded",
+      "refs": [
+        "K&R 2e, §5.11 Pointers to Functions"
+      ]
+    },
+    {
+      "id": "m-ub-definition",
+      "unit": "undefined-behaviour",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **undefined behavior** (UB) in C?",
+      "body": "Code for which the C standard places no requirements at all, so the program may do anything.\n\nThe program might crash, give a wrong answer, appear to work, or behave differently after you change the optimization level or the compiler. The standard puts no limit on what the program as a whole may do.\n\nExample: Reading past the end of an array, dereferencing `NULL`, dividing by zero and overflowing a signed integer are all undefined.\n\nWhy it matters: UB is a bug even when the program \"works on my machine\". The compiler is allowed to break it at any time.\n\nKey idea: UB is not an error message. The compiler does not have to tell you.",
+      "searchQuery": "C undefined behaviour definition standard places no requirements",
+      "refs": [
+        "https://en.cppreference.com/w/c/language/behavior",
+        "https://blog.regehr.org/archives/213"
+      ]
+    },
+    {
+      "id": "m-three-kinds-of-behaviour",
+      "unit": "undefined-behaviour",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How do **implementation-defined**, **unspecified** and undefined behavior differ, with an example of each?",
+      "body": "Implementation-defined: the compiler picks and must document it. Unspecified: one of several valid outcomes, with no documentation required. Undefined: no requirements at all.\n\n- Implementation-defined: the size of `int`, or whether plain `char` is signed (on a typical 64-bit desktop it is; in GCC for Arm Cortex-M it is not).\n- Unspecified: the order in which the arguments of `f(g(), h())` are evaluated. Either order is valid, but you cannot rely on one.\n- Undefined: signed integer overflow, or `*p` with `p == NULL`.\n\nWhy it matters: The first two are portability traps, since the program stays valid but means different things on different targets. The third makes the whole program invalid.",
+      "searchQuery": "C implementation-defined vs unspecified vs undefined behaviour examples",
+      "refs": [
+        "https://en.cppreference.com/w/c/language/behavior",
+        "https://blog.regehr.org/archives/213"
+      ]
+    },
+    {
+      "id": "m-strict-aliasing-definition",
+      "unit": "undefined-behaviour",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does the **strict aliasing** rule say?",
+      "body": "An object may be accessed only through an lvalue of its own type (or a compatible one), or through a character type; accessing it as an unrelated type is undefined behavior.\n\nBecause of this rule the compiler assumes that a pointer to `float` and a pointer to `int` never refer to the same memory. It may therefore keep values in registers and reorder loads and stores accordingly.\n\nExample: Writing through an `int *` and then reading the same bytes through a `float *` can give a stale result at `-O2`.\n\nWatch out: Casting a pointer to another type and dereferencing it is the usual way to break the rule. Copying with `memcpy` or reading through `unsigned char *` is allowed.",
+      "searchQuery": "C strict aliasing rule pointer cast different type undefined",
+      "refs": [
+        "https://en.cppreference.com/w/c/language/behavior"
+      ]
+    },
+    {
+      "id": "m-misconception-ub-local",
+      "unit": "undefined-behaviour",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that undefined behavior only makes the one faulty operation give an unpredictable result?",
+      "body": "Because the compiler is allowed to assume UB never happens, so it can change or delete code anywhere that relies on that assumption.\n\nA faulty operation can therefore make a check vanish, make a loop run wrongly or make other code behave oddly. The damage need not stay near the line where the bug is.\n\nExample: If the code uses a pointer and later tests it against `NULL`, the compiler may reason \"it was already dereferenced, so it cannot be `NULL`\" and delete the test.\n\nKey idea: With UB you cannot reason about what the machine would do. You must remove the UB.",
+      "searchQuery": "C undefined behaviour compiler assumes never happens removes checks",
+      "refs": [
+        "https://blog.regehr.org/archives/213",
+        "https://en.cppreference.com/w/c/language/behavior"
+      ]
+    },
+    {
+      "id": "m-code-signed-overflow-check",
+      "unit": "undefined-behaviour",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "A programmer writes this function to detect signed overflow. What does an optimizing compiler do with it, and what is a correct check?\n\n```c\nint will_overflow(int x)\n{\n    return x + 1 < x;\n}\n```",
+      "body": "It may compile to `return 0;`; the correct check is `x == INT_MAX` (from `<limits.h>`).\n\n**Signed integer overflow** is undefined, so the compiler may assume `x + 1` never overflows. Under that assumption `x + 1 < x` is always false, and the whole function folds to a constant 0. At `-O2` Clang does exactly this.\n\nThe same check on an `unsigned` value is fine: unsigned arithmetic wraps by definition.\n\nWhy it matters: The two's-complement wrap-around you know from the hardware does not carry over to signed `int` in C.\n\nTip: Test before the operation, not after it: `if (a > 0 && x > INT_MAX - a)` checks that `x + a` would overflow.",
+      "searchQuery": "C signed integer overflow check optimised away x+1<x INT_MAX",
+      "refs": [
+        "CS:APP 3e, §2.3 Integer Arithmetic",
+        "https://blog.regehr.org/archives/213"
+      ]
+    },
+    {
+      "id": "m-code-uninitialised-variable",
+      "unit": "undefined-behaviour",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This code reads a variable that is not always set. What kind of bug is it, and which compiler flags can warn about it?\n\n```c\n#include <stdio.h>\nint main(int argc, char **argv)\n{\n    (void)argv;\n    int x;\n    if (argc > 5)\n        x = 1;\n    printf(\"%d\\n\", x);\n    return 0;\n}\n```",
+      "body": "An **uninitialised variable** is read when `argc <= 5`, which is undefined; `-Wall -Wextra` can warn.\n\nAn automatic variable has no starting value. If the `if` is false, `x` still holds whatever was left in that stack slot (or register), so the program prints garbage that can change from run to run. Clang names it `-Wsometimes-uninitialized`; GCC reports `-Wmaybe-uninitialized` when optimizing.\n\nWatch out: UBSan does not catch this. To find uninitialised reads at run time, use Valgrind or, with Clang on supported platforms, MemorySanitizer.\n\nTip: Initialize at the declaration: `int x = 0;`. The warning then disappears for the right reason.",
+      "searchQuery": "C uninitialised variable read warning -Wall -Wextra -Wsometimes-uninitialized",
+      "refs": [
+        "https://en.cppreference.com/w/c/language/behavior"
+      ]
+    },
+    {
+      "id": "m-code-strict-aliasing-memcpy",
+      "unit": "undefined-behaviour",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "What is wrong with the `return` line below, and what is the portable way to read the bit pattern of a `float` into a `uint32_t`?\n\n```c\n#include <stdint.h>\nuint32_t bits(float f)\n{\n    return *(uint32_t *)&f;\n}\n```",
+      "body": "It breaks the strict aliasing rule (a `float` is read as a `uint32_t`); copy the bytes instead: `memcpy(&u, &f, sizeof u);`.\n\nThe cast pointer `uint32_t *` is dereferenced to access an object of type `float`, which is undefined. It often works at low optimization and then breaks when the compiler decides that a store to `f` cannot affect a read through a `uint32_t *`.\n\nThe `memcpy` version is defined, and compilers turn it into a single register move. For `1.0f` it gives `0x3f800000`.\n\nTip: A union can also read the bits, as in the earlier type-punning card. `memcpy` is the most portable of these.",
+      "searchQuery": "C strict aliasing violation float to uint32_t memcpy type punning",
+      "refs": [
+        "https://en.cppreference.com/w/c/language/behavior"
+      ]
+    },
+    {
+      "id": "m-code-ubsan-out-of-bounds",
+      "unit": "undefined-behaviour",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This program is built with `-fsanitize=undefined` and run with no arguments. What does **UBSan** print, and why does it matter?\n\n```c\n#include <stdio.h>\nint main(int argc, char **argv)\n{\n    (void)argv;\n    int a[4] = {0, 1, 2, 3};\n    int i = argc + 3;\n    a[i] = 1;\n    printf(\"%d\\n\", a[0]);\n    return 0;\n}\n```",
+      "body": "A message like `runtime error: index 4 out of bounds for type 'int[4]'`, with the file and line.\n\nUBSan, the Undefined Behavior Sanitizer, adds checks to the compiled program for many kinds of undefined behavior, such as array bounds, signed overflow, bad shifts and misaligned pointers. When one fires, it prints where. Without it, this program would most likely print 0 and look fine.\n\nWhy it matters: Silent UB is the dangerous kind. Run your tests with `-fsanitize=undefined` (often combined with `-fsanitize=address`) and with `-Wall -Wextra` on a normal build.\n\nTip: Compile with `-g` for useful line numbers.",
+      "searchQuery": "C UBSan -fsanitize=undefined out of bounds runtime error",
+      "refs": [
+        "https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html"
+      ]
+    },
+    {
+      "id": "m-trade-off-sanitizers-and-flags",
+      "unit": "undefined-behaviour",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "Your firmware is stable in testing. Do you ship the production build with `-fsanitize=undefined` still enabled, or run the sanitizer only in test builds?",
+      "body": "Run UBSan in host and test builds (and CI), and ship without it, unless the device has code space, RAM and time to spare.\n\nThe checks add code, slow execution and normally need a run-time support library and a way to print messages, none of which suits a small flash and a hard deadline. Test builds see most of the same bugs at no cost to the product.\n\nThe other side: Production keeps the safety net. Trap-on-error modes exist in both Clang and GCC and are smaller, so they are sometimes used on safety-relevant code, at a still real cost in size.\n\nTip: Keep `-Wall -Wextra` on in every build. Warnings cost nothing at run time.",
+      "searchQuery": "UBSan production firmware trade-off test builds code size",
+      "refs": [
+        "https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html"
+      ]
+    }
+  ]
+}

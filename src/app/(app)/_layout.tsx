@@ -20,6 +20,17 @@ export default function AppLayout() {
       <Stack.Screen name="memory/new" options={{ presentation: 'fullScreenModal', animation: 'slide_from_bottom' }} />
       <Stack.Screen name="memory/[id]" options={{ presentation: 'fullScreenModal', animation: 'slide_from_bottom' }} />
       <Stack.Screen name="pack/[id]" options={{ animation: 'slide_from_right' }} />
+      <Stack.Screen name="profession/[id]/index" options={{ animation: 'slide_from_right' }} />
+      <Stack.Screen
+        name="profession/[id]/open"
+        options={{ presentation: 'fullScreenModal', animation: 'slide_from_bottom', gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="profession/[id]/placement"
+        options={{ presentation: 'fullScreenModal', animation: 'slide_from_bottom', gestureEnabled: false }}
+      />
+      <Stack.Screen name="profession/[id]/module/[module]" options={{ animation: 'slide_from_right' }} />
+      <Stack.Screen name="account/reset" options={{ animation: 'slide_from_right' }} />
     </Stack>
   );
 }

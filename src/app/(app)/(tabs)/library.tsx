@@ -140,7 +140,7 @@ export default function Library() {
         color={palette.violet}
         title="Your library is empty"
         message="Cards you write and packs you add will live here.">
-        <Button title="Browse packs" icon="layers-triple" onPress={() => router.navigate('/packs')} />
+        <Button title="Browse packs" icon="layers-triple" onPress={() => router.navigate('/learn')} />
         <Button title="Write a card" variant="secondary" icon="plus" onPress={() => router.push('/memory/new')} />
       </EmptyState>
     );

@@ -7,7 +7,7 @@ import { useIsWide } from '@/theme';
 const TABS = [
   { name: 'index', href: '/', label: 'Today', icon: 'home-variant' },
   { name: 'library', href: '/library', label: 'Library', icon: 'cards-outline' },
-  { name: 'packs', href: '/packs', label: 'Packs', icon: 'layers-triple' },
+  { name: 'learn', href: '/learn', label: 'Learn', icon: 'school-outline' },
   { name: 'progress', href: '/progress', label: 'Progress', icon: 'chart-timeline-variant' },
 ] as const;
 

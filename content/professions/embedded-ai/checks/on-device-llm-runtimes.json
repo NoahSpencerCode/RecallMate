@@ -1,0 +1,158 @@
+{
+  "module": "on-device-llm-runtimes",
+  "checker": "claude (independent checker)",
+  "verdicts": [
+    {
+      "id": "on-prefill-definition",
+      "verdict": "fixed",
+      "note": "Said an 8-token prompt is memory-bound on any device. That holds where the ridge point is in the hundreds of ops per byte (phone NPU), not for a CPU run with 4-bit weights (32 ops per byte). Added that condition."
+    },
+    {
+      "id": "on-decode-memory-bound-concept",
+      "verdict": "fixed",
+      "note": "Answer line said each weight byte yields about one MAC (2 FLOPs per byte) but then gave 1–4 FLOPs per byte. Corrected to one MAC per weight, which is 1–4 ops per byte from FP16 down to 4-bit."
+    },
+    {
+      "id": "on-decode-ceiling-formula",
+      "verdict": "fixed",
+      "note": "Used 'mixture-of-experts', which has not been taught yet. Defined it inline."
+    },
+    {
+      "id": "on-kv-cache-bytes-formula",
+      "verdict": "fixed",
+      "note": "Said quantizing the cache makes b a fraction of a byte, but at 8 bits b is 1 byte. Now gives 1 byte at 8 bits, 0.5 at 4 bits, plus scale overhead."
+    },
+    {
+      "id": "on-decode-ceiling-problem",
+      "verdict": "fixed",
+      "note": "Checkpoint watch-out said forgetting the scale overhead gives 100/4.0 = 25 tokens/s. That figure forgets both the scales and the KV cache. Forgetting only the scales gives 100/4.537 ≈ 22.0 (recomputed)."
+    },
+    {
+      "id": "on-batch-crossover-problem",
+      "verdict": "fixed",
+      "note": "Watch-out reused B, the batch size, as a byte symbol (2N/B_KV per sequence), which is ambiguous. Reworded in words: the intensity levels off near 2N divided by one sequence's KV bytes."
+    },
+    {
+      "id": "on-attention-sink-sliding-window",
+      "verdict": "fixed",
+      "note": "Implied that evicting initial tokens breaks any sliding window. StreamingLLM's failure applies to models trained with full attention and windowed at inference, not to models trained with sliding-window layers (Gemma 3, cited two cards later). Added that condition and the Gemma 3 ref."
+    },
+    {
+      "id": "on-kv-quantization-trade-off",
+      "verdict": "fixed",
+      "note": "The prompt asks when 4-bit beats 8-bit, but the example compared 4-bit only with FP16. Added the 8-bit case: 8.5 bits gives 2.28 GB and about 14.7 tokens/s, against 17.5 tokens/s for 4-bit (recomputed)."
+    },
+    {
+      "id": "on-prompt-caching-trade-off",
+      "verdict": "fixed",
+      "note": "Said persisting the cache to flash 'can beat keeping it in RAM', which is false on speed. Reworded to the actual trade: reloading is much faster than recomputing, and the RAM is free between uses."
+    },
+    {
+      "id": "on-flashattention-tiling-concept",
+      "verdict": "fixed",
+      "note": "Said traffic scales with Nd. That contradicts the paper's Θ(N²d²/M) bound and this module's traffic card, where K and V are re-read once per tile and traffic grows with N². Corrected."
+    },
+    {
+      "id": "on-online-softmax-update-concept",
+      "verdict": "fixed",
+      "note": "The prompt also asked why the result is exact, which the answer line did not address. Trimmed the prompt; the Why still explains exactness. The watch-out now says the original FlashAttention renormalized o after every tile, while FlashAttention-2 divides once at the end."
+    },
+    {
+      "id": "on-io-aware-attention-device-trade-off",
+      "verdict": "fixed",
+      "note": "Overstated that a naive kernel 'cannot even hold' a 2.1 GB per-head score matrix. The Horowitz energies also lacked the per-32-bit, 45 nm qualifier that the notation sheet requires."
+    },
+    {
+      "id": "on-flashattention2-landmark",
+      "verdict": "fixed",
+      "note": "Status said arXiv preprint. FlashAttention-2 was published at ICLR 2024 (verified). Status and ref updated."
+    },
+    {
+      "id": "on-draft-and-verify-concept",
+      "verdict": "fixed",
+      "note": "The prompt asked why the output distribution is unchanged, but the card never answers that; the proof-idea card does. Trimmed the prompt and added a pointer to the accept-or-resample rule."
+    },
+    {
+      "id": "on-speculative-accept-code",
+      "verdict": "fixed",
+      "note": "Said p and q must use the same sampling settings. Exactness only requires p to be the target's processed distribution and q to be the distribution the draft actually sampled from. Matching the settings only raises acceptance."
+    },
+    {
+      "id": "on-draft-memory-speedup-trade-off",
+      "verdict": "fixed",
+      "note": "MLPerf Inference v6.1 allows speculative decoding in the interactive scenario of two benchmarks, GPT-OSS-120B among them, not in the interactive scenario generally (verified on MLCommons). Added the source URL. The answer line now says draft A wins on both speed and memory. Numbers recomputed and correct."
+    },
+    {
+      "id": "on-self-speculation-matformer-trade-off",
+      "verdict": "fixed",
+      "note": "Three overclaims. A separate draft is not drop-in for any target: it must share the tokenizer. The nested model is trained jointly, and its consistency with the full model is a result, not a training objective. 'Cannot be added to an existing checkpoint' is contradicted by MatFormer's own ViT fine-tuning result. Also updated the Gemma 3n URL, which now redirects."
+    },
+    {
+      "id": "on-gguf-quant-type-trade-off",
+      "verdict": "fixed",
+      "note": "The answer line limited IQ types to below about 3 bits, but the explanation credits them at 1–4 bits (IQ3 types, IQ4_XS). Changed to below about 4 bits per weight. Bits-per-weight values checked against the block layouts, and MXFP4 and NVFP4 confirmed in the GGUF type list."
+    },
+    {
+      "id": "on-k-quants-landmark",
+      "verdict": "fixed",
+      "note": "The landmark gave no date ('the exact date is not given here'). PR #1684 by ikawrakow was merged on 5 June 2023 (verified on GitHub)."
+    },
+    {
+      "id": "on-llama-bench-latency-code",
+      "verdict": "fixed",
+      "note": "Repeated on-ttft-tpot-latency's exact numbers (a 1,000-token prompt at 250/s, a 200-token reply at 20/s). It also called TTFT + n_out·TPOT consistent, which contradicts that card's TTFT + (n_out−1)·TPOT. New numbers; the code uses (reply − 1) and prints 5.0 16.96 (run)."
+    },
+    {
+      "id": "on-mlc-llm-mlcengine-definition",
+      "verdict": "fixed",
+      "note": "Said a pre-converted Hugging Face model must match the target. The weights are target-independent; only the compiled or JIT-compiled model library is per target."
+    },
+    {
+      "id": "on-mlc-compile-target-concept",
+      "verdict": "fixed",
+      "note": "Described hand-written kernel libraries as covering many targets with 'generic code'. Libraries like ggml hand-write and tune kernels for each backend. Corrected the contrast."
+    },
+    {
+      "id": "on-litert-rename-landmark",
+      "verdict": "fixed",
+      "note": "The answer line presented GPU and NPU acceleration as part of the 4 Sep 2024 rename. The post only promised it as a future update; the only change was the name. Package wording now follows the post."
+    },
+    {
+      "id": "on-litert-lm-landmark",
+      "verdict": "fixed",
+      "note": "The landmark had no date. Added the 24 Sep 2025 Google Developers Blog post, which describes production use in Chrome, Chromebook Plus and Pixel Watch and opened a preview of the C++ engine interface, with its URL. README claims verified."
+    },
+    {
+      "id": "on-runtime-choice-trade-off",
+      "verdict": "fixed",
+      "note": "The example said a browser demo 'needs' WebLLM, but the answer line lists LiteRT-LM for the web. Softened to remove the contradiction."
+    },
+    {
+      "id": "on-bitnet-cpp-overview-concept",
+      "verdict": "fixed",
+      "note": "Said setup_env.py takes -q i2_s or -q tl1. The choices depend on the CPU: i2_s or tl1 on Arm, i2_s or tl2 on x86 (checked in setup_env.py)."
+    },
+    {
+      "id": "on-lut-gemv-concept",
+      "verdict": "fixed",
+      "note": "Compared the mirrored g=3 table with the unmirrored g=4 size (81 entries). With mirroring, g=3 needs 14 entries and g=4 still needs 41, both measured against the 16-entry lookup."
+    },
+    {
+      "id": "on-i2s-vs-tl-trade-off",
+      "verdict": "fixed",
+      "note": "The example said the 2025 authors tie the TL2-vs-I2_S gap to bandwidth. Their bandwidth explanation is about TL2_0 vs T-MAC, whose lead was larger on the low-bandwidth Intel laptop. Rewrote the example from Table 7 (7.45/6.50 and 1.69/1.65). Sourced the kernel advice to the Oct 2024 report and added it to refs."
+    },
+    {
+      "id": "on-bitnet-edge-inference-landmark",
+      "verdict": "fixed",
+      "note": "Said 'not peer-reviewed', but the paper is ACL 2025 (long papers). The watch-out said gains shrink on slower memory, but the paper shows TL2_0's lead over T-MAC was larger on the low-bandwidth Intel machine. It also said the paper introduced TL1, TL2 and I2_S, which shipped in bitnet.cpp 1.0 (Oct 2024). All corrected; ACL Anthology URL added."
+    }
+  ],
+  "summary": {
+    "reviewed": 60,
+    "ok": 31,
+    "fixed": 29,
+    "dropped": 0,
+    "added": 0
+  }
+}

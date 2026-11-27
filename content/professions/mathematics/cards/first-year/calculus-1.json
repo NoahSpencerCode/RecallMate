@@ -1,0 +1,1023 @@
+{
+  "profession": "mathematics",
+  "module": "calculus-1",
+  "tier": 2,
+  "cards": [
+    {
+      "id": "calculus-limit-informal-definition",
+      "unit": "limits-intuitive-and-laws",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does $\\lim_{x \\to a} f(x) = L$ mean, in words?",
+      "body": "As $x$ gets closer and closer to $a$ (from either side, but never equal to $a$), the values $f(x)$ get closer and closer to $L$.\n\nKey idea: A **limit** describes what $f$ does *near* $a$, not *at* $a$. The function does not even have to be defined at $a$.\n\nExample: $f(x) = \\dfrac{x^2-1}{x-1}$ is undefined at $x = 1$, but for $x \\neq 1$ it equals $x + 1$. Inputs $0.9$ and $1.1$ give outputs $1.9$ and $2.1$, so $\\lim_{x \\to 1} f(x) = 2$.\n\nWatch out: a table of values suggests a limit but does not prove it. Use algebra or a theorem to be sure.",
+      "searchQuery": "limit meaning function approaches value near a",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.2",
+        "Spivak, Calculus 4e ch. 5"
+      ]
+    },
+    {
+      "id": "calculus-one-sided-limits",
+      "unit": "limits-intuitive-and-laws",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are the **one-sided limits** $\\lim_{x\\to a^-} f(x)$ and $\\lim_{x\\to a^+} f(x)$, and when does $\\lim_{x\\to a} f(x)$ exist?",
+      "body": "The left-hand limit uses only $x < a$ and the right-hand limit only $x > a$; the two-sided limit exists exactly when both one-sided limits exist and are equal, and then it is that common value.\n\nExample: $f(x) = \\dfrac{|x|}{x}$ equals $-1$ for $x < 0$ and $1$ for $x > 0$. So $\\lim_{x\\to 0^-} f(x) = -1$ and $\\lim_{x\\to 0^+} f(x) = 1$, and $\\lim_{x\\to 0} f(x)$ does not exist.\n\nTip: for piecewise functions, always check the two sides separately at the break point.",
+      "searchQuery": "one-sided limit left right two-sided limit exists",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.2",
+        "Spivak, Calculus 4e ch. 5"
+      ]
+    },
+    {
+      "id": "calculus-limit-laws",
+      "unit": "limits-intuitive-and-laws",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **limit laws** for sums, constant multiples, products and quotients.",
+      "body": "If $\\lim_{x\\to a} f(x) = L$ and $\\lim_{x\\to a} g(x) = M$ both exist as real numbers, then (limits as $x \\to a$) $\\lim (f+g) = L+M$, $\\lim (cf) = cL$, $\\lim (fg) = LM$, and $\\lim \\dfrac{f}{g} = \\dfrac{L}{M}$ provided $M \\neq 0$.\n\nWhy it matters: repeated use gives $\\lim f^n = L^n$, and so the limit of any polynomial at $a$ is its value at $a$. Most limit computations are \"simplify until the laws apply\".\n\nWatch out: the laws need both limits to exist. Neither $\\frac{1}{x}$ nor $-\\frac{1}{x}$ has a limit at $0$, yet their sum is $0$ and has limit $0$. Failure of the hypotheses does not mean the conclusion fails; it means the laws say nothing.",
+      "searchQuery": "limit laws sum product quotient theorem",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.3"
+      ]
+    },
+    {
+      "id": "calculus-squeeze-theorem",
+      "unit": "limits-intuitive-and-laws",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **squeeze theorem** for limits.",
+      "body": "If $g(x) \\le f(x) \\le h(x)$ for all $x$ near $a$ (except possibly at $a$) and $\\lim_{x\\to a} g(x) = \\lim_{x\\to a} h(x) = L$, then $\\lim_{x\\to a} f(x) = L$.\n\nWhy: $f$ is trapped between two functions that are being pinched toward the same height $L$, so it has nowhere else to go.\n\nWatch out: both bounds must have the *same* limit. Bounds that merely stay bounded do not decide anything.\n\nTip: reach for it when a bounded oscillating factor such as $\\sin\\frac{1}{x}$ is multiplied by something that tends to $0$.",
+      "searchQuery": "squeeze theorem sandwich theorem limits statement",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.3"
+      ]
+    },
+    {
+      "id": "calculus-sinx-over-x-limit",
+      "unit": "limits-intuitive-and-laws",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Use the squeeze theorem to show $\\lim_{x\\to 0}\\dfrac{\\sin x}{x} = 1$, with $x$ in radians.",
+      "body": "For $0 < |x| < \\pi/2$, $\\cos x < \\dfrac{\\sin x}{x} < 1$, and both bounds tend to $1$.\n\nWhy: take $0 < x < \\pi/2$ on the unit circle. The triangle from the origin to $(1,0)$ and the point at angle $x$ has area $\\frac12 \\sin x$. The sector of angle $x$ has area $\\frac12 x$. The larger right triangle reaching up to the tangent line at $(1,0)$ has area $\\frac12 \\tan x$. These nest, so $\\frac12\\sin x < \\frac12 x < \\frac12\\tan x$.\n\nDivide by $\\frac12 \\sin x > 0$ to get $1 < \\dfrac{x}{\\sin x} < \\dfrac{1}{\\cos x}$, and take reciprocals: $\\cos x < \\dfrac{\\sin x}{x} < 1$. The middle expression is unchanged when $x$ is replaced by $-x$, so the same bounds hold for $x < 0$. Since $\\cos x \\to 1$, the squeeze theorem finishes.\n\nWatch out: the sector area $\\frac12 x$ is only valid in radians. In degrees the limit is $\\pi/180$.",
+      "searchQuery": "limit sin x over x equals 1 squeeze proof",
+      "tags": [
+        "trig-limits"
+      ],
+      "refs": [
+        "Stewart, Calculus ET 8e §2.3"
+      ]
+    },
+    {
+      "id": "calculus-rationalize-limit-problem",
+      "unit": "limits-intuitive-and-laws",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Evaluate $\\displaystyle\\lim_{x\\to 0}\\frac{\\sqrt{x+9}-3}{x}$.",
+      "body": "$\\dfrac{1}{6}$\n\nDirect substitution gives $\\frac{0}{0}$, which tells you nothing, so rewrite the expression first. Multiply top and bottom by the conjugate $\\sqrt{x+9}+3$:\n\n$$\\frac{(\\sqrt{x+9}-3)(\\sqrt{x+9}+3)}{x(\\sqrt{x+9}+3)} = \\frac{(x+9)-9}{x(\\sqrt{x+9}+3)} = \\frac{1}{\\sqrt{x+9}+3} \\quad (x \\neq 0).$$\n\nThe simplified expression agrees with the original for every $x \\neq 0$, so the limits agree. Now the limit laws apply: the denominator tends to $3 + 3 = 6 \\neq 0$.\n\nTip: square roots call for conjugates, rational expressions for factoring and canceling, and complex fractions for a common denominator.",
+      "searchQuery": "limit square root conjugate rationalize x over zero",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.3"
+      ]
+    },
+    {
+      "id": "calculus-one-sided-infinite-limits-problem",
+      "unit": "limits-intuitive-and-laws",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Find $\\lim_{x\\to 2^+}\\dfrac{x+1}{x^2-4}$ and $\\lim_{x\\to 2^-}\\dfrac{x+1}{x^2-4}$. What do they say about $\\lim_{x\\to 2}\\dfrac{x+1}{x^2-4}$?",
+      "body": "The right-hand limit is $+\\infty$, the left-hand limit is $-\\infty$, so the two-sided limit does not exist.\n\nFactor the denominator: $x^2 - 4 = (x-2)(x+2)$. Near $x = 2$ the numerator is close to $3$ and the factor $x + 2$ is close to $4$, so the sign and size are controlled by $x - 2$.\n\n- For $x$ slightly above $2$, $x - 2$ is a tiny positive number, so the quotient is large and positive.\n- For $x$ slightly below $2$, $x - 2$ is a tiny negative number, so the quotient is large and negative.\n\nKey idea: the line $x = 2$ is a vertical asymptote, and the signs on each side tell you which way the graph runs off.",
+      "searchQuery": "one-sided infinite limits vertical asymptote rational function sign",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.3"
+      ]
+    },
+    {
+      "id": "calculus-infinite-limit-not-a-number",
+      "unit": "limits-intuitive-and-laws",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "A student writes $\\lim_{x\\to 0}\\dfrac{1}{x^2} = \\infty$ and concludes that the limit exists and equals a number. Why is that wrong?",
+      "body": "$\\infty$ is not a real number: the notation says the values grow without bound, so the limit does not exist as a real number.\n\nAn **infinite limit**, $\\lim_{x\\to a} f(x) = \\infty$, means $f(x)$ can be made as large as you like by taking $x$ close enough to $a$ (with $x \\ne a$). Writing it is a precise way of describing *how* the limit fails to exist. In this case the line $x = 0$ is a vertical asymptote.\n\nWatch out: the limit laws only hold for real limits. Treating $\\infty$ as a number leads to nonsense such as \"$\\infty - \\infty = 0$\".\n\nExample: $\\lim_{x\\to 0}\\frac{1}{x}$ has no infinite limit at all, because the left side heads to $-\\infty$ and the right side to $+\\infty$.",
+      "searchQuery": "infinite limit meaning infinity not a number vertical asymptote",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.3"
+      ]
+    },
+    {
+      "id": "calculus-epsilon-delta-definition",
+      "unit": "epsilon-delta-limits",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "State the **precise definition** of $\\lim_{x\\to a} f(x) = L$ using $\\varepsilon$ and $\\delta$.",
+      "body": "For every $\\varepsilon > 0$ there is a $\\delta > 0$ such that $0 < |x-a| < \\delta$ implies $|f(x) - L| < \\varepsilon$.\n\nHere $f$ is assumed defined at all $x$ near $a$ (except possibly $a$). The quantifier pattern is $\\forall \\varepsilon\\ \\exists \\delta\\ \\forall x$.\n\nWhy: $\\varepsilon$ is how close to $L$ someone demands the outputs be; $\\delta$ is how close to $a$ the inputs must then stay.\n\nWatch out: $\\delta$ is chosen *after* $\\varepsilon$ and may depend on it. Swapping the first two quantifiers would say one $\\delta$ works for every $\\varepsilon$, which is false for almost every function.",
+      "searchQuery": "epsilon delta definition of limit statement quantifiers",
+      "checkpoint": true,
+      "refs": [
+        "Stewart, Calculus ET 8e §2.4",
+        "Spivak, Calculus 4e ch. 5"
+      ]
+    },
+    {
+      "id": "calculus-epsilon-delta-game",
+      "unit": "epsilon-delta-limits",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How can the $\\varepsilon$–$\\delta$ definition be read as a challenge game, and what happens to a working $\\delta$ if you shrink it?",
+      "body": "An opponent names a tolerance $\\varepsilon$ around $L$; you must answer with a $\\delta$ so that every $x$ within $\\delta$ of $a$ (but not equal to $a$) has $f(x)$ within $\\varepsilon$ of $L$. The limit is $L$ exactly when you can always win, and any smaller $\\delta$ also works.\n\nWhy: if every $x$ with $0 < |x-a| < \\delta$ is good, then every $x$ with $0 < |x-a| < \\delta'$ for a smaller $\\delta'$ is among them.\n\nKey idea: you only need *a* valid $\\delta$, not the largest. Choosing a comfortably small one is the standard way to keep the algebra simple.\n\nWatch out: smaller $\\varepsilon$ usually forces smaller $\\delta$. A rule such as $\\delta = \\varepsilon/2$ is a recipe that produces a $\\delta$ for each challenge.",
+      "searchQuery": "epsilon delta game challenge response smaller delta works",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.4",
+        "Spivak, Calculus 4e ch. 5"
+      ]
+    },
+    {
+      "id": "calculus-epsilon-delta-linear-example",
+      "unit": "epsilon-delta-limits",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Prove $\\lim_{x\\to 3}(2x+1) = 7$ from the $\\varepsilon$–$\\delta$ definition by finding a $\\delta$ for each $\\varepsilon$.",
+      "body": "$\\delta = \\varepsilon/2$ works.\n\nScratch work (backward): $|(2x+1) - 7| = |2x - 6| = 2|x-3|$, and $2|x-3| < \\varepsilon$ exactly when $|x-3| < \\varepsilon/2$.\n\nProof (forward): let $\\varepsilon > 0$ and put $\\delta = \\varepsilon/2$. If $0 < |x-3| < \\delta$, then $|(2x+1)-7| = 2|x-3| < 2\\delta = \\varepsilon$.\n\nTip: analyze the target quantity $|f(x) - L|$ first and factor out $|x - a|$. For a line with slope $m \\neq 0$, the choice is $\\delta = \\varepsilon/|m|$.",
+      "searchQuery": "epsilon delta proof linear function limit delta equals epsilon over 2",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.4",
+        "Spivak, Calculus 4e ch. 5"
+      ]
+    },
+    {
+      "id": "calculus-epsilon-delta-quadratic-problem",
+      "unit": "epsilon-delta-limits",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Prove $\\lim_{x\\to 2} x^2 = 4$ from the $\\varepsilon$–$\\delta$ definition by finding a $\\delta$ in terms of $\\varepsilon$.",
+      "body": "$\\delta = \\min\\!\\left(1, \\dfrac{\\varepsilon}{5}\\right)$ works.\n\nFactor: $|x^2 - 4| = |x-2|\\,|x+2|$. The factor $|x+2|$ is not constant, so first bound it by restricting $x$ to be within $1$ of $2$.\n\n- If $|x-2| < 1$ then $1 < x < 3$, so $3 < x + 2 < 5$ and $|x+2| < 5$.\n- Then $|x^2-4| < 5\\,|x-2|$, which is below $\\varepsilon$ when $|x-2| < \\varepsilon/5$.\n\nTaking $\\delta$ as the smaller of $1$ and $\\varepsilon/5$ guarantees both conditions at once.\n\nKey idea: when the extra factor depends on $x$, cap it by first demanding $\\delta \\le 1$, then make $\\delta$ small enough for the rest.",
+      "searchQuery": "epsilon delta proof x squared limit delta min 1 epsilon over 5",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.4",
+        "Spivak, Calculus 4e ch. 5"
+      ]
+    },
+    {
+      "id": "calculus-limit-ignores-value-at-a",
+      "unit": "epsilon-delta-limits",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "A student says $\\lim_{x\\to a} f(x)$ must equal $f(a)$, because $f(a)$ is the value of the function there. Why is that false, and where does the definition show it?",
+      "body": "The definition only tests $x$ with $0 < |x-a| < \\delta$, which excludes $x = a$, so $f(a)$ plays no role in the limit.\n\nExample: let $f(x) = x$ for $x \\neq 2$ and $f(2) = 7$. Near $2$ the outputs are near $2$, so $\\lim_{x\\to 2} f(x) = 2$, even though $f(2) = 7$. If $f(2)$ were not defined at all, the limit would still be $2$.\n\nKey idea: the limit asks where the function is heading; the function value asks where it is. The special case where the two agree is a separate property, studied in the next unit.",
+      "searchQuery": "limit does not depend on f(a) punctured neighborhood",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.4",
+        "Spivak, Calculus 4e ch. 5"
+      ]
+    },
+    {
+      "id": "calculus-limit-at-infinity-definition",
+      "unit": "epsilon-delta-limits",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "State the definition of $\\lim_{x\\to\\infty} f(x) = L$ using $\\varepsilon$, and say what it means for a **horizontal asymptote**.",
+      "body": "For every $\\varepsilon > 0$ there is a number $N$ such that $x > N$ implies $|f(x) - L| < \\varepsilon$.\n\nThe role of $\\delta$ is played by $N$: instead of staying near $a$, the input must go far out. If $\\lim_{x\\to\\infty} f(x) = L$ or $\\lim_{x\\to-\\infty} f(x) = L$, then the line $y = L$ is a **horizontal asymptote** of the graph.\n\nExample: $\\lim_{x\\to\\infty}\\frac{1}{x} = 0$. Given $\\varepsilon$, take $N = 1/\\varepsilon$; then $x > N$ gives $0 < \\frac1x < \\varepsilon$.\n\nWatch out: a graph can cross its horizontal asymptote, even infinitely often. The asymptote describes the far-out behavior only.",
+      "searchQuery": "limit at infinity definition horizontal asymptote epsilon N",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.6"
+      ]
+    },
+    {
+      "id": "calculus-limit-at-infinity-epsilon-problem",
+      "unit": "epsilon-delta-limits",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Prove $\\lim_{x\\to\\infty}\\dfrac{3x+1}{x+1} = 3$ by finding $N$ in terms of $\\varepsilon$. What horizontal asymptote does this give?",
+      "body": "$N = 2/\\varepsilon$ works, and the line $y = 3$ is a horizontal asymptote.\n\nCompute the distance to the limit for $x > 0$: $\\left|\\dfrac{3x+1}{x+1} - 3\\right| = \\left|\\dfrac{3x+1-3x-3}{x+1}\\right| = \\dfrac{2}{x+1}$.\n\nThis is less than $\\varepsilon$ exactly when $x + 1 > 2/\\varepsilon$. If $x > N = 2/\\varepsilon$, then $x + 1 > 2/\\varepsilon$, so the distance is below $\\varepsilon$ (this $N$ is positive, so the assumption $x > 0$ holds).\n\nTip: simplify $|f(x) - L|$ to a single fraction, then solve the inequality for $x$.",
+      "searchQuery": "limit at infinity epsilon proof rational function horizontal asymptote",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.6"
+      ]
+    },
+    {
+      "id": "calculus-continuity-at-a-point",
+      "unit": "continuity",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "When is $f$ **continuous** at $x = a$? Give the three-part definition.",
+      "body": "$f$ is continuous at $a$ when $f(a)$ is defined, $\\lim_{x\\to a} f(x)$ exists, and $\\lim_{x\\to a} f(x) = f(a)$.\n\nIn $\\varepsilon$–$\\delta$ form: for every $\\varepsilon > 0$ there is $\\delta > 0$ with $|x - a| < \\delta \\Rightarrow |f(x) - f(a)| < \\varepsilon$. Unlike the limit definition, $x = a$ is allowed, and that is exactly why $f(a)$ now matters.\n\nKey idea: the graph can be drawn through $x = a$ without lifting the pencil, at least locally.\n\nWatch out: all three parts are required. A function with a hole at $a$ fails the first, and a function with a jump fails the second.",
+      "searchQuery": "continuity at a point definition limit equals function value",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.5",
+        "Spivak, Calculus 4e ch. 6"
+      ]
+    },
+    {
+      "id": "calculus-types-of-discontinuity",
+      "unit": "continuity",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define the three basic kinds of discontinuity at $x = a$: **removable**, **jump** and **infinite**.",
+      "body": "Removable: $\\lim_{x\\to a} f(x)$ exists but differs from $f(a)$ or $f(a)$ is undefined. Jump: both one-sided limits exist but are unequal. Infinite: at least one one-sided limit is $\\pm\\infty$.\n\nA removable discontinuity can be repaired by redefining $f(a)$ to equal the limit. For example $\\frac{x^2-9}{x-3}$ has a hole at $x = 3$, and setting the value there to $6$ fills it.\n\nExample: $\\lfloor x \\rfloor$ (the greatest integer not above $x$) has a jump at every integer. $\\frac{1}{x}$ has an infinite discontinuity at $0$.\n\nWatch out: these are not the only ways to fail. $\\sin\\frac{1}{x}$ oscillates so wildly near $0$ that neither one-sided limit exists.",
+      "searchQuery": "removable jump infinite discontinuity classification",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.5",
+        "Spivak, Calculus 4e ch. 6"
+      ]
+    },
+    {
+      "id": "calculus-continuity-closure",
+      "unit": "continuity",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Which facts about sums, products, quotients and compositions of continuous functions show that polynomials and rational functions are continuous wherever they are defined?",
+      "body": "If $f, g$ are continuous at $a$, so are $f+g$, $cf$, $fg$, and $f/g$ (when $g(a) \\neq 0$); and if $g$ is continuous at $a$ and $f$ is continuous at $g(a)$, then $f\\circ g$ is continuous at $a$.\n\nA **continuous function** is one that is continuous at every point of its domain.\n\nWhy: sums, products and quotients follow directly from the limit laws, for instance $\\lim fg = (\\lim f)(\\lim g) = f(a)g(a)$. Compositions follow because if $x$ is near $a$ then $g(x)$ is near $g(a)$, so $f(g(x))$ is near $f(g(a))$.\n\nExample: constants and $x$ are continuous, so every polynomial is, and so is every quotient of polynomials away from its zeros of the denominator. Also $e^{\\sin x}$ is continuous everywhere, being a composition.",
+      "searchQuery": "continuous functions sums products quotients compositions continuous polynomial",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.5",
+        "Spivak, Calculus 4e ch. 6"
+      ]
+    },
+    {
+      "id": "calculus-continuity-example-piecewise",
+      "unit": "continuity",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Find the constant $c$ that makes $f(x) = \\begin{cases} cx + 1 & x \\le 3 \\\\ cx^2 - 1 & x > 3 \\end{cases}$ continuous at $x = 3$.",
+      "body": "$c = \\dfrac{1}{3}$\n\nCheck the three requirements. The value is $f(3) = 3c + 1$. The left-hand limit is also $3c + 1$, because the left piece is a polynomial. The right-hand limit is $9c - 1$. For the two-sided limit to exist and equal $f(3)$, the one-sided limits must match: $3c + 1 = 9c - 1$, so $6c = 2$ and $c = \\frac13$.\n\nCheck: both sides give $2$ at $x = 3$.\n\nTip: for a piecewise function, set the two one-sided limits equal to each other and to the value at the break point.",
+      "searchQuery": "piecewise function continuity find constant one-sided limits equal",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.5",
+        "Spivak, Calculus 4e ch. 6"
+      ]
+    },
+    {
+      "id": "calculus-intermediate-value-theorem",
+      "unit": "continuity",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **intermediate value theorem**.",
+      "body": "If $f$ is continuous on the closed interval $[a,b]$ and $N$ is any number strictly between $f(a)$ and $f(b)$, then $f(c) = N$ for some $c$ in $(a,b)$.\n\nWhy it matters: it turns a sign change into the existence of a root: if $f(a)$ and $f(b)$ have opposite signs, take $N = 0$. It proves that an equation has a solution without finding it.\n\nWatch out: continuity is essential. The function that is $-1$ for $x < 0$ and $1$ for $x \\ge 0$ goes from $-1$ to $1$ on $[-1,1]$ without ever taking the value $0$.\n\nAlso, the theorem says a $c$ exists, not that it is unique or where it lies.",
+      "searchQuery": "intermediate value theorem statement continuous closed interval",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.5",
+        "Spivak, Calculus 4e ch. 7"
+      ]
+    },
+    {
+      "id": "calculus-extreme-value-theorem",
+      "unit": "continuity",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **extreme value theorem**.",
+      "body": "If $f$ is continuous on the closed interval $[a,b]$, there are numbers $c, d \\in [a,b]$ with $f(c) \\le f(x) \\le f(d)$ for all $x \\in [a,b]$: $f$ attains a smallest value and a largest value on $[a,b]$.\n\nWhy it matters: it guarantees that the search for a greatest or least value on $[a,b]$ has an answer, which is the starting point for optimization.\n\nKey idea: both hypotheses count. The interval must be closed and bounded (it contains its endpoints) and $f$ must be continuous on all of it.\n\nWatch out: the theorem says the extremes are attained somewhere; it does not say where.",
+      "searchQuery": "extreme value theorem continuous closed interval attains maximum minimum",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.5",
+        "Spivak, Calculus 4e ch. 7"
+      ]
+    },
+    {
+      "id": "calculus-ivt-cos-equals-x-problem",
+      "unit": "continuity",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Show that the equation $\\cos x = x$ has a solution in $(0, 1)$, with $x$ in radians.",
+      "body": "Apply the intermediate value theorem to $g(x) = \\cos x - x$ on $[0, 1]$: $g(0) = 1 > 0$ and $g(1) = \\cos 1 - 1 < 0$.\n\nSteps:\n1. $g$ is continuous on $[0,1]$: $\\cos x$ and $x$ are continuous, and so is their difference.\n2. $g(0) = \\cos 0 - 0 = 1$, and $g(1) = \\cos 1 - 1 \\approx -0.46$, which is negative since $\\cos 1 \\approx 0.54 < 1$.\n3. $0$ lies strictly between $g(1)$ and $g(0)$, so some $c \\in (0,1)$ has $g(c) = 0$, i.e. $\\cos c = c$.\n\nTip: move everything to one side, then find two inputs where the sign differs. The method only proves a root exists; narrowing it down later is a numerical task.",
+      "searchQuery": "intermediate value theorem show equation has solution cos x equals x",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.5",
+        "Spivak, Calculus 4e ch. 7"
+      ]
+    },
+    {
+      "id": "calculus-evt-fails-open-interval",
+      "unit": "continuity",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give a continuous function on an interval that has no largest value there, showing that the extreme value theorem needs a closed interval.",
+      "body": "$f(x) = x$ on the open interval $(0, 1)$.\n\nIt is continuous, but its values get arbitrarily close to $1$ and to $0$ without reaching either, so it has no largest and no smallest value on $(0,1)$.\n\nOther examples show the other hypothesis matters too:\n- $f(x) = \\frac{1}{x}$ on $(0, 1]$ is continuous but grows without bound, so it has no largest value.\n- On the *closed* interval $[0,1]$, let $f(x) = \\frac1x$ for $x > 0$ and $f(0) = 0$. This is discontinuous at $0$ and again has no largest value.\n\nKey idea: drop either closedness or continuity, and the guarantee fails.",
+      "searchQuery": "extreme value theorem counterexample open interval no maximum",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.5",
+        "Spivak, Calculus 4e ch. 7"
+      ]
+    },
+    {
+      "id": "calculus-derivative-definition",
+      "unit": "the-derivative",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define the **derivative** $f'(a)$ as a limit of a **difference quotient**.",
+      "body": "$f'(a) = \\displaystyle\\lim_{h\\to 0}\\frac{f(a+h) - f(a)}{h}$, provided the limit exists.\n\nThe fraction is the **difference quotient**: the slope of the secant line through $(a, f(a))$ and $(a+h, f(a+h))$. Letting $h \\to 0$ swings that secant into the tangent line.\n\nAn equivalent form is $f'(a) = \\lim_{x\\to a}\\dfrac{f(x) - f(a)}{x - a}$.\n\nWatch out: the quotient is $\\frac{0}{0}$ at $h = 0$, so you cannot just substitute. Simplify first, as in any limit of that shape.",
+      "searchQuery": "derivative definition limit difference quotient",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.7",
+        "Spivak, Calculus 4e ch. 9"
+      ]
+    },
+    {
+      "id": "calculus-differentiable-definition",
+      "unit": "the-derivative",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does it mean for $f$ to be **differentiable** at $a$, and what is the derivative function $f'$?",
+      "body": "$f$ is differentiable at $a$ when the limit defining $f'(a)$ exists as a real number.\n\n$f$ is differentiable on an interval if it is differentiable at every point of it. The **derivative function** $f'$ assigns to each such $x$ the number $f'(x)$, so its domain is the set of points where $f$ is differentiable.\n\nExample: $f(x) = |x|$ is differentiable at every $x \\ne 0$ but not at $0$, so the domain of $f'$ excludes $0$.\n\nKey idea: differentiability is a local property, and it is stronger than continuity.",
+      "searchQuery": "differentiable at a point definition derivative function domain",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.7",
+        "Spivak, Calculus 4e ch. 9"
+      ]
+    },
+    {
+      "id": "calculus-derivative-as-slope-and-rate",
+      "unit": "the-derivative",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What are the two main interpretations of $f'(a)$, and what are its units?",
+      "body": "$f'(a)$ is the slope of the tangent line to the graph at $(a, f(a))$ and the instantaneous rate of change of $f$ at $a$; its units are units of $f$ per unit of $x$.\n\nThe tangent line at $(a, f(a))$ is $y = f(a) + f'(a)(x - a)$.\n\nExample: if $s(t)$ is position in meters at time $t$ in seconds, then $s'(t)$ is velocity in $\\mathrm{m/s}$. If $C(q)$ is cost in dollars for $q$ items, $C'(q)$ is dollars per item.\n\nKey idea: the average rate of change over $[a, a+h]$ is the secant slope; letting $h \\to 0$ turns it into the instantaneous rate.",
+      "searchQuery": "derivative meaning tangent slope instantaneous rate of change units",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.7",
+        "Spivak, Calculus 4e ch. 9"
+      ]
+    },
+    {
+      "id": "calculus-leibniz-notation",
+      "unit": "the-derivative",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Write the first and second derivatives of $y = f(x)$ in **Leibniz notation**, with their prime equivalents.",
+      "body": "$\\dfrac{dy}{dx} = f'(x)$ and $\\dfrac{d^2y}{dx^2} = \\dfrac{d}{dx}\\!\\left(\\dfrac{dy}{dx}\\right) = f''(x)$.\n\nThe symbol $\\frac{dy}{dx}$ comes from the difference quotient $\\frac{\\Delta y}{\\Delta x}$ with the changes made vanishingly small. Higher derivatives continue the pattern: $\\frac{d^n y}{dx^n} = f^{(n)}(x)$.\n\nTo evaluate at a point, write $\\left.\\frac{dy}{dx}\\right|_{x=a} = f'(a)$.\n\nWatch out: $\\frac{d^2y}{dx^2}$ means \"differentiate twice\", not $\\left(\\frac{dy}{dx}\\right)^2$.",
+      "searchQuery": "Leibniz notation dy/dx second derivative d2y/dx2 prime notation",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.8",
+        "Spivak, Calculus 4e ch. 9"
+      ]
+    },
+    {
+      "id": "calculus-derivative-sqrt-from-definition",
+      "unit": "the-derivative",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Use the definition of the derivative to find $f'(x)$ for $f(x) = \\sqrt{x}$, $x > 0$.",
+      "body": "$f'(x) = \\dfrac{1}{2\\sqrt{x}}$\n\nWrite the difference quotient and rationalize with the conjugate:\n\n$$\\frac{\\sqrt{x+h} - \\sqrt{x}}{h} = \\frac{(x+h) - x}{h\\,(\\sqrt{x+h} + \\sqrt{x})} = \\frac{1}{\\sqrt{x+h} + \\sqrt{x}} \\quad (h \\ne 0).$$\n\nAs $h \\to 0$ the denominator tends to $2\\sqrt{x}$, which is nonzero because $x > 0$.\n\nWatch out: at $x = 0$ the formula breaks down: the difference quotient there is $\\frac{1}{\\sqrt{h}}$, which grows without bound, so $\\sqrt{x}$ has a vertical tangent at the origin and is not differentiable there.",
+      "searchQuery": "derivative of square root from definition limit",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.7",
+        "Spivak, Calculus 4e ch. 9"
+      ]
+    },
+    {
+      "id": "calculus-differentiable-implies-continuous",
+      "unit": "the-derivative",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State and justify the theorem relating **differentiability** and continuity at a point.",
+      "body": "If $f$ is differentiable at $a$, then $f$ is continuous at $a$.\n\nKey idea: for $h \\ne 0$ write $f(a+h) - f(a) = \\dfrac{f(a+h) - f(a)}{h}\\cdot h$. As $h \\to 0$ the first factor tends to $f'(a)$ and the second to $0$, so the product tends to $0$.\n\nHence $f(a+h) \\to f(a)$ as $h \\to 0$, which is continuity at $a$.\n\nWhy it matters: it lets you rule out differentiability by finding a discontinuity. The converse is false (see the corner of $|x|$).",
+      "searchQuery": "differentiable implies continuous theorem proof",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.7",
+        "Spivak, Calculus 4e ch. 9"
+      ]
+    },
+    {
+      "id": "calculus-abs-value-not-differentiable",
+      "unit": "the-derivative",
+      "kind": "counterexample",
+      "difficulty": 3,
+      "title": "Give a function that is continuous at a point but not differentiable there, and explain why.",
+      "body": "$f(x) = |x|$ at $a = 0$.\n\nIt is continuous at $0$, since $|x| \\to 0$ as $x \\to 0$. But the difference quotient there is $\\dfrac{|h| - 0}{h} = \\dfrac{|h|}{h}$, which equals $1$ for $h > 0$ and $-1$ for $h < 0$. The one-sided limits differ, so the limit does not exist.\n\nKey idea: a corner has two different one-sided slopes, so there is no single tangent line.\n\nOther ways to fail: a vertical tangent (as for $\\sqrt[3]{x}$ at $0$, whose difference quotient $h^{-2/3}$ grows without bound) and wild oscillation.",
+      "searchQuery": "absolute value not differentiable at zero corner continuous",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.7",
+        "Spivak, Calculus 4e ch. 9"
+      ]
+    },
+    {
+      "id": "calculus-substitute-before-differentiating",
+      "unit": "the-derivative",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is this wrong: “the slope of the tangent to $f(x) = x^2$ at $x = 3$: plug in first to get $f(3) = 9$, and the derivative of the constant $9$ is $0$”?",
+      "body": "$f(3) = 9$ is just a number; differentiate the *function* $f(x)$ first, then substitute: the slope is $f'(3) = 6$.\n\nThe derivative measures how $f$ changes as $x$ changes, so $x$ must still be free when you differentiate. From the definition, $\\dfrac{(3+h)^2 - 9}{h} = \\dfrac{6h + h^2}{h} = 6 + h \\to 6$.\n\nWatch out: the same trap appears later in related rates, where substituting a snapshot value before differentiating destroys the rate you are after.",
+      "searchQuery": "tangent slope substitute before differentiate mistake derivative at a point",
+      "refs": [
+        "Stewart, Calculus ET 8e §2.7",
+        "Spivak, Calculus 4e ch. 9"
+      ]
+    },
+    {
+      "id": "calculus-power-rule",
+      "unit": "differentiation-rules",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **power rule** for derivatives.",
+      "body": "For every real number $n$, $\\dfrac{d}{dx}x^n = n x^{n-1}$ for all $x > 0$, and for all real $x$ when $n$ is a positive integer.\n\nWhy: for a positive integer $n$ the binomial theorem gives $(x+h)^n - x^n = n x^{n-1}h + (\\text{terms with } h^2 \\text{ or higher})$. Divide by $h$ and let $h \\to 0$. Other exponents are handled later, by logarithmic differentiation.\n\nExample: $\\frac{d}{dx}\\sqrt{x} = \\frac12 x^{-1/2}$ and $\\frac{d}{dx}\\frac{1}{x^2} = -2x^{-3}$.\n\nWatch out: the rule is for a variable base with a *constant* exponent. It does not apply to $2^x$.",
+      "searchQuery": "power rule derivative x to the n statement",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.1–3.2",
+        "Spivak, Calculus 4e ch. 10"
+      ]
+    },
+    {
+      "id": "calculus-derivative-of-sine-example",
+      "unit": "differentiation-rules",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Derive $\\dfrac{d}{dx}\\sin x = \\cos x$ from the definition of the derivative.",
+      "body": "$\\dfrac{d}{dx}\\sin x = \\cos x$\n\nUse the angle addition formula: $\\sin(x+h) - \\sin x = \\sin x\\,(\\cos h - 1) + \\cos x\\,\\sin h$. Dividing by $h$:\n\n$$\\frac{\\sin(x+h) - \\sin x}{h} = \\sin x\\cdot\\frac{\\cos h - 1}{h} + \\cos x\\cdot\\frac{\\sin h}{h}.$$\n\nAs $h \\to 0$, $\\frac{\\sin h}{h} \\to 1$ (squeeze theorem), and $\\frac{\\cos h - 1}{h} = -\\frac{\\sin h}{h}\\cdot\\frac{\\sin h}{\\cos h + 1} \\to -1\\cdot\\frac{0}{2} = 0$. The limit is $\\cos x$.\n\nThe same method gives $\\frac{d}{dx}\\cos x = -\\sin x$.\n\nWatch out: this relies on $x$ being in radians, via $\\frac{\\sin h}{h} \\to 1$.",
+      "searchQuery": "derivative of sin x proof from definition cos x",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.1–3.2",
+        "Spivak, Calculus 4e ch. 10"
+      ]
+    },
+    {
+      "id": "calculus-product-rule",
+      "unit": "differentiation-rules",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the **product rule** for $\\dfrac{d}{dx}\\bigl[f(x)g(x)\\bigr]$.",
+      "body": "$(fg)' = f'g + fg'$, when $f$ and $g$ are differentiable.\n\nWhy: add and subtract $f(x+h)g(x)$ in the difference quotient: $f(x+h)g(x+h) - f(x)g(x) = f(x+h)\\,[g(x+h) - g(x)] + g(x)\\,[f(x+h) - f(x)]$. Divide by $h$ and use that $f$ is continuous.\n\nExample: $\\frac{d}{dx}\\bigl[x^2 \\sin x\\bigr] = 2x \\sin x + x^2 \\cos x$.\n\nWatch out: $(fg)' \\ne f'g'$. Check with $f = g = x$: $(x^2)' = 2x$, but $f'g' = 1$.",
+      "searchQuery": "product rule derivative formula f'g + fg'",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.1–3.2",
+        "Spivak, Calculus 4e ch. 10"
+      ]
+    },
+    {
+      "id": "calculus-quotient-rule",
+      "unit": "differentiation-rules",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the **quotient rule** for $\\dfrac{d}{dx}\\left[\\dfrac{f(x)}{g(x)}\\right]$.",
+      "body": "$\\left(\\dfrac{f}{g}\\right)' = \\dfrac{f'g - fg'}{g^2}$, wherever $g \\ne 0$ and $f, g$ are differentiable.\n\nMnemonic: low d-high minus high d-low, over low squared.\n\nWhy: write $\\frac{f}{g} = f\\cdot g^{-1}$ and use the product and chain rules: $f'g^{-1} - f g^{-2}g'$, then put over the common denominator $g^2$.\n\nWatch out: the order in the numerator matters: swapping $f'g$ and $fg'$ flips the sign.",
+      "searchQuery": "quotient rule derivative formula f'g - fg' over g squared",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.1–3.2",
+        "Spivak, Calculus 4e ch. 10"
+      ]
+    },
+    {
+      "id": "calculus-chain-rule",
+      "unit": "differentiation-rules",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State the **chain rule** for the derivative of a composition $f(g(x))$.",
+      "body": "$\\dfrac{d}{dx}f(g(x)) = f'(g(x))\\cdot g'(x)$, when $g$ is differentiable at $x$ and $f$ is differentiable at $g(x)$.\n\nIn Leibniz form, with $y = f(u)$ and $u = g(x)$: $\\dfrac{dy}{dx} = \\dfrac{dy}{du}\\cdot\\dfrac{du}{dx}$. The rates multiply: if $y$ changes twice as fast as $u$ and $u$ three times as fast as $x$, then $y$ changes six times as fast as $x$.\n\nExample: $\\frac{d}{dx}\\sin(x^2) = \\cos(x^2)\\cdot 2x$.\n\nWatch out: the most common slip is forgetting the factor $g'(x)$ from the inner function.",
+      "searchQuery": "chain rule derivative composition formula",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.1–3.2",
+        "Spivak, Calculus 4e ch. 10"
+      ]
+    },
+    {
+      "id": "calculus-implicit-differentiation-problem",
+      "unit": "differentiation-rules",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find $\\dfrac{dy}{dx}$ by **implicit differentiation** for $x^3 + y^3 = 6xy$, and evaluate it at the point $(3, 3)$.",
+      "body": "$\\dfrac{dy}{dx} = \\dfrac{2y - x^2}{y^2 - 2x}$, which equals $-1$ at $(3,3)$.\n\nImplicit differentiation treats $y$ as an unknown function of $x$ and differentiates both sides of the equation, using the chain rule on every $y$-term. You never solve for $y$.\n\n1. Differentiate: $3x^2 + 3y^2\\,y' = 6y + 6x\\,y'$ (product rule on $6xy$).\n2. Collect: $y'(3y^2 - 6x) = 6y - 3x^2$.\n3. Divide: $y' = \\dfrac{2y - x^2}{y^2 - 2x}$.\n\nAt $(3,3)$: first check it lies on the curve, $27 + 27 = 54 = 6\\cdot 9$. Then $y' = \\dfrac{6 - 9}{9 - 6} = -1$.\n\nWatch out: a term like $y^3$ differentiates to $3y^2\\,y'$, not $3y^2$.",
+      "searchQuery": "implicit differentiation folium of Descartes slope at point",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.5–3.6"
+      ]
+    },
+    {
+      "id": "calculus-derivative-of-log-via-inverse-problem",
+      "unit": "differentiation-rules",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Given that $\\dfrac{d}{dx}e^x = e^x$, use the fact that $\\log$ (the natural logarithm) is the inverse of $e^x$ to find $\\dfrac{d}{dx}\\log x$ for $x > 0$.",
+      "body": "$\\dfrac{d}{dx}\\log x = \\dfrac{1}{x}$\n\nDifferentiate the identity $e^{\\log x} = x$ with the chain rule: $e^{\\log x}\\cdot(\\log x)' = 1$. Since $e^{\\log x} = x$, this reads $x\\,(\\log x)' = 1$. (The chain rule step assumes $\\log$ is differentiable, which is a standard fact for the inverse of a differentiable one-to-one function whose derivative is nonzero.)\n\nGeneral inverse-function rule, for a one-to-one differentiable $f$ with $f'(g(b)) \\neq 0$ (so that the inverse is differentiable at $b$): if $g = f^{-1}$, then $g'(b) = \\dfrac{1}{f'(g(b))}$. Here $f = e^x$, $g = \\log$: $g'(x) = \\dfrac{1}{e^{\\log x}} = \\dfrac1x$.\n\nTip: the same trick gives the derivative of any inverse function from the derivative of the original, for example $\\arcsin$ from $\\sin$.",
+      "searchQuery": "derivative of natural log from inverse function e^x",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.5–3.6"
+      ]
+    },
+    {
+      "id": "calculus-logarithmic-differentiation-problem",
+      "unit": "differentiation-rules",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use **logarithmic differentiation** to find $\\dfrac{d}{dx}\\,x^x$ for $x > 0$.",
+      "body": "$\\dfrac{d}{dx}x^x = x^x(\\log x + 1)$\n\nLogarithmic differentiation takes the log of both sides first, which turns powers and products into sums.\n\n1. Let $y = x^x$; then $\\log y = x\\log x$.\n2. Differentiate both sides, using the chain rule on the left and the product rule on the right: $\\dfrac{y'}{y} = \\log x + x\\cdot\\dfrac1x = \\log x + 1$.\n3. Multiply by $y$: $y' = x^x(\\log x + 1)$.\n\nWatch out: neither the power rule (variable exponent) nor the exponential rule (variable base) applies directly. Logarithmic differentiation handles both variables at once.",
+      "searchQuery": "logarithmic differentiation x to the x derivative",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.5–3.6"
+      ]
+    },
+    {
+      "id": "calculus-power-rule-on-exponential-misconception",
+      "unit": "differentiation-rules",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is $\\dfrac{d}{dx}2^x = x\\cdot 2^{x-1}$ wrong, and what is the correct derivative?",
+      "body": "The power rule needs a constant exponent; in $2^x$ the variable is in the exponent, and the correct derivative is $2^x\\log 2$.\n\nWrite $2^x = e^{x\\log 2}$. By the chain rule, $\\frac{d}{dx}e^{x\\log 2} = e^{x\\log 2}\\cdot\\log 2 = 2^x\\log 2$. More generally $\\frac{d}{dx}a^x = a^x\\log a$ for $a > 0$.\n\nCheck: at $x = 0$ the wrong formula gives $0$, but the graph of $2^x$ is clearly rising there; the true slope is $\\log 2 \\approx 0.69$.\n\nWatch out: tell the rules apart by where the variable sits: base ($x^n$, power rule), exponent ($a^x$, exponential rule), or both ($x^x$, log differentiation).",
+      "searchQuery": "derivative of exponential a^x not power rule",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.1–3.2",
+        "Spivak, Calculus 4e ch. 10"
+      ]
+    },
+    {
+      "id": "calculus-linearization-definition",
+      "unit": "rates-and-linear-approximation",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define the **linearization** of $f$ at $a$.",
+      "body": "$L(x) = f(a) + f'(a)(x - a)$: the equation of the tangent line at $(a, f(a))$, used as a stand-in for $f$ near $a$.\n\nThe statement $f(x) \\approx L(x)$ for $x$ near $a$ is the **linear approximation**. It requires $f$ to be differentiable at $a$.\n\nWhy: by the definition of the derivative, $\\frac{f(x) - f(a)}{x - a} \\approx f'(a)$ for $x$ near $a$; multiply by $x - a$ and add $f(a)$.\n\nExample: for $f(x) = \\sqrt{x}$ at $a = 4$, $L(x) = 2 + \\frac{1}{4}(x - 4)$.\n\nWatch out: it is good only near $a$, and the error grows as you move away, faster for more sharply curved graphs.",
+      "searchQuery": "linearization definition tangent line approximation L(x)",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.9"
+      ]
+    },
+    {
+      "id": "calculus-related-rates-strategy",
+      "unit": "rates-and-linear-approximation",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is the standard strategy for a **related rates** problem?",
+      "body": "Write an equation relating the changing quantities, differentiate both sides with respect to time $t$ (using the chain rule), and only then substitute the numbers for the moment in question.\n\n1. Draw a picture and name each quantity that changes with $t$.\n2. Find an equation that holds *at all times* connecting them.\n3. Differentiate with respect to $t$.\n4. Substitute the known values and solve for the unknown rate.\n\nExample: for a circle, $A = \\pi r^2$ gives $\\dfrac{dA}{dt} = 2\\pi r\\,\\dfrac{dr}{dt}$: the rates of area and radius are *related* through $r$.\n\nTip: attach units to every rate; a rate that is shrinking has a negative sign.",
+      "searchQuery": "related rates strategy steps differentiate with respect to time",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.8"
+      ]
+    },
+    {
+      "id": "calculus-exponential-growth-model",
+      "unit": "rates-and-linear-approximation",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "What are the solutions of the **exponential growth model** $\\dfrac{dy}{dt} = ky$, with $k$ constant?",
+      "body": "$y(t) = y(0)\\,e^{kt}$\n\nThe model says the rate of change is proportional to the current amount. It describes growth for $k > 0$ and decay for $k < 0$.\n\nWhy: $y(0)e^{kt}$ works, since its derivative is $k\\,y(0)e^{kt} = ky$. That it is the *only* solution follows because $\\frac{d}{dt}\\bigl(y\\,e^{-kt}\\bigr) = y'e^{-kt} - ky\\,e^{-kt} = 0$, and a function with zero derivative is constant (justified in the mean value theorem unit).\n\nExample: the doubling time is $\\frac{\\log 2}{k}$ and the half-life for decay is $\\frac{\\log 2}{|k|}$.",
+      "searchQuery": "exponential growth decay model dy/dt = ky solution",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.10"
+      ]
+    },
+    {
+      "id": "calculus-differential-circle-area-example",
+      "unit": "rates-and-linear-approximation",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Use a **differential** to estimate how much the area of a circle grows when its radius increases from $10\\ \\mathrm{cm}$ to $10.1\\ \\mathrm{cm}$.",
+      "body": "$\\Delta A \\approx dA = 2\\pi r\\,dr = 2\\pi(10)(0.1) = 2\\pi \\approx 6.28\\ \\mathrm{cm^2}$.\n\nFor $y = f(x)$, the **differential** is $dy = f'(x)\\,dx$, where $dx = \\Delta x$ is a small change in $x$. Then $\\Delta y \\approx dy$: this is the linear approximation written in terms of changes.\n\nCheck: the exact increase is $\\pi(10.1^2 - 10^2) = 2.01\\pi \\approx 6.31\\ \\mathrm{cm^2}$. The error is $0.01\\pi \\approx 0.03\\ \\mathrm{cm^2}$, which is $\\pi\\,(dr)^2$: the part the straight-line estimate leaves out.\n\nTip: differentials give quick error estimates: a measured radius off by $dr$ gives an area off by about $2\\pi r\\,dr$.",
+      "searchQuery": "differential dy = f'(x) dx estimate change in area circle",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.9"
+      ]
+    },
+    {
+      "id": "calculus-ladder-related-rates-problem",
+      "unit": "rates-and-linear-approximation",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A $10\\ \\mathrm{ft}$ ladder leans against a vertical wall. Its bottom slides away from the wall at $1\\ \\mathrm{ft/s}$. How fast is the height of its top changing, in $\\mathrm{ft/s}$, when the bottom is $6\\ \\mathrm{ft}$ from the wall? Give the signed rate (negative if falling).",
+      "body": "$-\\dfrac{3}{4}$\n\nLet $x$ be the distance of the bottom from the wall and $y$ the height of the top. At all times $x^2 + y^2 = 100$.\n\nDifferentiate with respect to $t$: $2x\\,x' + 2y\\,y' = 0$, so $y' = -\\dfrac{x\\,x'}{y}$.\n\nAt the moment of interest $x = 6$, so $y = \\sqrt{100 - 36} = 8$, and $x' = 1$. Then $y' = -\\dfrac{6\\cdot 1}{8} = -\\dfrac34\\ \\mathrm{ft/s}$.\n\nThe top is sliding down at $\\frac34\\ \\mathrm{ft/s}$. Notice it falls faster as the ladder gets flatter.",
+      "searchQuery": "ladder sliding wall related rates problem",
+      "answer": "-3/4",
+      "acceptedAnswers": [
+        "-0.75"
+      ],
+      "answerDisplay": "$-\\dfrac{3}{4}$",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.8"
+      ]
+    },
+    {
+      "id": "calculus-linear-approximation-cube-root-problem",
+      "unit": "rates-and-linear-approximation",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use the linearization of $f(x) = \\sqrt[3]{x}$ at $a = 27$ to estimate $\\sqrt[3]{27.3}$.",
+      "body": "$\\sqrt[3]{27.3} \\approx 3 + \\dfrac{0.3}{27} \\approx 3.0111$\n\nHere $f(27) = 3$, and $f'(x) = \\frac13 x^{-2/3}$, so $f'(27) = \\frac{1}{3\\cdot 9} = \\frac{1}{27}$.\n\nThen $L(x) = 3 + \\frac{1}{27}(x - 27)$ and $L(27.3) = 3 + \\frac{0.3}{27} = 3.01111\\ldots$\n\nCheck: the true value is $3.01107\\ldots$, so the estimate is off by about $4\\times 10^{-5}$.\n\nWhy it works well: $27.3$ is very near $27$, and a perfect cube makes $f(27)$ and $f'(27)$ easy. Choose $a$ to be a nearby input whose value you know exactly.",
+      "searchQuery": "linear approximation cube root estimate linearization 27.3",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.9"
+      ]
+    },
+    {
+      "id": "calculus-bacteria-growth-problem",
+      "unit": "rates-and-linear-approximation",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A culture's size $y$ satisfies $y' = ky$. It grows from $500$ to $2000$ cells in $3$ hours. Estimate its size after $5$ hours.",
+      "body": "$y(5) = 500\\cdot 4^{5/3} \\approx 5040$ cells.\n\nThe solution of $y' = ky$ is $y(t) = y(0)e^{kt}$, with $y(0) = 500$.\n\nFind $k$: $500e^{3k} = 2000$, so $e^{3k} = 4$ and $k = \\frac{\\log 4}{3}$. Then $e^{kt} = 4^{t/3}$ and $y(5) = 500\\cdot 4^{5/3}$.\n\nNumerically $4^{5/3} = 2^{10/3} \\approx 10.08$, so $y(5) \\approx 5040$.\n\nTip: the size multiplies by the same factor in equal time steps, here $4$ every $3$ hours, so you can skip $k$ altogether.",
+      "searchQuery": "exponential growth problem bacteria culture find k population after hours",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.10"
+      ]
+    },
+    {
+      "id": "calculus-related-rates-substituting-early-misconception",
+      "unit": "rates-and-linear-approximation",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "A spherical balloon has radius $5\\ \\mathrm{cm}$ and its volume grows at $100\\ \\mathrm{cm^3/s}$. A student computes $V = \\frac43\\pi(5)^3$ first and differentiates to get $dV/dt = 0$. Why is this wrong, and what is $dr/dt$?",
+      "body": "Substituting $r = 5$ before differentiating freezes a quantity that is changing; differentiate $V = \\frac43\\pi r^3$ with respect to $t$ first, which gives $\\dfrac{dr}{dt} = \\dfrac{1}{\\pi} \\approx 0.32\\ \\mathrm{cm/s}$.\n\nCorrect work: $\\dfrac{dV}{dt} = 4\\pi r^2\\,\\dfrac{dr}{dt}$. Now substitute: $100 = 4\\pi(25)\\,\\dfrac{dr}{dt}$, so $\\dfrac{dr}{dt} = \\dfrac{100}{100\\pi} = \\dfrac1\\pi$.\n\nWatch out: constants such as the total length of a ladder can be substituted early; anything that varies with time must wait until after the derivative is taken.",
+      "searchQuery": "related rates mistake substitute before differentiating sphere volume",
+      "refs": [
+        "Stewart, Calculus ET 8e §3.8"
+      ]
+    },
+    {
+      "id": "calculus-rolles-theorem",
+      "unit": "mean-value-theorem",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "State **Rolle's theorem** and say what it means geometrically.",
+      "body": "If $f$ is continuous on $[a,b]$, differentiable on $(a,b)$, and $f(a) = f(b)$, then $f'(c) = 0$ for some $c \\in (a,b)$.\n\nGeometrically, a smooth curve that starts and ends at the same height must have a flat tangent somewhere in between.\n\nWhy: by the extreme value theorem $f$ has a largest and a smallest value on $[a,b]$. If both occur at the endpoints, $f$ is constant and $f' = 0$ everywhere. Otherwise one occurs at an interior point $c$, and at a highest or lowest interior point the tangent must be flat.\n\nWatch out: differentiability is needed. $f(x) = |x|$ on $[-1,1]$ has $f(-1) = f(1)$, but its slope is never $0$, since it has a corner at $0$.",
+      "searchQuery": "Rolle's theorem statement hypotheses geometric meaning",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.2",
+        "Spivak, Calculus 4e ch. 11"
+      ]
+    },
+    {
+      "id": "calculus-mean-value-theorem",
+      "unit": "mean-value-theorem",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **mean value theorem**.",
+      "body": "If $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$, then there is a $c \\in (a,b)$ with $f'(c) = \\dfrac{f(b) - f(a)}{b - a}$.\n\nGeometrically, somewhere between $a$ and $b$ the tangent line is parallel to the secant line through the endpoints. In motion terms, at some moment the instantaneous velocity equals the average velocity.\n\nKey idea of the proof: apply Rolle's theorem to $h(x) = f(x) - \\bigl[f(a) + \\frac{f(b)-f(a)}{b-a}(x - a)\\bigr]$, the gap between the graph and the secant line. It is $0$ at both endpoints.\n\nWhy it matters: it connects the *local* information $f'$ to the *global* change $f(b) - f(a)$.",
+      "searchQuery": "mean value theorem statement secant parallel tangent",
+      "checkpoint": true,
+      "refs": [
+        "Stewart, Calculus ET 8e §4.2",
+        "Spivak, Calculus 4e ch. 11"
+      ]
+    },
+    {
+      "id": "calculus-mvt-monotonicity-problem",
+      "unit": "mean-value-theorem",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use the mean value theorem to show: if $f' > 0$ on an interval $I$, then $f$ is increasing on $I$ (so $x < y$ in $I$ implies $f(x) < f(y)$). What does the same argument show when $f' = 0$ on $I$?",
+      "body": "Take $x < y$ in $I$; the mean value theorem gives $c \\in (x, y)$ with $f(y) - f(x) = f'(c)(y - x) > 0$. If $f' = 0$ on $I$, then $f$ is constant on $I$.\n\nDetails:\n1. $f$ is differentiable on $I$, hence continuous on $[x, y]$ and differentiable on $(x, y)$, so the theorem applies on $[x, y]$.\n2. $f(y) - f(x) = f'(c)(y - x)$, where $y - x > 0$ and $f'(c) > 0$, so the product is positive.\n3. If $f' = 0$ everywhere on $I$, the same formula gives $f(y) = f(x)$ for all $x < y$.\n\nWhy it matters: this is why the sign of $f'$ describes the graph, and why two functions with the same derivative on an interval differ by a constant.",
+      "searchQuery": "mean value theorem derivative positive implies increasing derivative zero constant",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.2",
+        "Spivak, Calculus 4e ch. 11"
+      ]
+    },
+    {
+      "id": "calculus-mvt-sine-bound-example",
+      "unit": "mean-value-theorem",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Use the mean value theorem to show $|\\sin b - \\sin a| \\le |b - a|$ for all real $a, b$.",
+      "body": "Apply the theorem to $\\sin$ on the interval between $a$ and $b$ and use $|\\cos c| \\le 1$.\n\nFor $a < b$, $\\sin$ is continuous and differentiable everywhere, so there is a $c \\in (a, b)$ with $\\sin b - \\sin a = \\cos c\\,(b - a)$. Taking absolute values, $|\\sin b - \\sin a| = |\\cos c|\\,|b - a| \\le |b - a|$.\n\nThe case $a > b$ follows by swapping the names, and $a = b$ is trivial.\n\nTip: this is the typical use of the mean value theorem: you never find $c$, you only bound $f'(c)$ over the whole interval.",
+      "searchQuery": "mean value theorem inequality sin b minus sin a bound",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.2",
+        "Spivak, Calculus 4e ch. 11"
+      ]
+    },
+    {
+      "id": "calculus-cauchy-mean-value-theorem",
+      "unit": "mean-value-theorem",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **Cauchy mean value theorem**.",
+      "body": "If $f$ and $g$ are continuous on $[a,b]$ and differentiable on $(a,b)$, then there is a $c \\in (a,b)$ with $\\bigl(f(b) - f(a)\\bigr)g'(c) = \\bigl(g(b) - g(a)\\bigr)f'(c)$.\n\nIf also $g' \\ne 0$ on $(a,b)$, then $g(b) \\ne g(a)$ and this reads $\\dfrac{f'(c)}{g'(c)} = \\dfrac{f(b) - f(a)}{g(b) - g(a)}$.\n\nKey idea: apply Rolle's theorem to $h(x) = \\bigl(f(b) - f(a)\\bigr)g(x) - \\bigl(g(b) - g(a)\\bigr)f(x)$, which has $h(a) = h(b)$.\n\nWhy it matters: taking $g(x) = x$ gives the ordinary mean value theorem, and the quotient form is the engine behind l'Hôpital's rule.",
+      "searchQuery": "Cauchy mean value theorem statement f'(c)/g'(c) ratio",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.4",
+        "Spivak, Calculus 4e ch. 11"
+      ]
+    },
+    {
+      "id": "calculus-lhopitals-rule",
+      "unit": "mean-value-theorem",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **l'Hôpital's rule** for $\\lim_{x \\to a}\\dfrac{f(x)}{g(x)}$, and say what an **indeterminate form** is.",
+      "body": "If $f, g$ are differentiable near $a$ (except possibly at $a$) with $g' \\ne 0$ there, $f$ and $g$ both tend to $0$ (or both to $\\pm\\infty$) as $x \\to a$, and $\\lim_{x\\to a}\\frac{f'(x)}{g'(x)}$ exists (or is $\\pm\\infty$), then $\\lim_{x\\to a}\\frac{f(x)}{g(x)} = \\lim_{x\\to a}\\frac{f'(x)}{g'(x)}$.\n\nThe quotient of two functions tending to $0$ (form $\\frac00$) or to infinity (form $\\frac\\infty\\infty$) is an **indeterminate form**: the limit laws are silent and the answer depends on how fast each part moves.\n\nThe rule also holds for one-sided limits and for $x \\to \\pm\\infty$, and may be applied repeatedly when the new quotient is again indeterminate.\n\nWatch out: check the form *every time*. If the quotient is not $\\frac00$ or $\\frac\\infty\\infty$, differentiating the top and bottom gives wrong answers.",
+      "searchQuery": "L'Hopital's rule statement indeterminate form 0/0 infinity",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.4",
+        "Spivak, Calculus 4e ch. 11"
+      ]
+    },
+    {
+      "id": "calculus-x-log-x-limit-problem",
+      "unit": "mean-value-theorem",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\displaystyle\\lim_{x\\to 0^+} x\\log x$ (with $\\log$ the natural logarithm). Give the number only.",
+      "body": "$0$\n\nThis has the form $0\\cdot(-\\infty)$, which is indeterminate and not directly a quotient. Rewrite it as one: $x\\log x = \\dfrac{\\log x}{1/x}$, which has the form $\\frac{-\\infty}{\\infty}$ as $x \\to 0^+$.\n\nApply l'Hôpital's rule: $\\dfrac{(\\log x)'}{(1/x)'} = \\dfrac{1/x}{-1/x^2} = -x \\to 0$.\n\nSo $\\lim_{x\\to 0^+} x\\log x = 0$: the factor $x$ beats the slow growth of $\\log x$.\n\nTip: for a product $0\\cdot\\infty$, move one factor to the denominator; put the factor whose derivative is simpler on top.",
+      "searchQuery": "limit x ln x as x approaches 0 from the right L'Hopital",
+      "answer": "0",
+      "answerDisplay": "$0$",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.4",
+        "Spivak, Calculus 4e ch. 11"
+      ]
+    },
+    {
+      "id": "calculus-lhopital-converse-fails-counterexample",
+      "unit": "mean-value-theorem",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give functions $f, g$ with $f/g$ of the form $\\frac\\infty\\infty$ as $x \\to \\infty$, where $\\lim f/g$ exists but $\\lim f'/g'$ does not, showing l'Hôpital's rule cannot be reversed.",
+      "body": "$f(x) = x + \\sin x$ and $g(x) = x$ as $x \\to \\infty$.\n\nSince $f(x) \\ge x - 1$, both $f$ and $g$ tend to $\\infty$. Dividing, $\\dfrac{x + \\sin x}{x} = 1 + \\dfrac{\\sin x}{x} \\to 1$ (the squeeze theorem handles $\\frac{\\sin x}{x}$ because $|\\sin x| \\le 1$).\n\nBut $\\dfrac{f'(x)}{g'(x)} = 1 + \\cos x$, which keeps oscillating between $0$ and $2$ and has no limit.\n\nKey idea: the rule's hypothesis is that $\\lim f'/g'$ exists. If it does not, the rule says nothing, and you must find another way.",
+      "searchQuery": "L'Hopital rule converse fails x plus sin x over x counterexample",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.4",
+        "Spivak, Calculus 4e ch. 11"
+      ]
+    },
+    {
+      "id": "calculus-local-maximum-definition",
+      "unit": "curve-sketching",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define a **local maximum** and a local minimum of $f$.",
+      "body": "$f$ has a local maximum at $c$ if $f(c) \\ge f(x)$ for all $x$ in some open interval around $c$; a local minimum reverses the inequality: $f(c) \\le f(x)$.\n\nOnly points near $c$ are compared, so a local maximum need not be the highest point of the whole graph, and a function can have many.\n\nExample: a wave such as $\\sin x$ has a local maximum at every $x = \\frac\\pi2 + 2\\pi k$, and they are all equal here.\n\nWatch out: the interval must contain points on both sides of $c$, so an endpoint of a domain is never a local extremum under this definition.",
+      "searchQuery": "local maximum local minimum definition",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.1"
+      ]
+    },
+    {
+      "id": "calculus-critical-point-definition",
+      "unit": "curve-sketching",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define a **critical point** of $f$, and state its link to local extrema.",
+      "body": "A critical point of $f$ is a number $c$ in the domain of $f$ with $f'(c) = 0$ or $f'(c)$ undefined.\n\nFermat's theorem: if $f$ has a local maximum or minimum at $c$ and $f'(c)$ exists, then $f'(c) = 0$. So every local extremum occurs at a critical point.\n\nWhy: near a local maximum, secant slopes to the right of $c$ are $\\le 0$ and to the left are $\\ge 0$; if the derivative exists, it must be squeezed to $0$.\n\nWatch out: the converse is false. $f(x) = x^3$ has $f'(0) = 0$ but no extremum at $0$. A critical point is only a *candidate*.",
+      "searchQuery": "critical point definition derivative zero or undefined Fermat theorem",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.1"
+      ]
+    },
+    {
+      "id": "calculus-concavity-inflection-point",
+      "unit": "curve-sketching",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "What is **concavity**, how does $f''$ describe it, and what is an **inflection point**?",
+      "body": "$f$ is concave up where its slope $f'$ is increasing (which holds whenever $f'' > 0$) and concave down where $f'$ is decreasing (which holds whenever $f'' < 0$); an inflection point is a point of the graph where the concavity changes.\n\nConcave up: the graph bends like a cup and lies above its tangent lines. Concave down: it bends like a cap and lies below them.\n\nExample: for $f(x) = x^3$, $f''(x) = 6x$ is negative for $x < 0$ and positive for $x > 0$, so the graph switches from concave down to concave up at the inflection point $(0, 0)$.\n\nTip: find inflection candidates by solving $f''(x) = 0$ or looking where $f''$ is undefined, then confirm with a sign change.",
+      "searchQuery": "concavity concave up down second derivative inflection point",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.3"
+      ]
+    },
+    {
+      "id": "calculus-first-derivative-test-example",
+      "unit": "curve-sketching",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Use the **first derivative test** to classify the critical points of $f(x) = x^3 - 3x$.",
+      "body": "Local maximum at $x = -1$ (value $2$) and local minimum at $x = 1$ (value $-2$).\n\nFirst derivative test: at a critical point $c$, if $f'$ changes from positive to negative then $f$ has a local maximum; from negative to positive, a local minimum; if the sign does not change, neither.\n\nHere $f'(x) = 3x^2 - 3 = 3(x-1)(x+1)$, so the critical points are $x = \\pm 1$. The sign chart is:\n\n- $x < -1$: $f' > 0$ (rising)\n- $-1 < x < 1$: $f' < 0$ (falling)\n- $x > 1$: $f' > 0$ (rising)\n\nThe sign goes $+ \\to -$ at $-1$ and $- \\to +$ at $1$. Values: $f(-1) = -1 + 3 = 2$ and $f(1) = 1 - 3 = -2$.",
+      "searchQuery": "first derivative test classify critical points x^3 - 3x",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.3"
+      ]
+    },
+    {
+      "id": "calculus-second-derivative-test",
+      "unit": "curve-sketching",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **second derivative test** for classifying a critical point.",
+      "body": "Suppose $f''$ is continuous near $c$ and $f'(c) = 0$. If $f''(c) > 0$ then $f$ has a local minimum at $c$; if $f''(c) < 0$ it has a local maximum; if $f''(c) = 0$ the test gives no information.\n\nWhy: $f''(c) > 0$ means the graph is concave up near $c$, so the flat tangent at $c$ lies below the graph, which makes $c$ a local minimum.\n\nWatch out: when $f''(c) = 0$ anything can happen: $x^4$ has a minimum at $0$, $-x^4$ a maximum, and $x^3$ neither. Fall back on the first derivative test.",
+      "searchQuery": "second derivative test statement local minimum maximum",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.3"
+      ]
+    },
+    {
+      "id": "calculus-x-e-minus-x-analysis-problem",
+      "unit": "curve-sketching",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Analyze $f(x) = x e^{-x}$: find its local extremum, its inflection point, and its behavior as $x \\to \\infty$ and $x \\to -\\infty$.",
+      "body": "There is a local maximum at $(1, 1/e)$, an inflection point at $(2, 2/e^2)$, $f \\to 0$ as $x \\to \\infty$, and $f \\to -\\infty$ as $x \\to -\\infty$.\n\n1. $f'(x) = e^{-x} - xe^{-x} = (1 - x)e^{-x}$. Since $e^{-x} > 0$, $f' > 0$ for $x < 1$ and $f' < 0$ for $x > 1$, so $x = 1$ is a local maximum, and in fact the highest point of the whole graph, with value $f(1) = 1/e$.\n2. $f''(x) = -e^{-x} - (1-x)e^{-x} = (x - 2)e^{-x}$, which changes sign at $x = 2$: concave down before, up after. Inflection point $(2, 2/e^2)$.\n3. As $x \\to \\infty$, $\\frac{x}{e^x} \\to 0$ by l'Hôpital's rule, so $y = 0$ is a horizontal asymptote. As $x \\to -\\infty$, $x \\to -\\infty$ and $e^{-x} \\to \\infty$, so $f \\to -\\infty$.\n\nTip: collect the sign charts of $f'$ and $f''$ and the end behavior before drawing anything.",
+      "searchQuery": "analyze function x e^-x extremum inflection point asymptote",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.5"
+      ]
+    },
+    {
+      "id": "calculus-rational-function-sketch-problem",
+      "unit": "curve-sketching",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Gather the information needed to sketch $f(x) = \\dfrac{x^2}{x - 1}$: find its asymptotes, critical points (classified) and concavity.",
+      "body": "Vertical asymptote $x = 1$; the graph approaches the line $y = x + 1$ as $x \\to \\pm\\infty$; local maximum at $(0, 0)$, local minimum at $(2, 4)$; concave down for $x < 1$, concave up for $x > 1$, no inflection point.\n\n1. Division gives $\\frac{x^2}{x-1} = x + 1 + \\frac{1}{x-1}$, so far out the graph hugs $y = x + 1$. The denominator is zero at $x = 1$ while the numerator is not, so $x = 1$ is a vertical asymptote.\n2. $f'(x) = \\dfrac{x^2 - 2x}{(x-1)^2}$, zero at $x = 0$ and $x = 2$. It is positive for $x < 0$ and $x > 2$ and negative between (except at $x = 1$), so $f(0) = 0$ is a local maximum and $f(2) = 4$ a local minimum.\n3. $f''(x) = \\dfrac{2}{(x-1)^3}$ never vanishes, and changes sign only at $x = 1$, which is not in the domain, so there is no inflection point.\n\nWatch out: a critical point must be in the domain: $x = 1$ is a break in the graph, not a critical point.",
+      "searchQuery": "sketch rational function x^2/(x-1) asymptotes critical points concavity",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.5"
+      ]
+    },
+    {
+      "id": "calculus-second-derivative-zero-not-inflection-misconception",
+      "unit": "curve-sketching",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is “$f''(c) = 0$ means $c$ is an inflection point” false?",
+      "body": "An inflection point needs $f''$ to *change sign* at $c$ (concavity must switch); $f''(c) = 0$ alone does not do that.\n\nExample: $f(x) = x^4$ has $f''(x) = 12x^2$, which is $0$ at $x = 0$ but is positive on both sides. The graph is concave up everywhere, so $x = 0$ is not an inflection point (it is a minimum).\n\nCompare $f(x) = x^3$, where $f''(x) = 6x$ does change sign at $0$.\n\nTip: $f''(c) = 0$ only produces a candidate. Always check the sign of $f''$ on each side.",
+      "searchQuery": "second derivative zero not inflection point x^4 sign change",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.3"
+      ]
+    },
+    {
+      "id": "calculus-closed-interval-method",
+      "unit": "optimization",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "What is the **closed interval method** for finding the **absolute maximum** and minimum of a continuous $f$ on $[a,b]$?",
+      "body": "Evaluate $f$ at every critical point in $(a,b)$ and at the endpoints $a$ and $b$; the largest value is the absolute maximum and the smallest is the absolute minimum.\n\nThe **absolute maximum** is the value $f(c)$ with $f(c) \\ge f(x)$ for every $x$ in the interval (the absolute minimum reverses the inequality).\n\nWhy: the extreme value theorem guarantees both exist. A location can only be an endpoint or an interior point, and at an interior extremum the derivative is $0$ or undefined (Fermat's theorem), so it is a critical point.\n\nWatch out: do not forget the endpoints. The extreme values of a function on a closed interval often occur there.",
+      "searchQuery": "closed interval method absolute maximum minimum critical points endpoints",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.7"
+      ]
+    },
+    {
+      "id": "calculus-newtons-method-formula",
+      "unit": "optimization",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State the iteration formula of **Newton's method** for approximating a root of $f(x) = 0$.",
+      "body": "$x_{n+1} = x_n - \\dfrac{f(x_n)}{f'(x_n)}$, provided $f'(x_n) \\neq 0$.\n\nWhy: the tangent line at $(x_n, f(x_n))$ is $y = f(x_n) + f'(x_n)(x - x_n)$. Setting $y = 0$ and solving for $x$ gives the point $x_{n+1}$ where that tangent crosses the axis, a better guess when the graph is close to its tangent.\n\nKey idea: it replaces the curve by its linearization and solves the easy linear problem, again and again.\n\nWatch out: it needs a differentiable $f$, a starting guess $x_0$ reasonably close to a root, and $f'(x_n) \\ne 0$.",
+      "searchQuery": "Newton's method formula x_{n+1} = x_n - f(x_n)/f'(x_n)",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.8"
+      ]
+    },
+    {
+      "id": "calculus-closed-interval-method-example",
+      "unit": "optimization",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Find the absolute maximum and minimum of $f(x) = x^3 - 3x^2 + 1$ on $[-1, 4]$.",
+      "body": "Absolute maximum $17$ at $x = 4$; absolute minimum $-3$, attained at both $x = -1$ and $x = 2$.\n\nStep 1: $f'(x) = 3x^2 - 6x = 3x(x - 2)$, so the critical points are $x = 0$ and $x = 2$, both in $(-1, 4)$.\n\nStep 2: evaluate at critical points and endpoints.\n\n- $f(-1) = -1 - 3 + 1 = -3$\n- $f(0) = 1$\n- $f(2) = 8 - 12 + 1 = -3$\n- $f(4) = 64 - 48 + 1 = 17$\n\nStep 3: compare. The largest is $17$ and the smallest is $-3$.\n\nNotice the maximum is at an endpoint, and the minimum is attained at two different points.",
+      "searchQuery": "closed interval method example cubic absolute extrema on interval",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.7"
+      ]
+    },
+    {
+      "id": "calculus-newtons-method-sqrt2-example",
+      "unit": "optimization",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Apply **Newton's method** to $f(x) = x^2 - 2$ with $x_0 = 1$ to compute $x_1, x_2, x_3$.",
+      "body": "$x_1 = 1.5$, $x_2 = \\dfrac{17}{12} \\approx 1.41667$, $x_3 \\approx 1.414216$\n\nHere $f'(x) = 2x$, so the step simplifies to $x_{n+1} = x_n - \\dfrac{x_n^2 - 2}{2x_n} = \\dfrac12\\left(x_n + \\dfrac{2}{x_n}\\right)$.\n\n- $x_1 = \\frac12\\left(1 + 2\\right) = 1.5$\n- $x_2 = \\frac12\\left(1.5 + \\frac{2}{1.5}\\right) = \\frac{17}{12}$\n- $x_3 = \\frac12\\left(\\frac{17}{12} + \\frac{24}{17}\\right) = \\frac{577}{408} \\approx 1.4142157$\n\nThe true value is $\\sqrt2 = 1.4142136\\ldots$, so $x_3$ is already correct to about six digits.\n\nKey idea: near a root where $f'$ is nonzero, the number of correct digits roughly doubles with each step.",
+      "searchQuery": "Newton's method square root of 2 iteration example",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.8"
+      ]
+    },
+    {
+      "id": "calculus-fence-optimization-problem",
+      "unit": "optimization",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "$200\\ \\mathrm{m}$ of fencing encloses a rectangular field on three sides; a straight river forms the fourth side and needs no fence. Which dimensions maximize the area, and what is that area?",
+      "body": "$50\\ \\mathrm{m}$ (perpendicular to the river) by $100\\ \\mathrm{m}$ (along the river), area $5000\\ \\mathrm{m^2}$.\n\nThe quantity to maximize is the **objective function**, here the area $A = xy$. The condition that limits the choices is the **constraint**, here $2x + y = 200$, where $x$ is each side perpendicular to the river.\n\nEliminate $y$: $A(x) = x(200 - 2x) = 200x - 2x^2$ on $[0, 100]$. Then $A'(x) = 200 - 4x = 0$ at $x = 50$.\n\nClosed interval method: $A(0) = 0$, $A(50) = 50\\cdot 100 = 5000$, $A(100) = 0$. So the maximum is $5000$ at $x = 50$, $y = 100$.\n\nTip: state the domain of the single variable you end up with; the endpoints are part of the check.",
+      "searchQuery": "fence optimization river rectangle maximize area 200 m",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.7"
+      ]
+    },
+    {
+      "id": "calculus-open-box-optimization-problem",
+      "unit": "optimization",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A $12\\ \\mathrm{in}$ by $12\\ \\mathrm{in}$ sheet has a square of side $x$ cut from each corner, and the sides are folded up to make an open-top box. What is the largest possible volume, in cubic inches? Give the number only.",
+      "body": "$128$\n\nThe base is $(12 - 2x)$ by $(12 - 2x)$ and the height is $x$, so the volume is $V(x) = x(12 - 2x)^2$ on $[0, 6]$.\n\nBy the product and chain rules, $V'(x) = (12 - 2x)^2 + x\\cdot 2(12 - 2x)(-2) = (12 - 2x)(12 - 6x)$. It is zero at $x = 6$ and $x = 2$.\n\nClosed interval method: $V(0) = 0$, $V(6) = 0$, $V(2) = 2\\cdot 8^2 = 128$. The largest is $128$, at $x = 2$.\n\nSo the best box has a $2$-inch cut, an $8\\ \\mathrm{in}\\times 8\\ \\mathrm{in}$ base and a height of $2$ inches: $128\\ \\mathrm{in^3}$.",
+      "searchQuery": "open top box maximize volume cut squares from corners 12 inch",
+      "answer": "128",
+      "answerDisplay": "$128$",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.7"
+      ]
+    },
+    {
+      "id": "calculus-closest-point-on-parabola-problem",
+      "unit": "optimization",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the points on the parabola $y = x^2$ closest to the point $(0, 1)$, and the minimum distance.",
+      "body": "The points $\\left(\\pm\\dfrac{1}{\\sqrt2}, \\dfrac12\\right)$, at distance $\\dfrac{\\sqrt3}{2}$.\n\nMinimize the squared distance $D(x) = x^2 + (x^2 - 1)^2 = x^4 - x^2 + 1$, which has the same minimizer as the distance but avoids a square root.\n\n$D'(x) = 4x^3 - 2x = 2x(2x^2 - 1)$, zero at $x = 0$ and $x = \\pm\\frac{1}{\\sqrt2}$.\n\n- $D(0) = 1$, a distance of $1$.\n- $D\\left(\\pm\\frac1{\\sqrt2}\\right) = \\frac14 - \\frac12 + 1 = \\frac34$, a distance of $\\frac{\\sqrt3}{2} \\approx 0.866$.\n\n$D \\to \\infty$ as $|x| \\to \\infty$, so a minimum exists and the smaller value wins. The point $x = 0$ is a local maximum of $D$, not a minimum.\n\nTip: minimize the squared distance instead of the distance itself.",
+      "searchQuery": "closest point on parabola to point optimization minimize squared distance",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.7"
+      ]
+    },
+    {
+      "id": "calculus-newtons-method-fails-misconception",
+      "unit": "optimization",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is “Newton's method converges to a root from any starting guess” false? Give an example.",
+      "body": "Newton's method can diverge, cycle, or stall: for $f(x) = \\sqrt[3]{x}$, every guess $x_0 \\neq 0$ moves *away* from the root $0$, since each step doubles the distance.\n\nFor $f(x) = x^{1/3}$ the step is $x - \\dfrac{x^{1/3}}{\\frac13 x^{-2/3}} = x - 3x = -2x$. Starting at $x_0 = 1$ gives $1, -2, 4, -8, \\ldots$\n\nOther failures: if $f'(x_n) = 0$ the tangent is horizontal and the formula divides by zero; and a poor starting point can bounce the iteration toward a different root or into a cycle.\n\nTip: start close to the root (sketch the graph or use the intermediate value theorem first) and watch that the corrections shrink.",
+      "searchQuery": "Newton's method fails diverges cube root counterexample",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.8"
+      ]
+    },
+    {
+      "id": "calculus-antiderivative-definition",
+      "unit": "antiderivatives",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define an **antiderivative** of $f$ on an interval $I$.",
+      "body": "A function $F$ with $F'(x) = f(x)$ for every $x$ in $I$.\n\nExample: $F(x) = \\frac{x^3}{3}$ is an antiderivative of $f(x) = x^2$, because $\\frac{d}{dx}\\frac{x^3}{3} = x^2$. So are $\\frac{x^3}{3} + 5$ and $\\frac{x^3}{3} - 2$.\n\nKey idea: antiderivatives undo differentiation, but not uniquely: adding a constant never changes the derivative.\n\nWatch out: the interval matters. A function such as $\\frac1x$ is considered separately on $(-\\infty, 0)$ and on $(0, \\infty)$.",
+      "searchQuery": "antiderivative definition F'(x) = f(x)",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.9"
+      ]
+    },
+    {
+      "id": "calculus-indefinite-integral-constant",
+      "unit": "antiderivatives",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **indefinite integral** $\\int f(x)\\,dx$, and explain why the **constant of integration** $C$ is there.",
+      "body": "$\\int f(x)\\,dx = F(x) + C$, where $F$ is any antiderivative of $f$ on an interval and $C$ is an arbitrary constant: the notation names the whole family of antiderivatives.\n\nWhy $+C$: if $F$ and $G$ are antiderivatives of $f$ on an interval, then $(F - G)' = f - f = 0$ there. By the mean value theorem, a function with zero derivative on an interval is constant, so $G = F + C$. These are *all* the antiderivatives, nothing more.\n\nCheck: any answer to an indefinite integral can be verified by differentiating it.\n\nWatch out: on a set made of several intervals the constants may differ, e.g. $\\int \\frac{1}{x}\\,dx = \\log|x| + C_1$ on $x > 0$ and $\\log|x| + C_2$ on $x < 0$.",
+      "searchQuery": "indefinite integral constant of integration antiderivatives differ by constant",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.9"
+      ]
+    },
+    {
+      "id": "calculus-power-rule-integration",
+      "unit": "antiderivatives",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State the **power rule** for antiderivatives of $x^n$.",
+      "body": "$\\displaystyle\\int x^n\\,dx = \\dfrac{x^{n+1}}{n+1} + C$ for every real $n \\neq -1$, on any interval where $x^n$ is defined (and avoiding $x = 0$ when $n < 0$).\n\nWhy: differentiate the right side: $\\frac{d}{dx}\\frac{x^{n+1}}{n+1} = \\frac{(n+1)x^n}{n+1} = x^n$. It is the power rule for derivatives run backward: raise the exponent by one, then divide by the new exponent.\n\nExample: $\\int \\sqrt{x}\\,dx = \\int x^{1/2}\\,dx = \\frac{2}{3}x^{3/2} + C$, and $\\int \\frac{1}{x^2}\\,dx = -\\frac1x + C$.\n\nWatch out: the formula has no meaning for $n = -1$, since it would divide by $0$.",
+      "searchQuery": "antiderivative power rule integral x^n formula",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.9"
+      ]
+    },
+    {
+      "id": "calculus-antiderivative-of-sine",
+      "unit": "antiderivatives",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Find the general antiderivative of $\\sin x$.",
+      "body": "$-\\cos x + C$\n\nCheck by differentiating: $\\frac{d}{dx}(-\\cos x) = -(-\\sin x) = \\sin x$. By contrast $\\int \\cos x\\,dx = \\sin x + C$, with no sign change.\n\nWatch out: the minus sign is the classic slip. A quick test is the derivative: $\\frac{d}{dx}\\cos x = -\\sin x$, so $\\cos$ alone is the antiderivative of $-\\sin x$.\n\nTip: remember both pairs together: $(\\sin x)' = \\cos x$, and $(\\cos x)' = -\\sin x$.",
+      "searchQuery": "antiderivative of sin x negative cosine integral",
+      "answer": "-cos(x)+C",
+      "acceptedAnswers": [
+        "-cos x + C"
+      ],
+      "answerDisplay": "$-\\cos x + C$",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.9"
+      ]
+    },
+    {
+      "id": "calculus-antiderivative-mixed-example",
+      "unit": "antiderivatives",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Find $\\displaystyle\\int\\left(3\\sqrt{x} - 4e^x + 2\\cos x\\right)dx$.",
+      "body": "$2x^{3/2} - 4e^x + 2\\sin x + C$\n\nAntiderivatives are linear: integrate term by term and keep constant factors. Each term uses a known rule:\n\n- $\\int 3x^{1/2}\\,dx = 3\\cdot\\frac{x^{3/2}}{3/2} = 2x^{3/2}$\n- $\\int e^x\\,dx = e^x$, because $e^x$ is its own derivative, so $\\int -4e^x\\,dx = -4e^x$\n- $\\int 2\\cos x\\,dx = 2\\sin x$\n\nAdd one constant $C$ at the end; the separate constants combine into it.\n\nCheck: differentiating the answer gives $3x^{1/2} - 4e^x + 2\\cos x$, which is the original function.",
+      "searchQuery": "integrate term by term sqrt x e^x cos x antiderivative example",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.9"
+      ]
+    },
+    {
+      "id": "calculus-initial-value-problem",
+      "unit": "antiderivatives",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Solve the **initial value problem** $\\dfrac{dy}{dx} = 2x - 3\\sin x$, $y(0) = 5$.",
+      "body": "$y = x^2 + 3\\cos x + 2$\n\nAn initial value problem asks for a function that satisfies an equation involving its derivative *and* has a prescribed value at one point. The extra condition picks one antiderivative out of the family.\n\n1. General solution: $y = \\int (2x - 3\\sin x)\\,dx = x^2 + 3\\cos x + C$.\n2. Use $y(0) = 5$: $0 + 3\\cos 0 + C = 3 + C = 5$, so $C = 2$.\n\nCheck: $y' = 2x - 3\\sin x$ and $y(0) = 3 + 2 = 5$.",
+      "searchQuery": "initial value problem antiderivative solve constant from condition",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.9"
+      ]
+    },
+    {
+      "id": "calculus-projectile-from-acceleration-problem",
+      "unit": "antiderivatives",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A ball is thrown straight up from a height of $2\\ \\mathrm{m}$ with speed $20\\ \\mathrm{m/s}$. Taking $a(t) = -9.8\\ \\mathrm{m/s^2}$, find the maximum height. Give meters, to one decimal place.",
+      "body": "$22.4\\ \\mathrm{m}$\n\nPosition from acceleration takes two antiderivatives, each with its own initial condition.\n\n1. $v(t) = \\int -9.8\\,dt = -9.8t + C_1$; $v(0) = 20$ gives $C_1 = 20$, so $v(t) = -9.8t + 20$.\n2. $s(t) = \\int v\\,dt = -4.9t^2 + 20t + C_2$; $s(0) = 2$ gives $C_2 = 2$.\n3. The highest point is where $v = 0$: $t = \\frac{20}{9.8} \\approx 2.04\\ \\mathrm{s}$.\n4. $s(2.04) = 2 + \\frac{20^2}{2(9.8)} \\approx 2 + 20.41 = 22.4\\ \\mathrm{m}$.\n\nCheck: $s(t)$ is a downward parabola, so the vertex found by setting $s'(t) = v(t) = 0$ is the maximum.",
+      "searchQuery": "ball thrown upward maximum height acceleration antiderivative position velocity",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.9"
+      ]
+    },
+    {
+      "id": "calculus-power-rule-antiderivative-minus-one-misconception",
+      "unit": "antiderivatives",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is “$\\int x^n\\,dx = \\frac{x^{n+1}}{n+1} + C$ for every $n$” false, and what is $\\int \\frac{1}{x}\\,dx$?",
+      "body": "The formula divides by $n + 1$, which is $0$ when $n = -1$; the antiderivative of $\\frac1x$ is $\\log|x| + C$ on each interval not containing $0$.\n\nCheck: for $x > 0$, $\\frac{d}{dx}\\log x = \\frac1x$. For $x < 0$, the chain rule gives $\\frac{d}{dx}\\log(-x) = \\frac{-1}{-x} = \\frac1x$. So $\\log|x|$ works on both sides of $0$.\n\nKey idea: $\\frac1x$ is the one power that no other power can produce: the derivative of $x^{m}$ always has the exponent $m - 1$, and $m - 1 = -1$ would need $m = 0$, a constant with derivative $0$.\n\nWatch out: $\\log|x|$ needs the absolute value, since $\\log x$ is undefined for $x < 0$.",
+      "searchQuery": "integral of 1/x natural log absolute value power rule exception n = -1",
+      "refs": [
+        "Stewart, Calculus ET 8e §4.9"
+      ]
+    }
+  ]
+}

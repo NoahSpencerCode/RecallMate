@@ -1,0 +1,989 @@
+{
+  "profession": "mathematics",
+  "module": "proofs-logic-sets",
+  "tier": 2,
+  "cards": [
+    {
+      "id": "pls-set-builder-notation",
+      "unit": "sets-and-set-operations",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "In set theory, what does the set-builder notation $\\{x \\in S : P(x)\\}$ describe? (A **set** is a collection of objects, its **elements**.)",
+      "body": "The set of all elements $x$ of $S$ for which the condition $P(x)$ is true.\n\nRead the colon as \"such that\". We write $x \\in A$ when $x$ is an element of $A$, and $x \\notin A$ when it is not. A set is determined by its elements alone: order and repetition do not matter, so $\\{1, 2, 2, 3\\} = \\{3, 1, 2\\}$ and this set has three elements.\n\nExample: $\\{n \\in \\mathbb{Z} : n^2 < 10\\} = \\{-3, -2, -1, 0, 1, 2, 3\\}$, because $3^2 = 9 < 10$ but $4^2 = 16$ is not.\n\nWatch out: the part before the colon says where $x$ is drawn from. Without it, $\\{x : x > 0\\}$ is ambiguous, since it matters whether $x$ ranges over $\\mathbb{Z}$ or $\\mathbb{R}$.",
+      "searchQuery": "set builder notation meaning elements such that",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.3–1.4, §2.3, §4.1",
+        "Hammack, Book of Proof 3e, ch. 1 (Sets)"
+      ]
+    },
+    {
+      "id": "pls-subset-definition",
+      "unit": "sets-and-set-operations",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "When is a set $A$ a **subset** of a set $B$, written $A \\subseteq B$?",
+      "body": "When every element of $A$ is also an element of $B$.\n\nTwo sets are equal exactly when each is a subset of the other. A **proper subset**, written $A \\subsetneq B$, is a subset with $A \\neq B$. The **empty set** $\\emptyset$ is the set with no elements, and it is a subset of every set: nothing in it can fail to lie in $B$.\n\nExample: $\\{1, 2\\} \\subseteq \\{1, 2, 3\\}$, and $\\{1, 2, 3\\} \\subseteq \\{1, 2, 3\\}$ too, but $\\{1, 4\\} \\not\\subseteq \\{1, 2, 3\\}$.\n\nWatch out: $\\in$ and $\\subseteq$ are different. We have $2 \\in \\{1, 2, 3\\}$ and $\\{2\\} \\subseteq \\{1, 2, 3\\}$, but $\\{2\\} \\in \\{1, 2, 3\\}$ is false, since the elements of the big set are numbers, not sets.",
+      "searchQuery": "subset definition every element empty set proper subset",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.3–1.4, §2.3, §4.1",
+        "Hammack, Book of Proof 3e, ch. 1 (Sets)"
+      ]
+    },
+    {
+      "id": "pls-union-intersection-definition",
+      "unit": "sets-and-set-operations",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define the **union** $A \\cup B$ and the **intersection** $A \\cap B$ of two sets.",
+      "body": "$A \\cup B = \\{x : x \\in A \\text{ or } x \\in B\\}$ and $A \\cap B = \\{x : x \\in A \\text{ and } x \\in B\\}$.\n\nIn a **Venn diagram** (two overlapping circles inside a rectangle), the union is everything inside either circle and the intersection is the overlapping lens.\n\nExample: for $A = \\{1, 2, 3\\}$ and $B = \\{3, 4\\}$, $A \\cup B = \\{1, 2, 3, 4\\}$ and $A \\cap B = \\{3\\}$.\n\nTip: counting with the addition principle gives $|A \\cup B| = |A| + |B| - |A \\cap B|$ for finite sets, since the overlap is counted twice otherwise.\n\nWatch out: \"or\" is inclusive, so elements in both sets belong to the union.",
+      "searchQuery": "union intersection definition venn diagram sets",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.3–1.4, §2.3, §4.1",
+        "Hammack, Book of Proof 3e, ch. 1 (Sets)"
+      ]
+    },
+    {
+      "id": "pls-complement-and-difference",
+      "unit": "sets-and-set-operations",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How are the **complement** $A^c$ and the difference $A \\setminus B$ related?",
+      "body": "$A \\setminus B = A \\cap B^c$, where $B^c$ is everything in the universal set that is not in $B$.\n\nThe **universal set** $U$ is the set of all objects under discussion in a given problem, for instance $\\mathbb{Z}$. The complement is $A^c = U \\setminus A = \\{x \\in U : x \\notin A\\}$, and the difference $A \\setminus B = \\{x : x \\in A \\text{ and } x \\notin B\\}$ keeps the elements of $A$ that are not in $B$.\n\nExample: with $U = \\mathbb{Z}$ and $A$ the even integers, $A^c$ is the set of odd integers.\n\nWatch out: the complement means nothing until $U$ is fixed. The complement of $\\{1, 2\\}$ is $\\{3\\}$ when $U = \\{1, 2, 3\\}$, but infinite when $U = \\mathbb{N}$. The difference $A \\setminus B$ needs no universal set.",
+      "searchQuery": "set complement difference universal set A minus B",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.3–1.4, §2.3, §4.1",
+        "Hammack, Book of Proof 3e, ch. 1 (Sets)"
+      ]
+    },
+    {
+      "id": "pls-power-set-of-three-elements",
+      "unit": "sets-and-set-operations",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "List the **power set** $\\mathcal{P}(A)$ of $A = \\{1, 2, 3\\}$ and say how many elements it has.",
+      "body": "$\\mathcal{P}(A) = \\{\\emptyset, \\{1\\}, \\{2\\}, \\{3\\}, \\{1,2\\}, \\{1,3\\}, \\{2,3\\}, \\{1,2,3\\}\\}$, which has 8 elements.\n\nThe power set of $A$ is the set of all subsets of $A$. Sorting by size gives $1 + 3 + 3 + 1 = 8$ subsets. In general $|\\mathcal{P}(A)| = 2^{|A|}$ for finite $A$, because each element is either in a subset or out of it, and the multiplication principle gives $2 \\cdot 2 \\cdot 2$ choices.\n\nWatch out: the elements of $\\mathcal{P}(A)$ are sets. So $\\{1\\} \\in \\mathcal{P}(A)$ and $\\{1\\} \\subseteq A$, but $1 \\notin \\mathcal{P}(A)$. The empty set and $A$ itself are always members.",
+      "searchQuery": "power set of three element set list subsets 2^n",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.3–1.4, §2.3, §4.1",
+        "Hammack, Book of Proof 3e, ch. 1 (Sets)"
+      ]
+    },
+    {
+      "id": "pls-cartesian-product-power-set-size",
+      "unit": "sets-and-set-operations",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "The **Cartesian product** $A \\times B$ is the set of all ordered pairs $(a, b)$ with $a \\in A$ and $b \\in B$. If $A = \\{1, 2\\}$ and $B = \\{x, y, z\\}$, how many elements does $\\mathcal{P}(A \\times B)$ have?",
+      "body": "$2^6 = 64$\n\nFirst count $A \\times B$. Each of the 2 choices of $a$ pairs with each of the 3 choices of $b$, so by the multiplication principle $|A \\times B| = 2 \\cdot 3 = 6$: the pairs are $(1,x), (1,y), (1,z), (2,x), (2,y), (2,z)$. A set with 6 elements has $2^6 = 64$ subsets.\n\nWatch out: order matters inside a pair, so $(1, x) \\neq (x, 1)$ and $A \\times B \\neq B \\times A$ in general. Also do not confuse $\\mathcal{P}(A \\times B)$ with $\\mathcal{P}(A) \\times \\mathcal{P}(B)$, which has $4 \\cdot 8 = 32$ elements.",
+      "searchQuery": "cartesian product power set size number of elements",
+      "answer": "64",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.3–1.4, §2.3, §4.1",
+        "Hammack, Book of Proof 3e, ch. 1 (Sets)"
+      ]
+    },
+    {
+      "id": "pls-symmetric-difference-problem",
+      "unit": "sets-and-set-operations",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Let $A = \\{1, 2, 3, 4\\}$ and $B = \\{3, 4, 5\\}$. Compute $(A \\cup B) \\setminus (A \\cap B)$. Which region of a two-circle Venn diagram is this?",
+      "body": "$\\{1, 2, 5\\}$: the two circles with their overlap removed.\n\nWork from the inside out. $A \\cup B = \\{1, 2, 3, 4, 5\\}$ and $A \\cap B = \\{3, 4\\}$. Removing the second from the first leaves $\\{1, 2, 5\\}$.\n\nThese are the elements lying in exactly one of the two sets. The same set can be written $(A \\setminus B) \\cup (B \\setminus A) = \\{1, 2\\} \\cup \\{5\\}$.\n\nTip: when a formula nests operations, evaluate the parenthesized pieces first and write each as an explicit list before combining.",
+      "searchQuery": "set union minus intersection elements in exactly one set venn",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.3–1.4, §2.3, §4.1",
+        "Hammack, Book of Proof 3e, ch. 1 (Sets)"
+      ]
+    },
+    {
+      "id": "pls-empty-set-versus-set-containing-it",
+      "unit": "sets-and-set-operations",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "A student says $\\emptyset$ and $\\{\\emptyset\\}$ are the same set because both are \"empty\". Why is that wrong?",
+      "body": "$\\emptyset$ has no elements, but $\\{\\emptyset\\}$ has exactly one element, namely $\\emptyset$.\n\nThink of an empty box versus a box that contains an empty box. The second box is not empty, because it holds something.\n\nSo $\\emptyset \\in \\{\\emptyset\\}$ and $\\emptyset \\subseteq \\{\\emptyset\\}$ are both true, while $\\emptyset \\in \\emptyset$ is false.\n\nExample: the power set of $\\emptyset$ is $\\mathcal{P}(\\emptyset) = \\{\\emptyset\\}$. It has $1 = 2^0$ element, because the only subset of the empty set is the empty set itself.",
+      "searchQuery": "empty set versus set containing empty set difference",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.3–1.4, §2.3, §4.1",
+        "Hammack, Book of Proof 3e, ch. 1 (Sets)"
+      ]
+    },
+    {
+      "id": "pls-logical-equivalence-definition",
+      "unit": "propositional-logic",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "When are two formulas $P$ and $Q$ built from statements **logically equivalent**, written $P \\equiv Q$?",
+      "body": "When they have the same truth value for every assignment of truth values to the statements they are built from, that is, identical columns in a truth table.\n\nA formula with $n$ statement letters needs $2^n$ rows, and the columns must agree on all of them. Equivalent formulas can be swapped for each other anywhere without changing what is being claimed.\n\nExample: $\\lnot(\\lnot P) \\equiv P$ and $P \\land Q \\equiv Q \\land P$.\n\nWatch out: agreeing on some rows is not enough. $P \\lor Q$ and $P \\land Q$ agree when $P, Q$ are both true or both false, but differ when exactly one is true.",
+      "searchQuery": "logical equivalence definition truth table same columns",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.1–1.2, §1.5",
+        "Hammack, Book of Proof 3e, ch. 2 (Logic)"
+      ]
+    },
+    {
+      "id": "pls-biconditional-definition",
+      "unit": "propositional-logic",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does the **biconditional** $P \\leftrightarrow Q$ (\"$P$ if and only if $Q$\") say, and when is it true?",
+      "body": "It is true exactly when $P$ and $Q$ have the same truth value, and it is equivalent to $(P \\to Q) \\land (Q \\to P)$.\n\nThe **conditional** $P \\to Q$ is the implication you already know, written with an arrow. The biconditional has this table:\n- $P$ true, $Q$ true: true\n- $P$ true, $Q$ false: false\n- $P$ false, $Q$ true: false\n- $P$ false, $Q$ false: true\n\nKey idea: \"$P$ if and only if $Q$\" packs two claims into one: $P \\to Q$ and its converse $Q \\to P$.\n\nWatch out: the last row is true. Two false statements are equivalent in this sense.",
+      "searchQuery": "biconditional if and only if truth table definition",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.1–1.2, §1.5",
+        "Hammack, Book of Proof 3e, ch. 2 (Logic)"
+      ]
+    },
+    {
+      "id": "pls-tautology-contradiction-concept",
+      "unit": "propositional-logic",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What are a **tautology** and a **contradiction**, and how do they connect to logical equivalence?",
+      "body": "A tautology is a formula true in every row of its truth table; a contradiction is false in every row; and $P \\equiv Q$ exactly when $P \\leftrightarrow Q$ is a tautology.\n\nExample: $P \\lor \\lnot P$ is a tautology, and $P \\land \\lnot P$ is a contradiction. The negation of a tautology is a contradiction and vice versa.\n\nWhy: $P \\leftrightarrow Q$ is true in a row precisely when $P$ and $Q$ agree there, so it is true in every row precisely when the two formulas agree in every row.\n\nWatch out: here \"contradiction\" names a formula that can never be true. In a proof by contradiction you derive such a formula, or a clash with something known.",
+      "searchQuery": "tautology contradiction logic definition equivalent biconditional",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.1–1.2, §1.5",
+        "Hammack, Book of Proof 3e, ch. 2 (Logic)"
+      ]
+    },
+    {
+      "id": "pls-de-morgan-laws",
+      "unit": "propositional-logic",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State **De Morgan's laws** for $\\lnot(P \\land Q)$ and $\\lnot(P \\lor Q)$.",
+      "body": "$\\lnot(P \\land Q) \\equiv \\lnot P \\lor \\lnot Q$ and $\\lnot(P \\lor Q) \\equiv \\lnot P \\land \\lnot Q$.\n\nNegating flips the connective and negates each part. In words: \"not both\" means \"at least one fails\", and \"neither\" means \"both fail\".\n\nWhy: $P \\land Q$ is false in every row except the one where both are true, so $\\lnot(P \\land Q)$ is true in every row except that one, and so is $\\lnot P \\lor \\lnot Q$. A four-row truth table checks the second law the same way.\n\nWatch out: $\\lnot(P \\land Q)$ is not $\\lnot P \\land \\lnot Q$. The same laws hold for sets: $(A \\cup B)^c = A^c \\cap B^c$.",
+      "searchQuery": "de morgan laws negation and or logic",
+      "tags": [
+        "logic-laws"
+      ],
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.1–1.2, §1.5",
+        "Hammack, Book of Proof 3e, ch. 2 (Logic)"
+      ]
+    },
+    {
+      "id": "pls-conditional-equals-not-p-or-q",
+      "unit": "propositional-logic",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Use a truth table to show that $P \\to Q \\equiv \\lnot P \\lor Q$.",
+      "body": "Both formulas read true, false, true, true on the rows TT, TF, FT, FF (the values of $P$ and $Q$ in that order).\n\nRow by row:\n- TT: $P \\to Q$ is true; $\\lnot P \\lor Q$ is false or true, so true\n- TF: $P \\to Q$ is false; $\\lnot P \\lor Q$ is false or false, so false\n- FT: $P \\to Q$ is true; $\\lnot P \\lor Q$ is true or true, so true\n- FF: $P \\to Q$ is true; $\\lnot P \\lor Q$ is true or false, so true\n\nWhy: each formula fails only when $P$ is true and $Q$ is false.\n\nTip: rewriting a conditional as \"not $P$, or $Q$\" lets you use De Morgan's laws on it, as in negating a conditional.",
+      "searchQuery": "conditional equivalent not p or q truth table proof",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.1–1.2, §1.5",
+        "Hammack, Book of Proof 3e, ch. 2 (Logic)"
+      ]
+    },
+    {
+      "id": "pls-negation-of-conditional",
+      "unit": "propositional-logic",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Simplify $\\lnot(P \\to Q)$ to a formula that uses only $\\land$ and negations of single letters.",
+      "body": "$\\lnot(P \\to Q) \\equiv P \\land \\lnot Q$\n\nRewrite the conditional as $\\lnot P \\lor Q$, then apply De Morgan's law: $\\lnot(\\lnot P \\lor Q) \\equiv \\lnot\\lnot P \\land \\lnot Q \\equiv P \\land \\lnot Q$.\n\nExample: the negation of \"if it rains, the game is canceled\" is \"it rains and the game is not canceled\". Only that situation breaks the promise.\n\nWatch out: the negation of a conditional is not another conditional. \"If $P$ then not $Q$\" is a different claim, since it is true whenever $P$ is false.",
+      "searchQuery": "negation of conditional statement p and not q",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.1–1.2, §1.5",
+        "Hammack, Book of Proof 3e, ch. 2 (Logic)"
+      ]
+    },
+    {
+      "id": "pls-contrapositive-truth-table",
+      "unit": "propositional-logic",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Compare the truth-table columns of $P \\to Q$ and $\\lnot Q \\to \\lnot P$. Are the two formulas logically equivalent?",
+      "body": "Yes: both columns read true, false, true, true, so a conditional is equivalent to its contrapositive.\n\nFor $\\lnot Q \\to \\lnot P$ on the rows TT, TF, FT, FF (the values of $P$ and $Q$ in that order):\n- TT: $\\lnot Q$ false, $\\lnot P$ false, so false $\\to$ false is true\n- TF: $\\lnot Q$ true, $\\lnot P$ false, so true $\\to$ false is false\n- FT: $\\lnot Q$ false, $\\lnot P$ true, so false $\\to$ true is true\n- FF: $\\lnot Q$ true, $\\lnot P$ true, so true $\\to$ true is true\n\nWhy it matters: to prove $P \\to Q$ you may prove $\\lnot Q \\to \\lnot P$ instead, which is often easier.",
+      "searchQuery": "contrapositive equivalent conditional truth table check",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.1–1.2, §1.5",
+        "Hammack, Book of Proof 3e, ch. 2 (Logic)"
+      ]
+    },
+    {
+      "id": "pls-converse-not-equivalent",
+      "unit": "propositional-logic",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that a conditional $P \\to Q$ is equivalent to its converse $Q \\to P$?",
+      "body": "When $P$ is false and $Q$ is true, $P \\to Q$ is true but $Q \\to P$ is false.\n\nThe two columns differ in that one row, so the formulas are not equivalent.\n\nExample: \"if $n$ is divisible by 4, then $n$ is even\" is true. Its converse, \"if $n$ is even, then $n$ is divisible by 4\", is false: take $n = 2$.\n\nWatch out: sometimes both directions hold, and then the biconditional $P \\leftrightarrow Q$ is true. That has to be proved separately. Never use the converse as a stand-in for the original statement.",
+      "searchQuery": "converse not equivalent to conditional statement counterexample",
+      "refs": [
+        "Velleman, How to Prove It 3e, §1.1–1.2, §1.5",
+        "Hammack, Book of Proof 3e, ch. 2 (Logic)"
+      ]
+    },
+    {
+      "id": "pls-universal-quantifier",
+      "unit": "quantifiers",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does $\\forall x \\in S,\\ P(x)$ mean, and when is it true?",
+      "body": "$P(x)$ holds for every element $x$ of $S$; the statement is false as soon as one $x \\in S$ makes $P(x)$ false.\n\nThe symbol $\\forall$ is the **universal quantifier**, read \"for all\" or \"for every\".\n\nExample: $\\forall x \\in \\mathbb{R},\\ x^2 \\ge 0$ is true. $\\forall x \\in \\mathbb{R},\\ x > 0$ is false, because $x = -1$ fails.\n\nWatch out: checking examples never proves a universal statement unless $S$ is finite and you check every element. A proof treats an arbitrary $x$, while one counterexample is enough to disprove it.",
+      "searchQuery": "universal quantifier for all meaning true false",
+      "refs": [
+        "Velleman, How to Prove It 3e, §2.1–2.2",
+        "Hammack, Book of Proof 3e, ch. 2 (quantifiers and their negation)"
+      ]
+    },
+    {
+      "id": "pls-existential-quantifier",
+      "unit": "quantifiers",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does $\\exists x \\in S,\\ P(x)$ mean, and when is it true?",
+      "body": "At least one element $x$ of $S$ makes $P(x)$ true.\n\nThe symbol $\\exists$ is the **existential quantifier**, read \"there exists\". It means at least one, not exactly one.\n\nExample: $\\exists x \\in \\mathbb{Z},\\ x^2 = 9$ is true, witnessed by $x = 3$ (and also by $x = -3$, which does no harm).\n\nWatch out: to prove an existential statement, one witness is enough. To disprove it you must show that every element of $S$ fails, which is a universal claim.",
+      "searchQuery": "existential quantifier there exists meaning at least one",
+      "refs": [
+        "Velleman, How to Prove It 3e, §2.1–2.2",
+        "Hammack, Book of Proof 3e, ch. 2 (quantifiers and their negation)"
+      ]
+    },
+    {
+      "id": "pls-bound-and-free-variables",
+      "unit": "quantifiers",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "In $\\forall x \\in \\mathbb{R},\\ x^2 + y > 0$, which variable is **bound** and which is **free**, and why does it matter?",
+      "body": "$x$ is bound by the quantifier and $y$ is free, so the sentence is a statement only once $y$ has a value.\n\nA **bound variable** is a dummy name: $\\forall x\\, P(x)$ means the same as $\\forall t\\, P(t)$. A **free variable** stands for something fixed from outside, and the truth of the sentence depends on it.\n\nExample: here the sentence is true exactly when $y > 0$. For $y = 1$ it holds, but for $y = 0$ the choice $x = 0$ gives $0 > 0$, which fails.\n\nWatch out: never rename a bound variable to a name already used freely in the same formula, since that changes the meaning.",
+      "searchQuery": "bound variable free variable quantifier statement meaning",
+      "refs": [
+        "Velleman, How to Prove It 3e, §2.1–2.2",
+        "Hammack, Book of Proof 3e, ch. 2 (quantifiers and their negation)"
+      ]
+    },
+    {
+      "id": "pls-vacuous-truth-misconception",
+      "unit": "quantifiers",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "A student claims $\\forall x \\in \\emptyset,\\ P(x)$ is false because no element of $\\emptyset$ shows that $P$ holds. Why is the claim wrong?",
+      "body": "A universal statement about the empty set is true: it could fail only through an element with $P(x)$ false, and there are no elements.\n\nCheck by negation: $\\lnot \\forall x \\in \\emptyset,\\ P(x)$ is equivalent to $\\exists x \\in \\emptyset,\\ \\lnot P(x)$, which is false because $\\emptyset$ has no element to serve as a witness. So the original is true.\n\nExample: \"every even prime greater than 2 is divisible by 5\" is true, since there is no even prime greater than 2.\n\nWatch out: dually, $\\exists x \\in \\emptyset,\\ P(x)$ is always false. This is the same effect as a conditional with a false hypothesis being true.",
+      "searchQuery": "vacuous truth empty set for all statement true",
+      "refs": [
+        "Velleman, How to Prove It 3e, §2.1–2.2",
+        "Hammack, Book of Proof 3e, ch. 2 (quantifiers and their negation)"
+      ]
+    },
+    {
+      "id": "pls-negating-quantifiers",
+      "unit": "quantifiers",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is the **negation of a quantified statement**: what are $\\lnot \\forall x\\, P(x)$ and $\\lnot \\exists x\\, P(x)$ equivalent to?",
+      "body": "$\\lnot \\forall x\\, P(x) \\equiv \\exists x\\, \\lnot P(x)$ and $\\lnot \\exists x\\, P(x) \\equiv \\forall x\\, \\lnot P(x)$.\n\nNegation flips each quantifier and moves inside to negate the condition. With several quantifiers, push the negation through them one at a time from left to right.\n\nExample: \"not every student passed\" means \"some student did not pass\".\n\nWatch out: the negation of \"all of them are red\" is \"at least one is not red\", not \"none is red\". The same goes for $\\exists$: \"there is a red one\" is negated by \"all are not red\".\n\nMnemonic: when a negation crosses a quantifier, the quantifier changes type.",
+      "searchQuery": "negation of quantified statements for all there exists flips",
+      "refs": [
+        "Velleman, How to Prove It 3e, §2.1–2.2",
+        "Hammack, Book of Proof 3e, ch. 2 (quantifiers and their negation)"
+      ]
+    },
+    {
+      "id": "pls-unique-existence-notation",
+      "unit": "quantifiers",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "How do you write \"there is exactly one $x \\in \\mathbb{R}$ with $2x + 1 = 7$\" using $\\exists$ and $\\forall$? (This is **unique existence**, written $\\exists!$.)",
+      "body": "$\\exists x \\in \\mathbb{R}\\ \\big(2x + 1 = 7 \\ \\land\\ \\forall z \\in \\mathbb{R}\\ (2z + 1 = 7 \\to z = x)\\big)$\n\nThe statement $\\exists! x\\, P(x)$ has two parts: at least one $x$ has $P$, and any two such objects coincide. The second part says every $z$ with $P(z)$ must equal that $x$.\n\nExample: here $x = 3$ works, and if $2z + 1 = 7$ then $z = 3$.\n\nWatch out: its negation says there is no such $x$, or there are at least two different ones. So \"exactly one\" fails if there are none and also if there are two or more.",
+      "searchQuery": "unique existence exists exactly one quantifier notation",
+      "refs": [
+        "Velleman, How to Prove It 3e, §2.1–2.2",
+        "Hammack, Book of Proof 3e, ch. 2 (quantifiers and their negation)"
+      ]
+    },
+    {
+      "id": "pls-quantifier-order-counterexample",
+      "unit": "quantifiers",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give a predicate $P(x, y)$ on $\\mathbb{Z}$ for which $\\forall x\\, \\exists y\\, P(x,y)$ is true but $\\exists y\\, \\forall x\\, P(x,y)$ is false.",
+      "body": "$P(x, y)$: $y > x$.\n\nFor $\\forall x\\, \\exists y\\ (y > x)$: given any $x$, take $y = x + 1$. For $\\exists y\\, \\forall x\\ (y > x)$ we would need one integer larger than every integer, and $x = y$ already breaks it.\n\nIn $\\forall x\\, \\exists y$ the choice of $y$ may depend on $x$. In $\\exists y\\, \\forall x$ a single $y$ must serve every $x$.\n\nWatch out: only one direction is safe. $\\exists y\\, \\forall x\\, P(x,y)$ always implies $\\forall x\\, \\exists y\\, P(x,y)$, but not the other way round.",
+      "searchQuery": "order of quantifiers forall exists swap counterexample",
+      "refs": [
+        "Velleman, How to Prove It 3e, §2.1–2.2",
+        "Hammack, Book of Proof 3e, ch. 2 (quantifiers and their negation)"
+      ]
+    },
+    {
+      "id": "pls-negate-bounded-function",
+      "unit": "quantifiers",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A function $f: \\mathbb{R} \\to \\mathbb{R}$ is **bounded** if $\\exists M \\in \\mathbb{R}\\ \\forall x \\in \\mathbb{R}\\ |f(x)| \\le M$. Write the negation with no $\\lnot$ symbols.",
+      "body": "$\\forall M \\in \\mathbb{R}\\ \\exists x \\in \\mathbb{R}\\ |f(x)| > M$\n\nPush the negation through each quantifier, flipping it, and negate $|f(x)| \\le M$ to $|f(x)| > M$ at the end. In words: whatever bound $M$ you propose, some $x$ beats it.\n\nExample: $f(x) = x^2$ is unbounded. Given $M$, take $x = |M| + 1 \\ge 1$; then $f(x) = x^2 \\ge x = |M| + 1 > M$.\n\nWatch out: the order of the quantifiers is part of the meaning. Writing $\\forall x\\, \\exists M$ instead would allow $M$ to depend on $x$, and every function satisfies that.",
+      "searchQuery": "negate bounded function definition quantifiers unbounded",
+      "refs": [
+        "Velleman, How to Prove It 3e, §2.1–2.2",
+        "Hammack, Book of Proof 3e, ch. 2 (quantifiers and their negation)"
+      ]
+    },
+    {
+      "id": "pls-negate-convergence-definition",
+      "unit": "quantifiers",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A sequence $(a_n)$ converges to $L$ if $\\forall \\varepsilon > 0\\ \\exists N \\in \\mathbb{N}\\ \\forall n \\ge N\\ |a_n - L| < \\varepsilon$. Negate this with no $\\lnot$ in front of quantifiers.",
+      "body": "$\\exists \\varepsilon > 0\\ \\forall N \\in \\mathbb{N}\\ \\exists n \\ge N\\ |a_n - L| \\ge \\varepsilon$\n\nFlip the three quantifiers one by one, keep their ranges ($\\varepsilon > 0$, $N \\in \\mathbb{N}$, $n \\ge N$), and negate $<$ to $\\ge$. In words: some distance $\\varepsilon$ is never reached, because no matter how far along you go, a later term is still at least that far from $L$.\n\nExample: $a_n = (-1)^n$ does not converge to $0$. Take $\\varepsilon = 1$; for every $N$, the term $n = N$ has $|a_n - 0| = 1 \\ge 1$.\n\nWatch out: a quantifier's range stays attached to it. The negation still says $\\exists \\varepsilon > 0$, not just any $\\varepsilon$.",
+      "searchQuery": "negate definition of convergence epsilon N quantifiers",
+      "refs": [
+        "Velleman, How to Prove It 3e, §2.1–2.2",
+        "Hammack, Book of Proof 3e, ch. 2 (quantifiers and their negation)"
+      ]
+    },
+    {
+      "id": "pls-divisibility-definition",
+      "unit": "direct-and-contrapositive-proof",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does it mean for an integer $a$ to **divide** an integer $b$, written $a \\mid b$?",
+      "body": "$a \\mid b$ means $b = ak$ for some integer $k$.\n\nThis is the formal form of \"divisor\" and \"multiple\", and it is what you use in proofs: from $a \\mid b$ you may write $b = ak$ with $k$ an integer, and to show $a \\mid b$ you must produce such a $k$.\n\nExample: $3 \\mid 12$ because $12 = 3 \\cdot 4$, and $5 \\mid 0$ because $0 = 5 \\cdot 0$.\n\nWatch out: $a \\mid b$ is a statement that is true or false, not the number $b/a$. Also $0 \\mid b$ holds only for $b = 0$, since $0 \\cdot k = 0$.",
+      "searchQuery": "divisibility definition a divides b integer k",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.1–3.5",
+        "Hammack, Book of Proof 3e, ch. 4 (Direct Proof), ch. 5 (Contrapositive Proof)"
+      ]
+    },
+    {
+      "id": "pls-direct-proof-skeleton",
+      "unit": "direct-and-contrapositive-proof",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is the skeleton of a **direct proof** of \"if $P$ then $Q$\"?",
+      "body": "Assume $P$, unpack the definitions involved, and reason step by step until $Q$ follows.\n\nBegin by writing what you assume and what you must show, then translate both into definitions. The word \"arbitrary\" matters: you assume $P$ for one unspecified object, so the argument covers every such object.\n\nExample: to prove \"if $a \\mid b$ then $a \\mid bc$\", assume $b = ak$ with $k \\in \\mathbb{Z}$. Then $bc = a(kc)$ and $kc$ is an integer, so $a \\mid bc$.\n\nWatch out: never assume $Q$, and do not test a particular example in place of an arbitrary object.",
+      "searchQuery": "direct proof structure assume hypothesis derive conclusion",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.1–3.5",
+        "Hammack, Book of Proof 3e, ch. 4 (Direct Proof), ch. 5 (Contrapositive Proof)"
+      ]
+    },
+    {
+      "id": "pls-when-to-use-contrapositive-proof",
+      "unit": "direct-and-contrapositive-proof",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "When should you use a **contrapositive proof**, and what exactly do you prove?",
+      "body": "To prove $P \\to Q$, prove the equivalent $\\lnot Q \\to \\lnot P$; use it when assuming $\\lnot Q$ gives you more to work with than assuming $P$.\n\nThe two forms are equivalent, so proving one proves the other.\n\nExample: to show \"if $3n + 2$ is odd then $n$ is odd\", the direct route is awkward. Contrapositive: assume $n$ is even, so $n = 2k$. Then $3n + 2 = 2(3k + 1)$ is even.\n\nTip: a contrapositive often helps when the conclusion says \"not\" something, or when the hypothesis is about a composite expression and the conclusion is about a part of it.\n\nWatch out: the contrapositive is not the converse. Proving $Q \\to P$ proves nothing about $P \\to Q$.",
+      "searchQuery": "contrapositive proof when to use prove not q implies not p",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.1–3.5",
+        "Hammack, Book of Proof 3e, ch. 4 (Direct Proof), ch. 5 (Contrapositive Proof)"
+      ]
+    },
+    {
+      "id": "pls-divisibility-is-transitive",
+      "unit": "direct-and-contrapositive-proof",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the theorem on the **transitivity of divisibility** for integers $a, b, c$.",
+      "body": "If $a \\mid b$ and $b \\mid c$, then $a \\mid c$.\n\nProof (direct): write $b = ak$ and $c = bm$ with $k, m \\in \\mathbb{Z}$. Then $c = (ak)m = a(km)$, and $km$ is an integer, so $a \\mid c$.\n\nWhy it matters: it lets you chain divisibility, and it is used constantly for facts about factors.\n\nExample: $3 \\mid 12$ and $12 \\mid 60$, so $3 \\mid 60$; indeed $60 = 3 \\cdot 20$.\n\nWatch out: both hypotheses are needed. $2 \\mid 4$ alone does not give $2 \\mid 5$, because $4 \\nmid 5$.",
+      "searchQuery": "transitivity of divisibility theorem a divides b b divides c",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.1–3.5",
+        "Hammack, Book of Proof 3e, ch. 4 (Direct Proof), ch. 5 (Contrapositive Proof)"
+      ]
+    },
+    {
+      "id": "pls-square-even-implies-even",
+      "unit": "direct-and-contrapositive-proof",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Prove by contrapositive: if $n^2$ is even, then the integer $n$ is even.",
+      "body": "Assume $n$ is odd, write $n = 2k + 1$; then $n^2 = 2(2k^2 + 2k) + 1$ is odd.\n\nThe contrapositive of the claim is \"if $n$ is odd then $n^2$ is odd\". The computation is $(2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$, which has the form $2m + 1$ with $m = 2k^2 + 2k$ an integer.\n\nWhy contrapositive: a direct proof starts with $n^2 = 2m$ and gives you nothing to say about $n$, while an odd $n$ has an explicit form to calculate with.\n\nTip: this fact is the key step in the proof that $\\sqrt{2}$ is irrational.",
+      "searchQuery": "if n squared is even then n is even contrapositive proof",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.1–3.5",
+        "Hammack, Book of Proof 3e, ch. 4 (Direct Proof), ch. 5 (Contrapositive Proof)"
+      ]
+    },
+    {
+      "id": "pls-cases-n-squared-plus-n",
+      "unit": "direct-and-contrapositive-proof",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Use **proof by cases** to show that $n^2 + n$ is even for every integer $n$.",
+      "body": "Split into $n$ even and $n$ odd; in each case $n^2 + n = n(n+1)$ is a multiple of $2$.\n\nProof by cases: split the possibilities into a list that covers everything, then prove the claim in each case.\n\n- If $n = 2k$, then $n(n+1) = 2k(2k+1)$, which is even.\n- If $n = 2k+1$, then $n + 1 = 2(k+1)$, so $n(n+1) = 2(k+1)(2k+1)$ is even.\n\nEvery integer is even or odd, so the cases are exhaustive.\n\nWatch out: the cases must cover all possibilities. They may overlap, but they may not leave a gap.",
+      "searchQuery": "proof by cases even odd n squared plus n even",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.1–3.5",
+        "Hammack, Book of Proof 3e, ch. 4 (Direct Proof), ch. 5 (Contrapositive Proof)"
+      ]
+    },
+    {
+      "id": "pls-same-parity-iff-sum-even",
+      "unit": "direct-and-contrapositive-proof",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Prove that integers $m$ and $n$ have the same parity (both even or both odd) if and only if $m + n$ is even.",
+      "body": "Prove both directions: ($\\Rightarrow$) by cases, both even or both odd; ($\\Leftarrow$) by contrapositive, opposite parity gives an odd sum.\n\nA **biconditional proof** of \"$P$ if and only if $Q$\" proves $P \\to Q$ and then $Q \\to P$, each with its own method.\n\n($\\Rightarrow$) If $m = 2a$ and $n = 2b$, then $m + n = 2(a + b)$. If $m = 2a + 1$ and $n = 2b + 1$, then $m + n = 2(a + b + 1)$. Either way the sum is even.\n\n($\\Leftarrow$) Contrapositive: suppose the parities differ, say $m = 2a$ and $n = 2b + 1$. Then $m + n = 2(a + b) + 1$ is odd. The other order gives the same sum.\n\nTip: label the two directions clearly in your write-up.",
+      "searchQuery": "same parity if and only if sum even biconditional proof",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.1–3.5",
+        "Hammack, Book of Proof 3e, ch. 4 (Direct Proof), ch. 5 (Contrapositive Proof)"
+      ]
+    },
+    {
+      "id": "pls-checking-examples-is-not-proof",
+      "unit": "direct-and-contrapositive-proof",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why does checking a statement for many integers fail to prove it for all integers? Give a famous example.",
+      "body": "A counterexample can lie beyond the cases checked: $n^2 + n + 41$ is prime for $n = 0, 1, \\dots, 39$, yet not for $n = 40$.\n\nFor $n = 40$ we get $1600 + 40 + 41 = 1681 = 41^2$.\n\nA proof must cover an arbitrary integer, not just the ones you tried. Examples can illustrate a claim or disprove it, but for an infinite set they cannot establish it.\n\nWatch out: a pattern that holds for forty cases is still only a pattern. Look for the reason it holds, and then write that reason as a proof.",
+      "searchQuery": "checking examples not a proof n squared plus n plus 41 prime counterexample",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.1–3.5",
+        "Hammack, Book of Proof 3e, ch. 4 (Direct Proof), ch. 5 (Contrapositive Proof)"
+      ]
+    },
+    {
+      "id": "pls-proof-by-contradiction-definition",
+      "unit": "contradiction-and-existence-proofs",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "How does **proof by contradiction** establish a statement $P$?",
+      "body": "Assume $\\lnot P$ and derive a contradiction, a statement of the form $R \\land \\lnot R$; then $\\lnot P$ is impossible, so $P$ is true.\n\nWhy: if $\\lnot P$ implies something that can never be true, then $\\lnot P$ is false (a conditional with a false conclusion forces a false hypothesis), so $P$ is true.\n\nTip: it works well for claims of the form \"there is no such thing\", where assuming the opposite gives you an object to work with.\n\nWatch out: the contradiction can be with anything you know, not just the assumption $\\lnot P$.",
+      "searchQuery": "proof by contradiction definition assume negation derive contradiction",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.6–3.7",
+        "Hammack, Book of Proof 3e, ch. 6 (Proof by Contradiction), ch. 7, ch. 9 (Disproof)"
+      ]
+    },
+    {
+      "id": "pls-uniqueness-proof-linear-equation",
+      "unit": "contradiction-and-existence-proofs",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Prove that for real numbers $a \\neq 0$ and $b$, the equation $ax = b$ has exactly one real solution.",
+      "body": "Existence: $x = b/a$ works. Uniqueness: if $ax = b$ and $ay = b$, then $ax = ay$, so $x = y$ because $a \\neq 0$.\n\nA **uniqueness proof** assumes two objects with the property and shows they are equal.\n\nThe two parts do different jobs. Existence shows there is at least one solution. Uniqueness shows there is at most one. Together they give exactly one.\n\nWatch out: do not skip either part. A proof of \"there is exactly one\" that only exhibits a solution has not shown uniqueness.",
+      "searchQuery": "uniqueness proof assume two solutions show equal linear equation",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.6–3.7",
+        "Hammack, Book of Proof 3e, ch. 6 (Proof by Contradiction), ch. 7, ch. 9 (Disproof)"
+      ]
+    },
+    {
+      "id": "pls-disproof-divides-product",
+      "unit": "contradiction-and-existence-proofs",
+      "kind": "counterexample",
+      "difficulty": 3,
+      "title": "Disprove: for all integers $a, b, c$, if $a \\mid bc$ then $a \\mid b$ or $a \\mid c$. Give a counterexample.",
+      "body": "$a = 6$, $b = 2$, $c = 3$.\n\nA **disproof** of a statement $\\forall x\\, P(x)$ is a single $x$ for which $P(x)$ is false, since $\\lnot \\forall x\\, P(x) \\equiv \\exists x\\, \\lnot P(x)$.\n\nHere $bc = 6$ and $6 \\mid 6$, but $6 \\nmid 2$ and $6 \\nmid 3$, so the hypothesis holds and the conclusion fails.\n\nWatch out: the statement becomes true when $a$ is prime. That is why primes play a special role, and a disproof has to hit a composite $a$.",
+      "searchQuery": "disproof counterexample a divides bc then a divides b or c",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.6–3.7",
+        "Hammack, Book of Proof 3e, ch. 6 (Proof by Contradiction), ch. 7, ch. 9 (Disproof)"
+      ]
+    },
+    {
+      "id": "pls-constructive-versus-nonconstructive",
+      "unit": "contradiction-and-existence-proofs",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "What is the difference between a **constructive** and a **non-constructive** existence proof?",
+      "body": "A constructive proof exhibits an object with the property; a non-constructive proof shows such an object exists without identifying it.\n\nAn **existence proof** establishes a statement $\\exists x\\, P(x)$.\n\nExample (non-constructive): there are irrational numbers $a, b$ with $a^b$ rational. Let $t = \\sqrt{2}^{\\sqrt{2}}$. If $t$ is rational, take $a = b = \\sqrt{2}$. If $t$ is irrational, take $a = t$ and $b = \\sqrt{2}$, so $a^b = \\sqrt{2}^{\\sqrt{2} \\cdot \\sqrt{2}} = \\sqrt{2}^{\\,2} = 2$. Either way a pair exists, but the proof does not say which case holds.\n\nWatch out: non-constructive proofs are fully valid. (A deeper theorem, Gelfond-Schneider, shows $t$ is irrational, which makes the second case the true one.)",
+      "searchQuery": "constructive vs non-constructive existence proof irrational power rational",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.6–3.7",
+        "Hammack, Book of Proof 3e, ch. 6 (Proof by Contradiction), ch. 7, ch. 9 (Disproof)"
+      ]
+    },
+    {
+      "id": "pls-contradiction-of-conditional-assumption",
+      "unit": "contradiction-and-existence-proofs",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "A student begins a proof by contradiction of \"if $P$ then $Q$\" by assuming only $\\lnot Q$. What is missing?",
+      "body": "The hypothesis: assume $P \\land \\lnot Q$, then derive a contradiction.\n\nThe statement to refute is $\\lnot(P \\to Q) \\equiv P \\land \\lnot Q$, so both parts are available as assumptions.\n\nExample: to prove \"if $n^2$ is even then $n$ is even\", assume $n^2$ is even and $n$ is odd. Then $n^2$ is odd, contradicting that $n^2$ is even.\n\nWatch out: without $P$ you often have nothing to contradict. With only $n$ odd, nothing is false yet.",
+      "searchQuery": "proof by contradiction conditional assume p and not q",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.6–3.7",
+        "Hammack, Book of Proof 3e, ch. 6 (Proof by Contradiction), ch. 7, ch. 9 (Disproof)"
+      ]
+    },
+    {
+      "id": "pls-sqrt-two-irrational",
+      "unit": "contradiction-and-existence-proofs",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the theorem on the irrationality of $\\sqrt{2}$ and sketch its proof by contradiction.",
+      "body": "$\\sqrt{2}$ is irrational: there are no integers $a, b$ with $b > 0$ and $\\sqrt{2} = a/b$.\n\n1. Suppose $\\sqrt{2} = a/b$ in lowest terms, so $a$ and $b$ are relatively prime.\n2. Squaring gives $a^2 = 2b^2$, so $a^2$ is even, and therefore $a$ is even.\n3. Write $a = 2c$. Then $4c^2 = 2b^2$, so $b^2 = 2c^2$ and $b$ is even too.\n4. Now $a$ and $b$ are both even, contradicting that they are relatively prime.\n\nKey idea: the contradiction comes from choosing lowest terms at the start; that is why you may assume it.\n\nWatch out: step 2 uses the lemma \"if $n^2$ is even then $n$ is even\", which is proved separately.",
+      "searchQuery": "sqrt 2 irrational proof by contradiction lowest terms",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.6–3.7",
+        "Hammack, Book of Proof 3e, ch. 6 (Proof by Contradiction), ch. 7, ch. 9 (Disproof)"
+      ]
+    },
+    {
+      "id": "pls-euclid-infinitely-many-primes",
+      "unit": "contradiction-and-existence-proofs",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Euclid's theorem** on primes and give the idea of its proof by contradiction.",
+      "body": "There are infinitely many primes.\n\n1. Suppose the primes are $p_1, \\dots, p_k$ and let $N = p_1 p_2 \\cdots p_k + 1$.\n2. Since $N > 1$, it has some prime divisor $p$.\n3. That $p$ must be one of the $p_i$, so $p$ divides both $N$ and $p_1 \\cdots p_k$.\n4. Then $p$ divides their difference, $1$, which is impossible.\n\nWatch out: $N$ itself need not be prime. For $2 \\cdot 3 \\cdot 5 \\cdot 7 \\cdot 11 \\cdot 13 + 1 = 30031 = 59 \\cdot 509$. The proof only needs some prime divisor of $N$ that is missing from the list.",
+      "searchQuery": "euclid theorem infinitely many primes proof by contradiction",
+      "refs": [
+        "Velleman, How to Prove It 3e, §3.6–3.7",
+        "Hammack, Book of Proof 3e, ch. 6 (Proof by Contradiction), ch. 7, ch. 9 (Disproof)"
+      ]
+    },
+    {
+      "id": "pls-fibonacci-recursive-definition",
+      "unit": "induction-and-recursion",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define the **Fibonacci sequence** $F_0, F_1, F_2, \\dots$ by a **recursive definition**.",
+      "body": "$F_0 = 0$, $F_1 = 1$, and $F_{n+2} = F_{n+1} + F_n$ for every $n \\in \\mathbb{N}$.\n\nA **recursive definition** gives the first term (or terms) of a sequence and a rule that builds each later term from earlier ones. The first values are $0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, \\dots$\n\nWhy two starting values: the rule looks back two steps, so one start would leave $F_2$ undetermined.\n\nWatch out: some books start with $F_1 = F_2 = 1$. The two conventions agree from $F_1$ on; those books simply omit $F_0$.",
+      "searchQuery": "fibonacci sequence recursive definition F0 F1",
+      "refs": [
+        "Velleman, How to Prove It 3e, §6.1–6.4",
+        "Hammack, Book of Proof 3e, ch. 10 (Mathematical Induction)"
+      ]
+    },
+    {
+      "id": "pls-induction-not-circular",
+      "unit": "induction-and-recursion",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it not circular to assume $P(k)$ in the inductive step of a proof by induction?",
+      "body": "The step only proves the implication $P(k) \\to P(k+1)$ for an arbitrary $k$; the base case and repeated use of the implication then give each $P(n)$.\n\nThe inductive hypothesis $P(k)$ is a hypothetical, as in any direct proof of a conditional. It is not an assumption that $P$ holds for all $n$.\n\nThink of dominoes: the step says each domino knocks over the next, and the base case knocks over the first.\n\nWatch out: both parts are necessary. Let $P(n)$ be \"$n = n + 1$\". The step holds, since adding 1 to both sides of $k = k+1$ gives $k+1 = k+2$, but $P(0)$ is false, so nothing follows.",
+      "searchQuery": "induction not circular assume inductive hypothesis why valid",
+      "refs": [
+        "Velleman, How to Prove It 3e, §6.1–6.4",
+        "Hammack, Book of Proof 3e, ch. 10 (Mathematical Induction)"
+      ]
+    },
+    {
+      "id": "pls-induction-two-to-the-n-exceeds-n-squared",
+      "unit": "induction-and-recursion",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Prove $2^n > n^2$ for every integer $n \\ge 5$ by induction.",
+      "body": "Base case $n = 5$: $32 > 25$. Step: if $2^k > k^2$ with $k \\ge 5$, then $2^{k+1} > 2k^2 \\ge (k+1)^2$.\n\nThe step uses the inductive hypothesis once, in $2^{k+1} = 2 \\cdot 2^k > 2k^2$. The last inequality holds because $2k^2 \\ge (k+1)^2$ is the same as $k^2 \\ge 2k + 1$, which is true for $k \\ge 3$.\n\nWhy the base case is 5: the claim fails at $n = 2$ ($4 = 4$), $n = 3$ ($8 < 9$) and $n = 4$ ($16 = 16$).\n\nWatch out: induction can start at any integer. Say where it starts, and check that the step works for every $k$ from there on.",
+      "searchQuery": "induction 2^n greater than n^2 n at least 5 base case",
+      "refs": [
+        "Velleman, How to Prove It 3e, §6.1–6.4",
+        "Hammack, Book of Proof 3e, ch. 10 (Mathematical Induction)"
+      ]
+    },
+    {
+      "id": "pls-fibonacci-partial-sum-identity",
+      "unit": "induction-and-recursion",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Prove by induction that $F_1 + F_2 + \\dots + F_n = F_{n+2} - 1$ for all $n \\ge 1$.",
+      "body": "Base case: $F_1 = 1 = F_3 - 1$. Step: $(F_{k+2} - 1) + F_{k+1} = F_{k+3} - 1$.\n\nAssume $F_1 + \\dots + F_k = F_{k+2} - 1$. Add $F_{k+1}$ to both sides. The left side becomes the sum up to $k+1$ and the right side becomes $F_{k+2} + F_{k+1} - 1 = F_{k+3} - 1$, by the recursive definition.\n\nExample: for $n = 5$, $1 + 1 + 2 + 3 + 5 = 12 = F_7 - 1 = 13 - 1$.\n\nTip: in an induction on a sum, the step always starts by splitting off the last term and applying the hypothesis to the rest.",
+      "searchQuery": "fibonacci sum identity induction F1 plus F_n equals F_(n+2) minus 1",
+      "refs": [
+        "Velleman, How to Prove It 3e, §6.1–6.4",
+        "Hammack, Book of Proof 3e, ch. 10 (Mathematical Induction)"
+      ]
+    },
+    {
+      "id": "pls-all-horses-same-colour-flaw",
+      "unit": "induction-and-recursion",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "The \"proof\" that any $n$ horses all have the same color inducts on $n$. Which inductive step is invalid?",
+      "body": "The step from $n = 1$ to $n = 2$: two groups of one horse have no horse in common.\n\nThe bogus argument takes $k+1$ horses, removes one to get a group of $k$, removes a different one to get another group of $k$, and says the two groups overlap so all have the same color. The overlap has $k - 1$ horses, which is nonempty only when $k \\ge 2$.\n\nFor $k = 1$ the overlap is empty, so $P(1) \\to P(2)$ fails. The claim is plainly false at $n = 2$ for two horses of different colors.\n\nWatch out: a step that is valid for most $k$ does not rescue an induction. It must work for every $k$ from the base case on, including the smallest.",
+      "searchQuery": "all horses same colour induction flaw which step fails",
+      "refs": [
+        "Velleman, How to Prove It 3e, §6.1–6.4",
+        "Hammack, Book of Proof 3e, ch. 10 (Mathematical Induction)"
+      ]
+    },
+    {
+      "id": "pls-strong-induction-principle",
+      "unit": "induction-and-recursion",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "State the principle of **strong induction** for statements $P(n)$, $n \\in \\mathbb{N}$.",
+      "body": "If for every $n \\in \\mathbb{N}$, the truth of $P(0), P(1), \\dots, P(n-1)$ implies $P(n)$, then $P(n)$ holds for all $n \\in \\mathbb{N}$.\n\nOrdinary induction assumes only the previous case $P(k)$. In strong induction the hypothesis is every earlier case at once.\n\nFor $n = 0$ the list of earlier cases is empty, so $P(0)$ must be proved outright. Often a step needs earlier terms that do not exist for the first few $n$, so those get their own base cases.\n\nWhy it matters: use it when the step for $n$ needs cases further back than $n - 1$, as with the Fibonacci numbers or factorization into primes.",
+      "searchQuery": "strong induction principle statement all earlier cases hypothesis",
+      "refs": [
+        "Velleman, How to Prove It 3e, §6.1–6.4",
+        "Hammack, Book of Proof 3e, ch. 10 (Mathematical Induction)"
+      ]
+    },
+    {
+      "id": "pls-well-ordering-principle",
+      "unit": "induction-and-recursion",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "State the **well-ordering principle** and say how it relates to induction.",
+      "body": "Every nonempty subset of $\\mathbb{N}$ has a least element; this is equivalent to the principle of induction.\n\nUsing it to justify induction: suppose $P(0)$ holds and $P(k) \\to P(k+1)$ for all $k$, but $P$ fails somewhere. The set of $n$ where $P$ fails is nonempty, so it has a least element $m$. Then $m \\neq 0$, since $P(0)$ holds, and $P(m-1)$ is true by minimality, so $P(m)$ is true: a contradiction.\n\nKey idea: this is the \"smallest counterexample\" argument. Conversely, induction can be used to prove the well-ordering principle.\n\nWatch out: the principle is false for $\\mathbb{Z}$ and for the positive reals: $\\{x \\in \\mathbb{R} : x > 0\\}$ has no least element.",
+      "searchQuery": "well ordering principle natural numbers least element equivalent induction",
+      "refs": [
+        "Velleman, How to Prove It 3e, §6.1–6.4",
+        "Hammack, Book of Proof 3e, ch. 10 (Mathematical Induction)"
+      ]
+    },
+    {
+      "id": "pls-integers-are-products-of-primes",
+      "unit": "induction-and-recursion",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the theorem that every integer $n \\ge 2$ is a product of primes, and name the proof technique.",
+      "body": "Every integer $n \\ge 2$ is a product of one or more primes (a prime counts as a product of one prime), proved by strong induction.\n\nAssume the claim holds for every integer from 2 up to $n - 1$. If $n$ is prime, we are done. Otherwise $n = ab$ with $2 \\le a, b < n$; by hypothesis both are products of primes, and multiplying those products expresses $n$ as one.\n\nWhy strong induction: the factors $a$ and $b$ can be anywhere below $n$, not just $n - 1$, so the hypothesis must cover every smaller case.\n\nWatch out: this shows existence only. That the factorization is unique up to order is a separate, deeper theorem.",
+      "searchQuery": "every integer at least 2 is product of primes strong induction proof",
+      "checkpoint": true,
+      "refs": [
+        "Velleman, How to Prove It 3e, §6.1–6.4",
+        "Hammack, Book of Proof 3e, ch. 10 (Mathematical Induction)"
+      ]
+    },
+    {
+      "id": "pls-fibonacci-less-than-power-of-two",
+      "unit": "induction-and-recursion",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Prove $F_n < 2^n$ for every $n \\in \\mathbb{N}$. Why does induction from $n$ to $n+1$ alone not suffice?",
+      "body": "Use strong induction with base cases $n = 0, 1$: $F_{n+2} = F_{n+1} + F_n < 2^{n+1} + 2^n < 2^{n+2}$.\n\nBase cases: $F_0 = 0 < 1 = 2^0$ and $F_1 = 1 < 2 = 2^1$.\n\nStep: assume the bound for $n$ and $n+1$. Since $F_{n+2}$ is defined from both of them, we use both: $F_{n+2} < 2^{n+1} + 2^n = 3 \\cdot 2^n < 4 \\cdot 2^n = 2^{n+2}$.\n\nWhy not ordinary induction: the bound for $n+1$ alone says nothing about $F_n$, which the recursive definition also needs. That also explains why there are two base cases.",
+      "searchQuery": "fibonacci less than 2^n strong induction proof two base cases",
+      "refs": [
+        "Velleman, How to Prove It 3e, §6.1–6.4",
+        "Hammack, Book of Proof 3e, ch. 10 (Mathematical Induction)"
+      ]
+    },
+    {
+      "id": "pls-relation-definition",
+      "unit": "relations-and-equivalence-classes",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **relation** on a set $A$, and how do we write that $a$ is related to $b$?",
+      "body": "A relation $R$ on $A$ is a subset of $A \\times A$; we write $a \\mathrel{R} b$ to mean $(a, b) \\in R$.\n\nAny rule that sorts ordered pairs into \"related\" and \"not related\" is a relation.\n\nExample: \"$\\le$\" on $\\mathbb{Z}$ is the set $\\{(a, b) \\in \\mathbb{Z} \\times \\mathbb{Z} : a \\le b\\}$, so $(2, 5)$ belongs to it and $(5, 2)$ does not. \"Divides\" is also a relation on $\\mathbb{Z}$.\n\nWatch out: the pair is ordered, so $a \\mathrel{R} b$ and $b \\mathrel{R} a$ are different statements. $2 \\le 5$ is true but $5 \\le 2$ is false.",
+      "searchQuery": "relation on a set definition subset of A times A",
+      "refs": [
+        "Velleman, How to Prove It 3e, §4.2–4.5",
+        "Hammack, Book of Proof 3e, ch. 11 (Relations)"
+      ]
+    },
+    {
+      "id": "pls-equivalence-relation-definition",
+      "unit": "relations-and-equivalence-classes",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Which three properties make a relation $\\sim$ on a set $A$ an **equivalence relation**?",
+      "body": "It is **reflexive** ($a \\sim a$ for all $a$), **symmetric** ($a \\sim b$ implies $b \\sim a$) and **transitive** ($a \\sim b$ and $b \\sim c$ imply $a \\sim c$), for all elements of $A$.\n\nThink of $\\sim$ as \"the same in some respect\".\n\nExample: \"$m$ and $n$ have the same parity\" on $\\mathbb{Z}$ is an equivalence relation. \"$\\le$\" on $\\mathbb{Z}$ is reflexive and transitive but not symmetric, so it is not one. \"Is a friend of\" is usually not transitive.\n\nWatch out: all three properties are required, and each is a statement about every element, so one failure ruins it.",
+      "searchQuery": "equivalence relation definition reflexive symmetric transitive",
+      "refs": [
+        "Velleman, How to Prove It 3e, §4.2–4.5",
+        "Hammack, Book of Proof 3e, ch. 11 (Relations)"
+      ]
+    },
+    {
+      "id": "pls-equivalence-class-definition",
+      "unit": "relations-and-equivalence-classes",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **equivalence class** $[a]$ of an element $a$ under an equivalence relation $\\sim$ on $A$?",
+      "body": "$[a] = \\{x \\in A : x \\sim a\\}$, the set of all elements equivalent to $a$.\n\nExample: for \"same parity\" on $\\mathbb{Z}$, $[0]$ is the set of even integers (and $[2] = [0]$), while $[1]$ is the set of odd integers.\n\nKey idea: reflexivity gives $a \\in [a]$, so every class is nonempty and every element lies in its own class.\n\nWatch out: the notation $[a]$ names a set. Different elements can name the same class, and $[a] = [b]$ exactly when $a \\sim b$.",
+      "searchQuery": "equivalence class definition set of elements equivalent to a",
+      "refs": [
+        "Velleman, How to Prove It 3e, §4.2–4.5",
+        "Hammack, Book of Proof 3e, ch. 11 (Relations)"
+      ]
+    },
+    {
+      "id": "pls-partial-and-total-orders",
+      "unit": "relations-and-equivalence-classes",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Which properties make a relation $\\preceq$ on $A$ a **partial order**, and what extra property makes it a total order?",
+      "body": "A partial order is reflexive, **antisymmetric** ($a \\preceq b$ and $b \\preceq a$ imply $a = b$) and transitive; a total order also has any two elements comparable: $a \\preceq b$ or $b \\preceq a$.\n\nExample: $\\le$ on $\\mathbb{R}$ is a total order. $\\subseteq$ on the subsets of $\\{1, 2\\}$ is only partial, since $\\{1\\}$ and $\\{2\\}$ are not comparable. Divisibility on $\\mathbb{Z}_{>0}$ is partial, as $2$ and $3$ are incomparable.\n\nWatch out: antisymmetric does not mean \"not symmetric\". Equality is both symmetric and antisymmetric, while $<$ is neither reflexive nor symmetric.",
+      "searchQuery": "partial order total order antisymmetric definition examples",
+      "refs": [
+        "Velleman, How to Prove It 3e, §4.2–4.5",
+        "Hammack, Book of Proof 3e, ch. 11 (Relations)"
+      ]
+    },
+    {
+      "id": "pls-congruence-mod-seven-classes",
+      "unit": "relations-and-equivalence-classes",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "For integers, write $a \\equiv b \\pmod 7$ when $7 \\mid a - b$. This is an equivalence relation on $\\mathbb{Z}$; how many distinct equivalence classes does it have?",
+      "body": "Seven: $[0], [1], \\dots, [6]$, one for each remainder on division by $7$.\n\nTwo integers are congruent mod $7$ exactly when they leave the same remainder, so $[r] = \\{r + 7k : k \\in \\mathbb{Z}\\}$. For instance $[3] = \\{\\dots, -4, 3, 10, 17, \\dots\\}$.\n\nWhy it is an equivalence relation: $7 \\mid 0$ gives reflexivity; $7 \\mid a - b$ implies $7 \\mid b - a$; and if $7$ divides $a - b$ and $b - c$ it divides the sum $a - c$.\n\nTip: the same works mod any positive $n$: there are exactly $n$ classes.",
+      "searchQuery": "congruence modulo 7 equivalence classes number of classes",
+      "answer": "7",
+      "refs": [
+        "Velleman, How to Prove It 3e, §4.2–4.5",
+        "Hammack, Book of Proof 3e, ch. 11 (Relations)"
+      ]
+    },
+    {
+      "id": "pls-equivalence-classes-partition",
+      "unit": "relations-and-equivalence-classes",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the theorem linking equivalence relations and **partitions**.",
+      "body": "The equivalence classes of an equivalence relation on $A$ form a partition of $A$, and every partition of $A$ arises this way from exactly one equivalence relation.\n\nA **partition** of $A$ is a collection of nonempty subsets, no two sharing an element, whose union is $A$.\n\nWhy: each $a$ lies in $[a]$, so the classes are nonempty and cover $A$. If $x \\in [a] \\cap [b]$ then $a \\sim x \\sim b$, so $[a] = [b]$ by symmetry and transitivity; hence two different classes share nothing.\n\nConversely, given a partition, declare $a \\sim b$ when they lie in the same block. Reflexivity, symmetry and transitivity are immediate.\n\nWhy it matters: it shows that \"same in some respect\" and \"cutting a set into pieces\" are one idea.",
+      "searchQuery": "equivalence classes partition theorem equivalence relation partition correspondence",
+      "refs": [
+        "Velleman, How to Prove It 3e, §4.2–4.5",
+        "Hammack, Book of Proof 3e, ch. 11 (Relations)"
+      ]
+    },
+    {
+      "id": "pls-real-numbers-differ-by-integer",
+      "unit": "relations-and-equivalence-classes",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "On $\\mathbb{R}$ define $x \\sim y$ when $x - y \\in \\mathbb{Z}$. Show that $\\sim$ is an equivalence relation and describe the class $[0.3]$.",
+      "body": "$[0.3] = \\{0.3 + k : k \\in \\mathbb{Z}\\}$; and $\\sim$ is reflexive, symmetric and transitive.\n\n- Reflexive: $x - x = 0 \\in \\mathbb{Z}$.\n- Symmetric: if $x - y \\in \\mathbb{Z}$ then $y - x = -(x - y) \\in \\mathbb{Z}$.\n- Transitive: $x - y$ and $y - z$ integers give $x - z = (x - y) + (y - z) \\in \\mathbb{Z}$.\n\nA number $x$ is equivalent to $0.3$ exactly when $x = 0.3 + k$ for some integer $k$.\n\nKey idea: each class contains exactly one number in $[0, 1)$, the fractional part. So each class can be labeled by exactly one number in $[0, 1)$, which is the idea behind wrapping the real line around a circle.",
+      "searchQuery": "relation x minus y integer equivalence relation real numbers classes",
+      "refs": [
+        "Velleman, How to Prove It 3e, §4.2–4.5",
+        "Hammack, Book of Proof 3e, ch. 11 (Relations)"
+      ]
+    },
+    {
+      "id": "pls-symmetric-transitive-not-reflexive",
+      "unit": "relations-and-equivalence-classes",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give a relation on $A = \\{1, 2, 3\\}$ that is symmetric and transitive but not reflexive.",
+      "body": "$R = \\{(1,1), (1,2), (2,1), (2,2)\\}$\n\nIt is symmetric, since $(1,2)$ and $(2,1)$ are both in $R$. It is transitive, since the only chains, such as $(1,2), (2,1)$, lead to $(1,1)$, which is in $R$, and similarly for the rest. It is not reflexive because $(3,3) \\notin R$.\n\nThe tempting argument is \"$a \\mathrel{R} b$ and $b \\mathrel{R} a$ give $a \\mathrel{R} a$\". It only works for an $a$ that is related to something. Here $3$ is related to nothing.\n\nWatch out: the empty relation also works. Symmetric and transitive together give reflexivity only on the elements that appear in some pair.",
+      "searchQuery": "symmetric transitive not reflexive relation counterexample",
+      "refs": [
+        "Velleman, How to Prove It 3e, §4.2–4.5",
+        "Hammack, Book of Proof 3e, ch. 11 (Relations)"
+      ]
+    },
+    {
+      "id": "pls-same-class-different-names",
+      "unit": "relations-and-equivalence-classes",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why are $[1]$ and $[6]$ the same equivalence class for congruence modulo $5$, even though $1 \\neq 6$?",
+      "body": "Because $1 \\equiv 6 \\pmod 5$ (as $5 \\mid 6 - 1$), and $[a] = [b]$ exactly when $a \\sim b$; a class has many names.\n\nA class is a set, and any of its elements can serve as a name, called a representative. Here $[1] = [6] = [-4] = \\{\\dots, -4, 1, 6, 11, \\dots\\}$.\n\nSo counting classes means counting distinct sets, not distinct representatives: modulo $5$ there are exactly five.\n\nWatch out: any rule defined using a representative must give the same result for every representative of the class. Otherwise it describes nothing about the class.",
+      "searchQuery": "equivalence class representatives same class congruence mod 5",
+      "refs": [
+        "Velleman, How to Prove It 3e, §4.2–4.5",
+        "Hammack, Book of Proof 3e, ch. 11 (Relations)"
+      ]
+    },
+    {
+      "id": "pls-injective-definition",
+      "unit": "functions-injective-surjective",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "When is a function $f: A \\to B$ **injective** (one-to-one)? (Here $A$ is the domain and $B$ the codomain.)",
+      "body": "When $f(a) = f(a')$ implies $a = a'$ for all $a, a' \\in A$, so different inputs give different outputs.\n\nA function $f: A \\to B$ is a relation, a subset of $A \\times B$, in which every $a \\in A$ appears in exactly one pair $(a, b)$.\n\nProof recipe: let $f(a) = f(a')$ and show $a = a'$.\n\nExample: $f(x) = 3x + 1$ on $\\mathbb{R}$ is injective, since $3a + 1 = 3a' + 1$ gives $a = a'$.\n\nWatch out: the defining condition is the contrapositive of \"$a \\neq a'$ implies $f(a) \\neq f(a')$\", and it is usually easier to prove.",
+      "searchQuery": "injective function definition one to one f(a)=f(b) implies a=b",
+      "refs": [
+        "Velleman, How to Prove It 3e, §5.1–5.3, §5.5",
+        "Hammack, Book of Proof 3e, ch. 12 (Functions)"
+      ]
+    },
+    {
+      "id": "pls-surjective-definition",
+      "unit": "functions-injective-surjective",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "When is a function $f: A \\to B$ **surjective** (onto)?",
+      "body": "When for every $b \\in B$ there is some $a \\in A$ with $f(a) = b$, so the outputs fill the whole codomain.\n\nProof recipe: take an arbitrary $b \\in B$, solve $f(a) = b$ for $a$, and check that the $a$ you found lies in $A$.\n\nExample: $f: \\mathbb{R} \\to \\mathbb{R}$, $f(x) = x^3$ is surjective, as $a = \\sqrt[3]{b}$ works. $g: \\mathbb{Z} \\to \\mathbb{Z}$, $g(n) = 2n$ is not, since $1$ is never an output.\n\nWatch out: surjectivity is about the codomain you declared, not the formula alone.",
+      "searchQuery": "surjective function definition onto every element of codomain",
+      "refs": [
+        "Velleman, How to Prove It 3e, §5.1–5.3, §5.5",
+        "Hammack, Book of Proof 3e, ch. 12 (Functions)"
+      ]
+    },
+    {
+      "id": "pls-injective-depends-on-domain",
+      "unit": "functions-injective-surjective",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "True or false: whether $f(x) = x^2$ is injective or surjective depends only on the formula $x^2$.",
+      "body": "False: it also depends on the domain and the codomain.\n\n- $f: \\mathbb{R} \\to \\mathbb{R}$ is neither: $f(-1) = f(1)$, and $-1$ is not a square.\n- $f: [0, \\infty) \\to \\mathbb{R}$ is injective but not surjective.\n- $f: \\mathbb{R} \\to [0, \\infty)$ is surjective but not injective.\n- $f: [0, \\infty) \\to [0, \\infty)$ is bijective (both injective and surjective).\n\nKey idea: a function is a formula together with its domain and codomain. Change either and the properties can change.",
+      "searchQuery": "injective surjective depends on domain codomain x squared",
+      "refs": [
+        "Velleman, How to Prove It 3e, §5.1–5.3, §5.5",
+        "Hammack, Book of Proof 3e, ch. 12 (Functions)"
+      ]
+    },
+    {
+      "id": "pls-image-and-preimage-definitions",
+      "unit": "functions-injective-surjective",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "For $f: A \\to B$, define the **image** $f(S)$ of a set $S \\subseteq A$ and the **preimage** $f^{-1}(T)$ of a set $T \\subseteq B$.",
+      "body": "$f(S) = \\{f(x) : x \\in S\\}$ and $f^{-1}(T) = \\{x \\in A : f(x) \\in T\\}$.\n\nExample: for $f(x) = x^2$ on $\\mathbb{R}$, $f(\\{-2, 1\\}) = \\{4, 1\\}$, $f^{-1}(\\{4\\}) = \\{-2, 2\\}$, and $f^{-1}(\\{-1\\}) = \\emptyset$.\n\nWatch out: $f^{-1}(T)$ is defined for every function. It is a set of inputs, and does not need $f$ to have an inverse function. Only when an inverse exists does $f^{-1}(\\{b\\})$ equal $\\{f^{-1}(b)\\}$.",
+      "searchQuery": "image and preimage of a set under function definition",
+      "refs": [
+        "Velleman, How to Prove It 3e, §5.1–5.3, §5.5",
+        "Hammack, Book of Proof 3e, ch. 12 (Functions)"
+      ]
+    },
+    {
+      "id": "pls-inverse-iff-bijective",
+      "unit": "functions-injective-surjective",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the theorem on when a function $f: A \\to B$ has an **inverse function**.",
+      "body": "$f$ has an inverse function $g: B \\to A$ if and only if $f$ is **bijective**, meaning injective and surjective.\n\nAn inverse satisfies $g(f(a)) = a$ for all $a \\in A$ and $f(g(b)) = b$ for all $b \\in B$.\n\nWhy ($\\Leftarrow$): for each $b$, surjectivity gives some $a$ with $f(a) = b$, and injectivity says there is only one; define $g(b)$ to be it.\n\nWhy ($\\Rightarrow$): if $f(a) = f(a')$ then $a = g(f(a)) = g(f(a')) = a'$, so $f$ is injective; and every $b = f(g(b))$ is an output, so $f$ is surjective.",
+      "searchQuery": "function has inverse iff bijective theorem proof",
+      "refs": [
+        "Velleman, How to Prove It 3e, §5.1–5.3, §5.5",
+        "Hammack, Book of Proof 3e, ch. 12 (Functions)"
+      ]
+    },
+    {
+      "id": "pls-linear-function-bijective-example",
+      "unit": "functions-injective-surjective",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Show that $f: \\mathbb{R} \\to \\mathbb{R}$, $f(x) = 3x - 5$ is bijective and find $f^{-1}$.",
+      "body": "$f$ is bijective, with $f^{-1}(y) = \\dfrac{y + 5}{3}$.\n\nInjective: $3a - 5 = 3a' - 5$ gives $a = a'$. Surjective: for any $y$, the number $x = (y+5)/3$ is real and $3x - 5 = y$.\n\nTip: solving $y = f(x)$ for $x$ does double duty. The solution is the preimage you need for surjectivity and also the formula for the inverse.\n\nCheck: $f(f^{-1}(y)) = 3 \\cdot \\frac{y+5}{3} - 5 = y$.",
+      "searchQuery": "bijective linear function inverse 3x-5 prove",
+      "refs": [
+        "Velleman, How to Prove It 3e, §5.1–5.3, §5.5",
+        "Hammack, Book of Proof 3e, ch. 12 (Functions)"
+      ]
+    },
+    {
+      "id": "pls-composition-of-injections",
+      "unit": "functions-injective-surjective",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $f: A \\to B$ and $g: B \\to C$ be injective. Prove that the composition $g \\circ f$ is injective.",
+      "body": "Suppose $(g \\circ f)(a) = (g \\circ f)(a')$; injectivity of $g$ gives $f(a) = f(a')$, and then injectivity of $f$ gives $a = a'$.\n\nHere $(g \\circ f)(x) = g(f(x))$. The hypothesis says $g(f(a)) = g(f(a'))$. Peel off one function at a time, outermost first.\n\nThe surjective version: given $c \\in C$, pick $b$ with $g(b) = c$ and then $a$ with $f(a) = b$; then $(g \\circ f)(a) = c$.\n\nWatch out: the converse is only partial. If $g \\circ f$ is injective then $f$ is injective, but $g$ need not be: take $f: \\{1\\} \\to \\{1, 2\\}$ and the constant map $g: \\{1, 2\\} \\to \\{1\\}$.",
+      "searchQuery": "composition of injective functions is injective proof",
+      "refs": [
+        "Velleman, How to Prove It 3e, §5.1–5.3, §5.5",
+        "Hammack, Book of Proof 3e, ch. 12 (Functions)"
+      ]
+    },
+    {
+      "id": "pls-image-of-intersection-counterexample",
+      "unit": "functions-injective-surjective",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give $f$, $A$ and $B$ showing that $f(A \\cap B) = f(A) \\cap f(B)$ can fail.",
+      "body": "$f(x) = x^2$ on $\\mathbb{R}$ with $A = \\{-1\\}$ and $B = \\{1\\}$: $f(A \\cap B) = \\emptyset$ but $f(A) \\cap f(B) = \\{1\\}$.\n\nAlways $f(A \\cap B) \\subseteq f(A) \\cap f(B)$. Equality can fail because two different inputs may land on the same output; it holds when $f$ is injective.\n\nPreimages behave perfectly: $f^{-1}(S \\cap T) = f^{-1}(S) \\cap f^{-1}(T)$ and $f^{-1}(S \\cup T) = f^{-1}(S) \\cup f^{-1}(T)$. Images also preserve unions, $f(A \\cup B) = f(A) \\cup f(B)$.\n\nTip: when in doubt, use preimages. They respect unions, intersections and complements.",
+      "searchQuery": "image of intersection not equal intersection of images counterexample",
+      "refs": [
+        "Velleman, How to Prove It 3e, §5.1–5.3, §5.5",
+        "Hammack, Book of Proof 3e, ch. 12 (Functions)"
+      ]
+    },
+    {
+      "id": "pls-equinumerous-definition",
+      "unit": "countability",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "When are two sets $A$ and $B$ **equinumerous**, that is, of the same **cardinality**, written $|A| = |B|$?",
+      "body": "When there is a bijection $f: A \\to B$.\n\nFor finite sets this is the same as having the same number of elements. For infinite sets it is the definition of \"same size\", because counting no longer works: we compare sets by matching them.\n\nExample: $\\{a, b, c\\}$ and $\\{1, 2, 3\\}$ are matched by $a \\mapsto 1$, $b \\mapsto 2$, $c \\mapsto 3$.\n\nKey idea: equinumerosity is an equivalence relation. The identity map, inverses and compositions of bijections give reflexivity, symmetry and transitivity.",
+      "searchQuery": "equinumerous sets same cardinality bijection definition",
+      "refs": [
+        "Velleman, How to Prove It 3e, §8.1–8.3",
+        "Hammack, Book of Proof 3e, ch. 14 (Cardinality of Sets)"
+      ]
+    },
+    {
+      "id": "pls-countable-uncountable-definition",
+      "unit": "countability",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What do **countable** and **uncountable** mean for a set $A$?",
+      "body": "$A$ is countable if it is finite or equinumerous with $\\mathbb{N}$; otherwise it is uncountable.\n\nAn infinite countable set can be listed as a sequence $a_0, a_1, a_2, \\dots$ that contains each element exactly once.\n\nExample: $\\mathbb{N}$ is countable, and so is any finite set.\n\nWatch out: some books use \"countable\" only for sets equinumerous with $\\mathbb{N}$, and call finite sets \"at most countable\". Check which convention a text uses.",
+      "searchQuery": "countable uncountable set definition finite or equinumerous with natural numbers",
+      "refs": [
+        "Velleman, How to Prove It 3e, §8.1–8.3",
+        "Hammack, Book of Proof 3e, ch. 14 (Cardinality of Sets)"
+      ]
+    },
+    {
+      "id": "pls-integers-equinumerous-with-naturals",
+      "unit": "countability",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Show that \"if $A \\subsetneq B$ then $A$ and $B$ are not equinumerous\" is false by giving a bijection $\\mathbb{N} \\to \\mathbb{Z}$.",
+      "body": "$f(n) = n/2$ for even $n$ and $f(n) = -(n+1)/2$ for odd $n$.\n\nThis lists $\\mathbb{Z}$ as $0, -1, 1, -2, 2, -3, 3, \\dots$. Even $n$ go to the nonnegative integers, odd $n$ to the negative ones, and each integer is hit exactly once.\n\nSo $\\mathbb{N} \\subsetneq \\mathbb{Z}$ yet $|\\mathbb{N}| = |\\mathbb{Z}|$, and $\\mathbb{Z}$ is countable.\n\nWatch out: \"the part is smaller than the whole\" is a fact about finite sets only. For infinite sets a proper subset can be as large as the whole set.",
+      "searchQuery": "bijection natural numbers integers countable proper subset same size",
+      "refs": [
+        "Velleman, How to Prove It 3e, §8.1–8.3",
+        "Hammack, Book of Proof 3e, ch. 14 (Cardinality of Sets)"
+      ]
+    },
+    {
+      "id": "pls-rationals-are-countable",
+      "unit": "countability",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Explain why $\\mathbb{Q}$ is countable.",
+      "body": "List each rational as $p/q$ in lowest terms with $q > 0$, ordered by $|p| + q$; each value of $|p| + q$ gives finitely many fractions, so every rational appears at a finite position.\n\nThe list begins $0$ (sum 1), then $1, -1$ (sum 2), then $\\frac12, -\\frac12, 2, -2$ (sum 3), and so on.\n\nLowest terms means each rational is listed once, so $\\frac12$ and $\\frac24$ are not repeated. The list is infinite since $\\mathbb{Q}$ is, so it matches $\\mathbb{Q}$ with $\\mathbb{N}$.\n\nWatch out: sorting by size, say smallest first, cannot work, since there is no smallest rational and between any two lie infinitely many. The trick is to group by a quantity that has finitely many values per group.",
+      "searchQuery": "rationals countable enumeration lowest terms |p|+q listing",
+      "refs": [
+        "Velleman, How to Prove It 3e, §8.1–8.3",
+        "Hammack, Book of Proof 3e, ch. 14 (Cardinality of Sets)"
+      ]
+    },
+    {
+      "id": "pls-cardinality-order-via-injections",
+      "unit": "countability",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "How is $|A| \\le |B|$ defined for arbitrary sets, and what does $|A| < |B|$ mean?",
+      "body": "$|A| \\le |B|$ means there is an injection $A \\to B$; $|A| < |B|$ means $|A| \\le |B|$ but $A$ and $B$ are not equinumerous.\n\nThis agrees with counting for finite sets: an injection exists exactly when $A$ has no more elements than $B$.\n\nExample: $|\\mathbb{N}| \\le |\\mathbb{R}|$, via the inclusion map $\\mathbb{N} \\to \\mathbb{R}$.\n\nWhy it matters: it turns \"is bigger than\" into something you can prove by exhibiting functions. Whether it behaves like an ordering (if $|A| \\le |B|$ and $|B| \\le |A|$ then $|A| = |B|$) is exactly the Cantor-Schroeder-Bernstein theorem.",
+      "searchQuery": "cardinality comparison injection less than or equal definition",
+      "refs": [
+        "Velleman, How to Prove It 3e, §8.1–8.3",
+        "Hammack, Book of Proof 3e, ch. 14 (Cardinality of Sets)"
+      ]
+    },
+    {
+      "id": "pls-reals-are-uncountable",
+      "unit": "countability",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the theorem that $\\mathbb{R}$ is uncountable, proved by Cantor's **diagonal argument**.",
+      "body": "No sequence $x_1, x_2, x_3, \\dots$ of real numbers contains every real number in $(0,1)$; hence $\\mathbb{R}$ is uncountable.\n\nProof by contradiction: suppose such a list exists and write $x_n = 0.d_{n1} d_{n2} d_{n3} \\dots$ in decimal. Build $y = 0.e_1 e_2 e_3 \\dots$ with $e_n = 5$ if $d_{nn} \\neq 5$ and $e_n = 4$ if $d_{nn} = 5$. This changes the $n$-th digit of $x_n$ along the diagonal.\n\nThen $y \\in (0,1)$ and $y$ differs from every $x_n$ in the $n$-th digit. Its digits are only $4$ and $5$, so $y$ has no second decimal expansion (like $0.4999\\ldots = 0.5$), and a differing digit really means a different number. So $y$ is missing from the list.\n\nWhy $\\mathbb{R}$ too: a subset of a countable set is countable, so if $\\mathbb{R}$ were countable, so would be $(0,1)$.",
+      "searchQuery": "reals uncountable cantor diagonal argument proof",
+      "refs": [
+        "Velleman, How to Prove It 3e, §8.1–8.3",
+        "Hammack, Book of Proof 3e, ch. 14 (Cardinality of Sets)"
+      ]
+    },
+    {
+      "id": "pls-diagonal-argument-fix-misconception",
+      "unit": "countability",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "A critic says the diagonal argument fails because you could add the new number $y$ to the list. Why does that not repair the list?",
+      "body": "The argument works for any list: the extended list has its own diagonal number that it is missing, so no list can ever be complete.\n\nThe proof does not exhibit one particular missing number and stop. It starts from an arbitrary supposed list of all of $(0,1)$ and constructs a number outside it.\n\nCompare with $\\mathbb{Q}$: a rational list can be complete because a diagonal construction applied to rationals need not produce a rational number.\n\nWatch out: adding one element to an infinite list is easy, since $\\mathbb{N}$ and $\\mathbb{N} \\cup \\{-1\\}$ are equinumerous. What fails for $(0,1)$ is every attempt to list it, not any one attempt.",
+      "searchQuery": "cantor diagonal argument objection add new number to list",
+      "refs": [
+        "Velleman, How to Prove It 3e, §8.1–8.3",
+        "Hammack, Book of Proof 3e, ch. 14 (Cardinality of Sets)"
+      ]
+    },
+    {
+      "id": "pls-cantor-theorem-power-set",
+      "unit": "countability",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Cantor's theorem** about a set $A$ and its power set $\\mathcal{P}(A)$, and give the idea of the proof.",
+      "body": "For every set $A$ there is no surjection $A \\to \\mathcal{P}(A)$; hence $|A| < |\\mathcal{P}(A)|$.\n\nSuppose $f: A \\to \\mathcal{P}(A)$ and let $D = \\{a \\in A : a \\notin f(a)\\}$. If $D = f(d)$ for some $d$, then $d \\in D$ exactly when $d \\notin f(d) = D$, a contradiction. So $D$ is not an output.\n\nThe injection $a \\mapsto \\{a\\}$ shows $|A| \\le |\\mathcal{P}(A)|$, and no bijection exists, so the inequality is strict.\n\nWhy it matters: it holds for infinite sets too, so $\\mathbb{N}$, $\\mathcal{P}(\\mathbb{N})$, $\\mathcal{P}(\\mathcal{P}(\\mathbb{N}))$, and so on are infinitely many different sizes of infinity.",
+      "searchQuery": "cantor theorem power set larger than set proof",
+      "checkpoint": true,
+      "refs": [
+        "Velleman, How to Prove It 3e, §8.1–8.3",
+        "Hammack, Book of Proof 3e, ch. 14 (Cardinality of Sets)"
+      ]
+    },
+    {
+      "id": "pls-cantor-schroeder-bernstein",
+      "unit": "countability",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **Cantor-Schroeder-Bernstein theorem**.",
+      "body": "If there are injections $f: A \\to B$ and $g: B \\to A$, then $A$ and $B$ are equinumerous.\n\nPut differently, $|A| \\le |B|$ and $|B| \\le |A|$ together give $|A| = |B|$.\n\nExample: $(0,1)$ and $[0,1]$ have the same cardinality. The inclusion $(0,1) \\to [0,1]$ is an injection, and $x \\mapsto \\frac{x}{2} + \\frac14$ is an injection $[0,1] \\to (0,1)$, since it sends $[0,1]$ into $[\\frac14, \\frac34]$. Writing an explicit bijection is awkward, and the theorem avoids it.\n\nWatch out: the theorem asserts a bijection exists; its proof builds one, but not by a simple formula.",
+      "searchQuery": "cantor schroeder bernstein theorem injections both ways bijection",
+      "refs": [
+        "Velleman, How to Prove It 3e, §8.1–8.3",
+        "Hammack, Book of Proof 3e, ch. 14 (Cardinality of Sets)"
+      ]
+    }
+  ]
+}

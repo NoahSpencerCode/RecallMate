@@ -1,0 +1,178 @@
+{
+  "module": "quantization-1",
+  "checker": "claude (independent checker)",
+  "verdicts": [
+    {
+      "id": "quantization-definition-network",
+      "verdict": "fixed",
+      "note": "Answer said the levels are evenly spaced, which contradicts the next unit's k-means quantization. Now reads 'usually evenly spaced'."
+    },
+    {
+      "id": "quantization-int8-native-mcu-npu",
+      "verdict": "fixed",
+      "note": "Title asked two questions (why int8, and what integer-only inference means). Retitled to one question and put the term into the answer. Changed 'cannot run float layers at any useful speed' to say that software float emulation is many times slower."
+    },
+    {
+      "id": "quantization-tradeoff-traffic-vs-arithmetic",
+      "verdict": "fixed",
+      "note": "Watch-out said the answer flips with SRAM reuse, then said traffic still matters. Reworded to say when the arithmetic saving becomes comparable or larger."
+    },
+    {
+      "id": "quantization-landmark-vanhoucke-2011",
+      "verdict": "fixed",
+      "note": "The 3× was credited to fixed point plus data layout and batching. In the paper, integer SIMD alone gives about 3× over SSE2 float, and the 4×/10× figures include batching. 'A trained network does not need float' was wrong because the input layer stayed in float. Checked against the paper's PDF."
+    },
+    {
+      "id": "quantization-landmark-gupta-2015",
+      "verdict": "fixed",
+      "note": "Said the fixed-point formats were chosen per layer. The paper uses one format per tensor type (weights, layer outputs) across the whole network."
+    },
+    {
+      "id": "kmeans-tradeoff-vs-uniform-int8",
+      "verdict": "fixed",
+      "note": "Tip said Deep Compression combined k-means with int8, which it did not. Decoding blocks integer-only inference only when the centroids are float. Removed the unclear 'smaller step for activations' phrase and an irrelevant power-of-two remark."
+    },
+    {
+      "id": "kmeans-landmark-deep-compression",
+      "verdict": "fixed",
+      "note": "The speed and energy figures were measured on pruned layers only; the paper says it did not benchmark the quantized model. 'As few as 5 bits' was misleading, because the paper also tested 4 and 2 bits. Now gives the headline setting: 8-bit conv and 5-bit FC indices."
+    },
+    {
+      "id": "affine-problem-scale-zero-point-uint8",
+      "verdict": "fixed",
+      "note": "The prompt asks for the range the grid covers, but the answer line left it out. Added [−1.0039, 2.9961]."
+    },
+    {
+      "id": "affine-code-uint8-wraparound-bug",
+      "verdict": "fixed",
+      "note": "Title was garbled ('which line of the second print fixes the bug'). Reworded."
+    },
+    {
+      "id": "symmetric-signed-vs-unsigned-int8",
+      "verdict": "fixed",
+      "note": "Title was vague ('and what is converted?'). Reworded to a single clear question."
+    },
+    {
+      "id": "symmetric-tradeoff-power-of-two-scale",
+      "verdict": "fixed",
+      "note": "Tip claimed that plain PTQ usually can't cope with power-of-two scales. That is unverified and doubtful at 8 bits, and the tip used QAT and PTQ before they are taught. Replaced it. As a trade-off card, the answer line now also says when power-of-two scales win."
+    },
+    {
+      "id": "symmetric-code-negation-overflow",
+      "verdict": "fixed",
+      "note": "Called negation overflow 'the' practical reason for the [−127, 127] range. Other reasons exist, such as int16 pair accumulation, so it now says 'one practical reason'."
+    },
+    {
+      "id": "granularity-definition",
+      "verdict": "fixed",
+      "note": "Example gave 36,864 weights for a 3×3 conv but stated only the output channels. Added the 64 input channels."
+    },
+    {
+      "id": "per-channel-tradeoff-weights",
+      "verdict": "fixed",
+      "note": "Used 'delegate' and 'cross-layer equalization' before they are taught. Replaced 'delegate' with 'runtime' and described cross-layer equalization briefly, with a pointer to the next unit."
+    },
+    {
+      "id": "per-channel-tradeoff-activations-per-tensor",
+      "verdict": "fixed",
+      "note": "This was a 'why' explanation filed as a trade-off. Reframed it so the answer names the winner and its conditions, and added the other side. The formula had dropped the activation zero-point; it now uses (q^a − Z_a)."
+    },
+    {
+      "id": "per-group-tradeoff-vs-per-channel",
+      "verdict": "fixed",
+      "note": "Cited MIT 6.5940 lecture 5, but group quantization is taught in lecture 6. Also cites Nagel §2.2.3, which mentions per-group quantization."
+    },
+    {
+      "id": "per-channel-problem-scale-storage-depthwise",
+      "verdict": "fixed",
+      "note": "Implied the int32 per-channel bias is an extra cost of per-channel quantization. Every layer stores that bias either way."
+    },
+    {
+      "id": "litert-int8-quantization-spec",
+      "verdict": "fixed",
+      "note": "Said FULLY_CONNECTED uses per-tensor granularity. The current LiteRT spec lists FULLY_CONNECTED weights as per-axis (dim 0)."
+    },
+    {
+      "id": "calibration-ptq-definition",
+      "verdict": "fixed",
+      "note": "The definition required a calibration set, which contradicts data-free PTQ (the DFQ card) and dynamic-range PTQ (the LiteRT card). Now 'at most a small calibration set'."
+    },
+    {
+      "id": "calibration-tradeoff-range-setters",
+      "verdict": "fixed",
+      "note": "Percentile bullet said to clip 'the lowest and highest p% (say 99.99)', which would clip almost everything. Reworded."
+    },
+    {
+      "id": "requantization-definition",
+      "verdict": "fixed",
+      "note": "Said an out-of-range int32 cast to int8 'flips sign'. It doesn't always: 300 becomes 44. Now describes a modulo-256 wrap."
+    },
+    {
+      "id": "requantization-fixed-point-multiplier-concept",
+      "verdict": "fixed",
+      "note": "Said the high multiply takes the top 32 bits of the product, 'hence 2^31'. The top 32 bits would mean dividing by 2^32; it is the doubled product. The example M = 0.0025 gave away the checkpoint problem's answer, so it now uses M = 0.3."
+    },
+    {
+      "id": "requantization-formula-multiplier-decomposition",
+      "verdict": "fixed",
+      "note": "Sign error. When M0 rounds to 2^31, implementations store 2^30 and subtract 1 from n (TFLite's QuantizeMultiplier increments the exponent). The card said to add 1."
+    },
+    {
+      "id": "requantization-code-c-rounding-high-multiply",
+      "verdict": "fixed",
+      "note": "Claimed that ties round away from zero for both signs. Tested in C: ties round toward +∞ (−0.5 → 0, −1.5 → −1), as SQRDMULH does. Corrected; the stated output was right."
+    },
+    {
+      "id": "bnfold-fold-before-quantizing",
+      "verdict": "fixed",
+      "note": "Said that folding already-quantized weights always pushes them off the integer grid. With per-channel scales the factor can go into the scale instead. Limited the claim to per-tensor scales."
+    },
+    {
+      "id": "bnfold-formula-bias",
+      "verdict": "fixed",
+      "note": "The example used the same numbers as the next problem card and gave away its b'. New example values, checked."
+    },
+    {
+      "id": "bnfold-problem-numeric-fold",
+      "verdict": "fixed",
+      "note": "The check input x = [1, 2] makes w·x = 0, so it could not catch wrong folded weights. Now x = [1, 1], and both versions output 3.8."
+    },
+    {
+      "id": "bnfold-code-broadcast-axis-bug",
+      "verdict": "fixed",
+      "note": "Watch-out logic was reversed ('the bug can hide until a square layer appears'). Square layers hide the bug, and non-square layers raise the error."
+    },
+    {
+      "id": "bnfold-tradeoff-per-channel-after-folding",
+      "verdict": "fixed",
+      "note": "Cited Nagel §2.3.2 (activation fusing), which is unrelated. Now cites §2.4.2 and §3.2."
+    },
+    {
+      "id": "bnfold-tradeoff-fold-or-keep-separate",
+      "verdict": "fixed",
+      "note": "Gave pre-activation blocks as the zero-padding case, but in those blocks a ReLU sits between the batch norm and the conv. Separated the two cases."
+    },
+    {
+      "id": "ptq-code-litert-full-integer-recipe",
+      "verdict": "fixed",
+      "note": "Said supported_ops=TFLITE_BUILTINS_INT8 also handles the model's input and output. The I/O stays float until inference_input_type and inference_output_type are set, as the card itself says in the next sentence."
+    },
+    {
+      "id": "ptq-code-layerwise-snr-comparison",
+      "verdict": "fixed",
+      "note": "Watch-out ('the last layer's SNR hides earlier damage') was unclear. Reworded."
+    },
+    {
+      "id": "ptq-numbers-mlperf-tiny-closed-division",
+      "verdict": "fixed",
+      "note": "The quality targets are in §4 of the paper, not §5.2. Updated the ref."
+    }
+  ],
+  "summary": {
+    "reviewed": 100,
+    "ok": 67,
+    "fixed": 33,
+    "dropped": 0,
+    "added": 0
+  }
+}

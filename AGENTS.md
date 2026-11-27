@@ -42,9 +42,10 @@ Docs: https://docs.expo.dev/eas/index.md
 
 ## RecallMate specifics
 
-- Backend is Supabase. Schema, Row Level Security and RPCs live in `supabase/migrations/`. Scheduling logic is in SQL (`public.review_memory`) and mirrored for display in `src/lib/schedule.ts`; keep them in sync.
+- Backend is Supabase. Schema, Row Level Security and RPCs live in `supabase/migrations/`. Scheduling logic is in SQL (`public.next_schedule`, used by `review_memory` and `review_profession_card`) and mirrored for display in `src/lib/schedule.ts`; keep them in sync.
 - After changing the schema, run `npm run db:reset` and `npm run db:types`, and add pgTAP coverage in `supabase/tests/`.
 - Study pack content lives in `content/packs/<subject>/` (one JSON file per pack); `content/README.md` is the authoring guide. Validate with `npx jest content`, then publish with `npm run packs:build -- --out supabase/migrations/<timestamp>_<name>.sql`. Never hand-edit generated pack migrations, and never rename or reuse a card id that is live.
+- Profession content lives in `content/professions/<profession>/` (`profession.json`, `curriculum.json`, one card file per module); `content/professions/README.md` is the writing guide. Validate with `npx jest curriculum` (`MODULE=<slug>` for one module), check progress with `npm run professions:stats -- <profession>`, and publish with `npm run professions:build -- --profession <slug> --tiers <n> --out supabase/migrations/<timestamp>_<name>.sql`. Profession cards are stored once; learners only get progress rows, and every write goes through the security-definer functions in the professions migration. Never delete a shipped profession card: set `"retired": true`.
 - Card text uses the markup in `src/lib/rich.ts` (KaTeX math, mhchem, code, highlights, callouts), rendered by `src/components/rich/RichText.tsx`.
 - Typed answers are matched by `src/features/review/answerMatch.ts`: formatting-insensitive, meaning-sensitive. One-letter slips are "close" (free retry), never auto-accepted.
 - Design tokens (colors, type, spacing, motion) are in `src/theme`. Use `Text`, `Button`, `Card` and friends from `src/components` rather than raw styles.

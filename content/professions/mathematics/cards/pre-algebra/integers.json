@@ -1,0 +1,382 @@
+{
+  "profession": "mathematics",
+  "module": "integers",
+  "tier": 0,
+  "cards": [
+    {
+      "id": "integers-place-value",
+      "unit": "place-value-and-rounding",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is the **place value** of a digit in a whole number?",
+      "body": "The value the digit has because of where it sits: the digit times what its place is worth (ones, tens, hundreds, thousands, and so on).\n\nA **digit** is one of the ten symbols $0, 1, 2, 3, 4, 5, 6, 7, 8, 9$. Numbers are built by writing digits side by side, and each position has its own worth.\n\nExample: In $2{,}525$ the first $5$ sits in the hundreds place, so it is worth $500$. The last $5$ sits in the ones place, so it is worth only $5$.\n\nKey idea: Each step to the left makes a digit worth ten times as much.",
+      "searchQuery": "place value of a digit definition ones tens hundreds",
+      "refs": [
+        "Khan Academy, Pre-algebra course"
+      ]
+    },
+    {
+      "id": "integers-why-zero",
+      "unit": "place-value-and-rounding",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "Why does a **base ten** number system need a symbol for zero?",
+      "body": "Zero marks an empty place, so the other digits stay in their correct places and keep their values.\n\n**Base ten** means each place is worth ten times the place to its right, and we write numbers with just ten digits, $0$ through $9$.\n\nExample: $205$ means two hundreds, no tens and five ones. Without a symbol for the empty tens place, you would write $25$, and nobody could tell $205$ from $25$ (or from $2{,}005$).\n\nWhy it matters: Zero is a digit with a job. It holds a place open so that every digit to its left is worth the right amount.",
+      "searchQuery": "why positional number system needs zero base ten",
+      "refs": [
+        "Khan Academy, Pre-algebra course"
+      ]
+    },
+    {
+      "id": "integers-expanded-form",
+      "unit": "place-value-and-rounding",
+      "kind": "formula",
+      "difficulty": 1,
+      "title": "Write $5{,}402$ in expanded form using powers of ten.",
+      "body": "$5{,}402 = 5\\times10^3 + 4\\times10^2 + 0\\times10^1 + 2\\times10^0$\n\n**Expanded form** writes a number as a sum with one term per digit: the digit times the power of ten for its place.\n\nA power of ten counts how many tens are multiplied: $10^3 = 10\\times10\\times10 = 1{,}000$, $10^2 = 100$, $10^1 = 10$, and $10^0 = 1$.\n\nKey idea: The exponent (the small raised number) tells how many places the digit sits to the left of the ones place.\n\nWatch out: $10^0$ is $1$, not $0$. The ones place is worth one.",
+      "searchQuery": "expanded form powers of ten 5402",
+      "refs": [
+        "Khan Academy, Pre-algebra course"
+      ]
+    },
+    {
+      "id": "integers-round-half-up",
+      "unit": "place-value-and-rounding",
+      "kind": "example",
+      "difficulty": 1,
+      "title": "Round $3{,}465$ to the nearest ten, using the round-half-up rule.",
+      "body": "3,470\n\n**Rounding** means replacing a number with a nearby one that ends in zeros at the place you choose. Look only at the digit just to the right of that place: if it is $5$ or more, round up; if it is $4$ or less, round down. Sending an exactly-halfway number up is the **round-half-up rule**.\n\nExample: For $3{,}465$ the tens digit is $6$ and the digit to its right is $5$. That is exactly halfway between $3{,}460$ and $3{,}470$, so the rule sends it up to $3{,}470$.\n\nTip: Every digit to the right of the chosen place becomes a zero.",
+      "searchQuery": "round to nearest ten round half up rule 3465",
+      "answer": "3470",
+      "refs": [
+        "AoPS Prealgebra §6.2 (Rounding)"
+      ]
+    },
+    {
+      "id": "integers-round-with-carry",
+      "unit": "place-value-and-rounding",
+      "kind": "problem",
+      "difficulty": 1,
+      "title": "Round $99{,}950$ to the nearest hundred.",
+      "body": "100,000\n\nThe hundreds digit is $9$ and the digit to its right is $5$, so round up. Rounding up means $99{,}900 + 100$.\n\nWhy: Adding $1$ to a $9$ makes a $0$ and carries a $1$ to the next place. Here the carry runs through every $9$, so the answer has one more digit than the number you started with.\n\nWatch out: The answer $100{,}000$ looks very different from $99{,}950$, but it is only $50$ away. $99{,}950$ is exactly halfway between $99{,}900$ and $100{,}000$, so the round-half-up rule sends it up.",
+      "searchQuery": "round 99950 to nearest hundred carry",
+      "answer": "100000",
+      "refs": [
+        "AoPS Prealgebra §6.2 (Rounding)"
+      ]
+    },
+    {
+      "id": "integers-double-rounding",
+      "unit": "place-value-and-rounding",
+      "kind": "misconception",
+      "difficulty": 1,
+      "title": "Why is it wrong to round $8{,}449$ to the nearest hundred by first rounding it to the nearest ten?",
+      "body": "Round once, looking only at the digit just right of the target place: $8{,}449$ rounds to $8{,}400$.\n\nRounding in two steps gives $8{,}449 \\to 8{,}450 \\to 8{,}500$, which is wrong.\n\nWhy: $8{,}449$ is $49$ above $8{,}400$ but $51$ below $8{,}500$, so $8{,}400$ is closer. The digit right of the hundreds place is $4$, so you round down, and the $9$ after it doesn't matter.\n\nWatch out: Rounding several times in a row can push a number past the halfway point. Always go from the original number.",
+      "searchQuery": "double rounding mistake nearest hundred 8449",
+      "refs": [
+        "AoPS Prealgebra §6.2 (Rounding)"
+      ]
+    },
+    {
+      "id": "integers-order-of-operations",
+      "unit": "order-of-operations",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is the **order of operations**, and what role do **grouping symbols** play in it?",
+      "body": "A shared set of rules that gives every expression exactly one value; grouping symbols such as parentheses override the default order by marking what to work out first.\n\n**Grouping symbols** are parentheses $( )$ and brackets $[ ]$. Whatever is inside them is worked out before the rest of the expression.\n\nExample: Without an agreed order, $2 + 3\\times4$ could mean $5\\times4 = 20$ or $2 + 12 = 14$. The convention says multiply first, so it is $14$. To get $20$ you must write $(2+3)\\times4$.\n\nWhy it matters: Everyone, and every calculator, must read the same expression the same way.",
+      "searchQuery": "order of operations definition grouping symbols parentheses",
+      "refs": [
+        "AoPS Prealgebra, ch. 1 (Properties of Arithmetic)",
+        "AoPS Prealgebra §1.2–1.3"
+      ]
+    },
+    {
+      "id": "integers-commutative-associative",
+      "unit": "order-of-operations",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "How do the **commutative law** and the **associative law** of addition differ?",
+      "body": "Commutative: $a+b=b+a$ (you may swap the order). Associative: $(a+b)+c=a+(b+c)$ (you may move the parentheses without reordering).\n\nBoth laws also hold for multiplication: $a\\times b = b\\times a$ and $(a\\times b)\\times c = a\\times(b\\times c)$.\n\nKey idea: Commutative changes the order of the numbers; associative changes only which pair you combine first.\n\nWatch out: Neither law works for subtraction. $(12-6)-2 = 4$ but $12-(6-2) = 8$.",
+      "searchQuery": "commutative law vs associative law addition multiplication",
+      "refs": [
+        "AoPS Prealgebra, ch. 1 (Properties of Arithmetic)",
+        "Gelfand–Shen, Algebra, §§8–10"
+      ]
+    },
+    {
+      "id": "integers-pemdas",
+      "unit": "order-of-operations",
+      "kind": "formula",
+      "difficulty": 1,
+      "title": "What does **PEMDAS** stand for, and in what order do you work?",
+      "body": "Parentheses, Exponents, Multiplication and Division (left to right), Addition and Subtraction (left to right).\n\n**PEMDAS** is a memory aid for the order of operations. An exponent is the small raised number, as in $5^2 = 5\\times5 = 25$.\n\nMnemonic: \"Please Excuse My Dear Aunt Sally.\"\n\nWatch out: $M$ and $D$ share a rung of the ladder, and so do $A$ and $S$. The letters are in a line, but the operations in each pair have equal rank.",
+      "searchQuery": "PEMDAS stands for order of operations",
+      "refs": [
+        "AoPS Prealgebra, ch. 1 (Properties of Arithmetic)"
+      ]
+    },
+    {
+      "id": "integers-regroup-sum",
+      "unit": "order-of-operations",
+      "kind": "example",
+      "difficulty": 1,
+      "title": "Use the commutative and associative laws to compute $25 + 37 + 75$ quickly.",
+      "body": "$(25+75)+37 = 100+37 = 137$\n\nSwap $37$ and $75$ (commutative law), then group the first and last numbers (associative law): $25+37+75 = 25+75+37 = (25+75)+37$.\n\nTip: Look for pairs that make a round number, such as $25+75$ or $48+52$. Adding the round total is far easier than working left to right.",
+      "searchQuery": "regroup addition commutative associative mental math 25 37 75",
+      "refs": [
+        "AoPS Prealgebra, ch. 1 (Properties of Arithmetic)"
+      ]
+    },
+    {
+      "id": "integers-parentheses-target",
+      "unit": "order-of-operations",
+      "kind": "problem",
+      "difficulty": 1,
+      "title": "Insert one pair of parentheses in $2\\times3+4\\times5$ so that its value is $70$.",
+      "body": "$2\\times(3+4)\\times5 = 70$\n\nWith no parentheses, multiplication goes first: $6 + 20 = 26$.\n\nTry the placements: $(2\\times3+4)\\times5 = 10\\times5 = 50$ and $2\\times(3+4\\times5) = 2\\times23 = 46$ both miss. Putting the parentheses around $3+4$ gives $2\\times7\\times5 = 70$.\n\nTip: To make a big value, make an addition happen before a multiplication.",
+      "searchQuery": "insert parentheses to reach target value expression",
+      "refs": [
+        "AoPS Prealgebra, ch. 1 (Properties of Arithmetic)",
+        "AoPS Prealgebra §1.2–1.3"
+      ]
+    },
+    {
+      "id": "integers-divide-multiply-left-to-right",
+      "unit": "order-of-operations",
+      "kind": "misconception",
+      "difficulty": 1,
+      "title": "Why is $8\\div2\\times4$ equal to $16$, not $1$?",
+      "body": "Multiplication and division have equal rank, so you work left to right: $(8\\div2)\\times4 = 4\\times4 = 16$.\n\nThe answer $1$ comes from doing the multiplication first ($2\\times4 = 8$, then $8\\div8 = 1$). That happens when someone reads PEMDAS as \"multiplication always before division\".\n\nExample: The same trap exists for addition and subtraction: $10-3+2 = 7+2 = 9$, not $10-5 = 5$.\n\nKey idea: Operations of equal rank are done in the order they appear, left to right.",
+      "searchQuery": "why 8 divided by 2 times 4 equals 16 left to right",
+      "refs": [
+        "AoPS Prealgebra, ch. 1 (Properties of Arithmetic)",
+        "AoPS Prealgebra §1.2–1.3"
+      ]
+    },
+    {
+      "id": "integers-integer",
+      "unit": "negative-numbers",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is an **integer**?",
+      "body": "A number with no fractional part, which may be positive, negative or zero; the set of all of them is $\\mathbb{Z} = \\{\\dots,-3,-2,-1,0,1,2,3,\\dots\\}$.\n\nA **negative number** is a number less than zero, written with a minus sign, such as $-4$ for a temperature four degrees below zero.\n\nThe positive integers $1, 2, 3, \\dots$ are written $\\mathbb{Z}_{>0}$.\n\nWatch out: Zero is an integer, but it is neither positive nor negative. Fractions like one half are not integers.",
+      "searchQuery": "integer definition positive negative zero set Z",
+      "refs": [
+        "AoPS Prealgebra §1.4–1.5",
+        "Khan Academy, Pre-algebra course"
+      ]
+    },
+    {
+      "id": "integers-number-line-compare",
+      "unit": "negative-numbers",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "On the **number line**, how can you tell which of two integers is greater?",
+      "body": "The one farther to the right is greater, so $-2 > -5$.\n\nThe **number line** is a straight line with numbers marked at equal spacing: zero in the middle, positive numbers to the right and negative numbers to the left.\n\nWhy: Moving right means adding, so numbers get larger as you go right and smaller as you go left.\n\nWatch out: A bigger-looking number after the minus sign means a smaller number. $-9$ is farther left than $-2$, so $-9 < -2$ (nine degrees below zero is colder than two below).",
+      "searchQuery": "number line compare negative integers greater than",
+      "refs": [
+        "AoPS Prealgebra §1.4–1.5",
+        "Gelfand–Shen, Algebra, §§13–14"
+      ]
+    },
+    {
+      "id": "integers-absolute-value",
+      "unit": "negative-numbers",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is the **absolute value** $|a|$ of a number $a$?",
+      "body": "Its distance from $0$ on the number line, so it is never negative: $|-7| = 7$ and $|7| = 7$.\n\nThe bars $|\\ \\ |$ mean \"distance from zero\". For a positive number or zero the value is unchanged. For a negative number you drop the minus sign.\n\nWatch out: The bars act before an outside minus sign. $-|5| = -5$, because you first find $|5| = 5$ and then put the minus in front.",
+      "searchQuery": "absolute value definition distance from zero",
+      "refs": [
+        "AoPS Prealgebra §1.4–1.5"
+      ]
+    },
+    {
+      "id": "integers-additive-inverse",
+      "unit": "negative-numbers",
+      "kind": "formula",
+      "difficulty": 1,
+      "title": "What is the **opposite** (or **additive inverse**) of a number $a$, and what property defines it?",
+      "body": "It is $-a$, the number the same distance from $0$ on the other side, and $a + (-a) = 0$.\n\nExample: The opposite of $6$ is $-6$, the opposite of $-6$ is $6$, and the opposite of $0$ is $0$.\n\nWhy it matters: Adding the opposite undoes adding the number. This turns subtraction into addition: $a - b = a + (-b)$.\n\nWatch out: $-a$ is not always negative. If $a = -3$, then $-a = 3$.",
+      "searchQuery": "additive inverse opposite of a number a plus negative a equals zero",
+      "refs": [
+        "AoPS Prealgebra §1.4–1.5",
+        "Gelfand–Shen, Algebra, §§13–14"
+      ]
+    },
+    {
+      "id": "integers-subtract-negative",
+      "unit": "negative-numbers",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Compute $-3-(-8)$.",
+      "body": "5\n\nSubtracting a number means adding its opposite, so $-3-(-8) = -3+8 = 5$.\n\nOn the number line: start at $-3$ and move $8$ steps right. Three steps reach $0$ and five more reach $5$.\n\nWatch out: The two minus signs do different jobs. One means \"subtract\" and the other says the number $8$ is negative.",
+      "searchQuery": "subtracting a negative number minus negative 3 minus negative 8",
+      "answer": "5",
+      "refs": [
+        "AoPS Prealgebra §1.4–1.5"
+      ]
+    },
+    {
+      "id": "integers-sign-rules-problem",
+      "unit": "negative-numbers",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Evaluate $(-6)\\times(-4)\\div(-3)$.",
+      "body": "$-8$\n\nSign rules for multiplying and dividing: two numbers with the same sign give a positive result, and two numbers with different signs give a negative result.\n\nWork left to right: $(-6)\\times(-4) = 24$ (same signs), then $24\\div(-3) = -8$ (different signs).\n\nTip: Count the negative signs. An odd count gives a negative result, an even count a positive one. Here there are three, and $6\\times4\\div3 = 8$, so the answer is $-8$.",
+      "searchQuery": "multiply divide negative numbers sign rules evaluate",
+      "answer": "-8",
+      "refs": [
+        "AoPS Prealgebra §1.4–1.5"
+      ]
+    },
+    {
+      "id": "integers-negative-times-negative",
+      "unit": "negative-numbers",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is $(-1)\\times(-1)$ equal to $+1$ and not $-1$?",
+      "body": "The distributive law forces it: $(-1)\\times(-1)$ must be the number that added to $-1$ gives $0$, and that number is $1$.\n\nThe **distributive law** says $a\\times(b+c) = a\\times b + a\\times c$. Apply it to $(-1)\\times\\big(1+(-1)\\big)$:\n\nLeft side: $1 + (-1) = 0$, and anything times $0$ is $0$.\n\nRight side: $(-1)\\times1 + (-1)\\times(-1) = -1 + (-1)\\times(-1)$.\n\nSo $-1 + (-1)\\times(-1) = 0$. Only the opposite of $-1$ makes that true, so $(-1)\\times(-1) = 1$.\n\nWatch out: \"Two negatives make a positive\" is for multiplying and dividing only. For adding, $-2 + (-3) = -5$.",
+      "searchQuery": "why negative times negative is positive distributive law",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§13–14",
+        "AoPS Prealgebra §1.4–1.5"
+      ]
+    },
+    {
+      "id": "integers-divisor-multiple",
+      "unit": "primes-and-factorization",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What do **divisor** and **multiple** mean? Explain with $6$ and $42$.",
+      "body": "$6$ is a divisor of $42$ and $42$ is a multiple of $6$, because $42 = 6\\times7$ exactly, with nothing left over.\n\nA **divisor** of $n$ is a whole number that divides $n$ evenly. A **multiple** of $n$ is $n$ times a whole number.\n\nExample: The divisors of $12$ are $1, 2, 3, 4, 6, 12$. The multiples of $12$ are $12, 24, 36, \\dots$ and keep going.\n\nKey idea: A number has finitely many divisors but endless multiples.",
+      "searchQuery": "divisor and multiple definition whole numbers",
+      "refs": [
+        "AoPS Prealgebra, ch. 3 (Number Theory)"
+      ]
+    },
+    {
+      "id": "integers-prime-composite",
+      "unit": "primes-and-factorization",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What are a **prime number** and a **composite number**?",
+      "body": "A prime is a whole number greater than $1$ whose only divisors are $1$ and itself; a composite is a whole number greater than $1$ that has some other divisor too.\n\nExample: $7$ is prime (divisors $1, 7$). $9$ is composite (divisors $1, 3, 9$). The first primes are $2, 3, 5, 7, 11, 13$.\n\nWatch out: $2$ is prime, and it is the only even prime. Every other even number is divisible by $2$ as well as by $1$ and itself.",
+      "searchQuery": "prime number composite number definition divisors",
+      "refs": [
+        "AoPS Prealgebra, ch. 3 (Number Theory)"
+      ]
+    },
+    {
+      "id": "integers-divisibility-tests",
+      "unit": "primes-and-factorization",
+      "kind": "example",
+      "difficulty": 1,
+      "title": "Which of $2, 3, 4, 5, 9, 10$ divide $1{,}260$ evenly? Use the divisibility tests.",
+      "body": "All six: $1{,}260$ is even, its digits add to $9$, its last two digits $60$ are a multiple of $4$, and it ends in $0$.\n\nA **divisibility test** is a quick rule that uses a number's digits to tell whether another number divides it evenly.\n\n- $2$: the last digit is even.\n- $3$: the digit sum is a multiple of $3$.\n- $4$: the last two digits form a multiple of $4$.\n- $5$: the last digit is $0$ or $5$.\n- $9$: the digit sum is a multiple of $9$.\n- $10$: the last digit is $0$.\n\nHere the digit sum is $1+2+6+0 = 9$ (so $3$ and $9$ work), $60 = 4\\times15$, and the last digit is $0$ (so $2$, $5$, $10$ work).\n\nWhy: $10, 100, 1{,}000$ are each one more than $9, 99, 999$, which are multiples of $9$ and of $3$. So a number differs from its digit sum by a multiple of $9$.",
+      "searchQuery": "divisibility tests 2 3 4 5 9 10 digit sum",
+      "refs": [
+        "AoPS Prealgebra, ch. 3 (Number Theory)"
+      ]
+    },
+    {
+      "id": "integers-fundamental-theorem-arithmetic",
+      "unit": "primes-and-factorization",
+      "kind": "theorem",
+      "difficulty": 2,
+      "title": "State the **fundamental theorem of arithmetic**.",
+      "body": "Every whole number greater than $1$ can be written as a product of primes, and this product is unique except for the order of the factors.\n\nA **prime factorization** of $n$ is such a product of primes. Divide by primes until nothing is left:\n\nExample: $360 = 2\\times2\\times2\\times3\\times3\\times5 = 2^3\\times3^2\\times5$, and no other primes multiply to $360$. A prime is its own factorization, with one factor.\n\nWhy it matters: Primes are the building blocks of whole numbers, and every later idea about common divisors and multiples reads off the factorization.\n\nWatch out: $2\\times3\\times5$ and $5\\times3\\times2$ count as the same factorization; only the order differs.",
+      "searchQuery": "fundamental theorem of arithmetic unique prime factorization",
+      "refs": [
+        "AoPS Prealgebra, ch. 3 (Number Theory)"
+      ]
+    },
+    {
+      "id": "integers-one-not-prime",
+      "unit": "primes-and-factorization",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is $1$ neither prime nor composite?",
+      "body": "$1$ has only one divisor, itself, so it is not prime, and it has no other divisor, so it is not composite.\n\nThe tempting argument \"its only divisors are $1$ and itself\" fails because those are the same number. A prime needs exactly two different divisors.\n\nWhy: There is a deeper reason. If $1$ counted as prime, factorizations would stop being unique: $6 = 2\\times3 = 1\\times2\\times3 = 1\\times1\\times2\\times3$ and so on forever.\n\nKey idea: Leaving $1$ out is what makes the fundamental theorem of arithmetic true.",
+      "searchQuery": "why 1 is not a prime number",
+      "refs": [
+        "AoPS Prealgebra, ch. 3 (Number Theory)"
+      ]
+    },
+    {
+      "id": "integers-trial-division-221",
+      "unit": "primes-and-factorization",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Decide by trial division whether $221$ is prime, and if it is not, give its prime factorization.",
+      "body": "$221$ is not prime: $221 = 13\\times17$.\n\n**Trial division** means trying the primes $2, 3, 5, 7, \\dots$ in turn as divisors, and stopping when one divides evenly or when a prime times itself is bigger than the number.\n\nWhy stop early: if $n = a\\times b$ with $a \\le b$, then $a\\times a \\le n$. So a composite number always has a divisor $p$ with $p\\times p \\le n$.\n\nFor $221$ that means primes up to $13$, since $13\\times13 = 169 \\le 221$ but $17\\times17 = 289 > 221$:\n\n- $2, 3, 5$ fail by the tests (odd, digit sum $5$, ends in $1$).\n- $7$: $7\\times31 = 217$, remainder $4$.\n- $11$: $11\\times20 = 220$, remainder $1$.\n- $13$: $13\\times17 = 221$, so it divides evenly.\n\nBoth $13$ and $17$ are prime, so $13\\times17$ is the factorization.\n\nWatch out: $221$ looks prime because it passes the quick tests. Always keep going to the stopping point.",
+      "searchQuery": "trial division prime test 221 prime factorization",
+      "checkpoint": true,
+      "refs": [
+        "AoPS Prealgebra, ch. 3 (Number Theory)"
+      ]
+    },
+    {
+      "id": "integers-gcd-lcm-definition",
+      "unit": "gcd-and-lcm",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What are the **greatest common divisor** and the **least common multiple** of two positive whole numbers $a$ and $b$?",
+      "body": "$\\gcd(a,b)$ is the largest whole number that divides both; $\\operatorname{lcm}(a,b)$ is the smallest positive number that is a multiple of both.\n\nExample: For $12$ and $18$, the divisors of $12$ are $1,2,3,4,6,12$ and of $18$ are $1,2,3,6,9,18$. The common ones are $1,2,3,6$, so $\\gcd(12,18) = 6$.\n\nThe multiples of $12$ are $12, 24, 36, \\dots$ and of $18$ are $18, 36, \\dots$. The first shared one is $36$, so $\\operatorname{lcm}(12,18) = 36$.\n\nKey idea: The gcd is about sharing divisors, so it is never larger than either number. The lcm is about sharing multiples, so it is never smaller than either number.",
+      "searchQuery": "greatest common divisor least common multiple definition",
+      "refs": [
+        "AoPS Prealgebra, ch. 3 (Number Theory) §3.5–3.7"
+      ]
+    },
+    {
+      "id": "integers-gcd-from-factorization",
+      "unit": "gcd-and-lcm",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Use prime factorizations to find $\\gcd(72,60)$.",
+      "body": "$\\gcd(72,60) = 12$\n\nFactor: $72 = 2^3\\times3^2$ and $60 = 2^2\\times3\\times5$.\n\nFor the gcd, take each prime both numbers share, to the smaller exponent: $2^2$ and $3^1$. That gives $2^2\\times3 = 12$. The $5$ is not in $72$, so it is left out.\n\nFor the lcm, take every prime that appears in either number, to the larger exponent: $2^3\\times3^2\\times5 = 360$.\n\nCheck: $72\\div12 = 6$ and $60\\div12 = 5$, and $6$ and $5$ share no prime, so nothing larger divides both.",
+      "searchQuery": "gcd from prime factorization 72 60 smaller exponent",
+      "refs": [
+        "AoPS Prealgebra, ch. 3 (Number Theory) §3.5–3.7"
+      ]
+    },
+    {
+      "id": "integers-gcd-lcm-product",
+      "unit": "gcd-and-lcm",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "How are $\\gcd(a,b)$, $\\operatorname{lcm}(a,b)$, $a$ and $b$ related?",
+      "body": "$\\gcd(a,b)\\times\\operatorname{lcm}(a,b) = a\\times b$ for positive whole numbers $a$ and $b$.\n\nWhy: For each prime, the gcd uses the smaller of the two exponents and the lcm uses the larger. The smaller plus the larger equals the sum of both, which is the exponent in $a\\times b$.\n\nExample: $\\gcd(72,60) = 12$, so $\\operatorname{lcm}(72,60) = \\dfrac{72\\times60}{12} = \\dfrac{4{,}320}{12} = 360$.\n\nTip: This is the quickest way to get the lcm once you know the gcd.\n\nWatch out: The rule is for two numbers only. For $2, 2, 2$ the gcd and lcm are both $2$, but $2\\times2 = 4$ and $2\\times2\\times2 = 8$.",
+      "searchQuery": "gcd times lcm equals product of two numbers",
+      "refs": [
+        "AoPS Prealgebra, ch. 3 (Number Theory) §3.5–3.7"
+      ]
+    },
+    {
+      "id": "integers-relatively-prime",
+      "unit": "gcd-and-lcm",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Neither $8$ nor $15$ is prime, so why are they called **relatively prime**?",
+      "body": "Relatively prime means $\\gcd(a,b) = 1$: the two numbers share no prime factor. Neither number has to be prime itself.\n\nExample: $8 = 2^3$ and $15 = 3\\times5$ have no prime in common, so $\\gcd(8,15) = 1$. Their lcm is then the whole product, $8\\times15 = 120$.\n\nTip: Two consecutive whole numbers such as $14$ and $15$ are always relatively prime, since a number dividing both would also divide their difference, $1$.\n\nWatch out: Two different primes are always relatively prime, but the idea covers many other pairs, such as $9$ and $10$.",
+      "searchQuery": "relatively prime coprime meaning gcd equals 1",
+      "refs": [
+        "AoPS Prealgebra, ch. 3 (Number Theory) §3.5–3.7"
+      ]
+    },
+    {
+      "id": "integers-lcm-flashing-lights",
+      "unit": "gcd-and-lcm",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A red light flashes every $8$ seconds and a green light every $12$ seconds. They flash together at time $0$. After how many seconds do they next flash together?",
+      "body": "24\n\nFlashing together at the same moment means a time that is a multiple of both $8$ and $12$. The first such time after $0$ is $\\operatorname{lcm}(8,12)$.\n\nFactor: $8 = 2^3$ and $12 = 2^2\\times3$. The lcm takes the larger exponents, $2^3\\times3 = 24$.\n\nCheck: $24 = 8\\times3$ and $24 = 12\\times2$. After that they meet every $24$ seconds: $48, 72, \\dots$\n\nWatch out: Multiplying gives $96$, which is a common multiple but not the first. The gcd, $4$, answers a different question.",
+      "searchQuery": "when do two cycles line up again lcm flashing lights",
+      "answer": "24",
+      "checkpoint": true,
+      "refs": [
+        "AoPS Prealgebra, ch. 3 (Number Theory) §3.5–3.7"
+      ]
+    }
+  ]
+}

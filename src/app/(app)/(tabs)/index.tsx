@@ -22,7 +22,9 @@ import { useMemories } from '@/features/memories/hooks';
 import { MemoryRow } from '@/features/memories/MemoryRow';
 import { useCatalog, usePackIndex, usePackProgress } from '@/features/packs/hooks';
 import { PackCard } from '@/features/packs/PackCard';
-import { useProgress } from '@/features/progress/hooks';
+import { useProfessions } from '@/features/professions/hooks';
+import { ProfessionTodayRow } from '@/features/professions/ProfessionTodayRow';
+import { allCards, useProgress } from '@/features/progress/hooks';
 import { addDays, formatDay } from '@/lib/dates';
 import { useToday } from '@/lib/useToday';
 import { enterItem, gradients, palette, radii, spacing, useIsWide, useTheme } from '@/theme';
@@ -44,14 +46,20 @@ export default function Today() {
   const catalog = useCatalog();
   const packProgress = usePackProgress();
   const packIndex = usePackIndex();
+  const professionsQuery = useProfessions(today);
 
   const memories = memoriesQuery.data ?? [];
   const progress = progressQuery.data;
   const due = memories.filter((m) => m.due_on <= today);
   const tomorrow = memories.filter((m) => m.due_on === addDays(today, 1)).length;
   const reviewedToday = progress?.reviewed_today ?? 0;
-  const dayTotal = reviewedToday + due.length;
-  const ringProgress = dayTotal === 0 ? 0 : reviewedToday / dayTotal;
+  // The ring is about memories, so it counts memory reviews only.
+  const memoryReviewsToday = progress?.reviewed_today_memories ?? reviewedToday;
+  const dayTotal = memoryReviewsToday + due.length;
+  const ringProgress = dayTotal === 0 ? 0 : memoryReviewsToday / dayTotal;
+  const started = (professionsQuery.data ?? []).filter((p) => p.enrolled);
+  const professionDue = started.reduce((n, p) => n + p.due_today, 0);
+  const firstDue = started.find((p) => p.due_today > 0);
   const minutes = Math.max(1, Math.round((due.length * 9) / 60));
   const addedPacks = new Set((packProgress.data ?? []).map((p) => p.packId));
   const suggestions = (catalog.data ?? [])
@@ -72,6 +80,7 @@ export default function Today() {
           onRefresh={() => {
             void memoriesQuery.refetch();
             void progressQuery.refetch();
+            void professionsQuery.refetch();
           }}
           tintColor={colors.primary}
         />
@@ -123,15 +132,35 @@ export default function Today() {
               )}
             </ProgressRing>
             <View style={styles.heroCopy}>
-              {memories.length === 0 ? (
+              {memories.length === 0 && started.length === 0 ? (
                 <>
                   <Text variant="heading" color="#FFFFFF">
                     Let’s fill that brain.
                   </Text>
                   <Text variant="small" color="rgba(255,255,255,0.88)">
-                    Add a study pack or write your first card. Reviews start tomorrow.
+                    Start a profession, add a study pack or write your first card.
                   </Text>
-                  <Button title="Browse packs" variant="light" size="md" icon="layers-triple" onPress={() => router.navigate('/packs')} />
+                  <Button title="Explore Learn" variant="light" size="md" icon="school-outline" onPress={() => router.navigate('/learn')} />
+                </>
+              ) : memories.length === 0 ? (
+                <>
+                  <Text variant="heading" color="#FFFFFF">
+                    {professionDue > 0 ? `${professionDue} profession ${professionDue === 1 ? 'card is' : 'cards are'} due` : 'All caught up!'}
+                  </Text>
+                  <Text variant="small" color="rgba(255,255,255,0.88)">
+                    {professionDue > 0 ? 'Review them, then keep opening new cards.' : 'Open new cards below, or write one of your own.'}
+                  </Text>
+                  {firstDue ? (
+                    <Button
+                      title={`Review ${firstDue.name}`}
+                      variant="light"
+                      size="md"
+                      icon="play"
+                      onPress={() => router.push({ pathname: '/review', params: { profession: firstDue.id } })}
+                    />
+                  ) : (
+                    <Button title="Write a card" variant="light" size="md" icon="plus" onPress={() => router.push('/memory/new')} />
+                  )}
                 </>
               ) : due.length > 0 ? (
                 <>
@@ -146,11 +175,14 @@ export default function Today() {
               ) : (
                 <>
                   <Text variant="heading" color="#FFFFFF">
-                    All caught up!
+                    {professionDue > 0 ? 'Your cards are done' : 'All caught up!'}
                   </Text>
                   <Text variant="small" color="rgba(255,255,255,0.88)">
-                    {reviewedToday ? `You reviewed ${reviewedToday} today. ` : ''}
-                    {tomorrow ? `${tomorrow} coming up tomorrow.` : 'Nothing due tomorrow. Add a pack to keep learning.'}
+                    {professionDue > 0
+                      ? `${professionDue} profession ${professionDue === 1 ? 'card is' : 'cards are'} due below.`
+                      : `${reviewedToday ? `You reviewed ${reviewedToday} today. ` : ''}${
+                          tomorrow ? `${tomorrow} coming up tomorrow.` : 'Nothing due tomorrow. Add a pack to keep learning.'
+                        }`}
                   </Text>
                   <Button title="Write a card" variant="light" size="md" icon="plus" onPress={() => router.push('/memory/new')} />
                 </>
@@ -160,10 +192,20 @@ export default function Today() {
         </Animated.View>
       )}
 
+      {started.length > 0 ? (
+        <View style={styles.section}>
+          {started.map((profession, index) => (
+            <Animated.View key={profession.id} entering={enterItem(index, 120)}>
+              <ProfessionTodayRow profession={profession} />
+            </Animated.View>
+          ))}
+        </View>
+      ) : null}
+
       <View style={[styles.stats, loadFailed && styles.hidden]}>
         <StatTile index={0} icon="fire" color={palette.orange} value={progress?.current_streak ?? 0} label="Day streak" />
         <StatTile index={1} icon="check-circle-outline" color={colors.success} value={reviewedToday} label="Done today" />
-        <StatTile index={2} icon="trophy-outline" color={palette.yellow} value={progress?.memories.mastered ?? 0} label="Mastered" />
+        <StatTile index={2} icon="trophy-outline" color={palette.yellow} value={progress ? allCards(progress).mastered : 0} label="Mastered" />
       </View>
 
       {due.length > 0 ? (
@@ -184,7 +226,7 @@ export default function Today() {
         </View>
       ) : null}
 
-      {progress && memories.length > 0 ? (
+      {progress && (memories.length > 0 || started.length > 0) ? (
         <Card>
           <View style={styles.cardHeader}>
             <Text variant="subheading">Next 7 days</Text>
@@ -200,7 +242,7 @@ export default function Today() {
         <View style={styles.section}>
           <SectionHeader
             title="Try a pack"
-            action={<Button title="All packs" variant="ghost" size="sm" iconRight="chevron-right" onPress={() => router.navigate('/packs')} />}
+            action={<Button title="All packs" variant="ghost" size="sm" iconRight="chevron-right" onPress={() => router.navigate('/learn')} />}
           />
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.suggestions}>
             {suggestions.map((pack, index) => (

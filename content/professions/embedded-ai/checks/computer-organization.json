@@ -1,0 +1,94 @@
+{
+  "module": "computer-organization",
+  "checker": "independent checker",
+  "verdicts": [
+    {
+      "id": "computer-code-timing-experiment",
+      "verdict": "fixed",
+      "note": "The stated fix (print s or use volatile) does not work: a is a static, never-written, all-zero array, so the compiler folds the sum and still prints 0 ms (reproduced at -O2). Rewrote: fill the array at run time and print s."
+    },
+    {
+      "id": "computer-code-save-ra",
+      "verdict": "fixed",
+      "note": "Explanation said ret would loop forever, but this code reloads ra from the slot, so it jumps to garbage. Corrected."
+    },
+    {
+      "id": "computer-code-loop-tiling-transpose",
+      "verdict": "fixed",
+      "note": "Several power-of-two B values fit, so the blank had no single answer. Now asks for the largest; removed the writer reference."
+    },
+    {
+      "id": "computer-code-clobbered-temp",
+      "verdict": "fixed",
+      "note": "Fixed sequence omitted the add that uses t0. Added it."
+    },
+    {
+      "id": "computer-rvc-compressed",
+      "verdict": "fixed",
+      "note": "Vague code-size figure replaced with the RISC-V spec's 25 to 30 percent (checked by web search)."
+    },
+    {
+      "id": "computer-code-recursion-stack",
+      "verdict": "fixed",
+      "note": "beqz not yet taught; glossed as beq a0, x0."
+    },
+    {
+      "id": "computer-x0-misconception",
+      "verdict": "fixed",
+      "note": "addi/add used before taught; added short glosses."
+    },
+    {
+      "id": "computer-isa-definition",
+      "verdict": "fixed",
+      "note": "RV32I used before its card; reworded."
+    },
+    {
+      "id": "computer-program-counter",
+      "verdict": "fixed",
+      "note": "RV32I used before its card; reworded."
+    },
+    {
+      "id": "computer-pseudo-instruction",
+      "verdict": "fixed",
+      "note": "ret mentioned with ra before taught; glossed."
+    },
+    {
+      "id": "computer-instruction-formats",
+      "verdict": "fixed",
+      "note": "Single-item bullet list turned into a sentence."
+    },
+    {
+      "id": "computer-iron-law-levers",
+      "verdict": "fixed",
+      "note": "Used pipelining before it is taught; reworded."
+    },
+    {
+      "id": "computer-numbers-memory-access-times",
+      "verdict": "fixed",
+      "note": "SRAM and DRAM not defined; added a gloss."
+    },
+    {
+      "id": "computer-trade-off-write-policy",
+      "verdict": "fixed",
+      "note": "DMA engine not defined; added a gloss."
+    },
+    {
+      "id": "computer-page-fault-cost",
+      "verdict": "fixed",
+      "note": "trap and hard real-time not defined; glossed."
+    },
+    {
+      "id": "computer-trade-off-mmu-vs-mpu",
+      "verdict": "fixed",
+      "note": "Vague reference replaced with the Armv7-M ARM PMSAv7 chapter; 8 or 16 regions claim is accurate (M0+/M3/M4 8, M7/M23/M33 8 or 16)."
+    }
+  ],
+  "summary": {
+    "reviewed": 90,
+    "ok": 74,
+    "fixed": 16,
+    "dropped": 0,
+    "added": 0,
+    "note": "Also changed the COD section reference to chapter level on the riscv-assembly-basics cards (unverifiable section numbers)."
+  }
+}

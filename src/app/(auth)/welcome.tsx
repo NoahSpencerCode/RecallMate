@@ -22,7 +22,7 @@ import { gradients, radii, spacing, useIsWide, useScreenBackground, useTheme } f
 
 const PERKS: { icon: IconName; text: string }[] = [
   { icon: 'calendar-sync-outline', text: 'Reviews spaced on a Fibonacci schedule: 1, 1, 2, 3, 5, 8 days…' },
-  { icon: 'layers-triple', text: '59 ready-made packs of 100 cards each, from calculus to machine learning' },
+  { icon: 'school-outline', text: 'Course packs, plus Professions that take a whole field from zero to PhD' },
   { icon: 'fire', text: 'Streaks and progress that make the habit stick' },
 ];
 

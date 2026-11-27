@@ -1,0 +1,16 @@
+{
+  "module": "digital-representation",
+  "checker": "independent checker (Claude)",
+  "summary": { "reviewed": 50, "ok": 41, "fixed": 9, "dropped": 0, "added": 0 },
+  "verdicts": [
+    { "id": "digital-binary-base-2", "verdict": "fixed", "note": "Promised later cards would show a prefix for binary; only the 0x hex prefix is taught. Reworded." },
+    { "id": "digital-power-of-two-definition", "verdict": "fixed", "note": "'2 multiplied by itself n times' is off by one; now 'n copies of 2 multiplied together'." },
+    { "id": "digital-ten-bits-thousand", "verdict": "fixed", "note": "'Too small' percentages were ambiguous (2.4% is relative to the estimate, 10% at 2^40 was 9% relative to the true value). Restated as the true value being bigger." },
+    { "id": "digital-word-definition", "verdict": "fixed", "note": "Removed the NIST binary-prefix reference, which does not support a card about word size." },
+    { "id": "digital-si-vs-iec-prefixes", "verdict": "fixed", "note": "kibi/mebi/gibi are not 'spoken' kilo-binary; they are short for it. Case remark applied only to kB vs KiB, not MB vs MiB." },
+    { "id": "digital-kib-mib-gib-numbers", "verdict": "fixed", "note": "Worked example (64 KiB = 65,536) gave away the answer of the 64 KiB problem card. Changed to 4 KiB." },
+    { "id": "digital-utf8-byte-counts-numbers", "verdict": "fixed", "note": "'Emoji 4 bytes' is not universal; some symbol-style emoji are 3 bytes. Now 'most emoji'." },
+    { "id": "digital-unicode-vs-utf8-misconception", "verdict": "fixed", "note": "UTF-16 byte order is unspecified, so '0x00 0xE9' was ambiguous. Now one 16-bit unit 0x00E9." },
+    { "id": "digital-overflow-definition", "verdict": "fixed", "note": "Answer line described the effect but not what overflow is; it now states both. Softened 'hardware doesn't raise an error'." }
+  ]
+}

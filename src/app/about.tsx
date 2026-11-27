@@ -31,7 +31,7 @@ const PLAYBOOK: { icon: IconName; color: string; title: string; text: string }[]
     icon: 'notebook-edit-outline',
     color: palette.violet,
     title: 'Add everything you learn',
-    text: 'After each lecture or homework set, turn the key ideas into cards, or add a ready-made pack for your course. Every formula, definition and “the professor said this will be on the test”.',
+    text: 'After each lecture or homework set, turn the key ideas into cards or add a ready-made pack for your course. Every formula, definition and “the professor said this will be on the test”. Want a whole field? Professions take you from zero to PhD, one card at a time.',
   },
   {
     icon: 'gesture-swipe-vertical',
@@ -223,7 +223,7 @@ export default function About() {
               <View style={styles.ctaButtons}>
                 {session ? (
                   <>
-                    <Button title="Browse study packs" variant="light" icon="layers-triple" onPress={() => router.navigate('/packs')} />
+                    <Button title="Explore Learn" variant="light" icon="school-outline" onPress={() => router.navigate('/learn')} />
                     <Button title="Write a card" variant="light" icon="plus" onPress={() => router.push('/memory/new')} />
                   </>
                 ) : (

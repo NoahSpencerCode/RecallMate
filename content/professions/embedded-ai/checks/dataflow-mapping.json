@@ -1,0 +1,183 @@
+{
+  "module": "dataflow-mapping",
+  "checker": "claude (independent checker)",
+  "verdicts": [
+    {
+      "id": "dataflow-loop-nest-definition",
+      "verdict": "fixed",
+      "note": "Watch out said a loop nest does not give an order, which contradicts the Einsum vs loop nest card (a nest fixes the order). Reworded: the reference nest is one of many equivalent orders."
+    },
+    {
+      "id": "dataflow-projection-iteration-space",
+      "verdict": "fixed",
+      "note": "Key idea said every tensor's size is the product of the bounds of its ranks. That is false for the input, which is indexed by p+r. Limited the rule to tensors indexed directly by ranks."
+    },
+    {
+      "id": "dataflow-conv-mac-count-formula",
+      "verdict": "fixed",
+      "note": "Grouped-conv note said C is the channels per group and then divided C by G. Reworded so C is the total input channels."
+    },
+    {
+      "id": "dataflow-compare-conv-layers-macs-problem",
+      "verdict": "fixed",
+      "note": "Step 3 wrote (3136*9)/784 * (4096/36,864) = 4*1, but the factors are 36 and 1/9. Replaced with 3136/784 = 4."
+    },
+    {
+      "id": "dataflow-depthwise-reduction-ranks-problem",
+      "verdict": "fixed",
+      "note": "The answer's Einsum (p+r) assumes stride 1, which the prompt did not state. Added stride 1 to the prompt."
+    },
+    {
+      "id": "dataflow-transformer-block-macs-problem",
+      "verdict": "fixed",
+      "note": "Called the Q/K/V/output projections 'non-attention MACs', although the prompt names them attention projections. Renamed them projection and feed-forward MACs."
+    },
+    {
+      "id": "dataflow-einsum-vs-loop-nest-trade-off",
+      "verdict": "fixed",
+      "note": "Claimed each of the 6 matmul loop orders keeps a different tensor unchanged, but there are only 3 tensors. Now says the innermost loop decides which tensor stays unchanged."
+    },
+    {
+      "id": "dataflow-filter-reuse-definition",
+      "verdict": "fixed",
+      "note": "'Batch 1 means no reuse at all' contradicts the next card: inputs of an FC layer still have ifmap reuse. Limited the statement to weights."
+    },
+    {
+      "id": "dataflow-input-fmap-reuse-definition",
+      "verdict": "fixed",
+      "note": "The exact 576-MAC example needs stride 1, which was not stated. Added it."
+    },
+    {
+      "id": "dataflow-temporal-vs-spatial-reuse",
+      "verdict": "fixed",
+      "note": "Defined spatial reuse as delivery 'in the same cycle', yet listed neighbor forwarding, which delivers over successive cycles. Removed the same-cycle condition, matching Sze's definition."
+    },
+    {
+      "id": "dataflow-available-reuse-not-captured-misconception",
+      "verdict": "fixed",
+      "note": "'A 512->512 layer has 2,359,296 weights' leaves out the 3x3 kernel that number assumes. Stated the kernel size."
+    },
+    {
+      "id": "dataflow-min-traffic-vs-naive-problem",
+      "verdict": "fixed",
+      "note": "Three problems: (1) the definition said only input elements are read once, though weights are counted; (2) the no-storage count charges DRAM reads for padded border pixels, which are not in DRAM (now stated as a simplification); (3) it used 'mapping' before that unit."
+    },
+    {
+      "id": "dataflow-energy-per-level-numbers",
+      "verdict": "fixed",
+      "note": "Used 'mappings' two units before the term is taught. Changed to schedules."
+    },
+    {
+      "id": "dataflow-batching-for-filter-reuse-trade-off",
+      "verdict": "fixed",
+      "note": "Cited Eyeriss's CONV-layer DRAM result as holding for 'every dataflow', but the paper excepts WS, and this card is about FC layers. Replaced it with the paper's FC finding (batch 1 dominated by weight DRAM reads; larger batches help all dataflows). Removed an unclear clause."
+    },
+    {
+      "id": "dataflow-depthwise-vs-standard-intensity-trade-off",
+      "verdict": "fixed",
+      "note": "Wrong: 'wins only where the platform is compute-bound at every stage'. The replacement wins for any ridge point below about 286 ops/B, e.g. 31.5 vs 90.3 us at 100 ops/B, where the new layers are still memory-bound. Corrected the answer line and the other side."
+    },
+    {
+      "id": "dataflow-eyeriss-isca-2016-landmark",
+      "verdict": "fixed",
+      "note": "Used 'no-local-reuse' before the stationary-dataflows unit defines it. Added a short gloss. The chip specs (168 PEs, 108 kB, 0.5 kB RF) and DOI check out against the paper."
+    },
+    {
+      "id": "dataflow-no-local-reuse-concept",
+      "verdict": "fixed",
+      "note": "The answer line covered only what NLR is, not why DianNao would choose it. Added the area argument (no RF frees area for a large buffer), which is verified in the Eyeriss text."
+    },
+    {
+      "id": "dataflow-loop-order-spatial-unrolling-concept",
+      "verdict": "fixed",
+      "note": "Used 'temporal loop', a term from the next unit, without defining it. Added a gloss. The SCNN input-stationary attribution is verified (PT-IS-CP)."
+    },
+    {
+      "id": "dataflow-rs-energy-advantage-numbers",
+      "verdict": "fixed",
+      "note": "Said the output-stationary variants had DRAM traffic similar to or lower than RS. The paper says only OS_A and OS_B (two of three) plus NLR. Corrected, and said which RF use each makes."
+    },
+    {
+      "id": "dataflow-ws-vs-os-layer-shape-trade-off",
+      "verdict": "fixed",
+      "note": "Contested answer (WS for early layers, OS for late), judged only by local reuse. Spatially it is the reverse: an output-pixel array suits early layers and a channel array suits late ones (MAESTRO: ShiDianNao-style YX-P vs NVDLA-style KC-P). Rewrote with the arrays stated and PE utilization as the test (100% vs 18.75%, 100% vs 19.1%); the reuse argument is now the other side."
+    },
+    {
+      "id": "dataflow-fixed-vs-flexible-dataflow-trade-off",
+      "verdict": "fixed",
+      "note": "Presented Eyeriss as supporting several dataflows. Eyeriss runs one dataflow (row stationary) and re-maps it per layer, as the module's own landmark card and the paper ('no need to switch between different dataflows') say. Reframed the card as fixed vs per-layer reconfigurable assignment."
+    },
+    {
+      "id": "dataflow-rf-size-vs-buffer-trade-off",
+      "verdict": "fixed",
+      "note": "Said the 512 B RF was the lowest-energy size 'for AlexNet's CONV layers'. The paper only says it gave the lowest energy in its analysis. Softened to match."
+    },
+    {
+      "id": "dataflow-mapspace-definition",
+      "verdict": "fixed",
+      "note": "The answer line said 'all legal mappings', but Watch out said the mapspace contains mappings that do not fit. Reconciled with the Timeloop paper (capacity is checked after sampling). Added the bypass factor to the (7!)^4 remark."
+    },
+    {
+      "id": "dataflow-imperfect-factorization-misconception",
+      "verdict": "fixed",
+      "note": "Two problems: 56 was listed as not matching widths of 8/16/32 (56 = 7*8); and the card implied perfect factors fail for such sizes, although 56 on 16 lanes gets 87.5% with factor 14, the same as a padded tile. Restated the condition: bound above the width with no near divisor."
+    },
+    {
+      "id": "dataflow-array-utilization-problem",
+      "verdict": "fixed",
+      "note": "The second question ('name a better assignment') has many right answers. Reduced the card to one question with a unique answer (62.5%) and moved the assignment into an example."
+    },
+    {
+      "id": "dataflow-maestro-directives-problem",
+      "verdict": "fixed",
+      "note": "Called the maps above Cluster 'chip level'. MAESTRO defines them as mapping across clusters (here a single cluster). Restated. The answer (output stationary, 4 steps, 72 MACs) is verified against the paper's directive semantics."
+    },
+    {
+      "id": "dataflow-perfect-vs-imperfect-search-trade-off",
+      "verdict": "fixed",
+      "note": "The answer line called 7 and 14 awkward sizes, but the tip said 14 is covered well by perfect factors (it is: 14 on 16 lanes gives the same utilization). Restated the condition as bounds above the array width with no near divisor (13, 17), with a 56-on-16 example."
+    },
+    {
+      "id": "dataflow-loop-nest-vs-data-centric-trade-off",
+      "verdict": "fixed",
+      "note": "Two claims are not in the MAESTRO paper: that 'a few directives per cluster level can say' Eyeriss v2, and that the notations 'carry the same information' (the paper only envisions generating directives from loop nests). Also used 'polyhedral', which is not taught. Corrected all three; the 22-dimension remark is verified."
+    },
+    {
+      "id": "dataflow-timeloop-ispass-2019-landmark",
+      "verdict": "fixed",
+      "note": "Listed a loop-nest mapping as an input and omitted the workload shape. The paper's inputs are workload, architecture and constraints. Fixed, and glossed energy-delay product. The search methods and EDP metric are verified."
+    },
+    {
+      "id": "dataflow-min-dram-not-min-energy-misconception",
+      "verdict": "fixed",
+      "note": "Same overstatement as the RS-advantage card: only two of the three output-stationary variants (plus NLR) matched RS on DRAM accesses."
+    },
+    {
+      "id": "dataflow-energy-naive-vs-tiled-problem",
+      "verdict": "fixed",
+      "note": "Wrote '4 KB' for 4096 B, which breaks the notation sheet. Changed to KiB. All arithmetic checks."
+    },
+    {
+      "id": "dataflow-latency-bottleneck-problem",
+      "verdict": "fixed",
+      "note": "Said the next limit is 'compute or DRAM at about 451,584 cycles', but DRAM's limit is 393,216. Corrected: compute becomes the limit."
+    },
+    {
+      "id": "dataflow-timeloop-validation-numbers",
+      "verdict": "fixed",
+      "note": "The prompt put the cycle accuracy on the 107 DeepBench workloads. The paper measured energy on DeepBench but cycles on synthetic workloads. Fixed the prompt and conditions, and glossed NVDLA. The 8%, 78-99% (mean 95%), 90-99% and outlier figures are verified."
+    },
+    {
+      "id": "dataflow-overlap-max-vs-sum-trade-off",
+      "verdict": "fixed",
+      "note": "'An 80% error either way' is wrong. Using the max on a blocking design understates time by 44% (80/180). Corrected. The buffets remark is verified in the Timeloop paper."
+    }
+  ],
+  "summary": {
+    "reviewed": 59,
+    "ok": 25,
+    "fixed": 34,
+    "dropped": 0,
+    "added": 0
+  }
+}

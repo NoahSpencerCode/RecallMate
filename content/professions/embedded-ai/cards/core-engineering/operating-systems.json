@@ -1,0 +1,767 @@
+{
+  "profession": "embedded-ai",
+  "module": "operating-systems",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "os-what-is-an-operating-system",
+      "unit": "processes-kernel",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is an **operating system** (OS), and what is its **kernel**?",
+      "body": "Software that shares the CPU, memory and devices among programs and hides the hardware behind a simple interface; the kernel is its always-loaded core.\n\nThe OS has three main jobs: share the CPU among many programs, give each program its own view of memory, and manage devices (disk, network, timers) so programs don't have to drive them directly.\n\nThe **kernel** is the part that is always in memory and does those jobs with full control of the hardware. Tools such as the shell and the file manager ship with the OS but are ordinary programs, not part of the kernel.\n\nWhy it matters: Without an OS, every program would have to talk to the hardware itself and could overwrite any other program's memory.\n\nTip: Many microcontrollers run firmware with no OS at all, and others run a tiny kernel that offers little more than scheduling and synchronization. The jobs above are the full picture, and small systems implement only some of them.",
+      "searchQuery": "what is an operating system kernel jobs",
+      "refs": [
+        "OSTEP, ch. 2 (Introduction)"
+      ]
+    },
+    {
+      "id": "os-user-mode-kernel-mode",
+      "unit": "processes-kernel",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is the difference between **user mode** and **kernel mode**?",
+      "body": "In kernel mode the CPU may run every instruction and touch all memory and devices; in user mode it may not.\n\nThe CPU keeps a mode in a hardware flag. Ordinary programs run in user mode. The kernel runs in kernel mode, which is also called privileged or supervisor mode.\n\nWhy: If any program could change page tables, switch off the timer or write to the disk controller, one buggy program could take down the whole machine. User mode makes those actions illegal, so a program that tries one is stopped.\n\nExample: RISC-V defines three privilege levels: user (U), supervisor (S) and machine (M). A general-purpose OS such as Linux runs its kernel in S mode and its programs in U mode.\n\nWatch out: Kernel mode does not mean \"faster\" or \"more memory\". It only widens which instructions and addresses are allowed.",
+      "searchQuery": "user mode versus kernel mode privileged CPU",
+      "refs": [
+        "OSTEP, ch. 6 (Direct Execution)",
+        "MIT 6.191 (Fall 2026), L16 OS"
+      ]
+    },
+    {
+      "id": "os-process-definition",
+      "unit": "processes-kernel",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **process**?",
+      "body": "A running instance of a program, with its own address space, registers and open files.\n\nA program is a file on disk; a process is that program being executed. Start the same program twice and you get two processes. The kernel tracks each process's registers, program counter, open files and **address space**: the set of addresses the process can use.\n\nWhy it matters: Each process sees its own addresses, and the same virtual address in two processes usually maps to different physical memory. That is how one program's bug stays out of another program.\n\nWatch out: A process is not the same as a program. A process also has state that changes as it runs: its registers, its stack and its heap.",
+      "searchQuery": "what is a process program versus process address space",
+      "refs": [
+        "OSTEP, ch. 4 (Processes)",
+        "MIT 6.191 (Fall 2026), L16 OS"
+      ]
+    },
+    {
+      "id": "os-process-states",
+      "unit": "processes-kernel",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "In which three **process states** can a process be?",
+      "body": "Running (on a CPU), ready (able to run but waiting for a CPU) and blocked (waiting for something, such as input, so it cannot run yet).\n\nThe **scheduler**, the part of the kernel that picks what runs next, moves a ready process to running. A running process goes back to ready when its turn ends, or to blocked when it asks for something slow, such as a disk read. When that request finishes, the process becomes ready again, not running directly.\n\nExample: A text editor waiting for a keypress is blocked and uses no CPU time. When you press a key, it becomes ready and runs as soon as the scheduler picks it.\n\nTip: On Linux, `ps aux` shows the state in the STAT column: `R` is running or ready, `S` is sleeping (blocked, waiting for an event), `D` is blocked in uninterruptible sleep, `Z` is a finished process whose parent has not collected it yet. `top` shows the same letters in its S column.",
+      "searchQuery": "process states running ready blocked ps STAT",
+      "refs": [
+        "OSTEP, ch. 4 (Processes)",
+        "Linux man page ps(1), section Process State Codes"
+      ]
+    },
+    {
+      "id": "os-fork-and-wait",
+      "unit": "processes-kernel",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume Linux or macOS and that `fork` succeeds. What does this program print?\n\n```c\n#include <stdio.h>\n#include <unistd.h>\n#include <sys/wait.h>\nint main(void) {\n    pid_t pid = fork();\n    if (pid == 0) {\n        printf(\"child\\n\");\n        return 0;\n    }\n    wait(NULL);\n    printf(\"parent\\n\");\n    return 0;\n}\n```",
+      "body": "`child`, then `parent`, on two lines, in that order every time.\n\n`fork()` creates a new process that is a copy of the caller, and it returns twice: 0 in the child, and the child's process ID (a positive number) in the parent. So `pid == 0` is true only in the child.\n\n`wait(NULL)` makes the parent block until a child process has exited. That forces the child's line to come first.\n\nWatch out: Without `wait`, the order is up to the scheduler, so the output could come in either order. A parent that never waits also leaves finished children as zombies (the `Z` state in `ps`).",
+      "searchQuery": "fork wait C example child parent output order",
+      "refs": [
+        "OSTEP, ch. 5 (Process API)"
+      ]
+    },
+    {
+      "id": "os-fork-copies-address-space",
+      "unit": "processes-kernel",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume Linux or macOS and that `fork` succeeds. What does this program print?\n\n```c\n#include <stdio.h>\n#include <unistd.h>\n#include <sys/wait.h>\nint main(void) {\n    int x = 10;\n    if (fork() == 0) {\n        x = 99;\n        printf(\"child x=%d\\n\", x);\n        return 0;\n    }\n    wait(NULL);\n    printf(\"parent x=%d\\n\", x);\n    return 0;\n}\n```",
+      "body": "`child x=99`, then `parent x=10`.\n\nAfter `fork`, the child has its own copy of the parent's address space, so it also has its own `x`. The child's write changes only its copy.\n\nWhy it works: Copying every page at `fork` would be slow. Real kernels use **copy-on-write**: parent and child share the same physical pages, marked read-only in the page tables, and the kernel copies a page only when one of them writes to it.\n\nKey idea: Processes do not share variables through `fork`. If they need to share data, they must ask the kernel for it (a pipe or shared memory), while threads share memory directly (see the Threads unit).",
+      "searchQuery": "fork copy address space copy-on-write variable child parent",
+      "refs": [
+        "OSTEP, ch. 5 (Process API)"
+      ]
+    },
+    {
+      "id": "os-exec-replaces-process",
+      "unit": "processes-kernel",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume Linux or macOS, where `echo` is found on the `PATH`. What does this program print?\n\n```c\n#include <stdio.h>\n#include <unistd.h>\nint main(void) {\n    printf(\"before\\n\");\n    fflush(stdout);\n    execlp(\"echo\", \"echo\", \"hello\", (char *)NULL);\n    printf(\"after\\n\");\n    return 0;\n}\n```",
+      "body": "`before`, then `hello`. The line `after` is never printed.\n\n**exec** replaces the running program's code, stack and heap with those of a new program, in the same process (same process ID). If the call succeeds, the old program is gone, so `exec` never returns and `printf(\"after\\n\")` is never reached. It returns, with -1, only when it fails, for example when the program isn't found.\n\nExample: A shell runs a command in three steps: it calls `fork`, the child calls `exec` to become the new program, and the shell calls `wait`. Redirection such as `ls > out.txt` works because the child changes its standard output between `fork` and `exec`.\n\nWatch out: The `fflush(stdout)` matters. Text still sitting in the output buffer is discarded when `exec` replaces the process, so without the flush `before` can disappear when stdout is a file or pipe.",
+      "searchQuery": "exec replaces process image never returns execlp example",
+      "refs": [
+        "OSTEP, ch. 5 (Process API)"
+      ]
+    },
+    {
+      "id": "os-system-call-definition",
+      "unit": "syscalls-interrupts",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **system call**, and how does a call such as `write()` reach the kernel?",
+      "body": "A request from a user program asking the kernel to do something privileged for it, such as reading a file or sending bytes to a device.\n\nThe C function `write()` is a thin library wrapper. It puts the system-call number and the arguments in registers, then runs a special **trap** instruction. The CPU switches to kernel mode and jumps to a kernel handler, which does the work, puts the result in a register and returns to user mode just after the trap instruction.\n\nExample: On RISC-V Linux the wrapper loads the call number into `a7` and the arguments into `a0` to `a5`, then executes `ecall`. When the kernel returns, the result is in `a0`.\n\nKey idea: A trap is any transfer of control from running code into the kernel's handler. A system call is the deliberate kind, requested by the program itself.",
+      "searchQuery": "system call write wrapper trap instruction kernel mode",
+      "refs": [
+        "OSTEP, ch. 6 (Direct Execution)",
+        "MIT 6.191 (Fall 2026), L19 Exceptions, I/O"
+      ]
+    },
+    {
+      "id": "os-strace-write",
+      "unit": "syscalls-interrupts",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume Linux and that stdout is a terminal. The program below is run as `strace -e trace=write ./hello`, which prints only the `write` system calls. Which line does `strace` print for it?\n\n```c\n#include <stdio.h>\nint main(void) {\n    printf(\"hi\\n\");\n    return 0;\n}\n```",
+      "body": "`write(1, \"hi\\n\", 3) = 3`\n\n**strace** runs a program and prints every system call it makes, with its arguments and return value. Here `printf` formats the text in user mode and then calls `write` on file descriptor 1 (a small number the kernel uses to name an open file; 0, 1 and 2 are stdin, stdout and stderr). It asks for 3 bytes (`h`, `i`, newline) and the kernel reports that it wrote 3. Real `strace` pads the line with spaces before the `=` so the results line up in a column.\n\nWatch out: On a terminal, the program's own `hi` is printed while `strace` is still in the middle of the line, because the call is shown before it runs and the result after. You see `write(1, \"hi\\n\", 3hi`, then a line starting `) = 3`. Use `strace -o trace.txt` to keep the trace in a separate file.\n\nTip: Run `strace ./hello` without the filter and you will see many more lines first: `execve` that starts the program, and calls such as `brk` and `mmap` that set up its memory.\n\nWatch out: When stdout is a file or pipe, `printf` keeps the text in a buffer and writes it all at exit. You still see the same `write` call, but it appears later and may carry many lines at once.",
+      "searchQuery": "strace -e trace=write printf hello system call output",
+      "refs": [
+        "Linux man page strace(1)",
+        "MIT Missing Semester 2026: Debugging and Profiling"
+      ]
+    },
+    {
+      "id": "os-write-bad-fd",
+      "unit": "syscalls-interrupts",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume Linux or macOS. What does this program print?\n\n```c\n#include <stdio.h>\n#include <unistd.h>\nint main(void) {\n    ssize_t n = write(-1, \"hi\\n\", 3);\n    printf(\"%zd\\n\", n);\n    return 0;\n}\n```",
+      "body": "`-1`\n\nFile descriptor -1 does not name an open file, so the kernel refuses the request. The wrapper returns -1 and stores a reason (here `EBADF`, \"bad file descriptor\") in the variable `errno`.\n\nKey idea: A system call that fails is an ordinary return value, not a crash. The kernel checks every argument it receives, because it cannot trust anything that comes from user mode.\n\nWatch out: Always check the return value. `write` can also return fewer bytes than requested (a short write), for example on a full pipe, so a robust program loops until everything is written.",
+      "searchQuery": "write system call returns -1 errno EBADF bad file descriptor",
+      "refs": [
+        "Linux man page write(2)",
+        "OSTEP, ch. 6 (Direct Execution)"
+      ]
+    },
+    {
+      "id": "os-trap-table",
+      "unit": "syscalls-interrupts",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **trap table**, and who sets it up?",
+      "body": "A table that tells the CPU which kernel handler to run for each kind of trap, set up by the kernel at boot.\n\nWhen a trap, interrupt or exception happens, the hardware looks up the handler's address in the table and jumps to it in kernel mode. A user program can only trigger a trap; it can never choose where the kernel code starts.\n\nWhy: Loading the trap table is a **privileged instruction**, one that works only in kernel mode. If a program could change the table, it could point a trap at its own code and run it in kernel mode. Trying a privileged instruction in user mode raises an exception, and the kernel stops the program.\n\nExample: On RISC-V, a single register (`stvec` in S mode) holds the handler address and a cause register (`scause`) says why the trap happened. An Arm Cortex-M instead has a vector table in memory with one entry per exception number.",
+      "searchQuery": "trap table privileged instruction kernel boot handler",
+      "refs": [
+        "OSTEP, ch. 6 (Direct Execution)",
+        "CS:APP 3e, §8.1 Exceptions"
+      ]
+    },
+    {
+      "id": "os-context-switch",
+      "unit": "syscalls-interrupts",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **context switch**?",
+      "body": "Saving the registers of the running process or thread and loading those of another, so the CPU carries on with the other one.\n\nThe kernel stores the registers (including the program counter and stack pointer) in a record for the old process, loads the next process's registers and returns from the trap. To the next process it looks as if it had never stopped.\n\nWhy it matters: A context switch is pure overhead, since no program makes progress while it happens. Switching to another process also changes the address space, which can leave the caches and the TLB holding the old process's entries. That follow-on cost is often larger than the register copying itself.\n\nExample: A timer interrupt arrives while process A runs. The handler saves A's registers, picks B, loads B's registers and returns, and B continues where it last stopped.",
+      "searchQuery": "context switch save restore registers process overhead",
+      "refs": [
+        "OSTEP, ch. 6 (Direct Execution)"
+      ]
+    },
+    {
+      "id": "os-timer-interrupt-preemption",
+      "unit": "syscalls-interrupts",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How does a **timer interrupt** let the OS take the CPU back from a program that never makes a system call?",
+      "body": "A hardware timer fires every few milliseconds, the trap table sends the CPU into a kernel handler, and the kernel may switch to another process (preemption).\n\nAn **interrupt** is a signal from hardware outside the running program that makes the CPU stop between two instructions and run a handler. The timer is set up by the kernel at boot, and the program cannot switch it off because that takes a privileged instruction.\n\nThis is **limited direct execution**: programs run straight on the CPU at full speed, and the kernel steps in only on traps. Taking the CPU away from a running process is called preemption.\n\nExample: A user program stuck in `while (1) { }` does not freeze a desktop computer. The next timer interrupt brings the kernel in, and it runs other processes.\n\nWatch out: A microcontroller running bare-metal firmware has no such protection, because nothing preempts the loop. A hung loop there stops everything unless a watchdog timer resets the chip.",
+      "searchQuery": "timer interrupt preemption limited direct execution OS regain CPU",
+      "refs": [
+        "OSTEP, ch. 6 (Direct Execution)",
+        "MIT 6.191 (Fall 2026), L19 Exceptions, I/O"
+      ]
+    },
+    {
+      "id": "os-exception-not-always-a-bug",
+      "unit": "syscalls-interrupts",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that an **exception** always means the program has a bug?",
+      "body": "An exception is just a trap caused by the instruction being run, and many are normal: system calls and page faults happen all the time in healthy programs.\n\nAn **exception** is synchronous: it comes from the instruction that is executing. An interrupt is asynchronous: it arrives from outside (a timer, a network card) at any time and has nothing to do with the current instruction.\n\nA **fault** is an exception where the instruction could not complete, such as a page fault, or an integer divide by zero on x86. The handler may fix the cause and run the instruction again.\n\nExample: When a program touches a page that is valid but not yet in RAM, the page-fault handler loads it and the instruction is retried; the program never notices. Only an access that can't be fixed, such as an invalid address, ends in a crash.\n\nKey idea: Three ways into the kernel: an interrupt (asynchronous, from hardware), a fault (synchronous, the instruction couldn't finish) and a system call (synchronous and deliberate).",
+      "searchQuery": "interrupt versus exception fault system call synchronous asynchronous",
+      "refs": [
+        "CS:APP 3e, §8.1 Exceptions"
+      ]
+    },
+    {
+      "id": "os-segfault-exit-status",
+      "unit": "syscalls-interrupts",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume Linux or macOS with bash, and compile with no optimization. The program below crashes. What does `echo $?` print right afterwards? (Type the number.)\n\n```c\nint main(void) {\n    volatile int *p = 0;\n    *p = 1;\n    return 0;\n}\n```",
+      "answer": "139",
+      "body": "139\n\nThe store to address 0 has no mapping in the page table, so the MMU raises a page fault. The kernel's fault handler finds that the address is not valid for this process and sends it the signal SIGSEGV (signal number 11). The default action for SIGSEGV is to terminate the process, and the shell reports a program killed by a signal as the exit code 128 plus the signal number: $128 + 11 = 139$.\n\nWhy it matters: This is a fault turned into a signal. The hardware detects the bad access, the kernel decides what it means, and the program only learns about it if it installs a signal handler.\n\nTip: `volatile` stops the compiler from deleting the store. Dereferencing a null pointer is undefined behavior, so an optimizing compiler may remove it or build something different.",
+      "searchQuery": "segmentation fault exit code 139 SIGSEGV 128 plus 11",
+      "refs": [
+        "CS:APP 3e, §8.1 Exceptions"
+      ]
+    },
+    {
+      "id": "os-thread-definition",
+      "unit": "threads-basics",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **thread**, and how does it differ from a process?",
+      "body": "A thread is one flow of execution inside a process: it has its own program counter, registers and stack, but shares the process's address space with its sibling threads.\n\nA process with several threads is **multithreaded**. All its threads see the same code, global variables, heap and open files, but each thread has its own registers and its own stack.\n\nWhy it matters: Switching between threads of one process does not change the address space, so it is cheaper than switching between processes. Sharing data is also easy: threads just use the same variables.\n\nWatch out: The sharing is also the danger. One thread's wild pointer can corrupt another thread's data, a crash in one thread ends the whole process, and unprotected updates to shared variables cause bugs (see the Race conditions unit).",
+      "searchQuery": "thread definition shared address space own stack registers versus process",
+      "refs": [
+        "OSTEP, ch. 26 (Concurrency and Threads)",
+        "CS:APP 3e, §12.3 Concurrent Programming with Threads"
+      ]
+    },
+    {
+      "id": "os-concurrency-vs-parallelism",
+      "unit": "threads-basics",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is the difference between **concurrency** and **parallelism**?",
+      "body": "Concurrency means several tasks are in progress during overlapping time periods, perhaps taking turns on one core; parallelism means several tasks actually run at the same instant on different cores.\n\nExample: Two threads on a single-core microcontroller are concurrent: the scheduler switches between them, so both make progress, but never at the same instant. On a dual-core chip they can also be parallel.\n\nWhy it matters: Parallelism makes work finish sooner. Concurrency is about structure: handling several activities, such as a sensor, a display and a radio, in one program.\n\nWatch out: Concurrency bugs do not need multiple cores. On one core the scheduler can still pause a thread between any two instructions and run another, so shared data can be corrupted even without parallelism.",
+      "searchQuery": "concurrency versus parallelism difference single core threads",
+      "refs": [
+        "OSTEP, ch. 26 (Concurrency and Threads)"
+      ]
+    },
+    {
+      "id": "os-pthread-create-join",
+      "unit": "threads-basics",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume Linux or macOS, compiled with `-pthread`. What does this program print?\n\n```c\n#include <stdio.h>\n#include <pthread.h>\nstatic void *work(void *arg) {\n    printf(\"thread\\n\");\n    return arg;\n}\nint main(void) {\n    pthread_t t;\n    pthread_create(&t, NULL, work, NULL);\n    pthread_join(t, NULL);\n    printf(\"main\\n\");\n    return 0;\n}\n```",
+      "body": "`thread`, then `main`, in that order every time.\n\n**POSIX threads** (**pthreads**) is the standard C interface for threads. `pthread_create(&t, NULL, work, arg)` starts a new thread that runs `work(arg)`; the thread's ID is stored in `t`. `pthread_join(t, NULL)` blocks the caller until that thread has finished.\n\nBecause `main` joins before its `printf`, the thread's line must come first.\n\nWatch out: If `main` returned without joining, the whole process would end and could kill the thread before it printed anything. Every thread you create should be joined.",
+      "searchQuery": "pthread_create pthread_join example C output order",
+      "refs": [
+        "OSTEP, ch. 27 (Thread API)"
+      ]
+    },
+    {
+      "id": "os-threads-share-memory",
+      "unit": "threads-basics",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume Linux or macOS, compiled with `-pthread`. What does this program print?\n\n```c\n#include <stdio.h>\n#include <pthread.h>\nstatic void *work(void *arg) {\n    *(int *)arg = 42;\n    return NULL;\n}\nint main(void) {\n    int x = 1;\n    pthread_t t;\n    pthread_create(&t, NULL, work, &x);\n    pthread_join(t, NULL);\n    printf(\"%d\\n\", x);\n    return 0;\n}\n```",
+      "body": "`42`\n\n`x` is a local variable on `main`'s stack, but the new thread lives in the same address space, so the pointer `&x` is valid there and the thread writes straight into `x`.\n\nThis is the sharing that threads give you for free, and a separate process would not have. The `pthread_join` guarantees the write has happened before `main` reads `x`.\n\nWatch out: A pointer to a local variable is only valid while that function's frame exists. Here `main` waits in `pthread_join`, so the frame stays alive. If `main` returned first, the thread would write into dead stack memory.",
+      "searchQuery": "threads share address space pass pointer local variable pthread_create",
+      "refs": [
+        "OSTEP, ch. 27 (Thread API)"
+      ]
+    },
+    {
+      "id": "os-why-each-thread-needs-a-stack",
+      "unit": "threads-basics",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why does every **thread** need its own **stack**?",
+      "body": "A stack holds a thread's call history (local variables, return addresses and saved registers), and two threads are at different points in different calls.\n\nExample: Thread A is inside `f` called from `g`, while thread B is inside `h`. If they shared one stack, each call would push frames on top of the other's, and the first return would pop the wrong return address.\n\nWhen a thread is created, the OS or library sets aside a block of memory in the process's address space for its stack. The size is fixed when the thread starts, unlike the main thread's stack, which the OS can grow up to a limit.\n\nWatch out: Two threads running the same function do not share its local variables. Each has its own copy in its own frame, which is why locals are safe from other threads, while globals and heap objects are not.",
+      "searchQuery": "why each thread has its own stack call frames local variables",
+      "refs": [
+        "OSTEP, ch. 26 (Concurrency and Threads)"
+      ]
+    },
+    {
+      "id": "os-thread-stack-size-tradeoff",
+      "unit": "threads-basics",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A microcontroller with 64 KiB of RAM runs eight threads. Should you give every thread the same generous $8\\,\\mathrm{KiB}$ stack?",
+      "body": "No: size each stack from its measured worst-case use plus a safety margin; eight 8 KiB stacks would use all 64 KiB.\n\nThe arithmetic is $8 \\times 8\\,\\mathrm{KiB} = 64\\,\\mathrm{KiB}$, which leaves nothing for globals, the heap or the kernel. Too small a stack is just as bad: an overflow silently overwrites whatever lies next to it, unless a memory protection unit guards it.\n\nTip: Measure instead of guessing. Fill each stack with a known pattern, run the worst case and see how much was touched (many small kernels report this as the stack's high-water mark). Add a margin, and avoid recursion and big local arrays in threaded code.\n\nWatch out: The other side holds on a desktop. A 64-bit Linux thread typically gets an 8 MiB stack by default (the `ulimit -s` limit), but with virtual memory only the pages actually touched use RAM, so generous stacks are cheap there.",
+      "searchQuery": "thread stack size microcontroller choose measure high water mark",
+      "refs": [
+        "OSTEP, ch. 26 (Concurrency and Threads)",
+        "Linux man page pthread_create(3), section Notes"
+      ]
+    },
+    {
+      "id": "os-thread-order-nondeterministic",
+      "unit": "threads-basics",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume Linux or macOS, compiled with `-pthread`. Which outputs can this program produce?\n\n```c\n#include <stdio.h>\n#include <pthread.h>\nstatic void *say(void *arg) {\n    printf(\"%s\\n\", (const char *)arg);\n    return NULL;\n}\nint main(void) {\n    pthread_t a, b;\n    pthread_create(&a, NULL, say, \"A\");\n    pthread_create(&b, NULL, say, \"B\");\n    pthread_join(a, NULL);\n    pthread_join(b, NULL);\n    return 0;\n}\n```",
+      "body": "Either `A` then `B`, or `B` then `A`; which one you get can change from run to run.\n\nBoth threads are ready as soon as they are created, and the scheduler decides which runs first. That is **nondeterminism**: the same program with the same input can behave differently on different runs.\n\nCreating `a` before `b` does not make `a` print first. Each line comes out whole, because `printf` locks the output stream while it runs, so the two lines never mix.\n\nWatch out: A test that passes ten times proves little, since a rare interleaving may appear only on the eleventh run or on faster hardware. Concurrent code has to be correct for every possible interleaving.",
+      "searchQuery": "thread interleaving nondeterministic output order pthread_create",
+      "refs": [
+        "OSTEP, ch. 26 (Concurrency and Threads)",
+        "CS:APP 3e, §12.3 Concurrent Programming with Threads"
+      ]
+    },
+    {
+      "id": "os-thread-arg-pointer-bug",
+      "unit": "threads-basics",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume Linux or macOS, compiled with `-pthread`. The loop is meant to give threads the numbers 0, 1 and 2. What is wrong?\n\n```c\n#include <stdio.h>\n#include <pthread.h>\nstatic void *show(void *arg) {\n    printf(\"%d\\n\", *(int *)arg);\n    return NULL;\n}\nint main(void) {\n    pthread_t t[3];\n    int i;\n    for (i = 0; i < 3; i++)\n        pthread_create(&t[i], NULL, show, &i);\n    for (int k = 0; k < 3; k++)\n        pthread_join(t[k], NULL);\n    return 0;\n}\n```",
+      "body": "All three threads receive a pointer to the same variable `i`, which the loop keeps changing, so the threads print unpredictable values, often `3 3 3`.\n\nA new thread may not start running until after `main` has moved on. By then `i` has changed, and the thread reads its current value through the pointer. (Run on one Apple laptop, this printed mixes such as `2 3 3`, `1 3 3` and `3 3 3`.)\n\nFix: Give each thread its own storage, for example `int id[3];`, set `id[i] = i;` and pass `&id[i]`. Another way is to pass the number itself as the pointer value, with a cast.\n\nKey idea: Pass a pointer to a value only if that value stays unchanged and alive for as long as the thread might read it.",
+      "searchQuery": "pthread_create pass loop variable address bug threads same value",
+      "refs": [
+        "OSTEP, ch. 27 (Thread API)"
+      ]
+    },
+    {
+      "id": "os-turnaround-time",
+      "unit": "scheduling",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "In CPU scheduling, what is a job's **turnaround time**? (The **scheduler** is the part of the kernel that picks what runs next.)",
+      "body": "Turnaround time $=$ completion time $-$ arrival time: how long the job takes from the moment it arrives until it finishes.\n\nExample: A job arrives at $t = 0$ ms, first gets the CPU at $t = 5$ ms and finishes at $t = 15$ ms. Its turnaround time is $15 - 0 = 15$ ms.\n\nWhy it matters: Turnaround time is the natural measure for batch work, such as a build or a data-processing job, where only the finishing time counts. The average over all jobs is the usual score for comparing schedulers.\n\nWatch out: Turnaround time includes all the waiting, not only the time actually spent running. A job that needs 10 ms of CPU can have a turnaround time of 100 ms.",
+      "searchQuery": "turnaround time scheduling completion minus arrival",
+      "refs": [
+        "OSTEP, ch. 7 (CPU Scheduling)"
+      ]
+    },
+    {
+      "id": "os-response-time",
+      "unit": "scheduling",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "In CPU scheduling, what is a job's **response time**?",
+      "body": "Response time $=$ first-run time $-$ arrival time: how long the job waits from arriving until it first gets the CPU.\n\nExample: A job arrives at $t = 0$ ms, first runs at $t = 5$ ms and finishes at $t = 15$ ms. Its response time is $5 - 0 = 5$ ms, while its turnaround time is 15 ms.\n\nWhy it matters: Response time is what an interactive user feels. A key press that waits 200 ms before anything reacts seems broken, even if the work itself is quick.\n\nKey idea: A scheduler that is good at turnaround is often poor at response time, and the other way round. Scheduling is mostly about balancing the two.",
+      "searchQuery": "response time scheduling first run minus arrival interactive",
+      "refs": [
+        "OSTEP, ch. 7 (CPU Scheduling)"
+      ]
+    },
+    {
+      "id": "os-fifo-vs-sjf-turnaround",
+      "unit": "scheduling",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Jobs A, B and C all arrive at time $0$ and need $100$, $10$ and $10$ ms of CPU. **FIFO scheduling** runs each job to completion in arrival order (A, B, C). **Shortest job first** (SJF) runs the shortest waiting job to completion. What is the average turnaround time under each?",
+      "body": "FIFO: $110$ ms. SJF: $50$ ms.\n\nFIFO: A finishes at 100, B at 110, C at 120, so the average is $(100 + 110 + 120)/3 = 110$ ms.\n\nSJF: the order is B, C, A. B finishes at 10, C at 20 and A at 120, so the average is $(10 + 20 + 120)/3 = 50$ ms.\n\nWhy: With FIFO, the two short jobs are stuck behind the long one, called the convoy effect. SJF runs short jobs first, which gives the lowest possible average turnaround when all jobs arrive together.\n\nWatch out: SJF needs to know each job's length in advance, which a real OS usually does not. It can also starve a long job if short ones keep arriving.",
+      "searchQuery": "FIFO versus shortest job first average turnaround convoy effect",
+      "refs": [
+        "OSTEP, ch. 7 (CPU Scheduling)"
+      ]
+    },
+    {
+      "id": "os-round-robin-response-turnaround",
+      "unit": "scheduling",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Three jobs each need $5$ ms of CPU and all arrive at time $0$. **Round robin** runs each ready job for one **time slice** (also called a quantum), then moves to the next, in the order A, B, C, A, B, C, and so on. With a $1$ ms slice and no switching cost, what are the average response time and the average turnaround time? Compare with FIFO.",
+      "body": "Round robin: average response $1$ ms, average turnaround $14$ ms. FIFO: $5$ ms and $10$ ms.\n\nRound robin: A, B and C first run at 0, 1 and 2 ms, so the average response time is $1$ ms. The jobs finish at 13, 14 and 15 ms, so the average turnaround is $(13 + 14 + 15)/3 = 14$ ms.\n\nFIFO: the jobs first run at 0, 5 and 10 ms (average $5$ ms) and finish at 5, 10 and 15 ms (average $10$ ms).\n\nKey idea: Round robin trades turnaround for response time. When jobs are equally long, it stretches every job out, so the finishing times get worse, but nobody waits long for a first turn.",
+      "searchQuery": "round robin time slice average response turnaround compared FIFO",
+      "refs": [
+        "OSTEP, ch. 7 (CPU Scheduling)"
+      ]
+    },
+    {
+      "id": "os-time-slice-length-tradeoff",
+      "unit": "scheduling",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A context switch costs $10\\,\\mu\\mathrm{s}$. Roughly what share of CPU time is lost to switching with a $20\\,\\mu\\mathrm{s}$ slice and with a $1\\,\\mathrm{ms}$ slice, and which suits an interactive system?",
+      "body": "About $33\\%$ is lost with $20\\,\\mu\\mathrm{s}$ slices and about $1\\%$ with $1\\,\\mathrm{ms}$ slices, so an interactive system should pick a slice of a few milliseconds.\n\nThe overhead share is switch cost divided by (slice + switch cost): $10/(20+10) \\approx 33\\%$ and $10/(1000+10) \\approx 1\\%$.\n\nThe other side: Longer slices waste less time but hurt response. With 10 ready jobs and $100\\,\\mathrm{ms}$ slices, a newly arrived job can wait about $10 \\times 100\\,\\mathrm{ms} = 1\\,\\mathrm{s}$ before its first turn.\n\nTip: Choose the slice well above the switch cost, so the overhead is a percent or so, but short enough that the number of ready jobs times the slice is still a delay people cannot notice. The switch cost here is an assumed round number.",
+      "searchQuery": "time slice length trade-off context switch overhead response time",
+      "refs": [
+        "OSTEP, ch. 7 (CPU Scheduling)"
+      ]
+    },
+    {
+      "id": "os-starvation-priority-scheduling",
+      "unit": "scheduling",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **starvation** in scheduling, and how does **priority scheduling** cause it?",
+      "body": "Starvation is a ready job that never gets the CPU; priority scheduling always runs the highest-priority ready job, so low-priority jobs starve while higher-priority work keeps arriving.\n\nExample: A logging task with the lowest priority never runs on a device whose higher-priority tasks always have something to do.\n\nWhy it matters: Starvation is not a bug inside the starved job. It follows from how the scheduler chooses. The usual cure is **aging**: raise a job's priority the longer it waits, so that it eventually wins.\n\nTip: Real systems that must keep deadlines accept starvation of low-priority work on purpose and instead limit how much CPU time the high-priority work may use.",
+      "searchQuery": "starvation priority scheduling low priority never runs aging",
+      "refs": [
+        "OSTEP, ch. 8 (Multi-level Feedback)"
+      ]
+    },
+    {
+      "id": "os-mlfq-rules",
+      "unit": "scheduling",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How does a **multi-level feedback queue** (MLFQ) scheduler treat new jobs, jobs that use up their time allotment, and long-waiting jobs?",
+      "body": "New jobs start in the top queue; a job that uses up its allotment drops one queue; the scheduler runs the highest non-empty queue (round robin within it) and periodically moves every job back to the top.\n\nAn MLFQ keeps several queues of different priority. A job that gives up the CPU early, for example to wait for the keyboard, stays high, so interactive jobs get quick responses. A job that uses its whole allotment is treated as a CPU hog and sinks, and it still gets the CPU when nothing above it is ready.\n\nWhy it works: The scheduler does not need to know job lengths. It learns from behavior, and approximates shortest job first for short jobs while still running long ones.\n\nKey idea: The periodic boost to the top queue solves two problems: it prevents starvation of low queues, and it lets a job that has become interactive be treated that way again.\n\nWatch out: If a job's allotment resets whenever it yields, it can yield just before its slice ends and stay on top forever. Real designs count the total time used at each level.",
+      "searchQuery": "multi-level feedback queue rules priority boost allotment",
+      "refs": [
+        "OSTEP, ch. 8 (Multi-level Feedback)"
+      ]
+    },
+    {
+      "id": "os-fair-vs-fixed-priority",
+      "unit": "scheduling",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A desktop-style scheduler shares the CPU fairly among tasks, while a real-time scheduler always runs the highest-priority ready task. Which fits a motor-control task with a hard deadline of $1\\,\\mathrm{ms}$?",
+      "body": "Fixed-priority preemptive scheduling, with the motor task at the highest priority, because its deadline must hold no matter what else is ready.\n\nUnder a fair scheduler the motor task is one of many that share the CPU, so a burst of other work can delay it past its deadline. With fixed priorities, whenever the motor task is ready it preempts everything else, so its delay is bounded.\n\nThe other side: Fair schedulers are good for general computing: they keep everything responsive and nothing starves. Fixed-priority scheduling can starve low-priority tasks, so the designer must make sure the high-priority tasks use only a small, known share of the CPU.\n\nExample: Linux offers both: its normal policy shares time fairly, and its `SCHED_FIFO` and `SCHED_RR` policies are fixed-priority real-time classes. Small real-time kernels such as FreeRTOS use fixed priorities by default and round robin among tasks of equal priority.",
+      "searchQuery": "fixed priority real-time scheduling versus fair share desktop scheduler deadline",
+      "refs": [
+        "OSTEP, ch. 7 (CPU Scheduling)",
+        "Linux man page sched(7)"
+      ]
+    },
+    {
+      "id": "os-race-condition-definition",
+      "unit": "race-conditions",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **race condition**?",
+      "body": "A bug where the result depends on the timing of how threads interleave.\n\nWhen threads touch the same data, the outcome can depend on which one gets there first, and that can change from run to run because scheduling is nondeterministic.\n\nExample: Two threads each add 1 to a shared counter that holds 5. The correct result is 7, but a bad interleaving leaves 6, because one update overwrote the other (a lost update).\n\nWatch out: Race conditions are hard to find because the program usually works. The bad interleaving may need a rare timing, so tests pass and the bug shows up later in the field.",
+      "searchQuery": "race condition definition timing threads lost update",
+      "refs": [
+        "OSTEP, ch. 26 (Concurrency and Threads)",
+        "CS:APP 3e, §12.4 Shared Variables in Threaded Programs"
+      ]
+    },
+    {
+      "id": "os-critical-section-definition",
+      "unit": "race-conditions",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **critical section**, and which variables in it are **shared variables**?",
+      "body": "A critical section is a stretch of code that touches shared state and must not be run by more than one thread at a time; the shared variables are those that more than one thread can access.\n\nExample: In `balance = balance + amount;` the statement is the critical section, and the global `balance` is the shared variable. The local variable `amount` lives on the calling thread's own stack, so no other thread can see it.\n\nWhy it matters: Finding the critical sections is the first step in making threaded code safe. Once found, you make sure only one thread is inside at a time (mutual exclusion), using the tools of the next unit.\n\nTip: Look for globals, heap objects and anything reached through a pointer that was passed to several threads. Local variables are private unless their address was handed to another thread.",
+      "searchQuery": "critical section shared variable mutual exclusion definition",
+      "refs": [
+        "OSTEP, ch. 26 (Concurrency and Threads)",
+        "CS:APP 3e, §12.4 Shared Variables in Threaded Programs"
+      ]
+    },
+    {
+      "id": "os-counter-increment-not-atomic",
+      "unit": "race-conditions",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that `counter++` is safe between threads because it is a single line of C?",
+      "body": "One line of C can compile to several instructions (load, add, store), and another thread can run between them, so an update can be lost.\n\nOn RISC-V, `counter++` on a shared 32-bit `int` becomes roughly: `lw t0, 0(a0)`, then `addi t0, t0, 1`, then `sw t0, 0(a0)`.\n\nExample: Let `counter` be 5. Thread 1 loads 5. Thread 2 then loads 5 as well. Thread 1 stores 6, and thread 2 stores 6. Two increments ran, but the counter went up by one.\n\nWatch out: Even on a chip with a single \"add to memory\" instruction, the instruction is a read followed by a write inside the hardware. Unless it is explicitly atomic, another core can slip in between, so the line is still not safe.",
+      "searchQuery": "counter++ not atomic load add store lost update threads",
+      "refs": [
+        "OSTEP, ch. 26 (Concurrency and Threads)",
+        "MIT 6.191 (Fall 2026), L20 Synchronization"
+      ]
+    },
+    {
+      "id": "os-racy-counter-output",
+      "unit": "race-conditions",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume 64-bit Linux or macOS and a build without optimization (`cc -O0 -pthread`). Two threads each add $1$ to the shared counter $1{,}000{,}000$ times. What does `main` print?\n\n```c\n#include <stdio.h>\n#include <pthread.h>\nstatic long counter;\nstatic void *work(void *a) {\n    for (int i = 0; i < 1000000; i++) counter++;\n    return a;\n}\nint main(void) {\n    pthread_t t1, t2;\n    pthread_create(&t1, NULL, work, NULL);\n    pthread_create(&t2, NULL, work, NULL);\n    pthread_join(t1, NULL); pthread_join(t2, NULL);\n    printf(\"%ld\\n\", counter);\n}\n```",
+      "body": "Usually a number well below $2{,}000{,}000$, and a different one on each run. It is not reliably $2{,}000{,}000$.\n\nEach `counter++` is a load, an add and a store, and the two threads overwrite each other's results. One run on an Apple laptop printed values just above $1{,}000{,}000$.\n\nThe program has a **data race**: two threads access the same memory location with plain (non-atomic) accesses, at least one access is a write, and nothing orders them. In C11 a data race is undefined behavior, so the compiler is allowed to assume it never happens.\n\nWatch out: With `-O2` the compiler may keep `counter` in a register for the whole loop and add once, so some builds print exactly $2{,}000{,}000$ by luck. The race is still there. Also, a race condition need not be a data race, but every data race is a bug.",
+      "searchQuery": "two threads increment shared counter without lock data race result",
+      "refs": [
+        "CS:APP 3e, §12.4 Shared Variables in Threaded Programs",
+        "OSTEP, ch. 26 (Concurrency and Threads)"
+      ],
+      "tags": [
+        "data-race"
+      ]
+    },
+    {
+      "id": "os-atomic-instructions",
+      "unit": "race-conditions",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What does an **atomic instruction** guarantee, and how do **test-and-set**, **compare-and-swap** and RISC-V **LR/SC** work?",
+      "body": "It performs a read-modify-write as one indivisible step, so no other thread or core ever sees or interleaves with half of it.\n\n- **Test-and-set** writes 1 to a location and returns the old value. Only the first caller gets 0 back.\n- **Compare-and-swap** (CAS) takes an address, an expected value and a new value: it writes the new value only if the location still holds the expected one, and tells you whether it did.\n- **LR/SC** is RISC-V's pair: `lr.w` loads a word and marks it as reserved; `sc.w` stores only if no one has written that address since, and puts 0 in its result register on success, non-zero on failure. You retry in a loop.\n\nKey idea: **Atomicity** means all-or-nothing as seen by other threads. These instructions are the hardware that mutexes and atomic counters are built from.\n\nWatch out: One atomic instruction protects one memory word. A critical section of several steps, or one that updates two variables together, still needs a lock.",
+      "searchQuery": "atomic instruction test-and-set compare-and-swap RISC-V LR SC",
+      "refs": [
+        "OSTEP, ch. 28 (Locks)",
+        "MIT 6.191 (Fall 2026), L20 Synchronization",
+        "RISC-V Unprivileged ISA manual, ch. 'A' extension"
+      ]
+    },
+    {
+      "id": "os-atomic-fetch-add-counter",
+      "unit": "race-conditions",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume 64-bit Linux or macOS. This is the same program as the racy counter, but `counter` is an `atomic_long` and each increment uses `atomic_fetch_add`. What does it print?\n\n```c\n#include <stdio.h>\n#include <pthread.h>\n#include <stdatomic.h>\nstatic atomic_long counter;\nstatic void *work(void *a) {\n    for (int i = 0; i < 1000000; i++) atomic_fetch_add(&counter, 1);\n    return a;\n}\nint main(void) {\n    pthread_t t1, t2;\n    pthread_create(&t1, NULL, work, NULL);\n    pthread_create(&t2, NULL, work, NULL);\n    pthread_join(t1, NULL); pthread_join(t2, NULL);\n    printf(\"%ld\\n\", atomic_load(&counter));\n}\n```",
+      "body": "`2000000`, on every run.\n\n`atomic_fetch_add(&counter, 1)` is one atomic read-modify-write, so the two threads can never overwrite each other's update, and all $2 \\times 1{,}000{,}000$ increments are counted. It compiles to a single atomic instruction, such as `lock xadd` on x86 or `amoadd` on RISC-V, or to a load-reserved/store-conditional retry loop.\n\nWhy it matters: This is the cheap fix for a shared counter. It is also the building block for flags, statistics and sequence numbers.\n\nWatch out: Atomic operations are slower than plain ones when several cores fight over the same variable. And the atomicity covers only that one variable: two separate atomic updates together are not a critical section.",
+      "searchQuery": "atomic_fetch_add counter threads C11 stdatomic always correct",
+      "refs": [
+        "CS:APP 3e, §12.4 Shared Variables in Threaded Programs",
+        "OSTEP, ch. 28 (Locks)"
+      ],
+      "tags": [
+        "data-race"
+      ]
+    },
+    {
+      "id": "os-cas-retry-loop",
+      "unit": "race-conditions",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume C11. If another thread changes `x` between the `atomic_load` and the compare-and-swap, what does the compare-and-swap do, and what does the loop do?\n\n```c\n#include <stdatomic.h>\nstatic atomic_int x;\nvoid increment(void) {\n    int old = atomic_load(&x);\n    while (!atomic_compare_exchange_strong(&x, &old, old + 1)) {\n    }\n}\n```",
+      "body": "The compare-and-swap fails: it leaves `x` alone, returns false and copies the current value of `x` into `old`; the loop then tries again with `old + 1` computed from that new value.\n\nOn success (`x` still equals `old`), `x` becomes `old + 1` and the loop ends. So `x` only changes when nobody interfered between reading it and updating it.\n\nWhy it works: Failure means someone else got in first, and nothing was lost, because we had not written anything yet. The retry sees the newer value and builds on it. This pattern, read, compute, then CAS and retry on failure, can update a value without ever holding a lock.\n\nTip: The same idea is what a RISC-V LR/SC loop does: `lr.w`, compute, `sc.w`, and branch back if `sc.w` reports failure.",
+      "searchQuery": "compare and swap retry loop atomic_compare_exchange_strong updates old",
+      "refs": [
+        "OSTEP, ch. 28 (Locks)",
+        "C11 standard, 7.17.7.4 (atomic_compare_exchange)"
+      ]
+    },
+    {
+      "id": "os-mutex-definition",
+      "unit": "locks-condvars-semaphores",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **mutex** (a **lock**), and what do `pthread_mutex_lock` and `pthread_mutex_unlock` do?",
+      "body": "A mutual-exclusion lock that only one thread can hold at a time: `pthread_mutex_lock` takes it, blocking until it is free, and `pthread_mutex_unlock` releases it.\n\nYou wrap each critical section in a lock and an unlock of the same mutex, so only one thread at a time runs the code in between. A thread that finds the mutex held is **blocked**: the kernel parks it in the blocked state and it uses no CPU until the holder unlocks.\n\nA mutex declared with `PTHREAD_MUTEX_INITIALIZER` is ready to use.\n\nWatch out: A mutex protects data only by agreement. Every access to the shared variable, in every thread, must take the same mutex. One unprotected access, or two different mutexes guarding the same data, brings the race back.",
+      "searchQuery": "mutex pthread_mutex_lock unlock critical section definition",
+      "refs": [
+        "OSTEP, ch. 28 (Locks)",
+        "OSTEP, ch. 27 (Thread API)"
+      ]
+    },
+    {
+      "id": "os-mutex-protected-counter",
+      "unit": "locks-condvars-semaphores",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume Linux or macOS, compiled with `-pthread`. What does this program print?\n\n```c\n#include <stdio.h>\n#include <pthread.h>\nstatic long counter;\nstatic pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;\nstatic void *work(void *a) {\n    for (int i = 0; i < 1000000; i++) { pthread_mutex_lock(&m); counter++; pthread_mutex_unlock(&m); }\n    return a;\n}\nint main(void) {\n    pthread_t t1, t2;\n    pthread_create(&t1, NULL, work, NULL); pthread_create(&t2, NULL, work, NULL);\n    pthread_join(t1, NULL); pthread_join(t2, NULL);\n    printf(\"%ld\\n\", counter);\n}\n```",
+      "body": "`2000000`, on every run.\n\nEach increment sits between `pthread_mutex_lock` and `pthread_mutex_unlock`, so the load, add and store of one thread can never overlap with another's. Nothing is lost.\n\nWhy it works: Unlocking also makes the thread's write visible to the next thread that locks, so the second thread always starts from the newest value.\n\nTip: Locking a million times is far slower than the increments themselves. If a thread can finish a whole batch of work under one lock acquisition, that is faster, as long as the other threads can wait that long. This choice is the lock granularity (see the card on it).",
+      "searchQuery": "pthread mutex protected counter two threads always 2000000",
+      "refs": [
+        "OSTEP, ch. 28 (Locks)",
+        "CS:APP 3e, §12.5 Synchronizing Threads with Semaphores"
+      ]
+    },
+    {
+      "id": "os-forgotten-unlock",
+      "unit": "locks-condvars-semaphores",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Several threads call `push`. After a while every thread that calls it hangs. Why?\n\n```c\n#include <pthread.h>\nstatic pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;\nstatic int buf[8], n;\nint push(int v) {\n    pthread_mutex_lock(&m);\n    if (n == 8)\n        return -1;\n    buf[n++] = v;\n    pthread_mutex_unlock(&m);\n    return 0;\n}\n```",
+      "body": "When the buffer is full, `push` returns without unlocking, so the mutex stays locked forever and every later call blocks in `pthread_mutex_lock`.\n\nFix: Release the lock on every path out of the function, for example `pthread_mutex_unlock(&m); return -1;` in the full case, or use a single exit point at the bottom.\n\nWhy it matters: Early `return`, `break` and `goto` statements, and error handling, are the usual way a lock gets forgotten. The program then hangs far from the bug, and only after the buffer has filled up.\n\nTip: C++ has a neat answer: a scope guard such as `std::lock_guard` (RAII) unlocks in its destructor, so every way out of the scope releases the mutex.",
+      "searchQuery": "mutex early return forgot unlock hangs threads fix",
+      "refs": [
+        "OSTEP, ch. 28 (Locks)"
+      ]
+    },
+    {
+      "id": "os-spinlock-vs-blocking-lock",
+      "unit": "locks-condvars-semaphores",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "When should you use a **spinlock** instead of a **blocking** lock such as a mutex?",
+      "body": "Use a spinlock when the critical section is very short, the holder is running on another core, and the code cannot sleep; use a blocking lock otherwise.\n\nA spinlock waits by looping on an atomic instruction such as test-and-set until the lock is free. A blocking lock puts the waiting thread to sleep and wakes it later.\n\nWhy spinning wins sometimes: Sleeping and waking cost a trip through the kernel and two context switches, which is far more than a critical section of a few instructions. An interrupt handler also has no process to put to sleep, so it can only spin.\n\nThe other side: Spinning burns CPU. On a single core it is worse than useless: the holder cannot run while the waiter spins, so the waiter wastes its whole time slice. With a long critical section, or a holder that may itself be preempted, block instead.\n\nExample: On a single-core Cortex-M, the usual lock for data shared with an interrupt handler is to switch interrupts off briefly. That is a spin-free, very short critical section.",
+      "searchQuery": "spinlock versus mutex blocking lock when to use short critical section",
+      "refs": [
+        "OSTEP, ch. 28 (Locks)"
+      ]
+    },
+    {
+      "id": "os-lock-granularity",
+      "unit": "locks-condvars-semaphores",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is **lock granularity**, and what is the trade-off between one coarse lock and many fine-grained locks?",
+      "body": "Granularity is how much data one lock protects: a coarse lock protects a lot and is simple but serializes work; fine-grained locks each protect a little, so more work runs in parallel but the code is harder to get right.\n\nExample: A hash table with 64 buckets. One lock for the whole table is easy and safe, but every operation waits for every other one. One lock per bucket lets threads that touch different buckets run at the same time.\n\nThe costs of fine-grained locking: more locks to store, more lock operations, and operations that need several buckets at once (such as resizing the table) must take many locks, in a careful order, or they can hang (see the Deadlock unit).\n\nTip: Start coarse, measure, and refine only where the lock is a real bottleneck. A simple, correct program is easier to speed up than a fast, subtly wrong one.",
+      "searchQuery": "lock granularity coarse fine-grained locking hash table trade-off",
+      "refs": [
+        "OSTEP, ch. 29 (Lock-based Concurrent Data Structures)"
+      ]
+    },
+    {
+      "id": "os-condition-variable-definition",
+      "unit": "locks-condvars-semaphores",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **condition variable**, and what do `pthread_cond_wait` and `pthread_cond_signal` do?",
+      "body": "A queue where threads sleep until some condition becomes true: `pthread_cond_wait` releases the mutex and sleeps in one atomic step, `pthread_cond_signal` wakes one waiter, and the waiter holds the mutex again when `wait` returns.\n\nA condition variable is always used with a mutex and with real data that describes the condition, such as `count > 0`. The condition variable itself stores no state.\n\nWhy releasing and sleeping must be one step: If a thread released the mutex first and then went to sleep, another thread could signal in between, and the wake-up would be lost.\n\nWatch out: A signal sent when no thread is waiting is simply lost. That is why threads test the condition in the data first and wait only if it is false. Never rely on the signal alone.",
+      "searchQuery": "condition variable pthread_cond_wait signal definition mutex",
+      "refs": [
+        "OSTEP, ch. 30 (Condition Variables)"
+      ]
+    },
+    {
+      "id": "os-condvar-while-loop",
+      "unit": "locks-condvars-semaphores",
+      "kind": "code",
+      "difficulty": 3,
+      "checkpoint": true,
+      "title": "Consumers take items from a one-slot buffer and producers call `pthread_cond_signal(&filled)` after adding one. (That is the **producer–consumer problem**: consumers must wait while the buffer is empty.) What is wrong with `take`, and what is the fix?\n\n```c\n#include <pthread.h>\nstatic int count;\nstatic pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;\nstatic pthread_cond_t filled = PTHREAD_COND_INITIALIZER;\nvoid take(void) {\n    pthread_mutex_lock(&m);\n    if (count == 0)\n        pthread_cond_wait(&filled, &m);\n    count--;\n    pthread_mutex_unlock(&m);\n}\n```",
+      "body": "The `if` must be a `while`: after waking, the condition may be false again, so the thread has to check it again before it uses the buffer.\n\nExample: Consumer C1 is waiting. A producer adds one item and signals. C1 wakes up but has to reacquire the mutex first. Before it does, another consumer C2 arrives, locks the mutex, sees `count == 1` and takes the item. C1 then gets the mutex, skips the check and runs `count--`, leaving $-1$.\n\nFix: `while (count == 0) pthread_cond_wait(&filled, &m);` The thread goes back to sleep if someone else got the item first.\n\nWhy it matters: POSIX also allows spurious wake-ups, where `wait` returns although nobody signalled. A `while` loop makes the code correct in both cases.",
+      "searchQuery": "condition variable wait while loop not if spurious wakeup producer consumer",
+      "refs": [
+        "OSTEP, ch. 30 (Condition Variables)",
+        "Linux man page pthread_cond_wait(3p)"
+      ]
+    },
+    {
+      "id": "os-semaphore-definition",
+      "unit": "locks-condvars-semaphores",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a counting **semaphore**, and what do `sem_wait` and `sem_post` do?",
+      "body": "A counter that never goes below 0: `sem_wait` decrements it, blocking while it is 0, and `sem_post` increments it and wakes a waiter if there is one.\n\nThe starting value says how many units of something are available. The same tool gives three different uses:\n\n- initial value 1: acts as a lock (a binary semaphore);\n- initial value 0: lets one thread wait for an event that another thread will cause;\n- initial value $N$: counts $N$ free slots or $N$ available resources.\n\nKey idea: Unlike a condition variable, a semaphore remembers: a `sem_post` before the matching `sem_wait` is not lost, because it changes the count. And any thread may post, not only the one that waited.",
+      "searchQuery": "counting semaphore sem_wait sem_post definition initial value",
+      "refs": [
+        "OSTEP, ch. 31 (Semaphores)",
+        "CS:APP 3e, §12.5 Synchronizing Threads with Semaphores"
+      ]
+    },
+    {
+      "id": "os-bounded-buffer-semaphore-init",
+      "unit": "locks-condvars-semaphores",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "On Linux, one producer and one consumer share a ring buffer of $N = 4$ slots, using the semaphores `empty` (free slots) and `full` (filled slots). The producer blocks forever on its first `put`. What is wrong, and what is the fix?\n\n```c\n#include <semaphore.h>\n#define N 4\nstatic int buf[N], in, out;\nstatic sem_t empty, full;\nvoid put(int v) { sem_wait(&empty); buf[in] = v; in = (in + 1) % N; sem_post(&full); }\nint get(void) { sem_wait(&full); int v = buf[out]; out = (out + 1) % N; sem_post(&empty); return v; }\nvoid setup(void) { sem_init(&empty, 0, 0); sem_init(&full, 0, 0); }\n```",
+      "body": "`empty` counts free slots, so it must start at `N` (4), not 0: with 0, the producer's first `sem_wait(&empty)` blocks at once, and the consumer waits for `full`, so nothing ever happens.\n\nFix: `sem_init(&empty, 0, N);` and keep `full` at 0. Then `empty + full = N` always holds: `put` waits for a free slot and announces a filled one, and `get` does the reverse.\n\nWhy it works: The semaphores make a full buffer block the producer and an empty buffer block the consumer, with no busy-waiting.\n\nWatch out: With one producer and one consumer, `in` and `out` are each touched by one thread, so this is safe. With several producers or several consumers, the index updates need a mutex too, taken after the `sem_wait`, not before it: the other order can hang.",
+      "searchQuery": "bounded buffer semaphores empty full initial value N producer consumer",
+      "refs": [
+        "OSTEP, ch. 31 (Semaphores)",
+        "CS:APP 3e, §12.5 Synchronizing Threads with Semaphores"
+      ]
+    },
+    {
+      "id": "os-semaphore-ordering-init-zero",
+      "unit": "locks-condvars-semaphores",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "The parent should always print `child` before `parent`, but it can print `parent` first. Assume Linux, compiled with `-pthread`. What is wrong, and what is the fix?\n\n```c\n#include <stdio.h>\n#include <pthread.h>\n#include <semaphore.h>\nstatic sem_t done;\nstatic void *child(void *a) { puts(\"child\"); sem_post(&done); return a; }\nint main(void) {\n    pthread_t t;\n    sem_init(&done, 0, 1);\n    pthread_create(&t, NULL, child, NULL);\n    sem_wait(&done);\n    puts(\"parent\");\n    pthread_join(t, NULL);\n}\n```",
+      "body": "The semaphore starts at 1, so the parent's `sem_wait` succeeds immediately without waiting for the child; it should start at 0.\n\nFix: `sem_init(&done, 0, 0);` With 0, `sem_wait` blocks until the child's `sem_post` raises the count to 1, so `child` is always printed first.\n\nWhy it works: A semaphore with initial value 0 is a signal that something has happened. Its value counts events that have occurred but not yet been consumed, so it works even if the child posts before the parent waits.\n\nTip: Pick the initial value by asking how many units are available right now: a lock has 1, a signal has 0, and a pool of $N$ slots has $N$.",
+      "searchQuery": "semaphore initial value zero ordering parent waits child sem_post",
+      "refs": [
+        "OSTEP, ch. 31 (Semaphores)"
+      ]
+    },
+    {
+      "id": "os-deadlock-four-conditions",
+      "unit": "deadlock-concurrency-bugs",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **deadlock**, and what four conditions must all hold for one to occur?",
+      "body": "A deadlock is a state in which threads each hold something and wait for something another holds, so none can ever continue; it needs mutual exclusion, hold-and-wait, no preemption and a circular wait.\n\n- Mutual exclusion: a resource (such as a mutex) is held by one thread at a time.\n- Hold-and-wait: a thread keeps what it holds while it waits for more.\n- No preemption: a held resource cannot be taken away; its holder must release it.\n- **Circular wait**: there is a cycle of threads, each waiting for a resource held by the next.\n\nExample: Thread 1 holds lock A and waits for lock B, while thread 2 holds B and waits for A. Neither can proceed, and the program hangs without crashing.\n\nKey idea: Break any one of the four conditions and deadlock becomes impossible. In practice the easiest one to break is the circular wait.",
+      "searchQuery": "deadlock four conditions mutual exclusion hold and wait circular wait",
+      "refs": [
+        "OSTEP, ch. 32 (Concurrency Bugs)"
+      ]
+    },
+    {
+      "id": "os-two-mutex-deadlock-code",
+      "unit": "deadlock-concurrency-bugs",
+      "kind": "code",
+      "difficulty": 3,
+      "checkpoint": true,
+      "title": "Assume Linux or macOS, compiled with `-pthread`. Thread 0 runs `run((void *)0)` and thread 1 runs `run((void *)1)`. Can this program hang, and what is the fix?\n\n```c\n#include <pthread.h>\nstatic pthread_mutex_t m[2] = { PTHREAD_MUTEX_INITIALIZER, PTHREAD_MUTEX_INITIALIZER };\nstatic void *run(void *p) {\n    long i = (long)p;\n    pthread_mutex_lock(&m[i]); pthread_mutex_lock(&m[1 - i]);\n    pthread_mutex_unlock(&m[1 - i]); pthread_mutex_unlock(&m[i]);\n    return 0;\n}\nint main(void) {\n    pthread_t t[2];\n    for (long i = 0; i < 2; i++) pthread_create(&t[i], 0, run, (void *)i);\n    for (int i = 0; i < 2; i++) pthread_join(t[i], 0);\n}\n```",
+      "body": "Yes: thread 0 locks `m[0]` then `m[1]`, while thread 1 locks `m[1]` then `m[0]`. If each gets its first lock before the other gets its second, both wait forever. The fix is **lock ordering**: every thread takes the locks in the same global order, for example `m[0]` before `m[1]`.\n\nThe hang is not certain. Run it a few times and it usually finishes, because one thread often gets both locks before the other starts. That is why such bugs survive testing and appear later, under load.\n\nWhy it works: With a fixed order, a cycle of waiting threads cannot form, since a thread holding `m[1]` never waits for `m[0]`. This removes the circular-wait condition.\n\nTip: When the locks are different objects, order them by something stable, such as their address or an id number. Document the order next to the locks.",
+      "searchQuery": "two mutexes opposite order deadlock fix lock ordering code",
+      "refs": [
+        "OSTEP, ch. 32 (Concurrency Bugs)"
+      ]
+    },
+    {
+      "id": "os-lock-ordering-vs-big-lock",
+      "unit": "deadlock-concurrency-bugs",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "To avoid deadlock in code that needs several locks at once, should you use a fixed lock order or replace them all with one big lock?",
+      "body": "Use a fixed lock order when you need the parallelism of separate locks; use one big lock when the code is small and the contention is low.\n\nOne big lock cannot deadlock with itself, and it is simple to reason about. But every thread waits for every other one, which wastes the extra cores.\n\nWith a fixed order, the threads that touch different data can run at the same time. The price is discipline: every code path, including future ones, must follow the order, and a single violation brings the hang back. The order is also hard to keep when the next lock to take depends on the data.\n\nTip: Start with the one big lock. Move to several locks with a documented order only after measurement shows the single lock to be a bottleneck.",
+      "searchQuery": "lock ordering versus single global lock deadlock avoidance trade-off",
+      "refs": [
+        "OSTEP, ch. 32 (Concurrency Bugs)"
+      ]
+    },
+    {
+      "id": "os-atomicity-vs-order-violation",
+      "unit": "deadlock-concurrency-bugs",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "What are an **atomicity violation** and an **order violation** in threaded code?",
+      "body": "An atomicity violation is a group of accesses that was meant to run as one unit but isn't protected, so another thread slips in; an order violation is two accesses meant to happen in a certain order, with nothing enforcing it.\n\nExample (atomicity): A thread checks `if (p->name != NULL)` and then uses `p->name`. Another thread sets it to `NULL` in between. Fix: hold one lock across the check and the use, and take the same lock where the other thread sets it to `NULL`.\n\nExample (order): A worker thread reads a variable that `main` has not yet initialized, because `main` creates the thread first and assigns the variable after. Fix: initialize before creating the thread, or make the worker wait on a condition variable or semaphore until the data is ready.\n\nWhy it matters: Studies of real concurrency bugs in large programs found that most non-deadlock bugs were of these two kinds, and a lock alone cures only the first.",
+      "searchQuery": "atomicity violation order violation concurrency bugs examples fix",
+      "refs": [
+        "OSTEP, ch. 32 (Concurrency Bugs)"
+      ]
+    },
+    {
+      "id": "os-threadsanitizer-race-report",
+      "unit": "deadlock-concurrency-bugs",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "Assume Linux or macOS with clang or GCC. The program below is built with `cc -g -pthread -fsanitize=thread` and run. What does ThreadSanitizer report?\n\n```c\n#include <pthread.h>\nstatic int n;\nstatic void *f(void *a) { n++; return a; }\nint main(void) {\n    pthread_t t;\n    pthread_create(&t, 0, f, 0);\n    n++;\n    pthread_join(t, 0);\n    return 0;\n}\n```",
+      "body": "A line starting `WARNING: ThreadSanitizer: data race`, with a stack trace for each of the two conflicting writes to `n` (the one in `f` and the one in `main`).\n\n**ThreadSanitizer** (TSan) is a compiler tool, like AddressSanitizer: the compiler adds checks to each memory access, and at run time they notice two threads accessing the same location with no ordering between them. The report points at the exact source lines, which is why `-g` helps.\n\nBoth `n++` statements are unprotected writes to a shared variable. Protect them with a mutex, or make `n` atomic, and the warning goes away.\n\nWatch out: TSan only sees races that actually happen in the run you make, so exercise the code with realistic inputs. It slows the program down several times and cannot be combined with AddressSanitizer in one build.",
+      "searchQuery": "ThreadSanitizer data race report -fsanitize=thread example",
+      "refs": [
+        "MIT Missing Semester 2026: Debugging and Profiling",
+        "Clang ThreadSanitizer documentation"
+      ]
+    },
+    {
+      "id": "os-priority-inversion",
+      "unit": "deadlock-concurrency-bugs",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is **priority inversion**? Describe it with a high-, a medium- and a low-priority thread.",
+      "body": "A high-priority thread is stuck waiting for a lock held by a low-priority thread, and a medium-priority thread keeps the low one from running, so the high-priority thread effectively waits for the medium one.\n\n1. The low-priority thread L takes a mutex.\n2. The high-priority thread H becomes ready, needs that mutex and blocks.\n3. The medium-priority thread M, which doesn't use the mutex, becomes ready and, having higher priority than L, preempts it.\n4. L can't run to release the mutex, so H waits as long as M runs.\n\nFix: **Priority inheritance**: while L holds the lock that H wants, L temporarily runs at H's priority, so M can no longer preempt it. POSIX offers this for mutexes through `PTHREAD_PRIO_INHERIT`.\n\nExample: This problem made the 1997 Mars Pathfinder lander reset itself repeatedly until priority inheritance was switched on for the mutex involved.",
+      "searchQuery": "priority inversion high medium low priority mutex priority inheritance",
+      "refs": [
+        "OSTEP, ch. 32 (Concurrency Bugs)",
+        "Linux man page pthread_mutexattr_setprotocol(3)"
+      ],
+      "tags": [
+        "real-time"
+      ]
+    },
+    {
+      "id": "os-device-registers-interface",
+      "unit": "io-devices",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What three **device registers** make up the canonical interface between the CPU and an I/O device?",
+      "body": "A status register (what the device is doing, and whether it is ready), a command register (what to do next) and a data register (the bytes going in or out).\n\nA **device register** is a storage location inside the device that software reads and writes. On most microcontrollers the registers are memory-mapped, so a normal load or store reaches them.\n\nExample: To send a byte, the driver reads the status register until the device is not busy, writes the byte to the data register, then writes the command register to start the transfer.\n\nWatch out: Reading or writing a device register often has side effects that memory doesn't have. Reading the data register may remove the byte from the device's receive queue, so one read in the code must remain exactly one read in the machine code. That is why these registers are accessed through `volatile`.",
+      "searchQuery": "device registers status command data canonical device interface",
+      "refs": [
+        "OSTEP, ch. 36 (I/O Devices)",
+        "MIT 6.191 (Fall 2026), L19 Exceptions, I/O"
+      ]
+    },
+    {
+      "id": "os-polling-uart-volatile",
+      "unit": "io-devices",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume a 32-bit microcontroller with a (made-up) UART: status register at `0x40001000` (bit 0 set when a received byte is waiting), data register at `0x40001004`. `uart_read` busy-waits. What goes wrong if `volatile` is removed from the macros?\n\n```c\n#include <stdint.h>\n#define UART_STATUS (*(volatile uint32_t *)0x40001000u)\n#define UART_DATA   (*(volatile uint32_t *)0x40001004u)\n#define RX_READY    (1u << 0)\nuint8_t uart_read(void) {\n    while ((UART_STATUS & RX_READY) == 0)\n        ;\n    return (uint8_t)UART_DATA;\n}\n```",
+      "body": "The compiler may read `UART_STATUS` once, keep the value in a register, and reuse it every time round the loop, so the loop never sees the device change and spins forever.\n\nThis loop is **polling**: the CPU repeatedly reads the status register until the device is ready. Nothing in the program writes to that address, so without `volatile` an optimizing compiler is allowed to assume the value cannot change.\n\nWith `volatile`, each loop iteration performs a real load from the register. After the loop, reading `UART_DATA` also counts: on many devices that read takes the byte out of the receiver and clears the ready bit.\n\nWatch out: A polling loop with no timeout hangs the firmware if the device never answers, for example when a cable is unplugged. Real drivers count iterations or check a timer.",
+      "searchQuery": "polling loop status register volatile compiler hoists read UART",
+      "refs": [
+        "OSTEP, ch. 36 (I/O Devices)"
+      ]
+    },
+    {
+      "id": "os-polling-vs-interrupts",
+      "unit": "io-devices",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A UART at 115,200 baud (10 bits per byte) delivers a byte about every $87\\,\\mu\\mathrm{s}$. For firmware that also does other work, should it read the UART by **polling** or by **interrupt-driven I/O**?",
+      "body": "Interrupt-driven I/O: the device raises an interrupt when a byte arrives, and the CPU does other work until then.\n\nThe rate is $115200 / 10 = 11{,}520$ bytes per second, one byte every $1/11520\\,\\mathrm{s} \\approx 87\\,\\mu\\mathrm{s}$. To poll without losing bytes, the main loop would have to come back to the UART faster than that, whatever else it is doing. With interrupts, if entering and leaving the handler costs an assumed $2\\,\\mu\\mathrm{s}$, only about $2/87 \\approx 2\\%$ of the time goes on the UART.\n\nThe other side: Polling wins when the device is almost always ready, because each interrupt then costs more than a quick status check, or when the CPU has nothing else to do and wants the lowest latency. High-speed network drivers often switch from interrupts to polling under heavy traffic for this reason.\n\nKey idea: Interrupts pay a fixed cost per event, and polling pays a cost per check. Choose by how often the events come compared with the other work.",
+      "searchQuery": "polling versus interrupt driven I/O trade-off UART when to use",
+      "refs": [
+        "OSTEP, ch. 36 (I/O Devices)"
+      ]
+    },
+    {
+      "id": "os-dma-definition",
+      "unit": "io-devices",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is **direct memory access** (DMA), and why does it speed up bulk transfers?",
+      "body": "DMA is a hardware engine that copies data between a device and memory by itself; the CPU only sets up the transfer and gets an interrupt when it is done.\n\nThe driver tells the DMA controller the source, the destination and the length, then starts it. The CPU is free to run other code during the copy.\n\nExample: Reading a 4 KiB block from a device word by word takes $4096 / 4 = 1024$ loads and stores by the CPU. With DMA the CPU does a few register writes and one interrupt.\n\nWatch out: DMA writes memory behind the CPU's back, so the CPU's cache may still hold old data for the buffer. Drivers must invalidate or flush the cache for that range, or put the buffer in uncached memory. Devices also use physical addresses, not the process's virtual ones.",
+      "searchQuery": "DMA direct memory access definition CPU free cache coherence driver",
+      "refs": [
+        "OSTEP, ch. 36 (I/O Devices)"
+      ]
+    },
+    {
+      "id": "os-device-driver-definition",
+      "unit": "io-devices",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a **device driver**?",
+      "body": "The OS code that knows one kind of device's registers and quirks and presents it to the rest of the system through a standard interface.\n\nThe rest of the OS, and the programs above it, just ask to read or write; the driver turns that into register accesses, interrupts and DMA setup for the actual hardware. On Unix-like systems many devices appear as files, so a program uses the same `read` and `write` calls for a disk, a serial port or a sensor.\n\nWhy it matters: Without drivers, every program would have to contain code for every device. With them, a new device needs only a new driver.\n\nWatch out: Drivers usually run in kernel mode, so a bug in a driver can crash the entire system, and driver bugs are a leading cause of OS failures. Firmware on microcontrollers has the same layering in its hardware abstraction layer.",
+      "searchQuery": "device driver definition OS abstraction hides device details",
+      "refs": [
+        "OSTEP, ch. 36 (I/O Devices)"
+      ]
+    },
+    {
+      "id": "os-event-loop-handlers",
+      "unit": "io-devices",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "This is a miniature **event loop**: it takes events one at a time and calls the handler for each kind. What does it print? Why does `total` need no lock?\n\n```c\n#include <stdio.h>\ntypedef void (*handler_t)(int);\nstatic int total;\nstatic void on_key(int v)   { total += v; printf(\"key %d\\n\", v); }\nstatic void on_timer(int v) { total += v; printf(\"timer %d\\n\", v); }\nint main(void) {\n    handler_t table[2] = { on_key, on_timer };\n    int kind[4] = { 0, 1, 0, 0 }, val[4] = { 5, 10, 20, 1 };\n    for (int i = 0; i < 4; i++)\n        table[kind[i]](val[i]);\n    printf(\"total %d\\n\", total);\n}\n```",
+      "body": "`key 5`, `timer 10`, `key 20`, `key 1`, then `total 36` (each on its own line). No lock is needed because only one thread exists and each handler runs to completion before the next event is taken.\n\nAn event loop waits for the next event (a key press, a timer tick, data on a socket) and calls the matching handler through a table of function pointers. Real loops block in a call such as `poll` or `select` until something is ready. This style is called event-based concurrency, and it is an alternative to threads.\n\nWhy it matters: Handlers never run at the same time, so shared data has no races. Many embedded programs are built this way (event-driven firmware).\n\nWatch out: A handler that blocks, for example on a slow read, or computes for a long time, stalls every other event. The loop also uses only one core.",
+      "searchQuery": "event loop handlers function pointer table event-based concurrency no locks",
+      "refs": [
+        "OSTEP, ch. 33 (Event-based Concurrency)"
+      ]
+    }
+  ]
+}

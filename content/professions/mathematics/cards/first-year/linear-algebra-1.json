@@ -1,0 +1,1125 @@
+{
+  "profession": "mathematics",
+  "module": "linear-algebra-1",
+  "tier": 2,
+  "cards": [
+    {
+      "id": "linalg-linear-combination",
+      "unit": "vectors-and-linear-combinations",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **linear combination** of vectors $v_1, \\dots, v_k$ in $\\mathbb{R}^n$?",
+      "body": "A vector of the form $c_1 v_1 + c_2 v_2 + \\dots + c_k v_k$, where $c_1, \\dots, c_k$ are real numbers.\n\nYou scale each vector by its own number, then add the results. These two moves, scaling and adding, are the basic operations on vectors, and every other idea in linear algebra is built from them.\n\nExample: $2\\begin{pmatrix}1\\\\0\\end{pmatrix} - 3\\begin{pmatrix}0\\\\1\\end{pmatrix} = \\begin{pmatrix}2\\\\-3\\end{pmatrix}$, so $\\begin{pmatrix}2\\\\-3\\end{pmatrix}$ is a linear combination of the two coordinate vectors.\n\nWatch out: The numbers $c_i$ may be zero or negative. Taking all of them zero always gives the zero vector, so the zero vector is a linear combination of any list of vectors.",
+      "searchQuery": "linear combination of vectors definition",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §1.1–1.3",
+        "MIT 18.06 (2010) lecture 1"
+      ]
+    },
+    {
+      "id": "linalg-span",
+      "unit": "vectors-and-linear-combinations",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **span** of vectors $v_1, \\dots, v_k$ in $\\mathbb{R}^n$?",
+      "body": "The set of all linear combinations $c_1 v_1 + \\dots + c_k v_k$, with the $c_i$ ranging over all real numbers.\n\nKey idea: The span is everything you can reach using only those vectors. One nonzero vector spans a line through the origin; two vectors that do not point along a common line span a plane through the origin.\n\nWatch out: A span always contains the zero vector, so a line or plane that misses the origin is never the span of anything.",
+      "searchQuery": "span of vectors definition all linear combinations",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §1.1–1.3",
+        "MIT 18.06 (2010) lecture 1"
+      ]
+    },
+    {
+      "id": "linalg-angle-cosine-formula",
+      "unit": "vectors-and-linear-combinations",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "For nonzero $v, w \\in \\mathbb{R}^n$ at angle $\\theta$, which formula gives $\\cos\\theta$ using the dot product and the lengths $\\|v\\|$, $\\|w\\|$?",
+      "body": "$\\cos\\theta = \\dfrac{v \\cdot w}{\\|v\\|\\,\\|w\\|}$\n\nHere $v \\cdot w = v_1 w_1 + \\dots + v_n w_n$ is the **dot product**, and the **length** is $\\|v\\| = \\sqrt{v \\cdot v} = \\sqrt{v_1^2 + \\dots + v_n^2}$. A **unit vector** is a vector of length $1$; dividing any nonzero $v$ by $\\|v\\|$ gives the unit vector in its direction.\n\nWhy it matters: In $\\mathbb{R}^n$ this formula is used as the definition of the angle, and in particular $v \\cdot w = 0$ exactly when $\\theta = 90^\\circ$.\n\nWatch out: The dot product of two vectors is a single number, not a vector.",
+      "searchQuery": "cosine of angle between vectors dot product formula",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §1.1–1.3",
+        "MIT 18.06 (2010) lecture 1"
+      ]
+    },
+    {
+      "id": "linalg-cauchy-schwarz",
+      "unit": "vectors-and-linear-combinations",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **Cauchy–Schwarz inequality** for $v, w \\in \\mathbb{R}^n$, including when equality holds.",
+      "body": "$|v \\cdot w| \\le \\|v\\|\\,\\|w\\|$, with equality exactly when one of $v, w$ is a scalar multiple of the other.\n\nWhy it matters: It guarantees that the fraction $\\dfrac{v \\cdot w}{\\|v\\|\\|w\\|}$ lies in $[-1, 1]$, so it really is a cosine. It also gives the **triangle inequality** $\\|v + w\\| \\le \\|v\\| + \\|w\\|$, because $\\|v+w\\|^2 = \\|v\\|^2 + 2\\,v\\cdot w + \\|w\\|^2 \\le (\\|v\\| + \\|w\\|)^2$.\n\nKey idea: For unit vectors $u, z$, expand $0 \\le \\|u - z\\|^2 = 2 - 2\\,u \\cdot z$ and $0 \\le \\|u + z\\|^2 = 2 + 2\\,u \\cdot z$. Together they give $|u \\cdot z| \\le 1$. Rescaling gives the general case.",
+      "searchQuery": "Cauchy-Schwarz inequality dot product equality condition",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §1.1–1.3",
+        "MIT 18.06 (2010) lecture 1"
+      ]
+    },
+    {
+      "id": "linalg-span-plane-example",
+      "unit": "vectors-and-linear-combinations",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Let $u = \\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix}$ and $w = \\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix}$. Describe $\\operatorname{span}\\{u, w\\}$ geometrically, and decide whether $b = \\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}$ lies in it.",
+      "body": "The span is a plane through the origin, namely $z = x + y$, and $b$ lies in it because $b = 1\\cdot u + 2\\cdot w$.\n\nEvery combination has the form $a u + c w = (a, c, a + c)$, so its third entry equals the sum of the first two. That is exactly the plane $z = x + y$.\n\nCheck: $b = (1, 2, 3)$ has $3 = 1 + 2$, and $1\\cdot(1,0,1) + 2\\cdot(0,1,1) = (1, 2, 3)$.\n\nWatch out: The vector $(1, 2, 4)$ is not in the span, since $4 \\ne 1 + 2$. Whether a given vector is in a span is a question about solving equations for the coefficients.",
+      "searchQuery": "span of two vectors in R3 plane membership example",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §1.1–1.3",
+        "MIT 18.06 (2010) lecture 1"
+      ]
+    },
+    {
+      "id": "linalg-cosine-problem",
+      "unit": "vectors-and-linear-combinations",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Find $\\cos\\theta$, where $\\theta$ is the angle between $v = \\begin{pmatrix}2\\\\-1\\\\2\\end{pmatrix}$ and $w = \\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}$. Type it as an exact value.",
+      "body": "$\\dfrac{1}{\\sqrt{3}}$\n\n1. $v \\cdot w = 2 - 1 + 2 = 3$.\n2. $\\|v\\| = \\sqrt{4 + 1 + 4} = 3$ and $\\|w\\| = \\sqrt{3}$.\n3. $\\cos\\theta = \\dfrac{3}{3\\sqrt{3}} = \\dfrac{1}{\\sqrt{3}}$.\n\nCheck: $\\|v\\| = 3$ means $\\tfrac13 v = (\\tfrac23, -\\tfrac13, \\tfrac23)$ is the unit vector along $v$. It has dot product $1$ with $w$, and dividing by $\\|w\\| = \\sqrt{3}$ gives the same cosine.",
+      "searchQuery": "cosine angle between two vectors in R3 computation",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §1.1–1.3",
+        "MIT 18.06 (2010) lecture 1"
+      ],
+      "answer": "1/sqrt(3)",
+      "acceptedAnswers": [
+        "sqrt(3)/3",
+        "1/sqrt3",
+        "sqrt3/3"
+      ],
+      "answerDisplay": "$\\frac{1}{\\sqrt{3}}$"
+    },
+    {
+      "id": "linalg-two-vectors-always-plane",
+      "unit": "vectors-and-linear-combinations",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that any two nonzero vectors in $\\mathbb{R}^3$ span a plane?",
+      "body": "If one vector is a scalar multiple of the other, their span is only a line through the origin.\n\nExample: $\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}$ and $\\begin{pmatrix}-2\\\\-4\\\\-6\\end{pmatrix}$ are both nonzero, but every combination $a\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix} + c\\begin{pmatrix}-2\\\\-4\\\\-6\\end{pmatrix} = (a - 2c)\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}$ lies on the same line.\n\nKey idea: A plane needs two vectors that point in genuinely different directions. Later in this module that idea gets a precise name and a test.\n\nTip: Before trusting a count of vectors, ask whether any of them is already a combination of the others. If so, it adds nothing new to the span.",
+      "searchQuery": "two nonzero vectors span line not plane parallel",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §1.1–1.3",
+        "MIT 18.06 (2010) lecture 1"
+      ]
+    },
+    {
+      "id": "linalg-matrix-vector-column-picture",
+      "unit": "matrices-and-elimination",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Let $A$ be an $m \\times n$ matrix with columns $a_1, \\dots, a_n$ and let $x = (x_1, \\dots, x_n)$. How does the **column picture** define the **matrix–vector product** $Ax$?",
+      "body": "$Ax = x_1 a_1 + x_2 a_2 + \\dots + x_n a_n$, a linear combination of the columns of $A$ with the entries of $x$ as the weights.\n\nSo $Ax$ always lies in the span of the columns, and solving $Ax = b$ means asking whether $b$ is a combination of the columns and which weights make it so.\n\nThe **row picture** gives the same vector entry by entry: the $i$th entry of $Ax$ is (row $i$ of $A$) $\\cdot\\, x$.\n\nExample: $\\begin{pmatrix}1 & 2\\\\3 & 4\\end{pmatrix}\\begin{pmatrix}2\\\\-1\\end{pmatrix} = 2\\begin{pmatrix}1\\\\3\\end{pmatrix} - 1\\begin{pmatrix}2\\\\4\\end{pmatrix} = \\begin{pmatrix}0\\\\2\\end{pmatrix}$. By rows: $1\\cdot 2 + 2\\cdot(-1) = 0$ and $3 \\cdot 2 + 4 \\cdot (-1) = 2$.",
+      "searchQuery": "matrix vector product column picture combination of columns",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.1–2.3",
+        "MIT 18.06 (2010) lectures 1–2"
+      ]
+    },
+    {
+      "id": "linalg-pivot-definition",
+      "unit": "matrices-and-elimination",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "In Gaussian elimination, what is a **pivot**?",
+      "body": "The nonzero entry in the current row and column that is used to clear the entries below it.\n\nElimination works down the diagonal. At step $k$ the pivot is the entry in position $(k, k)$ after earlier steps; its row is subtracted, in suitable multiples, from the rows below.\n\nKey idea: The multiplier for a lower row is (the entry to be cleared) divided by the pivot, which is why a pivot must not be zero.\n\nWatch out: The pivot is a number in the current, partly reduced matrix, not an entry of the original $A$ (except for the first one).",
+      "searchQuery": "pivot gaussian elimination definition nonzero entry",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.1–2.3",
+        "MIT 18.06 (2010) lectures 1–2"
+      ]
+    },
+    {
+      "id": "linalg-gaussian-elimination-goal",
+      "unit": "matrices-and-elimination",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What does **Gaussian elimination** do to a square system $Ax = b$, and what does it produce?",
+      "body": "It subtracts multiples of earlier rows from later rows to create zeros below each pivot, turning the system into an upper-triangular system $Ux = c$ that is solved from the bottom up.\n\nUpper triangular means every entry below the diagonal is $0$. The last equation then has one unknown, the one above it two, and so on: this bottom-up solving is **back-substitution**.\n\nWhy it works: Subtracting a multiple of one equation from another can be undone by adding it back, so the new system has exactly the same solutions as the old one. Apply every step to $b$ as well as to $A$.\n\nTip: Keep $b$ as an extra column next to $A$ so each row operation is done once, on the whole row.",
+      "searchQuery": "gaussian elimination upper triangular back substitution",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.1–2.3",
+        "MIT 18.06 (2010) lectures 1–2"
+      ]
+    },
+    {
+      "id": "linalg-elimination-matrix",
+      "unit": "matrices-and-elimination",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "For an $n \\times n$ matrix $A$, which matrix $E_{ij}$ subtracts $\\ell$ times row $j$ from row $i$ (with $i > j$), and how is it applied?",
+      "body": "$E_{ij}$ is the identity matrix with $-\\ell$ in row $i$, column $j$; the step is the product $E_{ij}A$, with $E_{ij}$ on the left.\n\nThis is the **elimination matrix** for one step. For $3 \\times 3$ and $i = 2$, $j = 1$, $\\ell = 2$:\n\n$$E_{21} = \\begin{pmatrix}1 & 0 & 0\\\\-2 & 1 & 0\\\\0 & 0 & 1\\end{pmatrix}$$\n\nRow 2 of $E_{21}A$ is $(-2)\\cdot$(row 1) $+ 1\\cdot$(row 2) $+ 0\\cdot$(row 3), which is row 2 minus $2$ times row 1. Rows 1 and 3 are unchanged.\n\nWatch out: Multiplying on the left changes rows; multiplying on the right, $AE$, would combine columns instead. The inverse of $E_{ij}$ puts $+\\ell$ in the same place, because it adds the multiple back.",
+      "searchQuery": "elimination matrix subtract multiple of row identity",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.1–2.3",
+        "MIT 18.06 (2010) lectures 1–2"
+      ]
+    },
+    {
+      "id": "linalg-two-pictures-example",
+      "unit": "matrices-and-elimination",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "For the system $2x - y = 0$, $-x + 2y = 3$, describe the row picture and the column picture and give the solution.",
+      "body": "The solution is $(x, y) = (1, 2)$: the two lines meet there (row picture), and $b = \\begin{pmatrix}0\\\\3\\end{pmatrix}$ equals $1\\begin{pmatrix}2\\\\-1\\end{pmatrix} + 2\\begin{pmatrix}-1\\\\2\\end{pmatrix}$ (column picture).\n\nRow picture: each equation is a line in the plane, and the solution is their intersection point. Here $2(1) - 2 = 0$ and $-1 + 2(2) = 3$.\n\nColumn picture: write the system as $x\\begin{pmatrix}2\\\\-1\\end{pmatrix} + y\\begin{pmatrix}-1\\\\2\\end{pmatrix} = \\begin{pmatrix}0\\\\3\\end{pmatrix}$. The question becomes which combination of the two columns produces $b$: one copy of the first column plus two of the second.\n\nKey idea: Same system, same answer, two ways of seeing it. The column picture is the one that generalizes to column spaces later.",
+      "searchQuery": "row picture column picture 2x2 linear system example",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.1–2.3",
+        "MIT 18.06 (2010) lectures 1–2"
+      ]
+    },
+    {
+      "id": "linalg-elimination-solve-3x3",
+      "unit": "matrices-and-elimination",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Solve by elimination: $x + y + z = 6$, $2x + 3y + 4z = 20$, $3x + 5y + 8z = 37$. Give the pivots and the solution.",
+      "body": "The pivots are $1, 1, 1$ and the solution is $(x, y, z) = (1, 2, 3)$.\n\n1. Subtract $2\\times$ row 1 from row 2 and $3\\times$ row 1 from row 3: $y + 2z = 8$ and $2y + 5z = 19$.\n2. Subtract $2\\times$ the new row 2 from row 3: $z = 3$.\n3. Back-substitute: $y = 8 - 2(3) = 2$, then $x = 6 - 2 - 3 = 1$.\n\nCheck: $2(1) + 3(2) + 4(3) = 20$ and $3(1) + 5(2) + 8(3) = 37$.",
+      "searchQuery": "solve 3x3 linear system gaussian elimination pivots",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.1–2.3",
+        "MIT 18.06 (2010) lectures 1–2"
+      ]
+    },
+    {
+      "id": "linalg-singular-parameter-problem",
+      "unit": "matrices-and-elimination",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "The system $x + 2y = 4$, $3x + cy = 12$ has a number $c$ for which elimination cannot produce two pivots. Find $c$ and say how many solutions the system then has.",
+      "body": "$c = 6$: the second equation becomes $0 = 0$, so only one pivot appears and there are infinitely many solutions.\n\nSubtract $3\\times$ row 1 from row 2: the second equation becomes $(c - 6)\\,y = 0$. If $c \\ne 6$, the pivot $c - 6$ exists and gives $y = 0$, $x = 4$.\n\nAt $c = 6$ the second equation is just $3$ times the first ($3x + 6y = 12$), so every point of the line $x + 2y = 4$ is a solution. This is the **singular** case: fewer pivots than unknowns.\n\nWatch out: If the right side were $3x + 6y = 13$ instead, the same elimination would give $0 = 1$ and no solution. A missing pivot allows two outcomes, depending on $b$.",
+      "searchQuery": "singular system missing pivot infinitely many solutions parameter",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.1–2.3",
+        "MIT 18.06 (2010) lectures 1–2"
+      ]
+    },
+    {
+      "id": "linalg-row-exchange-problem",
+      "unit": "matrices-and-elimination",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Solve $2y + z = 7$, $x + y + 2z = 9$, $2x + y + z = 7$ by elimination. The first pivot position holds $0$, so first swap two rows (a **row exchange**).",
+      "body": "$(x, y, z) = (1, 2, 3)$, found after exchanging rows 1 and 2; the pivots are $1, 2, -\\tfrac52$.\n\n1. Swap rows 1 and 2 so the first equation is $x + y + 2z = 9$ and the second is $2y + z = 7$.\n2. Subtract $2\\times$ row 1 from row 3: $-y - 3z = -11$.\n3. Add $\\tfrac12\\times$ row 2 to row 3: $-\\tfrac52 z = -\\tfrac{15}{2}$, so $z = 3$.\n4. Back-substitute: $y = (7 - 3)/2 = 2$ and $x = 9 - 2 - 6 = 1$.\n\nCheck: $2(2) + 3 = 7$ and $2(1) + 2 + 3 = 7$.",
+      "searchQuery": "row exchange zero pivot elimination solve system",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.1–2.3",
+        "MIT 18.06 (2010) lectures 1–2"
+      ]
+    },
+    {
+      "id": "linalg-zero-pivot-no-solution",
+      "unit": "matrices-and-elimination",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that a $0$ in a pivot position means the system has no solution?",
+      "body": "A zero pivot is often fixable by a row exchange; only when no lower row can supply a nonzero entry in that column is the system truly stuck.\n\nExample: In $\\begin{pmatrix}0 & 2\\\\3 & 4\\end{pmatrix}\\begin{pmatrix}x\\\\y\\end{pmatrix} = \\begin{pmatrix}2\\\\11\\end{pmatrix}$, the first pivot position holds $0$. Swapping the rows gives $3x + 4y = 11$, $2y = 2$, so $y = 1$, $x = 7/3$. The system has a unique solution.\n\nKey idea: When elimination cannot continue even after exchanging rows, the matrix is singular, and then the system has either no solution or infinitely many, depending on $b$.\n\nWatch out: Not every zero encountered is a failure: a zero below a pivot is exactly what elimination is trying to create.",
+      "searchQuery": "zero pivot row exchange system still solvable",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.1–2.3",
+        "MIT 18.06 (2010) lectures 1–2"
+      ]
+    },
+    {
+      "id": "linalg-matrix-product-definition",
+      "unit": "matrix-algebra-and-inverses",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "How is the **matrix product** $AB$ defined when $A$ is $m \\times n$ and $B$ is $n \\times p$?",
+      "body": "$AB$ is the $m \\times p$ matrix with entries $(AB)_{ij} = \\sum_{k=1}^{n} a_{ik} b_{kj}$, the dot product of row $i$ of $A$ with column $j$ of $B$.\n\nThe same product can be seen in four ways:\n- entry by entry: (row $i$ of $A$) $\\cdot$ (column $j$ of $B$)\n- by columns: column $j$ of $AB$ is $A$ times column $j$ of $B$\n- by rows: row $i$ of $AB$ is row $i$ of $A$ times $B$\n- as a sum of (column $k$ of $A$)(row $k$ of $B$) over $k$, each a column times a row\n\nWatch out: The inner sizes must match: the number of columns of $A$ equals the number of rows of $B$.",
+      "searchQuery": "matrix product definition four ways rows columns",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.4–2.7",
+        "MIT 18.06 (2010) lectures 3–5"
+      ]
+    },
+    {
+      "id": "linalg-ab-not-ba",
+      "unit": "matrix-algebra-and-inverses",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that $AB = BA$ for square matrices $A$ and $B$ of the same size?",
+      "body": "Matrix multiplication is not commutative: in general $AB \\ne BA$, and a single example shows it.\n\nExample: For $A = \\begin{pmatrix}1 & 1\\\\0 & 1\\end{pmatrix}$ and $B = \\begin{pmatrix}1 & 0\\\\1 & 1\\end{pmatrix}$ we get $AB = \\begin{pmatrix}2 & 1\\\\1 & 1\\end{pmatrix}$ but $BA = \\begin{pmatrix}1 & 1\\\\1 & 2\\end{pmatrix}$.\n\nWhy: $AB$ means \"apply $B$ first, then $A$\" to a vector, and the order in which two linear steps are done usually matters.\n\nWatch out: This kills the formulas that rely on commuting. For instance $(A + B)^2 = A^2 + AB + BA + B^2$, which is not $A^2 + 2AB + B^2$ in general. Multiplication is still associative, $(AB)C = A(BC)$.",
+      "searchQuery": "matrix multiplication not commutative AB not equal BA",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.4–2.7",
+        "MIT 18.06 (2010) lectures 3–5"
+      ]
+    },
+    {
+      "id": "linalg-inverse-matrix-definition",
+      "unit": "matrix-algebra-and-inverses",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **inverse matrix** of a square matrix $A$, and when does it exist?",
+      "body": "A matrix $A^{-1}$ with $A A^{-1} = I$ and $A^{-1} A = I$; it exists exactly when elimination on $A$ (row exchanges allowed) produces $n$ pivots.\n\nIf $A^{-1}$ exists, $Ax = b$ has the unique solution $x = A^{-1} b$. A matrix with no inverse is called singular.\n\nTip: For square matrices, $AB = I$ alone already forces $BA = I$, so one product check is enough.\n\nWatch out: In practice one solves $Ax = b$ by elimination and does not compute $A^{-1}$ first, which costs more.",
+      "searchQuery": "inverse matrix definition exists n pivots",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.4–2.7",
+        "MIT 18.06 (2010) lectures 3–5"
+      ]
+    },
+    {
+      "id": "linalg-gauss-jordan-example",
+      "unit": "matrix-algebra-and-inverses",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Use **Gauss–Jordan elimination** on $[A \\mid I]$ to find the inverse of $A = \\begin{pmatrix}1 & 3\\\\2 & 7\\end{pmatrix}$.",
+      "body": "$A^{-1} = \\begin{pmatrix}7 & -3\\\\-2 & 1\\end{pmatrix}$\n\nGauss–Jordan elimination row-reduces the block matrix $[A \\mid I]$ until the left half is $I$; the right half is then $A^{-1}$.\n\n1. Subtract $2\\times$ row 1 from row 2: $\\begin{pmatrix}1 & 3\\\\0 & 1\\end{pmatrix}$ on the left, $\\begin{pmatrix}1 & 0\\\\-2 & 1\\end{pmatrix}$ on the right.\n2. Subtract $3\\times$ row 2 from row 1: the left becomes $I$ and the right becomes $\\begin{pmatrix}7 & -3\\\\-2 & 1\\end{pmatrix}$.\n\nWhy it works: Each row operation is multiplication by an invertible matrix $E$. The operations turn $A$ into $I$, so $EA = I$, and $E = E I$ is exactly what appears on the right.\n\nCheck: Row 1 of $A$ times the columns of the answer: $1\\cdot7 + 3\\cdot(-2) = 1$ and $1\\cdot(-3) + 3\\cdot1 = 0$.",
+      "searchQuery": "Gauss-Jordan elimination inverse matrix augmented identity",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.4–2.7",
+        "MIT 18.06 (2010) lectures 3–5"
+      ]
+    },
+    {
+      "id": "linalg-inverse-of-product",
+      "unit": "matrix-algebra-and-inverses",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "What is the inverse of a product $AB$ of invertible $n \\times n$ matrices?",
+      "body": "$(AB)^{-1} = B^{-1} A^{-1}$: the inverses in reverse order.\n\nWhy: $(AB)(B^{-1}A^{-1}) = A (B B^{-1}) A^{-1} = A A^{-1} = I$. The same cancellation from the other side gives $(B^{-1}A^{-1})(AB) = I$.\n\nMnemonic: Socks and shoes. You put on socks, then shoes; to undo it you take off the shoes first, then the socks.\n\nWatch out: $(AB)^{-1}$ is not $A^{-1}B^{-1}$ in general, since matrices do not commute. The product $AB$ is also invertible only if both $A$ and $B$ are.",
+      "searchQuery": "inverse of product of matrices reverse order",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.4–2.7",
+        "MIT 18.06 (2010) lectures 3–5"
+      ]
+    },
+    {
+      "id": "linalg-transpose-of-product",
+      "unit": "matrix-algebra-and-inverses",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "For matrices $A$ and $B$ whose product $AB$ is defined, what is $(AB)^T$? (The **transpose** $A^T$ has entries $(A^T)_{ij} = A_{ji}$.)",
+      "body": "$(AB)^T = B^T A^T$\n\nTransposing swaps rows and columns, so $A^T$ is $A$ flipped across its diagonal. A **symmetric matrix** is one with $A^T = A$.\n\nWhy: The entry $(i, j)$ of $(AB)^T$ is the entry $(j, i)$ of $AB$, which is (row $j$ of $A$) $\\cdot$ (column $i$ of $B$). That is also (row $i$ of $B^T$) $\\cdot$ (column $j$ of $A^T$), the $(i, j)$ entry of $B^T A^T$.\n\nExample: For any matrix $R$, the product $R^T R$ is symmetric, since $(R^T R)^T = R^T (R^T)^T = R^T R$.",
+      "searchQuery": "transpose of product B transpose A transpose symmetric",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.4–2.7",
+        "MIT 18.06 (2010) lectures 3–5"
+      ]
+    },
+    {
+      "id": "linalg-lu-factorization",
+      "unit": "matrix-algebra-and-inverses",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "If elimination on $A$ needs no row exchanges, what is the **LU factorization** of $A$ and what do the entries of $L$ record?",
+      "body": "$A = LU$, with $U$ the upper-triangular result of elimination and $L$ lower triangular with $1$s on the diagonal and the elimination multipliers below it.\n\nThe entry $\\ell_{ij}$ of $L$ is the multiplier used to clear position $(i, j)$. If row exchanges are needed, a permutation matrix $P$ (the identity with its rows reordered) fixes it: $PA = LU$.\n\nWhy: Elimination is $E_{32}E_{31}E_{21}A = U$, so $A = E_{21}^{-1}E_{31}^{-1}E_{32}^{-1}U$. In this order the multipliers drop into $L$ without mixing.\n\nWhy it matters: Solve $Ax = b$ in two cheap triangular steps, $Lc = b$ (forward) and then $Ux = c$ (back-substitution). The same $L$ and $U$ serve every new $b$.",
+      "searchQuery": "LU factorization A=LU multipliers lower triangular",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.4–2.7",
+        "MIT 18.06 (2010) lectures 3–5"
+      ]
+    },
+    {
+      "id": "linalg-lu-solve-problem",
+      "unit": "matrix-algebra-and-inverses",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Factor $A = \\begin{pmatrix}1 & 2 & 1\\\\2 & 5 & 4\\\\-1 & 1 & 8\\end{pmatrix}$ as $LU$ and use it to solve $Ax = \\begin{pmatrix}6\\\\16\\\\9\\end{pmatrix}$.",
+      "body": "$L = \\begin{pmatrix}1 & 0 & 0\\\\2 & 1 & 0\\\\-1 & 3 & 1\\end{pmatrix}$, $U = \\begin{pmatrix}1 & 2 & 1\\\\0 & 1 & 2\\\\0 & 0 & 3\\end{pmatrix}$, and $x = \\begin{pmatrix}1\\\\2\\\\1\\end{pmatrix}$.\n\n1. Clear column 1: subtract $2\\times$ row 1 from row 2 and add $1\\times$ row 1 to row 3. The multipliers are $\\ell_{21} = 2$ and $\\ell_{31} = -1$. The rows are now $(0,1,2)$ and $(0,3,9)$.\n2. Clear column 2: subtract $3\\times$ row 2 from row 3, so $\\ell_{32} = 3$ and the last row is $(0,0,3)$. This gives $U$.\n3. Forward: $Lc = \\begin{pmatrix}6\\\\16\\\\9\\end{pmatrix}$ gives $c_1 = 6$, $c_2 = 16 - 12 = 4$, $c_3 = 9 + 6 - 12 = 3$.\n4. Back: $Ux = c$ gives $z = 1$, $y = 4 - 2 = 2$, $x = 6 - 4 - 1 = 1$.\n\nCheck: The first row of $LU$ is $(1,2,1)$, and row 3 is $-1\\cdot(1,2,1) + 3\\cdot(0,1,2) + (0,0,3) = (-1, 1, 8)$.",
+      "searchQuery": "LU factorization example solve system forward back substitution",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.4–2.7",
+        "MIT 18.06 (2010) lectures 3–5"
+      ]
+    },
+    {
+      "id": "linalg-permutation-inverse-problem",
+      "unit": "matrix-algebra-and-inverses",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A **permutation matrix** is the identity matrix with its rows in a different order. For $P = \\begin{pmatrix}0 & 1 & 0\\\\0 & 0 & 1\\\\1 & 0 & 0\\end{pmatrix}$, find $P^{-1}$ and say what $P$ does to $x = (x_1, x_2, x_3)$.",
+      "body": "$P^{-1} = P^T = \\begin{pmatrix}0 & 0 & 1\\\\1 & 0 & 0\\\\0 & 1 & 0\\end{pmatrix}$, and $Px = (x_2, x_3, x_1)$.\n\nThe rows of $P$ are $(0,1,0)$, $(0,0,1)$, $(1,0,0)$, so the entries of $Px$ are $x_2$, $x_3$, $x_1$: the entries cycle one place up. Undoing a cycle means cycling back, which is what $P^T$ does.\n\nWhy: The columns of a permutation matrix are also the columns of $I$ in some order, so different columns have dot product $0$ and each column has length $1$. That gives $P^T P = I$, hence $P^{-1} = P^T$.\n\nCheck: Three cycles return everything to its place, so $P^3 = I$, and $P^{-1} = P^2$ agrees with the matrix above.",
+      "searchQuery": "permutation matrix inverse transpose cyclic",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §2.4–2.7",
+        "MIT 18.06 (2010) lectures 3–5"
+      ]
+    },
+    {
+      "id": "linalg-vector-space-concept",
+      "unit": "vector-spaces-and-subspaces",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is a **vector space**, and what is the one property that matters most in practice?",
+      "body": "A set of objects that can be added and scaled by real numbers, following the usual rules, so that every linear combination of members stays in the set.\n\nThe usual rules are the ones you know from $\\mathbb{R}^n$: addition is commutative and associative, there is a zero vector, every vector has an opposite, and scaling distributes over addition. Besides $\\mathbb{R}^n$, the set of all $2 \\times 2$ matrices is a vector space, with matrices as the \"vectors\".\n\nKey idea: Closure. Adding two members, or scaling one, never leaves the set. This is exactly what you check for subspaces.\n\nWatch out: A vector space can never be empty. It contains $0$, because $0 \\cdot v = 0$ for any member $v$.",
+      "searchQuery": "vector space definition closure addition scalar multiplication",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.1–3.2",
+        "MIT 18.06 (2010) lectures 5–7"
+      ]
+    },
+    {
+      "id": "linalg-subspace-definition",
+      "unit": "vector-spaces-and-subspaces",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What conditions make a subset $S$ of $\\mathbb{R}^n$ a **subspace**?",
+      "body": "$S$ contains the zero vector, and for all $u, v \\in S$ and every real $c$: $u + v \\in S$ and $c\\,u \\in S$.\n\nEquivalently, $S$ is nonempty and every linear combination of members of $S$ is again in $S$. A subspace is itself a vector space, sitting inside a bigger one.\n\nExample: In $\\mathbb{R}^3$ the subspaces are the origin alone, the lines through the origin, the planes through the origin, and $\\mathbb{R}^3$ itself.\n\nTip: To disprove a subspace claim, check $0 \\in S$ first. If the zero vector is missing, you are done.",
+      "searchQuery": "subspace definition conditions closed under addition scaling",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.1–3.2",
+        "MIT 18.06 (2010) lectures 5–7"
+      ]
+    },
+    {
+      "id": "linalg-union-of-axes-counterexample",
+      "unit": "vector-spaces-and-subspaces",
+      "kind": "counterexample",
+      "difficulty": 3,
+      "title": "Give a subset of $\\mathbb{R}^2$ that contains $0$ and is closed under scaling but is not a subspace.",
+      "body": "The union of the two coordinate axes, $S = \\{(x, y) : x = 0 \\text{ or } y = 0\\}$.\n\nIt contains $0$, and scaling a vector on an axis keeps it on that axis. But $(1, 0)$ and $(0, 1)$ are in $S$ while their sum $(1, 1)$ is not, so $S$ is not closed under addition.\n\nKey idea: A union of two subspaces is generally not a subspace; closure under addition is the condition that fails.\n\nWatch out: The first quadrant $\\{(x,y) : x \\ge 0, y \\ge 0\\}$ fails the other way: it is closed under addition but not under scaling by $-1$.",
+      "searchQuery": "union of two lines not a subspace counterexample",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.1–3.2",
+        "MIT 18.06 (2010) lectures 5–7"
+      ]
+    },
+    {
+      "id": "linalg-column-space-definition",
+      "unit": "vector-spaces-and-subspaces",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **column space** $C(A)$ of an $m \\times n$ matrix $A$, and what does it say about $Ax = b$?",
+      "body": "$C(A)$ is the span of the columns of $A$: all vectors $Ax$. It is a subspace of $\\mathbb{R}^m$, and $Ax = b$ is solvable exactly when $b \\in C(A)$.\n\nThis follows from the column picture: $Ax$ is a combination of the columns, so $b$ can be written as $Ax$ for some $x$ precisely when $b$ is a combination of the columns.\n\nWatch out: The column space lives in $\\mathbb{R}^m$ (the number of rows), not $\\mathbb{R}^n$. A $3 \\times 2$ matrix has a column space inside $\\mathbb{R}^3$, and it cannot fill $\\mathbb{R}^3$ with only two columns.",
+      "searchQuery": "column space definition span of columns Ax=b solvable",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.1–3.2",
+        "MIT 18.06 (2010) lectures 5–7"
+      ]
+    },
+    {
+      "id": "linalg-null-space-definition",
+      "unit": "vector-spaces-and-subspaces",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is the **null space** $N(A)$ of an $m \\times n$ matrix $A$, and why is it a subspace?",
+      "body": "$N(A) = \\{x \\in \\mathbb{R}^n : Ax = 0\\}$, the set of all solutions of $Ax = 0$; it is a subspace of $\\mathbb{R}^n$.\n\nWhy: $0$ is a solution, and if $Ax = 0$ and $Ay = 0$ then $A(cx + dy) = c\\,Ax + d\\,Ay = 0$, so combinations of solutions are solutions.\n\nWatch out: The solutions of $Ax = b$ with $b \\ne 0$ do not form a subspace, since $x = 0$ is not among them. They are a shifted copy of $N(A)$, as the next unit shows.",
+      "searchQuery": "null space definition solutions Ax=0 subspace",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.1–3.2",
+        "MIT 18.06 (2010) lectures 5–7"
+      ]
+    },
+    {
+      "id": "linalg-rref-special-solutions-example",
+      "unit": "vector-spaces-and-subspaces",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "For $A = \\begin{pmatrix}1 & 2 & 0 & 1\\\\0 & 0 & 1 & 3\\\\2 & 4 & 1 & 5\\end{pmatrix}$, find the reduced row echelon form, the free variables and the special solutions of $Ax = 0$.",
+      "body": "The reduced row echelon form is $R = \\begin{pmatrix}1 & 2 & 0 & 1\\\\0 & 0 & 1 & 3\\\\0 & 0 & 0 & 0\\end{pmatrix}$; the free variables are $x_2, x_4$, and the special solutions are $(-2, 1, 0, 0)$ and $(-1, 0, -3, 1)$.\n\n**Reduced row echelon form** (RREF) has each pivot equal to $1$ with zeros above and below it, pivots moving right as you go down, and zero rows at the bottom. Here row 3 minus twice row 1 is $(0,0,1,3)$, which duplicates row 2 and cancels. The pivots are in columns 1 and 3.\n\nA **free variable** belongs to a column without a pivot: $x_2$ and $x_4$ can be chosen freely. A **special solution** sets one free variable to $1$ and the others to $0$, then solves for the pivot variables. From $x_1 + 2x_2 + x_4 = 0$ and $x_3 + 3x_4 = 0$: $x_2 = 1$ gives $x_1 = -2$; $x_4 = 1$ gives $x_1 = -1$, $x_3 = -3$.\n\nKey idea: $N(A)$ is the span of the special solutions.",
+      "searchQuery": "reduced row echelon form free variables special solutions example",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.1–3.2",
+        "MIT 18.06 (2010) lectures 5–7"
+      ]
+    },
+    {
+      "id": "linalg-null-space-problem",
+      "unit": "vector-spaces-and-subspaces",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Describe $N(A)$ geometrically for $A = \\begin{pmatrix}1 & 2 & 1\\\\2 & 4 & 3\\\\3 & 6 & 4\\end{pmatrix}$.",
+      "body": "$N(A)$ is the line through the origin spanned by $\\begin{pmatrix}-2\\\\1\\\\0\\end{pmatrix}$.\n\n1. Row 2 minus $2\\times$ row 1 gives $(0,0,1)$, and row 3 minus $3\\times$ row 1 gives $(0,0,1)$. Subtracting row 2 from the new row 3 leaves zeros.\n2. The reduced form is $\\begin{pmatrix}1 & 2 & 0\\\\0 & 0 & 1\\\\0 & 0 & 0\\end{pmatrix}$. Pivots are in columns 1 and 3, so $x_2$ is the only free variable.\n3. Setting $x_2 = 1$ gives $x_1 = -2$ and $x_3 = 0$.\n\nCheck: $A\\begin{pmatrix}-2\\\\1\\\\0\\end{pmatrix} = -2\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix} + 1\\begin{pmatrix}2\\\\4\\\\6\\end{pmatrix} = \\begin{pmatrix}0\\\\0\\\\0\\end{pmatrix}$.\n\nWatch out: Columns 1 and 2 are parallel, which is what the free variable $x_2$ detects: $2\\times$(column 1) $-$ (column 2) $= 0$.",
+      "searchQuery": "null space of 3x3 matrix line geometric description",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.1–3.2",
+        "MIT 18.06 (2010) lectures 5–7"
+      ]
+    },
+    {
+      "id": "linalg-column-space-condition-problem",
+      "unit": "vector-spaces-and-subspaces",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "For $A = \\begin{pmatrix}1 & 1\\\\1 & 2\\\\2 & 3\\end{pmatrix}$, which vectors $b = (b_1, b_2, b_3)$ make $Ax = b$ solvable?",
+      "body": "Exactly those with $b_3 = b_1 + b_2$: the column space is a plane through the origin in $\\mathbb{R}^3$.\n\n1. Subtract row 1 from row 2 and $2\\times$ row 1 from row 3 on the augmented matrix: the rows become $(1, 1 \\mid b_1)$, $(0, 1 \\mid b_2 - b_1)$, $(0, 1 \\mid b_3 - 2b_1)$.\n2. Subtract the new row 2 from row 3: the last row is $(0, 0 \\mid b_3 - b_1 - b_2)$.\n3. That row reads $0 = b_3 - b_1 - b_2$, so a solution exists exactly when the right side vanishes.\n\nCheck: Both columns satisfy it: $(1,1,2)$ has $2 = 1 + 1$ and $(1,2,3)$ has $3 = 1 + 2$. Two columns can span at most a plane inside $\\mathbb{R}^3$.",
+      "searchQuery": "column space condition for solvability augmented matrix plane",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.1–3.2",
+        "MIT 18.06 (2010) lectures 5–7"
+      ]
+    },
+    {
+      "id": "linalg-rank-definition",
+      "unit": "rank-and-the-four-subspaces",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is the **rank** of a matrix $A$?",
+      "body": "The number of pivots that elimination finds in $A$; it is written $r$, and $r \\le \\min(m, n)$ for an $m \\times n$ matrix.\n\nRank measures how many truly different directions the columns (and rows) carry. A system $Ax = b$ with $n$ unknowns has a unique solution, when it has one, exactly when $r = n$.\n\nWatch out: Count pivots after elimination. The number of nonzero entries of $A$ says nothing about rank: the matrix with every entry equal to $1$ has rank $1$ however large it is.",
+      "searchQuery": "rank of a matrix definition number of pivots",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.3–3.5",
+        "MIT 18.06 (2010) lectures 8–10"
+      ]
+    },
+    {
+      "id": "linalg-independence-definition",
+      "unit": "rank-and-the-four-subspaces",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "When are vectors $v_1, \\dots, v_k$ **linearly independent**?",
+      "body": "When the only combination $c_1 v_1 + \\dots + c_k v_k = 0$ is the one with every $c_i = 0$.\n\nIf some other combination gives $0$, the vectors are dependent: at least one of them is a combination of the others. Put the vectors as columns of a matrix $A$: they are independent exactly when $N(A) = \\{0\\}$, that is, when no column is free.\n\nExample: $\\begin{pmatrix}1\\\\2\\end{pmatrix}$ and $\\begin{pmatrix}2\\\\4\\end{pmatrix}$ are dependent, since $2\\begin{pmatrix}1\\\\2\\end{pmatrix} - \\begin{pmatrix}2\\\\4\\end{pmatrix} = 0$. $\\begin{pmatrix}1\\\\2\\end{pmatrix}$ and $\\begin{pmatrix}2\\\\1\\end{pmatrix}$ are independent.\n\nWatch out: Any list containing the zero vector is dependent, since $1\\cdot 0 = 0$ is a nontrivial combination.",
+      "searchQuery": "linear independence definition only trivial combination zero",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.3–3.5",
+        "MIT 18.06 (2010) lectures 8–10"
+      ]
+    },
+    {
+      "id": "linalg-basis-dimension-definition",
+      "unit": "rank-and-the-four-subspaces",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a **basis** of a subspace $V$, and what is the **dimension** of $V$?",
+      "body": "A basis is a list of independent vectors that span $V$; the dimension of $V$ is the number of vectors in a basis, the same for every basis.\n\nEvery vector of $V$ is then a combination of the basis vectors in exactly one way. For $\\mathbb{R}^n$ the standard basis (columns of $I$) has $n$ vectors, so $\\dim \\mathbb{R}^n = n$.\n\nExample: A line through the origin has dimension $1$ and any nonzero vector on it is a basis. The columns of an $n \\times n$ matrix form a basis of $\\mathbb{R}^n$ exactly when the matrix is invertible.\n\nWatch out: Bases are not unique, but their size is. Never say \"the\" basis unless one has been fixed.",
+      "searchQuery": "basis and dimension of a subspace definition",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.3–3.5",
+        "MIT 18.06 (2010) lectures 8–10"
+      ]
+    },
+    {
+      "id": "linalg-rank-nullity",
+      "unit": "rank-and-the-four-subspaces",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **rank–nullity theorem** for an $m \\times n$ matrix $A$ of rank $r$.",
+      "body": "$\\dim N(A) = n - r$, equivalently $\\dim C(A) + \\dim N(A) = n$.\n\nWhy: Each of the $n$ columns is either a pivot column ($r$ of them) or a free column ($n - r$ of them). The special solutions, one per free variable, are independent and span $N(A)$, so they are a basis of $N(A)$ with $n - r$ vectors.\n\nWhy it matters: It makes counting possible. A $5 \\times 8$ matrix has $n - r \\ge 3$, so $Ax = 0$ always has nonzero solutions, no matter the entries.\n\nWatch out: The $n$ here is the number of columns (unknowns), not the number of rows.",
+      "searchQuery": "rank nullity theorem dimension null space n minus r",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.3–3.5",
+        "MIT 18.06 (2010) lectures 8–10"
+      ]
+    },
+    {
+      "id": "linalg-four-subspaces-dimensions",
+      "unit": "rank-and-the-four-subspaces",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "For an $m \\times n$ matrix $A$ of rank $r$, what are the dimensions of $C(A)$, the row space $C(A^T)$, $N(A)$ and the left null space $N(A^T)$, and where does each live?",
+      "body": "$C(A)$ and $C(A^T)$ both have dimension $r$ (in $\\mathbb{R}^m$ and $\\mathbb{R}^n$); $N(A)$ has dimension $n - r$ in $\\mathbb{R}^n$; $N(A^T)$ has dimension $m - r$ in $\\mathbb{R}^m$.\n\nThe **row space** $C(A^T)$ is the span of the rows of $A$. The **left null space** $N(A^T)$ is the set of $y \\in \\mathbb{R}^m$ with $A^T y = 0$, equivalently $y^T A = 0$: combinations of the rows that cancel to zero.\n\nKey idea: Row operations do not change the row space, and the nonzero rows of the reduced form are $r$ independent rows, so the row space has dimension $r$, the same as the column space. Applying rank–nullity to $A^T$ gives $m - r$.\n\nTip: The two spaces in $\\mathbb{R}^n$ have dimensions adding to $n$, and the two in $\\mathbb{R}^m$ add to $m$.",
+      "searchQuery": "four fundamental subspaces dimensions row space left null space",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.3–3.5",
+        "MIT 18.06 (2010) lectures 8–10"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "linalg-four-subspaces-example",
+      "unit": "rank-and-the-four-subspaces",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "For $A = \\begin{pmatrix}1 & 2 & 0 & 1\\\\0 & 0 & 1 & 3\\\\2 & 4 & 1 & 5\\end{pmatrix}$, give a basis for each of its four fundamental subspaces.",
+      "body": "Rank $r = 2$. $C(A)$: $\\begin{pmatrix}1\\\\0\\\\2\\end{pmatrix}, \\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix}$. Row space: $(1,2,0,1), (0,0,1,3)$. $N(A)$: $(-2,1,0,0), (-1,0,-3,1)$. $N(A^T)$: $\\begin{pmatrix}-2\\\\-1\\\\1\\end{pmatrix}$.\n\n- Pivots are in columns 1 and 3 of the reduced form, so columns 1 and 3 of $A$ itself are a basis of $C(A)$.\n- The nonzero rows of the reduced form $\\begin{pmatrix}1 & 2 & 0 & 1\\\\0 & 0 & 1 & 3\\\\0 & 0 & 0 & 0\\end{pmatrix}$ are a basis of the row space.\n- The special solutions are a basis of $N(A)$, and $2 = 4 - 2$ of them.\n- Row 3 minus twice row 1 minus row 2 is zero, so $y = (-2,-1,1)$ satisfies $y^T A = 0$, giving $N(A^T)$ with dimension $1 = 3 - 2$.\n\nWatch out: Take the pivot columns from the original $A$, not from the reduced form, whose columns span a different space.",
+      "searchQuery": "basis four fundamental subspaces of a 3x4 matrix example",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.3–3.5",
+        "MIT 18.06 (2010) lectures 8–10"
+      ]
+    },
+    {
+      "id": "linalg-complete-solution",
+      "unit": "rank-and-the-four-subspaces",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "How can you describe the complete set of solutions of $Ax = b$ when at least one solution exists?",
+      "body": "Every solution is $x = x_p + x_n$, where $x_p$ is any one particular solution and $x_n$ ranges over all of $N(A)$.\n\nWhy: If $Ax_p = b$ and $Ax = b$, then $A(x - x_p) = 0$, so $x - x_p \\in N(A)$. Conversely, adding any $x_n \\in N(A)$ to $x_p$ leaves $Ax$ equal to $b$.\n\nKey idea: The solution set is a shifted copy of the null space, a line, plane and so on, that misses the origin when $b \\ne 0$. It is a single point when $N(A) = \\{0\\}$, that is when $r = n$.\n\nTip: Find $x_p$ by setting every free variable to $0$ and solving for the pivot variables.",
+      "searchQuery": "complete solution Ax=b particular solution plus null space",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.3–3.5",
+        "MIT 18.06 (2010) lectures 8–10"
+      ]
+    },
+    {
+      "id": "linalg-dependence-problem",
+      "unit": "rank-and-the-four-subspaces",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Are $v_1 = \\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}$, $v_2 = \\begin{pmatrix}2\\\\5\\\\7\\end{pmatrix}$, $v_3 = \\begin{pmatrix}1\\\\3\\\\4\\end{pmatrix}$ linearly independent? If not, give a nontrivial combination equal to $0$.",
+      "body": "No: $v_1 - v_2 + v_3 = 0$.\n\nPut the vectors as columns of $A$ and eliminate. Subtract $2\\times$ row 1 from row 2 and $3\\times$ row 1 from row 3: the rows become $(1,2,1)$, $(0,1,1)$, $(0,1,1)$. Row 3 minus row 2 is $0$, so only two pivots appear and column 3 is free.\n\nSetting the free variable $c_3 = 1$: from $c_2 + c_3 = 0$ we get $c_2 = -1$, and from $c_1 + 2c_2 + c_3 = 0$ we get $c_1 = 1$.\n\nCheck: $(1 - 2 + 1,\\ 2 - 5 + 3,\\ 3 - 7 + 4) = (0, 0, 0)$.",
+      "searchQuery": "test linear dependence three vectors R3 free column",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.3–3.5",
+        "MIT 18.06 (2010) lectures 8–10"
+      ]
+    },
+    {
+      "id": "linalg-complete-solution-problem",
+      "unit": "rank-and-the-four-subspaces",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find all solutions of $Ax = b$ for $A = \\begin{pmatrix}1 & 1 & 0\\\\0 & 1 & 1\\\\1 & 2 & 1\\end{pmatrix}$ and $b = \\begin{pmatrix}2\\\\3\\\\5\\end{pmatrix}$.",
+      "body": "$x = \\begin{pmatrix}-1\\\\3\\\\0\\end{pmatrix} + t\\begin{pmatrix}1\\\\-1\\\\1\\end{pmatrix}$ for any real $t$: a line in $\\mathbb{R}^3$ not through the origin.\n\n1. Subtract row 1 from row 3: the rows are $(1,1,0 \\mid 2)$, $(0,1,1 \\mid 3)$, $(0,1,1 \\mid 3)$. The last row minus the second is $0 = 0$, so $r = 2$ and $z$ is free.\n2. Particular solution: $z = 0$ gives $y = 3$ and $x = -1$.\n3. Null space: set $b = 0$ and $z = 1$, so $y = -1$ and $x = 1$.\n\nCheck: $A\\begin{pmatrix}1\\\\-1\\\\1\\end{pmatrix} = \\begin{pmatrix}0\\\\0\\\\0\\end{pmatrix}$ and $A\\begin{pmatrix}-1\\\\3\\\\0\\end{pmatrix} = \\begin{pmatrix}2\\\\3\\\\5\\end{pmatrix}$. The system is solvable because row 3 of $A$ is the sum of rows 1 and 2, and $b_3 = 5 = 2 + 3$.",
+      "searchQuery": "complete solution of linear system particular plus null space example",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.3–3.5",
+        "MIT 18.06 (2010) lectures 8–10"
+      ]
+    },
+    {
+      "id": "linalg-row-ops-column-space",
+      "unit": "rank-and-the-four-subspaces",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that row operations never change the column space of a matrix?",
+      "body": "Row operations preserve the row space and the null space but can change the column space.\n\nExample: $A = \\begin{pmatrix}1 & 1\\\\1 & 1\\end{pmatrix}$ has column space spanned by $\\begin{pmatrix}1\\\\1\\end{pmatrix}$. One row operation gives $R = \\begin{pmatrix}1 & 1\\\\0 & 0\\end{pmatrix}$, whose column space is spanned by $\\begin{pmatrix}1\\\\0\\end{pmatrix}$. These are different lines.\n\nWhy: A row operation is multiplication on the left by an invertible matrix $E$, and $EA$ has different columns from $A$. But $Ax = 0$ exactly when $EAx = 0$, so the null space is the same, and the rows of $EA$ are combinations of the rows of $A$ and vice versa.\n\nTip: The pivot positions found in the reduced form still tell you which columns of the original $A$ are independent, so use those original columns for a basis of $C(A)$.",
+      "searchQuery": "row operations change column space not row space",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §3.3–3.5",
+        "MIT 18.06 (2010) lectures 8–10"
+      ]
+    },
+    {
+      "id": "linalg-orthogonal-complement",
+      "unit": "orthogonality-and-projections",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is the **orthogonal complement** $V^\\perp$ of a subspace $V \\subseteq \\mathbb{R}^n$?",
+      "body": "$V^\\perp = \\{ w \\in \\mathbb{R}^n : w \\cdot v = 0 \\text{ for every } v \\in V \\}$, all vectors orthogonal to every vector of $V$.\n\n$V^\\perp$ is itself a subspace, and $\\dim V + \\dim V^\\perp = n$. Every $x \\in \\mathbb{R}^n$ splits in exactly one way as (a vector in $V$) $+$ (a vector in $V^\\perp$).\n\nExample: In $\\mathbb{R}^3$, the complement of a plane through the origin is the line through the origin perpendicular to the plane, and the dimensions are $2 + 1 = 3$.\n\nTip: To check $w \\in V^\\perp$ it is enough to test $w$ against a basis of $V$.",
+      "searchQuery": "orthogonal complement of a subspace definition",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.1–4.2, §4.4",
+        "MIT 18.06 (2010) lectures 14–17"
+      ]
+    },
+    {
+      "id": "linalg-row-space-orthogonal-null-space",
+      "unit": "orthogonality-and-projections",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "How are the row space and the null space of an $m \\times n$ matrix $A$ related?",
+      "body": "They are orthogonal complements in $\\mathbb{R}^n$: $N(A) = C(A^T)^\\perp$. Likewise, in $\\mathbb{R}^m$, $N(A^T) = C(A)^\\perp$.\n\nWhy: $Ax = 0$ says that every row of $A$ has dot product $0$ with $x$. So $x$ is orthogonal to each row, hence to every combination of the rows, which is the whole row space. Conversely, a vector orthogonal to all rows has $Ax = 0$.\n\nWhy it matters: The dimensions $r$ and $n - r$ add up to $n$, so the two spaces together exactly fill $\\mathbb{R}^n$. Any $x \\in \\mathbb{R}^n$ is the sum of a row-space part and a null-space part.\n\nWatch out: Orthogonal means every vector of one is perpendicular to every vector of the other. The two spaces share only $0$.",
+      "searchQuery": "row space orthogonal to null space orthogonal complement theorem",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.1–4.2, §4.4",
+        "MIT 18.06 (2010) lectures 14–17"
+      ]
+    },
+    {
+      "id": "linalg-projection-onto-line",
+      "unit": "orthogonality-and-projections",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "What is the **projection** $p$ of $b$ onto the line through a nonzero vector $a$, and what is its **projection matrix** $P$ (with $p = Pb$)?",
+      "body": "$p = \\dfrac{a^T b}{a^T a}\\,a$, so $P = \\dfrac{a a^T}{a^T a}$.\n\nWhy: Write $p = \\hat{x}\\,a$ and require the error $e = b - p$ to be orthogonal to $a$: $a^T(b - \\hat{x}a) = 0$, which gives $\\hat{x} = \\dfrac{a^T b}{a^T a}$.\n\nHere $a a^T$ is a matrix (a column times a row) and $a^T a$ is a number. The matrix $P$ satisfies $P^T = P$ and $P^2 = P$: projecting twice does nothing new.\n\nExample: For $a = \\begin{pmatrix}1\\\\2\\\\2\\end{pmatrix}$ we have $a^Ta = 9$, so $P = \\dfrac{1}{9}\\begin{pmatrix}1 & 2 & 2\\\\2 & 4 & 4\\\\2 & 4 & 4\\end{pmatrix}$.",
+      "searchQuery": "projection onto a line formula projection matrix aa^T",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.1–4.2, §4.4",
+        "MIT 18.06 (2010) lectures 14–17"
+      ]
+    },
+    {
+      "id": "linalg-projection-onto-subspace",
+      "unit": "orthogonality-and-projections",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "If the columns of $A$ are independent, what is the projection matrix onto the column space $C(A)$?",
+      "body": "$P = A (A^T A)^{-1} A^T$, and the projection of $b$ is $p = Pb = A\\hat{x}$ with $A^T A\\,\\hat{x} = A^T b$.\n\nWhy: The projection $p = A\\hat{x}$ must be in $C(A)$, and the error $b - A\\hat{x}$ must be orthogonal to every column of $A$, which says $A^T(b - A\\hat{x}) = 0$. Solving gives $\\hat{x} = (A^TA)^{-1}A^Tb$.\n\nWhy it matters: This extends the one-vector formula to any subspace, and it is the engine behind least squares.\n\nWatch out: The inverse $(A^TA)^{-1}$ exists only when the columns of $A$ are independent. If $A$ is not square, $A^{-1}$ does not exist, so $(A^TA)^{-1}$ cannot be split into $A^{-1}(A^T)^{-1}$; do not cancel the factors.",
+      "searchQuery": "projection matrix onto column space A(A^TA)^-1 A^T",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.1–4.2, §4.4",
+        "MIT 18.06 (2010) lectures 14–17"
+      ]
+    },
+    {
+      "id": "linalg-projection-plane-example",
+      "unit": "orthogonality-and-projections",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Project $b = \\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}$ onto the plane spanned by $u = \\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix}$ and $w = \\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix}$.",
+      "body": "$p = \\begin{pmatrix}\\tfrac23\\\\\\tfrac23\\\\\\tfrac43\\end{pmatrix}$, with error $e = b - p = \\begin{pmatrix}\\tfrac13\\\\\\tfrac13\\\\-\\tfrac13\\end{pmatrix}$.\n\nLet $A$ have columns $u$ and $w$. Then $A^T A = \\begin{pmatrix}2 & 1\\\\1 & 2\\end{pmatrix}$ and $A^T b = \\begin{pmatrix}2\\\\2\\end{pmatrix}$. Solving $A^TA\\,\\hat{x} = A^Tb$ gives $\\hat{x} = (\\tfrac23, \\tfrac23)$, so $p = \\tfrac23 u + \\tfrac23 w$.\n\nCheck: The error is orthogonal to the plane: $e \\cdot u = \\tfrac13 - \\tfrac13 = 0$ and $e \\cdot w = \\tfrac13 - \\tfrac13 = 0$.\n\nTip: This plane is $z = x + y$, whose perpendicular direction is $(1, 1, -1)$. The error is a multiple of it, as it must be.",
+      "searchQuery": "project vector onto plane spanned by two vectors example",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.1–4.2, §4.4",
+        "MIT 18.06 (2010) lectures 14–17"
+      ]
+    },
+    {
+      "id": "linalg-orthonormal-basis",
+      "unit": "orthogonality-and-projections",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is an **orthonormal basis**, and what does $Q^T Q = I$ say about a matrix $Q$ with orthonormal columns?",
+      "body": "A basis $q_1, \\dots, q_k$ with $q_i \\cdot q_j = 0$ for $i \\ne j$ and $q_i \\cdot q_i = 1$; for the matrix $Q$ with these columns, $Q^T Q = I$.\n\nThe entries of $Q^TQ$ are exactly the dot products $q_i \\cdot q_j$, so $Q^TQ = I$ restates the definition. If $Q$ is square (an **orthogonal matrix**), then $Q^{-1} = Q^T$.\n\nWhy it matters: Coordinates are free: if $v = c_1 q_1 + \\dots + c_k q_k$, then $c_i = q_i \\cdot v$. Also $\\|Qx\\| = \\|x\\|$, since $(Qx)^T(Qx) = x^T Q^T Q x = x^T x$: multiplying by $Q$ preserves lengths and dot products.\n\nExample: A rotation matrix $\\begin{pmatrix}\\cos\\theta & -\\sin\\theta\\\\\\sin\\theta & \\cos\\theta\\end{pmatrix}$ is orthogonal.",
+      "searchQuery": "orthonormal basis orthogonal matrix Q transpose Q identity",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.1–4.2, §4.4",
+        "MIT 18.06 (2010) lectures 14–17"
+      ]
+    },
+    {
+      "id": "linalg-gram-schmidt-qr-problem",
+      "unit": "orthogonality-and-projections",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Apply the **Gram–Schmidt process** to $a_1 = \\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix}$ and $a_2 = \\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix}$ and write the **QR factorization** $A = QR$ of the matrix $A$ with these columns.",
+      "body": "$q_1 = \\tfrac{1}{\\sqrt2}\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix}$, $q_2 = \\tfrac{1}{\\sqrt6}\\begin{pmatrix}1\\\\-1\\\\2\\end{pmatrix}$, and $R = \\begin{pmatrix}\\sqrt2 & 1/\\sqrt2\\\\0 & \\sqrt6/2\\end{pmatrix}$.\n\nGram–Schmidt turns independent vectors into an orthonormal list: take each vector, subtract its components along the earlier $q$'s, then divide by the length.\n\n1. $\\|a_1\\| = \\sqrt2$, so $q_1 = a_1/\\sqrt2$.\n2. $q_1 \\cdot a_2 = \\tfrac{1}{\\sqrt2}$. Subtract: $a_2 - \\tfrac{1}{\\sqrt2}q_1 = \\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix} - \\begin{pmatrix}\\tfrac12\\\\\\tfrac12\\\\0\\end{pmatrix} = \\begin{pmatrix}\\tfrac12\\\\-\\tfrac12\\\\1\\end{pmatrix}$.\n3. Its length is $\\sqrt{3/2} = \\tfrac{\\sqrt6}{2}$, so $q_2 = \\tfrac{1}{\\sqrt6}\\begin{pmatrix}1\\\\-1\\\\2\\end{pmatrix}$.\n\nIn $A = QR$, $R$ is upper triangular with $r_{ij} = q_i \\cdot a_j$, so $r_{11} = \\sqrt2$, $r_{12} = \\tfrac{1}{\\sqrt2}$, $r_{22} = \\tfrac{\\sqrt6}{2}$.\n\nCheck: $r_{12}q_1 + r_{22}q_2 = \\begin{pmatrix}\\tfrac12\\\\\\tfrac12\\\\0\\end{pmatrix} + \\begin{pmatrix}\\tfrac12\\\\-\\tfrac12\\\\1\\end{pmatrix} = a_2$.",
+      "searchQuery": "Gram-Schmidt process QR factorization example two vectors",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.1–4.2, §4.4",
+        "MIT 18.06 (2010) lectures 14–17"
+      ]
+    },
+    {
+      "id": "linalg-orthogonal-columns-not-orthonormal",
+      "unit": "orthogonality-and-projections",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that a matrix with mutually orthogonal columns always satisfies $Q^T Q = I$?",
+      "body": "Orthogonal columns make $Q^TQ$ diagonal, but its diagonal entries are the squared lengths of the columns, which equal $1$ only if the columns are unit vectors.\n\nExample: $Q = \\begin{pmatrix}1 & 1\\\\1 & -1\\end{pmatrix}$ has orthogonal columns, but $Q^T Q = \\begin{pmatrix}2 & 0\\\\0 & 2\\end{pmatrix} = 2I$. Dividing each column by $\\sqrt2$ gives a matrix that does satisfy $Q^TQ = I$.\n\nKey idea: Orthonormal means orthogonal and of length one. The normalizing step is separate from the orthogonalizing step.\n\nWatch out: Also, an $m \\times n$ matrix with orthonormal columns satisfies $Q^TQ = I_n$ but not $QQ^T = I_m$ unless it is square.",
+      "searchQuery": "orthogonal columns versus orthonormal Q^TQ not identity",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.1–4.2, §4.4",
+        "MIT 18.06 (2010) lectures 14–17"
+      ]
+    },
+    {
+      "id": "linalg-least-squares-geometry",
+      "unit": "least-squares",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "When $Ax = b$ has no solution, what does **least squares** choose instead, geometrically?",
+      "body": "It picks $\\hat{x}$ so that $A\\hat{x}$ is the projection of $b$ onto the column space $C(A)$, the point of $C(A)$ closest to $b$.\n\nThe **residual** $e = b - A\\hat{x}$ is what is left over, and it is orthogonal to $C(A)$. Least squares makes the length $\\|e\\|$ as small as possible, which is the same as making the sum of the squares of the entries of $e$ as small as possible.\n\nWhy: Every $Ax$ lies in $C(A)$, and the closest point of a subspace to $b$ is the foot of the perpendicular from $b$, that is, the projection.\n\nKey idea: An unsolvable system means $b$ is not in $C(A)$. Least squares solves the nearest solvable system, $A\\hat{x} = p$.",
+      "searchQuery": "least squares geometry projection onto column space residual",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.3",
+        "MIT 18.06 (2010) lectures 15–16"
+      ]
+    },
+    {
+      "id": "linalg-normal-equations",
+      "unit": "least-squares",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **normal equations**: which condition characterizes a least-squares solution $\\hat{x}$ of $Ax = b$, and when is it unique?",
+      "body": "$\\hat{x}$ minimizes $\\|b - Ax\\|$ if and only if $A^TA\\,\\hat{x} = A^Tb$; the minimizer is unique exactly when the columns of $A$ are independent.\n\nKey idea: The residual $e = b - A\\hat{x}$ is orthogonal to every column of $A$, which says $A^T e = 0$, and that is $A^TA\\hat{x} = A^Tb$. For any other $x$, Pythagoras gives $\\|b - Ax\\|^2 = \\|e\\|^2 + \\|A(\\hat{x} - x)\\|^2 \\ge \\|e\\|^2$.\n\nWhen the columns are independent, $A^TA$ is invertible and $\\hat{x} = (A^TA)^{-1}A^Tb$. With dependent columns there are infinitely many minimizers, all giving the same $A\\hat{x}$.\n\nWatch out: The normal equations always have a solution, even when $Ax = b$ has none.",
+      "searchQuery": "normal equations A^T A x hat = A^T b least squares theorem",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.3",
+        "MIT 18.06 (2010) lectures 15–16"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "linalg-best-fit-line-normal-equations",
+      "unit": "least-squares",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "For data points $(t_1, y_1), \\dots, (t_m, y_m)$, what are the normal equations for the **best-fit line** $y = C + Dt$?",
+      "body": "$\\begin{pmatrix} m & \\sum t_i \\\\ \\sum t_i & \\sum t_i^2 \\end{pmatrix}\\begin{pmatrix} C \\\\ D \\end{pmatrix} = \\begin{pmatrix} \\sum y_i \\\\ \\sum t_i y_i \\end{pmatrix}$\n\nWhy: The ideal system $C + Dt_i = y_i$ is $Ax = b$ with $A$ having rows $(1, t_i)$ and $x = (C, D)$. Then $A^TA$ and $A^Tb$ are exactly the matrix and right side above.\n\nHere \"best\" means the least squares sense: $C$ and $D$ make $\\sum (y_i - C - Dt_i)^2$ as small as possible.\n\nTip: The matrix is invertible as soon as at least two of the $t_i$ differ, since the two columns of $A$ are then independent.",
+      "searchQuery": "best fit line normal equations sums least squares formula",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.3",
+        "MIT 18.06 (2010) lectures 15–16"
+      ]
+    },
+    {
+      "id": "linalg-fit-line-example",
+      "unit": "least-squares",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Find the best-fit line $y = C + Dt$ through the points $(0, 0)$, $(1, 3)$, $(2, 3)$.",
+      "body": "$y = \\tfrac12 + \\tfrac32\\,t$\n\nThe normal equations are $3C + 3D = 6$ (from $\\sum y = 6$) and $3C + 5D = 9$ (from $\\sum ty = 0 + 3 + 6 = 9$). Subtracting gives $2D = 3$, so $D = \\tfrac32$ and then $C = \\tfrac12$.\n\nThe line has heights $\\tfrac12,\\ 2,\\ \\tfrac72$ at $t = 0, 1, 2$, so the residual is $e = \\begin{pmatrix}-\\tfrac12\\\\1\\\\-\\tfrac12\\end{pmatrix}$.\n\nCheck: $e$ is orthogonal to both columns of $A$: $(1,1,1) \\cdot e = 0$ and $(0,1,2) \\cdot e = 1 - 1 = 0$.",
+      "searchQuery": "fit line to three points least squares example",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.3",
+        "MIT 18.06 (2010) lectures 15–16"
+      ]
+    },
+    {
+      "id": "linalg-best-constant-problem",
+      "unit": "least-squares",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Show that the number $x$ minimizing $(x - b_1)^2 + \\dots + (x - b_m)^2$ is the mean of $b_1, \\dots, b_m$, using the normal equations.",
+      "body": "The best constant is $\\hat{x} = \\dfrac{b_1 + \\dots + b_m}{m}$, the mean of the data.\n\nThe problem is the least-squares problem for $Ax = b$ where $A$ is the single column of $m$ ones, so $Ax = b$ says \"$x = b_i$ for every $i$\".\n\n1. $A^TA = 1 + \\dots + 1 = m$ and $A^Tb = b_1 + \\dots + b_m$.\n2. The normal equation is $m\\,\\hat{x} = b_1 + \\dots + b_m$.\n3. So $\\hat{x}$ is the average of the $b_i$.\n\nWhy it matters: The mean is the projection of $b$ onto the line spanned by $(1, \\dots, 1)$, and the residual entries $b_i - \\hat{x}$ add to $0$.",
+      "searchQuery": "least squares best constant fit is the mean normal equations",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.3",
+        "MIT 18.06 (2010) lectures 15–16"
+      ]
+    },
+    {
+      "id": "linalg-slope-through-origin-problem",
+      "unit": "least-squares",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the slope $D$ that minimizes $(D - 2)^2 + (2D - 3)^2 + (3D - 7)^2$. Type the exact fraction.",
+      "body": "$\\dfrac{29}{14}$\n\nThis is least squares for the line $y = Dt$ through the points $(1, 2)$, $(2, 3)$, $(3, 7)$, so $A$ has the single column $a = (1, 2, 3)$ and $b = (2, 3, 7)$.\n\n1. $a^Ta = 1 + 4 + 9 = 14$ and $a^Tb = 2 + 6 + 21 = 29$.\n2. The normal equation $14\\,\\hat{D} = 29$ gives $\\hat{D} = \\tfrac{29}{14}$.\n\nCheck: The residual is $e = b - \\hat{D}a = (-\\tfrac1{14}, -\\tfrac{16}{14}, \\tfrac{11}{14})$, and $a \\cdot e = \\tfrac{-1 - 32 + 33}{14} = 0$.",
+      "searchQuery": "least squares slope through origin normal equation fraction",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.3",
+        "MIT 18.06 (2010) lectures 15–16"
+      ],
+      "answer": "29/14",
+      "answerDisplay": "$\\frac{29}{14}$"
+    },
+    {
+      "id": "linalg-vertical-vs-perpendicular-misconception",
+      "unit": "least-squares",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that the least-squares line minimizes the perpendicular distances from the data points to the line?",
+      "body": "It minimizes the sum of the squares of the vertical errors $y_i - (C + Dt_i)$, measured in the $y$-direction, not the perpendicular distances.\n\nWhy: In $Ax = b$ the errors are the entries of $b - Ax$, one per data point, and each is a difference of $y$-values at the same $t_i$. This treats $t$ as known exactly and $y$ as the measured quantity.\n\nExample: Change the units of $y$ (say, meters to centimeters). The least-squares line is the old line expressed in the new units, but the line minimizing perpendicular distances can come out as a genuinely different line, since stretching one axis changes which distances are perpendicular.\n\nWatch out: Fitting by perpendicular distance is a different method, with a different answer. The word \"normal\" in \"normal equations\" refers to orthogonality in $\\mathbb{R}^m$, not to the geometry of the scatter plot.",
+      "searchQuery": "least squares vertical errors not perpendicular distance",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §4.3",
+        "MIT 18.06 (2010) lectures 15–16"
+      ]
+    },
+    {
+      "id": "linalg-determinant-defining-properties",
+      "unit": "determinants",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What three properties define the **determinant** of an $n \\times n$ matrix, including its **multilinearity**?",
+      "body": "$\\det I = 1$; exchanging two rows changes the sign; and $\\det$ is linear in each row separately, with the other rows held fixed.\n\n**Multilinearity** means two things for the first row (and likewise for any other): $\\det$ with row 1 replaced by $t\\,r$ is $t$ times $\\det$ with row $r$; and $\\det$ with row 1 replaced by $r + r'$ is the sum of the two determinants.\n\nThese properties force everything else. A matrix with two equal rows has $\\det = 0$ (swap them: $\\det = -\\det$). Subtracting a multiple of one row from another leaves $\\det$ unchanged. So elimination gives $\\det A = \\pm(\\text{product of the pivots})$, with the sign from the row exchanges, and $\\det A \\ne 0$ exactly when $A$ is invertible.\n\nWatch out: Linear in each row separately is not the same as $\\det(A + B) = \\det A + \\det B$, which is false.",
+      "searchQuery": "determinant defining properties multilinear row exchange sign",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §5.1–5.3",
+        "MIT 18.06 (2010) lectures 18–20"
+      ]
+    },
+    {
+      "id": "linalg-determinant-product-rule",
+      "unit": "determinants",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the product rule for determinants of $n \\times n$ matrices $A$ and $B$, and one consequence for inverses.",
+      "body": "$\\det(AB) = \\det(A)\\det(B)$, so for invertible $A$, $\\det(A^{-1}) = \\dfrac{1}{\\det A}$.\n\nWhy it matters: Factorizations turn into determinant calculations. From $A = LU$ with $L$ having $1$s on the diagonal, $\\det A = \\det U$, the product of the pivots.\n\nThe consequence follows from $\\det(A)\\det(A^{-1}) = \\det(AA^{-1}) = \\det I = 1$. Also $\\det(A^T) = \\det A$, so every row property also holds for columns.\n\nKey idea (of the proof): For fixed $B$, the function $A \\mapsto \\det(AB)/\\det B$ (when $\\det B \\ne 0$) has the three defining properties, so it must equal $\\det A$.\n\nWatch out: There is no such rule for sums: $\\det(A + B) \\ne \\det A + \\det B$ in general.",
+      "searchQuery": "determinant of product det(AB)=det A det B inverse",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §5.1–5.3",
+        "MIT 18.06 (2010) lectures 18–20"
+      ]
+    },
+    {
+      "id": "linalg-determinant-volume",
+      "unit": "determinants",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "What does $|\\det A|$ measure for an $n \\times n$ matrix $A$, geometrically?",
+      "body": "The $n$-dimensional **volume** of the box (parallelepiped) whose edges are the rows of $A$; in the plane it is the area of the parallelogram.\n\nFor $n = 2$ with rows $(a, b)$ and $(c, d)$, the area is $|ad - bc|$.\n\nWhy: Signed volume has the same three defining properties as the determinant. The unit cube has volume $1$; stretching one edge by $t$ multiplies volume by $t$; and sliding one edge along another (adding a multiple of a row to another) shears the box without changing its volume.\n\nKey idea: $\\det A = 0$ exactly when the box is flat, that is, when the rows are dependent. Because $\\det A^T = \\det A$, the columns give the same volume.",
+      "searchQuery": "determinant equals volume of parallelepiped rows",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §5.1–5.3",
+        "MIT 18.06 (2010) lectures 18–20"
+      ]
+    },
+    {
+      "id": "linalg-cofactor-expansion",
+      "unit": "determinants",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "What is the **cofactor expansion** of $\\det A$ along row $i$ of an $n \\times n$ matrix?",
+      "body": "$\\det A = a_{i1}C_{i1} + a_{i2}C_{i2} + \\dots + a_{in}C_{in}$, where $C_{ij} = (-1)^{i+j} M_{ij}$ and $M_{ij}$ is the determinant of $A$ with row $i$ and column $j$ deleted.\n\nThe number $C_{ij}$ is the **cofactor** of the entry $a_{ij}$. The signs $(-1)^{i+j}$ form a checkerboard starting with $+$ in the top left corner. The same expansion works along any row, or down any column.\n\nTip: Expand along a row or column with many zeros: each zero entry kills its term.\n\nWatch out: Expanding every minor in turn takes about $n!$ operations, so for large matrices elimination is far cheaper. Use cofactors for small matrices, for symbolic entries and for proofs.",
+      "searchQuery": "cofactor expansion determinant formula along row",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §5.1–5.3",
+        "MIT 18.06 (2010) lectures 18–20"
+      ]
+    },
+    {
+      "id": "linalg-adjugate-inverse-formula",
+      "unit": "determinants",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "What is the **adjugate matrix** $\\operatorname{adj}(A)$, and what formula expresses $A^{-1}$ with it?",
+      "body": "$A^{-1} = \\dfrac{1}{\\det A}\\operatorname{adj}(A)$, where $\\operatorname{adj}(A)$ is the transpose of the matrix of cofactors, so $\\operatorname{adj}(A)_{ij} = C_{ji}$.\n\nWhy: The product of row $i$ of $A$ with the cofactors of row $k$ is a cofactor expansion, so it equals $\\det A$ when $i = k$ and equals $0$ otherwise (it is the determinant of a matrix with two equal rows). Hence $A\\,\\operatorname{adj}(A) = (\\det A)\\,I$.\n\nExample: For a $2 \\times 2$ matrix $\\begin{pmatrix}a & b\\\\c & d\\end{pmatrix}$ the cofactors give $\\operatorname{adj}(A) = \\begin{pmatrix}d & -b\\\\-c & a\\end{pmatrix}$, so $A^{-1} = \\dfrac{1}{ad - bc}\\begin{pmatrix}d & -b\\\\-c & a\\end{pmatrix}$.\n\nWatch out: Note the transpose: the $(i, j)$ entry of $A^{-1}$ uses the cofactor $C_{ji}$, with the indices reversed.",
+      "searchQuery": "adjugate matrix inverse formula cofactors transpose",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §5.1–5.3",
+        "MIT 18.06 (2010) lectures 18–20"
+      ]
+    },
+    {
+      "id": "linalg-cramers-rule-example",
+      "unit": "determinants",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Use **Cramer's rule** to solve $2x + y = 5$, $x + 3y = 5$.",
+      "body": "$(x, y) = (2, 1)$\n\nCramer's rule says that for an invertible $A$, the solution of $Ax = b$ has $x_j = \\dfrac{\\det B_j}{\\det A}$, where $B_j$ is $A$ with column $j$ replaced by $b$.\n\nHere $\\det A = 2\\cdot 3 - 1\\cdot 1 = 5$. With column 1 replaced by $b$: $\\det \\begin{pmatrix}5 & 1\\\\5 & 3\\end{pmatrix} = 15 - 5 = 10$, so $x = 10/5 = 2$. With column 2 replaced: $\\det \\begin{pmatrix}2 & 5\\\\1 & 5\\end{pmatrix} = 10 - 5 = 5$, so $y = 5/5 = 1$.\n\nWhy it works: $x = A^{-1}b = \\frac{1}{\\det A}\\operatorname{adj}(A)\\,b$, and the $j$th entry of $\\operatorname{adj}(A)\\,b$ is a cofactor expansion of $\\det B_j$.\n\nWatch out: Cramer's rule is elegant but slow. For numerical solving, use elimination.",
+      "searchQuery": "Cramer's rule 2x2 example solve system determinants",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §5.1–5.3",
+        "MIT 18.06 (2010) lectures 18–20"
+      ]
+    },
+    {
+      "id": "linalg-determinant-by-elimination-problem",
+      "unit": "determinants",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Compute $\\det A$ for $A = \\begin{pmatrix}0 & 2 & 1\\\\1 & 1 & 2\\\\2 & 1 & 1\\end{pmatrix}$ by elimination.",
+      "body": "$\\det A = 5$\n\n1. The first pivot position holds $0$, so exchange rows 1 and 2. One exchange flips the sign: keep a factor $-1$.\n2. The matrix is now $\\begin{pmatrix}1 & 1 & 2\\\\0 & 2 & 1\\\\2 & 1 & 1\\end{pmatrix}$. Subtract $2\\times$ row 1 from row 3: the row becomes $(0,-1,-3)$.\n3. Add $\\tfrac12\\times$ row 2 to row 3: the row becomes $(0,0,-\\tfrac52)$. The pivots are $1, 2, -\\tfrac52$.\n4. $\\det A = (-1)\\cdot 1 \\cdot 2 \\cdot (-\\tfrac52) = 5$.\n\nCheck: Expanding along row 1 gives $0 - 2\\cdot(1\\cdot 1 - 2\\cdot 2) + 1\\cdot(1\\cdot 1 - 1\\cdot 2) = 6 - 1 = 5$.",
+      "searchQuery": "determinant by elimination row exchange pivots 3x3",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §5.1–5.3",
+        "MIT 18.06 (2010) lectures 18–20"
+      ]
+    },
+    {
+      "id": "linalg-inverse-entry-adjugate-problem",
+      "unit": "determinants",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "For $A = \\begin{pmatrix}2 & 1 & 0\\\\1 & 3 & 1\\\\0 & 1 & 2\\end{pmatrix}$, use cofactors to find the entry in row 1, column 2 of $A^{-1}$. Type the exact fraction.",
+      "body": "$-\\dfrac{1}{4}$\n\n1. Expanding along row 1: $\\det A = 2(3\\cdot 2 - 1\\cdot 1) - 1(1\\cdot 2 - 1\\cdot 0) + 0 = 10 - 2 = 8$.\n2. The entry $(A^{-1})_{12}$ uses $C_{21}$ (indices reversed). Delete row 2 and column 1 to get $\\begin{pmatrix}1 & 0\\\\1 & 2\\end{pmatrix}$, with determinant $2$, so $C_{21} = (-1)^{2+1}\\cdot 2 = -2$.\n3. $(A^{-1})_{12} = \\dfrac{C_{21}}{\\det A} = \\dfrac{-2}{8} = -\\dfrac14$.\n\nCheck: Row 1 of $A$ against column 2 of $A^{-1}$ must give $0$. That column is $(-\\tfrac14, \\tfrac12, -\\tfrac14)$, and $2(-\\tfrac14) + 1(\\tfrac12) + 0 = 0$.",
+      "searchQuery": "inverse matrix entry cofactor adjugate 3x3 determinant",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §5.1–5.3",
+        "MIT 18.06 (2010) lectures 18–20"
+      ],
+      "answer": "-1/4",
+      "answerDisplay": "$-\\frac{1}{4}$"
+    },
+    {
+      "id": "linalg-det-scalar-multiple-misconception",
+      "unit": "determinants",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that $\\det(2A) = 2\\det(A)$ for a $3 \\times 3$ matrix $A$?",
+      "body": "Multiplying the whole matrix by $2$ scales all $3$ rows, each contributing a factor $2$, so $\\det(2A) = 2^3 \\det A = 8\\det A$.\n\nIn general $\\det(cA) = c^n \\det A$ for an $n \\times n$ matrix. Linearity applies to one row at a time, and $cA$ has $n$ rows to scale.\n\nExample: $A = I$ ($3 \\times 3$) has $\\det A = 1$, and $2I$ is diagonal with entries $2, 2, 2$, so $\\det(2I) = 8$.\n\nGeometric view: Doubling every edge of a box multiplies its volume by $2^3 = 8$, not by $2$.",
+      "searchQuery": "determinant of scalar multiple det(cA)=c^n det A",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §5.1–5.3",
+        "MIT 18.06 (2010) lectures 18–20"
+      ]
+    },
+    {
+      "id": "linalg-eigenvalue-eigenvector-definition",
+      "unit": "eigenvalues-and-diagonalization",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What are an **eigenvalue** and an **eigenvector** of a square matrix $A$?",
+      "body": "A nonzero vector $x$ with $Ax = \\lambda x$ is an eigenvector, and the number $\\lambda$ is its eigenvalue.\n\nAn eigenvector is a direction that $A$ does not turn: it only stretches it by $\\lambda$ (and flips it if $\\lambda < 0$). Equivalently, $(A - \\lambda I)x = 0$ with $x \\ne 0$, so $\\lambda$ is an eigenvalue exactly when $A - \\lambda I$ is singular.\n\nExample: For $A = \\begin{pmatrix}2 & 0\\\\0 & 5\\end{pmatrix}$, the vector $\\begin{pmatrix}1\\\\0\\end{pmatrix}$ has $A\\begin{pmatrix}1\\\\0\\end{pmatrix} = 2\\begin{pmatrix}1\\\\0\\end{pmatrix}$, so $2$ is an eigenvalue. The vector $\\begin{pmatrix}0\\\\1\\end{pmatrix}$ goes with the eigenvalue $5$.\n\nWatch out: The zero vector is excluded by definition, since $A \\cdot 0 = \\lambda \\cdot 0$ for every $\\lambda$. The eigenvalue $0$ is allowed, and it occurs exactly when $A$ is singular.",
+      "searchQuery": "eigenvalue eigenvector definition Ax = lambda x",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.1–6.2, §10.3",
+        "MIT 18.06 (2010) lectures 21–22, 24"
+      ]
+    },
+    {
+      "id": "linalg-characteristic-polynomial",
+      "unit": "eigenvalues-and-diagonalization",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is the **characteristic polynomial** of an $n \\times n$ matrix $A$, and what are its roots?",
+      "body": "$p(\\lambda) = \\det(A - \\lambda I)$, a polynomial of degree $n$ whose roots are exactly the eigenvalues of $A$.\n\nWhy: $\\lambda$ is an eigenvalue when $A - \\lambda I$ is singular, and a matrix is singular exactly when its determinant is $0$. A root that appears $m$ times has **algebraic multiplicity** $m$. Over $\\mathbb{C}$ there are always $n$ roots counted this way (the fundamental theorem of algebra).\n\nFor $2 \\times 2$: $p(\\lambda) = \\lambda^2 - (\\operatorname{trace} A)\\lambda + \\det A$, where the trace is the sum of the diagonal entries.\n\nWatch out: A real matrix can have complex eigenvalues. The rotation $\\begin{pmatrix}0 & -1\\\\1 & 0\\end{pmatrix}$ has $p(\\lambda) = \\lambda^2 + 1$ and eigenvalues $\\pm i$.",
+      "searchQuery": "characteristic polynomial det(A - lambda I) eigenvalues roots",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.1–6.2, §10.3",
+        "MIT 18.06 (2010) lectures 21–22, 24"
+      ]
+    },
+    {
+      "id": "linalg-eigen-2x2-example",
+      "unit": "eigenvalues-and-diagonalization",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Find the eigenvalues and eigenvectors of $A = \\begin{pmatrix}4 & 1\\\\2 & 3\\end{pmatrix}$.",
+      "body": "Eigenvalues $5$ and $2$, with eigenvectors $\\begin{pmatrix}1\\\\1\\end{pmatrix}$ and $\\begin{pmatrix}1\\\\-2\\end{pmatrix}$.\n\nThe characteristic polynomial is $\\lambda^2 - 7\\lambda + 10 = (\\lambda - 5)(\\lambda - 2)$.\n\nFor $\\lambda = 5$: $A - 5I = \\begin{pmatrix}-1 & 1\\\\2 & -2\\end{pmatrix}$, whose null space is spanned by $\\begin{pmatrix}1\\\\1\\end{pmatrix}$. For $\\lambda = 2$: $A - 2I = \\begin{pmatrix}2 & 1\\\\2 & 1\\end{pmatrix}$, whose null space is spanned by $\\begin{pmatrix}1\\\\-2\\end{pmatrix}$.\n\nCheck: $A\\begin{pmatrix}1\\\\-2\\end{pmatrix} = \\begin{pmatrix}4-2\\\\\\ 2-6\\end{pmatrix} = \\begin{pmatrix}2\\\\-4\\end{pmatrix} = 2\\begin{pmatrix}1\\\\-2\\end{pmatrix}$. Also the trace is $4 + 3 = 7 = 5 + 2$ and the determinant is $12 - 2 = 10 = 5 \\cdot 2$.\n\nTip: After finding $\\lambda$, the rows of $A - \\lambda I$ must be dependent. If they are not, the arithmetic is off.",
+      "searchQuery": "eigenvalues eigenvectors 2x2 matrix example characteristic polynomial",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.1–6.2, §10.3",
+        "MIT 18.06 (2010) lectures 21–22, 24"
+      ]
+    },
+    {
+      "id": "linalg-trace-determinant-eigenvalues",
+      "unit": "eigenvalues-and-diagonalization",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "How are the trace and the determinant of an $n \\times n$ matrix related to its eigenvalues?",
+      "body": "With eigenvalues $\\lambda_1, \\dots, \\lambda_n$ counted by algebraic multiplicity (over $\\mathbb{C}$): $\\operatorname{trace} A = \\lambda_1 + \\dots + \\lambda_n$ and $\\det A = \\lambda_1 \\lambda_2 \\cdots \\lambda_n$.\n\nWhy: The characteristic polynomial factors as $\\det(A - \\lambda I) = (\\lambda_1 - \\lambda)\\cdots(\\lambda_n - \\lambda)$. Setting $\\lambda = 0$ gives $\\det A = \\lambda_1\\cdots\\lambda_n$. The coefficient of $\\lambda^{n-1}$ is, on the left, $(-1)^{n-1}\\operatorname{trace} A$ and, on the right, $(-1)^{n-1}(\\lambda_1 + \\dots + \\lambda_n)$.\n\nWhy it matters: A fast check on every eigenvalue computation, and it shows that $A$ is singular exactly when some eigenvalue is $0$.\n\nExample: A $2 \\times 2$ matrix with trace $2$ and determinant $-3$ has characteristic polynomial $\\lambda^2 - 2\\lambda - 3 = (\\lambda - 3)(\\lambda + 1)$, so its eigenvalues are $3$ and $-1$.",
+      "searchQuery": "trace sum of eigenvalues determinant product of eigenvalues",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.1–6.2, §10.3",
+        "MIT 18.06 (2010) lectures 21–22, 24"
+      ]
+    },
+    {
+      "id": "linalg-distinct-eigenvalues-independent",
+      "unit": "eigenvalues-and-diagonalization",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "What can you say about eigenvectors that belong to different eigenvalues, and what does it give for a matrix with $n$ distinct eigenvalues?",
+      "body": "Eigenvectors belonging to distinct eigenvalues are linearly independent, so an $n \\times n$ matrix with $n$ distinct eigenvalues has $n$ independent eigenvectors.\n\nKey idea (two eigenvectors): Suppose $c_1x_1 + c_2x_2 = 0$ with $Ax_i = \\lambda_i x_i$ and $\\lambda_1 \\ne \\lambda_2$. Apply $A$: $c_1\\lambda_1 x_1 + c_2\\lambda_2 x_2 = 0$. Subtract $\\lambda_2$ times the first equation: $c_1(\\lambda_1 - \\lambda_2)x_1 = 0$. Since $x_1 \\ne 0$ and $\\lambda_1 \\ne \\lambda_2$, $c_1 = 0$, and then $c_2 = 0$.\n\nWhy it matters: Distinct eigenvalues are a quick sufficient condition for diagonalizability.\n\nWatch out: The converse is false: the identity matrix has the single eigenvalue $1$ yet has $n$ independent eigenvectors.",
+      "searchQuery": "eigenvectors distinct eigenvalues linearly independent theorem",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.1–6.2, §10.3",
+        "MIT 18.06 (2010) lectures 21–22, 24"
+      ]
+    },
+    {
+      "id": "linalg-diagonalization-formula",
+      "unit": "eigenvalues-and-diagonalization",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "If $A$ has $n$ independent eigenvectors, which factorization is its **diagonalization**, and what is $A^k$?",
+      "body": "$A = X\\Lambda X^{-1}$, where the columns of $X$ are $n$ independent eigenvectors and $\\Lambda$ is diagonal with the matching eigenvalues; then $A^k = X\\Lambda^k X^{-1}$.\n\nWhy: The $n$ equations $Ax_i = \\lambda_i x_i$ say $AX = X\\Lambda$. The matrix $X$ is invertible because its columns are independent, so $A = X\\Lambda X^{-1}$.\n\nWhy it matters: In $A^k = X\\Lambda X^{-1}X\\Lambda X^{-1}\\cdots$ the middle factors cancel, and $\\Lambda^k$ just raises each diagonal entry to the $k$th power.\n\nWatch out: The columns of $X$ and the entries of $\\Lambda$ must be in the same order. Not every matrix can be diagonalized: the factorization exists exactly when there are $n$ independent eigenvectors.",
+      "searchQuery": "diagonalization A = X Lambda X inverse powers of matrix",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.1–6.2, §10.3",
+        "MIT 18.06 (2010) lectures 21–22, 24"
+      ]
+    },
+    {
+      "id": "linalg-non-diagonalizable-counterexample",
+      "unit": "eigenvalues-and-diagonalization",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give a $2 \\times 2$ matrix that cannot be diagonalized, and say why.",
+      "body": "$A = \\begin{pmatrix}1 & 1\\\\0 & 1\\end{pmatrix}$: the eigenvalue $1$ appears twice, but every eigenvector is a multiple of $\\begin{pmatrix}1\\\\0\\end{pmatrix}$, so there is no second independent eigenvector.\n\nThe characteristic polynomial is $(1 - \\lambda)^2$, so $\\lambda = 1$ has algebraic multiplicity $2$. But $A - I = \\begin{pmatrix}0 & 1\\\\0 & 0\\end{pmatrix}$ has null space spanned by $\\begin{pmatrix}1\\\\0\\end{pmatrix}$ alone, so the **geometric multiplicity** (the dimension of $N(A - \\lambda I)$) is $1$.\n\nWhy: A matrix is diagonalizable exactly when, for every eigenvalue, the geometric multiplicity equals the algebraic multiplicity. Here $1 < 2$: too few eigenvectors to form $X$.\n\nKey idea: This matrix shears the plane, pushing points sideways in proportion to their height. A shear leaves only one direction unchanged.",
+      "searchQuery": "non-diagonalizable matrix shear geometric algebraic multiplicity",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.1–6.2, §10.3",
+        "MIT 18.06 (2010) lectures 21–22, 24"
+      ]
+    },
+    {
+      "id": "linalg-repeated-eigenvalue-misconception",
+      "unit": "eigenvalues-and-diagonalization",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that a matrix with a repeated eigenvalue cannot be diagonalized?",
+      "body": "Repeated eigenvalues are harmless if there are still enough independent eigenvectors; what matters is the number of eigenvectors, not whether the eigenvalues repeat.\n\nExample: The $2 \\times 2$ identity matrix has the eigenvalue $1$ twice, and every nonzero vector is an eigenvector, so $X = I$ works and $I = I\\cdot I\\cdot I^{-1}$ is already diagonal.\n\nKey idea: Diagonalizable means geometric multiplicity equals algebraic multiplicity for each eigenvalue. Repetition only creates the possibility of failure, as with $\\begin{pmatrix}1 & 1\\\\0 & 1\\end{pmatrix}$.\n\nTip: Distinct eigenvalues guarantee diagonalizability, but diagonalizability does not require distinct eigenvalues.",
+      "searchQuery": "repeated eigenvalue still diagonalizable identity matrix",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.1–6.2, §10.3",
+        "MIT 18.06 (2010) lectures 21–22, 24"
+      ]
+    },
+    {
+      "id": "linalg-matrix-power-problem",
+      "unit": "eigenvalues-and-diagonalization",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use diagonalization to find a formula for $A^k$, where $A = \\begin{pmatrix}4 & 1\\\\2 & 3\\end{pmatrix}$.",
+      "body": "$A^k = \\dfrac13\\begin{pmatrix}2\\cdot 5^k + 2^k & \\ 5^k - 2^k\\\\\\ 2\\cdot 5^k - 2\\cdot 2^k & \\ 5^k + 2\\cdot 2^k\\end{pmatrix}$\n\n1. From the example, $X = \\begin{pmatrix}1 & 1\\\\1 & -2\\end{pmatrix}$ and $\\Lambda = \\begin{pmatrix}5 & 0\\\\0 & 2\\end{pmatrix}$.\n2. $\\det X = -3$, so $X^{-1} = \\tfrac13\\begin{pmatrix}2 & 1\\\\1 & -1\\end{pmatrix}$.\n3. $X\\Lambda^k = \\begin{pmatrix}5^k & 2^k\\\\5^k & -2\\cdot 2^k\\end{pmatrix}$, and multiplying by $X^{-1}$ gives the matrix above.\n\nCheck: $k = 1$ gives $\\tfrac13\\begin{pmatrix}12 & 3\\\\6 & 9\\end{pmatrix} = \\begin{pmatrix}4 & 1\\\\2 & 3\\end{pmatrix} = A$, and $k = 0$ gives $I$.",
+      "searchQuery": "matrix power formula via diagonalization 2x2 example",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.1–6.2, §10.3",
+        "MIT 18.06 (2010) lectures 21–22, 24"
+      ]
+    },
+    {
+      "id": "linalg-markov-steady-state-problem",
+      "unit": "eigenvalues-and-diagonalization",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A **Markov matrix** has nonnegative entries and each column adding to $1$. For $A = \\begin{pmatrix}0.9 & 0.2\\\\0.1 & 0.8\\end{pmatrix}$, find its eigenvalues and the steady state, the eigenvector for $\\lambda = 1$ whose entries add to $1$.",
+      "body": "The eigenvalues are $1$ and $0.7$, and the steady state is $(\\tfrac23, \\tfrac13)$.\n\n1. Every Markov matrix has the eigenvalue $1$: the columns of $A$ add to $1$, so the rows of $A - I$ add to the zero row and $A - I$ is singular. The trace is $1.7$, so the other eigenvalue is $0.7$.\n2. $A - I = \\begin{pmatrix}-0.1 & 0.2\\\\0.1 & -0.2\\end{pmatrix}$ has null space spanned by $\\begin{pmatrix}2\\\\1\\end{pmatrix}$. Rescale so the entries add to $1$: $(\\tfrac23, \\tfrac13)$.\n\nWhy it matters: For any starting vector $u_0$ with entries adding to $1$, $A^k u_0 = c_1 (1)^k x_1 + c_2 (0.7)^k x_2 \\to c_1 x_1$ as $k \\to \\infty$. The $0.7^k$ part dies out, and the sum of entries stays $1$, so the limit is the steady state.\n\nCheck: $0.9\\cdot\\tfrac23 + 0.2\\cdot\\tfrac13 = \\tfrac23$ and $0.1\\cdot\\tfrac23 + 0.8\\cdot\\tfrac13 = \\tfrac13$, so $A$ leaves the vector unchanged.",
+      "searchQuery": "Markov matrix steady state eigenvector eigenvalue one",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.1–6.2, §10.3",
+        "MIT 18.06 (2010) lectures 21–22, 24"
+      ]
+    },
+    {
+      "id": "linalg-spectral-theorem",
+      "unit": "symmetric-matrices-and-svd-preview",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **spectral theorem** for a real symmetric $n \\times n$ matrix $A$.",
+      "body": "All eigenvalues of $A$ are real, and $\\mathbb{R}^n$ has an orthonormal basis of eigenvectors of $A$; so $A = Q\\Lambda Q^T$ with $Q$ orthogonal and $\\Lambda$ real diagonal.\n\nWhy: Eigenvectors for different eigenvalues are already orthogonal. If $Ax_1 = \\lambda_1 x_1$ and $Ax_2 = \\lambda_2 x_2$, then $\\lambda_1\\, x_1 \\cdot x_2 = (Ax_1) \\cdot x_2 = x_1 \\cdot (Ax_2) = \\lambda_2\\, x_1 \\cdot x_2$ (using $A^T = A$), so $x_1 \\cdot x_2 = 0$ when $\\lambda_1 \\ne \\lambda_2$.\n\nThis is why symmetric matrices are the best-behaved matrices: they are always diagonalizable, with $X = Q$ and $X^{-1} = Q^T$.\n\nWatch out: The statement needs $A$ real and symmetric. A real non-symmetric matrix can have complex eigenvalues, and the theorem says nothing about it.",
+      "searchQuery": "spectral theorem real symmetric matrix orthonormal eigenvectors",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.4–6.5, §7.1–7.2",
+        "MIT 18.06 (2010) lectures 25, 27, 29"
+      ]
+    },
+    {
+      "id": "linalg-orthogonal-diagonalization-concept",
+      "unit": "symmetric-matrices-and-svd-preview",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "What does **orthogonal diagonalization** $A = Q\\Lambda Q^T$ say about how a symmetric matrix $A$ acts on a vector $x$?",
+      "body": "$A$ splits $x$ into its components along the orthonormal eigenvectors $q_i$, scales the $i$th component by $\\lambda_i$, and puts the pieces back together: $Ax = \\sum_i \\lambda_i (q_i \\cdot x)\\,q_i$.\n\nIn matrix form $A = \\lambda_1 q_1q_1^T + \\dots + \\lambda_n q_nq_n^T$. Each $q_iq_i^T$ is the projection matrix onto the line through $q_i$, so $A$ is a weighted sum of projections onto perpendicular lines.\n\nKey idea: In the right coordinate system, which is the system of the $q_i$, a symmetric matrix is just $n$ separate scalings with no mixing. Because $Q$ is orthogonal, changing coordinates does not distort lengths or angles.",
+      "searchQuery": "orthogonal diagonalization symmetric matrix sum of projections",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.4–6.5, §7.1–7.2",
+        "MIT 18.06 (2010) lectures 25, 27, 29"
+      ]
+    },
+    {
+      "id": "linalg-positive-definite-definition",
+      "unit": "symmetric-matrices-and-svd-preview",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a **positive definite matrix**?",
+      "body": "A real symmetric matrix $A$ with $x^T A x > 0$ for every nonzero vector $x$.\n\nThe number $x^TAx$ is a quadratic expression in the entries of $x$. For $A = \\begin{pmatrix}a & b\\\\b & c\\end{pmatrix}$ it is $ax_1^2 + 2bx_1x_2 + cx_2^2$. Positive definite matrices are the matrices for which this expression is a \"bowl\" with its minimum at $x = 0$.\n\nExample: $I$ is positive definite, since $x^TIx = x_1^2 + \\dots + x_n^2 > 0$ for $x \\ne 0$.\n\nWatch out: The condition is strict and applies to every nonzero $x$. If $x^TAx \\ge 0$ is all you can guarantee, the matrix is only positive semidefinite.",
+      "searchQuery": "positive definite matrix definition x^T A x > 0",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.4–6.5, §7.1–7.2",
+        "MIT 18.06 (2010) lectures 25, 27, 29"
+      ]
+    },
+    {
+      "id": "linalg-positive-definite-tests",
+      "unit": "symmetric-matrices-and-svd-preview",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "For a real symmetric matrix $A$, which four conditions are equivalent to $A$ being positive definite?",
+      "body": "All eigenvalues are positive; elimination (without row exchanges) gives $n$ positive pivots; the $n$ leading determinants are positive; and $x^TAx > 0$ for all $x \\ne 0$ (the definition itself, listed as the fourth test).\n\nThe **leading determinants** are the determinants of the upper-left $1 \\times 1$, $2 \\times 2$, ..., $n \\times n$ blocks of $A$.\n\nWhy: In terms of the spectral theorem, $x^TAx = \\lambda_1 c_1^2 + \\dots + \\lambda_n c_n^2$ where $c_i = q_i \\cdot x$, which is positive for all $x \\ne 0$ exactly when every $\\lambda_i > 0$. The $k$th leading determinant equals the product of the first $k$ pivots, so all pivots are positive exactly when all leading determinants are.\n\nTip: For a quick test of a $2 \\times 2$ symmetric matrix, check that $a > 0$ and $ac - b^2 > 0$.",
+      "searchQuery": "positive definite tests eigenvalues pivots leading determinants",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.4–6.5, §7.1–7.2",
+        "MIT 18.06 (2010) lectures 25, 27, 29"
+      ]
+    },
+    {
+      "id": "linalg-positive-definite-example",
+      "unit": "symmetric-matrices-and-svd-preview",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Show that $A = \\begin{pmatrix}2 & -1\\\\-1 & 2\\end{pmatrix}$ is positive definite using each of the four tests.",
+      "body": "All four tests pass: eigenvalues $1$ and $3$, pivots $2$ and $\\tfrac32$, leading determinants $2$ and $3$, and $x^TAx > 0$.\n\n- Eigenvalues: $\\lambda^2 - 4\\lambda + 3 = (\\lambda - 1)(\\lambda - 3)$, so $1$ and $3$.\n- Pivots: the first is $2$; subtracting $-\\tfrac12$ times row 1 from row 2 leaves $2 - \\tfrac12 = \\tfrac32$.\n- Leading determinants: $2$ and $4 - 1 = 3$.\n- Quadratic form: $x^TAx = 2x_1^2 - 2x_1x_2 + 2x_2^2 = x_1^2 + x_2^2 + (x_1 - x_2)^2$, a sum of squares that vanishes only at $x = 0$.\n\nCheck: The product of the pivots, $2 \\cdot \\tfrac32 = 3$, equals the determinant and equals the product of the eigenvalues, $1 \\cdot 3$.",
+      "searchQuery": "test positive definite 2x2 matrix example eigenvalues pivots",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.4–6.5, §7.1–7.2",
+        "MIT 18.06 (2010) lectures 25, 27, 29"
+      ]
+    },
+    {
+      "id": "linalg-positive-entries-not-positive-definite",
+      "unit": "symmetric-matrices-and-svd-preview",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that a symmetric matrix with all positive entries is positive definite?",
+      "body": "Positive entries do not control the sign of $x^TAx$; the eigenvalues or pivots do, and a matrix with all positive entries can still have a negative eigenvalue.\n\nExample: $A = \\begin{pmatrix}1 & 2\\\\2 & 1\\end{pmatrix}$ has $x^TAx = x_1^2 + 4x_1x_2 + x_2^2$, which at $x = (1,-1)$ equals $1 - 4 + 1 = -2 < 0$. Its eigenvalues are $3$ and $-1$, and the second pivot is $1 - 4 = -3$.\n\nKey idea: Large off-diagonal entries relative to the diagonal ones are what spoil positive definiteness. In the $2 \\times 2$ case the test is $a > 0$ and $ac > b^2$.\n\nWatch out: The converse also fails: $\\begin{pmatrix}2 & -1\\\\-1 & 2\\end{pmatrix}$ is positive definite and has negative entries.",
+      "searchQuery": "positive entries not enough positive definite counterexample",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.4–6.5, §7.1–7.2",
+        "MIT 18.06 (2010) lectures 25, 27, 29"
+      ]
+    },
+    {
+      "id": "linalg-svd-definition",
+      "unit": "symmetric-matrices-and-svd-preview",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is the **singular value decomposition** of an $m \\times n$ matrix $A$ of rank $r$, and what are its **singular values**?",
+      "body": "$A = U\\Sigma V^T$ with $U$ ($m \\times m$) and $V$ ($n \\times n$) orthogonal and $\\Sigma$ ($m \\times n$) zero except for the singular values $\\sigma_1 \\ge \\dots \\ge \\sigma_r > 0$ on its diagonal; $\\sigma_i^2$ are the nonzero eigenvalues of $A^TA$.\n\nThe columns of $V$ are orthonormal eigenvectors of $A^TA$, the columns of $U$ are orthonormal eigenvectors of $AA^T$, and $Av_i = \\sigma_i u_i$. The **singular values** are $\\sigma_i = \\sqrt{\\lambda_i(A^TA)}$.\n\nWhy it matters: Every matrix, square or not, has one. Geometrically, $A$ rotates (by $V^T$), stretches along the axes by the $\\sigma_i$ (by $\\Sigma$) and rotates again (by $U$).\n\nWatch out: Singular values are never negative, and they are not the eigenvalues of $A$ unless $A$ is symmetric and positive semidefinite.",
+      "searchQuery": "singular value decomposition A = U Sigma V transpose singular values",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.4–6.5, §7.1–7.2",
+        "MIT 18.06 (2010) lectures 25, 27, 29"
+      ]
+    },
+    {
+      "id": "linalg-singular-values-problem",
+      "unit": "symmetric-matrices-and-svd-preview",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the singular values of $A = \\begin{pmatrix}3 & 0\\\\4 & 5\\end{pmatrix}$.",
+      "body": "$\\sigma_1 = 3\\sqrt5$ and $\\sigma_2 = \\sqrt5$.\n\n1. $A^TA = \\begin{pmatrix}3 & 4\\\\0 & 5\\end{pmatrix}\\begin{pmatrix}3 & 0\\\\4 & 5\\end{pmatrix} = \\begin{pmatrix}25 & 20\\\\20 & 25\\end{pmatrix}$.\n2. Its characteristic polynomial is $(25 - \\lambda)^2 - 400$, so $\\lambda = 25 \\pm 20$, that is $45$ and $5$.\n3. The singular values are the square roots: $\\sqrt{45} = 3\\sqrt5$ and $\\sqrt5$.\n\nCheck: $\\sigma_1\\sigma_2 = 15 = |\\det A|$, and $\\sigma_1^2 + \\sigma_2^2 = 50 = 3^2 + 0^2 + 4^2 + 5^2$, the sum of the squares of all entries (which equals $\\operatorname{trace}(A^TA)$).",
+      "searchQuery": "singular values of a 2x2 matrix eigenvalues of A transpose A",
+      "refs": [
+        "Strang, Introduction to Linear Algebra 5e §6.4–6.5, §7.1–7.2",
+        "MIT 18.06 (2010) lectures 25, 27, 29"
+      ]
+    }
+  ]
+}

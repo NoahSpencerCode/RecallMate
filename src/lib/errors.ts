@@ -80,7 +80,13 @@ export function friendlyError(error: unknown): string {
     case 'signup_disabled':
       return 'New sign-ups are paused right now.';
     case 'P0002':
-      return /pack/i.test(message) ? 'That pack isn’t available anymore.' : GONE_CARD;
+      if (/pack/i.test(message)) return 'That pack isn’t available anymore.';
+      if (/start this profession/i.test(message)) return 'Start this profession first.';
+      if (/not in your stack/i.test(message)) {
+        return 'That card isn’t in your stack anymore. It may have been reset on another device.';
+      }
+      if (/profession/i.test(message)) return 'That profession isn’t available.';
+      return GONE_CARD;
     case 'PGRST116':
       return GONE_CARD;
     case '42501':
@@ -91,6 +97,7 @@ export function friendlyError(error: unknown): string {
 
   if (isNetworkError(error)) return 'Can’t reach the server. Check your connection and try again.';
   if (isNotDueError(error)) return 'That card was already reviewed. It isn’t due again yet.';
+  if (/no cards yet/i.test(message)) return 'That part of the course isn’t ready yet.';
   if (/p_today must be/i.test(message)) {
     return 'Your device’s date looks wrong. Check its date and time settings, then try again.';
   }

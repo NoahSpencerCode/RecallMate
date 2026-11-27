@@ -1,0 +1,208 @@
+{
+  "module": "measure-integration",
+  "checker": "independent checker (Claude)",
+  "verdicts": [
+    {
+      "id": "measure-sigma-algebra-definition",
+      "verdict": "fixed",
+      "note": "Watch-out called the finite disjoint unions of intervals (a,b] an algebra on R; that needs endpoints -inf <= a < b <= inf, since complements are unbounded. Also introduced the notation sigma(E), which later cards use without definition."
+    },
+    {
+      "id": "measure-measure-definition",
+      "verdict": "fixed",
+      "note": "Counting measure was used here and in later cards without being defined; added its definition next to the Dirac measure."
+    },
+    {
+      "id": "measure-caratheodory-measurable-definition",
+      "verdict": "fixed",
+      "note": "Watch-out said restricting test sets 'to measurable sets' gives a useless condition: circular, and wrong for outer measures induced by a premeasure, where testing on the algebra suffices. Kept the correct subsets-of-E point and noted that only test sets of finite outer measure need checking."
+    },
+    {
+      "id": "measure-caratheodory-hahn-extension-theorem",
+      "verdict": "fixed",
+      "note": "Counterexample's 'finite unions of Q intersect (a,b]' is not an algebra on Q unless a and b may be infinite; added the endpoint range."
+    },
+    {
+      "id": "measure-lebesgue-stieltjes-premeasure-problem",
+      "verdict": "fixed",
+      "note": "Used the indicator chi_(0,inf) before indicator notation is introduced (simple-function card); defined it inline."
+    },
+    {
+      "id": "measure-lebesgue-stieltjes-floor-example",
+      "verdict": "fixed",
+      "note": "Same teaching-order issue: chi_[0,inf) used before chi is defined; defined it inline."
+    },
+    {
+      "id": "measure-lebesgue-measure-definition",
+      "verdict": "fixed",
+      "note": "Said m* is 'additive only on measurable sets', which is false (m* is additive on non-measurable sets at positive distance, for example); now says countably additive on the measurable sets but not on all of P(R^n)."
+    },
+    {
+      "id": "measure-lebesgue-regularity-proof-idea",
+      "verdict": "fixed",
+      "note": "Key idea said measurability is used 'exactly once' and then named two steps; reworded to the single subtraction in step 1, reused for E^c in step 3."
+    },
+    {
+      "id": "measure-lebesgue-linear-proof-idea",
+      "verdict": "fixed",
+      "note": "Finite unions of bounded dyadic boxes do not form an algebra on R^n; now allows infinite endpoints and says countable additivity carries nu = c m to them. Replaced the unclear 'counting measure on a discrete copy of R' with counting measure on the Borel sets of R."
+    },
+    {
+      "id": "measure-cantor-set-null-uncountable",
+      "verdict": "fixed",
+      "note": "Wrote {0,2}^N, which under the notation sheet (N starts at 0) indexes from 0, while the ternary expansion indexes from k >= 1; now {0,2}^{Z>0}."
+    },
+    {
+      "id": "measure-positive-measure-nonmeasurable-subset",
+      "verdict": "fixed",
+      "note": "Watch-out claimed no translation-invariant extension of m to all subsets of a positive-measure set exists; the argument does not show this and the statement is not well posed. Replaced with the correct point that the proof is non-constructive and rests on the axiom of choice."
+    },
+    {
+      "id": "measure-lebesgue-not-borel-set",
+      "verdict": "fixed",
+      "note": "The Cantor function is not a taught term and was described only by properties that do not determine it; added its definition on C and on the removed intervals."
+    },
+    {
+      "id": "measure-uniform-lower-density-full-measure",
+      "verdict": "fixed",
+      "note": "Watch-out named the fat Cantor set K_alpha, clashing with the problem's density constant alpha; renamed it K."
+    },
+    {
+      "id": "measure-measurable-function-definition",
+      "verdict": "fixed",
+      "note": "Complex-valued measurable functions are used from Egorov's theorem on (and in the integrable-function card) but were never defined; added that f is measurable when Re f and Im f are."
+    },
+    {
+      "id": "measure-simple-function-definition",
+      "verdict": "fixed",
+      "note": "Said the integral of sum a_j chi_{E_j} is sum a_j mu(E_j) for any real a_j, which can be inf - inf; restricted to a_j >= 0 with 0 * inf = 0, matching the integral definition card."
+    },
+    {
+      "id": "measure-simple-function-approximation-proof-idea",
+      "verdict": "fixed",
+      "note": "Used f^+ and f^- before they are defined (integrable-function card); defined them inline."
+    },
+    {
+      "id": "measure-lusin-theorem",
+      "verdict": "fixed",
+      "note": "The statement for arbitrary measurable E is correct, but the proof sketch uses Egorov, which needs m(E) < inf. Marked the sketch as the finite-measure case and added the reduction over bounded shells."
+    },
+    {
+      "id": "measure-dominated-convergence-theorem",
+      "verdict": "fixed",
+      "note": "Watch-out cited the typewriter sequence to show domination is not necessary, but that sequence is dominated by 1 on [0,1). Replaced with (1/n) chi_[n,n+1] (converges in L^1, no integrable dominator), kept the typewriter sequence for a.e. convergence, and fixed 'the next two cards' (the next card is the proof idea)."
+    },
+    {
+      "id": "measure-concentrating-spike-counterexample",
+      "verdict": "fixed",
+      "note": "Used 'uniformly integrable' six cards before it is defined; reworded the watch-out without the term."
+    },
+    {
+      "id": "measure-escaping-mass-counterexample",
+      "verdict": "fixed",
+      "note": "'The failure is not in convergence type', followed by the ways it fails other convergence types, contradicted itself; rewritten to say plainly that the convergence is only pointwise."
+    },
+    {
+      "id": "measure-differentiate-under-integral-sign-problem",
+      "verdict": "fixed",
+      "note": "Watch-out said 'a bound that grows with t is not enough', which is false (a factor bounded for t near the point is fine). The real requirement is one integrable bound valid for all t near the point."
+    },
+    {
+      "id": "measure-gamma-function-continuity-problem",
+      "verdict": "fixed",
+      "note": "Answer line credited dominated convergence with finiteness, which comes from the integrable dominator itself; also used the subset sign ⊂, which the notation sheet does not define (now ⊆)."
+    },
+    {
+      "id": "measure-vitali-convergence-theorem",
+      "verdict": "fixed",
+      "note": "Claimed that on a finite measure space a.e. convergence plus uniform integrability is equivalent to L^1 convergence. False: the typewriter sequence converges in L^1 but nowhere pointwise. Now: L^1 convergence iff convergence in measure plus uniform integrability, with the a.e. version only sufficient."
+    },
+    {
+      "id": "measure-lebesgue-criterion-riemann-integrability",
+      "verdict": "fixed",
+      "note": "Step functions took the sup and inf over the open piece, which need not give the Darboux sums; now over the closed piece. Replaced 'Darboux's theorem' (the taught term is the derivative intermediate value theorem) with the mesh-to-zero statement it meant, and defined the oscillation."
+    },
+    {
+      "id": "measure-iterated-integral-sections-definition",
+      "verdict": "fixed",
+      "note": "The answer to 'when does it make sense' gave only measurability; for signed f the integrals must also exist (f >= 0 or integrable integrands). Added."
+    },
+    {
+      "id": "measure-tonelli-proof-idea",
+      "verdict": "fixed",
+      "note": "Used 'monotone class' without defining it; added the definition inline."
+    },
+    {
+      "id": "measure-fubini-theorem",
+      "verdict": "fixed",
+      "note": "Listed the Lebesgue times counting diagonal among the examples for 'if f is not integrable'; that example has a nonnegative f and fails sigma-finiteness instead. Separated the two failure modes."
+    },
+    {
+      "id": "measure-tonelli-fails-diagonal",
+      "verdict": "fixed",
+      "note": "Claimed both iterated integrals define measures on B x B, but x -> c(E_x) need not be Borel measurable for Borel E (the projection of a Borel set can be non-Borel). Now contrasts the genuine measure E -> sum_y m(E^y) (value 0 on D) with the Caratheodory-Hahn product (value inf on D)."
+    },
+    {
+      "id": "measure-layer-cake-formula",
+      "verdict": "fixed",
+      "note": "Ref pointed to Folland ch. 2; the distribution-function formula is in Folland ch. 6 (section on distribution functions). Dropped the unverified Stein-Shakarchi pointer."
+    },
+    {
+      "id": "measure-convolution-l1-inequality",
+      "verdict": "fixed",
+      "note": "Gave the wrong reason why changing f, g on null sets does not change f*g ('(x,y) -> x-y preserves null sets'); the reason is that y -> x-y preserves null sets for each fixed x. Folland ref moved from ch. 2 to ch. 8 (convolutions)."
+    },
+    {
+      "id": "measure-minkowski-integral-inequality",
+      "verdict": "fixed",
+      "note": "Ref pointed to Folland ch. 2; Minkowski's inequality for integrals is in Folland ch. 6. Dropped the unverified Stein-Shakarchi pointer."
+    },
+    {
+      "id": "measure-locally-compact-hausdorff-definition",
+      "verdict": "fixed",
+      "note": "Used 'Banach space' (not taught) and C_c(X) and support without defining them; now an infinite-dimensional normed vector space, with support and C_c(X) defined. Ref moved to Folland ch. 4, where these spaces are defined; Stein-Shakarchi does not treat them."
+    },
+    {
+      "id": "measure-regular-borel-measure-definition",
+      "verdict": "fixed",
+      "note": "Claimed every Dirac measure on a topological space is regular; false when points are not closed (Sierpinski space), so now on a Hausdorff space. Also '(next card)' pointed at the Radon card instead of the metric-space regularity card."
+    },
+    {
+      "id": "measure-radon-measure-definition",
+      "verdict": "fixed",
+      "note": "'The Riesz representation theorem' clashes with the taught Hilbert-space theorem of that name; clarified it is the one for positive linear functionals on C_c(X). Dropped the Stein-Shakarchi ch. 6 ref, which has no Radon measures."
+    },
+    {
+      "id": "measure-change-of-variables-theorem",
+      "verdict": "fixed",
+      "note": "Refs pointed to Folland ch. 7 (Radon measures) and Stein-Shakarchi ch. 6, neither of which contains the C^1 change of variables theorem; now Folland ch. 2."
+    },
+    {
+      "id": "measure-change-of-variables-proof-idea",
+      "verdict": "fixed",
+      "note": "Same ref fix as the theorem card; also ⊂ replaced by ⊆ per the notation sheet."
+    },
+    {
+      "id": "measure-gaussian-quadratic-form-integral",
+      "verdict": "fixed",
+      "note": "Typed card accepted only 2pi/sqrt(3) and 2pi/sqrt3; added the rationalized forms (2sqrt(3)pi/3 and variants) and (2pi)/sqrt(3), an answerDisplay, and 'exactly' in the prompt."
+    },
+    {
+      "id": "measure-power-function-integrability-polar",
+      "verdict": "fixed",
+      "note": "⊂ replaced by ⊆ per the notation sheet."
+    },
+    {
+      "id": "measure-compact-support-dense-l1-radon",
+      "verdict": "fixed",
+      "note": "Step 2 chose U1 containing E with only mu(U1) < inf, then claimed an open U2 containing U1 minus E with mu(U2) < eps, which is impossible unless mu(U1 minus E) < eps. Now U1 is chosen with mu(U1) < mu(E) + eps first. Refs narrowed to Folland ch. 7."
+    }
+  ],
+  "summary": {
+    "reviewed": 86,
+    "ok": 47,
+    "fixed": 39,
+    "dropped": 0,
+    "added": 0
+  }
+}

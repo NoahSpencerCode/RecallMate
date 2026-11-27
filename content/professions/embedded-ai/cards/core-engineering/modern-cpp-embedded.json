@@ -1,0 +1,743 @@
+{
+  "profession": "embedded-ai",
+  "module": "modern-cpp-embedded",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "modern-cpp-reference-definition",
+      "unit": "cpp-from-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "In C++, what is a **reference** (`int& r = x;`), and how does it differ from a pointer to `x`?",
+      "body": "A reference is another name for an existing object: it must be bound when it is created, it can never be re-pointed, and you use it without `*` or `&`.\n\nAfter `int& r = x;`, the names `r` and `x` are the same `int`. Writing `r = 5;` changes `x`. A reference cannot be null and cannot be re-bound to another object later, so a function taking `int&` never has to check for `NULL`.\n\nWhy: A pointer is a variable holding an address that you must dereference. A reference gives the same \"work on the caller's object\" ability with less ceremony and fewer ways to go wrong. In practice the compiler usually implements a reference parameter as an address, so it costs the same as a pointer.\n\nExample: `void bump(int& x) { x += 10; }` is called as `bump(a);`. The call site does not need `&a`.\n\nWatch out: A reference to a local variable is dangling once that function returns, just like a pointer to it.",
+      "searchQuery": "c++ reference vs pointer alias int& cannot be null",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.7 Pointers, Arrays, and References"
+      ]
+    },
+    {
+      "id": "modern-cpp-name-mangling-definition",
+      "unit": "cpp-from-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is **name mangling** in C++, and why does it matter when C and C++ code are linked together?",
+      "body": "The C++ compiler encodes a function's parameter types into its symbol name, so C++ symbols differ from the plain names a C compiler emits.\n\nC++ allows two functions with the same name and different parameter types (called overloading). The linker only sees symbol names, so the compiler must give each version a distinct one. With the Itanium naming scheme used by GCC and Clang on Arm and Linux, `int add(int, int)` becomes `_Z3addii` and `double add(double, double)` becomes `_Z3adddd`. A C compiler has no overloading and just emits `add`.\n\nWhy it matters: If C++ code calls a function that was compiled by a C compiler, the C++ side asks the linker for `_Z3addii` and the C object file only has `add`. The result is an \"undefined reference\" linker error.\n\nTip: Run `nm file.o` on an object file to see the real symbol names. On macOS each symbol gets one extra leading underscore.",
+      "searchQuery": "c++ name mangling symbol names linker undefined reference",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.9 Mapping to Hardware"
+      ]
+    },
+    {
+      "id": "modern-cpp-zero-overhead-principle",
+      "unit": "cpp-from-c",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "State the **zero-overhead principle** that guides C++ design.",
+      "body": "What you do not use, you do not pay for, and what you do use could not be hand-coded any better.\n\nA feature that you never touch must add no run-time cost and no flash use. A C++ `struct` with the same fields as a C struct has the same size and layout, and a reference parameter compiles to the same code as a pointer parameter.\n\nWhy it matters: This is why C++ is usable on a microcontroller with a few kibibytes of RAM. You choose which costs to accept, one feature at a time. The rest of this module is largely about spotting the features that do cost something, so you can leave them out.\n\nWatch out: Zero overhead is a design goal, not a promise about every line. Some features, met later in this module, do have a cost whenever you use them.",
+      "searchQuery": "c++ zero-overhead principle you don't pay for what you don't use",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.9 Mapping to Hardware"
+      ]
+    },
+    {
+      "id": "modern-cpp-extern-c-guard",
+      "unit": "cpp-from-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "A C driver header `crc.h` is compiled by a C compiler into `crc.o`, and its functions are also called from C++ files. Fill in the blank so that both languages can include it.\n\n```c\n#include <stddef.h>\n#include <stdint.h>\n#ifdef __cplusplus\n___ {\n#endif\nuint8_t crc8(const uint8_t *data, size_t n);\n#ifdef __cplusplus\n}\n#endif\n```",
+      "body": "`extern \"C\"`\n\nThe line becomes `extern \"C\" {` when a C++ compiler reads the header, and the closing `}` ends the block. It tells the C++ compiler to give these declarations C linkage: use the plain symbol `crc8`, not a mangled one.\n\nWhy: Without it, a C++ caller looks for a symbol such as `_Z4crc8PKhj` and the linker reports an undefined reference, because `crc.o` was built by the C compiler and holds only `crc8`.\n\nWhy it works: The macro `__cplusplus` is defined only by C++ compilers, so the C compiler never sees the `extern \"C\" {` line, which would be a syntax error in C.\n\nTip: The same trick works in the other direction: a C++ function marked `extern \"C\"` can be called from C code or passed to it as a callback.",
+      "searchQuery": "extern c header guard __cplusplus call C from C++",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.9 Mapping to Hardware"
+      ]
+    },
+    {
+      "id": "modern-cpp-nullptr-overload",
+      "unit": "cpp-from-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print? (Compile as C++.)\n\n```cpp\n#include <cstdio>\nvoid f(int)         { std::puts(\"int\"); }\nvoid f(const char*) { std::puts(\"pointer\"); }\nint main() {\n    f(0);\n    f(nullptr);\n}\n```",
+      "body": "`int` then `pointer`\n\nThe literal `0` is an `int`, so `f(0)` picks the `int` version. `nullptr` is the C++ null pointer constant. It has its own type that converts to any pointer type but never to an integer, so `f(nullptr)` picks the pointer version.\n\nWhy: In C, `NULL` is often `(void*)0` or plain `0`. In C++ plain `0` was the old null pointer, which made `f(NULL)` ambiguous or wrongly resolved to the `int` overload. `nullptr` removes that confusion.\n\nTip: In C++ write `nullptr` wherever C would write `NULL`. Use `0` only when you mean the number.",
+      "searchQuery": "c++ nullptr vs NULL overload resolution int pointer",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.7 Pointers, Arrays, and References"
+      ]
+    },
+    {
+      "id": "modern-cpp-auto-drops-reference",
+      "unit": "cpp-from-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print?\n\n```cpp\n#include <cstdio>\nint main() {\n    int a = 5;\n    const int& r = a;\n    auto b = r;\n    b++;\n    auto& c = a;\n    c += 100;\n    std::printf(\"%d %d %d\\n\", a, b, r);\n}\n```",
+      "body": "`105 6 105`\n\nThe keyword **auto** makes the compiler deduce a variable's type from its initializer. Plain `auto` copies: it drops the reference and the `const`, so `b` is a fresh `int` holding 5, and `b++` leaves `a` alone. `auto& c` keeps the reference, so `c += 100` changes `a` to 105, and `r` (another name for `a`) also shows 105.\n\nWatch out: Writing `auto x = some_reference;` silently makes a copy. For big objects that is a hidden cost. Write `auto&` or `const auto&` when you mean to refer to the original.\n\nTip: `auto` is a good fit when the type is long or obvious from the right-hand side (`auto n = buf.size();`). Spell the type out when its exact width matters, for example `uint8_t x = ...;`.",
+      "searchQuery": "c++ auto type deduction drops reference const copy",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.4 Types and Variables"
+      ]
+    },
+    {
+      "id": "modern-cpp-enum-class-errors",
+      "unit": "cpp-from-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "`enum class` is C++'s scoped enumeration. How many of the three marked lines fail to compile?\n\n```cpp\nenum class Mode { Idle, Run };\nenum class Led  { Off, On };\nint main() {\n    Mode m = Mode::Run;\n    int n = m;                    // A\n    bool same = (m == Led::On);   // B\n    Mode k = Run;                 // C\n}\n```",
+      "body": "All three: A, B and C.\n\nAn **enum class** keeps its enumerators inside its own name and does not convert to `int` by itself. A fails because `m` will not silently become an `int` (you must write `static_cast<int>(m)`). B fails because `Mode` and `Led` are different types, so they cannot be compared. C fails because `Run` is not in scope: it is `Mode::Run`.\n\nWhy it matters: With a C `enum`, `Idle` and `Off` would both be plain integer constants in the same scope, so a name clash is possible and a `Led` value could be assigned to a `Mode` variable with no complaint. Scoped enums turn those bugs into compile errors.\n\nExample: A register field with a few states, such as `enum class Mode : uint8_t { Idle, Run }`, can name its underlying type so it fits in one byte.",
+      "searchQuery": "c++ enum class scoped enumeration no implicit conversion",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §2.4 Enumerations"
+      ]
+    },
+    {
+      "id": "modern-cpp-namespace-clash",
+      "unit": "cpp-from-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print?\n\n```cpp\n#include <cstdio>\nnamespace sensor { int read() { return 7; } }\nnamespace motor  { int read() { return 9; } }\nint main() {\n    using namespace sensor;\n    std::printf(\"%d %d\\n\", read(), motor::read());\n}\n```",
+      "body": "`7 9`\n\nA **namespace** is a named scope that groups names, so two libraries can each have a `read` without clashing. `motor::read()` names the function explicitly. The line `using namespace sensor;` makes the bare name `read` mean `sensor::read` in this block.\n\nWhy: C has one global namespace, so C libraries add prefixes by hand (`uart_read`, `spi_read`). A namespace does the same job in the language, and it adds no cost: the prefix is only part of the symbol name.\n\nWatch out: Never write `using namespace` at the top level of a header. Every file that includes the header inherits it, and an unrelated name clash can appear far away.",
+      "searchQuery": "c++ namespace scope name clash using namespace",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §3.3 Namespaces"
+      ]
+    },
+    {
+      "id": "modern-cpp-class-private-access",
+      "unit": "classes-raii",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "A **class** bundles data with the **member functions** that work on it, and **access specifiers** (`public`, `private`) say who may touch what. Which line fails to compile, and why?\n\n```cpp\nclass Counter {\npublic:\n    void tick() { ++n_; }\n    int value() { return n_; }\nprivate:\n    int n_ = 0;\n};\nint main() {\n    Counter c;\n    c.tick();\n    return c.n_;   // line 11\n}\n```",
+      "body": "Line 11: `n_` is `private`, so code outside the class cannot read it.\n\nMembers after `private:` are reachable only from the class's own member functions. Members after `public:` are reachable from anywhere. Outside code must go through `tick()` and `value()`, so the class controls every change to `n_`.\n\nWhy it matters: The class can keep its data consistent (a count that only goes up, an index that stays in range) because nobody else can write to the data directly. If the internals change later, only the member functions need updating.\n\nKey idea: In a `struct` the default access is public, and in a `class` it is private. That is the only difference between the two keywords.",
+      "searchQuery": "c++ class private public access specifier member function",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §2.3 Classes"
+      ]
+    },
+    {
+      "id": "modern-cpp-constructor-definition",
+      "unit": "classes-raii",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **constructor** in C++, and when does it run?",
+      "body": "A constructor is a special member function, named after its class and with no return type, that runs automatically when an object is created and sets the object up.\n\nExample: `class Uart { public: Uart(int baud) : baud_(baud) {} ... };` With `Uart u(115200);` the constructor runs on that line and stores the baud rate. There is no way to get a `Uart` that skipped it.\n\nWhy: In C you write `uart_init(&u, 115200)` and hope every caller remembers. A constructor makes initialization impossible to forget, which removes a whole class of uninitialised-variable bugs.\n\nTip: The part after the colon, `baud_(baud)`, is the member initializer list. It sets each member directly when it is created, rather than creating it and then assigning to it.",
+      "searchQuery": "c++ constructor definition runs when object created initializer list",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §2.3 Classes"
+      ]
+    },
+    {
+      "id": "modern-cpp-destructor-definition",
+      "unit": "classes-raii",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **destructor** in C++, and when does it run?",
+      "body": "A destructor is a member function named `~ClassName()`, with no parameters and no return type, that runs automatically when an object's lifetime ends.\n\nFor a local variable, the lifetime ends when execution leaves the block where it was declared, whether by reaching the closing brace, `return`, or any other way out. For an object made with `new`, it runs at `delete`.\n\nWhy it matters: The destructor is the place to release whatever the constructor acquired: free memory, close a file, switch a hardware block off. It runs on every path out of the block, so you cannot forget it on an early `return`.\n\nWatch out: A destructor is not called for a pointer going out of scope, only for the object. If a raw pointer owns memory, nothing frees it unless you write the `delete` yourself.",
+      "searchQuery": "c++ destructor definition runs end of scope lifetime",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §2.3 Classes",
+        "Stroustrup, A Tour of C++ 3e §6.3 Resource Management"
+      ]
+    },
+    {
+      "id": "modern-cpp-construct-destruct-order",
+      "unit": "classes-raii",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "`Probe`'s constructor prints `+name ` and its destructor prints `-name `. What does `main` print in total?\n\n```cpp\nstruct Probe {\n    const char* name;\n    Probe(const char* n) : name(n) { std::printf(\"+%s \", name); }\n    ~Probe() { std::printf(\"-%s \", name); }\n};\nint main() {\n    Probe a(\"A\");\n    {\n        Probe b(\"B\");\n        Probe c(\"C\");\n    }\n    std::printf(\"| \");\n}\n```",
+      "body": "`+A +B +C -C -B | -A `\n\nObjects are constructed in the order they are declared, and destroyed in the reverse order when their block ends. `c` and `b` go out of scope at the inner closing brace, `c` first. Then `|` prints, and `a` is destroyed when `main` ends.\n\nWhy: Reverse order is what makes nested resources safe. If `c` was built using `b`, then `b` is still alive while `c` is being torn down.\n\nKey idea: This last-in, first-out cleanup is the same discipline as the stack the objects live on. It is the mechanism that RAII, next, builds on.",
+      "searchQuery": "c++ constructor destructor order reverse scope exit",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.3 Resource Management"
+      ]
+    },
+    {
+      "id": "modern-cpp-raii-concept",
+      "unit": "classes-raii",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What is **RAII** (resource acquisition is initialization)?",
+      "body": "RAII ties a resource to an object's lifetime: the constructor acquires it, the destructor releases it, so the release happens automatically on every way out of the scope.\n\nA \"resource\" is anything you must give back: heap memory, an open file, a lock, a hardware block you switched on, a pin you drove high.\n\nWhy: In C the cleanup call is separate code, and each early `return` or error branch needs its own copy of it. Miss one and you leak the resource or leave the hardware in a bad state. With RAII the compiler inserts the destructor call on every exit path for you.\n\nExample: A `File` class opens in the constructor and closes in the destructor. A function that opens three files and fails on the second still closes the first correctly.\n\nWatch out: RAII only works if the object's lifetime is the scope you want. An object created with `new` and never deleted never runs its destructor.",
+      "searchQuery": "c++ RAII resource acquisition is initialization constructor destructor",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.3 Resource Management"
+      ]
+    },
+    {
+      "id": "modern-cpp-irq-lock-scope-guard",
+      "unit": "classes-raii",
+      "kind": "code",
+      "difficulty": 3,
+      "checkpoint": true,
+      "title": "A **scope guard** is a small RAII object that does something at the start of a block and undoes it at the end. Write the missing constructor and destructor for `IrqLock`, which must keep interrupts off for the lifetime of the object. (An interrupt is a hardware signal that pauses the running code to run a handler. `disable_irq()` and `enable_irq()` exist.)\n\n```cpp\nclass IrqLock {\npublic:\n    IrqLock()  { /* ??? */ }\n    ~IrqLock() { /* ??? */ }\n    IrqLock(const IrqLock&) = delete;\n    IrqLock& operator=(const IrqLock&) = delete;\n};\n```",
+      "body": "The constructor calls `disable_irq();` and the destructor calls `enable_irq();`.\n\nUse: write `{ IrqLock lock; counter++; }` and the interrupts are off from the declaration to the closing brace, then back on, with no way to forget the second call.\n\nThe two `= delete` lines forbid copying. If a guard could be copied, two objects would each re-enable interrupts on destruction, and the lock would end too early.\n\nWatch out: This simple version always turns interrupts on at the end, even if they were off before the guard was created. A guard used inside code that already runs with interrupts off would wrongly switch them back on. Real code saves the previous state in the constructor and restores that state in the destructor.\n\nTip: The same shape works for any lock that protects shared data: take it in the constructor, release it in the destructor.",
+      "searchQuery": "c++ scope guard RAII disable interrupts constructor destructor",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.3 Resource Management"
+      ]
+    },
+    {
+      "id": "modern-cpp-guard-early-return",
+      "unit": "classes-raii",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Using the `IrqLock` guard (constructor disables interrupts, destructor enables them), what does this print?\n\n```cpp\nstatic int irq_off = 0;\nvoid disable_irq() { irq_off = 1; }\nvoid enable_irq()  { irq_off = 0; }\nint take(int x) {\n    IrqLock lock;\n    if (x < 0) return -1;\n    return x * 2;\n}\nint main() {\n    int a = take(-5), b = take(4);\n    std::printf(\"%d %d irq_off=%d\\n\", a, b, irq_off);\n}\n```",
+      "body": "`-1 8 irq_off=0`\n\nBoth calls leave `take` through a different `return`, yet interrupts come back on each time. The destructor of `lock` runs on every path out of the block, including the early `return -1`. So `irq_off` is 0 again when it is printed.\n\nWhy it matters: This is the whole value of the guard. With manual `disable_irq(); ...; enable_irq();` pairs, the early return on the error path is exactly where the `enable_irq()` gets forgotten, and the system then runs with interrupts off forever.\n",
+      "searchQuery": "c++ RAII guard early return destructor still runs interrupts",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.3 Resource Management"
+      ]
+    },
+    {
+      "id": "modern-cpp-rule-of-five-double-free",
+      "unit": "classes-raii",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This class owns a heap buffer. What goes wrong at runtime, and what is the general rule that it breaks?\n\n```cpp\nclass Buf {\npublic:\n    Buf(int n) : p_(new char[n]) {}\n    ~Buf() { delete[] p_; }\nprivate:\n    char* p_;\n};\nint main() {\n    Buf a(16);\n    Buf b = a;   // copy\n}\n```",
+      "body": "Double free: the default copy constructor (which makes a new object as a copy of another) duplicates the pointer, so `a` and `b` both `delete[]` the same buffer. The rule it breaks is the **rule of five**.\n\nThe compiler writes a copy constructor for you that copies each member. For a raw pointer that means copying the address, not the buffer. At the closing brace both destructors free the same memory. AddressSanitizer reports \"attempting double-free\".\n\nKey idea: **Rule of five**: if a class needs a custom destructor, copy constructor, copy assignment, move constructor or move assignment (the five special member functions), it almost certainly needs to define or delete all five. Here the destructor frees memory, so copying must be written, forbidden (`= delete`) or made a real copy.\n\nNote: The copy and move constructors are the subject of the next unit.",
+      "searchQuery": "c++ rule of five double free default copy raw pointer destructor",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.2 Copy and Move",
+        "Stroustrup, A Tour of C++ 3e §5.2 Concrete Types"
+      ]
+    },
+    {
+      "id": "modern-cpp-rule-of-zero-trade-off",
+      "unit": "classes-raii",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "You are writing a class that holds a fixed 64-byte buffer plus a length. Should you write your own destructor and copy/move functions (rule of five), or follow the **rule of zero**?",
+      "body": "Follow the rule of zero: write none of the five special member functions and let members that already manage themselves do the work.\n\n**Rule of zero**: a class that owns no raw resource directly needs no custom destructor, copy or move functions. A member such as `uint8_t data_[64]; size_t len_;` is copied and destroyed correctly by the compiler's defaults, and if you later add a member that cleans up after itself, the defaults still do the right thing.\n\nWhy: Every special function you hand-write is code to get wrong and to keep in step when members change. The defaults are correct by construction, and they let the compiler choose the cheapest copy.\n\nThe other side: Write the rule of five yourself only for a class that is the owner of a raw resource, such as a class wrapping a handle returned from a C library or a hardware resource. Keep that wrapper tiny so the rest of your classes can follow the rule of zero.",
+      "searchQuery": "c++ rule of zero vs rule of five when to write destructor copy move",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.3 Resource Management",
+        "Stroustrup, A Tour of C++ 3e §5.2 Concrete Types"
+      ]
+    },
+    {
+      "id": "modern-cpp-copy-constructor-vs-assignment",
+      "unit": "move-semantics",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the difference between a **copy constructor** and **copy assignment**?",
+      "body": "The copy constructor `T(const T&)` builds a new object as a copy of an existing one. Copy assignment `T& operator=(const T&)` overwrites an object that already exists with a copy of another.\n\nExample: `T b = a;` and `T b(a);` create `b`, so they run the copy constructor. After `T b;` has already created it, `b = a;` runs copy assignment.\n\nWhy: The difference matters when the class owns something. The constructor starts from nothing, so it only has to acquire. Assignment must first release what the target already holds, or that old resource leaks.\n\nWatch out: Passing an object by value to a function also calls the copy constructor. A copy of a class that owns a buffer is a full duplicate of the buffer: slow, and on a small device it needs room for a second buffer.",
+      "searchQuery": "c++ copy constructor vs copy assignment operator difference",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.2 Copy and Move"
+      ]
+    },
+    {
+      "id": "modern-cpp-move-constructor-definition",
+      "unit": "move-semantics",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **move constructor**, and what does its parameter type `T&&` (an **rvalue reference**) mean?",
+      "body": "A move constructor `T(T&&)` builds a new object by taking over another object's resources instead of copying them. `T&&` is an rvalue reference: it binds only to a temporary or to an object explicitly marked as movable.\n\nAn **rvalue** is a value that is about to go away: the result of a function call, or an expression such as `a + b`. Nobody else can see it afterwards, so stealing its guts is safe.\n\nExample: For a class holding a pointer and a length, the move constructor copies those two fields (a few bytes) and sets the source's pointer to `nullptr`. A copy would allocate and duplicate the whole buffer.\n\nWhy it matters: Moving a 4 KiB buffer costs the same as moving a 4-byte one, and needs no second buffer. On a device without spare RAM or a heap, that is the difference between possible and impossible.",
+      "searchQuery": "c++ move constructor rvalue reference T&& steal resources",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.2 Copy and Move"
+      ]
+    },
+    {
+      "id": "modern-cpp-std-move-misconception",
+      "unit": "move-semantics",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that `std::move(x)` moves the object `x`?",
+      "body": "**std::move** only casts `x` to an rvalue reference (`T&&`). It moves nothing by itself: the actual move happens in the move constructor or move assignment that the cast lets the compiler select.\n\n`std::move(x)` produces no machine code of its own. It says \"I no longer need `x`'s value; treat it as a temporary\". If the type has no move constructor, the call silently falls back to the copy constructor and nothing is saved.\n\nExample: `Buf b = std::move(a);` calls `Buf(Buf&&)`, which takes `a`'s resources. Merely writing `std::move(a);` as a statement changes nothing.\n\nWatch out: `const T` objects cannot be moved from, because a move must modify the source. `std::move` on a `const` object quietly selects the copy constructor.",
+      "searchQuery": "std::move does not move just a cast to rvalue reference",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §16.6 move() and forward()"
+      ]
+    },
+    {
+      "id": "modern-cpp-copy-or-move-output",
+      "unit": "move-semantics",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What does this program print?\n\n```cpp\n#include <cstdio>\n#include <utility>\nstruct T {\n    T() = default;\n    T(const T&)     { std::puts(\"copy\"); }\n    T(T&&) noexcept { std::puts(\"move\"); }\n};\nint main() {\n    T a;\n    T b = a;\n    T c = std::move(a);\n}\n```",
+      "body": "`copy` then `move`\n\n`T b = a;` initializes from a named object that stays usable, so overload resolution picks the `const T&` copy constructor. `std::move(a)` turns `a` into an rvalue reference, so `T c = std::move(a);` picks the `T&&` move constructor.\n\nKey idea: The compiler chooses by the kind of expression it is given: a plain name means copy, a temporary or a `std::move(name)` means move. This is why the move constructor is only used when moving is safe.\n\nNote: `noexcept` promises the function will not throw an exception. When a `std::vector` grows, it moves its elements only if the move constructor is `noexcept`, and otherwise copies them to stay safe, so mark moves `noexcept`.",
+      "searchQuery": "c++ copy vs move constructor which one runs std::move noexcept",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.2 Copy and Move"
+      ]
+    },
+    {
+      "id": "modern-cpp-write-move-constructor",
+      "unit": "move-semantics",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "`Buffer` owns a heap array. Fill in the move constructor body so the new object takes the old object's array and the old object is left safe to destroy.\n\n```cpp\nclass Buffer {\npublic:\n    Buffer(std::size_t n) : p_(new char[n]), n_(n) {}\n    ~Buffer() { delete[] p_; }\n    Buffer(Buffer&& o) noexcept : p_(o.p_), n_(o.n_) {\n        /* ??? */\n    }\nprivate:\n    char* p_;\n    std::size_t n_;\n};\n```",
+      "body": "`o.p_ = nullptr; o.n_ = 0;`\n\nThe initializer list already copied the pointer and length into the new object. The body must now disown them in `o`: otherwise both destructors would `delete[]` the same array (a double free).\n\nDeleting a null pointer is allowed and does nothing, so setting `o.p_ = nullptr` makes `o`'s later destructor harmless. Setting `o.n_ = 0` keeps the length consistent with the empty state.\n\nWhy it matters: The move cost is two copied words and two stores, regardless of buffer size.\n\nTip: After the move, `o` is still a valid object that can be destroyed or assigned a new value. Leaving it valid is the one thing a move constructor must always guarantee.",
+      "searchQuery": "c++ write move constructor owns buffer set source pointer nullptr",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.2 Copy and Move"
+      ]
+    },
+    {
+      "id": "modern-cpp-move-assignment-leak",
+      "unit": "move-semantics",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This move assignment compiles and runs, but it has a bug. What is it?\n\n```cpp\nBuffer& operator=(Buffer&& o) noexcept {\n    p_ = o.p_;\n    n_ = o.n_;\n    o.p_ = nullptr;\n    o.n_ = 0;\n    return *this;\n}\n```\n(`Buffer` owns `char* p_` allocated with `new[]`, and its destructor calls `delete[] p_`.)",
+      "body": "It never frees the array the target already owns, so that old array leaks.\n\nUnlike a constructor, an assignment works on an object that already holds a resource. Overwriting `p_` loses the only pointer to the old array. The fix is to release first: `delete[] p_;` before `p_ = o.p_;`.\n\nWatch out: Once you add `delete[] p_;`, a self-assignment `a = std::move(a);` becomes a problem: it frees the array, then sets the pointer to `nullptr` and the size to 0, so the object silently loses its data. A common guard is `if (this != &o) { ... }` around the body.\n\nExample: On Linux, AddressSanitizer's leak checker reports the lost 8-byte array in a program that does `Buffer a(8), b(8); a = std::move(b);`.",
+      "searchQuery": "c++ move assignment operator leak old resource self assignment",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.2 Copy and Move"
+      ]
+    },
+    {
+      "id": "modern-cpp-moved-from-state",
+      "unit": "move-semantics",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "After running, what does this program print? Assume `Buffer` has the move constructor and `size()` from the previous cards (a moved-from object has `n_ == 0`).\n\n```cpp\nint main() {\n    Buffer a(64);\n    Buffer b(std::move(a));\n    std::printf(\"%zu %zu\\n\", a.size(), b.size());\n}\n```",
+      "body": "`0 64`\n\nAfter the move, `a` is in a **moved-from state**: a valid but empty object whose resources now belong to `b`. For this class that state is a null pointer and size 0.\n\nThe language only requires that a moved-from object can be destroyed and assigned a new value. What else you may do with it depends on the type. A standard library type is left \"valid but unspecified\", so do not read its contents.\n\nWatch out: Using `a` after the move as if it still held its data is the classic bug, like use-after-free but with no crash. The compiler will not warn you.\n\nTip: Treat `std::move(a)` as \"a is finished with\". If you need `a` again, give it a fresh value first.",
+      "searchQuery": "c++ moved-from state object valid but unspecified after std::move",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.2 Copy and Move"
+      ]
+    },
+    {
+      "id": "modern-cpp-rvo-return-by-value",
+      "unit": "move-semantics",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "**Return value optimization (RVO)** lets the compiler build a returned object directly in the caller's variable. With a C++17 or later compiler, what does this print?\n\n```cpp\n#include <cstdio>\n#include <utility>\nstruct W {\n    W()           { std::puts(\"make\"); }\n    W(const W&)     { std::puts(\"copy\"); }\n    W(W&&) noexcept { std::puts(\"move\"); }\n};\nW good() { return W(); }\nW bad()  { W w; return std::move(w); }\nint main() {\n    W a = good();\n    std::puts(\"--\");\n    W b = bad();\n}\n```",
+      "body": "`make`, then `--`, then `make`, `move`\n\n`good()` returns a temporary, and since C++17 the language requires that no copy or move happens: the temporary is built directly inside `a`. So one `make` and nothing else.\n\n`bad()` creates a named local `w` and returns `std::move(w)`. That turns the return into an explicit move, which stops the compiler from eliding it (skipping the copy or move entirely), so you pay for a move that plain `return w;` would usually have avoided. Compilers warn about it (`-Wpessimizing-move`).\n\nKey idea: Return locals by value with a plain `return w;`. Never write `return std::move(local);`. The compiler can either elide the copy or fall back to a move automatically.\n\nNote: Eliding a named local like `w` is permitted but not guaranteed; eliding a returned temporary like `W()` is guaranteed.",
+      "searchQuery": "c++ return value optimization RVO copy elision std::move return pessimizing",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §6.2 Copy and Move"
+      ]
+    },
+    {
+      "id": "modern-cpp-function-template-definition",
+      "unit": "templates",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **function template**, and what is a **template parameter**?",
+      "body": "A function template is a recipe for a family of functions: the compiler writes a real function from it for each type you use. A template parameter is the placeholder, such as `T`, that stands for that type.\n\nExample: `template <typename T> T larger(T a, T b) { return a > b ? a : b; }` With `larger(3, 4)` the compiler deduces `T = int` from the arguments and generates `int larger(int, int)`. With `larger(1.5f, 2.0f)` it generates a `float` version.\n\nWhy: In C you would write one function per type or use a macro with no type checking. A template is type-checked like a handwritten function but written once.\n\nWatch out: The compiler needs the template's full body wherever you use it, so templates normally live in header files, not in a separate `.cpp` file.",
+      "searchQuery": "c++ function template definition template parameter type deduction",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §7.3 Parameterized Operations"
+      ]
+    },
+    {
+      "id": "modern-cpp-class-template-definition",
+      "unit": "templates",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **class template**, and what does `Stack<int>` name?",
+      "body": "A class template is a recipe for a family of classes: you supply the type (or constants) and the compiler writes the class. `Stack<int>` is the class generated from the `Stack` template with `T = int`.\n\nEach such class is a separate, independent type. `Stack<int>` and `Stack<float>` share source code but not objects, member functions or compiled code. The compiler creates each one the first time it is used. This creation is called **template instantiation**.\n\nWhy it matters: A container such as a ring buffer does not depend on what it stores, so you write it once. In C you would copy-paste it per type or use `void*` and lose the type check.\n\nWatch out: Template code is only fully checked when instantiated. A mistake inside a member function you never call may not show up until you do.",
+      "searchQuery": "c++ class template definition instantiation Stack<int>",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §7.2 Parameterized Types"
+      ]
+    },
+    {
+      "id": "modern-cpp-ring-buffer-template",
+      "unit": "templates",
+      "kind": "code",
+      "difficulty": 3,
+      "checkpoint": true,
+      "title": "A **non-type template parameter** is a template parameter that is a value, such as the capacity `N` below, not a type. Fill in the full-buffer condition so `push` refuses to overwrite unread data.\n\n```cpp\n#include <cstddef>\ntemplate <typename T, std::size_t N>\nclass RingBuffer {\n    T data_[N];\n    std::size_t head_ = 0, count_ = 0;\npublic:\n    bool push(const T& v) {\n        if (/* ??? */) return false;\n        data_[(head_ + count_) % N] = v;\n        ++count_;\n        return true;\n    }\n};\n```",
+      "body": "`count_ == N`\n\nThe buffer holds at most `N` items. Once `count_` reaches `N`, a new item would land on the oldest unread slot (index `head_`), so `push` returns `false` instead. The write position is `(head_ + count_) % N`, which wraps around the end of the array.\n\nWhy it works: `N` is fixed at compile time, so `data_[N]` is an ordinary array inside the object. `RingBuffer<uint8_t, 64>` needs no heap: it can be a global or a local, and its size is known to the linker.\n\nKey idea: `RingBuffer<int, 8>` and `RingBuffer<int, 16>` are different types. The size is part of the type, so passing one where the other is expected is a compile error, not a run-time surprise.\n\nTip: Tracking `count_` rather than only head and tail indices removes the usual \"full looks the same as empty\" ambiguity.",
+      "searchQuery": "c++ ring buffer template non-type parameter capacity N full condition",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §7.2 Parameterized Types",
+        "Embedded Template Library (etlcpp.com) documentation: circular_buffer"
+      ]
+    },
+    {
+      "id": "modern-cpp-template-deduction-conflict",
+      "unit": "templates",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Which line fails to compile, and why?\n\n```cpp\ntemplate <typename T>\nT larger(T a, T b) { return a > b ? a : b; }\nint main() {\n    int i = larger(3, 4);       // line 4\n    double d = larger(3, 4.5);  // line 5\n    return i + (int)d;\n}\n```",
+      "body": "Line 5: the compiler deduces `T = int` from `3` and `T = double` from `4.5`, and one `T` cannot be both.\n\nLine 4 is fine, since both arguments are `int`, and the compiler instantiates `larger<int>`. For line 5 the compiler does not apply a conversion to pick a common type. Template deduction needs every argument to agree.\n\nFix: Name the type: `larger<double>(3, 4.5)` converts `3` to `double`. Or write `4.0` so both arguments are `double`.\n\nWhy it matters: Template errors are reported where the call is made, but they quote the template. Learn to read \"deduced conflicting types for parameter T\": it almost always means two arguments disagree.",
+      "searchQuery": "c++ template argument deduction conflicting types int double",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §7.3 Parameterized Operations"
+      ]
+    },
+    {
+      "id": "modern-cpp-non-type-array-size",
+      "unit": "templates",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What does this print? (32-bit `int`; `N` is deduced from the array's type.)\n\n```cpp\n#include <cstddef>\n#include <cstdio>\ntemplate <std::size_t N>\nstd::size_t len(const char (&)[N]) { return N - 1; }\nint main() {\n    char buf[16];\n    std::printf(\"%zu %zu %zu\\n\", len(\"hello\"), len(\"\"), sizeof(buf));\n}\n```",
+      "body": "`5 0 16`\n\nA string literal such as `\"hello\"` has type `const char[6]`: five letters plus the null terminator. The template parameter `N` is deduced as 6, and the function returns `N - 1`. The empty string has type `const char[1]`, so the result is 0. `sizeof(buf)` is simply 16.\n\nWhy it matters: The length is a compile-time constant, so there is no `strlen` loop at run time. A reference to an array keeps its size in its type, whereas a plain pointer (`const char*`) loses it, which is the array decay you saw in C.\n\nTip: The same trick, `template <typename T, std::size_t N> ... T (&arr)[N]`, tells a function the size of any array passed to it without a separate length argument.",
+      "searchQuery": "c++ template non-type parameter array size deduction reference to array",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §7.2 Parameterized Types"
+      ]
+    },
+    {
+      "id": "modern-cpp-concept-constrained-template",
+      "unit": "templates",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A **concept** is a named compile-time condition on template parameters. What happens with the second call below?\n\n```cpp\n#include <concepts>\n#include <cstdio>\ntemplate <std::integral T>\nT half(T x) { return x / 2; }\nint main() {\n    std::printf(\"%d\\n\", half(7));\n    std::printf(\"%f\\n\", half(7.0));\n}\n```",
+      "body": "It does not compile: `double` does not satisfy `std::integral`, so the compiler rejects the call and says the constraint is not satisfied. The first call prints `3`.\n\n`template <std::integral T>` limits `T` to integer types. Without the concept, `half(7.0)` would compile and work, so the constraint states what the author means: this function is for integers. If you pass a type that does not fit, you get an error naming the unmet requirement, rather than an error deep inside the body.\n\nTip: Concepts need C++20. If your toolchain is older, a `static_assert(std::is_integral_v<T>, \"integers only\");` inside the function gives a similar check with a message.\n\nWhy it matters: On embedded targets, a function that quietly accepts a `float` where integer maths was intended can pull in slow software floating-point routines on a core with no hardware support for it.",
+      "searchQuery": "c++20 concepts constrain template std::integral compile error",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §8.2 Concepts"
+      ]
+    },
+    {
+      "id": "modern-cpp-template-vs-void-pointer",
+      "unit": "templates",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "You need a sort routine used with `int` and with `float` arrays on a small microcontroller. C's `qsort` takes `void*` plus a comparison function pointer; C++'s `std::sort` is a template. Which is better, and under which conditions does the other win?",
+      "body": "`std::sort` wins when speed and type safety matter and you have flash to spare: the comparison is inlined, and the compiler checks the element type. `qsort` wins when flash is tightly constrained and sorting speed is not important.\n\nWith `qsort`, every comparison is a call through a function pointer and the elements are accessed through `void*` with a size argument. There is no type check, so passing the wrong size compiles and corrupts data. With `std::sort`, the compiler writes a version for each element type with the comparison compiled into it, often with no call at all.\n\nThe other side: Each instantiation is its own copy of the machine code. Sorting `int`, `float` and three struct types gives five copies of the sort, and that growth is called **code bloat**. A `qsort`-style routine exists once.\n\nTip: Measure with `arm-none-eabi-size` before deciding. Often the template code is smaller than expected once the compiler inlines the comparison.",
+      "searchQuery": "c++ std::sort vs qsort templates code bloat void pointer function pointer",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §7.3 Parameterized Operations"
+      ]
+    },
+    {
+      "id": "modern-cpp-code-bloat-trade-off",
+      "unit": "templates",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Your firmware uses `RingBuffer<uint8_t, N>` with 12 different sizes `N`, and flash is nearly full. Which design saves the most flash: keeping the whole class as a template, or moving the index logic into one non-template base class?",
+      "body": "The non-template base (index logic compiled once, only the storage templated) saves the most flash.\n\nEvery different `N` is a new type, so the compiler emits a separate copy of `push`, `pop` and every other member for each one: 12 copies of nearly identical code. If the logic works on a pointer and a run-time capacity held in a shared base class, it is compiled once, and the template only supplies the right-sized array.\n\nThe other side: The shared version stores the capacity as a run-time value, and the loop cannot use a compile-time `N` for the wrap-around. That can be slower, since a power-of-two `N` lets the compiler turn `% N` into a mask. For one or two sizes, or when speed in an interrupt handler matters, the pure template is the better choice.\n\nExample: The Embedded Template Library follows this pattern: `etl::vector<T, N>` derives from a size-independent `etl::ivector<T>`, so the code is shared between capacities.",
+      "searchQuery": "c++ template code bloat reduce flash non-template base class embedded",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §7.2 Parameterized Types",
+        "Embedded Template Library (etlcpp.com) documentation: vector"
+      ]
+    },
+    {
+      "id": "modern-cpp-const-vs-constexpr",
+      "unit": "constexpr-compile-time",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does `constexpr` mean, and how does it differ from `const`?",
+      "body": "`constexpr` says a value (or a function's result) can be computed by the compiler while compiling, whereas `const` only promises that the object will not change after it is initialized.\n\nA `const int x = read_sensor();` is read-only, but its value arrives at run time. A `constexpr int y = 6 * 7;` must be computable at **compile-time evaluation**, so `y` is a true constant the compiler can use anywhere a constant is required, such as an array size or a template argument.\n\nExample: `constexpr int kBufSize = 64; uint8_t buf[kBufSize];` works. But `const int m = read_sensor(); uint8_t b2[m];` is rejected by standard C++, because `m` is not known while compiling.\n\nWhy it matters: A `constexpr` function can run at compile time or at run time. It runs at compile time when all its inputs are constants and the result is needed as a constant.\n\nTip: In C you used `#define` or `enum` for compile-time constants. `constexpr` gives you one with a type and a scope.",
+      "searchQuery": "c++ constexpr vs const compile-time evaluation difference",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.6 Constants"
+      ]
+    },
+    {
+      "id": "modern-cpp-lookup-table-definition",
+      "unit": "constexpr-compile-time",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **lookup table**, and why would you use one on a microcontroller?",
+      "body": "A lookup table is an array of precomputed results, indexed by the input, so that a costly calculation becomes one memory read.\n\nExample: A table of 256 entries for the sine of each possible 8-bit phase value lets a waveform generator replace a floating-point `sin` call with `table[phase]`. A CRC-8 table has one byte for each possible input byte, so each message byte needs one lookup and one XOR, not eight shift-and-test steps.\n\nWhy it matters: Many small cores have no hardware floating point, so a function such as `sin` runs as a long software routine. A table trades memory for time.\n\nWatch out: Memory is the price: a table of 256 16-bit values takes 512 bytes. Compare that with the cycles saved. Also, a table is only as accurate as its spacing, so you may need to interpolate between entries.",
+      "searchQuery": "lookup table microcontroller precomputed values sine CRC memory for speed",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.6 Constants"
+      ]
+    },
+    {
+      "id": "modern-cpp-compile-time-table-concept",
+      "unit": "constexpr-compile-time",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why does computing a lookup table with `constexpr` save run-time resources on a microcontroller?",
+      "body": "The compiler does the calculation, so the device spends no start-up cycles on it, and the finished table can live in flash as read-only data, using no RAM.\n\nCompare the three ways to get a 256-entry table:\n- Fill a RAM array in a loop at start-up: costs cycles every boot and 256 bytes of RAM.\n- Paste numbers into the source by hand: costs nothing at run time, but the numbers are error-prone and unexplained.\n- A `constexpr` function that builds it: same result as pasting, written as readable code, and checkable with `static_assert`.\n\nKey idea: A `constexpr` variable that has a constant initializer is normally placed in read-only memory (flash, on most microcontrollers), so you also avoid copying it to RAM. The cost of building it is paid on the developer's machine while compiling.\n\nWatch out: Compile time rises with the amount of work. A table of thousands of entries computed by a long loop can slow every build.",
+      "searchQuery": "constexpr table compile time saves RAM flash cycles startup",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.6 Constants"
+      ]
+    },
+    {
+      "id": "modern-cpp-constexpr-crc-table",
+      "unit": "constexpr-compile-time",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Does the processor on the device ever run the loops in `make_table()`? What does the `static_assert` check?\n\n```cpp\n#include <array>\n#include <cstdint>\nconstexpr std::array<std::uint8_t, 256> make_table() {\n    std::array<std::uint8_t, 256> t{};\n    for (int i = 0; i < 256; ++i) {\n        unsigned c = i;\n        for (int b = 0; b < 8; ++b) c = (c & 0x80) ? (c << 1) ^ 0x07 : c << 1;\n        t[i] = static_cast<std::uint8_t>(c);\n    }\n    return t;\n}\nconstexpr auto kTable = make_table();\nstatic_assert(kTable[0x80] == 0x89);\n```",
+      "body": "No: the compiler runs the loops while compiling. The `static_assert` checks, at compile time, that table entry `0x80` equals `0x89` (the CRC-8 with polynomial `0x07` of the byte `0x80`).\n\nBecause `kTable` is a `constexpr` variable initialized by a `constexpr` function with constant inputs, the compiler evaluates the whole call and embeds the 256 resulting bytes in the program image. If the entry were wrong the build would stop, not the product.\n\nWhy: A **static_assert** is a check done by the compiler: if its condition is false, compilation fails with the message. It costs nothing at run time and is how you pin a known-good value.\n\nNote: `std::array<T, N>` is a fixed-size array wrapped in a type, so that a function can return it (a plain C array cannot be returned). The next unit covers it.\n\nTip: Looking up CRC bytes this way takes one table read per byte, instead of the eight shift-and-test steps of the bit-by-bit version.",
+      "searchQuery": "constexpr crc8 table generated at compile time static_assert",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.6 Constants",
+        "Stroustrup, A Tour of C++ 3e §4.5 Assertions"
+      ]
+    },
+    {
+      "id": "modern-cpp-static-assert-struct-size",
+      "unit": "constexpr-compile-time",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "On a 32-bit Cortex-M (4-byte alignment for `uint32_t`), does this compile? If not, what is `sizeof(Bad)`?\n\n```cpp\n#include <cstdint>\nstruct Bad {\n    std::uint8_t  a;\n    std::uint32_t b;\n    std::uint8_t  c;\n};\nstatic_assert(sizeof(Bad) == 6, \"no padding expected\");\n```",
+      "body": "It does not compile, because `sizeof(Bad)` is 12 on that target.\n\n`a` sits at offset 0. `b` needs a 4-byte-aligned address, so 3 bytes of padding follow `a` and `b` occupies offsets 4 to 7. `c` goes at offset 8. The whole struct must be a multiple of its largest alignment (4), so 3 more padding bytes follow `c`: 8 + 1 + 3 = 12.\n\nWhy it matters: A `static_assert` on `sizeof` and `alignof` catches layout surprises when you build, for example a struct meant to match a wire format or a hardware register block. Reordering the members as `b`, `a`, `c` gives size 8.\n\nWatch out: The result depends on the target. This check passing on your laptop and failing on the chip (or the reverse) is the very reason to write it.",
+      "searchQuery": "static_assert sizeof struct padding alignment Cortex-M 32-bit",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §4.5 Assertions"
+      ]
+    },
+    {
+      "id": "modern-cpp-consteval-runtime-value",
+      "unit": "constexpr-compile-time",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "`consteval` makes a function an immediate function: every call must be evaluated at compile time. Which of lines A, B and C fails to compile?\n\n```cpp\nconsteval int square(int x) { return x * x; }\nconstexpr int cube(int x)   { return x * x * x; }\nint main() {\n    int n = 4;\n    int a = cube(n);    // A\n    int b = square(3);  // B\n    int c = square(n);  // C\n    return a + b + c;\n}\n```",
+      "body": "Line C: `n` is an ordinary variable whose value is not known to the compiler, so `square(n)` cannot be evaluated at compile time.\n\n`cube` is only `constexpr`, which means it may run at compile time but can also run at run time, so line A is fine. `square(3)` has a constant argument, so B is evaluated while compiling. `consteval` removes the run-time option.\n\nWhy it matters: Use `consteval` when a run-time call would be a bug or a waste, for example a function that builds a table or computes a register value from fixed settings. The compiler then guarantees that no code for it reaches the device.\n\nKey idea: `constexpr` means \"may be compile-time\"; `consteval` means \"must be compile-time\".",
+      "searchQuery": "c++20 consteval vs constexpr immediate function compile time only",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.6 Constants"
+      ]
+    },
+    {
+      "id": "modern-cpp-constinit-keyword",
+      "unit": "constexpr-compile-time",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Fill in the blank with the C++20 keyword so that `counter` is guaranteed to get its starting value at compile time but can still be modified at run time.\n\n```cpp\nconstexpr int kLimit = 5;\n___ int counter = kLimit * 2;\nvoid tick() { counter += 1; }\n```",
+      "body": "`constinit`\n\n**constinit** applies to a variable with static storage (a global or a `static`). It requires that the initial value be a compile-time constant, and it leaves the variable writable.\n\n`constexpr` or `const` would also give a compile-time value, but they make the variable read-only, so `counter += 1` would not compile. A plain `int counter = kLimit * 2;` usually works but gives no guarantee: if the initializer were later changed to something computed at run time, it would quietly turn into start-up code.\n\nWhy it matters: A `constinit` variable's starting value is stored in the data segment image, and no initialization code needs to run before `main`. The compiler stops the build if someone later breaks that.\n\nKey idea: `constexpr` = constant and compile-time; `constinit` = compile-time start, then mutable.",
+      "searchQuery": "c++20 constinit keyword static initialization mutable compile-time",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.6 Constants"
+      ]
+    },
+    {
+      "id": "modern-cpp-stl-definition",
+      "unit": "stl-containers-algorithms",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **Standard Template Library (STL)** in C++?",
+      "body": "The STL is the part of the C++ standard library made of generic containers (such as `std::array` and `std::vector`), algorithms (such as `std::sort`) and the iterators that connect them.\n\nAll three are templates, so they work with any element type. The design has three pieces: containers hold elements, algorithms work on sequences of elements, and iterators let an algorithm walk through any container without knowing how it is stored. You can use `std::sort` on a plain array, a `std::array` or a `std::vector` with the same call.\n\nWhy it matters: The algorithms are well tested and the compiler can optimize them heavily, so they often beat a hand-written loop. On embedded targets you choose pieces that need no heap, such as `std::array`, and avoid the ones that allocate.\n\nTip: In source you write `#include <array>`, `#include <algorithm>`, and so on. Each header brings in one piece.",
+      "searchQuery": "c++ STL standard template library containers algorithms iterators",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §12.8 Container Overview",
+        "Stroustrup, A Tour of C++ 3e §13.5 Algorithm Overview"
+      ]
+    },
+    {
+      "id": "modern-cpp-iterator-as-pointer",
+      "unit": "stl-containers-algorithms",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why are **iterators** called generalized pointers?",
+      "body": "An iterator is an object that refers to one element of a sequence and can move to the next, with `*it` to read the element and `++it` to advance, exactly as a pointer into an array does.\n\nFor a plain array or a `std::array`, the iterator really is a pointer. For other containers (a linked list, say) the iterator is a small class, but it gives the same `*`, `++` and `!=` operations. Because algorithms only use those operations, one `std::find_if` works on all of them.\n\nExample: A range is described by `begin()`, the first element, and `end()`, one position past the last. The loop `for (auto it = v.begin(); it != v.end(); ++it)` is the C++ version of walking a pointer from `p` to `p + n`.\n\nWatch out: Never dereference `end()`: it points past the last element, just like `p + n` in C. Adding to a vector may also invalidate its iterators if it reallocates.",
+      "searchQuery": "c++ iterator generalized pointer begin end dereference increment",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §13.2 Use of Iterators"
+      ]
+    },
+    {
+      "id": "modern-cpp-std-array-output",
+      "unit": "stl-containers-algorithms",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "On a host with 4-byte `int`, what does this print? Does `std::array` use the heap?\n\n```cpp\n#include <array>\n#include <cstdio>\nint main() {\n    std::array<int, 4> a{1, 2, 3, 4};\n    std::printf(\"%zu %zu\\n\", a.size(), sizeof(a));\n    a.at(1) = 9;\n    std::printf(\"%d %d\\n\", a[1], a.back());\n}\n```",
+      "body": "`4 16`, then `9 4`. No: `std::array` holds its elements inside the object itself, with no heap.\n\n`std::array<int, 4>` is a thin wrapper over `int[4]`, so `sizeof` is exactly 4 × 4 = 16 bytes: no pointer, no extra size field. The size is part of the type and known at compile time. `size()` returns 4, `a[1]` is now 9, and `back()` is the last element, 4.\n\nWhy it matters: Unlike a raw C array, a `std::array` does not decay to a pointer when passed around, knows its own size, and can be copied with `=`. It costs the same as the array it wraps.\n\nWatch out: `a[i]` does no bounds check, just like a C array. `at(i)` checks, but reports a bad index by throwing an exception, which many embedded builds turn off (see the last unit of this module).",
+      "searchQuery": "c++ std::array size sizeof no heap wrapper over C array",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §12.8 Container Overview",
+        "Stroustrup, A Tour of C++ 3e §15.3 Containers"
+      ]
+    },
+    {
+      "id": "modern-cpp-span-any-array",
+      "unit": "stl-containers-algorithms",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A **`std::span`** is a pointer plus a length that refers to a contiguous run of elements owned by someone else. What does this print?\n\n```cpp\n#include <array>\n#include <cstdio>\n#include <span>\nint sum(std::span<const int> v) {\n    int s = 0;\n    for (int x : v) s += x;\n    return s;\n}\nint main() {\n    int raw[3] = {1, 2, 3};\n    std::array<int, 5> arr{10, 20, 30, 40, 50};\n    std::printf(\"%d %d %d\\n\", sum(raw), sum(arr), sum(std::span(arr).subspan(1, 2)));\n}\n```",
+      "body": "`6 150 50`\n\nOne function accepts a C array, a `std::array` and a slice of one, because each converts to a `std::span<const int>`. `sum(raw)` is 1+2+3. `sum(arr)` is 150. `subspan(1, 2)` starts at index 1 and takes 2 elements, 20 and 30, giving 50.\n\nWhy it matters: A span replaces the C pair \"`const int* p, size_t n`\" with one parameter that cannot get out of step, copies nothing, and uses no heap. A span object is two words: a pointer and a length.\n\nWatch out: A span does not own its elements. If the array it refers to goes out of scope, the span dangles, just like a pointer would.\n\nTip: `std::span` needs C++20. Use `std::span<const T>` for read-only access.",
+      "searchQuery": "c++20 std::span pointer and length non-owning view array parameter",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §15.3 Containers"
+      ]
+    },
+    {
+      "id": "modern-cpp-string-view-no-copy",
+      "unit": "stl-containers-algorithms",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A **`std::string_view`** is a pointer plus a length that refers to characters stored elsewhere. What does this print?\n\n```cpp\n#include <cstdio>\n#include <string_view>\nint main() {\n    char line[] = \"GET /temp HTTP\";\n    std::string_view v(line);\n    std::string_view cmd = v.substr(0, 3);\n    std::printf(\"%zu %.*s\\n\", cmd.size(), static_cast<int>(cmd.size()), cmd.data());\n    line[0] = 'S';\n    std::printf(\"%c\\n\", cmd[0]);\n}\n```",
+      "body": "`3 GET`, then `S`\n\n`v.substr(0, 3)` copies no characters: `cmd` is a pointer to `line` and the length 3. So when `line[0]` changes to `'S'`, `cmd[0]` reads `'S'`. This is the proof that the view only looks at the original text.\n\nWhy it matters: A view lets you slice and compare text, for example to parse the parts of a command line, with no heap and no copying. A `std::string` would allocate for each part.\n\nWatch out: A string_view is not null-terminated and does not own anything. `cmd.data()` points at the full original text, so it must be printed with an explicit length (the `%.*s` above), and the original must outlive the view.",
+      "searchQuery": "c++ string_view substr no copy not null terminated non-owning",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §10.3 String Views"
+      ]
+    },
+    {
+      "id": "modern-cpp-lambda-sort-find-if",
+      "unit": "stl-containers-algorithms",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A **lambda** is an unnamed function written inline; `[limit]` captures the local `limit` by copy. What does this print?\n\n```cpp\n#include <algorithm>\n#include <array>\n#include <cstdio>\nint main() {\n    std::array<int, 5> v{40, 10, 30, 20, 50};\n    int limit = 25;\n    std::sort(v.begin(), v.end(), [](int a, int b) { return a > b; });\n    auto it = std::find_if(v.begin(), v.end(), [limit](int x) { return x < limit; });\n    std::printf(\"%d %td\\n\", *it, it - v.begin());\n}\n```",
+      "body": "`20 3`\n\nThe first lambda is the comparison: \"a before b if a > b\", so `std::sort` orders descending, giving 50, 40, 30, 20, 10. `std::find_if` returns an iterator to the first element for which the second lambda is true: the first value below 25 is 20, at index 3.\n\nWhy it matters: Passing behavior as a lambda replaces the C pattern of a separate comparator function plus a `void*` context. The compiler can inline a lambda, so there is no function-pointer call, and `[limit]` carries the context without a global.\n\nTip: Both algorithms are in `<algorithm>`. Summing is in `<numeric>`: `std::accumulate(v.begin(), v.end(), 0)` returns the total.\n\nWatch out: `find_if` returns `end()` when nothing matches, and dereferencing that is undefined behavior. Test `it != v.end()` first.",
+      "searchQuery": "c++ lambda std::sort find_if algorithm capture comparator",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §13.5 Algorithm Overview",
+        "Stroustrup, A Tour of C++ 3e §7.3 Parameterized Operations"
+      ]
+    },
+    {
+      "id": "modern-cpp-vector-allocation-count",
+      "unit": "stl-containers-algorithms",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This program replaces `operator new` with a version that counts calls. How many heap allocations does it count for the vector, and what does that tell you about `std::vector` on a device with no heap?\n\n```cpp\n#include <cstdio>\n#include <cstdlib>\n#include <vector>\nstatic int g_news = 0;\nvoid* operator new(std::size_t n) { ++g_news; return std::malloc(n); }\nvoid operator delete(void* p) noexcept { std::free(p); }\nvoid operator delete(void* p, std::size_t) noexcept { std::free(p); }\nint main() {\n    std::vector<int> v;\n    v.reserve(4);\n    for (int i = 0; i < 4; ++i) v.push_back(i);\n    std::printf(\"%d\\n\", g_news);\n}\n```",
+      "body": "`1`: the vector allocates its storage from the heap (here once, because of `reserve(4)`), so it cannot be used on a target with no heap.\n\n`std::vector` keeps its elements in a heap array and grows by allocating a bigger one. Without `reserve`, the number of allocations depends on the library's growth policy, so it is not a number to rely on. `std::string`, `std::map` and `std::list` also use the heap in typical implementations. `std::array`, `std::span` and `std::string_view` never do.\n\nWhy it matters: On a microcontroller the heap can fragment and a failed allocation has nowhere to go. Counting calls with a replaced `operator new` is a quick way to prove that a code path makes none.\n\nTip: If you must use a vector, call `reserve` once at start-up so later `push_back` calls cannot allocate.",
+      "searchQuery": "c++ std::vector heap allocation operator new count embedded which containers allocate",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §12.2 vector",
+        "Stroustrup, A Tour of C++ 3e §12.8 Container Overview"
+      ]
+    },
+    {
+      "id": "modern-cpp-array-vs-vector-trade-off",
+      "unit": "stl-containers-algorithms",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "You need a list of up to 32 sensor readings on a microcontroller with no heap. Choose between `std::array` and `std::vector`, and say when the other one wins.",
+      "body": "`std::array<Reading, 32>` (with a separate count if fewer are in use) wins here: its storage is fixed, sits in the object itself, and needs no heap.\n\nIts memory use is known at link time, and nothing can fail at run time from lack of memory. The compiler can also place it in static storage or on the stack. The cost is that all 32 slots are always reserved, even if only 3 are used, and the size cannot change.\n\nThe other side: `std::vector` wins when the maximum size is unknown, large, or varies a lot between runs, and a heap exists, for example on a Linux-based board. It uses memory in proportion to the actual count and can grow. It also gives you `push_back` and `size()` that track the used count.\n\nTip: When you want \"fixed storage but a variable count\", a fixed-capacity container such as the Embedded Template Library's `etl::vector<T, N>` gives you the vector interface with array-style storage.",
+      "searchQuery": "std::array vs std::vector microcontroller no heap fixed capacity",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §12.2 vector",
+        "Embedded Template Library (etlcpp.com) documentation: vector"
+      ]
+    },
+    {
+      "id": "modern-cpp-unique-ptr-definition",
+      "unit": "smart-pointers-optional",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does `std::unique_ptr<T>` express about **ownership**?",
+      "body": "A `std::unique_ptr<T>` is the sole owner of the object it points to, and it deletes that object when the pointer itself is destroyed.\n\n**Ownership** means being responsible for freeing a resource. With a raw `T*` the code does not say who owns it, so a comment or a convention has to. A `unique_ptr` states \"exactly one owner\" in the type, and the destructor frees the object on every path out of the scope. It is RAII applied to a pointer.\n\nWhy it matters: It costs the same as a raw pointer (one pointer wide, no extra counters). Without a heap you can still use it with a custom deleter, for example to hand an object back to a fixed pool.\n\nWatch out: `std::make_unique<T>()` allocates from the heap. On a no-heap target, the allocation, not the pointer, is the problem.",
+      "searchQuery": "c++ std::unique_ptr exclusive ownership move only cannot copy",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §15.2 Pointers"
+      ]
+    },
+    {
+      "id": "modern-cpp-optional-instead-of-sentinel",
+      "unit": "smart-pointers-optional",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "**`std::optional<T>`** holds either a `T` or nothing. What does this print?\n\n```cpp\n#include <cstdio>\n#include <optional>\nstd::optional<int> find_index(const int* a, int n, int key) {\n    for (int i = 0; i < n; ++i)\n        if (a[i] == key) return i;\n    return std::nullopt;\n}\nint main() {\n    int a[3] = {5, 6, 7};\n    auto r = find_index(a, 3, 7);\n    auto s = find_index(a, 3, 9);\n    std::printf(\"%d %d %d\\n\", r.has_value(), r.value_or(-1), s.value_or(-1));\n}\n```",
+      "body": "`1 2 -1`\n\n`find_index(a, 3, 7)` finds 7 at index 2, so `r` holds 2 and `has_value()` is true. For the key 9 the function returns `std::nullopt` (\"no value\"), and `value_or(-1)` supplies a fallback.\n\nWhy it matters: Returning `-1` or `NULL` as a sentinel works only while the sentinel is not a legal result, and callers can forget to check it. With `optional` the type tells every caller that there may be no result, and `optional<int>` can represent any `int`, including -1.\n\nWhy it works: An `optional<T>` is stored in place: the value plus a flag saying whether it is present. It uses no heap, and for an `int` it takes roughly two words on a 32-bit target.\n\nWatch out: `*r` or `r.value()` on an empty optional is a bug (`value()` throws, and `*` is undefined behavior). Test with `has_value()` first.",
+      "searchQuery": "c++ std::optional return instead of sentinel -1 nullopt value_or",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §15.4 Alternatives"
+      ]
+    },
+    {
+      "id": "modern-cpp-variant-tagged-union",
+      "unit": "smart-pointers-optional",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "**`std::variant<A, B>`** is a type-safe tagged union: it holds exactly one of its alternatives and remembers which. What does this print?\n\n```cpp\n#include <cstdio>\n#include <variant>\nstruct Ok  { int value; };\nstruct Err { int code; };\nint main() {\n    std::variant<Ok, Err> r = Err{3};\n    r = Ok{42};\n    if (auto* p = std::get_if<Ok>(&r)) std::printf(\"ok %d\\n\", p->value);\n    std::printf(\"%zu\\n\", r.index());\n}\n```",
+      "body": "`ok 42`, then `0`\n\n`r` starts as an `Err`, then the assignment replaces it with an `Ok`. `std::get_if<Ok>(&r)` returns a pointer to the held value if the current alternative is `Ok`, and `nullptr` otherwise. `index()` is the position of the current alternative in the list: `Ok` is 0, `Err` is 1.\n\nWhy it matters: A C `union` plus a separate `enum` tag does the same thing, but nothing forces you to keep them in step, and reading the wrong member is type punning. A variant keeps the tag and the value together and the right destructor runs when the alternative changes.\n\nExample: A function result such as \"reading or error code\", or a message that can be one of several packet types, fits a variant. No heap is involved: the storage is as large as the biggest alternative plus the tag.\n\nTip: `std::visit` calls a function on whichever alternative is held, and a missing case is a compile error.",
+      "searchQuery": "c++ std::variant type-safe tagged union get_if index visit",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §15.4 Alternatives"
+      ]
+    },
+    {
+      "id": "modern-cpp-unique-ptr-move-only",
+      "unit": "smart-pointers-optional",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Which line fails to compile, and what is `a` afterwards?\n\n```cpp\n#include <memory>\n#include <utility>\nstruct Dev { int id; };\nint main() {\n    auto a = std::make_unique<Dev>(Dev{7});\n    auto b = a;               // line 6\n    auto c = std::move(a);    // line 7\n}\n```",
+      "body": "Line 6 fails: a `unique_ptr` cannot be copied. After line 7, `a` is null and `c` owns the `Dev`.\n\nCopying would produce two owners of the same object, and both would delete it. The compiler rejects it because the copy constructor of `unique_ptr` is deleted. `std::move(a)` hands ownership over: the move constructor sets `a` to `nullptr`, so `a` is empty and `c` points at the `Dev`.\n\nKey idea: Unlike a general moved-from object, a moved-from `unique_ptr` has a defined state: it is null. Testing `a == nullptr` is safe.\n\nWhy it matters: Ownership transfers become visible in the code: passing a `unique_ptr` by value into a function with `std::move(p)` says \"this function now owns it\".",
+      "searchQuery": "c++ unique_ptr move only copy deleted moved-from null ownership transfer",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §15.2 Pointers"
+      ]
+    },
+    {
+      "id": "modern-cpp-shared-ptr-trade-off",
+      "unit": "smart-pointers-optional",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Should a firmware module that hands a sensor-driver object to two other modules use `std::shared_ptr` or `std::unique_ptr` (with one clear owner)? What extra costs does `shared_ptr` carry?",
+      "body": "Use `unique_ptr` with a single clear owner, and give the other users plain references or raw pointers that they borrow. A `shared_ptr` costs more memory, more time and loses a predictable lifetime.\n\nA `std::shared_ptr` uses **reference counting**: a hidden counter of how many owners exist, freed when it reaches 0. The costs:\n- It is two pointers wide (the object and a control block), so 8 bytes on a 32-bit target against 4 for `unique_ptr`.\n- The control block is another allocation (unless made with `make_shared`).\n- The counter changes on every copy and destruction, and the standard requires the update to be thread-safe, which typically means slower atomic instructions.\n\nThe other side: When there truly is no single owner, such as a cache entry used by several independent parts of the program that can finish with it in any order, shared ownership is correct and a manual count would be worse.\n\nTip: On most firmware, object lifetimes are decided at design time, so a single owner (often a static object) exists and `shared_ptr` is not needed.",
+      "searchQuery": "c++ shared_ptr vs unique_ptr cost reference counting control block atomic embedded",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §15.2 Pointers"
+      ]
+    },
+    {
+      "id": "modern-cpp-exception-handling-definition",
+      "unit": "embedded-cpp-subset",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **exception handling** in C++, and what is **stack unwinding**?",
+      "body": "Exception handling reports an error with `throw` and handles it in a `catch` further up the call chain; stack unwinding is the run-time step that pops the frames in between and runs their locals' destructors.\n\nWith `try { } catch (...) { }` a distant caller can deal with the error, skipping every function in between. Unwinding visits those functions one by one until it finds a matching `catch`.\n\nExample: `read_config()` calls `parse()`, which calls `check()`, and `check()` does `throw 1;`. The runtime leaves `check`, then `parse`, destroying their locals, and lands in the `catch (int)` inside `read_config`. No function in between needed an `if (error) return` line.\n\nWhy it matters: Unwinding is what keeps RAII objects correct when an error flies past them. It is also not free. To unwind, the program carries tables describing every function's stack layout, and the unwinding itself runs a search at run time.\n\nWatch out: `throw` is not an ordinary return. Its run time is hard to predict and rarely tested, which is a problem for code with a deadline.",
+      "searchQuery": "c++ exception handling throw catch stack unwinding destructors",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §4.2 Exceptions"
+      ]
+    },
+    {
+      "id": "modern-cpp-rtti-definition",
+      "unit": "embedded-cpp-subset",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **RTTI** (run-time type information), and what does the compiler flag `-fno-rtti` do?",
+      "body": "RTTI is the information the compiler stores so a program can discover an object's real type while running, through `typeid` and `dynamic_cast`. The flag `-fno-rtti` turns it off, and the compiler then rejects those two features.\n\nWhen a class has virtual functions, a pointer of base type may really point at a derived object. `dynamic_cast<Derived*>(p)` checks this at run time using the stored type information and returns `nullptr` if `p` is not a `Derived`.\n\nWhy it matters: Every polymorphic class gets a block of type data in the program image, and `dynamic_cast` walks it at run time. Switching RTTI off saves that flash and removes the slow cast. Most embedded firmware never needs the feature.\n\nExample: With `-fno-rtti`, code using `dynamic_cast<B*>(a)` fails to build with an error such as \"use of dynamic_cast requires -frtti\".\n\nWatch out: Third-party code that uses `dynamic_cast` or `typeid` will no longer build with `-fno-rtti`, so check a library before adopting it.",
+      "searchQuery": "c++ RTTI run-time type information -fno-rtti dynamic_cast typeid embedded",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §5.4 Virtual Functions"
+      ]
+    },
+    {
+      "id": "modern-cpp-freestanding-concept",
+      "unit": "embedded-cpp-subset",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is a **freestanding implementation** of C++, and why does bare-metal firmware care?",
+      "body": "A freestanding implementation is a C++ compiler and library that run with no operating system under them, so only a small guaranteed core of the standard library is available.\n\nThe core language works fully, and a limited set of headers is guaranteed, such as `<cstdint>`, `<cstddef>`, `<limits>` and `<type_traits>`. Features that need an OS, files, the console or a heap are not part of the guarantee. That is why `std::cout` or file streams may be missing on a bare-metal toolchain.\n\nWhy it matters: You must check, per library part, whether it is available and whether it allocates. Which headers exist depends on your toolchain and its C library, so look at the vendor's documentation, and build with `-ffreestanding` when you supply your own start-up code.\n\nTip: Language features that need no runtime support, such as classes, templates and `constexpr`, work on any target. The costs come from the library and from a few runtime-heavy features, such as exceptions and RTTI.",
+      "searchQuery": "c++ freestanding implementation bare metal no operating system standard library subset",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §1.9 Mapping to Hardware"
+      ]
+    },
+    {
+      "id": "modern-cpp-placement-new-static-buffer",
+      "unit": "embedded-cpp-subset",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "**Placement new** constructs an object in memory you supply, without allocating. What does this print, and what allocates the `Motor`'s memory?\n\n```cpp\n#include <cstdio>\n#include <new>\nstruct Motor {\n    int speed;\n    Motor(int s) : speed(s) { std::puts(\"ctor\"); }\n    ~Motor() { std::puts(\"dtor\"); }\n};\nalignas(Motor) static unsigned char slot[sizeof(Motor)];\nint main() {\n    Motor* m = new (slot) Motor(5);\n    std::printf(\"%d\\n\", m->speed);\n    m->~Motor();\n}\n```",
+      "body": "`ctor`, `5`, `dtor`. Nothing allocates: the object lives in the static array `slot`.\n\n`new (slot) Motor(5)` skips allocation and runs the constructor on the address `slot`. The array is static storage, so it exists from start-up and is sized by the linker. `alignas(Motor)` makes the address suitable for a `Motor` (a plain `unsigned char` array could start at any address).\n\nWatch out: Because no `new`-allocated object is involved, there is no matching `delete`. You must call the destructor yourself (`m->~Motor();`), exactly once. Calling `delete m` here would try to free memory that was never allocated.\n\nWhy it matters: This is how fixed-capacity containers keep objects in an array of raw bytes and construct only the slots in use, and how you create an object at a chosen place (such as a pool slot) on a target with no heap.",
+      "searchQuery": "c++ placement new static buffer alignas explicit destructor call no heap",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §12.7 Allocators",
+        "Embedded Template Library (etlcpp.com) documentation"
+      ]
+    },
+    {
+      "id": "modern-cpp-exceptions-vs-error-codes",
+      "unit": "embedded-cpp-subset",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "On a small microcontroller with a real-time deadline, should errors be reported by exceptions or by error codes (and `std::optional`)? What does `-fno-exceptions` do?",
+      "body": "Error codes and `std::optional` win here: the cost is visible, the timing is predictable, and the binary is smaller. `-fno-exceptions` tells the compiler to reject `try` and `throw` and to leave out the unwinding support.\n\nWith exceptions on, the program carries unwinding tables for its functions even if nothing ever throws, which adds flash. Throwing is slow and its run time is hard to bound, which breaks a deadline guarantee, and the runtime typically uses the heap to hold the thrown object. With `-fno-exceptions`, library code that would throw usually ends in `abort` instead.\n\nHow to report errors instead: return a small `enum class` error code, or `std::optional<T>` when \"no value\" is the only failure. C++23 adds `std::expected<T, E>`, which carries either a value or an error.\n\nThe other side: Exceptions win for error-handling code that would otherwise be repeated at every call level, and when errors are rare and a delay when they happen does not matter, for example on a Linux-class board. Error codes can be ignored by mistake, so mark such functions `[[nodiscard]]`, an attribute that makes the compiler warn when a caller ignores the result.",
+      "searchQuery": "c++ exceptions vs error codes embedded -fno-exceptions optional expected real-time",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §4.2 Exceptions",
+        "Stroustrup, A Tour of C++ 3e §4.4 Error-Handling Alternatives"
+      ]
+    },
+    {
+      "id": "modern-cpp-virtual-vs-crtp",
+      "unit": "embedded-cpp-subset",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "Several sensor drivers share an interface. A **virtual function** is looked up at run time through a **vtable**; **CRTP** (curiously recurring template pattern: a class derives from a template instantiated with itself, `struct Der : Base<Der>`) resolves the call at compile time. Which wins for a driver set fixed at build time on a small core, and when does the other win?",
+      "body": "CRTP wins when every concrete driver type is known at compile time and speed or size matters: no per-object cost, and the call can be inlined. Virtual functions win when different types must be used through one common base at run time.\n\nA class with a virtual function holds a hidden pointer to its **vtable**, a table of function pointers, one per virtual function. On a 32-bit target that is 4 extra bytes per object, plus one table in flash per class. Each call loads the pointer, then the function address, then makes an indirect call, which the compiler usually cannot inline.\n\nWith CRTP, the base calls `static_cast<Derived*>(this)->impl()`. A size check on a 64-bit host: a class with one virtual function is 8 bytes and the empty CRTP-derived class is 1 byte.\n\nThe other side: CRTP types such as `Der<A>` and `Der<B>` are unrelated, so you cannot put them in one array or pass them to one non-template function. If you must pick the driver at run time, virtual functions are simpler and each call costs only a few cycles.",
+      "searchQuery": "c++ virtual functions vtable vs CRTP static polymorphism embedded cost",
+      "refs": [
+        "Stroustrup, A Tour of C++ 3e §5.4 Virtual Functions"
+      ]
+    },
+    {
+      "id": "modern-cpp-etl-vs-std-containers",
+      "unit": "embedded-cpp-subset",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "On a target with no heap, which should you use for a vector of up to 20 items: `std::vector` or the Embedded Template Library's `etl::vector<T, 20>`? When does `std::vector` win?",
+      "body": "`etl::vector<T, 20>` wins on a no-heap target: its 20 slots are part of the object, so there is no dynamic allocation and the memory use is known at link time.\n\nThe ETL provides fixed-capacity versions of the common containers (vector, string, map, queue, and more). Their maximum size is a template argument, the storage lives inside the object, and they do not allocate. The interface follows the standard containers closely, so the code reads the same.\n\nThe other side: ETL containers cost the full capacity in RAM even when mostly empty, and adding past the capacity is an error that you must handle: how it is reported depends on how the ETL is configured. `std::vector` wins when a heap exists, the count varies widely and has no sensible upper bound, or you need to hand data to standard-library code that expects `std::vector`.\n\nTip: Measure the worst case. If the capacity is chosen too low, the failure shows up late in the field, not in testing.",
+      "searchQuery": "Embedded Template Library etl::vector fixed capacity vs std::vector no heap",
+      "refs": [
+        "Embedded Template Library (etlcpp.com) documentation",
+        "Stroustrup, A Tour of C++ 3e §12.7 Allocators"
+      ]
+    }
+  ]
+}
