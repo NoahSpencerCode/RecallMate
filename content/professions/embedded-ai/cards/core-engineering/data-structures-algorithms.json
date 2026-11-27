@@ -1,0 +1,1296 @@
+{
+  "profession": "embedded-ai",
+  "module": "data-structures-algorithms",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "dsa-big-o-definition",
+      "unit": "big-o-analysis",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What does **Big-O** notation, $O(f(n))$, say about an algorithm's **running time**?",
+      "body": "An upper bound on how fast the running time grows with the input size $n$, ignoring constant factors and smaller terms.\n\nAn **algorithm** is a step-by-step procedure for a task. Its **running time** is the number of basic steps it takes, written as a function of the input size $n$ (how many items it must handle). Saying the running time is $O(f(n))$ means that, for large enough $n$, it never exceeds a constant multiple of $f(n)$.\n\nFormally: there are constants $c > 0$ and $n_0$ such that running time $\\le c \\cdot f(n)$ for every $n \\ge n_0$.\n\nExample: A routine that takes $3n^2 + 50n + 200$ steps is $O(n^2)$. For large $n$ the $3n^2$ term dwarfs the rest, and the constant 3 is dropped.\n\nWatch out: Big-O is only an upper bound, so a routine that takes $n$ steps is also, truthfully, $O(n^2)$. A bound that is exact needs Big-Theta, covered in the next card.",
+      "searchQuery": "big o notation upper bound running time growth",
+      "refs": [
+        "CLRS 4e, ch. 3 (Characterizing Running Times)",
+        "CS50x 2026, Week 3 notes: Running Time"
+      ],
+      "tags": [
+        "big-o"
+      ]
+    },
+    {
+      "id": "dsa-big-theta-omega",
+      "unit": "big-o-analysis",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "How is **Big-Theta**, $\\Theta(f(n))$, defined in terms of Big-O and **Big-Omega**, $\\Omega(f(n))$?",
+      "body": "$\\Theta(f(n))$ means the running time is both $O(f(n))$ and $\\Omega(f(n))$: squeezed between constant multiples of $f(n)$, a tight bound.\n\n$\\Omega(f(n))$ is the mirror image of Big-O: a lower bound, meaning the running time grows at least as fast as a constant multiple of $f(n)$ for large $n$.\n\nExample: The loop `for (i = 0; i < n; i++) sum += a[i];` takes about $n$ steps, so it is $\\Theta(n)$. It is also $O(n^2)$ and $\\Omega(1)$, but those statements are true and loose.\n\nWatch out: In everyday speech people say \"Big-O\" when they mean the tight bound. When it matters, say $\\Theta$.",
+      "searchQuery": "big theta big omega tight bound definition",
+      "refs": [
+        "CLRS 4e, ch. 3 (Characterizing Running Times)",
+        "CS50x 2026, Week 3 notes: Running Time"
+      ],
+      "tags": [
+        "big-o"
+      ]
+    },
+    {
+      "id": "dsa-growth-rate-ranking",
+      "unit": "big-o-analysis",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Rank these **growth rates** from slowest to fastest: $n^2$, $1$, $2^n$, $n$, $\\log n$, $n \\log n$.",
+      "body": "$1 < \\log n < n < n \\log n < n^2 < 2^n$\n\nA **growth rate** says how the cost changes as $n$ grows. These six are the ones you meet constantly: constant, logarithmic, linear, $n \\log n$, quadratic and exponential.\n\n**Logarithmic time**, $O(\\log n)$, means each step cuts the remaining work by a constant fraction, usually in half. Doubling $n$ adds just one more step.\n\nExample: For $n = 1{,}024$:\n- $\\log_2 n = 10$\n- $n = 1{,}024$\n- $n \\log_2 n = 10{,}240$\n- $n^2 = 1{,}048{,}576$\n- $2^n \\approx 1.8 \\times 10^{308}$\n\nKey idea: Doubling $n$ adds one step for $\\log n$, doubles the time for $n$, quadruples it for $n^2$ and squares it for $2^n$.",
+      "searchQuery": "growth rates ranking log n n log n n squared 2^n",
+      "refs": [
+        "CLRS 4e, ch. 3 (Characterizing Running Times)",
+        "CS50x 2026, Week 3 notes: Running Time"
+      ],
+      "tags": [
+        "big-o"
+      ]
+    },
+    {
+      "id": "dsa-big-o-not-worst-case",
+      "unit": "big-o-analysis",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that **Big-O** and **worst case** mean the same thing?",
+      "body": "Worst case chooses which input to measure; Big-O describes how a cost grows. You can state a Big-O bound for the worst case, the best case or the average case.\n\nThe **worst case** is the input of a given size that makes the algorithm slowest. Big-O is a way of describing any function, so it can describe the cost on that input or on any other.\n\nExample: Linear search (checking items one by one) takes $O(n)$ steps in the worst case, when the target is last or missing. Its best case, when the target is first, is $O(1)$.\n\nWhy it matters: A device with a hard deadline, such as a motor controller, must be sized for the worst case, not the average one.",
+      "searchQuery": "big o versus worst case best case average case",
+      "refs": [
+        "CLRS 4e, ch. 3 (Characterizing Running Times)",
+        "CS50x 2026, Week 3 notes: Running Time"
+      ],
+      "tags": [
+        "big-o"
+      ]
+    },
+    {
+      "id": "dsa-nested-loop-count",
+      "unit": "big-o-analysis",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print, and how does that count grow with `n`?\n\n```c\n#include <stdio.h>\nint main(void) {\n    int n = 4, count = 0;\n    for (int i = 0; i < n; i++)\n        for (int j = i; j < n; j++)\n            count++;\n    printf(\"%d\\n\", count);\n    return 0;\n}\n```",
+      "body": "It prints `10`: the count is $n(n+1)/2$, so the running time is $\\Theta(n^2)$.\n\nFor each `i` the inner loop runs `n - i` times: $4 + 3 + 2 + 1 = 10$. In general $n + (n-1) + \\dots + 1 = n(n+1)/2 = n^2/2 + n/2$.\n\nKey idea: To get the Big-O of nested loops, count how often the innermost statement runs, then keep the biggest term and drop its constant. Here $n^2/2 + n/2$ becomes $n^2$.\n\nWatch out: The inner loop does not run $n$ times every time, but the answer is still quadratic. Nested loops that each run up to $n$ times give $n^2$ even when the inner one starts later.",
+      "searchQuery": "nested loops big o count innermost statement n(n+1)/2",
+      "refs": [
+        "CLRS 4e, ch. 2 (Getting Started)",
+        "CLRS 4e, ch. 3 (Characterizing Running Times)",
+        "CS50x 2026, Week 3 notes: Running Time"
+      ],
+      "tags": [
+        "big-o"
+      ]
+    },
+    {
+      "id": "dsa-cycle-time-100mhz",
+      "unit": "big-o-analysis",
+      "kind": "numbers",
+      "difficulty": 2,
+      "title": "How long is one clock cycle, in nanoseconds, on a core clocked at 100 MHz?",
+      "body": "10\n\nThe period is the reciprocal of the frequency: $T = 1/f = 1/(10^8\\,\\mathrm{Hz}) = 10^{-8}\\,\\mathrm{s} = 10\\,\\mathrm{ns}$.\n\nExample: If one simple operation took exactly one cycle, a 100 MHz core would do $10^8$ operations per second, $10^5$ per millisecond. A loop of $10^6$ such operations would take $10^6 / 10^8\\,\\mathrm{s} = 10\\,\\mathrm{ms}$.\n\nWatch out: One operation per cycle is the best case. A loop iteration usually takes several cycles (load, compare, add, branch), so multiply your operation count by a realistic cycles-per-step figure before dividing by the clock rate.",
+      "answer": "10",
+      "searchQuery": "100 MHz clock cycle period 10 ns",
+      "refs": [
+        "CS50x 2026, Week 3 notes: Running Time"
+      ],
+      "tags": [
+        "timing-estimate"
+      ]
+    },
+    {
+      "id": "dsa-log-loop-problem",
+      "unit": "big-o-analysis",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "How many times does the body of this loop run for `n = 1024`, and what is the Big-O of the loop in terms of $n$?\n\n```c\nfor (int i = 1; i < n; i *= 2)\n    work();\n```",
+      "body": "10 times; $O(\\log n)$.\n\nThe variable `i` takes the values $1, 2, 4, \\dots, 512$, which are $2^0$ through $2^9$. The next value, $1024 = 2^{10}$, fails `i < n`. That is 10 iterations, and $\\log_2 1024 = 10$.\n\nFor general $n$, after $k$ iterations `i` equals $2^k$, so the loop stops once $2^k \\ge n$, which happens after $\\lceil \\log_2 n \\rceil$ iterations. The base of the logarithm only changes a constant factor, so we write $O(\\log n)$.\n\nTip: Whenever a loop variable is multiplied or divided by a constant each time, expect a logarithm. When it is increased by a constant each time, expect $n$.",
+      "searchQuery": "loop doubling variable logarithmic iterations count big o",
+      "refs": [
+        "CLRS 4e, ch. 3 (Characterizing Running Times)",
+        "CS50x 2026, Week 3 notes: Running Time"
+      ],
+      "tags": [
+        "big-o"
+      ]
+    },
+    {
+      "id": "dsa-all-pairs-runtime-problem",
+      "unit": "big-o-analysis",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A routine compares every pair of 1,000 sensor readings once (pairs $i < j$). Each comparison costs about 6 clock cycles on a 100 MHz core. Estimate the running time.",
+      "body": "About 30 ms.\n\nThe number of pairs is $\\frac{1000 \\cdot 999}{2} = 499{,}500$. At 6 cycles each that is $499{,}500 \\times 6 \\approx 3.0 \\times 10^6$ cycles. At 100 MHz one cycle lasts 10 ns, so the time is $3.0 \\times 10^6 \\times 10\\,\\mathrm{ns} \\approx 30\\,\\mathrm{ms}$.\n\nKey idea: Estimate = (operation count) × (cycles per operation) ÷ (clock rate). Loop overhead is ignored here, so treat the result as a rough figure.\n\nWatch out: The count is $\\Theta(n^2)$. With 2,000 readings the time would be about four times larger, near 120 ms, which could blow a 100 ms deadline.",
+      "searchQuery": "estimate runtime operations cycles clock rate all pairs 100 MHz",
+      "refs": [
+        "CLRS 4e, ch. 3 (Characterizing Running Times)",
+        "CS50x 2026, Week 3 notes: Running Time"
+      ],
+      "tags": [
+        "timing-estimate"
+      ]
+    },
+    {
+      "id": "dsa-nlogn-scaling-problem",
+      "unit": "big-o-analysis",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A routine known to take $\\Theta(n \\log n)$ time needs 20 ms for $n = 1{,}024$. Estimate its time for $n = 4{,}096$.",
+      "body": "About 96 ms.\n\nWork in units of $n \\log_2 n$. For $n = 1{,}024$ that is $1{,}024 \\times 10 = 10{,}240$. For $n = 4{,}096$ it is $4{,}096 \\times 12 = 49{,}152$. The ratio is $49{,}152 / 10{,}240 = 4.8$, so the time is about $20\\,\\mathrm{ms} \\times 4.8 = 96\\,\\mathrm{ms}$.\n\nWatch out: Making $n$ four times larger does not make the time four times larger (that would be 80 ms for a linear routine), and certainly not sixteen times larger (320 ms for a quadratic one). The $\\log n$ factor adds a little.\n\nTip: Scaling from a measured time like this cancels the unknown constant factor, which is why measuring one run beats guessing cycle counts.",
+      "searchQuery": "n log n running time scaling estimate from measurement",
+      "refs": [
+        "CLRS 4e, ch. 3 (Characterizing Running Times)",
+        "CS50x 2026, Week 3 notes: Running Time"
+      ],
+      "tags": [
+        "timing-estimate"
+      ]
+    },
+    {
+      "id": "dsa-small-n-tradeoff",
+      "unit": "big-o-analysis",
+      "kind": "trade-off",
+      "difficulty": 2,
+      "title": "On a microcontroller, when can a plain $O(n^2)$ routine beat an $O(n \\log n)$ one?",
+      "body": "When $n$ is small: constant factors then dominate, so a simple quadratic routine can be faster than a more elaborate $n \\log n$ one.\n\nExample: Suppose routine A takes $3n^2$ steps and routine B takes $40\\,n \\log_2 n$ steps. At $n = 50$ A needs 7,500 steps and B about 11,300. They cross near $n = 85$; beyond that B wins, and at $n = 1{,}000$ A needs 3,000,000 steps against about 400,000 for B.\n\nWhy it matters: On a microcontroller the simple routine is often also smaller in code, needs no extra RAM and has no deep recursion. If $n$ is guaranteed small (say at most a few dozen), it is often the right pick.\n\nWatch out: The other side is that $n$ tends to grow later. If the limit on $n$ isn't enforced by design, choose the routine whose growth rate stays safe.",
+      "searchQuery": "small n constant factors quadratic versus n log n microcontroller",
+      "refs": [
+        "CLRS 4e, ch. 3 (Characterizing Running Times)",
+        "CS50x 2026, Week 3 notes: Running Time"
+      ],
+      "tags": [
+        "big-o"
+      ]
+    },
+    {
+      "id": "dsa-linked-list-definition",
+      "unit": "arrays-linked-lists",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **linked list**, and what are a **node** and the **head pointer**?",
+      "body": "A linked list is a chain of nodes, each holding a value and a pointer to the next node; the head pointer points to the first node, and the last node's pointer is `NULL`.\n\n```c\ntypedef struct Node {\n    int value;\n    struct Node *next;\n} Node;\n```\n\nEach **node** is a separate struct, usually from `malloc`, so nodes can sit anywhere in memory. The **head pointer** is the one variable you keep: lose it and you lose the whole list. An empty list is simply `head == NULL`.\n\nWhy: Inserting or removing next to a node you already hold only rewires pointers. Nothing has to shift, unlike in an array.\n\nWatch out: \"Node\" has a second meaning in circuits (a junction). Here it is one link of the chain. Reaching the $k$-th item means following $k$ pointers, which takes $O(k)$ time.",
+      "searchQuery": "linked list node head pointer definition c struct next",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Linked Lists"
+      ],
+      "tags": [
+        "linked-list"
+      ]
+    },
+    {
+      "id": "dsa-cache-locality",
+      "unit": "arrays-linked-lists",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **cache locality**, and what **memory hierarchy** makes it matter?",
+      "body": "Cache locality is touching data that sits close together in memory or was used recently, so the small, fast memories near the processor can serve it.\n\nThe **memory hierarchy** is a stack of memories: registers, then caches (small, fast copies of recently used memory), then main RAM, then flash or storage. Each level down is bigger and slower. When the processor reads one byte, the cache fetches a whole **cache line** around it, commonly 32 or 64 bytes.\n\nExample: Walking an `int32_t` array front to back, one cache line brings in 8 or 16 items at once, so most reads are served from the cache. Following list pointers to nodes scattered around the heap can cost a fresh trip to slower memory for every item.\n\nWhy it matters: At 45 nm, Horowitz (ISSCC 2014) puts a 32-bit read at about 5 pJ from an 8 KB SRAM and about 640 pJ from DRAM, so misses cost energy as well as time.\n\nWatch out: Many small microcontrollers, such as Cortex-M0 or M4 parts, have no data cache at all. There locality matters less, but larger cores (the Cortex-M7 has optional caches) and every application processor depend on it.",
+      "searchQuery": "cache locality memory hierarchy cache line sequential access",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Arrays"
+      ],
+      "tags": [
+        "memory-hierarchy"
+      ],
+      "asOf": "2026-11-20"
+    },
+    {
+      "id": "dsa-dynamic-array-amortised",
+      "unit": "arrays-linked-lists",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why is appending to a **dynamic array** that doubles its capacity **amortised** $O(1)$, even though a single append can cost $O(n)$?",
+      "body": "Each doubling copies at most $n$ items, but it happens only after about $n$ cheap appends, so the average cost per append stays constant.\n\nA **dynamic array** is an array with a `size` (items stored) and a `capacity` (slots allocated). When it is full, you allocate double the capacity, copy the items over and free the old block (`realloc` does this).\n\n**Amortised cost** is the average cost per operation over a whole sequence of operations, taken in the worst case. It is not an average over random inputs.\n\nWhy it works: Doubling from capacity 1, the copies happen at sizes $1, 2, 4, \\dots, n/2$, which add up to $n - 1$, fewer than the $n$ appends that caused them. That is about two item writes per append.\n\nWatch out: Growing by a fixed amount (say 4 slots) instead of doubling makes the total copying quadratic, so appends become $O(n)$ amortised.",
+      "searchQuery": "dynamic array doubling capacity amortised constant append",
+      "refs": [
+        "CLRS 4e, ch. 16 (Amortized Analysis)",
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Arrays"
+      ],
+      "tags": [
+        "amortised"
+      ]
+    },
+    {
+      "id": "dsa-list-push-front-code",
+      "unit": "arrays-linked-lists",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print? It builds a **linked list** by inserting each new node at the head.\n\n```c\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node { int value; struct Node *next; } Node;\nint main(void) {\n    Node *head = NULL;\n    for (int v = 1; v <= 3; v++) {\n        Node *n = malloc(sizeof *n);\n        n->value = v; n->next = head; head = n;\n    }\n    for (Node *p = head; p; p = p->next) printf(\"%d \", p->value);\n    while (head) { Node *t = head->next; free(head); head = t; }\n    return 0;\n}\n```",
+      "body": "It prints `3 2 1`: each new node is linked in front of the old head, so the list reads in reverse order of insertion.\n\nTrace: after `v = 1` the list is 1. After `v = 2`, the new node's `next` points at the node 1 and `head` moves to it: 2, 1. After `v = 3`: 3, 2, 1.\n\nKey idea: Insert at the head in two steps, in this order: first `n->next = head` (the new node keeps the old list), then `head = n`. Doing them the other way round loses the old list. Both steps take $O(1)$ time.\n\nWatch out: The cleanup loop saves `head->next` before calling `free`. Reading the pointer after freeing is a use-after-free. Real code on a small device must also check that `malloc` did not return `NULL`; this example skips that to stay short.",
+      "searchQuery": "linked list insert at head c malloc traverse free",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Linked Lists"
+      ],
+      "tags": [
+        "linked-list"
+      ]
+    },
+    {
+      "id": "dsa-list-remove-bug-code",
+      "unit": "arrays-linked-lists",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This function should delete the first node holding `v` and return the new head. What is wrong with it, and how do you fix it?\n\n```c\n#include <stdlib.h>\ntypedef struct Node { int value; struct Node *next; } Node;\nNode *remove_value(Node *head, int v) {\n    Node *prev = NULL;\n    for (Node *p = head; p; prev = p, p = p->next) {\n        if (p->value != v) continue;\n        free(p);\n        if (prev) prev->next = p->next;\n        else head = p->next;\n        break;\n    }\n    return head;\n}\n```",
+      "body": "It reads `p->next` after `free(p)`, a use-after-free. Unlink the node first (save `p->next`), then free it.\n\nFixed middle section:\n\n```c\nNode *next = p->next;\nif (prev) prev->next = next;\nelse head = next;\nfree(p);\n```\n\nWhy: Once `p` is freed, the memory may be reused, so `p->next` can hold anything. AddressSanitizer reports this as `heap-use-after-free`.\n\nKey idea: Deleting has two cases. If the node has a predecessor (`prev`), that predecessor must skip over it. If it is the head, the head pointer itself must move. That is why the function returns the head: the caller has to store the result.\n\nWatch out: A walk needs `prev` because a singly linked list can't step backwards. Forgetting the head case is the other classic bug.",
+      "searchQuery": "linked list delete node use after free c remove value",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Linked Lists"
+      ],
+      "tags": [
+        "linked-list"
+      ]
+    },
+    {
+      "id": "dsa-vec-growth-code",
+      "unit": "arrays-linked-lists",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A `Vec` starts empty. After this loop, what are `v.size` and `v.cap`, assuming every `realloc` succeeds?\n\n```c\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct { int *data; size_t size, cap; } Vec;\nvoid vec_push(Vec *v, int x) {\n    if (v->size == v->cap) {\n        v->cap = v->cap ? 2 * v->cap : 4;\n        v->data = realloc(v->data, v->cap * sizeof *v->data);\n    }\n    v->data[v->size++] = x;\n}\nint main(void) {\n    Vec v = {0};\n    for (int i = 0; i < 10; i++) vec_push(&v, i);\n    printf(\"%zu %zu\\n\", v.size, v.cap);\n}\n```",
+      "body": "`10 16`: the capacity grows 4, 8, 16 through three `realloc` calls.\n\nThe array starts with capacity 0 and no block (`data` is `NULL`, and `realloc(NULL, n)` behaves like `malloc(n)`). The first push grows it to 4. The 5th push finds `size == cap == 4` and grows it to 8. The 9th push grows it to 16, which holds the tenth item.\n\nWatch out: This short version stores the result of `realloc` straight into `v->data`. If `realloc` fails it returns `NULL`, the old block is leaked and the next write crashes. Real code assigns the result to a temporary pointer first and checks it before replacing `v->data`.\n\nWhy it matters: After `realloc` succeeds, the data may have moved, so any pointer into the old block is dangling. Keep indices, not pointers, to items in a growable array.",
+      "searchQuery": "dynamic array realloc doubling capacity c vec push",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CLRS 4e, ch. 16 (Amortized Analysis)"
+      ],
+      "tags": [
+        "amortised"
+      ]
+    },
+    {
+      "id": "dsa-vec-copies-problem",
+      "unit": "arrays-linked-lists",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A dynamic array of `int32_t` starts with capacity 8 and doubles when full. Over 100 appends, how many elements are copied in total by all the growths?",
+      "body": "120 elements (8 + 16 + 32 + 64).\n\nThe array grows when an append finds it full. That happens at the 9th append (size 8, copy 8 items into a block of 16), the 17th (copy 16 into 32), the 33rd (copy 32 into 64) and the 65th (copy 64 into 128). Capacity 128 then covers appends up to the 128th, so there are no more growths by 100.\n\nTotal copies: $8 + 16 + 32 + 64 = 120$, about 1.2 copies per append: this is the amortised $O(1)$ cost in numbers.\n\nExample: At 4 bytes per item the final block is $128 \\times 4 = 512$ bytes, of which 400 are in use.\n\nWatch out: During the last growth `realloc` may need the old 256-byte block and the new 512-byte block at the same time, so the heap needs 768 bytes free. Doubling is cheap in time, but it needs RAM headroom.",
+      "answer": "120",
+      "searchQuery": "dynamic array total copies doubling amortised calculation",
+      "refs": [
+        "CLRS 4e, ch. 16 (Amortized Analysis)",
+        "CLRS 4e, ch. 10 (Elementary Data Structures)"
+      ],
+      "tags": [
+        "amortised"
+      ]
+    },
+    {
+      "id": "dsa-array-vs-list-tradeoff",
+      "unit": "arrays-linked-lists",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "You must store 500 sensor readings (`int32_t`) on a 32-bit Cortex-M. You read them by index and scan them in order, with only an occasional insert in the middle. **Array or linked list?**",
+      "body": "An array.\n\n- **Access by index:** array $O(1)$, list $O(n)$ (follow pointers).\n- **Insert in the middle:** array $O(n)$ (shift later items), list $O(1)$ once you hold the node, but finding it is $O(n)$.\n- **Memory:** array 4 bytes per reading, 2,000 bytes in all; list 8 bytes per node (4 for the value, 4 for the pointer), 4,000 bytes, plus whatever bookkeeping the allocator adds for each `malloc`.\n- **Scanning:** the array is contiguous, so it has far better cache locality.\n\nExample: Shifting 500 readings to make room for one is a single block copy of at most 2,000 bytes, a trivial cost for an occasional insert.\n\nWatch out: The other side: a linked list wins when you insert or remove at known positions all the time, when items are large and must not be moved, or when pointers to items must stay valid. Without those needs, the array's compactness and speed usually decide it.",
+      "searchQuery": "array versus linked list access time insertion cost memory overhead",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Arrays",
+        "CS50x 2026, Week 5 notes: Linked Lists"
+      ],
+      "tags": [
+        "arrays-vs-lists"
+      ]
+    },
+    {
+      "id": "dsa-fixed-vs-dynamic-array-tradeoff",
+      "unit": "arrays-linked-lists",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A microcontroller with 32 KiB of RAM receives at most 64 samples per frame. Should the code use a dynamic array or a fixed-size array?",
+      "body": "A fixed-size array of 64 samples, sized for the worst case.\n\nIt never calls `malloc` or `realloc`, so there is no allocation failure at run time, no fragmentation and no timing jitter from the allocator. The linker's map shows exactly how much RAM it costs: $64 \\times 4 = 256$ bytes for `int32_t` samples.\n\nWhy it matters: Firmware that must run for months can't afford a rare out-of-memory failure that only shows up in the field.\n\nWatch out: The price is wasted space when frames are usually shorter, and a hard limit: sample 65 has nowhere to go, so the code must decide what to do (drop it, flag an error). A dynamic array wins when the maximum is unknown and RAM is plentiful, as on a Linux-class system.",
+      "searchQuery": "fixed size array versus dynamic array microcontroller malloc worst case",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CLRS 4e, ch. 16 (Amortized Analysis)"
+      ],
+      "tags": [
+        "arrays-vs-lists"
+      ]
+    },
+    {
+      "id": "dsa-stack-lifo",
+      "unit": "stacks-queues-ring-buffers",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **stack** (as a data structure), and what does **LIFO** stand for?",
+      "body": "A stack holds items so that the last one pushed is the first one popped: last in, first out (**LIFO**).\n\nYou have two main operations, `push` (add on top) and `pop` (remove from the top), and both take $O(1)$ time on an array with a `top` index:\n\n```c\nst[top++] = x;     /* push */\nx = st[--top];     /* pop  */\n```\n\nExample: An undo history is a stack: the most recent edit is the first one undone.\n\nWatch out: Check for overflow (`top == capacity`) before pushing and for underflow (`top == 0`) before popping. Don't confuse this data structure with the call stack in memory: that one is a stack too (each call pushes a frame, each return pops it), but here we mean a stack you build and manage yourself.",
+      "searchQuery": "stack lifo last in first out push pop array",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Stacks"
+      ],
+      "tags": [
+        "stack"
+      ]
+    },
+    {
+      "id": "dsa-queue-fifo",
+      "unit": "stacks-queues-ring-buffers",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **queue**, and what does **FIFO** mean?",
+      "body": "A queue gives items back in the order they arrived: first in, first out (**FIFO**).\n\nThe two operations are `enqueue` (add at the back) and `dequeue` (remove from the front).\n\nExample: Bytes arriving on a serial port wait in a queue until the program is ready for them, and the oldest byte must be handled first.\n\nWatch out: A queue built on a plain array that shifts every item forward on each dequeue costs $O(n)$ per dequeue. Moving the front index forward instead leaves empty space at the start, and the next cards show how a ring buffer reuses it.",
+      "searchQuery": "queue fifo first in first out enqueue dequeue",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Queues"
+      ],
+      "tags": [
+        "queue"
+      ]
+    },
+    {
+      "id": "dsa-balanced-brackets-code",
+      "unit": "stacks-queues-ring-buffers",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print? `balanced` uses a **stack** of up to 16 characters.\n\n```c\n#include <stdbool.h>\n#include <stdio.h>\nbool balanced(const char *s) {\n    char st[16]; int top = 0;\n    for (; *s; s++) {\n        if (*s == '(' || *s == '[') { if (top == 16) return false; st[top++] = *s; }\n        else if (*s == ')' || *s == ']') {\n            if (top == 0) return false;\n            char open = st[--top];\n            if (open != (*s == ')' ? '(' : '[')) return false;\n        }\n    }\n    return top == 0;\n}\nint main(void) { printf(\"%d%d%d\\n\", balanced(\"([])\"), balanced(\"([)]\"), balanced(\"(()\")); }\n```",
+      "body": "100\n\nOnly `([])` is balanced (`true` prints as 1, `false` as 0).\n\nFor `([)]`: push `(`, push `[`, then `)` arrives and the top of the stack is `[`, which doesn't match, so the result is false. For `(()`: after the loop one `(` is still on the stack, so `top == 0` fails.\n\nKey idea: The stack remembers the most recent bracket that is still open, and that is exactly the one the next closing bracket must match.\n\nWatch out: The `top == 16` check turns a too-deep input into a clean `false` instead of a buffer overflow that overwrites memory. On a device, always bound a stack you build yourself.",
+      "answer": "100",
+      "searchQuery": "balanced brackets stack c parentheses check",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Stacks"
+      ],
+      "tags": [
+        "stack"
+      ]
+    },
+    {
+      "id": "dsa-ring-buffer-definition",
+      "unit": "stacks-queues-ring-buffers",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **ring buffer** (circular buffer), and what do its **head index** and **tail index** do?",
+      "body": "A ring buffer is a fixed-size array used as a queue: items are written at the head index and read from the tail index, and both indices wrap around to 0 at the end of the array.\n\nConvention used here: `head` is where the next item will be written, and `tail` is where the next item will be read. Some code bases swap these names, so check before reading someone else's code.\n\n```c\nbuf[head] = x;  head = (head + 1) % N;   /* write */\nx = buf[tail];  tail = (tail + 1) % N;   /* read  */\n```\n\nWhy: Nothing is ever shifted. A read frees the slot at the tail, and the head will reach that slot again after wrapping around. Read and write are both $O(1)$ and the memory use is fixed.\n\nExample: A receive buffer for a serial port is a ring buffer: the hardware side fills it and your code drains it.",
+      "searchQuery": "ring buffer circular buffer head tail index wrap around",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Queues"
+      ],
+      "tags": [
+        "ring-buffer"
+      ]
+    },
+    {
+      "id": "dsa-ring-full-empty-problem",
+      "unit": "stacks-queues-ring-buffers",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A ring buffer has $N = 8$ slots and keeps one slot unused so that its **full** and **empty** conditions can be told apart. If `head = 2` and `tail = 3`, how many items does it hold, and is it full?",
+      "body": "It holds 7 items and is full.\n\n- **Empty:** `head == tail`.\n- **Full:** `(head + 1) % N == tail`. Here $(2 + 1) \\bmod 8 = 3 = \\text{tail}$, so it is full.\n- **Count:** $(\\text{head} - \\text{tail}) \\bmod N = (2 - 3) \\bmod 8 = 7$.\n\nWhy one slot is sacrificed: If all $N$ slots could be filled, a full buffer would have `head == tail`, exactly like an empty one. Giving up one slot makes the two cases differ. The usable capacity is $N - 1$.\n\nWatch out: In C, `(head - tail) % N` is negative when `head < tail` and the indices are signed. Write `(head - tail + N) % N`, or use unsigned indices. Another way out is to keep a separate item count.",
+      "searchQuery": "ring buffer full empty condition one slot unused count",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Queues"
+      ],
+      "tags": [
+        "ring-buffer"
+      ]
+    },
+    {
+      "id": "dsa-ring-put-get-code",
+      "unit": "stacks-queues-ring-buffers",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What does this program print? `put` returns 1 if it stored the item and 0 if the buffer was full.\n\n```c\n#include <stdio.h>\n#define N 4\nstatic int buf[N];\nstatic unsigned head, tail;   /* head: next write, tail: next read */\nint put(int x) { unsigned nh = (head + 1) % N; if (nh == tail) return 0; buf[head] = x; head = nh; return 1; }\nint get(int *x) { if (head == tail) return 0; *x = buf[tail]; tail = (tail + 1) % N; return 1; }\nint main(void) {\n    int ok = 0, v = 0;\n    for (int i = 1; i <= 5; i++) ok += put(i * 10);\n    get(&v); get(&v);\n    ok += put(60);\n    printf(\"%d %d\\n\", ok, v);\n}\n```",
+      "body": "`4 20`\n\nWith $N = 4$ and one slot unused, the buffer holds at most 3 items. The puts of 10, 20 and 30 succeed. For 40 and 50, `(head + 1) % N` equals `tail`, so they are rejected as full. That is 3 successes.\n\nTwo `get` calls return 10 and then 20, so `v` ends as 20 and `tail` is 2. Now `put(60)` finds a free slot (`head` moves from 3 to 0, which is not `tail`) and succeeds: 4 successes in total.\n\nKey idea: The write at slot 3 happens when the buffer is not yet full, and the next write wraps around to slot 0. That is the \"ring\" at work.\n\nWatch out: `put` drops new data when full. Some designs overwrite the oldest item instead; decide which loss is acceptable.",
+      "searchQuery": "ring buffer put get c trace full wrap around",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Queues"
+      ],
+      "tags": [
+        "ring-buffer"
+      ]
+    },
+    {
+      "id": "dsa-ring-mask-code",
+      "unit": "stacks-queues-ring-buffers",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What does this program print? `uint8_t` is 8 bits wide, so `head++` wraps from 255 to 0.\n\n```c\n#include <stdint.h>\n#include <stdio.h>\n#define N 8u\nint main(void) {\n    uint8_t head = 254;\n    for (int i = 0; i < 4; i++) {\n        printf(\"%u \", head & (N - 1));\n        head++;\n    }\n    printf(\"\\n\");\n}\n```",
+      "body": "`6 7 0 1`\n\nWhen the size $N$ is a power of two, `x & (N - 1)` equals `x % N`. For $N = 8$ the mask is $7 = 0b111$, which keeps only the lowest three bits of the index.\n\nThe indices 254, 255, 0, 1 give $254 \\bmod 8 = 6$, $255 \\bmod 8 = 7$, then 0 and 1 after `head` wraps. The sequence of slots continues without a jump because 256 is a multiple of 8.\n\nWhy it matters: An AND is a single fast instruction, whereas `%` can cost a software routine on cores without a hardware divider, such as Cortex-M0.\n\nWatch out: The mask trick is only valid when $N$ is a power of two. With $N = 6$ the mask 5 (`0b101`) would skip slots and use others twice.",
+      "searchQuery": "ring buffer power of two bit mask index wrap modulo",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Queues"
+      ],
+      "tags": [
+        "ring-buffer"
+      ]
+    },
+    {
+      "id": "dsa-spsc-ring-buffer-isr",
+      "unit": "stacks-queues-ring-buffers",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why does a **ring buffer** with one **producer** and one **consumer** suit passing data from an interrupt to the main loop?",
+      "body": "Each index has exactly one writer (the interrupt handler writes `head`, the main loop writes `tail`), so no lock is needed.\n\nAn **interrupt** is a hardware event that pauses the main code, runs a short function (an interrupt service routine, ISR) and then resumes the main code. In this **producer–consumer** pattern the ISR is the producer (it makes data) and the main loop is the consumer (it uses it).\n\nThe rules:\n- The producer writes the item into the slot, then advances `head`.\n- The consumer reads the item from the slot, then advances `tail`.\n- Both indices are declared `volatile`, since the other side changes them behind the compiler's back.\n\nWhy: The consumer never sees a half-written item, because `head` moves only after the data is in place.\n\nWatch out: This holds for one producer and one consumer on a single core. Several producers, or a second processor core, need extra care.",
+      "searchQuery": "single producer single consumer ring buffer interrupt main loop",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Queues"
+      ],
+      "tags": [
+        "ring-buffer",
+        "interrupts"
+      ]
+    },
+    {
+      "id": "dsa-isr-volatile-code",
+      "unit": "stacks-queues-ring-buffers",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "The interrupt handler `uart_isr` stores each received byte, and `main_get` waits for one. Compiled with `-O2`, the loop in `main_get` may never finish. What small change to the declarations fixes it?\n\n```c\n#include <stdint.h>\n#define N 16u\nstatic uint8_t buf[N];\nstatic uint8_t head, tail;   /* head: written by the ISR; tail: by main */\nvoid uart_isr(uint8_t byte) { buf[head & (N - 1)] = byte; head++; }\nuint8_t main_get(void) {\n    while (head == tail) { }          /* wait for data */\n    return buf[tail++ & (N - 1)];\n}\n```",
+      "body": "Declare `head` as `volatile`: `static volatile uint8_t head;`. Without it the compiler may read `head` once and spin forever.\n\nNothing in `main_get` changes `head`, so an optimizing compiler may load it once before the loop. On a 64-bit Arm host at `-O2` this code compiles to a loop that never reads `head` again, an infinite loop. `volatile` forces a fresh read on every pass.\n\nKey idea: The interrupt runs outside the normal flow of the main code, so the compiler can't see the change. Any variable shared with an ISR and polled in a loop needs `volatile`.\n\nWatch out: `uart_isr` never checks whether the buffer is full, so a slow consumer silently loses the oldest data. Compare `head - tail` with $N$ before writing.",
+      "searchQuery": "volatile interrupt shared variable polling loop compiler optimisation ring buffer",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Queues"
+      ],
+      "tags": [
+        "ring-buffer",
+        "interrupts"
+      ]
+    },
+    {
+      "id": "dsa-ring-size-problem",
+      "unit": "stacks-queues-ring-buffers",
+      "kind": "problem",
+      "difficulty": 3,
+      "checkpoint": true,
+      "title": "A serial link delivers 11,520 bytes per second. The main loop can be busy for up to 20 ms before it empties the buffer. What is the smallest power-of-two size, in bytes, for a ring buffer that keeps one slot unused and never overflows?",
+      "body": "256\n\nIn 20 ms the link delivers $11{,}520 \\times 0.020 = 230.4$ bytes, so up to 231 bytes can arrive while the main loop is busy. With one slot unused a buffer of $N$ slots holds $N - 1$ items, so $N - 1 \\ge 231$, giving $N \\ge 232$. The next power of two is $N = 256$.\n\nExample: 11,520 bytes per second is a serial line at 115,200 bits per second with 10 bits on the wire per byte (8 data bits plus a start and a stop bit).\n\nWhy it matters: A buffer of 128 would overflow after about 11 ms of delay ($127 / 11{,}520 \\approx 11\\,\\mathrm{ms}$), so the choice depends directly on the worst-case delay.\n\nTip: Size from the worst delay you can measure, then add margin. Here 256 leaves 24 spare bytes.",
+      "answer": "256",
+      "searchQuery": "ring buffer size data rate worst case delay power of two",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Queues"
+      ],
+      "tags": [
+        "ring-buffer",
+        "timing-estimate"
+      ]
+    },
+    {
+      "id": "dsa-ring-vs-malloc-queue-tradeoff",
+      "unit": "stacks-queues-ring-buffers",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Interrupt-driven firmware must queue incoming messages. Which is the better default: a fixed-size ring buffer, or a linked-list queue with one `malloc`ed node per message?",
+      "body": "A fixed-size ring buffer, when the number of queued messages has a known bound and the code runs in an interrupt.\n\n- It takes fixed RAM, visible at link time.\n- Put and get are $O(1)$ with predictable timing.\n- No heap, so no allocation failure and no fragmentation.\n\n`malloc` inside an interrupt handler is a poor idea: the call can be slow, its timing varies, it can return `NULL`, and common allocators aren't safe to call while main code may be inside them.\n\nWatch out: A ring buffer forces you to decide what happens when it is full (drop the new item or overwrite the oldest). A linked-list queue wins when messages vary a lot in size, when there is no sensible bound, or when items must move between queues without copying, and when the code runs on a system with a real allocator and enough RAM.",
+      "searchQuery": "ring buffer versus linked list queue malloc interrupt embedded",
+      "refs": [
+        "CLRS 4e, ch. 10 (Elementary Data Structures)",
+        "CS50x 2026, Week 5 notes: Queues"
+      ],
+      "tags": [
+        "ring-buffer",
+        "arrays-vs-lists"
+      ]
+    },
+    {
+      "id": "dsa-hash-function",
+      "unit": "hash-tables",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **hash function**, and what two properties make it good for a table?",
+      "body": "A hash function turns a key into an integer, which is then reduced to a table index. A good one gives the same result for the same key every time and spreads different keys evenly.\n\nTypical use: `index = hash(key) % N`, where $N$ is the number of slots in the table.\n\nExample: A common simple string hash starts with `h = 5381` and, for each character `c`, sets `h = h * 33 + c`. Every character changes the whole value, so \"stop\" and \"pots\", which have the same letters, still get different hash values.\n\nWhy: If the function wasn't deterministic you could never find a key again. If it spreads keys unevenly, many keys pile into a few slots and the table becomes slow.\n\nWatch out: The cost of hashing is $O(\\text{length of the key})$, not $O(1)$. Hashing a long string for every lookup adds up.",
+      "searchQuery": "hash function deterministic uniform spread table index",
+      "refs": [
+        "CLRS 4e, ch. 11 (Hash Tables)",
+        "CS50x 2026, Week 5 notes: Hashing and Hash Tables"
+      ],
+      "tags": [
+        "hashing"
+      ]
+    },
+    {
+      "id": "dsa-hash-table-definition",
+      "unit": "hash-tables",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **hash table**, and what is a **bucket**?",
+      "body": "A hash table is an array of buckets in which each key is stored at the index its hash function gives, so lookup and insert take $O(1)$ time on average.\n\nA **bucket** is one slot of that array. Depending on the design it holds one item or a chain of items.\n\nLookup in three steps: hash the key, reduce it to an index, check that bucket.\n\nExample: With 8 buckets, a key whose hash reduces to index 3 is stored and later looked up in bucket 3, without looking at the other seven.\n\nWatch out: \"$O(1)$ on average\" assumes the keys spread well. If everything lands in one bucket, a lookup degrades to $O(n)$.",
+      "searchQuery": "hash table bucket definition average constant time lookup",
+      "refs": [
+        "CLRS 4e, ch. 11 (Hash Tables)",
+        "CS50x 2026, Week 5 notes: Hashing and Hash Tables"
+      ],
+      "tags": [
+        "hashing"
+      ]
+    },
+    {
+      "id": "dsa-collision-concept",
+      "unit": "hash-tables",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is a **collision** in a hash table, and why can't you avoid collisions entirely?",
+      "body": "A collision is two different keys landing in the same bucket. When there are more possible keys than buckets, some collisions must happen.\n\nExample: With 4 buckets and `index = key % 4`, the keys 5 and 13 both land in bucket 1.\n\nEven with few keys, collisions come sooner than most people expect: 23 random keys in 365 buckets already have about a 50% chance that at least two share a bucket (the birthday problem).\n\nKey idea: Every hash table needs a collision strategy. The two classic ones are **separate chaining** (each bucket holds a list of its items) and **linear probing** (on a collision, try the following slots one by one). The next cards show both.",
+      "searchQuery": "hash table collision pigeonhole birthday problem collision resolution",
+      "refs": [
+        "CLRS 4e, ch. 11 (Hash Tables)",
+        "CS50x 2026, Week 5 notes: Hashing and Hash Tables"
+      ],
+      "tags": [
+        "hashing"
+      ]
+    },
+    {
+      "id": "dsa-hash-sum-code",
+      "unit": "hash-tables",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This string hash adds up the character codes and reduces them to a table of 8 slots. What does the program print?\n\n```c\n#include <stdio.h>\nunsigned hash(const char *s) {\n    unsigned sum = 0;\n    while (*s) sum += (unsigned char)*s++;\n    return sum % 8;\n}\nint main(void) {\n    printf(\"%u %u %u\\n\", hash(\"abc\"), hash(\"cab\"), hash(\"bad\"));\n    return 0;\n}\n```",
+      "body": "`6 6 7`: \"abc\" and \"cab\" always collide, because the sum ignores the order of the letters.\n\nThe ASCII codes of a, b, c are 97, 98, 99, with sum 294 and $294 \\bmod 8 = 6$. \"cab\" has the same letters, so the same sum and the same index. \"bad\" sums to $98 + 97 + 100 = 295$, and $295 \\bmod 8 = 7$.\n\nWhy it matters: Every anagram of a word collides with it, and short words have small sums that bunch into a narrow range of values. Both make for a poor spread.\n\nTip: Make the result depend on position, as in `h = h * 33 + c`. That is why real string hashes multiply or shift as they go.",
+      "searchQuery": "hash function sum of characters anagram collision c",
+      "refs": [
+        "CLRS 4e, ch. 11 (Hash Tables)",
+        "CS50x 2026, Week 5 notes: Hashing and Hash Tables"
+      ],
+      "tags": [
+        "hashing"
+      ]
+    },
+    {
+      "id": "dsa-chaining-code",
+      "unit": "hash-tables",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "With **separate chaining**, each bucket holds a linked list of the keys that landed there. What does this program print? (Nodes are never freed, to keep it short.)\n\n```c\n#include <stdio.h>\n#include <stdlib.h>\n#define N 4\ntypedef struct E { int key; struct E *next; } E;\nstatic E *table[N];\nvoid insert(int k) { E *e = malloc(sizeof *e); e->key = k; e->next = table[k % N]; table[k % N] = e; }\nint contains(int k) { for (E *e = table[k % N]; e; e = e->next) if (e->key == k) return 1; return 0; }\nint main(void) {\n    int keys[] = {5, 9, 2, 13};\n    for (int i = 0; i < 4; i++) insert(keys[i]);\n    for (E *e = table[1]; e; e = e->next) printf(\"%d \", e->key);\n    printf(\"| %d %d\\n\", contains(9), contains(17));\n}\n```",
+      "body": "`13 9 5 | 1 0`: bucket 1 holds 13, 9, 5 (newest first); 9 is found and 17 is not.\n\nThe keys 5, 9 and 13 all reduce to index 1 ($k \\bmod 4 = 1$), and key 2 goes to bucket 2. `insert` links each new node in at the head of its bucket's list, so the bucket reads 13, 9, 5. `contains(17)` also looks in bucket 1, walks the whole chain and finds nothing.\n\nKey idea: A lookup costs the length of one chain, about $1 + \\alpha$ steps on average for load factor $\\alpha$ (items per bucket). Chains can grow past one item per bucket, so the table never \"fills up\".\n\nTip: Deleting is easy: unlink the node from its chain, just as in an ordinary linked list.",
+      "searchQuery": "separate chaining hash table c linked list buckets lookup",
+      "refs": [
+        "CLRS 4e, ch. 11 (Hash Tables)",
+        "CS50x 2026, Week 5 notes: Hashing and Hash Tables"
+      ],
+      "tags": [
+        "hashing",
+        "linked-list"
+      ]
+    },
+    {
+      "id": "dsa-linear-probing-code",
+      "unit": "hash-tables",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "With **linear probing**, a key that finds its slot taken tries the next slot, wrapping from the last slot to 0. Which slots do the four keys land in?\n\n```c\n#include <stdio.h>\n#define N 8\nstatic int slot[N], used[N];\nint insert(int key) {\n    int i = key % N;\n    while (used[i]) i = (i + 1) % N;\n    used[i] = 1; slot[i] = key;\n    return i;\n}\nint main(void) {\n    int keys[] = {3, 11, 19, 4};\n    for (int k = 0; k < 4; k++) printf(\"%d \", insert(keys[k]));\n    printf(\"\\n\");\n    return 0;\n}\n```",
+      "body": "`3 4 5 6`\n\nKeys 3, 11 and 19 all reduce to index 3. The first takes slot 3, the second finds it taken and settles in slot 4, the third probes slots 3 and 4 and takes slot 5. Key 4 reduces to 4, which now holds 11; slot 5 holds 19, so it ends up in slot 6 even though no other key hashes to 5 or 6. The overflow from slot 3 has crowded into its neighbors.\n\nWhy it matters: Runs of occupied slots grow and swallow later keys (this is called primary clustering), so long probe sequences get longer.\n\nWatch out: If the table is completely full, the `while` loop never ends. Track the item count and refuse or resize before that happens. Deleting needs care too: simply emptying a slot would break the probe path of keys stored after it.",
+      "searchQuery": "linear probing open addressing hash table c insert wrap around",
+      "refs": [
+        "CLRS 4e, ch. 11 (Hash Tables)",
+        "CS50x 2026, Week 5 notes: Hashing and Hash Tables"
+      ],
+      "tags": [
+        "hashing"
+      ]
+    },
+    {
+      "id": "dsa-load-factor-code",
+      "unit": "hash-tables",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "The **load factor** of a hash table is (items stored) ÷ (number of buckets). This code should print the load factor for 6 items in 8 buckets. What does it print, and why?\n\n```c\n#include <stdio.h>\nint main(void) {\n    int count = 6, size = 8;\n    double load = count / size;\n    printf(\"%.2f\\n\", load);\n    return 0;\n}\n```",
+      "body": "`0.00`: `count / size` is integer division ($6 / 8 = 0$), and only then is the result converted to `double`.\n\nFix: convert before dividing, `(double)count / size`, which gives `0.75`.\n\nWhy it matters: The load factor is the number that tells you when to resize. Code that computes it wrongly never resizes, and the table silently gets slower.\n\nWatch out: For linear probing the load factor must stay below 1, and well below it in practice. Knuth's analysis says an unsuccessful search needs about $\\frac{1}{2}\\left(1 + \\frac{1}{(1-\\alpha)^2}\\right)$ probes at load factor $\\alpha$: 2.5 probes at $\\alpha = 0.5$, 8.5 at $0.75$ and about 50 at $0.9$.",
+      "searchQuery": "load factor hash table integer division c double cast",
+      "refs": [
+        "CLRS 4e, ch. 11 (Hash Tables)",
+        "CS50x 2026, Week 5 notes: Hashing and Hash Tables"
+      ],
+      "tags": [
+        "hashing"
+      ]
+    },
+    {
+      "id": "dsa-rehash-problem",
+      "unit": "hash-tables",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A linear-probing table has 16 slots. It **rehashes** (allocates a table twice as large and reinserts every key) whenever an insertion would push the load factor above 0.75. At which insertion does the first rehash happen, and how many keys must be reinserted?",
+      "body": "At the 13th insertion; 12 keys are reinserted into a table of 32 slots.\n\nAfter 12 keys the load factor is $12/16 = 0.75$, which is not above the limit, so the 12th insertion goes ahead. The 13th would make $13/16 = 0.8125 > 0.75$, so the table is rebuilt first.\n\nWhy every key is reinserted: Each key's slot is `hash % size`. When the size changes from 16 to 32, the same hash gives a different index, so copying the old array in place would leave keys where lookups no longer look.\n\nExample: After the rehash the 13 keys sit in 32 slots, a load factor of about 0.41.\n\nWatch out: During a rehash the old and new tables exist at the same time (16 + 32 slots), so a device needs that much free RAM. As with dynamic arrays, doubling makes inserts $O(1)$ amortised.",
+      "searchQuery": "hash table rehashing load factor threshold resize double",
+      "refs": [
+        "CLRS 4e, ch. 11 (Hash Tables)",
+        "CS50x 2026, Week 5 notes: Hashing and Hash Tables"
+      ],
+      "tags": [
+        "hashing",
+        "amortised"
+      ]
+    },
+    {
+      "id": "dsa-chaining-vs-probing-tradeoff",
+      "unit": "hash-tables",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A microcontroller has no heap and a fixed RAM budget for a hash table. Which collision strategy fits better: separate chaining or linear probing?",
+      "body": "Linear probing in a fixed array, keeping the load factor at or below roughly 0.5 to 0.7.\n\n- No per-item allocation and no pointers: an entry is just a slot, with 4 fewer bytes of overhead per item on a 32-bit target.\n- Slots are contiguous, so probing is cache-friendly.\n- RAM use is known at link time.\n\nProbing gets slow as the table fills (see the load factor card: about 8.5 probes for a miss at 0.75), so you must leave free slots and cap the number of items.\n\nWatch out: Chaining tolerates a load factor above 1 and makes deleting easy, but it needs nodes (from `malloc` or a static pool) plus a pointer in each. Deleting from a probing table needs a \"deleted\" marker so later keys stay reachable.",
+      "searchQuery": "chaining versus linear probing microcontroller fixed memory hash table",
+      "refs": [
+        "CLRS 4e, ch. 11 (Hash Tables)",
+        "CS50x 2026, Week 5 notes: Hashing and Hash Tables"
+      ],
+      "tags": [
+        "hashing"
+      ]
+    },
+    {
+      "id": "dsa-lookup-structure-tradeoff",
+      "unit": "hash-tables",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Firmware must map 40 command names to handler functions. The names are fixed at build time and live in flash. Which fits best: a hash table, a plain array or a sorted array searched by repeatedly halving the range (binary search)?",
+      "body": "A sorted `const` array searched by binary search.\n\n- Lookup takes at most $\\lfloor \\log_2 40 \\rfloor + 1 = 6$ comparisons, because each one halves the range still in play.\n- The table sits in flash and uses no RAM.\n- There is no hash function, no collision handling and no resizing; a build script can sort it.\n\nThe plain array is simplest, but scanning averages about 20 string comparisons and worst case 40. A hash table needs space for buckets and code to build it.\n\nWatch out: The other side is that with thousands of keys looked up often, or with keys added at run time, a hash table's $O(1)$ average wins. For fewer than about 10 keys that are rarely looked up, the plain array is fine.",
+      "searchQuery": "hash table versus sorted array binary search plain array lookup microcontroller",
+      "refs": [
+        "CLRS 4e, ch. 11 (Hash Tables)",
+        "CS50x 2026, Week 5 notes: Hashing and Hash Tables"
+      ],
+      "tags": [
+        "hashing",
+        "lookup"
+      ]
+    },
+    {
+      "id": "dsa-binary-search-definition",
+      "unit": "searching-sorting",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **binary search**, what must be true of its input, and what does it cost?",
+      "body": "Binary search finds a target in a sorted array by comparing it with the middle item and discarding the half that cannot hold it; it needs sorted input and takes $O(\\log n)$ comparisons.\n\nThe alternative is **linear search**: check items one by one from the start. It works on unsorted data but takes $O(n)$ comparisons in the worst case.\n\nExample: For $n = 1{,}000{,}000$ items, binary search needs at most $\\lfloor \\log_2 10^6 \\rfloor + 1 = 20$ comparisons; linear search may need a million.\n\nWatch out: On unsorted data binary search silently returns wrong answers, because discarding a half is only valid when the order guarantees the target isn't there. If you sort first, sorting costs $O(n \\log n)$, so it only pays off when you search many times.",
+      "searchQuery": "binary search sorted array logarithmic comparisons linear search",
+      "refs": [
+        "CLRS 4e, ch. 2 (Getting Started)",
+        "CS50x 2026, Week 3 notes: Binary Search"
+      ],
+      "tags": [
+        "searching"
+      ]
+    },
+    {
+      "id": "dsa-binary-search-code",
+      "unit": "searching-sorting",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This binary search runs on a sorted array of 10 items. What does the program print?\n\n```c\n#include <stdio.h>\nint find(const int *a, int n, int key) {\n    int lo = 0, hi = n - 1;\n    while (lo <= hi) {\n        int mid = lo + (hi - lo) / 2;\n        printf(\"%d \", mid);\n        if (a[mid] == key) return mid;\n        if (a[mid] < key) lo = mid + 1; else hi = mid - 1;\n    }\n    return -1;\n}\nint main(void) {\n    int a[] = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};\n    printf(\"-> %d\\n\", find(a, 10, 23));\n}\n```",
+      "body": "`4 7 5 -> 5`\n\nTrace for the key 23:\n1. `lo = 0`, `hi = 9`, `mid = 4`; `a[4] = 16` is less than 23, so `lo = 5`.\n2. `mid = 7`; `a[7] = 56` is greater, so `hi = 6`.\n3. `mid = 5`; `a[5] = 23` matches, and the function returns 5.\n\nThree comparisons found it in an array of ten.\n\nWhy: Computing the middle as `lo + (hi - lo) / 2` instead of `(lo + hi) / 2` avoids overflow of `lo + hi` when the indices are large; on a target with 16-bit `int` that can happen with only 20,000 items.\n\nWatch out: The loop condition is `lo <= hi`, and each step moves `lo` or `hi` past `mid`. Writing `lo = mid` or `hi = mid` can loop forever.",
+      "searchQuery": "binary search c implementation trace mid lo hi",
+      "refs": [
+        "CLRS 4e, ch. 2 (Getting Started)",
+        "CS50x 2026, Week 3 notes: Binary Search"
+      ],
+      "tags": [
+        "searching"
+      ]
+    },
+    {
+      "id": "dsa-stable-sort-definition",
+      "unit": "searching-sorting",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **stable sort**?",
+      "body": "A sort that keeps items with equal keys in the same relative order they had in the input.\n\nExample: Sort these (name, score) records by score: (Ann, 90), (Bo, 85), (Cy, 90). A stable sort outputs Bo 85, Ann 90, Cy 90: Ann still comes before Cy. An unstable sort might output Cy before Ann.\n\nWhy it matters: Stability lets you sort by several keys in turn. Sort by the minor key (name) first, then sort by the major key (score) with a stable sort, and ties on score remain ordered by name.\n\nWatch out: Insertion sort and merge sort are stable when written to keep equal items in order; common quicksort and heapsort implementations are not. The C library's `qsort` makes no promise of stability.",
+      "searchQuery": "stable sort definition equal keys relative order",
+      "refs": [
+        "CLRS 4e, ch. 2 (Getting Started)",
+        "CLRS 4e, ch. 7 (Quicksort)",
+        "CS50x 2026, Week 3 notes: Sorting and Selection Sort"
+      ],
+      "tags": [
+        "sorting"
+      ]
+    },
+    {
+      "id": "dsa-in-place-sort-definition",
+      "unit": "searching-sorting",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is an **in-place sort**, and why does it matter on a microcontroller?",
+      "body": "A sort that rearranges the items inside the original array, using only a small, fixed amount of extra memory that doesn't grow with $n$.\n\nInsertion sort and heapsort are in place. Merge sort is normally not: it needs a second array of $n$ items to merge into. Quicksort is usually called in place, although its recursion uses stack space (about $\\log n$ levels when the smaller part is handled first).\n\nExample: Sorting 2,000 `int16_t` samples (4,000 bytes) with merge sort needs another 4,000 bytes of buffer. An in-place sort needs almost none.\n\nWhy it matters: RAM is the scarce resource on a microcontroller, and a buffer the size of the data can be the difference between fitting and not fitting.",
+      "searchQuery": "in place sort extra memory definition merge sort buffer",
+      "refs": [
+        "CLRS 4e, ch. 2 (Getting Started)",
+        "CLRS 4e, ch. 7 (Quicksort)"
+      ],
+      "tags": [
+        "sorting"
+      ]
+    },
+    {
+      "id": "dsa-insertion-sort-code",
+      "unit": "searching-sorting",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "**Insertion sort** keeps the front of the array sorted and slides each new item left into place. How many shifts (executions of `a[j + 1] = a[j]`) does this program count on a reversed input?\n\n```c\n#include <stdio.h>\nint main(void) {\n    int a[] = {5, 4, 3, 2, 1}, shifts = 0;\n    for (int i = 1; i < 5; i++) {\n        int key = a[i], j = i - 1;\n        while (j >= 0 && a[j] > key) { a[j + 1] = a[j]; j--; shifts++; }\n        a[j + 1] = key;\n    }\n    printf(\"%d\\n\", shifts);\n    return 0;\n}\n```",
+      "body": "10\n\nEach new item is smaller than everything before it, so it slides all the way to the front: item `i` shifts `i` times, $1 + 2 + 3 + 4 = 10 = n(n-1)/2$. That is the worst case, $\\Theta(n^2)$.\n\nOn already sorted input the `while` test fails at once every time: zero shifts, and the whole sort takes $\\Theta(n)$ steps. That is the best case.\n\nWhy it works: After step `i`, the first $i + 1$ items are in sorted order (the rest are untouched). The inner loop opens a gap at the right spot by shifting larger items one place right.\n\nTip: Insertion sort is stable (the test is `>`, not `>=`, so equal items are never passed) and in place, and it is fast on nearly sorted data.",
+      "answer": "10",
+      "searchQuery": "insertion sort c shifts worst case reversed input",
+      "refs": [
+        "CLRS 4e, ch. 2 (Getting Started)",
+        "CS50x 2026, Week 3 notes: Sorting and Selection Sort"
+      ],
+      "tags": [
+        "sorting"
+      ]
+    },
+    {
+      "id": "dsa-quicksort-partition-code",
+      "unit": "searching-sorting",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "**Quicksort**'s **partition** step rearranges a range around a chosen *pivot*: items at most the pivot go before it, larger items after it. Here the pivot is the last item. What does the program print?\n\n```c\n#include <stdio.h>\nint partition(int *a, int lo, int hi) {\n    int pivot = a[hi], i = lo - 1;\n    for (int j = lo; j < hi; j++)\n        if (a[j] <= pivot) { i++; int t = a[i]; a[i] = a[j]; a[j] = t; }\n    int t = a[i + 1]; a[i + 1] = a[hi]; a[hi] = t;\n    return i + 1;\n}\nint main(void) {\n    int a[] = {3, 8, 2, 5, 1, 4};\n    int p = partition(a, 0, 5);\n    printf(\"%d:\", p);\n    for (int i = 0; i < 6; i++) printf(\" %d\", a[i]);\n    printf(\"\\n\");\n}\n```",
+      "body": "`3: 3 2 1 4 8 5`: the pivot 4 ends at index 3, with 3, 2, 1 before it and 8, 5 after it.\n\nTrace: `i` marks the end of the \"at most 4\" zone. 3 is swapped with itself (`i = 0`); 8 is skipped; 2 swaps with 8 (`i = 1`), giving 3 2 8 5 1 4; 5 is skipped; 1 swaps with 8 (`i = 2`), giving 3 2 1 5 8 4. Finally the pivot swaps with `a[i + 1]`, which is 5.\n\nKey idea: After one partition the pivot is in its final sorted position. Quicksort then sorts the left part and the right part the same way, each by recursion (a function calling itself on a smaller range).\n\nWatch out: Both parts are still unsorted inside. Partition gives order *between* the parts, not within them.",
+      "searchQuery": "quicksort partition lomuto pivot c trace",
+      "refs": [
+        "CLRS 4e, ch. 7 (Quicksort)",
+        "CS50x 2026, Week 3 notes: Sorting and Selection Sort"
+      ],
+      "tags": [
+        "sorting"
+      ]
+    },
+    {
+      "id": "dsa-quicksort-worst-case-problem",
+      "unit": "searching-sorting",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Quicksort takes the last item of each range as its pivot, and partitioning a range of $m$ items makes $m - 1$ comparisons with the pivot. How many comparisons does it make in total on an array of 1,000 items that is already sorted?",
+      "body": "499,500\n\nOn sorted input the pivot is always the largest item of its range, so partition puts it at the end and the \"after\" part is empty. A range of $m$ items costs $m - 1$ comparisons and leaves a range of $m - 1$ items to sort. The total is $999 + 998 + \\dots + 1 = \\frac{1000 \\cdot 999}{2} = 499{,}500$, the same as insertion sort's worst case: $\\Theta(n^2)$.\n\nWhy it matters on a small device: The recursion also goes about 1,000 calls deep, one stack frame each. A stack of a few KiB can overflow.\n\nTip: Real implementations avoid this by picking the pivot better (the median of three items, or a random one) and by recursing into the smaller part first, which caps the depth at about $\\log_2 n$. The average cost of quicksort is $O(n \\log n)$.",
+      "answer": "499500",
+      "searchQuery": "quicksort worst case sorted input comparisons n squared pivot",
+      "refs": [
+        "CLRS 4e, ch. 7 (Quicksort)"
+      ],
+      "tags": [
+        "sorting"
+      ]
+    },
+    {
+      "id": "dsa-merge-sort-cost-problem",
+      "unit": "searching-sorting",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "**Merge sort** splits the array in half, sorts each half, then *merges* the two sorted halves into one by repeatedly taking the smaller of the two front items. For $n = 1{,}024$, each item is copied once per merging level. At 8 cycles per copy on a 100 MHz core, about how long do the copies take?",
+      "body": "About 0.82 ms.\n\nHalving 1,024 items down to single items takes $\\log_2 1024 = 10$ levels, and every level copies all 1,024 items once: $10 \\times 1{,}024 = 10{,}240$ copies. At 8 cycles each that is $81{,}920$ cycles, and at 10 ns per cycle, $0.82\\,\\mathrm{ms}$.\n\nExample: Merging 2, 7, 9 with 3, 4: compare the fronts 2 and 3, take 2; 7 and 3, take 3; 7 and 4, take 4; the second half is empty, so copy the rest, 7 and 9. The result is 2 3 4 7 9 after 3 comparisons (at most $3 + 2 - 1 = 4$).\n\nWatch out: Merging needs a spare array as long as the data (2 KiB for 1,024 `int16_t` values), so merge sort is not in place. Its worst case is $O(n \\log n)$, with no bad inputs like quicksort has, and it is stable.",
+      "searchQuery": "merge sort cost levels copies n log n estimate cycles",
+      "refs": [
+        "CLRS 4e, ch. 2 (Getting Started)",
+        "CS50x 2026, Week 3 notes: Merge Sort"
+      ],
+      "tags": [
+        "sorting",
+        "timing-estimate"
+      ]
+    },
+    {
+      "id": "dsa-comparison-sort-lower-bound",
+      "unit": "searching-sorting",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why must any **comparison-based sort** make at least about $n \\log_2 n$ comparisons in the worst case? (This is the **comparison-sort lower bound**.)",
+      "body": "$\\Omega(n \\log n)$: there are $n!$ possible orderings of $n$ items and each comparison gives one yes-or-no answer, so at least $\\log_2(n!) \\approx n \\log_2 n$ comparisons are needed.\n\nHere $n! = n \\times (n-1) \\times \\dots \\times 1$ counts the ways to order $n$ distinct items. A sort has to work out which of them it was given. Each comparison can at best halve the set of orderings still possible, so it needs at least $\\log_2(n!)$ comparisons to get down to one.\n\nExample: For $n = 10$ there are $10! = 3{,}628{,}800$ orderings, and $\\log_2 3{,}628{,}800 \\approx 21.8$, so at least 22 comparisons are needed in the worst case.\n\nWatch out: The bound only covers sorts that learn about the order by comparing two items. A sort that uses the key values directly, such as counting sort, can beat it.",
+      "searchQuery": "comparison sort lower bound n log n n factorial decision tree",
+      "refs": [
+        "CLRS 4e, ch. 8 (Sorting in Linear Time)"
+      ],
+      "tags": [
+        "sorting"
+      ]
+    },
+    {
+      "id": "dsa-counting-sort-tradeoff",
+      "unit": "searching-sorting",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "You must sort 10,000 8-bit ADC readings (values 0 to 255) on a microcontroller. Use a comparison sort or **counting sort**?",
+      "body": "Counting sort: tally how many times each value occurs in 256 counters, then write the values out in order. It takes $O(n + k)$ time for $k = 256$ possible values.\n\nCost: about $10{,}000 + 256$ steps per pass, against roughly $n \\log_2 n \\approx 132{,}900$ comparisons for a comparison sort. The counters need $256 \\times 2 = 512$ bytes (`uint16_t`, since counts reach 10,000).\n\nWhy it works: The value itself is used as an index into the counter array, so no comparisons are made. This is how it gets under the $n \\log n$ bound.\n\nWatch out: The other side: counting sort needs the key range $k$ to be small. For 32-bit keys it would need $2^{32}$ counters, and a comparison sort wins easily. Sorting records by a key (not just the values) also needs an output array of $n$ items to stay stable.",
+      "searchQuery": "counting sort versus comparison sort small key range adc readings",
+      "refs": [
+        "CLRS 4e, ch. 8 (Sorting in Linear Time)"
+      ],
+      "tags": [
+        "sorting"
+      ]
+    },
+    {
+      "id": "dsa-insertion-vs-merge-tradeoff",
+      "unit": "searching-sorting",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A filter must sort 12 values on every sample on a microcontroller with very little RAM. Insertion sort or merge sort?",
+      "body": "Insertion sort: it is in place, stable, needs no recursion and very little code, and for 12 values it does at most $12 \\cdot 11 / 2 = 66$ shifts.\n\nMerge sort would need a second array of 12 items and extra code, and its $n \\log n$ advantage hardly shows at this size, where simple loops and small constants decide the cost.\n\nWhy it matters: Insertion sort is also very fast when the data is already nearly sorted, as consecutive samples often are. Many library sorts switch to insertion sort for short ranges for the same reason.\n\nWatch out: The other side: at $n = 10{,}000$ insertion sort may need nearly 50 million shifts ($10^4 \\cdot (10^4 - 1)/2 = 49{,}995{,}000$), so a merge, quick or heap sort is the right choice once $n$ gets large.",
+      "searchQuery": "insertion sort versus merge sort small arrays embedded",
+      "refs": [
+        "CLRS 4e, ch. 2 (Getting Started)",
+        "CS50x 2026, Week 3 notes: Sorting and Selection Sort"
+      ],
+      "tags": [
+        "sorting",
+        "big-o"
+      ]
+    },
+    {
+      "id": "dsa-tree-definition",
+      "unit": "trees-and-bsts",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **tree**, and what are its **root**, **leaf** and **height**?",
+      "body": "A tree is a set of nodes joined by parent-to-child links: one **root** has no parent, every other node has exactly one parent, a **leaf** has no children, and the **height** is the number of links on the longest path from the root down to a leaf.\n\nExample: A folder structure is a tree. The top folder is the root, files and empty folders are leaves, and the height is how many folder levels you cross to reach the deepest file.\n\nConvention used in the next cards: a tree with a single node has height 0, and an empty tree has height $-1$.\n\nWhy it matters: The height controls the cost of most tree operations, because they walk down one root-to-leaf path. A tree that holds $n$ nodes and gives each node at most two children can be as short as about $\\log_2 n$ or as tall as $n - 1$.",
+      "searchQuery": "tree root leaf height definition parent child",
+      "refs": [
+        "CLRS 4e, ch. 12 (Binary Search Trees)",
+        "CS50x 2026, Week 5 notes: Trees"
+      ],
+      "tags": [
+        "trees"
+      ]
+    },
+    {
+      "id": "dsa-bst-definition",
+      "unit": "trees-and-bsts",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **binary search tree** (BST), and what rule does it keep?",
+      "body": "A tree in which each node has at most two children (left and right), and every key in a node's left subtree is smaller than the node's key while every key in its right subtree is larger.\n\nA **subtree** is a node together with everything below it. The rule is about the whole subtree, not just the immediate children.\n\nWhy: A search compares the target with the current key and discards one whole subtree, the way binary search discards half of an array. A search takes $O(h)$ steps for a tree of height $h$.\n\nWatch out: A tree where 50 has the left child 30, and 30 has the right child 60, breaks the rule: 60 is greater than 30, but it sits in the left subtree of 50 and so must be less than 50. Checking only parent and child misses this. Duplicate keys need a stated policy; the code in the following cards ignores them.",
+      "searchQuery": "binary search tree bst definition left subtree smaller right larger",
+      "refs": [
+        "CLRS 4e, ch. 12 (Binary Search Trees)",
+        "CS50x 2026, Week 5 notes: Trees"
+      ],
+      "tags": [
+        "trees"
+      ]
+    },
+    {
+      "id": "dsa-bst-insert-code",
+      "unit": "trees-and-bsts",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What does this program print? `inorder` is an **in-order traversal**: visit the left subtree, then the node, then the right subtree. Both `insert` and `inorder` are **recursive**: they call themselves on a smaller part of the tree. Nodes come from a static pool, not `malloc`.\n\n```c\n#include <stdio.h>\ntypedef struct Node { int key; struct Node *left, *right; } Node;\nstatic Node pool[8]; static int used;\nNode *insert(Node *t, int k) {\n    if (!t) { t = &pool[used++]; t->key = k; return t; }\n    if (k < t->key) t->left = insert(t->left, k); else t->right = insert(t->right, k);\n    return t;\n}\nvoid inorder(const Node *t) {\n    if (t) { inorder(t->left); printf(\"%d \", t->key); inorder(t->right); }\n}\nint main(void) {\n    Node *r = NULL; int k[] = {50, 30, 70, 20, 40};\n    for (int i = 0; i < 5; i++) r = insert(r, k[i]);\n    inorder(r); }\n```",
+      "body": "`20 30 40 50 70`: the in-order traversal of a BST visits the keys in ascending order.\n\nBuilding the tree: 50 becomes the root, 30 goes left of it, 70 goes right, 20 goes left of 30, and 40 goes right of 30. The traversal prints the left subtree of 50 (20, 30, 40 in that order), then 50, then 70.\n\nKey idea: Insert follows the same path a search would take and attaches the new node where the search falls off the tree. Insert costs $O(h)$ and a whole traversal costs $O(n)$.\n\nTip: Nodes from a static array (zero-initialized, so both children start as `NULL`) avoid `malloc` on a device. The price is a hard limit: a ninth key would run past the pool.",
+      "searchQuery": "binary search tree insert recursive in-order traversal c sorted output",
+      "refs": [
+        "CLRS 4e, ch. 12 (Binary Search Trees)",
+        "CS50x 2026, Week 5 notes: Trees"
+      ],
+      "tags": [
+        "trees"
+      ]
+    },
+    {
+      "id": "dsa-bst-search-code",
+      "unit": "trees-and-bsts",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "The tree below is a perfectly balanced BST of 7 keys. `visited` counts the nodes the search looks at. What does the program print?\n\n```c\n#include <stdio.h>\ntypedef struct Node { int key; const struct Node *left, *right; } Node;\nstatic const Node n20 = {20, NULL, NULL}, n40 = {40, NULL, NULL}, n60 = {60, NULL, NULL}, n80 = {80, NULL, NULL};\nstatic const Node n30 = {30, &n20, &n40}, n70 = {70, &n60, &n80};\nstatic const Node root = {50, &n30, &n70};\nint visited(const Node *t, int key) {\n    int n = 0;\n    while (t) {\n        n++;\n        if (key == t->key) break;\n        t = key < t->key ? t->left : t->right;\n    }\n    return n;\n}\nint main(void) { printf(\"%d %d\\n\", visited(&root, 60), visited(&root, 45)); return 0; }\n```",
+      "body": "`3 3`: finding 60 visits 50, 70 and 60; the failed search for 45 visits 50, 30 and 40, then falls off the tree.\n\nEach step compares the key with the current node and moves to one child, discarding the other subtree. Seven keys in a perfectly balanced tree have three levels, so no search looks at more than $\\lfloor \\log_2 7 \\rfloor + 1 = 3$ nodes.\n\nWhy it matters: The loop uses constant stack space, whereas a recursive search uses one stack frame per level. On a device with a small stack, prefer the loop for search and insert.\n\nWatch out: A search for a missing key ends when `t` becomes `NULL`. The next card shows what happens to the cost when the tree isn't balanced.",
+      "searchQuery": "binary search tree search iterative nodes visited c",
+      "refs": [
+        "CLRS 4e, ch. 12 (Binary Search Trees)",
+        "CS50x 2026, Week 5 notes: Trees"
+      ],
+      "tags": [
+        "trees"
+      ]
+    },
+    {
+      "id": "dsa-tree-height-code",
+      "unit": "trees-and-bsts",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "**Height** counts links on the longest downward path (an empty tree has height −1). What does this program print for a tree whose 5 nodes each have only a right child?\n\n```c\n#include <stdio.h>\ntypedef struct Node { int key; const struct Node *left, *right; } Node;\nstatic const Node n5 = {5, NULL, NULL}, n4 = {4, NULL, &n5}, n3 = {3, NULL, &n4};\nstatic const Node n2 = {2, NULL, &n3}, n1 = {1, NULL, &n2};\nint height(const Node *t) {\n    if (!t) return -1;\n    int l = height(t->left), r = height(t->right);\n    return 1 + (l > r ? l : r);\n}\nint main(void) { printf(\"%d\\n\", height(&n1)); return 0; }\n```",
+      "body": "4\n\nThe height of a node is 1 plus the larger of its children's heights, and an empty child counts as $-1$. Working up from the leaf 5 (height 0): node 4 has 1, node 3 has 2, node 2 has 3, node 1 has 4.\n\nKey idea: This lopsided tree is what a plain BST becomes when keys are inserted in sorted order (1, 2, 3, 4, 5): every key is larger than all before it, so it goes to the right each time. In effect it is a linked list, and search costs $O(n)$. Inserting the same keys in the order 3, 2, 4, 1, 5 gives a tree of height 2.\n\nWatch out: This `height` function is recursive and goes as deep as the tree is tall. On a chain of 5,000 nodes it would need 5,000 stack frames.",
+      "answer": "4",
+      "searchQuery": "tree height recursive function c degenerate tree sorted insertion",
+      "refs": [
+        "CLRS 4e, ch. 12 (Binary Search Trees)",
+        "CS50x 2026, Week 5 notes: Trees"
+      ],
+      "tags": [
+        "trees"
+      ]
+    },
+    {
+      "id": "dsa-balanced-tree-concept",
+      "unit": "trees-and-bsts",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why does a plain BST degrade to $O(n)$ when keys arrive in sorted order, and what does a **balanced tree** such as a **red-black tree** guarantee?",
+      "body": "Sorted inserts build a chain of height $n - 1$, so search is $O(n)$. A balanced tree keeps its height $O(\\log n)$ by rearranging nodes as it grows; a red-black tree's height is at most $2\\log_2(n+1)$.\n\nA **balanced tree** is one whose height is kept close to the minimum, about $\\log_2 n$. A **red-black tree** is a BST in which every node is colored red or black under rules that stop any root-to-leaf path from being more than twice as long as another. Insert and delete restore the rules by recolouring and by rotations (local rearrangements that keep the BST order). Search, insert and delete are all $O(\\log n)$ in the worst case.\n\nExample: For $n = 1{,}000{,}000$ keys, a chain needs up to a million steps for a search. A red-black tree's height is at most $2 \\log_2(1{,}000{,}001) \\approx 39.9$, so at most 39.\n\nWhy it matters: Balanced trees are the standard sorted-map structure (C++'s `std::map` is commonly a red-black tree), but they are rarely worth their code size on a small device; a sorted array is often enough.",
+      "searchQuery": "unbalanced bst degrade balanced tree red-black tree height guarantee",
+      "refs": [
+        "CLRS 4e, ch. 12 (Binary Search Trees)",
+        "CLRS 4e, ch. 13 (Red-Black Trees)"
+      ],
+      "tags": [
+        "trees"
+      ]
+    },
+    {
+      "id": "dsa-tree-free-bug-code",
+      "unit": "trees-and-bsts",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This function should free every node of a tree. What goes wrong, and how do you fix it?\n\n```c\n#include <stdlib.h>\ntypedef struct Node { struct Node *left, *right; } Node;\nvoid release(Node *t) {\n    if (!t) return;\n    free(t);\n    release(t->left);\n    release(t->right);\n}\nint main(void) {\n    Node *root = calloc(1, sizeof *root);\n    root->left = calloc(1, sizeof *root);\n    release(root);\n    return 0;\n}\n```",
+      "body": "`free(t)` runs before `t->left` and `t->right` are read: a use-after-free. Free the children first, then the node itself.\n\nFix:\n\n```c\nrelease(t->left);\nrelease(t->right);\nfree(t);\n```\n\nWhy: Once `t` is freed, the fields inside it are gone. AddressSanitizer flags the read of `t->left` as `heap-use-after-free`. The corrected order is called post-order: children before parent.\n\nWatch out: Skipping the recursion and calling only `free(root)` is the opposite mistake: it leaks every other node, because nothing else points to them any more.",
+      "searchQuery": "free binary tree nodes post-order use after free c recursion",
+      "refs": [
+        "CLRS 4e, ch. 12 (Binary Search Trees)",
+        "CS50x 2026, Week 5 notes: Trees"
+      ],
+      "tags": [
+        "trees"
+      ]
+    },
+    {
+      "id": "dsa-recursion-stack-problem",
+      "unit": "trees-and-bsts",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A recursive in-order traversal needs one stack frame per node on the longest root-to-leaf path. Assume 32 bytes per frame and 2 KiB of free stack on a 32-bit Cortex-M. Does the traversal fit for (a) a BST of 100 keys inserted in sorted order, and (b) a perfectly balanced BST of 1,023 keys?",
+      "body": "(a) No: the chain is 100 nodes deep, so it needs $100 \\times 32 = 3{,}200$ bytes, more than the 2,048 available. (b) Yes: a perfectly balanced tree of 1,023 keys has 10 levels, so it needs $10 \\times 32 = 320$ bytes.\n\nThe stack holds 2,048 / 32 = 64 frames at most. Sorted insertion makes a chain with 100 levels, which overflows it, and the device crashes or corrupts memory.\n\nFor (b): a perfectly balanced tree with $2^k - 1$ nodes has $k$ levels, and $1{,}023 = 2^{10} - 1$.\n\nWhy it matters: Stack use grows with the height of the tree. Keep the tree balanced, or avoid recursion: loops for search and insert use constant stack, and an explicit, bounded stack of your own handles a traversal.\n\nWatch out: Real frames are often larger than you expect, since each one stores a return address, saved registers and local variables. Measure them in your build.",
+      "searchQuery": "recursion stack depth tree height microcontroller stack overflow estimate",
+      "refs": [
+        "CLRS 4e, ch. 12 (Binary Search Trees)",
+        "CS50x 2026, Week 5 notes: Trees"
+      ],
+      "tags": [
+        "trees",
+        "stack-usage"
+      ]
+    },
+    {
+      "id": "dsa-trie-vs-hash-tradeoff",
+      "unit": "trees-and-bsts",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A **trie** stores words letter by letter: each node has 26 child pointers (one per lowercase letter) and an end-of-word flag, and a word is found by following one child per letter. For a spell-checker dictionary on a 32-bit target with tight RAM, trie or hash table?",
+      "body": "Hash table. A trie node costs 108 bytes on a 32-bit target, and words share memory only through common prefixes.\n\nThe size: $26 \\times 4 = 104$ bytes of pointers plus 1 byte for the flag is 105, padded to 108 so the struct stays 4-byte aligned. In practice most nodes have only a few real children, so most of those 26 slots are wasted `NULL` pointers.\n\nWhat the trie offers: lookup takes $O(\\text{word length})$ steps no matter how many words are stored, there are no hash collisions, and finding every word with a given prefix (autocomplete) is natural.\n\nWatch out: The other side: when RAM is plentiful, or prefix queries matter, a trie is a good fit. Compressed variants that merge single-child chains cut the waste, at the price of more complex code. In a hash table the cost is about one small node (or one slot) per word.",
+      "searchQuery": "trie versus hash table spell checker memory node 26 pointers",
+      "refs": [
+        "CLRS 4e, ch. 12 (Binary Search Trees)",
+        "CS50x 2026, Week 5 notes: Tries",
+        "CS50x 2026, Problem Set 5: Speller, https://cs50.harvard.edu/x/psets/5/speller/"
+      ],
+      "tags": [
+        "trees",
+        "hashing"
+      ]
+    },
+    {
+      "id": "dsa-heap-property-definition",
+      "unit": "heaps-priority-queues",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **heap property**, and how does a **min-heap** differ from a **max-heap**?",
+      "body": "In a binary heap, every node is ordered against its children: in a **min-heap** each parent is at most both its children (the smallest key is at the root); in a **max-heap** each parent is at least both children (the largest is at the root).\n\nA **binary heap** is a tree with at most two children per node, filled level by level from left to right with no gaps, and obeying the heap property.\n\nExample: $[1, 3, 8, 5, 9, 10]$ is a min-heap: 1 is below both 3 and 8, 3 is below 5 and 9, and 8 is below 10.\n\nWatch out: A heap is not sorted. Siblings have no order (3 and 8 above), and it is not a binary search tree: left does not mean smaller. Only the root's value is known to be the smallest (or largest). Also, this \"heap\" is not the memory heap that `malloc` uses; the names just coincide.",
+      "searchQuery": "binary heap heap property min-heap max-heap definition",
+      "refs": [
+        "CLRS 4e, ch. 6 (Heapsort)"
+      ],
+      "tags": [
+        "heaps"
+      ]
+    },
+    {
+      "id": "dsa-priority-queue-definition",
+      "unit": "heaps-priority-queues",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **priority queue**, and what operations does it support?",
+      "body": "A priority queue is a collection from which you always remove the item with the highest priority (for example, the smallest deadline): operations are `insert` and `extract-min` (or `extract-max`).\n\nUnlike a FIFO queue, the order of removal depends on the items' priorities, not on when they arrived.\n\nWhy it matters: A binary heap implements it so that both operations take $O(\\log n)$ time. A sorted array makes extraction fast but insertion $O(n)$, and an unsorted array makes insertion fast but extraction $O(n)$.\n\nExample: A scheduler keeps the pending timers in a priority queue keyed by deadline, so the next timer to fire is always the root.",
+      "searchQuery": "priority queue definition insert extract min heap",
+      "refs": [
+        "CLRS 4e, ch. 6 (Heapsort)"
+      ],
+      "tags": [
+        "heaps"
+      ]
+    },
+    {
+      "id": "dsa-heap-array-layout",
+      "unit": "heaps-priority-queues",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How is a binary heap stored in an array, and where are the children and parent of index $i$?",
+      "body": "Level by level in a plain array (indexed from 0): the children of index $i$ are at $2i + 1$ and $2i + 2$, and its parent is at $\\lfloor (i - 1)/2 \\rfloor$.\n\nBecause the heap is filled without gaps, no pointers are needed: position alone says who is whose child. A heap of $n$ items has height $\\lfloor \\log_2 n \\rfloor$.\n\nExample: In $[1, 3, 8, 5, 9, 10]$, index 1 (value 3) has children at indices 3 and 4 (values 5 and 9), and index 5 (value 10) has parent $\\lfloor 4/2 \\rfloor = 2$ (value 8). With $n = 6$ the height is $\\lfloor \\log_2 6 \\rfloor = 2$.\n\nTip: The last index that has a child is $\\lfloor n/2 \\rfloor - 1$ (here 2); every index after it is a leaf.\n\nWatch out: Many textbooks index from 1, with children at $2i$ and $2i + 1$. With C arrays starting at 0, use the 0-based formulas.",
+      "searchQuery": "heap array layout children 2i+1 2i+2 parent index",
+      "refs": [
+        "CLRS 4e, ch. 6 (Heapsort)"
+      ],
+      "tags": [
+        "heaps"
+      ]
+    },
+    {
+      "id": "dsa-heap-push-code",
+      "unit": "heaps-priority-queues",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "`push` appends the item at the end of the array and then does **sift-up**: swap it with its parent while the parent is larger. What does this program print?\n\n```c\n#include <stdio.h>\nstatic int h[8], n;\nvoid push(int x) {\n    int i = n++;\n    h[i] = x;\n    for (int p; i > 0 && h[p = (i - 1) / 2] > h[i]; i = p) {\n        int t = h[p]; h[p] = h[i]; h[i] = t;\n    }\n}\nint main(void) {\n    int in[] = {5, 3, 8, 1};\n    for (int k = 0; k < 4; k++) push(in[k]);\n    for (int k = 0; k < n; k++) printf(\"%d \", h[k]);\n}\n```",
+      "body": "`1 3 8 5`\n\nStep by step: push 5 gives $[5]$. Push 3 goes to index 1, its parent 5 is larger, so they swap: $[3, 5]$. Push 8 goes to index 2 and its parent 3 is smaller, so it stays: $[3, 5, 8]$. Push 1 goes to index 3; its parent (index 1) holds 5, so swap; then its new parent (index 0) holds 3, so swap again: $[1, 3, 8, 5]$.\n\nKey idea: Sift-up walks one path from a leaf toward the root, so it takes at most $\\lfloor \\log_2 n \\rfloor$ swaps: $O(\\log n)$.\n\nWatch out: The array `h` has room for 8 items, and `push` doesn't check. On a device, check `n` against the capacity first.",
+      "searchQuery": "heap insert sift up c min heap trace",
+      "refs": [
+        "CLRS 4e, ch. 6 (Heapsort)"
+      ],
+      "tags": [
+        "heaps"
+      ]
+    },
+    {
+      "id": "dsa-heap-pop-code",
+      "unit": "heaps-priority-queues",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "`pop` removes the minimum: it moves the last item to the root and does **sift-down**: swap with the smaller child while that child is smaller. What does this program print?\n\n```c\n#include <stdio.h>\nstatic int h[] = {1, 3, 8, 5, 9, 10}, n = 6;\nint pop(void) {\n    int top = h[0], i = 0;\n    h[0] = h[--n];\n    for (int c; (c = 2 * i + 1) < n; i = c) {\n        if (c + 1 < n && h[c + 1] < h[c]) c++;\n        if (h[i] <= h[c]) break;\n        int t = h[i]; h[i] = h[c]; h[c] = t;\n    }\n    return top;\n}\nint main(void) {\n    printf(\"%d |\", pop());\n    for (int k = 0; k < n; k++) printf(\" %d\", h[k]); }\n```",
+      "body": "`1 | 3 5 8 10 9`\n\nThe minimum, 1, is returned. The last item, 10, moves to the root and the heap shrinks to 5 items: $[10, 3, 8, 5, 9]$. Sift-down: the children of index 0 are 3 and 8, the smaller is 3, so swap: $[3, 10, 8, 5, 9]$. Now 10 at index 1 has children 5 and 9; swap with 5: $[3, 5, 8, 10, 9]$. Index 3 has no children, so it stops.\n\nWhy the last item: Taking the last element keeps the heap filled without gaps. It is probably large, so it sinks back down, again along a single path of at most $\\lfloor \\log_2 n \\rfloor$ swaps.\n\nWatch out: Always swap with the smaller of the two children (in a min-heap). Swapping with the larger one would leave the smaller child above its parent, breaking the heap property.",
+      "searchQuery": "heap extract min sift down c min heap trace",
+      "refs": [
+        "CLRS 4e, ch. 6 (Heapsort)"
+      ],
+      "tags": [
+        "heaps"
+      ]
+    },
+    {
+      "id": "dsa-heap-sift-bug-code",
+      "unit": "heaps-priority-queues",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "This `sift_down` should restore the min-heap property after the root of $[9, 3, 2]$ is replaced. What does the program print, and what is wrong?\n\n```c\n#include <stdio.h>\nstatic int h[] = {9, 3, 2}, n = 3;\nvoid sift_down(int i) {\n    for (;;) {\n        int c = 2 * i + 1;            /* left child */\n        if (c >= n || h[i] <= h[c]) break;\n        int t = h[i]; h[i] = h[c]; h[c] = t;\n        i = c;\n    }\n}\nint main(void) { sift_down(0); printf(\"%d %d %d\\n\", h[0], h[1], h[2]); return 0; }\n```",
+      "body": "It prints `3 9 2`, which is not a heap: it only compares with the left child and never looks at the right one.\n\nThe root 9 is larger than its left child 3, so they swap, leaving 3 at the root with 2 as its right child. The root now exceeds its right child, so the heap property is broken. The correct result is $[2, 3, 9]$.\n\nFix: Pick the smaller child first, `if (c + 1 < n && h[c + 1] < h[c]) c++;`, and compare with that one.\n\nWhy: In a min-heap the new root must end up no bigger than both children. Only the smaller child is a safe replacement, since it is no bigger than its sibling.\n\nTip: A quick test for any heap code is to run it on small cases with the smaller item on the right.",
+      "searchQuery": "heap sift down bug right child smaller child c",
+      "refs": [
+        "CLRS 4e, ch. 6 (Heapsort)"
+      ],
+      "tags": [
+        "heaps"
+      ]
+    },
+    {
+      "id": "dsa-timer-heap-problem",
+      "unit": "heaps-priority-queues",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Timers due at 40, 10, 30, 20 and 50 ms are inserted, in that order, into a min-heap stored in an array. Which timer fires first, and what does the array look like after that timer is extracted?",
+      "body": "The 10 ms timer fires first; afterwards the array is $[20, 40, 30, 50]$.\n\nInserts (sift-up each time): 40 gives $[40]$; 10 swaps with 40: $[10, 40]$; 30 stays: $[10, 40, 30]$; 20 sits at index 3 under 40 and swaps: $[10, 20, 30, 40]$, and 10 is smaller than 20, so it stops; 50 stays at index 4 under 20: $[10, 20, 30, 40, 50]$.\n\nExtract-min: remove 10, move the last item 50 to the root: $[50, 20, 30, 40]$. Sift-down: the smaller child of the root is 20, swap: $[20, 50, 30, 40]$. Index 1 has the child 40 (index 3), smaller than 50, swap: $[20, 40, 30, 50]$.\n\nWhy it matters: A heap gives the next deadline in $O(1)$ (it is the root) and updates in $O(\\log n)$, whereas scanning an unsorted list of timers for the earliest costs $O(n)$ on every tick.",
+      "searchQuery": "min heap timers deadline priority queue extract min array",
+      "refs": [
+        "CLRS 4e, ch. 6 (Heapsort)"
+      ],
+      "tags": [
+        "heaps"
+      ]
+    },
+    {
+      "id": "dsa-heapsort-definition",
+      "unit": "heaps-priority-queues",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is **heapsort**, and what does it cost?",
+      "body": "Heapsort builds a max-heap in the array, then repeatedly swaps the root (the largest item) with the last item of the heap, shrinks the heap by one and sifts the new root down: $O(n \\log n)$ worst case, in place, not stable.\n\n1. Build a max-heap by sifting down from index $\\lfloor n/2 \\rfloor - 1$ back to 0; this takes $O(n)$.\n2. Swap the root with the last heap item; the largest is now in its final place at the end.\n3. Shrink the heap by one and sift the new root down; this takes $O(\\log n)$.\n4. Repeat steps 2 and 3 until the heap is empty.\n\nWhy it matters: It combines a guaranteed $O(n \\log n)$ worst case with no extra memory, unlike merge sort (needs a buffer) and quicksort (bad worst case).\n\nWatch out: Heapsort jumps around the array (parent and child can be far apart), so it has poor cache locality, and it is usually slower than quicksort on large data.",
+      "searchQuery": "heapsort algorithm max heap in place n log n",
+      "refs": [
+        "CLRS 4e, ch. 6 (Heapsort)"
+      ],
+      "tags": [
+        "heaps",
+        "sorting"
+      ]
+    },
+    {
+      "id": "dsa-heapsort-trace-problem",
+      "unit": "heaps-priority-queues",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "The array $[9, 6, 8, 2, 5, 7]$ is a max-heap. Heapsort performs two steps (each: swap the root with the last heap item, shrink the heap, sift down the root). What is the array after the second step?",
+      "body": "$[7, 6, 5, 2, 8, 9]$\n\nStep 1: swap the root 9 with the last item 7: $[7, 6, 8, 2, 5 \\mid 9]$ (the bar separates the sorted tail). Sift 7 down in the heap of 5 items: its children are 6 and 8, the larger is 8, swap: $[8, 6, 7, 2, 5 \\mid 9]$.\n\nStep 2: swap the root 8 with the last heap item 5: $[5, 6, 7, 2 \\mid 8, 9]$. Sift 5 down in the heap of 4 items: children 6 and 7, the larger is 7, swap: $[7, 6, 5, 2 \\mid 8, 9]$. The children of index 2 would be at index 5 or beyond, outside the heap, so it stops.\n\nKey idea: Each step moves the largest remaining item to its final position at the end, so after $k$ steps the last $k$ slots hold the $k$ largest items in order.\n\nTip: In a max-heap sift-down, swap with the larger child. In the min-heap of the previous cards it was the smaller one.",
+      "searchQuery": "heapsort trace max heap swap root sift down array",
+      "refs": [
+        "CLRS 4e, ch. 6 (Heapsort)"
+      ],
+      "tags": [
+        "heaps",
+        "sorting"
+      ]
+    },
+    {
+      "id": "dsa-graph-definition",
+      "unit": "graphs-topological-sort",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **graph**, and what are its **vertices** and **edges**?",
+      "body": "A graph is a set of vertices (the things) and edges (links between pairs of vertices); edges are either undirected (a two-way link) or directed (an arrow from one vertex to another).\n\nWritten $V$ for the number of vertices and $E$ for the number of edges. With no self-links, an undirected graph has at most $V(V-1)/2$ edges and a directed graph at most $V(V-1)$.\n\nExample: Radio nodes in a mesh are vertices and the radio links between them are undirected edges. The layers of a neural network are vertices and \"layer A feeds layer B\" is a directed edge.\n\nWhy it matters: A tree is a special graph too: undirected, with no way to walk around in a loop. Graphs are the general tool for dependencies, networks and maps.",
+      "searchQuery": "graph vertices edges directed undirected definition",
+      "refs": [
+        "CLRS 4e, ch. 20 (Elementary Graph Algorithms)"
+      ],
+      "tags": [
+        "graphs"
+      ]
+    },
+    {
+      "id": "dsa-adjacency-list-matrix",
+      "unit": "graphs-topological-sort",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are an **adjacency list** and an **adjacency matrix**?",
+      "body": "An adjacency list stores, for each vertex, the list of its neighbors (memory $O(V + E)$); an adjacency matrix is a $V \\times V$ table whose entry $(u, v)$ says whether an edge from $u$ to $v$ exists (memory $O(V^2)$).\n\nExample: For the undirected graph with edges 0–1, 0–2 and 1–2:\n- list: `0: {1, 2}`, `1: {0, 2}`, `2: {0, 1}`\n- matrix: row 0 is `0 1 1`, row 1 is `1 0 1`, row 2 is `1 1 0`\n\nCosts: the matrix answers \"is there an edge from $u$ to $v$?\" in $O(1)$. The list lists all the neighbors of $u$ in time proportional to their number, and uses far less memory when edges are few.\n\nTip: On a microcontroller both are often plain static arrays: a matrix as a 2-D array (or bits), a list as arrays of neighbor indices.",
+      "searchQuery": "adjacency list adjacency matrix graph representation memory",
+      "refs": [
+        "CLRS 4e, ch. 20 (Elementary Graph Algorithms)"
+      ],
+      "tags": [
+        "graphs"
+      ]
+    },
+    {
+      "id": "dsa-topological-sort-definition",
+      "unit": "graphs-topological-sort",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **topological sort**, and which graphs have one?",
+      "body": "A topological sort orders the vertices of a directed graph so that every edge $u \\to v$ has $u$ before $v$; one exists exactly when the graph is a **directed acyclic graph** (DAG), meaning it has no directed cycle.\n\nA cycle is a path that leads back to its starting vertex by following arrows.\n\nExample: Build dependencies. If `app` is linked from `a.o` and `b.o`, and each `.o` is compiled from its `.c` file, an edge goes from each prerequisite to the thing that needs it. A topological order is a valid build order, such as `a.c, b.c, a.o, b.o, app`.\n\nWatch out: A DAG usually has many valid orders. And a cycle (A needs B, B needs A) has none: that is how a topological sort detects circular dependencies.",
+      "searchQuery": "topological sort directed acyclic graph dag definition dependencies",
+      "refs": [
+        "CLRS 4e, ch. 20 (Elementary Graph Algorithms)"
+      ],
+      "tags": [
+        "graphs",
+        "topological-sort"
+      ]
+    },
+    {
+      "id": "dsa-bfs-vs-dfs-concept",
+      "unit": "graphs-topological-sort",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How do **breadth-first search** (BFS) and **depth-first search** (DFS) differ in the order they visit vertices?",
+      "body": "BFS visits vertices in order of their distance from the start, using a queue; DFS follows one path as deep as it can before backing up, using recursion (a stack).\n\nBoth mark each vertex as visited, so every reachable vertex is processed once. With an adjacency list both take $O(V + E)$ time.\n\nBFS in an unweighted graph finds the path with the fewest edges to every vertex. DFS is the basis of cycle detection and of one way to compute a topological order.\n\nWatch out: Without the visited mark, a graph with a cycle would make either search loop forever.\n\nWatch out: DFS recursion can go as deep as the number of vertices. On a device with a small stack, use an explicit, bounded stack or limit the graph size.",
+      "searchQuery": "breadth-first search depth-first search difference queue stack",
+      "refs": [
+        "CLRS 4e, ch. 20 (Elementary Graph Algorithms)"
+      ],
+      "tags": [
+        "graphs"
+      ]
+    },
+    {
+      "id": "dsa-bfs-code",
+      "unit": "graphs-topological-sort",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This BFS starts at vertex 0 of an undirected graph given as an adjacency matrix. What order does it print?\n\n```c\n#include <stdio.h>\n#define V 5\nstatic const int adj[V][V] = {          /* undirected: 0-1, 0-2, 1-4, 2-3, 3-4 */\n    {0,1,1,0,0}, {1,0,0,0,1}, {1,0,0,1,0}, {0,0,1,0,1}, {0,1,0,1,0}};\nint main(void) {\n    int queue[V], head = 0, tail = 0, seen[V] = {0};\n    queue[tail++] = 0; seen[0] = 1;\n    while (head < tail) {\n        int u = queue[head++];\n        printf(\"%d \", u);\n        for (int v = 0; v < V; v++)\n            if (adj[u][v] && !seen[v]) { seen[v] = 1; queue[tail++] = v; }\n    }\n}\n```",
+      "body": "`0 1 2 4 3`\n\nThe queue starts as $[0]$. Vertex 0 is removed and its unseen neighbors 1 and 2 are added: $[1, 2]$. Vertex 1 adds 4: $[2, 4]$. Vertex 2 adds 3: $[4, 3]$. Then 4 and 3 are removed, adding nothing new. So the order is 0, then its neighbors 1 and 2, then their new neighbors 4 and 3.\n\nKey idea: Mark a vertex as seen when it is added to the queue, not when it is removed. Otherwise a vertex can be queued several times.\n\nWhy: Each vertex enters the queue at most once, so an array of $V$ entries is enough and never needs to wrap around. With a matrix the scan for neighbors makes the whole search $O(V^2)$.",
+      "searchQuery": "breadth first search c adjacency matrix queue visit order",
+      "refs": [
+        "CLRS 4e, ch. 20 (Elementary Graph Algorithms)"
+      ],
+      "tags": [
+        "graphs"
+      ]
+    },
+    {
+      "id": "dsa-dfs-code",
+      "unit": "graphs-topological-sort",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "This DFS runs from vertex 0 on the same graph as the previous BFS card (edges 0–1, 0–2, 1–4, 2–3, 3–4), stored here as neighbor lists in increasing order. What order does it print?\n\n```c\n#include <stdio.h>\nstatic const int deg[5] = {2, 2, 2, 2, 2};\nstatic const int nbr[5][2] = {{1, 2}, {0, 4}, {0, 3}, {2, 4}, {1, 3}};\nstatic int seen[5];\nvoid dfs(int u) {\n    seen[u] = 1;\n    printf(\"%d \", u);\n    for (int k = 0; k < deg[u]; k++)\n        if (!seen[nbr[u][k]]) dfs(nbr[u][k]);\n}\nint main(void) { dfs(0); return 0; }\n```",
+      "body": "`0 1 4 3 2`\n\nDFS goes from 0 to its first neighbor 1, then from 1 to its first unseen neighbor 4 (0 is already seen), then from 4 to 3, then from 3 to 2. Vertex 2 has no unseen neighbors, so the calls unwind: 3, 4, 1 and finally 0 find nothing more, and the search ends.\n\nCompare BFS on the same graph, which printed `0 1 2 4 3`: BFS fans out from 0 in layers, while DFS dives down one path first.\n\nWatch out: Each recursive call uses a stack frame, so the depth can reach $V$ on a long chain. The `seen` array both stops cycles from looping and keeps the cost at $O(V + E)$.",
+      "searchQuery": "depth first search c recursive adjacency list visit order",
+      "refs": [
+        "CLRS 4e, ch. 20 (Elementary Graph Algorithms)"
+      ],
+      "tags": [
+        "graphs"
+      ]
+    },
+    {
+      "id": "dsa-nn-layer-order-example",
+      "unit": "graphs-topological-sort",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "A small network has these data dependencies: `input → convA`, `input → convB`, `convA → concat`, `convB → concat`, `concat → out`. Give one valid execution order for its layers. How many valid orders exist?",
+      "body": "`input, convA, convB, concat, out`; there are exactly 2 valid orders, because `convA` and `convB` may run in either order.\n\nThe rule is that each layer runs after every layer that feeds it, which is a topological sort of the layer graph. `input` has to come first and `out` last, and `concat` needs both branches finished.\n\nWhy it matters: An inference engine needs such an order before it can run a network layer by layer. The choice also affects memory: after `convA` its output must stay alive until `concat` runs, so it sits in RAM while `convB` executes.\n\nTip: On a straight chain of layers there is only one valid order. Branches and skip connections are what create several, and the engine can pick the one that needs the least RAM.",
+      "searchQuery": "neural network layer execution order topological sort branches",
+      "refs": [
+        "CLRS 4e, ch. 20 (Elementary Graph Algorithms)"
+      ],
+      "tags": [
+        "graphs",
+        "topological-sort"
+      ]
+    },
+    {
+      "id": "dsa-kahn-order-code",
+      "unit": "graphs-topological-sort",
+      "kind": "code",
+      "difficulty": 4,
+      "checkpoint": true,
+      "title": "**Kahn's algorithm** repeatedly takes a vertex whose in-degree (number of incoming edges) is 0, outputs it and lowers its successors' in-degrees. What does this program print for the edges 3→1, 3→4, 0→4, 4→2, 1→2, 5→0?\n\n```c\n#include <stdio.h>\n#define V 6\nint main(void) {\n    int from[] = {3, 3, 0, 4, 1, 5}, to[] = {1, 4, 4, 2, 2, 0}, E = 6;\n    int indeg[V] = {0}, q[V], head = 0, tail = 0;\n    for (int e = 0; e < E; e++) indeg[to[e]]++;\n    for (int v = 0; v < V; v++) if (indeg[v] == 0) q[tail++] = v;\n    while (head < tail) {\n        int u = q[head++];\n        printf(\"%d \", u);\n        for (int e = 0; e < E; e++)\n            if (from[e] == u && --indeg[to[e]] == 0) q[tail++] = to[e];\n    }\n}\n```",
+      "body": "`3 5 1 0 4 2`\n\nIn-degrees: vertex 0 has 1 (from 5), vertex 1 has 1, vertex 2 has 2, vertex 3 has 0, vertex 4 has 2 and vertex 5 has 0. The queue starts as $[3, 5]$.\n\nRemove 3: vertex 1 drops to 0 and is queued; 4 drops to 1. Remove 5: vertex 0 drops to 0 and is queued. Remove 1: vertex 2 drops to 1. Remove 0: vertex 4 drops to 0 and is queued. Remove 4: vertex 2 drops to 0 and is queued. Remove 2. The order is 3, 5, 1, 0, 4, 2, and every edge points forward in it.\n\nKey idea: A vertex with in-degree 0 has nothing left to wait for, so it is safe to output next.\n\nWatch out: Scanning all $E$ edges for each vertex makes this $O(V \\cdot E)$. With adjacency lists, Kahn's algorithm takes $O(V + E)$.",
+      "searchQuery": "kahn algorithm topological sort in-degree queue c",
+      "refs": [
+        "CLRS 4e, ch. 20 (Elementary Graph Algorithms)"
+      ],
+      "tags": [
+        "graphs",
+        "topological-sort"
+      ]
+    },
+    {
+      "id": "dsa-kahn-cycle-code",
+      "unit": "graphs-topological-sort",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "Kahn's algorithm can also detect cycles: if it outputs fewer than $V$ vertices, the rest are stuck behind a cycle. What does this program print for the edges 0→1, 1→2, 2→1, 2→3?\n\n```c\n#include <stdio.h>\n#define V 4\nint main(void) {\n    int from[] = {0, 1, 2, 2}, to[] = {1, 2, 1, 3}, E = 4;\n    int indeg[V] = {0}, q[V], head = 0, tail = 0;\n    for (int e = 0; e < E; e++) indeg[to[e]]++;\n    for (int v = 0; v < V; v++) if (indeg[v] == 0) q[tail++] = v;\n    while (head < tail) {\n        int u = q[head++];\n        for (int e = 0; e < E; e++)\n            if (from[e] == u && --indeg[to[e]] == 0) q[tail++] = to[e];\n    }\n    printf(\"%d of %d: %s\\n\", tail, V, tail == V ? \"DAG\" : \"cycle\");\n}\n```",
+      "body": "`1 of 4: cycle`\n\nIn-degrees: vertex 0 has 0, vertex 1 has 2 (from 0 and 2), vertex 2 has 1 and vertex 3 has 1. Only vertex 0 starts in the queue. Removing it lowers vertex 1 from 2 to 1, not to 0, so nothing new is queued and the loop ends with `tail = 1`, which is less than $V = 4$.\n\nWhy: Vertices 1 and 2 form a cycle (1→2→1). Each waits for the other, so neither ever reaches in-degree 0, and 3 is stuck behind 2.\n\nKey idea: A directed graph is a DAG exactly when Kahn's algorithm outputs all $V$ vertices. In a build system or a layer graph, this is how a circular dependency gets reported.",
+      "searchQuery": "kahn algorithm cycle detection topological sort fewer vertices output",
+      "refs": [
+        "CLRS 4e, ch. 20 (Elementary Graph Algorithms)"
+      ],
+      "tags": [
+        "graphs",
+        "topological-sort"
+      ]
+    },
+    {
+      "id": "dsa-bfs-hops-problem",
+      "unit": "graphs-topological-sort",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A mesh of six radio nodes has the links 0–1, 0–2, 1–3, 2–3, 3–4, 4–5 and 2–5. What is the fewest number of hops (links) a message needs from node 0 to node 4?",
+      "body": "3\n\nRun BFS from node 0 and group the vertices by layer. Layer 0 is $\\{0\\}$. Layer 1 holds the neighbors of 0: $\\{1, 2\\}$. Layer 2 holds the new neighbors of those: node 3 (via 1 or 2) and node 5 (via 2), so $\\{3, 5\\}$. Layer 3 holds node 4 (via 3 or 5). Node 4 is in layer 3, so 3 hops.\n\nWhy it works: BFS reaches vertices in order of increasing distance, so the first time it discovers a vertex, it did so along a shortest path. Recording the layer number (or the parent) of each vertex gives distances and routes.\n\nWatch out: This works for unweighted graphs, where every hop counts the same. If links have different costs (energy, delay), a different algorithm is needed.",
+      "answer": "3",
+      "searchQuery": "bfs shortest path fewest hops unweighted graph mesh network",
+      "refs": [
+        "CLRS 4e, ch. 20 (Elementary Graph Algorithms)"
+      ],
+      "tags": [
+        "graphs"
+      ]
+    },
+    {
+      "id": "dsa-list-vs-matrix-tradeoff",
+      "unit": "graphs-topological-sort",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "A directed graph has 1,000 vertices and 3,000 edges (for example, a large network of layers). Store it as an adjacency list or an adjacency matrix?",
+      "body": "Adjacency list, because the graph is sparse: only 3,000 of the 1,000,000 possible edges exist.\n\n- Matrix, one byte per entry: $1{,}000 \\times 1{,}000 = 1{,}000{,}000$ bytes (about 977 KiB), or 125,000 bytes (about 122 KiB) if each entry is a single bit.\n- List in compact form: $3{,}000$ neighbor indices of 2 bytes each plus 1,001 start offsets of 2 bytes each is 8,002 bytes (about 7.8 KiB).\n\nWhy: Most matrix entries are zero, and walking a vertex's neighbors means scanning a whole row of 1,000 entries to find perhaps three.\n\nWatch out: The other side: a matrix wins for dense graphs, or when $V$ is tiny. For $V \\le 32$ each row fits in one 32-bit word (128 bytes in all), and \"is there an edge from $u$ to $v$?\" is a single bit test.",
+      "searchQuery": "adjacency list versus adjacency matrix sparse graph memory comparison",
+      "refs": [
+        "CLRS 4e, ch. 20 (Elementary Graph Algorithms)"
+      ],
+      "tags": [
+        "graphs"
+      ]
+    }
+  ]
+}

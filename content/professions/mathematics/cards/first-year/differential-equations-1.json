@@ -1,0 +1,795 @@
+{
+  "profession": "mathematics",
+  "module": "differential-equations-1",
+  "tier": 2,
+  "cards": [
+    {
+      "id": "de1-ode-and-order",
+      "unit": "odes-and-direction-fields",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is an **ordinary differential equation** (ODE), and what is its **order**?",
+      "body": "An ODE is an equation relating an unknown function $y(t)$ of one variable to its derivatives; its order is the highest derivative that appears.\n\nExample: $y'' + 3y' + 2y = 0$ has order $2$, and $\\dfrac{dy}{dt} = t y^2$ has order $1$. A **solution** is a function that makes the equation true for every $t$ in some interval when substituted in.\n\nWhy: \"Ordinary\" means there is only one independent variable. With several variables and partial derivatives you get a *partial* differential equation instead, which is a different subject.\n\nWatch out: order counts derivatives, not powers. $(y')^3 + y = 0$ is first order, because the highest derivative is $y'$.",
+      "searchQuery": "ordinary differential equation order highest derivative",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §1.3"
+      ]
+    },
+    {
+      "id": "de1-direction-field",
+      "unit": "odes-and-direction-fields",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **direction field** (slope field) of the equation $y' = f(t,y)$?",
+      "body": "At each point $(t,y)$ of the plane, draw a short segment of slope $f(t,y)$; the resulting picture is the direction field.\n\nKey idea: the graph of any solution is tangent to the segment at each of its points, so solution curves follow the field. You can sketch their shape without solving the equation.\n\nExample: for $y' = t - y$ the slope is $0$ along the line $y = t$, positive below that line ($y < t$) and negative above it. Segments at $(0,0)$, $(2,0)$ and $(0,1)$ have slopes $0$, $2$ and $-1$.\n\nTip: to sketch a field quickly, mark where $f(t,y) = 0$ (flat segments), then where $f = 1$ and $f = -1$, and fill in between.",
+      "searchQuery": "direction field slope field solution curves tangent",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §1.1"
+      ]
+    },
+    {
+      "id": "de1-equilibrium-solutions",
+      "unit": "odes-and-direction-fields",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is an **equilibrium solution** of $y' = f(t,y)$, and how do you find one?",
+      "body": "An equilibrium solution is a constant solution $y = c$; it exists exactly when $f(t,c) = 0$ for every $t$, and its graph is a horizontal line along which all the field segments are flat.\n\nWhy: if $y(t) = c$ for all $t$ then $y' = 0$, so the equation forces $f(t,c) = 0$ at every $t$.\n\nExample: $y' = (y-1)(y+2)$ has equilibrium solutions $y = 1$ and $y = -2$. The equation $y' = t - y$ has none: $f(t,c) = t - c$ is zero only at the single time $t = c$.\n\nWatch out: a flat segment at one point is not enough. The slope must vanish along the whole horizontal line.",
+      "searchQuery": "equilibrium solution constant solution f(t,c)=0",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §1.1, §2.5"
+      ]
+    },
+    {
+      "id": "de1-existence-uniqueness-theorem",
+      "unit": "odes-and-direction-fields",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **existence and uniqueness theorem** for the initial value problem $y' = f(t,y)$, $y(t_0) = y_0$.",
+      "body": "If $f$ and $\\partial f/\\partial y$ are continuous on an open rectangle containing $(t_0, y_0)$, then on some open interval around $t_0$ the initial value problem has exactly one solution.\n\nWhy it matters: it says that through each point of the rectangle passes one solution curve, so distinct solution curves cannot cross there. That is what makes a family of solution curves meaningful.\n\nWatch out: the hypotheses are sufficient, not necessary, and when they fail anything can happen. The problem $y' = 3y^{2/3}$, $y(0) = 0$ has both $y = 0$ and $y = t^3$ as solutions. Here $\\partial f/\\partial y = 2y^{-1/3}$ is not continuous at $y = 0$.\n\nNote: the theorem is local. It promises an interval around $t_0$, not all $t$.",
+      "searchQuery": "existence uniqueness theorem initial value problem continuous partial derivative",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.8"
+      ]
+    },
+    {
+      "id": "de1-verify-and-classify-example",
+      "unit": "odes-and-direction-fields",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Show that $y = e^{2t} + e^{-t}$ solves $y'' - y' - 2y = 0$, and say whether the equation is linear or nonlinear and what its order is.",
+      "body": "Substituting gives $0$, so it is a solution; the equation is linear of order $2$.\n\nCheck: $y' = 2e^{2t} - e^{-t}$ and $y'' = 4e^{2t} + e^{-t}$. Then $y'' - y' - 2y = (4 - 2 - 2)e^{2t} + (1 + 1 - 2)e^{-t} = 0$ for every $t$.\n\nKey idea: an ODE of order $n$ is **linear** if it can be written $a_n(t)y^{(n)} + \\cdots + a_1(t)y' + a_0(t)y = g(t)$: the unknown and its derivatives appear only to the first power, never multiplied together or inside another function. The coefficients may depend on $t$ in any way.\n\nWatch out: $y' = ty^2$, $yy' = 1$ and $y'' + \\sin y = 0$ are all nonlinear, while $y' = \\sin(t)\\,y$ is linear.",
+      "searchQuery": "verify solution ode substitute linear nonlinear order",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §1.2, §1.3"
+      ]
+    },
+    {
+      "id": "de1-blow-up-misconception",
+      "unit": "odes-and-direction-fields",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that if $f(t,y)$ is smooth for all $t$ and $y$, the solution of $y' = f(t,y)$, $y(0) = y_0$ exists for all $t$?",
+      "body": "The theorem only gives a solution on some interval around $t_0$, and a solution can run off to infinity in finite time even when $f$ is smooth everywhere.\n\nExample: $y' = 1 + y^2$, $y(0) = 0$ has solution $y = \\tan t$, since $(\\tan t)' = \\sec^2 t = 1 + \\tan^2 t$. This exists only for $-\\pi/2 < t < \\pi/2$ and tends to $\\infty$ as $t \\to \\pi/2^-$.\n\nWhy: the right-hand side grows faster than linearly in $y$, so the larger $y$ gets the faster it grows, and the growth compounds into a vertical asymptote.\n\nWatch out: the interval of existence also depends on the initial value. For $y' = y^2$, $y(0) = y_0 > 0$, the solution is $y = \\dfrac{y_0}{1 - y_0 t}$, which blows up at $t = 1/y_0$.",
+      "searchQuery": "solution blow up finite time interval of existence tan t",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.4, §2.8"
+      ]
+    },
+    {
+      "id": "de1-separable-equation",
+      "unit": "first-order-linear-and-separable",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **separable equation**, and how do you solve one?",
+      "body": "A first-order equation that can be written $\\dfrac{dy}{dt} = g(t)\\,h(y)$; where $h(y) \\neq 0$, solve it by separating the variables and integrating: $\\displaystyle\\int \\frac{dy}{h(y)} = \\int g(t)\\,dt$.\n\nWhy it works: if $H$ is an antiderivative of $1/h$, the chain rule gives $\\frac{d}{dt}H(y(t)) = \\frac{y'}{h(y)} = g(t)$, so $H(y(t))$ and an antiderivative of $g$ differ by a constant.\n\nExample: $y' = t/y$ with $y(0) = -2$. Then $\\int y\\,dy = \\int t\\,dt$ gives $\\frac{y^2}{2} = \\frac{t^2}{2} + C$, and $y(0) = -2$ gives $C = 2$. So $y^2 = t^2 + 4$, and the initial value picks the negative root: $y = -\\sqrt{t^2 + 4}$.\n\nWatch out: the answer is often implicit. Solve for $y$ only if it is easy, and keep the sign information from the initial condition.",
+      "searchQuery": "separable equation separate variables integrate both sides",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.2"
+      ]
+    },
+    {
+      "id": "de1-separable-lost-solution-misconception",
+      "unit": "first-order-linear-and-separable",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it wrong to solve $y' = y^2$ by dividing by $y^2$ and concluding that every solution is $y = -\\dfrac{1}{t + C}$?",
+      "body": "Dividing by $y^2$ assumes $y \\neq 0$, so it loses the constant solution $y = 0$, which is not of the form $-1/(t+C)$ for any $C$.\n\nCheck: $\\int y^{-2}\\,dy = \\int dt$ gives $-\\frac{1}{y} = t + C$, hence $y = -\\frac{1}{t+C}$. But $y \\equiv 0$ satisfies $y' = 0 = y^2$, and no choice of constant produces it.\n\nKey idea: for $y' = g(t)h(y)$, every root $y_0$ of $h$ gives a constant solution $y = y_0$. Find those first, then separate on the regions where $h \\neq 0$.\n\nWatch out: sometimes the lost solution comes back for a special constant (for $y' = ty$ you get $y = Ae^{t^2/2}$, and $A = 0$ gives $y = 0$), but not always. Always check.",
+      "searchQuery": "separable equation lost constant solution dividing by zero y' = y^2",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.2"
+      ]
+    },
+    {
+      "id": "de1-newton-cooling-problem",
+      "unit": "first-order-linear-and-separable",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Coffee at $90\\,^\\circ\\mathrm{C}$ sits in a room at $20\\,^\\circ\\mathrm{C}$ and cools according to Newton's law of cooling, $T' = -k(T - 20)$ with a constant $k > 0$. It is at $70\\,^\\circ\\mathrm{C}$ after $5$ minutes. After how many minutes from the start does it reach $40\\,^\\circ\\mathrm{C}$? Give the number of minutes to one decimal place.",
+      "body": "18.6\n\nThe equation is separable, and the key move is to track the difference from room temperature $u = T - 20$, which satisfies $u' = -ku$.\n\n1. Separate (the constant solution $T = 20$ is never reached from $90$): $\\int \\frac{dT}{T - 20} = -k\\int dt$, so $T - 20 = Ae^{-kt}$.\n2. $T(0) = 90$ gives $A = 70$.\n3. $T(5) = 70$ gives $50 = 70e^{-5k}$, so $e^{-5k} = \\frac57$ and $k = \\frac15\\log\\frac75 \\approx 0.0673$.\n4. $T(t) = 40$ gives $20 = 70e^{-kt}$, so $t = \\dfrac{\\log(7/2)}{k} = \\dfrac{5\\log 3.5}{\\log 1.4} \\approx 18.6$.\n\nCheck: $T(5) = 20 + 70 \\cdot \\frac57 = 70$.",
+      "searchQuery": "newton law of cooling separable differential equation time to reach temperature",
+      "answer": "18.6",
+      "acceptedAnswers": [
+        "18.62"
+      ],
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.2"
+      ]
+    },
+    {
+      "id": "de1-first-order-linear-definition",
+      "unit": "first-order-linear-and-separable",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **first-order linear equation**, and what is its standard form?",
+      "body": "One that can be written $y' + p(t)\\,y = g(t)$, with the coefficient of $y'$ equal to $1$.\n\nExample: $t\\,y' + 2y = 4t^2$ is linear, and dividing by $t$ (for $t > 0$) puts it in standard form $y' + \\frac{2}{t}y = 4t$, so $p(t) = \\frac2t$ and $g(t) = 4t$.\n\nWhy it matters: if $p$ and $g$ are continuous on an interval containing $t_0$, the initial value problem has exactly one solution, and it exists on the whole interval. Linear equations avoid the blow-up of nonlinear ones.\n\nWatch out: divide by the leading coefficient before reading off $p$ and $g$. The division can break continuity (here at $t = 0$), which splits the domain into intervals, and an initial condition at $t_0 > 0$ puts you on $t > 0$.",
+      "searchQuery": "first-order linear differential equation standard form y' + p(t)y = g(t)",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.1"
+      ]
+    },
+    {
+      "id": "de1-integrating-factor-formula",
+      "unit": "first-order-linear-and-separable",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "For $y' + p(t)y = g(t)$, what is the **integrating factor** $\\mu(t)$, and what is the resulting solution formula?",
+      "body": "$\\mu(t) = e^{\\int p(t)\\,dt}$, and then $y = \\dfrac{1}{\\mu(t)}\\Big(\\displaystyle\\int \\mu(t)\\,g(t)\\,dt + C\\Big)$.\n\nWhy: since $\\mu' = p\\mu$, the product rule gives $(\\mu y)' = \\mu y' + p\\mu y = \\mu(y' + py) = \\mu g$. The left side is now a single derivative, so integrate and divide by $\\mu$.\n\nExample: $y' + y = t$ has $\\mu = e^t$, so $(e^t y)' = te^t$ and $e^t y = (t-1)e^t + C$. Hence $y = t - 1 + Ce^{-t}$. Check: $y' + y = 1 + (t-1) = t$.\n\nWatch out: any antiderivative of $p$ works in $\\mu$, so drop its constant. But the constant $C$ from integrating $\\mu g$ must be divided by $\\mu$ too.",
+      "searchQuery": "integrating factor formula first order linear mu e^integral p",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.1"
+      ]
+    },
+    {
+      "id": "de1-linear-ivp-problem",
+      "unit": "first-order-linear-and-separable",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Solve the initial value problem $t\\,y' + 2y = 4t^2$, $y(1) = 2$, on $t > 0$.",
+      "body": "$y = t^2 + \\dfrac{1}{t^2}$\n\n1. Standard form: divide by $t$ to get $y' + \\frac{2}{t}y = 4t$.\n2. Integrating factor: $\\mu = e^{\\int 2/t\\,dt} = e^{2\\log t} = t^2$ (valid for $t > 0$).\n3. Then $(t^2 y)' = t^2 \\cdot 4t = 4t^3$, so $t^2 y = t^4 + C$ and $y = t^2 + \\dfrac{C}{t^2}$.\n4. $y(1) = 1 + C = 2$ gives $C = 1$.\n\nCheck: $y' = 2t - 2t^{-3}$, so $ty' + 2y = 2t^2 - 2t^{-2} + 2t^2 + 2t^{-2} = 4t^2$, and $y(1) = 2$.",
+      "searchQuery": "solve linear initial value problem integrating factor t y' + 2y",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.1"
+      ]
+    },
+    {
+      "id": "de1-mixing-problem-example",
+      "unit": "first-order-linear-and-separable",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "A **mixing problem** tracks the amount of a substance in a tank as solution flows in and out. A $100$ L tank holds brine containing $10$ kg of salt. Brine with $0.5$ kg of salt per liter flows in at $2$ L/min, and the well-stirred mixture flows out at $2$ L/min. Find the salt amount $Q(t)$ in kg.",
+      "body": "$Q' = 1 - \\dfrac{Q}{50}$ with $Q(0) = 10$, which gives $Q(t) = 50 - 40e^{-t/50}$.\n\nSetup: $Q' = (\\text{rate in}) - (\\text{rate out})$. Salt enters at $0.5 \\cdot 2 = 1$ kg/min. The tank concentration is $Q/100$ kg/L, so salt leaves at $\\frac{Q}{100}\\cdot 2 = \\frac{Q}{50}$ kg/min.\n\nSolution: $Q' + \\frac{1}{50}Q = 1$ is linear with $\\mu = e^{t/50}$, so $(e^{t/50}Q)' = e^{t/50}$ and $Q = 50 + Ce^{-t/50}$. The condition $Q(0) = 10$ gives $C = -40$.\n\nCheck: $Q \\to 50$ kg as $t \\to \\infty$, which is the inflow concentration times the volume, $0.5 \\cdot 100$.\n\nWatch out: if the in- and outflow rates differ, the volume $V(t)$ changes, and the outflow term becomes $Q/V(t)$ times the outflow rate.",
+      "searchQuery": "mixing problem tank salt differential equation inflow outflow",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.3"
+      ]
+    },
+    {
+      "id": "de1-exact-equation-test",
+      "unit": "first-order-linear-and-separable",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "When is $M(x,y) + N(x,y)\\,y' = 0$ an **exact equation**, and how are its solutions written?",
+      "body": "It is exact when $M_y = N_x$ (with $M$, $N$ having continuous first partial derivatives on a simply connected region); the solutions are then given implicitly by $\\psi(x,y) = C$, where $\\psi_x = M$ and $\\psi_y = N$.\n\nWhy: if $\\psi$ exists then, along a solution, $\\frac{d}{dx}\\psi(x,y(x)) = \\psi_x + \\psi_y\\,y' = M + Ny' = 0$, so $\\psi$ is constant. The test $M_y = N_x$ is exactly the condition for $(M, N)$ to be a conservative vector field with potential $\\psi$.\n\nExample: $M = 2xy + 3$ and $N = x^2 - 1$ have $M_y = 2x = N_x$. Integrating, $\\psi = x^2y + 3x + h(y)$, and $\\psi_y = x^2 + h' = x^2 - 1$ gives $h = -y$. So $x^2y + 3x - y = C$.\n\nWatch out: if $M_y \\neq N_x$ the equation is not exact, and no $\\psi$ exists.",
+      "searchQuery": "exact equation M_y = N_x potential function psi = C",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.6"
+      ]
+    },
+    {
+      "id": "de1-exact-equation-problem",
+      "unit": "first-order-linear-and-separable",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Solve $(y\\cos x + 2xe^y) + (\\sin x + x^2e^y - 1)\\,y' = 0$.",
+      "body": "$y\\sin x + x^2e^y - y = C$\n\n1. Write $M = y\\cos x + 2xe^y$ and $N = \\sin x + x^2e^y - 1$. Then $M_y = \\cos x + 2xe^y = N_x$, so the equation is exact.\n2. Integrate $M$ in $x$: $\\psi = y\\sin x + x^2e^y + h(y)$.\n3. Match $\\psi_y = \\sin x + x^2e^y + h'(y)$ with $N$: this forces $h'(y) = -1$, so $h = -y$.\n4. The solutions satisfy $\\psi = y\\sin x + x^2e^y - y = C$.\n\nCheck: differentiating $\\psi(x,y(x)) = C$ implicitly gives $\\psi_x + \\psi_y y' = M + Ny' = 0$, the original equation.\n\nTip: after integrating $M$ in $x$, the leftover $h'(y)$ must depend on $y$ alone. If an $x$ survives, you made an algebra error (or the equation was not exact).",
+      "searchQuery": "solve exact differential equation y cos x + 2x e^y",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.6"
+      ]
+    },
+    {
+      "id": "de1-autonomous-equation",
+      "unit": "autonomous-equations-and-stability",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is an **autonomous equation**, and what symmetry do its solutions have?",
+      "body": "An equation of the form $y' = f(y)$, whose right-hand side does not involve $t$; if $y(t)$ is a solution then so is $y(t - c)$ for every constant $c$.\n\nWhy: the slope depends only on the height $y$, so it is constant along every horizontal line and the field looks identical on every vertical line. Sliding any solution curve sideways therefore gives another solution curve.\n\nExample: $y' = y(1 - y)$ is autonomous, while $y' = t - y$ is not. The equilibrium solutions of an autonomous equation are the roots of $f$.\n\nWhy it matters: the whole behavior of $y' = f(y)$ can be read from the sign of $f$, without solving the equation. That is the idea of the phase line.",
+      "searchQuery": "autonomous differential equation y' = f(y) time translation",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.5"
+      ]
+    },
+    {
+      "id": "de1-phase-line-stability",
+      "unit": "autonomous-equations-and-stability",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How do you draw the **phase line** of $y' = f(y)$, and how does it show which equilibria are **stable**?",
+      "body": "Mark the equilibria (roots of $f$) on a vertical $y$-axis, draw an up arrow on each interval where $f > 0$ and a down arrow where $f < 0$; an equilibrium is **stable** if the arrows on both sides point toward it and unstable if they point away on both sides.\n\nExample: for $y' = (y-1)(y+2)$ the arrows are up for $y < -2$, down for $-2 < y < 1$ and up for $y > 1$. So $y = -2$ is stable and $y = 1$ is unstable.\n\nWhy: between consecutive equilibria $f$ cannot change sign, so $y'$ keeps its sign and each solution is monotone, moving in the arrow's direction.\n\nTip: if $f'(y^*) < 0$ the equilibrium is stable, and if $f'(y^*) > 0$ it is unstable. When $f'(y^*) = 0$ check the signs: for $y' = y^2$ the arrows point up on both sides of $0$, so it is neither (a semistable equilibrium).",
+      "searchQuery": "phase line stable unstable equilibrium autonomous arrows sign of f",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.5"
+      ]
+    },
+    {
+      "id": "de1-eulers-method-definition",
+      "unit": "autonomous-equations-and-stability",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **Euler's method** with step size $h$ for $y' = f(t,y)$, $y(t_0) = y_0$?",
+      "body": "Set $t_{n+1} = t_n + h$ and $y_{n+1} = y_n + h\\,f(t_n, y_n)$, starting from $(t_0, y_0)$; then $y_n$ approximates $y(t_n)$.\n\nWhy: at each step it follows the tangent line (the linear approximation) of the solution through $(t_n, y_n)$ for a horizontal distance $h$, using the slope the direction field gives there.\n\nWhy it matters: it needs no formula for the solution, so it works for any equation. For a smooth $f$ on a fixed interval the total error shrinks roughly in proportion to $h$.\n\nWatch out: the errors accumulate, because each step starts from an already-approximate point. Halving $h$ doubles the number of steps and roughly halves the error.",
+      "searchQuery": "Euler's method step size tangent line approximation y_n+1 = y_n + h f",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.7"
+      ]
+    },
+    {
+      "id": "de1-logistic-equation-example",
+      "unit": "autonomous-equations-and-stability",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "The **logistic equation** is $y' = ry\\left(1 - \\dfrac{y}{K}\\right)$ with constants $r, K > 0$. Find its equilibria and their stability, and say for which value of $y$ a solution with $0 < y(0) < K$ grows fastest.",
+      "body": "The equilibria are $y = 0$ (unstable) and $y = K$ (stable); a solution starting in $(0, K)$ increases toward $K$ and is steepest where $y = K/2$.\n\nPhase line: $f(y) = ry(1 - y/K)$ is positive for $0 < y < K$ and negative for $y > K$. Also $f'(y) = r(1 - 2y/K)$, so $f'(0) = r > 0$ and $f'(K) = -r < 0$.\n\nSteepest point: $f$ is a downward parabola in $y$ with its peak at $y = K/2$, where $y' = rK/4$. Since $y'' = f'(y)\\,y'$, the solution has an inflection point where $y = K/2$.\n\nFor the record, the solution is $y = \\dfrac{Ky_0}{y_0 + (K - y_0)e^{-rt}}$. A solution with $y_0 > K$ decreases to $K$.\n\nWatch out: $y_0 < 0$ is not meaningful as a population, and the solution runs off to $-\\infty$ in finite time.",
+      "searchQuery": "logistic equation equilibria stable carrying capacity inflection K/2",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.5"
+      ]
+    },
+    {
+      "id": "de1-euler-method-problem",
+      "unit": "autonomous-equations-and-stability",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use Euler's method with step size $h = 0.1$ for $y' = t + y$, $y(0) = 1$ to approximate $y(0.3)$. Give the number to three decimal places.",
+      "body": "1.362\n\nTake three steps with $f(t,y) = t + y$.\n\n1. $y_1 = 1 + 0.1(0 + 1) = 1.1$ at $t = 0.1$.\n2. $y_2 = 1.1 + 0.1(0.1 + 1.1) = 1.22$ at $t = 0.2$.\n3. $y_3 = 1.22 + 0.1(0.2 + 1.22) = 1.362$ at $t = 0.3$.\n\nCheck against the exact solution $y = 2e^t - t - 1$ (it satisfies $y' = 2e^t - 1 = t + y$ and $y(0) = 1$): $y(0.3) = 2e^{0.3} - 1.3 \\approx 1.3997$.\n\nSo the estimate is about $0.038$ too low. Here $y'' = 1 + y' > 0$, so the solution curves bend upward and each tangent-line step undershoots.",
+      "searchQuery": "Euler method three steps y' = t + y approximate y(0.3)",
+      "answer": "1.362",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.7"
+      ]
+    },
+    {
+      "id": "de1-no-finite-time-equilibrium-misconception",
+      "unit": "autonomous-equations-and-stability",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Let $f$ and $f'$ be continuous and $f(y^*) = 0$. Why can a solution of $y' = f(y)$ that starts at $y_0 \\neq y^*$ never reach $y^*$ at a finite time, even when $y^*$ is stable?",
+      "body": "If it reached $y^*$ at time $t_1$, it and the constant solution $y \\equiv y^*$ would be two different solutions through $(t_1, y^*)$, contradicting the uniqueness theorem; solutions can only approach $y^*$ as $t \\to \\infty$.\n\nExample: $y' = -y$ has the stable equilibrium $0$ and solutions $y = y_0e^{-t}$, which get arbitrarily close to $0$ but never touch it.\n\nWatch out: continuity of $f'$ matters. For $y' = -\\sqrt{|y|}$, where $f$ is not differentiable at $0$, the solution $y = (a - t/2)^2$ with $a > 0$ reaches $0$ at $t = 2a$ and can stay there. Uniqueness fails at $y = 0$.\n\nWhy it matters: a stable equilibrium attracts, but only in the limit. Physical time to settle is infinite in these models, so we talk about how fast the approach is.",
+      "searchQuery": "autonomous equation solution cannot reach equilibrium finite time uniqueness",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §2.5, §2.8"
+      ]
+    },
+    {
+      "id": "de1-characteristic-equation",
+      "unit": "second-order-constant-coefficient",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **characteristic equation** of $ay'' + by' + cy = 0$ (constants $a \\neq 0$, $b$, $c$), and why does it find solutions?",
+      "body": "$ar^2 + br + c = 0$; each root $r$ gives a solution $y = e^{rt}$.\n\nWhy: substituting $y = e^{rt}$, $y' = re^{rt}$, $y'' = r^2e^{rt}$ gives $(ar^2 + br + c)e^{rt} = 0$, and $e^{rt} \\neq 0$, so $e^{rt}$ is a solution exactly when $r$ is a root.\n\nExample: $y'' - y' - 2y = 0$ has $r^2 - r - 2 = (r-2)(r+1) = 0$, so $e^{2t}$ and $e^{-t}$ are solutions. This is the same trick as for homogeneous recurrences, where trying $a_n = r^n$ gave a characteristic equation.\n\nWatch out: a quadratic has two roots, and their type decides the form of the general solution: two distinct real roots, one repeated root, or a complex conjugate pair.",
+      "searchQuery": "characteristic equation second order constant coefficient e^{rt} substitution",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.1"
+      ]
+    },
+    {
+      "id": "de1-superposition-principle",
+      "unit": "second-order-constant-coefficient",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **superposition principle** for the linear homogeneous equation $y'' + p(t)y' + q(t)y = 0$.",
+      "body": "If $y_1$ and $y_2$ are solutions on an interval, then $c_1y_1 + c_2y_2$ is also a solution on that interval for all constants $c_1, c_2$.\n\nWhy: differentiation is linear, so $L[y] = y'' + py' + qy$ satisfies $L[c_1y_1 + c_2y_2] = c_1L[y_1] + c_2L[y_2] = 0 + 0$.\n\nWatch out: it needs the equation to be linear and homogeneous (right-hand side $0$). For the nonlinear $y' = y^2$, $y = \\frac{1}{1-t}$ is a solution but $2y$ is not, since $(2y)' = \\frac{2}{(1-t)^2}$ while $(2y)^2 = \\frac{4}{(1-t)^2}$. Nonhomogeneous equations behave differently, as the forced-equation cards show.\n\nWhy it matters: it turns two solutions into a whole two-parameter family, which is where the general solution comes from.",
+      "searchQuery": "superposition principle linear homogeneous second order solutions linear combination",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.2"
+      ]
+    },
+    {
+      "id": "de1-wronskian-definition",
+      "unit": "second-order-constant-coefficient",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **Wronskian** $W(y_1, y_2)$ of two differentiable functions, and what does it detect?",
+      "body": "$W(y_1, y_2) = y_1y_2' - y_1'y_2 = \\det\\begin{pmatrix} y_1 & y_2 \\\\ y_1' & y_2' \\end{pmatrix}$; for two solutions of a second-order linear homogeneous equation, $W \\neq 0$ means they are independent in the sense needed to build every solution.\n\nExample: $W(e^{r_1t}, e^{r_2t}) = (r_2 - r_1)e^{(r_1 + r_2)t}$, which is never $0$ when $r_1 \\neq r_2$. For $\\cos t$ and $\\sin t$: $W = \\cos^2 t + \\sin^2 t = 1$.\n\nWhy: $W(t_0) \\neq 0$ is exactly the condition that the matching system for $c_1y_1(t_0) + c_2y_2(t_0)$ and its derivative can be solved for any initial data.\n\nWatch out: the order matters, since swapping $y_1$ and $y_2$ flips the sign. And for arbitrary functions, $W \\equiv 0$ does not force dependence: $t^2$ and $t|t|$ have $W \\equiv 0$ on $\\mathbb{R}$ but are not multiples of each other.",
+      "searchQuery": "Wronskian definition determinant y1 y2' - y1' y2",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.2"
+      ]
+    },
+    {
+      "id": "de1-fundamental-set-theorem",
+      "unit": "second-order-constant-coefficient",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the theorem that says when two solutions of $y'' + p(t)y' + q(t)y = 0$ form a **fundamental set** and give the **general solution**.",
+      "body": "Let $p, q$ be continuous on an interval $I$ and let $y_1, y_2$ solve the equation on $I$. If $W(y_1, y_2)(t_0) \\neq 0$ for some $t_0 \\in I$, then $\\{y_1, y_2\\}$ is a fundamental set and the general solution is $y = c_1y_1 + c_2y_2$, meaning every solution on $I$ has this form.\n\nWhy: given any solution $\\varphi$, solve $c_1y_1(t_0) + c_2y_2(t_0) = \\varphi(t_0)$ and $c_1y_1'(t_0) + c_2y_2'(t_0) = \\varphi'(t_0)$. This is possible because its determinant is $W(t_0) \\neq 0$. Then $c_1y_1 + c_2y_2$ and $\\varphi$ solve the same initial value problem, so they are equal by uniqueness.\n\nKey idea: $W$ satisfies $W' = -pW$, so it is either never zero or always zero on $I$; checking one point is enough.\n\nWatch out: both functions must actually solve the equation. $W \\neq 0$ alone proves nothing about arbitrary functions.",
+      "searchQuery": "fundamental set of solutions general solution Wronskian nonzero theorem",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.2"
+      ]
+    },
+    {
+      "id": "de1-distinct-real-roots-ivp-example",
+      "unit": "second-order-constant-coefficient",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Solve the initial value problem $y'' + 5y' + 6y = 0$, $y(0) = 2$, $y'(0) = 3$.",
+      "body": "$y = 9e^{-2t} - 7e^{-3t}$\n\nThe characteristic equation $r^2 + 5r + 6 = (r+2)(r+3) = 0$ has distinct real roots $-2$ and $-3$, so the general solution is $y = c_1e^{-2t} + c_2e^{-3t}$.\n\nFit the conditions, using $y' = -2c_1e^{-2t} - 3c_2e^{-3t}$:\n1. $y(0) = c_1 + c_2 = 2$.\n2. $y'(0) = -2c_1 - 3c_2 = 3$.\n\nSubstituting $c_1 = 2 - c_2$ into the second gives $-4 - c_2 = 3$, so $c_2 = -7$ and $c_1 = 9$.\n\nCheck: $y'(0) = -18 + 21 = 3$.\n\nTip: two roots means two constants and two initial conditions, always a $2 \\times 2$ linear system.",
+      "searchQuery": "second order initial value problem distinct real roots characteristic equation constants",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.1"
+      ]
+    },
+    {
+      "id": "de1-complex-roots-formula",
+      "unit": "second-order-constant-coefficient",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "If $ay'' + by' + cy = 0$ (real $a \\neq 0$, $b$, $c$) has characteristic roots $\\lambda \\pm i\\mu$ with $\\mu > 0$, what is its general real solution?",
+      "body": "$y = e^{\\lambda t}\\left(c_1\\cos\\mu t + c_2\\sin\\mu t\\right)$\n\nWhy: Euler's formula $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$ (from the Maclaurin series) shows $e^{(\\lambda + i\\mu)t} = e^{\\lambda t}(\\cos\\mu t + i\\sin\\mu t)$ solves the equation. Because the coefficients are real, its real part and imaginary part are each solutions too.\n\nThose two real solutions form a fundamental set: $W(e^{\\lambda t}\\cos\\mu t,\\ e^{\\lambda t}\\sin\\mu t) = \\mu e^{2\\lambda t} \\neq 0$.\n\nExample: $y'' + 2y' + 5y = 0$ has $r = -1 \\pm 2i$, so $y = e^{-t}(c_1\\cos 2t + c_2\\sin 2t)$.\n\nKey idea: $\\lambda$ sets the growth or decay of the envelope $e^{\\lambda t}$, and $\\mu$ sets the oscillation frequency (period $2\\pi/\\mu$).",
+      "searchQuery": "complex characteristic roots general solution e^{lambda t} cos mu t sin mu t",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.3"
+      ]
+    },
+    {
+      "id": "de1-repeated-root-formula",
+      "unit": "second-order-constant-coefficient",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "If $ay'' + by' + cy = 0$ has a repeated characteristic root $r$ (so $b^2 = 4ac$), what is the general solution, and how does **reduction of order** find the second solution?",
+      "body": "$y = (c_1 + c_2t)e^{rt}$\n\nReduction of order means substituting $y = v(t)\\,y_1(t)$ into the equation, where $y_1$ is a known solution, so that the equation for $v$ is simpler.\n\nWith $y_1 = e^{rt}$: $y' = (v' + rv)e^{rt}$ and $y'' = (v'' + 2rv' + r^2v)e^{rt}$. The equation becomes $av'' + (2ar + b)v' + (ar^2 + br + c)v = 0$.\n\nHere $r = -\\frac{b}{2a}$ makes $2ar + b = 0$, and $ar^2 + br + c = 0$, so only $av'' = 0$ remains. Hence $v = c_1 + c_2t$.\n\nCheck: $W(e^{rt}, te^{rt}) = e^{2rt} \\neq 0$, so this is a fundamental set.\n\nExample: $y'' + 4y' + 4y = 0$ has $r = -2$ (twice), so $y = (c_1 + c_2t)e^{-2t}$.",
+      "searchQuery": "repeated root general solution t e^{rt} reduction of order",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.4"
+      ]
+    },
+    {
+      "id": "de1-repeated-root-misconception",
+      "unit": "second-order-constant-coefficient",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "For a repeated characteristic root $r$, why is $y = c_1e^{rt} + c_2e^{rt}$ not the general solution?",
+      "body": "The two terms are the same function, $(c_1 + c_2)e^{rt}$, so it has only one free constant; the second independent solution is $te^{rt}$.\n\nWhy: both \"solutions\" are $e^{rt}$, so their Wronskian is $0$ and they are not a fundamental set. A family with one constant cannot fit two initial conditions in general.\n\nExample: $y'' - 2y' + y = 0$ with $y(0) = 1$, $y'(0) = 0$. The one-constant family $Ce^t$ gives $y(0) = C = 1$ but then $y'(0) = 1 \\neq 0$. The correct family $(c_1 + c_2t)e^t$ gives $c_1 = 1$ and $c_1 + c_2 = 0$, so $y = (1 - t)e^t$.\n\nTip: count constants. The general solution of a second-order linear equation always has exactly two.",
+      "searchQuery": "repeated root two identical solutions not independent Wronskian zero t e^{rt}",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.4"
+      ]
+    },
+    {
+      "id": "de1-complex-roots-ivp-problem",
+      "unit": "second-order-constant-coefficient",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Solve $y'' + 2y' + 5y = 0$, $y(0) = 1$, $y'(0) = 0$.",
+      "body": "$y = e^{-t}\\left(\\cos 2t + \\tfrac12\\sin 2t\\right)$\n\n1. Characteristic equation: $r^2 + 2r + 5 = 0$ gives $r = -1 \\pm 2i$, so $\\lambda = -1$ and $\\mu = 2$.\n2. General solution: $y = e^{-t}(c_1\\cos 2t + c_2\\sin 2t)$.\n3. $y(0) = c_1 = 1$.\n4. $y' = e^{-t}\\big[(-c_1 + 2c_2)\\cos 2t + (-c_2 - 2c_1)\\sin 2t\\big]$, so $y'(0) = -c_1 + 2c_2 = 0$ and $c_2 = \\frac12$.\n\nCheck: $y'(0) = -1 + 2\\cdot\\frac12 = 0$.\n\nInterpretation: a decaying oscillation with envelope $e^{-t}$ and period $\\pi$. The envelope decays but the function keeps crossing zero.",
+      "searchQuery": "solve initial value problem complex roots y'' + 2y' + 5y damped oscillation",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.3"
+      ]
+    },
+    {
+      "id": "de1-reduction-of-order-problem",
+      "unit": "second-order-constant-coefficient",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Given that $y_1 = e^t$ solves $(t-1)y'' - ty' + y = 0$ on $t > 1$, use reduction of order to find a second solution and the general solution.",
+      "body": "$y_2 = t$, so the general solution is $y = c_1e^t + c_2t$.\n\n1. Set $y = v e^t$. Then $y' = (v' + v)e^t$ and $y'' = (v'' + 2v' + v)e^t$.\n2. Substitute and divide by $e^t$: the $v$ terms cancel because $y_1$ is a solution, leaving $(t-1)v'' + (t-2)v' = 0$.\n3. Let $w = v'$. Then $\\frac{w'}{w} = -\\frac{t-2}{t-1} = -1 + \\frac{1}{t-1}$, so $w = (t-1)e^{-t}$.\n4. Integrate: $v = -te^{-t}$, so $y = ve^t = -t$. Dropping the sign gives $y_2 = t$.\n\nCheck: $(t-1)\\cdot 0 - t\\cdot 1 + t = 0$, and $W(e^t, t) = e^t - te^t = (1-t)e^t \\neq 0$ on $t > 1$.\n\nKey idea: the substitution always cancels the $v$ term, leaving a first-order equation for $w = v'$.",
+      "searchQuery": "reduction of order second solution variable coefficient e^t known solution",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.4"
+      ]
+    },
+    {
+      "id": "de1-natural-frequency-definition",
+      "unit": "nonhomogeneous-and-oscillations",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "For an undamped spring–mass system $my'' + ky = 0$ ($m, k > 0$, $y$ the displacement from equilibrium), what is the **natural frequency**, and what is the motion?",
+      "body": "$\\omega_0 = \\sqrt{k/m}$; the motion is $y = c_1\\cos\\omega_0 t + c_2\\sin\\omega_0 t = R\\cos(\\omega_0 t - \\delta)$, a sinusoid of period $2\\pi/\\omega_0$.\n\nWhy: the characteristic equation $mr^2 + k = 0$ has roots $r = \\pm i\\sqrt{k/m}$, so the complex-root formula applies with $\\lambda = 0$ and $\\mu = \\omega_0$. The amplitude is $R = \\sqrt{c_1^2 + c_2^2}$.\n\nExample: $m = 2$ kg and $k = 18$ N/m give $\\omega_0 = 3$ rad/s and period $2\\pi/3 \\approx 2.09$ s.\n\nWatch out: $\\omega_0$ is an angular frequency in radians per second; the number of oscillations per second is $\\omega_0/(2\\pi)$. Measuring $y$ from the equilibrium position makes gravity drop out of the equation.",
+      "searchQuery": "natural frequency spring mass sqrt(k/m) undamped oscillation period",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.7"
+      ]
+    },
+    {
+      "id": "de1-damping-classification-formula",
+      "unit": "nonhomogeneous-and-oscillations",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "A spring–mass system with **damping** obeys $my'' + \\gamma y' + ky = 0$ ($m, \\gamma, k > 0$), where $\\gamma y'$ is a resisting force proportional to velocity. How does the sign of $\\gamma^2 - 4km$ classify the motion?",
+      "body": "$\\gamma^2 < 4km$ is underdamped (decaying oscillation), $\\gamma^2 = 4km$ is critically damped, and $\\gamma^2 > 4km$ is overdamped (no oscillation).\n\nWhy: the roots are $r = \\dfrac{-\\gamma \\pm \\sqrt{\\gamma^2 - 4km}}{2m}$.\n- Underdamped: complex roots with real part $-\\frac{\\gamma}{2m}$, so $y = e^{-\\gamma t/2m}(c_1\\cos\\mu t + c_2\\sin\\mu t)$ with $\\mu = \\frac{\\sqrt{4km - \\gamma^2}}{2m}$.\n- Critical: one repeated root $-\\frac{\\gamma}{2m}$, so $y = (c_1 + c_2t)e^{-\\gamma t/2m}$.\n- Overdamped: two distinct real roots, both negative because $\\sqrt{\\gamma^2 - 4km} < \\gamma$.\n\nIn every case $y \\to 0$. In the critical and overdamped cases a nonzero solution crosses $y = 0$ at most once.\n\nWatch out: the oscillation frequency $\\mu$ in the underdamped case is smaller than $\\omega_0$.",
+      "searchQuery": "damped spring mass underdamped critically damped overdamped discriminant",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.7"
+      ]
+    },
+    {
+      "id": "de1-critical-damping-problem",
+      "unit": "nonhomogeneous-and-oscillations",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A unit mass ($m = 1$) hangs on a spring with $k = 4$ and a damper, so $y'' + \\gamma y' + 4y = 0$. (a) Find the damping coefficient $\\gamma > 0$ that makes the motion critically damped. (b) For that $\\gamma$, solve with $y(0) = 1$, $y'(0) = 0$.",
+      "body": "$\\gamma = 4$, and $y = (1 + 2t)e^{-2t}$.\n\n(a) Critical damping means $\\gamma^2 = 4km = 16$, so $\\gamma = 4$.\n\n(b) The equation is $y'' + 4y' + 4y = 0$ with repeated root $r = -2$, so $y = (c_1 + c_2t)e^{-2t}$.\n1. $y(0) = c_1 = 1$.\n2. $y' = (c_2 - 2c_1 - 2c_2t)e^{-2t}$, so $y'(0) = c_2 - 2c_1 = 0$ and $c_2 = 2$.\n\nCheck: $y' = -4te^{-2t}$, which is $0$ at $t = 0$.\n\nInterpretation: since $1 + 2t > 0$ for $t \\ge 0$, the mass slides back to equilibrium without ever crossing it.",
+      "searchQuery": "critically damped spring gamma 4km solve initial value problem (1+2t)e^{-2t}",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.7"
+      ]
+    },
+    {
+      "id": "de1-undetermined-coefficients-example",
+      "unit": "nonhomogeneous-and-oscillations",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Use **undetermined coefficients** to find a particular solution of $y'' - y' - 2y = 4t$, and write the general solution.",
+      "body": "$Y = -2t + 1$, so $y = c_1e^{2t} + c_2e^{-t} - 2t + 1$.\n\nIdea: guess the form of a particular solution from the form of the right-hand side, with unknown constants, and substitute. Here $g = 4t$, so try $Y = At + B$, keeping the constant term too.\n\nThen $Y' = A$ and $Y'' = 0$, so $Y'' - Y' - 2Y = -A - 2At - 2B = 4t$. Matching coefficients: $-2A = 4$ gives $A = -2$, and $-A - 2B = 0$ gives $B = 1$.\n\nKey idea: the general solution of a nonhomogeneous linear equation is the general solution of the homogeneous equation ($r^2 - r - 2 = (r-2)(r+1)$ gives $c_1e^{2t} + c_2e^{-t}$) plus one particular solution.\n\nTip: for $g = e^{\\alpha t}$ try $Ae^{\\alpha t}$; for $\\cos\\beta t$ or $\\sin\\beta t$ try $A\\cos\\beta t + B\\sin\\beta t$; for a degree-$n$ polynomial try a full degree-$n$ polynomial.",
+      "searchQuery": "undetermined coefficients particular solution polynomial forcing general solution",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.5"
+      ]
+    },
+    {
+      "id": "de1-nonhomogeneous-sum-misconception",
+      "unit": "nonhomogeneous-and-oscillations",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "If $y_1$ and $y_2$ both solve $y'' + p(t)y' + q(t)y = g(t)$ with $g \\neq 0$, why is $y_1 + y_2$ not a solution, and what can you say instead?",
+      "body": "$y_1 + y_2$ produces $2g$ on the right-hand side; instead the difference $y_1 - y_2$ solves the homogeneous equation, so any two solutions differ by a homogeneous solution.\n\nWhy: with $L[y] = y'' + py' + qy$ we have $L[y_1 + y_2] = g + g = 2g \\neq g$, while $L[y_1 - y_2] = g - g = 0$.\n\nConsequence: if $Y$ is one particular solution, every solution is $y = Y + y_h$ with $y_h$ in the homogeneous general solution $c_1y_1 + c_2y_2$.\n\nExample: $y'' + y = 1$ is solved by $y = 1$ and by $y = 1 + \\cos t$. Their sum $2 + \\cos t$ gives $L = 2$, but their difference $\\cos t$ solves $y'' + y = 0$.",
+      "searchQuery": "nonhomogeneous equation sum of solutions not a solution difference homogeneous",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.5"
+      ]
+    },
+    {
+      "id": "de1-resonant-undetermined-coefficients-problem",
+      "unit": "nonhomogeneous-and-oscillations",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the general solution of $y'' - 3y' - 4y = 5e^{-t}$.",
+      "body": "$y = c_1e^{4t} + c_2e^{-t} - te^{-t}$\n\n1. Homogeneous part: $r^2 - 3r - 4 = (r - 4)(r + 1)$ gives $c_1e^{4t} + c_2e^{-t}$.\n2. The usual guess $Ae^{-t}$ fails, because $e^{-t}$ already solves the homogeneous equation and would give $0 = 5e^{-t}$. Multiply by $t$: try $Y = Ate^{-t}$.\n3. $Y' = A(1 - t)e^{-t}$ and $Y'' = A(t - 2)e^{-t}$, so $Y'' - 3Y' - 4Y = Ae^{-t}\\big[(t - 2) - 3(1 - t) - 4t\\big] = -5Ae^{-t}$.\n4. Then $-5A = 5$, so $A = -1$.\n\nRule: if a term of the guess solves the homogeneous equation, multiply the guess by $t$, or by $t^2$ if the matching root is repeated.\n\nCheck: $-5A = 5$ and the $t$ terms cancel, as they must.",
+      "searchQuery": "undetermined coefficients resonant case multiply by t e^{-t} duplicate homogeneous solution",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.5"
+      ]
+    },
+    {
+      "id": "de1-resonance-concept",
+      "unit": "nonhomogeneous-and-oscillations",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "What is **resonance** for the undamped forced equation $my'' + ky = F_0\\cos\\omega t$, and what does the response look like when $\\omega = \\omega_0 = \\sqrt{k/m}$?",
+      "body": "Resonance is the strong response when the driving frequency matches the natural frequency; at $\\omega = \\omega_0$ the particular solution is $\\dfrac{F_0}{2m\\omega_0}\\,t\\sin\\omega_0 t$, an oscillation whose amplitude grows linearly without bound.\n\nWhy: $\\cos\\omega_0 t$ already solves the homogeneous equation, so the guess must be multiplied by $t$. Trying $Y = At\\sin\\omega_0 t$ gives $mY'' + kY = 2mA\\omega_0\\cos\\omega_0 t$, so $A = \\frac{F_0}{2m\\omega_0}$.\n\nExample: $y'' + 9y = \\cos 3t$ with $y(0) = y'(0) = 0$ has solution $y = \\frac{t}{6}\\sin 3t$.\n\nWatch out: this unbounded growth is for the idealized undamped system. With damping the response stays bounded, and real structures fail or saturate before the model's amplitude becomes huge.",
+      "searchQuery": "resonance undamped forced oscillation natural frequency t sin growth amplitude",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.8"
+      ]
+    },
+    {
+      "id": "de1-variation-of-parameters-formula",
+      "unit": "nonhomogeneous-and-oscillations",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "For $y'' + p(t)y' + q(t)y = g(t)$ with a fundamental set $y_1, y_2$ of the homogeneous equation, what is the **variation of parameters** formula for a particular solution?",
+      "body": "$Y = -y_1\\displaystyle\\int \\frac{y_2\\,g}{W}\\,dt + y_2\\displaystyle\\int \\frac{y_1\\,g}{W}\\,dt$, where $W = W(y_1, y_2)$.\n\nIdea: look for $Y = u_1y_1 + u_2y_2$, letting the constants $c_1, c_2$ of the homogeneous solution \"vary\" as functions $u_1(t), u_2(t)$. Impose $u_1'y_1 + u_2'y_2 = 0$; then $Y'' + pY' + qY = g$ reduces to $u_1'y_1' + u_2'y_2' = g$.\n\nThat is a $2 \\times 2$ linear system for $u_1', u_2'$ with determinant $W$, and Cramer's rule gives $u_1' = -\\frac{y_2g}{W}$ and $u_2' = \\frac{y_1g}{W}$.\n\nWhy it matters: it works for any continuous $g$, not just forms that undetermined coefficients can guess.\n\nWatch out: the equation must be in standard form, with $y''$ having coefficient $1$, before you read off $g$.",
+      "searchQuery": "variation of parameters formula particular solution Wronskian integrals",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.6"
+      ]
+    },
+    {
+      "id": "de1-variation-of-parameters-problem",
+      "unit": "nonhomogeneous-and-oscillations",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use variation of parameters to find a particular solution of $y'' + y = \\tan t$ on $-\\pi/2 < t < \\pi/2$, and write the general solution.",
+      "body": "$Y = -\\cos t\\,\\log(\\sec t + \\tan t)$, so $y = c_1\\cos t + c_2\\sin t - \\cos t\\,\\log(\\sec t + \\tan t)$.\n\n1. Take $y_1 = \\cos t$, $y_2 = \\sin t$, so $W = \\cos^2 t + \\sin^2 t = 1$.\n2. $\\int \\frac{y_2 g}{W}\\,dt = \\int \\sin t\\tan t\\,dt = \\int(\\sec t - \\cos t)\\,dt = \\log(\\sec t + \\tan t) - \\sin t$.\n3. $\\int \\frac{y_1 g}{W}\\,dt = \\int \\sin t\\,dt = -\\cos t$.\n4. $Y = -\\cos t\\big[\\log(\\sec t + \\tan t) - \\sin t\\big] + \\sin t(-\\cos t) = -\\cos t\\,\\log(\\sec t + \\tan t)$, since the two $\\sin t\\cos t$ terms cancel.\n\nCheck: on this interval $\\sec t + \\tan t > 0$, so the logarithm is defined. Substituting $Y$ into $Y'' + Y$ gives $\\tan t$.\n\nWatch out: $\\tan t$ is not a form undetermined coefficients can guess, which is why this method is needed.",
+      "searchQuery": "variation of parameters y'' + y = tan t particular solution log sec t + tan t",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §3.6"
+      ]
+    },
+    {
+      "id": "de1-linear-system-definition",
+      "unit": "linear-systems-via-eigenvectors",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a **linear system** $\\mathbf{x}' = A\\mathbf{x}$ with constant coefficients, and how does the superposition principle apply to it?",
+      "body": "A system $x_1' = a_{11}x_1 + \\cdots + a_{1n}x_n$, $\\ldots$, $x_n' = a_{n1}x_1 + \\cdots + a_{nn}x_n$ written $\\mathbf{x}' = A\\mathbf{x}$ with $A$ a constant $n \\times n$ matrix and $\\mathbf{x}(t)$ a column vector; any linear combination of solutions is again a solution.\n\nWhy: differentiating and multiplying by $A$ are both linear operations, so if $\\mathbf{x}_1' = A\\mathbf{x}_1$ and $\\mathbf{x}_2' = A\\mathbf{x}_2$ then $(c_1\\mathbf{x}_1 + c_2\\mathbf{x}_2)' = A(c_1\\mathbf{x}_1 + c_2\\mathbf{x}_2)$.\n\nWhy it matters: any linear constant-coefficient equation of order $n$ becomes such a system. For $y'' - y' - 2y = 0$ put $\\mathbf{x} = \\begin{pmatrix} y \\\\ y' \\end{pmatrix}$, so $\\mathbf{x}' = \\begin{pmatrix} 0 & 1 \\\\ 2 & 1 \\end{pmatrix}\\mathbf{x}$. The characteristic polynomial of this matrix is $\\lambda^2 - \\lambda - 2$, the same as the equation's.\n\nKey idea: the general solution has $n$ free constants, and an initial vector $\\mathbf{x}(0)$ determines them.",
+      "searchQuery": "linear system x' = Ax constant coefficients superposition matrix form",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §7.4"
+      ]
+    },
+    {
+      "id": "de1-eigenvector-solution-theorem",
+      "unit": "linear-systems-via-eigenvectors",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "How does an eigenvector of $A$ give a solution of $\\mathbf{x}' = A\\mathbf{x}$, and what is the general solution when $A$ has $n$ independent eigenvectors?",
+      "body": "If $A\\mathbf{v} = \\lambda\\mathbf{v}$ with $\\mathbf{v} \\neq \\mathbf{0}$, then $\\mathbf{x} = e^{\\lambda t}\\mathbf{v}$ solves $\\mathbf{x}' = A\\mathbf{x}$ (an **eigenvector solution**); if $\\mathbf{v}_1, \\ldots, \\mathbf{v}_n$ are independent eigenvectors with eigenvalues $\\lambda_1, \\ldots, \\lambda_n$, the general solution is $\\mathbf{x} = \\sum_i c_ie^{\\lambda_it}\\mathbf{v}_i$.\n\nWhy: $\\mathbf{x}' = \\lambda e^{\\lambda t}\\mathbf{v}$ and $A\\mathbf{x} = e^{\\lambda t}A\\mathbf{v} = \\lambda e^{\\lambda t}\\mathbf{v}$. The $n$ solutions are independent because at $t = 0$ they are the independent vectors $\\mathbf{v}_i$, so any initial vector can be matched.\n\nWatch out: this needs $n$ independent eigenvectors; $n$ distinct eigenvalues guarantee them. A matrix with too few eigenvectors needs generalized eigenvectors. Complex eigenvalues of a real matrix come in conjugate pairs.",
+      "searchQuery": "eigenvector solution x = e^{lambda t} v general solution linear system eigenvalues",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §7.5",
+        "Strang, Introduction to Linear Algebra 5e §6.3"
+      ]
+    },
+    {
+      "id": "de1-saddle-system-example",
+      "unit": "linear-systems-via-eigenvectors",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Solve $\\mathbf{x}' = \\begin{pmatrix} 1 & 1 \\\\ 4 & 1 \\end{pmatrix}\\mathbf{x}$ and describe how solutions behave.",
+      "body": "$\\mathbf{x} = c_1e^{3t}\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} + c_2e^{-t}\\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix}$; the origin is a **saddle point**.\n\nEigenvalues: $\\det(A - \\lambda I) = (1 - \\lambda)^2 - 4 = 0$ gives $\\lambda = 3$ and $\\lambda = -1$.\n\nEigenvectors: for $\\lambda = 3$, $A - 3I = \\begin{pmatrix} -2 & 1 \\\\ 4 & -2 \\end{pmatrix}$ gives $\\mathbf{v} = (1, 2)^T$. For $\\lambda = -1$, $A + I = \\begin{pmatrix} 2 & 1 \\\\ 4 & 2 \\end{pmatrix}$ gives $\\mathbf{v} = (1, -2)^T$.\n\nBehavior: a **saddle point** is an equilibrium where trajectories approach along one line and leave along another. Only solutions on the line through $(1,-2)^T$ ($c_1 = 0$) approach the origin. Every other solution eventually runs off along $(1,2)^T$, so the origin is unstable.\n\nTip: real eigenvalues of opposite sign always give a saddle.",
+      "searchQuery": "linear system saddle point eigenvalues opposite sign solve 2x2 eigenvectors",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §7.5"
+      ]
+    },
+    {
+      "id": "de1-stable-node-ivp-problem",
+      "unit": "linear-systems-via-eigenvectors",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Solve $\\mathbf{x}' = \\begin{pmatrix} -2 & 1 \\\\ 1 & -2 \\end{pmatrix}\\mathbf{x}$ with $\\mathbf{x}(0) = \\begin{pmatrix} 3 \\\\ 1 \\end{pmatrix}$, and say what the origin is.",
+      "body": "$\\mathbf{x} = 2e^{-t}\\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} + e^{-3t}\\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}$; the origin is a stable node.\n\n1. $\\det(A - \\lambda I) = (-2 - \\lambda)^2 - 1 = 0$ gives $\\lambda = -1$ and $\\lambda = -3$.\n2. For $\\lambda = -1$: $A + I = \\begin{pmatrix} -1 & 1 \\\\ 1 & -1 \\end{pmatrix}$ gives $\\mathbf{v}_1 = (1, 1)^T$. For $\\lambda = -3$: $A + 3I = \\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}$ gives $\\mathbf{v}_2 = (1, -1)^T$.\n3. $\\mathbf{x}(0) = c_1\\mathbf{v}_1 + c_2\\mathbf{v}_2$ means $c_1 + c_2 = 3$ and $c_1 - c_2 = 1$, so $c_1 = 2$ and $c_2 = 1$.\n\nCheck: componentwise $\\mathbf{x} = (2e^{-t} + e^{-3t},\\ 2e^{-t} - e^{-3t})$. At $t = 0$ this is $(3, 1)$, and $x_1' = -2e^{-t} - 3e^{-3t} = -2x_1 + x_2$.\n\nClassification: both eigenvalues are real and negative, so every solution tends to $0$: a **stable node**, meaning an equilibrium that all nearby trajectories approach without circling it. An unstable node is the same with all trajectories leaving.",
+      "searchQuery": "solve linear system initial condition stable node eigenvalues -1 -3",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §7.5"
+      ]
+    },
+    {
+      "id": "de1-phase-portrait-classification",
+      "unit": "linear-systems-via-eigenvectors",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "What is the **phase portrait** of a $2 \\times 2$ system $\\mathbf{x}' = A\\mathbf{x}$, and how do the eigenvalues of $A$ classify the origin (assuming $\\det A \\neq 0$)?",
+      "body": "The phase portrait is the picture of the trajectories $(x_1(t), x_2(t))$ in the plane; the origin is a saddle (real eigenvalues of opposite sign), a node (real, same sign), a **spiral point** (complex, real part $\\neq 0$) or a center (purely imaginary).\n\n- Node: trajectories approach the origin if both eigenvalues are negative (stable) or leave it if both are positive (unstable).\n- Spiral point: trajectories wind around the origin while approaching it (real part $< 0$, stable) or leaving it (real part $> 0$, unstable).\n- Center: trajectories are closed loops around the origin.\n\nKey idea: the real parts of the eigenvalues decide whether solutions shrink or grow; the imaginary parts decide whether they rotate.\n\nWatch out: if $\\det A = 0$ one eigenvalue is $0$ and the equilibria form a whole line, which none of these names describes.",
+      "searchQuery": "phase portrait classification node saddle spiral center eigenvalues 2x2 system",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §7.5–7.6, §7.8"
+      ]
+    },
+    {
+      "id": "de1-complex-eigenvalue-real-solutions-formula",
+      "unit": "linear-systems-via-eigenvectors",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "A real matrix $A$ has a complex eigenvalue $\\lambda = \\alpha + i\\beta$ ($\\beta \\neq 0$) with eigenvector $\\mathbf{v} = \\mathbf{a} + i\\mathbf{b}$, where $\\mathbf{a}, \\mathbf{b}$ are real vectors. What two real solutions of $\\mathbf{x}' = A\\mathbf{x}$ does this give?",
+      "body": "$e^{\\alpha t}\\big(\\mathbf{a}\\cos\\beta t - \\mathbf{b}\\sin\\beta t\\big)$ and $e^{\\alpha t}\\big(\\mathbf{a}\\sin\\beta t + \\mathbf{b}\\cos\\beta t\\big)$.\n\nWhy: $e^{\\lambda t}\\mathbf{v} = e^{\\alpha t}(\\cos\\beta t + i\\sin\\beta t)(\\mathbf{a} + i\\mathbf{b})$ is a complex solution. Its real part $e^{\\alpha t}(\\mathbf{a}\\cos\\beta t - \\mathbf{b}\\sin\\beta t)$ and its imaginary part $e^{\\alpha t}(\\mathbf{a}\\sin\\beta t + \\mathbf{b}\\cos\\beta t)$ are solutions, because $A$ is real.\n\nThe conjugate eigenvalue $\\bar\\lambda$ with eigenvector $\\bar{\\mathbf{v}}$ gives the same two real solutions again, so use only one of the pair. For $2 \\times 2$ these two are the whole general solution.\n\nWatch out: the sign in front of $\\mathbf{b}\\sin\\beta t$ in the first solution comes from $i \\cdot i = -1$. Separate the real and imaginary parts carefully.",
+      "searchQuery": "complex eigenvalue real solutions system real part imaginary part eigenvector a + ib",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §7.6"
+      ]
+    },
+    {
+      "id": "de1-spiral-system-problem",
+      "unit": "linear-systems-via-eigenvectors",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Solve $\\mathbf{x}' = \\begin{pmatrix} -1 & -4 \\\\ 1 & -1 \\end{pmatrix}\\mathbf{x}$ with $\\mathbf{x}(0) = \\begin{pmatrix} 0 \\\\ 1 \\end{pmatrix}$, and classify the origin.",
+      "body": "$\\mathbf{x} = e^{-t}\\begin{pmatrix} -2\\sin 2t \\\\ \\cos 2t \\end{pmatrix}$; the origin is a stable spiral point.\n\n1. $\\det(A - \\lambda I) = (-1 - \\lambda)^2 + 4 = \\lambda^2 + 2\\lambda + 5 = 0$ gives $\\lambda = -1 \\pm 2i$.\n2. For $\\lambda = -1 + 2i$ the second row of $A - \\lambda I$ gives $v_1 - 2iv_2 = 0$, so $\\mathbf{v} = (2i, 1)^T = \\mathbf{a} + i\\mathbf{b}$ with $\\mathbf{a} = (0, 1)^T$, $\\mathbf{b} = (2, 0)^T$. (Row 1 agrees: $-2i \\cdot 2i - 4 = 0$.)\n3. Real solutions: $e^{-t}(\\mathbf{a}\\cos 2t - \\mathbf{b}\\sin 2t) = e^{-t}(-2\\sin 2t, \\cos 2t)^T$ and $e^{-t}(\\mathbf{a}\\sin 2t + \\mathbf{b}\\cos 2t) = e^{-t}(2\\cos 2t, \\sin 2t)^T$.\n4. $\\mathbf{x}(0) = c_1(0, 1)^T + c_2(2, 0)^T = (0, 1)^T$ gives $c_1 = 1$ and $c_2 = 0$.\n\nClassification: the real part $-1 < 0$ makes solutions shrink, and $\\beta = 2$ makes them rotate. At $(0,1)$ the velocity is $A\\mathbf{x}(0) = (-4, -1)^T$, so the spiral runs counterclockwise into the origin.",
+      "searchQuery": "solve linear system complex eigenvalues -1 plus minus 2i stable spiral initial condition",
+      "checkpoint": true,
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §7.6"
+      ]
+    },
+    {
+      "id": "de1-repeated-eigenvalue-misconception",
+      "unit": "linear-systems-via-eigenvectors",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Suppose $A$ has a repeated eigenvalue $\\lambda$ with only one independent eigenvector $\\mathbf{v}$. Why is $te^{\\lambda t}\\mathbf{v}$ not the second solution of $\\mathbf{x}' = A\\mathbf{x}$?",
+      "body": "It does not satisfy the equation; the second solution is $e^{\\lambda t}(t\\mathbf{v} + \\mathbf{w})$, where $\\mathbf{w}$ is a **generalized eigenvector** satisfying $(A - \\lambda I)\\mathbf{w} = \\mathbf{v}$.\n\nWhy: for $\\mathbf{x} = te^{\\lambda t}\\mathbf{v}$ we get $\\mathbf{x}' - A\\mathbf{x} = e^{\\lambda t}\\mathbf{v} + \\lambda te^{\\lambda t}\\mathbf{v} - \\lambda te^{\\lambda t}\\mathbf{v} = e^{\\lambda t}\\mathbf{v} \\neq \\mathbf{0}$.\n\nFor $\\mathbf{x} = e^{\\lambda t}(t\\mathbf{v} + \\mathbf{w})$: $\\mathbf{x}' = e^{\\lambda t}(\\mathbf{v} + \\lambda t\\mathbf{v} + \\lambda\\mathbf{w})$ and $A\\mathbf{x} = e^{\\lambda t}(\\lambda t\\mathbf{v} + A\\mathbf{w})$. They agree exactly when $A\\mathbf{w} = \\mathbf{v} + \\lambda\\mathbf{w}$, which is $(A - \\lambda I)\\mathbf{w} = \\mathbf{v}$.\n\nWatch out: for a $2 \\times 2$ matrix with a repeated eigenvalue and only one independent eigenvector, the equation for $\\mathbf{w}$ always has a solution (this follows from the Jordan form of $A$ and is not proved here), and $\\mathbf{w}$ is only determined up to adding a multiple of $\\mathbf{v}$, which merely changes $c_1$. Copying the scalar rule $te^{rt}$ from second-order equations without the extra $\\mathbf{w}$ term is the classic error.",
+      "searchQuery": "repeated eigenvalue generalized eigenvector second solution t e^{lambda t} v + w system",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §7.8"
+      ]
+    },
+    {
+      "id": "de1-repeated-eigenvalue-problem",
+      "unit": "linear-systems-via-eigenvectors",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the general solution of $\\mathbf{x}' = \\begin{pmatrix} 1 & -1 \\\\ 1 & 3 \\end{pmatrix}\\mathbf{x}$.",
+      "body": "$\\mathbf{x} = c_1e^{2t}\\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix} + c_2e^{2t}\\left[t\\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix} + \\begin{pmatrix} 0 \\\\ -1 \\end{pmatrix}\\right]$\n\n1. $\\det(A - \\lambda I) = (1 - \\lambda)(3 - \\lambda) + 1 = \\lambda^2 - 4\\lambda + 4 = (\\lambda - 2)^2$, so $\\lambda = 2$ is repeated.\n2. $A - 2I = \\begin{pmatrix} -1 & -1 \\\\ 1 & 1 \\end{pmatrix}$ has null space spanned by $\\mathbf{v} = (1, -1)^T$, so there is only one independent eigenvector.\n3. Solve $(A - 2I)\\mathbf{w} = \\mathbf{v}$: row 1 gives $-w_1 - w_2 = 1$ and row 2 gives $w_1 + w_2 = -1$, the same condition, so take $\\mathbf{w} = (0, -1)^T$.\n4. The two solutions are $e^{2t}\\mathbf{v}$ and $e^{2t}(t\\mathbf{v} + \\mathbf{w})$.\n\nCheck: for the second, $\\mathbf{x}' = e^{2t}(\\mathbf{v} + 2t\\mathbf{v} + 2\\mathbf{w})$ and $A\\mathbf{x} = e^{2t}(2t\\mathbf{v} + A\\mathbf{w})$. With $A\\mathbf{w} = (1, -3)^T$ and $\\mathbf{v} + 2\\mathbf{w} = (1, -3)^T$, they agree.\n\nBehavior: the repeated eigenvalue $2$ is positive, so trajectories leave the origin: an unstable node.",
+      "searchQuery": "repeated eigenvalue defective matrix generalized eigenvector solve system general solution",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §7.8"
+      ]
+    },
+    {
+      "id": "de1-fundamental-matrix-definition",
+      "unit": "linear-systems-via-eigenvectors",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a **fundamental matrix** $\\Psi(t)$ of $\\mathbf{x}' = A\\mathbf{x}$, and how does it give $e^{At}$?",
+      "body": "A matrix whose columns are $n$ independent solutions; then $\\mathbf{x} = \\Psi(t)\\mathbf{c}$ is the general solution, and $e^{At} = \\Psi(t)\\Psi(0)^{-1}$.\n\nWhy: the initial condition $\\mathbf{x}(0) = \\mathbf{x}_0$ forces $\\mathbf{c} = \\Psi(0)^{-1}\\mathbf{x}_0$, so $\\mathbf{x}(t) = \\Psi(t)\\Psi(0)^{-1}\\mathbf{x}_0$. The matrix $\\Psi(t)\\Psi(0)^{-1}$ is the fundamental matrix equal to $I$ at $t = 0$, and it equals $e^{At} = \\sum_{k \\ge 0} \\frac{(At)^k}{k!}$.\n\nExample: for $A = \\begin{pmatrix} 1 & 1 \\\\ 4 & 1 \\end{pmatrix}$ the saddle example gives $\\Psi(t) = \\begin{pmatrix} e^{3t} & e^{-t} \\\\ 2e^{3t} & -2e^{-t} \\end{pmatrix}$, and\n$$e^{At} = \\begin{pmatrix} \\frac{e^{3t} + e^{-t}}{2} & \\frac{e^{3t} - e^{-t}}{4} \\\\ e^{3t} - e^{-t} & \\frac{e^{3t} + e^{-t}}{2} \\end{pmatrix}.$$\n\nTip: if $A = PDP^{-1}$ with $D$ diagonal, then $\\Psi = Pe^{Dt}$ works, because its columns are the eigenvector solutions.",
+      "searchQuery": "fundamental matrix e^{At} Psi(t) Psi(0)^{-1} linear system",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §7.7"
+      ]
+    },
+    {
+      "id": "de1-laplace-transform-definition",
+      "unit": "laplace-transform",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **Laplace transform** $\\mathcal{L}\\{f\\}$ of a function $f$ on $[0, \\infty)$, and the **inverse Laplace transform**.",
+      "body": "$F(s) = \\mathcal{L}\\{f\\}(s) = \\displaystyle\\int_0^\\infty e^{-st}f(t)\\,dt$, for those $s$ where the improper integral converges; $\\mathcal{L}^{-1}\\{F\\}$ is the function $f$ whose transform is $F$.\n\nExistence: if $f$ is piecewise continuous and of exponential order ($|f(t)| \\le Ke^{ct}$ for large $t$), the integral converges for all $s > c$.\n\nUniqueness: two continuous functions with the same transform are equal, so $\\mathcal{L}^{-1}$ is well defined on continuous functions.\n\nWhy it matters: the transform turns differentiation into multiplication by $s$, so a linear differential equation with constant coefficients becomes an algebraic equation for $F$.\n\nNotation: the transform of a lowercase function is written with the matching capital, as in $F = \\mathcal{L}\\{f\\}$ and $Y = \\mathcal{L}\\{y\\}$.",
+      "searchQuery": "Laplace transform definition improper integral e^{-st} inverse Laplace transform",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.1"
+      ]
+    },
+    {
+      "id": "de1-laplace-exponential-example",
+      "unit": "laplace-transform",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Compute $\\mathcal{L}\\{e^{at}\\}$ for a real constant $a$ directly from the definition, and state for which $s$ it holds.",
+      "body": "$\\dfrac{1}{s - a}$, valid for $s > a$.\n\nComputation: $\\displaystyle\\int_0^\\infty e^{-st}e^{at}\\,dt = \\int_0^\\infty e^{-(s-a)t}\\,dt = \\left[-\\frac{e^{-(s-a)t}}{s-a}\\right]_0^\\infty = \\frac{1}{s-a}$. The upper limit vanishes because $s - a > 0$.\n\nWatch out: for $s \\le a$ the integrand does not decay, and the integral diverges. A Laplace transform is only defined on a half-line $s > c$, which is why you should state the range.\n\nSpecial case: $a = 0$ gives $\\mathcal{L}\\{1\\} = \\frac{1}{s}$ for $s > 0$.",
+      "searchQuery": "Laplace transform of e^{at} from definition 1/(s-a)",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.1"
+      ]
+    },
+    {
+      "id": "de1-laplace-power-formula",
+      "unit": "laplace-transform",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "What is $\\mathcal{L}\\{t^n\\}$ for $n \\in \\mathbb{N}$?",
+      "body": "$\\mathcal{L}\\{t^n\\} = \\dfrac{n!}{s^{n+1}}$ for $s > 0$.\n\nWhy: integrating by parts with $u = t^n$ and $dv = e^{-st}dt$ gives $\\mathcal{L}\\{t^n\\} = \\frac{n}{s}\\mathcal{L}\\{t^{n-1}\\}$, because the boundary term $-\\frac{t^ne^{-st}}{s}$ vanishes at both ends. Starting from $\\mathcal{L}\\{1\\} = \\frac1s$ and repeating gives $\\frac{n}{s}\\cdot\\frac{n-1}{s}\\cdots\\frac{1}{s}\\cdot\\frac{1}{s}$.\n\nExample: $\\mathcal{L}\\{t^3\\} = \\frac{6}{s^4}$ and $\\mathcal{L}\\{t\\} = \\frac{1}{s^2}$.\n\nWatch out: the numerator is $n!$, not $n$, and the denominator's power is $n + 1$.",
+      "searchQuery": "Laplace transform of t^n n factorial over s^(n+1)",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.1"
+      ]
+    },
+    {
+      "id": "de1-laplace-trig-formula",
+      "unit": "laplace-transform",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "What are $\\mathcal{L}\\{\\sin bt\\}$ and $\\mathcal{L}\\{\\cos bt\\}$ for a real constant $b$?",
+      "body": "$\\mathcal{L}\\{\\sin bt\\} = \\dfrac{b}{s^2 + b^2}$ and $\\mathcal{L}\\{\\cos bt\\} = \\dfrac{s}{s^2 + b^2}$, for $s > 0$.\n\nWhy: the computation from the example above works for complex exponents when $s > 0$: $\\mathcal{L}\\{e^{ibt}\\} = \\frac{1}{s - ib} = \\frac{s + ib}{s^2 + b^2}$. Take the real part for cosine and the imaginary part for sine, using $e^{ibt} = \\cos bt + i\\sin bt$.\n\nExample: $\\mathcal{L}\\{\\sin 3t\\} = \\frac{3}{s^2 + 9}$.\n\nMnemonic: sine puts the frequency $b$ on top; cosine puts $s$ on top.",
+      "searchQuery": "Laplace transform sin bt cos bt b over s squared plus b squared",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.1"
+      ]
+    },
+    {
+      "id": "de1-laplace-shifting-theorem",
+      "unit": "laplace-transform",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State the **shifting theorem** (the $s$-shift) for the Laplace transform.",
+      "body": "If $F(s) = \\mathcal{L}\\{f\\}(s)$ exists for $s > c$, then $\\mathcal{L}\\{e^{at}f(t)\\}(s) = F(s - a)$ for $s > a + c$.\n\nWhy: $e^{at}$ combines with $e^{-st}$ in the integrand to give $e^{-(s-a)t}$, which is the transform kernel evaluated at $s - a$.\n\nExample: $\\mathcal{L}\\{e^{-2t}\\cos 3t\\} = \\dfrac{s+2}{(s+2)^2 + 9}$, since $\\mathcal{L}\\{\\cos 3t\\} = \\frac{s}{s^2 + 9}$ and $s$ is replaced by $s + 2$.\n\nWhy it matters: read backwards, it inverts shifted denominators: $\\mathcal{L}^{-1}\\left\\{\\frac{1}{(s-1)^2 + 1}\\right\\} = e^t\\sin t$.\n\nWatch out: multiplying by $e^{at}$ replaces $s$ by $s - a$. With $a = -2$ the shift is $s + 2$.",
+      "searchQuery": "Laplace transform shifting theorem s-shift e^{at} f(t) F(s-a)",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.1"
+      ]
+    },
+    {
+      "id": "de1-laplace-product-misconception",
+      "unit": "laplace-transform",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is the claim $\\mathcal{L}\\{f(t)g(t)\\} = \\mathcal{L}\\{f\\}\\,\\mathcal{L}\\{g\\}$ false?",
+      "body": "The Laplace transform is linear but not multiplicative: the transform of a product is not the product of the transforms.\n\nCounterexample: with $f = g = t$, the product is $t^2$, so $\\mathcal{L}\\{t^2\\} = \\frac{2}{s^3}$, but $\\mathcal{L}\\{t\\}\\,\\mathcal{L}\\{t\\} = \\frac{1}{s^2}\\cdot\\frac{1}{s^2} = \\frac{1}{s^4}$.\n\nWhat is true: $\\mathcal{L}\\{c_1f + c_2g\\} = c_1F + c_2G$. The product $F(s)G(s)$ is the transform of a different combination of $f$ and $g$, called their convolution, which comes later in this module.\n\nWatch out: the same error appears in inverting. $\\mathcal{L}^{-1}\\left\\{\\frac{1}{s}\\cdot\\frac{1}{s}\\right\\} = t$, not $1\\cdot 1 = 1$.",
+      "searchQuery": "Laplace transform of product not product of transforms linear not multiplicative",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.1"
+      ]
+    },
+    {
+      "id": "de1-laplace-derivative-theorem",
+      "unit": "laplace-transform",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the theorem for the **transform of a derivative**: $\\mathcal{L}\\{y'\\}$ and $\\mathcal{L}\\{y''\\}$ in terms of $Y = \\mathcal{L}\\{y\\}$.",
+      "body": "If $y$ is continuous, $y'$ is piecewise continuous, and both are of exponential order, then $\\mathcal{L}\\{y'\\} = sY(s) - y(0)$; if also $y'$ is continuous and $y''$ is piecewise continuous of exponential order, then $\\mathcal{L}\\{y''\\} = s^2Y(s) - sy(0) - y'(0)$.\n\nWhy: integrate by parts: $\\int_0^\\infty e^{-st}y'(t)\\,dt = \\big[e^{-st}y(t)\\big]_0^\\infty + s\\int_0^\\infty e^{-st}y(t)\\,dt$. For large $s$ the boundary term at $\\infty$ vanishes, leaving $-y(0) + sY$. For $y''$ apply the result to $y'$: $s(sY - y(0)) - y'(0)$.\n\nWhy it matters: the initial values enter the algebra automatically, so you never fit constants afterward.\n\nWatch out: do not forget the initial-value terms. $\\mathcal{L}\\{y''\\} = s^2Y$ alone is wrong unless $y(0) = y'(0) = 0$.",
+      "searchQuery": "Laplace transform of derivative s Y(s) - y(0) second derivative initial conditions",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.2"
+      ]
+    },
+    {
+      "id": "de1-laplace-ivp-constant-forcing-problem",
+      "unit": "laplace-transform",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use the Laplace transform to solve $y'' - 3y' + 2y = 4$, $y(0) = 0$, $y'(0) = 0$.",
+      "body": "$y = 2 - 4e^t + 2e^{2t}$\n\n1. Transform, using $\\mathcal{L}\\{4\\} = \\frac4s$ and zero initial values: $s^2Y - 3sY + 2Y = \\frac{4}{s}$.\n2. Solve: $Y = \\dfrac{4}{s(s-1)(s-2)}$.\n3. Partial fractions: $Y = \\frac{A}{s} + \\frac{B}{s-1} + \\frac{C}{s-2}$ with $A = \\frac{4}{(-1)(-2)} = 2$, $B = \\frac{4}{(1)(-1)} = -4$, $C = \\frac{4}{(2)(1)} = 2$.\n4. Invert each term using $\\mathcal{L}\\{e^{at}\\} = \\frac{1}{s-a}$: $y = 2 - 4e^t + 2e^{2t}$.\n\nCheck: $y(0) = 2 - 4 + 2 = 0$, $y' = -4e^t + 4e^{2t}$ gives $y'(0) = 0$, and $y'' - 3y' + 2y$ has constant part $2 \\cdot 2 = 4$ with the exponentials canceling.",
+      "searchQuery": "Laplace transform solve initial value problem y'' - 3y' + 2y = 4 partial fractions",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.2"
+      ]
+    },
+    {
+      "id": "de1-laplace-ivp-shift-problem",
+      "unit": "laplace-transform",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use the Laplace transform to solve $y'' - 2y' + 2y = e^{-t}$, $y(0) = 0$, $y'(0) = 1$.",
+      "body": "$y = \\tfrac15 e^{-t} + e^t\\left(\\tfrac75\\sin t - \\tfrac15\\cos t\\right)$\n\n1. Transform: $(s^2Y - 1) - 2sY + 2Y = \\frac{1}{s+1}$, so $(s^2 - 2s + 2)Y = 1 + \\frac{1}{s+1} = \\frac{s+2}{s+1}$.\n2. $Y = \\dfrac{s+2}{(s+1)(s^2 - 2s + 2)}$, and $s^2 - 2s + 2 = (s-1)^2 + 1$ is irreducible.\n3. Partial fractions: $Y = \\dfrac{1/5}{s+1} + \\dfrac{(-s+8)/5}{(s-1)^2 + 1}$, and rewrite $-s + 8 = -(s-1) + 7$.\n4. Invert with the shifting theorem: $\\frac{s-1}{(s-1)^2+1} \\to e^t\\cos t$ and $\\frac{1}{(s-1)^2+1} \\to e^t\\sin t$.\n\nCheck: $y(0) = \\frac15 - \\frac15 = 0$ and $y'(0) = 1$. The $\\frac15e^{-t}$ term is the particular solution: $\\frac15(1 + 2 + 2) = 1$ matches the forcing's coefficient.",
+      "searchQuery": "Laplace transform initial value problem shifting theorem irreducible quadratic partial fractions",
+      "checkpoint": true,
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.2"
+      ]
+    },
+    {
+      "id": "de1-unit-step-function",
+      "unit": "step-impulse-and-convolution",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is the **unit step function** $u_c(t)$, what is its Laplace transform, and how do you use it to write piecewise forcing?",
+      "body": "$u_c(t) = 0$ for $t < c$ and $u_c(t) = 1$ for $t \\ge c$ (with $c \\ge 0$), and $\\mathcal{L}\\{u_c(t)\\} = \\dfrac{e^{-cs}}{s}$ for $s > 0$.\n\nTransform: $\\int_c^\\infty e^{-st}\\,dt = \\frac{e^{-cs}}{s}$.\n\nUse: $u_c$ switches a term on at time $c$. A function equal to $g(t)$ for $t < c$ and $h(t)$ for $t \\ge c$ is $g(t) + u_c(t)\\big(h(t) - g(t)\\big)$. A pulse equal to $1$ on $[1, 3)$ and $0$ elsewhere is $u_1(t) - u_3(t)$.\n\nWatch out: the value at the single point $t = c$ does not affect the transform, so the convention $u_c(c) = 1$ is harmless.",
+      "searchQuery": "unit step function Heaviside u_c(t) Laplace transform e^{-cs}/s piecewise",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.3"
+      ]
+    },
+    {
+      "id": "de1-t-shift-theorem",
+      "unit": "step-impulse-and-convolution",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State the **$t$-shift theorem** for $\\mathcal{L}\\{u_c(t)\\,f(t - c)\\}$, with $c \\ge 0$.",
+      "body": "$\\mathcal{L}\\{u_c(t)f(t - c)\\} = e^{-cs}F(s)$, equivalently $\\mathcal{L}^{-1}\\{e^{-cs}F(s)\\} = u_c(t)f(t - c)$.\n\nWhy: $\\int_c^\\infty e^{-st}f(t - c)\\,dt$ becomes, with $\\tau = t - c$, $e^{-cs}\\int_0^\\infty e^{-s\\tau}f(\\tau)\\,d\\tau = e^{-cs}F(s)$.\n\nExample: $\\mathcal{L}^{-1}\\left\\{\\dfrac{e^{-2s}}{s^2}\\right\\} = u_2(t)\\,(t - 2)$, because $\\mathcal{L}^{-1}\\{1/s^2\\} = t$.\n\nWatch out: the function must be shifted too. For $u_c(t)\\,t$ write $t = (t - c) + c$, which gives $\\mathcal{L}\\{u_c(t)t\\} = e^{-cs}\\left(\\frac{1}{s^2} + \\frac{c}{s}\\right)$, not $\\frac{e^{-cs}}{s^2}$.\n\nCompare: this shifts in $t$ and multiplies by $e^{-cs}$; the earlier shifting theorem multiplies by $e^{at}$ and shifts in $s$.",
+      "searchQuery": "t-shift theorem second shifting theorem Laplace u_c(t) f(t-c) e^{-cs}F(s)",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.3"
+      ]
+    },
+    {
+      "id": "de1-step-forcing-problem",
+      "unit": "step-impulse-and-convolution",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Solve $y'' + y = u_\\pi(t) - u_{2\\pi}(t)$, $y(0) = 0$, $y'(0) = 0$.",
+      "body": "$y = u_\\pi(t)\\,(1 + \\cos t) - u_{2\\pi}(t)\\,(1 - \\cos t)$, that is $y = 0$ for $t < \\pi$, $y = 1 + \\cos t$ for $\\pi \\le t < 2\\pi$, and $y = 2\\cos t$ for $t \\ge 2\\pi$.\n\n1. Transform: $(s^2 + 1)Y = \\frac{e^{-\\pi s} - e^{-2\\pi s}}{s}$, so $Y = (e^{-\\pi s} - e^{-2\\pi s})\\,\\dfrac{1}{s(s^2+1)}$.\n2. $\\dfrac{1}{s(s^2 + 1)} = \\dfrac1s - \\dfrac{s}{s^2 + 1}$, which is the transform of $f(t) = 1 - \\cos t$.\n3. By the $t$-shift theorem, $y = u_\\pi(t)f(t - \\pi) - u_{2\\pi}(t)f(t - 2\\pi)$.\n4. $f(t - \\pi) = 1 - \\cos(t - \\pi) = 1 + \\cos t$ and $f(t - 2\\pi) = 1 - \\cos t$.\n\nCheck: on $[\\pi, 2\\pi)$ the equation is $y'' + y = 1$ with $y(\\pi) = y'(\\pi) = 0$, and $1 + \\cos t$ fits. At $t = 2\\pi$ both pieces give $y = 2$ and $y' = 0$, so the solution and its derivative are continuous.",
+      "searchQuery": "Laplace transform step function forcing y'' + y = u_pi - u_2pi t-shift",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.3"
+      ]
+    },
+    {
+      "id": "de1-dirac-delta-definition",
+      "unit": "step-impulse-and-convolution",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is the **Dirac delta** $\\delta(t - c)$, what is its Laplace transform, and what is an **impulse response**?",
+      "body": "$\\delta(t - c)$ models a unit impulse at time $c$: for continuous $g$, $\\int_0^\\infty g(t)\\,\\delta(t - c)\\,dt = g(c)$ when $c > 0$, so $\\mathcal{L}\\{\\delta(t - c)\\} = e^{-cs}$. The solution of $ay'' + by' + ky = \\delta(t)$ starting at rest is the **impulse response** $h(t)$.\n\nWhy: $\\delta$ is the idealized limit of ever narrower, taller pulses of total area $1$ (a hammer blow lasting almost no time). It is not an ordinary function.\n\nImpulse response: transform with zero initial values and the convention $\\mathcal{L}\\{\\delta(t)\\} = 1$ to get $(as^2 + bs + k)H = 1$, so $H(s) = \\dfrac{1}{as^2 + bs + k}$ and $h = \\mathcal{L}^{-1}\\{H\\}$.\n\nExample: $y'' + 4y = \\delta(t)$ gives $H = \\frac{1}{s^2 + 4}$, so $h(t) = \\frac12\\sin 2t$.",
+      "searchQuery": "Dirac delta impulse response Laplace transform e^{-cs} unit impulse",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.5"
+      ]
+    },
+    {
+      "id": "de1-delta-jump-misconception",
+      "unit": "step-impulse-and-convolution",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "For $ay'' + by' + ky = \\delta(t - c)$ with $c > 0$ and $y(0) = y'(0) = 0$, why is it wrong to expect $y$ itself to jump at $t = c$?",
+      "body": "The solution $y$ stays continuous; the impulse makes $y'$ jump by $\\frac1a$ at $t = c$, so $y(c) = 0$ and $y'(c^+) = \\frac1a$.\n\nWhy: integrate the equation over a tiny interval around $c$. The right side contributes $1$. If $y$ had a jump, $y'$ would contain a delta and $ay''$ would contain the derivative of a delta, which nothing on the right side can match. With $y$ continuous, the terms $by'$ and $ky$ integrate to nearly $0$, leaving $a\\,[y']_{c^-}^{c^+} = 1$.\n\nExample: $y'' + 4y = \\delta(t - 1)$ has $Y = \\frac{e^{-s}}{s^2 + 4}$, so $y = \\frac12 u_1(t)\\sin 2(t - 1)$. Then $y(1) = 0$ and $y'(1^+) = \\cos 0 = 1 = \\frac1a$.\n\nWatch out: a delta in a first-order equation $y' = \\delta(t - c)$ would make $y$ jump, since $y'$ is the term balancing the delta. The jump appears one derivative below the equation's highest order.",
+      "searchQuery": "delta function forcing second order solution continuous derivative jumps initial conditions",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.5"
+      ]
+    },
+    {
+      "id": "de1-convolution-theorem-transfer-function",
+      "unit": "step-impulse-and-convolution",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **convolution theorem**, and use it to write the solution of $ay'' + by' + ky = g(t)$ with zero initial values in terms of the **transfer function**.",
+      "body": "$\\mathcal{L}\\{f * g\\} = F(s)\\,G(s)$, where the **convolution** is $(f * g)(t) = \\int_0^t f(t - \\tau)\\,g(\\tau)\\,d\\tau$ (for piecewise continuous $f$, $g$ of exponential order).\n\nSolution formula: with $y(0) = y'(0) = 0$, transforming gives $Y = H(s)G(s)$ where $H(s) = \\dfrac{1}{as^2 + bs + k}$ is the **transfer function**. Hence $y = h * g$, that is $y(t) = \\displaystyle\\int_0^t h(t - \\tau)\\,g(\\tau)\\,d\\tau$, with $h = \\mathcal{L}^{-1}\\{H\\}$ the impulse response.\n\nExample: $y'' + 4y = g(t)$ has $H = \\frac{1}{s^2 + 4}$ and $h = \\frac12\\sin 2t$, so $y(t) = \\frac12\\int_0^t \\sin 2(t - \\tau)\\,g(\\tau)\\,d\\tau$.\n\nWhy it matters: this gives the response to any forcing $g$ in one formula. Each $g(\\tau)$ acts as a small impulse at time $\\tau$, and the response adds up their delayed copies of $h$.\n\nWatch out: this assumes zero initial values; otherwise add the solution of the homogeneous equation fitting them.",
+      "searchQuery": "convolution theorem Laplace transform transfer function impulse response solution formula",
+      "refs": [
+        "Boyce–DiPrima–Meade, Elementary Differential Equations 11e §6.6"
+      ]
+    }
+  ]
+}

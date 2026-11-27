@@ -1,0 +1,64 @@
+{
+  "module": "operating-systems",
+  "checker": "independent checker (Claude)",
+  "verdicts": [
+    {
+      "id": "os-process-states",
+      "verdict": "fixed",
+      "note": "Title asked for both the states and what moves between them but the answer line gave only states; title narrowed to the states. Also used 'scheduler' before it is taught; now glossed inline."
+    },
+    {
+      "id": "os-strace-write",
+      "verdict": "fixed",
+      "note": "Left out that strace pads spaces before '=' and that, on a terminal, the program's own output lands in the middle of the strace line; both added."
+    },
+    {
+      "id": "os-write-bad-fd",
+      "verdict": "fixed",
+      "note": "errno called a 'global variable'; it is a thread-local macro in practice, reworded."
+    },
+    {
+      "id": "os-exception-not-always-a-bug",
+      "verdict": "fixed",
+      "note": "Divide by zero does not trap on RISC-V, the profession's ISA; now says integer divide by zero on x86."
+    },
+    {
+      "id": "os-racy-counter-output",
+      "verdict": "fixed",
+      "note": "Data-race definition omitted 'non-atomic', so it would also cover correct atomic code; added."
+    },
+    {
+      "id": "os-atomic-fetch-add-counter",
+      "verdict": "fixed",
+      "note": "amoadd.w is the 32-bit form but the card assumes a 64-bit atomic_long; now names lock xadd (x86) and amoadd generally."
+    },
+    {
+      "id": "os-condvar-while-loop",
+      "verdict": "fixed",
+      "note": "Worked example was wrong: C2 was said to be waiting yet to take the item before C1 woke. C2 now arrives fresh and takes the item."
+    },
+    {
+      "id": "os-bounded-buffer-semaphore-init",
+      "verdict": "fixed",
+      "note": "Unnamed POSIX semaphores do not work on macOS and the card named no platform; now says On Linux."
+    },
+    {
+      "id": "os-semaphore-ordering-init-zero",
+      "verdict": "fixed",
+      "note": "Said 'sometimes' prints parent first; with the initial value 1 the order is simply not guaranteed, reworded to 'can'."
+    },
+    {
+      "id": "os-atomicity-vs-order-violation",
+      "verdict": "fixed",
+      "note": "Atomicity fix was incomplete: the thread that sets the pointer to NULL must take the same lock too; added."
+    }
+  ],
+  "summary": {
+    "reviewed": 60,
+    "ok": 50,
+    "fixed": 10,
+    "dropped": 0,
+    "added": 0,
+    "note": "All 22 code snippets compiled and run or compile-checked on this Mac; outputs match (racy counter ~1.0M at -O0, atomic and mutex 2000000, TSan data race warning, segfault 139). Arithmetic in scheduling, time-slice, UART and event-loop cards re-derived. strace and semaphore behaviour from man pages."
+  }
+}

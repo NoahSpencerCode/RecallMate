@@ -1,0 +1,1654 @@
+{
+  "profession": "embedded-ai",
+  "module": "quantization-1",
+  "tier": 5,
+  "cards": [
+    {
+      "id": "quantization-definition-network",
+      "unit": "why-quantize",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "In deep learning, what is **quantization** of a network?",
+      "body": "Storing and computing with weights and activations as low-bit integers (such as int8) plus a scale, instead of 32-bit floats, so each value is rounded to one of a small set of levels, usually evenly spaced.\n\nThe rounding leaves a **quantization error**: the difference between the original value and the one the integer stands for. With a step of $0.01$, a weight $0.4137$ is stored as the level $0.41$, an error of $0.0037$.\n\nKey idea: the network keeps its structure and its weights; only their number format changes, so the goal is to keep the output almost the same while shrinking memory and arithmetic cost.\n\nWatch out: this is the same rounding as an ADC's quantization, but applied to a trained model's tensors, and the step is chosen per tensor rather than fixed by a converter's reference voltage.",
+      "searchQuery": "neural network quantization definition int8",
+      "refs": [
+        "MIT 6.5940 lecture 5",
+        "Nagel et al. (2021), §2.1"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "quantization-gains-int8",
+      "unit": "why-quantize",
+      "kind": "concept",
+      "difficulty": 6,
+      "title": "Quantizing a network from fp32 to int8 brings three gains. Name them.",
+      "body": "Weights are 4× smaller, 4× fewer bytes move through memory per value, and integer multiply-accumulates are cheaper than float ones.\n\nSmaller weights mean a model that overflowed flash (or SRAM) may fit. Less traffic matters because moving a byte usually costs more energy and time than computing on it. Integer arithmetic units are smaller and faster than float units, and on cores without an FPU they are the only fast option.\n\nExample: a model with 250,000 weights takes $250{,}000 \\times 4\\,\\mathrm{B} = 1{,}000\\,\\mathrm{kB}$ in fp32 and $250\\,\\mathrm{kB}$ in int8.\n\nWatch out: the 4× applies to the weights and to stored activations. Accumulators stay 32-bit, and any scales, biases and codebooks add a little on top, so a measured file is slightly larger than a quarter.",
+      "searchQuery": "int8 quantization benefits memory bandwidth arithmetic",
+      "refs": [
+        "MIT 6.5940 lecture 5",
+        "Nagel et al. (2021), §2.1"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "quantization-int8-native-mcu-npu",
+      "unit": "why-quantize",
+      "kind": "concept",
+      "difficulty": 6,
+      "title": "Why is int8 the native format of MCU kernels such as CMSIS-NN and of most NPUs?",
+      "body": "An 8-bit multiplier is tiny and four int8 values fit in one 32-bit word, so int8 gives more multiply-accumulates per cycle and per joule than wider formats, and a fully int8 network can run as **integer-only inference**, with no float instructions at all.\n\nOn a Cortex-M core with the DSP extension, a kernel can widen int8 values to 16-bit pairs and use a dual-MAC instruction such as SMLAD. With Helium (MVE) one 128-bit vector holds 16 int8 lanes. Cores without an FPU (Cortex-M0+, M3) must emulate float in software, which is many times slower.\n\nKey idea: in an integer-only model even the rescaling between layers uses integer multiplies and shifts, so the processor never needs a float instruction. That is what lets the same model run on an MCU, a DSP or an accelerator that has no float hardware.\n\nWatch out: integer-only is a property of the whole graph. A single float layer forces a float kernel, and float conversions at the boundaries, into the binary.",
+      "searchQuery": "why int8 native format CMSIS-NN NPU integer-only inference",
+      "refs": [
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)",
+        "MIT 6.5940 lecture 5"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "quantization-energy-int8-vs-fp32-multiply",
+      "unit": "why-quantize",
+      "kind": "numbers",
+      "difficulty": 6,
+      "title": "At 45 nm (Horowitz, ISSCC 2014), what do an 8-bit integer multiply and a 32-bit float multiply cost in energy, and what is the ratio?",
+      "body": "0.2 pJ versus 3.7 pJ: the fp32 multiply costs about 18× more.\n\nThe ratio is $3.7 / 0.2 = 18.5$. For addition the gap is wider: an 8-bit integer add is about $0.03\\,\\mathrm{pJ}$ and an fp32 add about $0.9\\,\\mathrm{pJ}$, roughly 30×.\n\nWatch out: a real int8 MAC accumulates in int32 (about $0.1\\,\\mathrm{pJ}$ per add), so the per-MAC arithmetic ratio is $(3.7+0.9)/(0.2+0.1) \\approx 15$, not 18.\n\nTip: these are 45 nm figures. The absolute values shrink on newer nodes, but the ratio between integer and float arithmetic, and between arithmetic and DRAM access ($\\approx 640\\,\\mathrm{pJ}$ per 32-bit read), is what people reuse.",
+      "searchQuery": "Horowitz energy 8-bit multiply 0.2 pJ fp32 3.7 pJ",
+      "refs": [
+        "Horowitz, ISSCC 2014 (Computing's Energy Problem)",
+        "MIT 6.5940 lecture 5"
+      ],
+      "tags": [
+        "energy-per-operation",
+        "number-formats"
+      ]
+    },
+    {
+      "id": "quantization-number-formats-bits",
+      "unit": "why-quantize",
+      "kind": "numbers",
+      "difficulty": 6,
+      "title": "Give the sign, exponent and mantissa bits of fp32, fp16 and bf16, and the bytes per value of each next to int8.",
+      "body": "fp32 = 1+8+23 bits (4 B); fp16 = 1+5+10 (2 B); bf16 = 1+8+7 (2 B); int8 and uint8 = 8 bits (1 B).\n\nint8 holds the 256 integers $[-128, 127]$ in two's complement and uint8 holds $[0, 255]$. The integers are evenly spaced, whereas float spacing grows with magnitude. fp16 reaches $65{,}504$; bf16 keeps fp32's 8-bit exponent (so its range is about $3.4\\times10^{38}$) but only 7 mantissa bits.\n\n**Fixed point** is the integer-with-a-binary-point format you met as Qm.n: its scale is a fixed power of two, $2^{-n}$. Quantization generalizes it by letting the scale $S$ be any positive real number chosen from the data.\n\nWatch out: an integer has no exponent. The scale lives outside the number, in the tensor's metadata, and every operator has to account for it.",
+      "searchQuery": "fp32 fp16 bf16 int8 bit layout bytes per value",
+      "refs": [
+        "Nagel et al. (2021), §2.1",
+        "MIT 6.5940 lecture 5"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "quantization-tradeoff-int8-vs-fp16",
+      "unit": "why-quantize",
+      "kind": "trade-off",
+      "difficulty": 6,
+      "title": "When should you deploy a CNN as int8 rather than fp16, and when is fp16 the better choice?",
+      "body": "Choose int8 when the target has fast int8 MACs (MCU DSP/MVE kernels, an NPU), flash and SRAM are tight, and you have calibration data; choose fp16 when you need accuracy with no calibration or the hardware's fast path is floating point.\n\nint8 is half the size of fp16 and uses the cheapest arithmetic, but it needs scales, a range for every activation tensor, and care with outliers. fp16 has a 5-bit exponent, so values from about $6\\times10^{-5}$ to $65{,}504$ need no calibration at all.\n\nExample: a 200 kB int8 model that must fit in 256 kB of flash would be 400 kB in fp16.\n\nWatch out: many MCUs have no fp16 arithmetic, so fp16 weights must be converted to fp32 for compute. That saves storage but not time.",
+      "searchQuery": "int8 versus fp16 deployment trade-off",
+      "refs": [
+        "MIT 6.5940 lecture 5",
+        "Nagel et al. (2021), §2.1"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "quantization-tradeoff-traffic-vs-arithmetic",
+      "unit": "why-quantize",
+      "kind": "trade-off",
+      "difficulty": 6,
+      "title": "For a fully connected layer at batch size 1 whose fp32 weights sit in DRAM, does going to int8 save more energy through cheaper arithmetic or through fewer bytes moved?",
+      "body": "Fewer bytes moved: a 32-bit DRAM read costs about 640 pJ, far more than the arithmetic on that weight, and int8 cuts weight traffic 4×.\n\nAt batch size 1 each weight is used once. In fp32, one weight costs one 32-bit DRAM read ($640\\,\\mathrm{pJ}$) and one MAC ($3.7+0.9 = 4.6\\,\\mathrm{pJ}$). In int8, four weights share a 32-bit read, so about $160\\,\\mathrm{pJ}$ per weight, plus about $0.3\\,\\mathrm{pJ}$ for the MAC. The saving is roughly $480\\,\\mathrm{pJ}$ from traffic against $4.3\\,\\mathrm{pJ}$ from arithmetic.\n\nWatch out: the answer can flip when weights sit in on-chip SRAM and each is reused many times, as in a convolution. A 32-bit SRAM read costs only about $5$ to $10\\,\\mathrm{pJ}$ and is shared by many MACs, so the $4.3\\,\\mathrm{pJ}$ saved per MAC in arithmetic becomes comparable to the traffic saved, or larger.",
+      "searchQuery": "int8 memory traffic versus arithmetic energy DRAM",
+      "refs": [
+        "Horowitz, ISSCC 2014 (Computing's Energy Problem)",
+        "MIT 6.5940 lecture 5"
+      ],
+      "tags": [
+        "energy-per-operation",
+        "data-movement"
+      ]
+    },
+    {
+      "id": "quantization-landmark-vanhoucke-2011",
+      "unit": "why-quantize",
+      "kind": "landmark",
+      "difficulty": 6,
+      "title": "What did Vanhoucke, Senior and Mao (2011) show about 8-bit fixed-point arithmetic for neural networks on CPUs?",
+      "body": "Running the hidden layers in 8-bit integers (unsigned activations, signed weights, 32-bit biases) with SSSE3/SSE4 integer SIMD instructions was about 3× faster than an optimized floating-point (SSE2) version on ordinary x86 CPUs, with no loss of accuracy.\n\nWith batching added as well, their speech recognizer ran 4× faster than an aggressively optimized floating-point baseline and 10× faster than an unoptimized one. The work (NIPS 2011 Deep Learning workshop) is an early demonstration that most of a trained network's inference can run in 8-bit integers; only the input layer stayed in float.\n\nKey idea: the speed-up came from the hardware's integer SIMD, not from fewer operations: one SSSE3 instruction multiplies 16 pairs of 8-bit values. Quantizing without those instructions was slower than the float SSE2 version. The same argument later explained int8 on phone CPUs, DSPs and MCUs.\n\nWatch out: this is a 2011 CPU result. Its 3× is not a universal int8 speed-up; later numbers depend on the chip and the kernels.",
+      "searchQuery": "Vanhoucke 2011 improving speed of neural networks on CPUs fixed point",
+      "refs": [
+        "https://research.google/pubs/improving-the-speed-of-neural-networks-on-cpus/"
+      ]
+    },
+    {
+      "id": "quantization-landmark-gupta-2015",
+      "unit": "why-quantize",
+      "kind": "landmark",
+      "difficulty": 6,
+      "title": "What did Gupta et al. (2015), \"Deep Learning with Limited Numerical Precision\", show about training with 16-bit fixed point?",
+      "body": "Networks can be trained with 16-bit fixed-point numbers with little or no loss in classification accuracy, provided rounding is stochastic.\n\n**Stochastic rounding** rounds a value up with probability equal to its fractional part (in step units) and down otherwise, so the rounding error is zero on average. Round-to-nearest, by contrast, drops every update smaller than half a step, and small gradient updates vanish.\n\nKey idea: precision is not only about representing values but about rounding choices, because training accumulates many tiny updates. This is why inference-only int8 is easier than low-precision training.\n\nWatch out: the result is about training, with one 16-bit fixed-point format for each kind of tensor (weights, layer outputs) across the network, not about post-training quantization of a finished float model.",
+      "searchQuery": "Gupta 2015 limited numerical precision stochastic rounding 16-bit fixed point",
+      "refs": [
+        "https://arxiv.org/abs/1502.02551"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "quantization-problem-size-and-arithmetic-energy",
+      "unit": "why-quantize",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "A keyword-spotting model has 250,000 weights and needs 20 million MACs per inference. Using 1 kB = 1,000 B and the 45 nm figures (fp32 multiply 3.7 pJ, fp32 add 0.9 pJ, int8 multiply 0.2 pJ, int32 add 0.1 pJ), find the weight storage and the arithmetic energy per inference in fp32 and in int8 (weights only, arithmetic only).",
+      "body": "fp32: 1,000 kB and 92 µJ; int8: 250 kB and 6 µJ, so 4× smaller and about 15× cheaper arithmetic.\n\nSolution outline:\n1. Storage: $250{,}000 \\times 4\\,\\mathrm{B} = 1{,}000\\,\\mathrm{kB}$ in fp32 and $250{,}000 \\times 1\\,\\mathrm{B} = 250\\,\\mathrm{kB}$ in int8.\n2. fp32 MAC: $3.7 + 0.9 = 4.6\\,\\mathrm{pJ}$, so $20\\times10^6 \\times 4.6\\,\\mathrm{pJ} = 92\\,\\mu\\mathrm{J}$.\n3. int8 MAC: an 8-bit multiply plus an int32 accumulate, $0.2 + 0.1 = 0.3\\,\\mathrm{pJ}$, so $20\\times10^6 \\times 0.3\\,\\mathrm{pJ} = 6\\,\\mu\\mathrm{J}$.\n4. Ratio $92 / 6 \\approx 15$.\n\nWatch out: this ignores memory. Reading $1{,}000\\,\\mathrm{kB}$ of weights from flash or DRAM can cost more than the arithmetic, which is why the 4× storage reduction usually matters at least as much as the 15× arithmetic one.",
+      "searchQuery": "int8 versus fp32 model size arithmetic energy estimate",
+      "refs": [
+        "Horowitz, ISSCC 2014 (Computing's Energy Problem)",
+        "MIT 6.5940 lecture 5"
+      ],
+      "tags": [
+        "energy-per-operation"
+      ]
+    },
+    {
+      "id": "kmeans-quantization-definition",
+      "unit": "kmeans-weight-sharing",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "What is **k-means quantization** (weight sharing) of a layer?",
+      "body": "Cluster the layer's weights into $k$ groups with k-means, store the $k$ centroids as a codebook, and replace each weight by the $\\lceil\\log_2 k\\rceil$-bit index of its centroid.\n\nThe reconstructed weight is $\\hat w_i = c_{I_i}$, where $I_i$ is weight $i$'s index and $c_j$ the $j$-th centroid. Many weights share one value, hence the name weight sharing.\n\nExample: with $k = 4$ the codebook holds 4 floats and each weight needs a 2-bit index. A $3\\times3$ block of weights becomes 9 two-bit indices plus the shared 4-entry codebook.\n\nKey idea: the centroids are not forced onto an evenly spaced grid, so they can sit where the weights actually cluster (dense near zero, sparse in the tails).",
+      "searchQuery": "k-means quantization weight sharing codebook index",
+      "refs": [
+        "Han, Mao & Dally, Deep Compression (ICLR 2016)",
+        "MIT 6.5940 lecture 5"
+      ],
+      "tags": [
+        "codebook"
+      ]
+    },
+    {
+      "id": "kmeans-decode-before-compute",
+      "unit": "kmeans-weight-sharing",
+      "kind": "concept",
+      "difficulty": 6,
+      "title": "Why does k-means weight sharing save storage but not arithmetic?",
+      "body": "The indices must be decoded back to float weights (a codebook lookup) before the multiply-accumulate, so the math is still float and the MAC count is unchanged.\n\nInference does $\\hat w = \\text{codebook}[\\text{index}]$ and then an ordinary float MAC. The lookup adds a memory access per weight (or per tile of weights), so latency can even get worse.\n\nExample: a layer in 4-bit indices is about $8\\times$ smaller in flash, but if the decoded weights are stored back as fp32 in SRAM the working memory is as large as before. A kernel that decodes a small tile at a time avoids that.\n\nWatch out: compare with uniform int8, where the stored integers go straight into an integer MAC. Weight sharing is a compression format; uniform quantization is a compute format.",
+      "searchQuery": "weight sharing saves storage not arithmetic decode lookup",
+      "refs": [
+        "Han, Mao & Dally, Deep Compression (ICLR 2016)",
+        "MIT 6.5940 lecture 5"
+      ],
+      "tags": [
+        "codebook",
+        "decode-before-compute"
+      ]
+    },
+    {
+      "id": "kmeans-centroid-gradient-sum",
+      "unit": "kmeans-weight-sharing",
+      "kind": "concept",
+      "difficulty": 6,
+      "title": "During fine-tuning of a weight-shared layer, how is a centroid $c_j$ updated?",
+      "body": "By the sum of the loss gradients of all weights assigned to it: $\\dfrac{\\partial L}{\\partial c_j} = \\sum_{i:\\,I_i = j} \\dfrac{\\partial L}{\\partial w_i}$, then $c_j \\leftarrow c_j - \\eta\\,\\dfrac{\\partial L}{\\partial c_j}$.\n\nWhy: every weight in cluster $j$ equals $c_j$, so $c_j$ is one parameter used in many places and the chain rule adds the contributions. The indices $I_i$ stay fixed; only the centroids move.\n\nExample: if the weights in cluster 0 have gradients $0.1$ and $0.5$, the centroid's gradient is $0.6$.\n\nWatch out: using the mean instead of the sum does not give the true gradient; it only shrinks the effective learning rate of big clusters. Deep Compression also found that spacing the initial centroids linearly between the minimum and maximum weight worked best, because it keeps centroids for the rare large weights.",
+      "searchQuery": "fine-tune centroids sum of gradients shared weights",
+      "refs": [
+        "Han, Mao & Dally, Deep Compression (ICLR 2016)",
+        "MIT 6.5940 lecture 5"
+      ],
+      "tags": [
+        "codebook"
+      ]
+    },
+    {
+      "id": "kmeans-storage-formula",
+      "unit": "kmeans-weight-sharing",
+      "kind": "formula",
+      "difficulty": 6,
+      "title": "A layer has $N$ weights quantized to $k = 2^b$ centroids with 32-bit codebook entries. What are the storage in bits and the compression ratio against fp32?",
+      "body": "Storage $= N\\log_2 k + 32k$ bits, so the ratio is $\\dfrac{32N}{N\\log_2 k + 32k}$.\n\nThe first term is the indices ($\\log_2 k$ bits for each of $N$ weights); the second is the codebook ($k$ entries of 32 bits). As $N\\to\\infty$ the ratio tends to $32/\\log_2 k$, for example $8\\times$ for $k = 16$.\n\nWatch out: the codebook is a fixed cost, so it only vanishes for big layers. With one codebook per layer, a tiny layer ($N$ of a few hundred) gets a ratio well below $32/\\log_2 k$.\n\nTip: the formula assumes indices are bit-packed. If they are stored in whole bytes, replace $\\log_2 k$ by $8$.",
+      "searchQuery": "weight sharing storage N log2 k plus 32k bits compression ratio",
+      "refs": [
+        "Han, Mao & Dally, Deep Compression (ICLR 2016)",
+        "MIT 6.5940 lecture 5"
+      ],
+      "tags": [
+        "codebook",
+        "index-bits"
+      ]
+    },
+    {
+      "id": "kmeans-problem-conv-layer-storage",
+      "unit": "kmeans-weight-sharing",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "A $3\\times3$ convolution with 64 input and 64 output channels (no bias) is quantized with one k-means codebook of $k = 16$ fp32 centroids, indices bit-packed. How many bits does the layer take, and what is the compression ratio against fp32? (Answer with the bit count.)",
+      "body": "147968 bits (18,496 bytes), a ratio of about 7.97 against the 147,456 bytes of fp32.\n\nSolution outline:\n1. Weights: $N = 3\\cdot3\\cdot64\\cdot64 = 36{,}864$.\n2. Indices: $\\log_2 16 = 4$ bits each, so $36{,}864\\times4 = 147{,}456$ bits.\n3. Codebook: $16\\times32 = 512$ bits. Total $147{,}968$ bits $= 18{,}496$ B.\n4. fp32: $36{,}864\\times4\\,\\mathrm{B} = 147{,}456\\,\\mathrm{B}$, so the ratio is $147{,}456/18{,}496 \\approx 7.97$.\n\nWatch out: the ideal $32/4 = 8$ is not reached because of the 512-bit codebook. With $k = 256$ instead, the total is $36{,}864\\times8 + 256\\times32 = 303{,}104$ bits and the ratio only $3.89$.",
+      "searchQuery": "k-means 16 centroids conv layer storage bits compression",
+      "answer": "147968",
+      "acceptedAnswers": [
+        "147968 bits"
+      ],
+      "answerDisplay": "$147{,}968$ bits",
+      "refs": [
+        "Han, Mao & Dally, Deep Compression (ICLR 2016)"
+      ],
+      "tags": [
+        "codebook",
+        "index-bits"
+      ]
+    },
+    {
+      "id": "kmeans-tradeoff-choosing-k",
+      "unit": "kmeans-weight-sharing",
+      "kind": "trade-off",
+      "difficulty": 6,
+      "title": "When choosing the number of centroids $k$ for a layer, what does a smaller $k$ buy and cost, and which layers tolerate it best?",
+      "body": "A smaller $k$ saves one index bit per halving but raises quantization error: it wins on large, redundant layers (such as big fully connected layers) where storage dominates, and loses on small or accuracy-critical layers.\n\nGoing from $k = 256$ to $128$ saves 1 bit of 8 (12.5%), while going from 4 to 2 saves 1 bit of 2 (50%) but leaves just two weight values, so the error jumps. The right $k$ is the smallest one whose accuracy after fine-tuning the centroids is acceptable.\n\nExample: in Deep Compression's pruned AlexNet the convolution layers used 8-bit indices (256 centroids) and the fully connected layers 5-bit (32), with no accuracy loss reported.\n\nWatch out: also count the codebook. For a layer with few weights, a big $k$ can cost almost as much as the indices themselves.",
+      "searchQuery": "choosing k centroids bits per weight accuracy trade-off",
+      "refs": [
+        "Han, Mao & Dally, Deep Compression (ICLR 2016)"
+      ],
+      "tags": [
+        "codebook",
+        "index-bits"
+      ]
+    },
+    {
+      "id": "kmeans-tradeoff-vs-uniform-int8",
+      "unit": "kmeans-weight-sharing",
+      "kind": "trade-off",
+      "difficulty": 6,
+      "title": "When does k-means weight sharing beat uniform int8 quantization, and when does uniform int8 win?",
+      "body": "K-means wins when storage is the bottleneck and compute is float anyway (it fits 4 bits or fewer and adapts to the weight distribution); uniform int8 wins on MCUs and NPUs because the stored integers feed integer MACs directly.\n\nK-means centroids sit where the weights are dense, so for the same bit count the error is usually lower than on an evenly spaced grid. But with float centroids the decode step rules out integer-only inference, and activations are not covered at all.\n\nUniform int8 also quantizes the activations, needs no lookup, and runs on int8 kernels (CMSIS-NN, NPU MAC arrays).\n\nTip: the two can be combined: keep shared weights in flash to save space, then decode them to int8 or float at load time.",
+      "searchQuery": "k-means quantization versus uniform int8 trade-off",
+      "refs": [
+        "Han, Mao & Dally, Deep Compression (ICLR 2016)",
+        "MIT 6.5940 lecture 5"
+      ],
+      "tags": [
+        "codebook"
+      ]
+    },
+    {
+      "id": "kmeans-code-index-array-bytes",
+      "unit": "kmeans-weight-sharing",
+      "kind": "code",
+      "difficulty": 6,
+      "title": "What does this print, and how many bytes would the indices need if packed at $\\log_2 k$ bits? (NumPy, `uint8` is one byte.)\n\n```python\nimport numpy as np\nw = np.linspace(-1, 1, 1000, dtype=np.float32)\ncodebook = np.array([-0.75, -0.25, 0.25, 0.75], dtype=np.float32)\nidx = np.abs(w[:, None] - codebook).argmin(axis=1).astype(np.uint8)\nprint(idx.nbytes, codebook.nbytes, idx.max())\n```",
+      "body": "It prints `1000 16 3`; packed at 2 bits per index the indices would need only 250 bytes.\n\nEach `uint8` index takes a full byte even though $k = 4$ needs just 2 bits, so `idx.nbytes` is $1000$. The codebook is $4\\times4 = 16$ bytes. The largest index is 3 because $w$ near $1$ is closest to $0.75$.\n\nPacked storage is $1000\\times2/8 = 250$ B, plus 16 B for the codebook: 266 B against 4,000 B in fp32.\n\nWatch out: the $N\\log_2 k$ in the storage formula is only real if you pack the indices. A NumPy index array, or a C array of `uint8_t`, silently wastes the saving.",
+      "searchQuery": "numpy codebook index array nbytes bit packing",
+      "refs": [
+        "Han, Mao & Dally, Deep Compression (ICLR 2016)"
+      ],
+      "tags": [
+        "codebook",
+        "index-bits"
+      ]
+    },
+    {
+      "id": "kmeans-landmark-deep-compression",
+      "unit": "kmeans-weight-sharing",
+      "kind": "landmark",
+      "difficulty": 6,
+      "title": "What did Han, Mao and Dally's Deep Compression (ICLR 2016) show, and what role did k-means weight sharing play?",
+      "body": "A three-stage pipeline of pruning, trained quantization (k-means weight sharing with fine-tuned centroids) and Huffman coding shrank AlexNet 35× (240 MB to 6.9 MB) and VGG-16 49× (552 MB to 11.3 MB) with no loss of accuracy.\n\nIn the headline results, weight sharing used 8-bit indices (256 shared values) in the convolution layers and 5-bit indices (32) in the fully connected layers. The paper is peer-reviewed (ICLR 2016, oral); the arXiv version is the one linked below.\n\nKey idea: the stages multiply. Pruning removes connections, weight sharing shrinks each remaining weight to an index, and entropy coding squeezes the index distribution.\n\nWatch out: the headline factors are storage. The paper's speed and energy figures (3× to 4× layerwise speed-up, 3× to 7× better energy, on CPU, GPU and mobile GPU) were measured on the pruned layers only; the weight-shared model was not benchmarked, because standard libraries had no codebook lookup.",
+      "searchQuery": "Deep Compression Han 2016 AlexNet 35x VGG 49x weight sharing",
+      "refs": [
+        "https://arxiv.org/abs/1510.00149",
+        "MIT 6.5940 lecture 5"
+      ],
+      "tags": [
+        "codebook"
+      ]
+    },
+    {
+      "id": "affine-quantization-map",
+      "unit": "affine-quantization-scheme",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "State the **affine (asymmetric) quantization** map between a real value $r$ and its integer code $q$.",
+      "body": "$r = S\\,(q - Z)$, with a real scale $S > 0$ and an integer zero-point $Z$ in the range of $q$.\n\nEvery code $q$ stands for one real value, and neighboring codes are exactly $S$ apart, so the representable values form an evenly spaced grid. The map is affine (a scale and a shift), and called asymmetric because the grid need not be centered on 0.\n\nExample: with $S = 0.1$ and $Z = 10$, the code $q = 13$ means $r = 0.1\\,(13 - 10) = 0.3$.\n\nKey idea: a tensor is stored as integers $q$ plus two numbers, $S$ and $Z$, shared by every element that uses the same parameters.",
+      "searchQuery": "affine asymmetric quantization r = S(q - Z)",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.1",
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "affine-quantization"
+      ]
+    },
+    {
+      "id": "affine-zero-point-definition",
+      "unit": "affine-quantization-scheme",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "What is the **zero-point** $Z$ of a quantized tensor, and what must be true of it?",
+      "body": "The integer code that represents the real value 0 exactly; it must be an integer inside $[q_{\\min}, q_{\\max}]$.\n\nPlug $q = Z$ into the map: $r = S\\,(Z - Z) = 0$. So $Z$ is where real zero sits on the integer grid, and the scale $S$ is the real distance between neighboring codes.\n\nExample: for uint8 data covering $[-1, 3]$ the zero-point is $Z = 64$: real 0 is code 64, real $-1$ is about 64 steps below it.\n\nWatch out: $Z$ is an integer, not a float. That is a design requirement (see the next cards), not a detail: it is what lets 0 be stored without error.",
+      "searchQuery": "zero-point quantization integer represents real zero",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.1",
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "affine-quantization"
+      ]
+    },
+    {
+      "id": "affine-exact-zero-requirement",
+      "unit": "affine-quantization-scheme",
+      "kind": "concept",
+      "difficulty": 6,
+      "title": "Why must real 0 map exactly to an integer code?",
+      "body": "Zero appears everywhere in a network, as padding and as the output of ReLU, and an inexact zero would add a small error every time it is used.\n\nZero padding inserts real 0 around a feature map. If 0 were stored as a code that decodes to $0.003$, every border pixel would get a bias, and the integer kernel would need a special case. ReLU outputs are often mostly zeros, so errors would be spread over most of the tensor.\n\nKey idea: choose the grid so that one code sits exactly on 0. Then padding is just the code $Z$, and an integer kernel can treat padded and real inputs alike.\n\nWatch out: this is why the observed range $[r_{\\min}, r_{\\max}]$ is first extended to include 0. If all activations are positive, the range starts at 0, not at the smallest value seen.",
+      "searchQuery": "why real zero must be exactly representable quantization padding ReLU",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.1"
+      ],
+      "tags": [
+        "affine-quantization",
+        "exact-zero"
+      ]
+    },
+    {
+      "id": "affine-quantize-dequantize-formula",
+      "unit": "affine-quantization-scheme",
+      "kind": "formula",
+      "difficulty": 6,
+      "title": "Write the quantizer that maps a real $r$ to a code $q$, and the dequantizer that maps back.",
+      "body": "$q = \\mathrm{clamp}\\big(\\mathrm{round}(r/S) + Z,\\; q_{\\min},\\; q_{\\max}\\big)$ and $\\hat r = S\\,(q - Z)$.\n\nQuantize divides by the step, rounds to the nearest integer, shifts by $Z$ and **clamps** (saturates) to the code range, such as $[0, 255]$ or $[-128, 127]$. Dequantize undoes the shift and the scale.\n\nFor $r$ inside the representable range the only error is rounding, so $|\\hat r - r| \\le S/2$. Treated as uniform noise this has variance $S^2/12$. Outside the range, clamping adds a clipping error that can be much bigger.\n\nWatch out: dequantize does not recover $r$; it recovers $\\hat r$, the nearest grid value. Quantization is lossy by construction.",
+      "searchQuery": "quantize dequantize formula clamp round scale zero-point",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.1",
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "affine-quantization"
+      ]
+    },
+    {
+      "id": "affine-scale-zero-point-from-range",
+      "unit": "affine-quantization-scheme",
+      "kind": "formula",
+      "difficulty": 7,
+      "title": "For a real range $[r_{\\min}, r_{\\max}]$ containing 0 and a code range $[q_{\\min}, q_{\\max}]$, what are $S$ and $Z$?",
+      "body": "$S = \\dfrac{r_{\\max} - r_{\\min}}{q_{\\max} - q_{\\min}}$ and $Z = \\mathrm{round}\\!\\left(q_{\\min} - \\dfrac{r_{\\min}}{S}\\right)$.\n\nWhy: $S$ spreads the real range over the $q_{\\max} - q_{\\min}$ steps. $Z$ is where real 0 lands if $r_{\\min}$ is placed exactly on $q_{\\min}$; rounding it to an integer is what makes 0 exactly representable.\n\nWatch out: rounding $Z$ shifts the grid by up to $S/2$, so the representable range is slightly different from $[r_{\\min}, r_{\\max}]$. And $r_{\\min} \\le 0 \\le r_{\\max}$ must hold first; otherwise $Z$ can fall outside the code range.\n\nExample: uint8 and $[-1, 3]$ give $S = 4/255$ and $Z = \\mathrm{round}(63.75) = 64$.",
+      "searchQuery": "scale zero-point formula from min max range uint8 int8",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.1",
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "affine-quantization"
+      ]
+    },
+    {
+      "id": "affine-problem-scale-zero-point-uint8",
+      "unit": "affine-quantization-scheme",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "A tensor has observed range $[-1.0,\\ 3.0]$ and is stored as uint8 ($q\\in[0,255]$). Find $S$ and $Z$, quantize $r = 0.5$, and give the dequantized value and the true range the grid actually covers.",
+      "body": "$S = 4/255 \\approx 0.01569$, $Z = 64$, $0.5$ quantizes to $q = 96$ (dequantized $\\approx 0.5020$), and the grid covers about $[-1.0039,\\ 2.9961]$.\n\nSolution outline:\n1. $S = (3 - (-1))/(255 - 0) = 4/255 \\approx 0.015686$.\n2. $Z = \\mathrm{round}(0 - (-1)/S) = \\mathrm{round}(63.75) = 64$.\n3. $q = \\mathrm{round}(0.5/S) + 64 = \\mathrm{round}(31.875) + 64 = 32 + 64 = 96$.\n4. $\\hat r = S\\,(96 - 64) = 32\\cdot4/255 \\approx 0.5020$; the error $0.0020$ is below $S/2 \\approx 0.0078$.\n5. Real 0 maps to $q = 64$ and back to exactly 0.\n\nWatch out: because $Z$ was rounded from $63.75$ to $64$, the grid covers $S\\,(0-64) \\approx -1.0039$ to $S\\,(255-64) \\approx 2.9961$, not exactly $[-1, 3]$. The shift ($0.25$ steps) is under $S/2$.",
+      "searchQuery": "quantize range -1 to 3 uint8 scale 4/255 zero-point 64",
+      "checkpoint": true,
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.1"
+      ],
+      "tags": [
+        "affine-quantization"
+      ]
+    },
+    {
+      "id": "affine-problem-range-must-include-zero",
+      "unit": "affine-quantization-scheme",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "All activations of a layer lie in $[2,\\ 10]$ and are stored as uint8. Apply $S = (r_{\\max}-r_{\\min})/255$ and $Z = \\mathrm{round}(-r_{\\min}/S)$ directly. What goes wrong, and what range should you use instead?",
+      "body": "The formula gives $Z = -64$, outside $[0, 255]$; extend the range to $[0, 10]$, which gives $S = 10/255 \\approx 0.0392$ and $Z = 0$.\n\nSolution outline:\n1. Direct use: $S = 8/255 \\approx 0.03137$ and $Z = \\mathrm{round}(-2/S) = \\mathrm{round}(-63.75) = -64$.\n2. A zero-point of $-64$ is not a valid uint8 code, so real 0 could not be stored; clamping $Z$ to 0 would shift every value by 64 steps.\n3. Fix: widen the range to include 0, so $r_{\\min} = 0$ and $r_{\\max} = 10$. Then $S = 10/255 \\approx 0.03922$ and $Z = 0$.\n4. Cost: the step grows by $10/8 = 1.25\\times$, so the worst rounding error goes from $0.0157$ to $0.0196$.\n\nKey idea: exact zero is not free. Ranges that do not contain 0 pay for the grid points between 0 and the data.",
+      "searchQuery": "quantization range must include zero extend range uint8 zero-point out of range",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.1"
+      ],
+      "tags": [
+        "affine-quantization",
+        "exact-zero"
+      ]
+    },
+    {
+      "id": "affine-code-quantize-dequantize-clip",
+      "unit": "affine-quantization-scheme",
+      "kind": "code",
+      "difficulty": 6,
+      "title": "What does this print? (NumPy, $S = 0.1$, $Z = 10$, uint8 codes.)\n\n```python\nimport numpy as np\nS, Z = 0.1, 10\nr = np.array([-1.5, 0.0, 0.26, 30.0])\nq = np.clip(np.round(r / S) + Z, 0, 255).astype(np.uint8)\nprint(q, S * (q.astype(np.int32) - Z))\n```",
+      "body": "It prints `[  0  10  13 255] [-1.   0.   0.3 24.5]`.\n\nThe grid covers $S\\,(0-10) = -1.0$ to $S\\,(255-10) = 24.5$. The value $0.26$ is inside it, rounds to 3 steps above $Z$ and returns as $0.3$, an error of $0.04 \\le S/2 = 0.05$. The values $-1.5$ and $30.0$ lie outside, so they clamp to the end codes and come back as $-1.0$ and $24.5$: clipping errors of $0.5$ and $5.5$, far above $S/2$.\n\nWatch out: `0.0` returns exactly as `0`, which is the exact-zero property at work. Also note the cast to `int32` before subtracting $Z$ (the next card shows why).",
+      "searchQuery": "numpy quantize dequantize clip uint8 example",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.1"
+      ],
+      "tags": [
+        "affine-quantization"
+      ]
+    },
+    {
+      "id": "affine-code-uint8-wraparound-bug",
+      "unit": "affine-quantization-scheme",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this print, and what does the second `print` do differently to avoid the bug in the first? (NumPy, `q - Z` with a Python int `Z`; uint8 arrays keep their dtype.)\n\n```python\nimport numpy as np\nq = np.array([5, 130], dtype=np.uint8)\nZ = 10\nprint(q - Z)\nprint(q.astype(np.int32) - Z)\n```",
+      "body": "It prints `[251 120]` and then `[ -5 120]`; widening to int32 before subtracting $Z$ avoids the wrap-around.\n\nIn uint8 arithmetic, $5 - 10$ wraps modulo 256 to $251$, so a code below the zero-point would turn into a huge positive value and dequantize to the wrong sign. In int32 the result is the true $-5$.\n\nWatch out: this is the classic bug in hand-written dequantize and integer kernels. The difference $q - Z$ spans $[-255, 255]$ for uint8 and so needs more than 8 bits; real kernels widen to int16 or int32 first.\n\nTip: when checking a quantizer, test codes on both sides of $Z$.",
+      "searchQuery": "numpy uint8 subtraction wraparound zero-point bug",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.1"
+      ],
+      "tags": [
+        "affine-quantization"
+      ]
+    },
+    {
+      "id": "affine-code-floor-instead-of-round",
+      "unit": "affine-quantization-scheme",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this print? ($r$ uniform in $[0,1)$, uint8 with $S = 1/255$ and $Z = 0$.)\n\n```python\nimport numpy as np\nr = np.random.default_rng(0).uniform(0, 1, 100_000)\nS = 1 / 255\nq = np.floor(r / S)\nerr = np.abs(S * q - r)\nprint(err.max() <= S / 2, err.max() <= S)\n```",
+      "body": "It prints `False True`: flooring instead of rounding doubles the worst-case error from $S/2$ to nearly $S$.\n\nRounding to the nearest grid value gives an error in $[0, S/2]$. Flooring always moves down, so the error is spread over $[0, S)$ and its worst case approaches $S$ (about 100,000 samples get within a tiny fraction of it).\n\nWatch out: truncation is also biased: the mean error is about $S/2$ instead of 0. In a dot product with thousands of terms, a bias that all terms share adds up instead of canceling.\n\nTip: if a quantizer's measured maximum error is close to $S$ instead of $S/2$, check for truncation.",
+      "searchQuery": "quantization floor versus round error bound S/2 numpy",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.1",
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "affine-quantization"
+      ]
+    },
+    {
+      "id": "affine-tradeoff-range-versus-step",
+      "unit": "affine-quantization-scheme",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "With a fixed bit width, what is the trade-off between a wide quantization range and a small step, and when should you narrow the range?",
+      "body": "A wider range avoids clipping but makes the step $S$ larger (rounding error up to $S/2$); narrow the range when the outliers are rare and unimportant, keep it wide when they carry signal.\n\nWith $b$ bits, $S \\approx (r_{\\max} - r_{\\min})/(2^b - 1)$, so $S$ is proportional to the range. Cutting the range from $8$ to $2$ makes the step 4× smaller at 8 bits.\n\nExample: if a layer's activations are mostly in $[0, 2]$ with a few spikes up to $8$, covering $[0, 8]$ gives 4× coarser steps for the bulk. Clipping at 2 sharpens the bulk but wrecks the spikes.\n\nWatch out: the best choice depends on the task, not on the numbers alone. Large activations sometimes encode the decision (a strong keyword match), so clipping them hurts accuracy more than coarse steps.",
+      "searchQuery": "quantization range versus step size clipping trade-off",
+      "refs": [
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "affine-quantization",
+        "clipping-vs-rounding"
+      ]
+    },
+    {
+      "id": "affine-landmark-jacob-2018",
+      "unit": "affine-quantization-scheme",
+      "kind": "landmark",
+      "difficulty": 7,
+      "title": "What did Jacob et al. (CVPR 2018) propose in their quantization scheme, and what did they show?",
+      "body": "An affine scheme $r = S(q - Z)$ that supports inference with integer-only arithmetic, together with a training procedure that keeps accuracy after quantization; it improved the accuracy-latency trade-off even for MobileNets on ImageNet and COCO on common CPUs.\n\nTheir scheme requires that real 0 be exactly representable (for zero padding and the like), uses 8-bit integers for weights and activations and 32-bit integers for biases. The paper appeared at CVPR 2018.\n\nKey idea: the contribution is both the numeric scheme and the claim that all the arithmetic, including the rescaling between layers, can be integer-only (see the integer-only unit).\n\nWatch out: the paper's original recipe stores both weights and activations as uint8 with per-layer parameters. Today's LiteRT convention differs (int8, symmetric per-channel weights); see the per-channel unit.",
+      "searchQuery": "Jacob 2018 integer-arithmetic-only inference quantization training",
+      "refs": [
+        "https://arxiv.org/abs/1712.05877",
+        "Jacob et al. (CVPR 2018), §2.1"
+      ],
+      "tags": [
+        "affine-quantization"
+      ]
+    },
+    {
+      "id": "symmetric-quantization-definition",
+      "unit": "symmetric-vs-asymmetric",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "What is **symmetric quantization** with $b = 8$ bits, and how is its scale set?",
+      "body": "Symmetric quantization fixes the zero-point at $Z = 0$, so $r = S\\,q$, with $S = \\max|r|/127$ and codes restricted to $[-127, 127]$.\n\nThe grid is centered on 0: positive and negative values get the same step, and the largest magnitude lands on $\\pm127$. Quantizing is $q = \\mathrm{clamp}(\\mathrm{round}(r/S), -127, 127)$, with no shift to add and no zero-point to subtract.\n\nExample: weights with $\\max|w| = 0.635$ give $S = 0.635/127 = 0.005$, and $w = 0.3$ becomes $q = 60$.\n\nWatch out: if the data are lopsided (for instance $[-0.1, 0.9]$), the negative half of the grid goes mostly unused, and the effective resolution drops.",
+      "searchQuery": "symmetric quantization zero-point 0 scale max abs 127",
+      "refs": [
+        "Nagel et al. (2021), §2.2",
+        "LiteRT docs: quantization specification"
+      ],
+      "tags": [
+        "symmetric-quantization"
+      ]
+    },
+    {
+      "id": "symmetric-restricted-range-127",
+      "unit": "symmetric-vs-asymmetric",
+      "kind": "concept",
+      "difficulty": 6,
+      "title": "Why does symmetric int8 quantization use the **restricted range** $[-127, 127]$ and leave $-128$ unused?",
+      "body": "So the grid is symmetric about 0: every code has an exact negative, and negating or taking the absolute value of a code can never overflow int8.\n\nTwo's complement has one more negative value than positive ones: $-(-128) = 128$ does not fit in int8. Dropping $-128$ leaves 255 usable levels, costing less than 0.4% of the resolution, in return for simpler kernels and no special cases.\n\nWhy: a scale of $\\max|r|/127$ puts the largest positive and largest negative values on $+127$ and $-127$ with the same step. Using $-128$ as well would let the negative side reach one step further than the positive.\n\nWatch out: LiteRT's int8 weights use $[-127, 127]$, but its activations use the full $[-128, 127]$ with a zero-point. Check which range a toolchain assumes.",
+      "searchQuery": "int8 restricted range -127 to 127 symmetric quantization",
+      "refs": [
+        "LiteRT docs: quantization specification",
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "symmetric-quantization"
+      ]
+    },
+    {
+      "id": "symmetric-signed-vs-unsigned-int8",
+      "unit": "symmetric-vs-asymmetric",
+      "kind": "concept",
+      "difficulty": 6,
+      "title": "How do you convert a uint8 quantized tensor (codes $q$, zero-point $Z$) to int8 without changing the real values it represents?",
+      "body": "Subtract 128 from both the codes and the zero-point: $q_{\\text{int8}} = q_{\\text{uint8}} - 128$ and $Z_{\\text{int8}} = Z_{\\text{uint8}} - 128$, with the same scale $S$ and the same real values.\n\nThe real value is $S\\,(q - Z)$, and the difference $q - Z$ is unchanged by shifting both by 128. So uint8 and int8 are two labellings of one grid; only the integer type differs.\n\nExample: uint8 with $S = 0.05$, $Z = 131$ and $q = 200$ means $r = 0.05\\cdot69 = 3.45$. As int8 it is $q = 72$, $Z = 3$, and $r = 0.05\\cdot69 = 3.45$ again.\n\nTip: this is why one-sided data (such as ReLU outputs) are stored as uint8 with $Z = 0$, or as int8 with $Z = -128$. The two forms hold the same numbers.",
+      "searchQuery": "uint8 to int8 conversion subtract 128 zero-point",
+      "refs": [
+        "LiteRT docs: quantization specification",
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "signed-vs-unsigned"
+      ]
+    },
+    {
+      "id": "symmetric-zero-point-cross-terms-formula",
+      "unit": "symmetric-vs-asymmetric",
+      "kind": "formula",
+      "difficulty": 7,
+      "title": "Expand the integer dot product $\\sum_{j=1}^{N}(q_1^{j} - Z_1)(q_2^{j} - Z_2)$ into integer terms.",
+      "body": "$\\sum_j q_1^{j}q_2^{j} \\;-\\; Z_2\\sum_j q_1^{j} \\;-\\; Z_1\\sum_j q_2^{j} \\;+\\; N\\,Z_1Z_2$.\n\nThe first term is the plain integer dot product, which maps directly to the MAC hardware. The other three are the zero-point **cross terms**, and each needs extra work, or must be precomputed.\n\nKey idea: if $Z_2 = 0$ (symmetric weights), the terms $-Z_2\\sum q_1$ and $N Z_1 Z_2$ vanish, and only $-Z_1\\sum q_2$ remains. It depends on the weights only, so it can be computed once, offline.\n\nWatch out: if the weights had a nonzero zero-point, $Z_2\\sum_j q_1^{j}$ depends on the activations. It would have to be recomputed for every input position at run time.",
+      "searchQuery": "zero-point cross terms integer matrix multiply expansion",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.3",
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "zero-point-cross-terms"
+      ]
+    },
+    {
+      "id": "symmetric-problem-relu6-step-size",
+      "unit": "symmetric-vs-asymmetric",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "The outputs of a ReLU6 layer lie in $[0, 6]$. Compare the step size and the worst-case rounding error of 8-bit symmetric quantization (restricted range, $S = \\max|r|/127$) with asymmetric quantization onto $[-128, 127]$.",
+      "body": "Symmetric: $S = 6/127 \\approx 0.0472$, error $\\le 0.0236$; asymmetric: $S = 6/255 \\approx 0.0235$, error $\\le 0.0118$, so asymmetric halves the error (more precisely, it gains the factor $255/127 \\approx 2.01$).\n\nSolution outline:\n1. Symmetric: all values are $\\ge 0$, so only codes $0\\ldots127$ are used (128 levels) and $S = 6/127 \\approx 0.04724$.\n2. The worst rounding error is $S/2 \\approx 0.0236$.\n3. Asymmetric: $Z = -128$ puts real 0 on the lowest code, and all 256 codes cover $[0, 6]$, so $S = 6/255 \\approx 0.02353$ and the error is $\\le 0.01176$.\n\nWatch out: a negative half that is never used is a wasted bit. For one-sided data, symmetric quantization quietly loses 1 bit of resolution.",
+      "searchQuery": "relu6 symmetric versus asymmetric int8 step size error",
+      "refs": [
+        "Nagel et al. (2021), §2.2",
+        "Nagel et al. (2021), §2.4.1"
+      ],
+      "tags": [
+        "symmetric-quantization"
+      ]
+    },
+    {
+      "id": "symmetric-problem-dot-product-cross-terms",
+      "unit": "symmetric-vs-asymmetric",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Weights $q_w = [-2, 3, 1, -1]$ are symmetric ($Z_w = 0$). Activations $q_a = [10, 0, 7, 3]$ have $Z_a = 2$. Compute $\\sum_j (q_a^{j} - Z_a)\\,q_w^{j}$ from the expansion into integer terms, and say which term can be precomputed.",
+      "body": "$-18$: the dot product $\\sum q_a q_w = -16$ minus $Z_a\\sum q_w = 2\\cdot1 = 2$; the second term depends only on the weights and is precomputed.\n\nSolution outline:\n1. $\\sum_j q_a^{j}q_w^{j} = 10(-2) + 0\\cdot3 + 7\\cdot1 + 3(-1) = -16$.\n2. $\\sum_j q_w^{j} = -2 + 3 + 1 - 1 = 1$, so $Z_a\\sum q_w = 2$.\n3. Result: $-16 - 2 = -18$.\n4. Check directly: $q_a - Z_a = [8, -2, 5, 1]$, and $8(-2) + (-2)(3) + 5\\cdot1 + 1(-1) = -18$.\n\nKey idea: $Z_w = 0$ removed the cross terms that depend on the activations. The surviving one, $-Z_a\\sum q_w$, can be folded into the bias for each output channel before deployment.",
+      "searchQuery": "integer dot product zero-point correction precomputed term example",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.3",
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "zero-point-cross-terms"
+      ]
+    },
+    {
+      "id": "symmetric-tradeoff-weights-symmetric",
+      "unit": "symmetric-vs-asymmetric",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "Should weights be quantized symmetrically or asymmetrically, and under what conditions does the other choice win?",
+      "body": "Symmetric (zero-point 0) for weights: it removes the cross terms that depend on the activations; asymmetric only wins when a weight tensor is strongly lopsided and the kernel can afford the extra work.\n\nTrained weights are close to zero-centered, so a symmetric grid wastes little. A nonzero $Z_w$ would add $-Z_w\\sum_j q_a^{j}$ to every output, and unlike the activation zero-point term it cannot be precomputed because it depends on the input.\n\nThe other side: for a lopsided tensor (say $[-0.1, 0.9]$), asymmetric uses all 256 levels instead of about 140 and nearly halves the step.\n\nTip: the more common weight problem is channels with different ranges, which per-channel scales (next unit) fix at no kernel cost. LiteRT requires zero-point 0 for weights.",
+      "searchQuery": "weights symmetric quantization zero-point trade-off",
+      "refs": [
+        "Nagel et al. (2021), §2.2",
+        "LiteRT docs: quantization specification"
+      ],
+      "tags": [
+        "symmetric-quantization",
+        "zero-point-cross-terms"
+      ]
+    },
+    {
+      "id": "symmetric-tradeoff-activations-asymmetric",
+      "unit": "symmetric-vs-asymmetric",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "For activations, why is asymmetric quantization usually the better choice, and when would you choose symmetric?",
+      "body": "Asymmetric, because the activation zero-point only adds a constant per output channel that is precomputed offline, while one-sided data (ReLU outputs) get all the codes; use symmetric when the data are roughly zero-centered or a kernel cannot handle offsets.\n\nThe surviving term $-Z_a\\sum q_w$ is known once the weights are, so it is folded into the bias. The runtime cost is close to zero, and a ReLU output that is $\\ge 0$ gets a $2\\times$ finer step (see the ReLU6 problem).\n\nSymmetric activations win for zero-centered tensors (the output of a tanh, or a residual stream) where a zero-point buys nothing, and for hardware that has no input-offset support.\n\nWatch out: padding with the code $Z_a$ still means real 0, so asymmetric activations do not complicate zero padding.",
+      "searchQuery": "activations asymmetric quantization ReLU zero-point cost",
+      "refs": [
+        "Nagel et al. (2021), §2.2",
+        "Nagel et al. (2021), §2.4.1",
+        "LiteRT docs: quantization specification"
+      ],
+      "tags": [
+        "symmetric-quantization"
+      ]
+    },
+    {
+      "id": "symmetric-tradeoff-power-of-two-scale",
+      "unit": "symmetric-vs-asymmetric",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "What does restricting scales to powers of two buy, and what does it cost?",
+      "body": "It turns every rescaling into a bit shift, since $S_1S_2/S_3 = 2^{-k}$ for integer $k$, so no multiplier is needed; the cost is a scale up to $2\\times$ larger than ideal, which can lose up to one bit of precision, so it pays only on hardware without cheap multipliers.\n\nTo avoid clipping, the scale must be rounded up to the next power of two, $S_{\\text{pow2}} \\in [S, 2S)$. A power-of-two scale is exactly the fixed-point (Qm.n) format, $S = 2^{-n}$.\n\nPower-of-two scales win on hardware without cheap multipliers (small FPGA or ASIC datapaths, simple accelerators). On most Cortex-M cores a 32-bit multiply takes a single cycle, so arbitrary scales cost little and keep the resolution.\n\nTip: if the coarser steps cost too much accuracy, retraining the network with the power-of-two scales in place lets the weights adapt to them.",
+      "searchQuery": "power of two scale shift quantization fixed point trade-off",
+      "refs": [
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "symmetric-quantization",
+        "fixed-point"
+      ]
+    },
+    {
+      "id": "symmetric-code-negation-overflow",
+      "unit": "symmetric-vs-asymmetric",
+      "kind": "code",
+      "difficulty": 6,
+      "title": "What does this print? (NumPy `int8`; negation and `np.abs` stay in int8.)\n\n```python\nimport numpy as np\nq = np.array([-128, 127, 5], dtype=np.int8)\nprint(-q)\nprint(np.abs(q))\n```",
+      "body": "It prints `[-128 -127   -5]` and then `[-128  127    5]`: the code $-128$ is its own negative and its own absolute value.\n\nThe true value $128$ does not fit in int8, so it wraps to $-128$. Everything else behaves, but a single such code breaks identities like $|q| \\ge 0$ or $-(-q) = q$ applied in the narrow type.\n\nWhy this matters: it is one practical reason for the restricted range $[-127, 127]$. When no code is $-128$, negating, taking the absolute value or reflecting a quantized tensor is always exact.\n\nWatch out: activations (full range $[-128, 127]$) can still contain $-128$. Do arithmetic on them in a wider type.",
+      "searchQuery": "int8 negation overflow -128 abs numpy restricted range",
+      "refs": [
+        "LiteRT docs: quantization specification",
+        "Nagel et al. (2021), §2.2"
+      ],
+      "tags": [
+        "symmetric-quantization"
+      ]
+    },
+    {
+      "id": "granularity-definition",
+      "unit": "per-tensor-vs-per-channel",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "What is **quantization granularity**, and what are its three common levels for a weight tensor?",
+      "body": "Granularity is how many values share one scale (and zero-point): the whole tensor (per-tensor), one output channel (per-channel) or one block of $g$ consecutive weights (per-group).\n\nFiner granularity follows the data's local range more closely, so the step is smaller where values are small, at the price of more stored scales and a more complex kernel.\n\nExample: a $3\\times3$ convolution with 64 input and 64 output channels ($36{,}864$ weights) has one scale per-tensor, 64 per-channel, or $36{,}864/g$ per-group (with $g = 32$ that is 1,152).\n\nKey idea: the choice is a ladder from cheap and coarse to expensive and precise. Convolution weights in int8 sit on the per-channel rung, and 4-bit LLM weights on the per-group rung.",
+      "searchQuery": "quantization granularity per-tensor per-channel per-group",
+      "refs": [
+        "Nagel et al. (2021), §2.4.2",
+        "Nagel et al. (2021), §2.2.3"
+      ],
+      "tags": [
+        "granularity"
+      ]
+    },
+    {
+      "id": "per-channel-quantization-definition",
+      "unit": "per-tensor-vs-per-channel",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "What is **per-channel (per-axis) quantization** of convolution weights?",
+      "body": "Each output channel (one filter) gets its own scale (and zero-point), so a layer with $C_{\\text{out}}$ filters stores a vector of $C_{\\text{out}}$ scales.\n\nIn LiteRT the scales sit along a `quantized_dimension`: dimension 0 of a `CONV_2D` filter (laid out as $[C_{\\text{out}}, K_h, K_w, C_{\\text{in}}]$) and dimension 3 of a `DEPTHWISE_CONV_2D` filter (laid out as $[1, K_h, K_w, C_{\\text{out}}]$).\n\nWhy output channels: the scale of a filter is constant across the sum that produces one output value, so it can be applied once, when the accumulator is rescaled.\n\nWatch out: the axis depends on the layout. The same logical axis is dimension 0 or 3, depending on the layer type, and setting it wrong silently mixes scales between filters.",
+      "searchQuery": "per-channel per-axis weight quantization one scale per output channel",
+      "refs": [
+        "LiteRT docs: quantization specification",
+        "Nagel et al. (2021), §2.4.2"
+      ],
+      "tags": [
+        "granularity",
+        "per-channel"
+      ]
+    },
+    {
+      "id": "per-channel-depthwise-range-imbalance",
+      "unit": "per-tensor-vs-per-channel",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "Why do depthwise convolutions lose accuracy under a single per-tensor weight scale?",
+      "body": "Channel ranges can differ by orders of magnitude, and one scale set by the largest channel leaves the small-range channels with only a few distinct codes.\n\nA depthwise filter looks at one channel only, with no mixing across channels to average errors out. After batch-norm folding the filters are multiplied by $\\gamma/\\sqrt{\\sigma^2+\\epsilon}$, which varies a lot between channels, so the imbalance gets worse.\n\nNagel et al. report that plain 8-bit per-tensor post-training quantization of MobileNetV2 (depthwise-separable) collapsed to 0.12% ImageNet top-1, and equalizing the channel ranges brought it back to 69.91%.\n\nKey idea: a channel's weights only keep their information if the step is small relative to the channel's own range. Per-channel scales provide exactly that.",
+      "searchQuery": "depthwise convolution per-tensor quantization channel range imbalance MobileNet",
+      "refs": [
+        "Nagel et al. (2021), §3.2",
+        "Nagel et al. (2021), §2.4.2"
+      ],
+      "tags": [
+        "granularity",
+        "per-channel"
+      ]
+    },
+    {
+      "id": "per-channel-tradeoff-weights",
+      "unit": "per-tensor-vs-per-channel",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "For convolution weights, per-tensor or per-channel scales? When does each win?",
+      "body": "Per-channel when channel ranges differ (depthwise layers, folded batch norm) and the kernels support it; per-tensor only when the hardware or runtime allows a single scale per tensor.\n\nPer-channel cost is small: one fp32 scale per filter, plus a per-channel multiplier and shift when rescaling the accumulator (the multiply count is unchanged). It usually recovers most of the accuracy lost to channel range imbalance with no retraining.\n\nPer-tensor is simpler and is all that some NPUs and older runtimes handle; then the channel ranges have to be evened out another way, by rescaling channels between consecutive layers (cross-layer equalization, next unit) or by retraining.\n\nWatch out: not every runtime accepts per-channel for every operator. Check that the operator you deploy takes a scale vector, or the converter will silently fall back or refuse.",
+      "searchQuery": "per-tensor versus per-channel weight scales trade-off",
+      "refs": [
+        "Nagel et al. (2021), §2.4.2",
+        "LiteRT docs: quantization specification",
+        "Krishnamoorthi, Quantizing Deep Convolutional Networks for Efficient Inference: A Whitepaper (arXiv 1806.08342, 2018)"
+      ],
+      "tags": [
+        "granularity",
+        "per-channel"
+      ]
+    },
+    {
+      "id": "per-channel-tradeoff-activations-per-tensor",
+      "unit": "per-tensor-vs-per-channel",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "For the activations feeding a convolution, should you use one scale per tensor or one per input channel, and when could per-channel activation scales pay off?",
+      "body": "Per-tensor: a scale per input channel would change inside the sum over channels, so it could not be pulled out of the integer accumulation; per-channel activation scales pay off only on hardware that rescales each product in its datapath.\n\nAn output value is $y_k = \\sum_c w_{k,c}\\, a_c$ (over input channels and positions). With weight scale $S_k$ and one activation scale $S_a$ with zero-point $Z_a$, $y_k = S_k S_a \\sum_c q^w_{k,c}\\,(q^a_c - Z_a)$: the scales leave the sum, and the sum is pure integer. With a scale $s_c$ per activation channel, each term carries its own factor $s_c$, so every product would need rescaling before it is added.\n\nThe other side: activation channels can also differ widely in range, and one per-tensor scale then wastes codes on the small channels. Per-channel activation scales would fix that, but only hardware that applies a scale per term can use them, at the cost of extra multiplies in the inner loop.\n\nTip: this is the same reason weight scales are indexed by output channel: the index that is not summed over is the one that can have its own scale.",
+      "searchQuery": "activation scales per-tensor versus per-channel integer accumulation",
+      "refs": [
+        "Nagel et al. (2021), §2.4.2",
+        "Jacob et al. (CVPR 2018), §2.2"
+      ],
+      "tags": [
+        "granularity",
+        "per-channel"
+      ]
+    },
+    {
+      "id": "per-group-tradeoff-vs-per-channel",
+      "unit": "per-tensor-vs-per-channel",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "When is per-group quantization worth its extra scales, compared with per-channel?",
+      "body": "At 4 bits or fewer, where each step is so coarse that a group of 32 to 128 weights needs its own scale; at int8, per-channel is enough and simpler.\n\nWith $b = 4$ bits there are only 16 levels, so a single outlier in a long row stretches the scale for everything. Groups of $g$ weights limit the damage to $g$ values. The scale overhead is $16/g$ bits per weight for an fp16 scale: $0.5$ bits at $g = 32$ and $0.125$ bits at $g = 128$.\n\nPer-channel at int8 already gives 255 levels, so extra scales buy little. The kernel also gets harder, because the scale changes inside the dot product.\n\nExample: 4-bit weights with $g = 32$ and fp16 scales cost $4.5$ bits per weight in total.",
+      "searchQuery": "per-group quantization group size scale overhead 4-bit",
+      "refs": [
+        "Nagel et al. (2021), §2.2.3 and §2.4.2",
+        "MIT 6.5940 lecture 6"
+      ],
+      "tags": [
+        "granularity",
+        "per-group"
+      ]
+    },
+    {
+      "id": "per-channel-problem-depthwise-imbalance",
+      "unit": "per-tensor-vs-per-channel",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "A depthwise layer has two channels. Channel A has $\\max|w| = 12.7$ and channel B has $\\max|w| = 0.26$. Quantize symmetrically to int8 (restricted range). With one per-tensor scale, how many distinct codes can channel B use, and what is the worst rounding error compared with a per-channel scale for B?",
+      "body": "Per-tensor: $S = 0.1$, so B uses only codes $-3\\ldots3$ (7 values) with worst error $0.05$ (19% of its maximum); per-channel: $S_B = 0.26/127 \\approx 0.00205$, error $\\le 0.00102$ (0.4%).\n\nSolution outline:\n1. Per-tensor: $S = 12.7/127 = 0.1$.\n2. B's largest weight maps to $\\mathrm{round}(0.26/0.1) = \\mathrm{round}(2.6) = 3$, so B only ever occupies codes $-3\\ldots3$.\n3. The worst error is $S/2 = 0.05$, and $0.05/0.26 \\approx 19\\%$ of B's range. Any weight with $|w| < 0.05$ rounds to 0.\n4. Per-channel: $S_B = 0.26/127 \\approx 0.002047$, so the error is $\\le 0.00102$, about $0.4\\%$ of B's range (49× smaller).\n\nWatch out: channel A is unaffected either way. The cost of a per-tensor scale falls entirely on the small channels.",
+      "searchQuery": "depthwise two channels per-tensor int8 scale range imbalance example",
+      "refs": [
+        "Nagel et al. (2021), §2.4.2"
+      ],
+      "tags": [
+        "granularity"
+      ]
+    },
+    {
+      "id": "per-channel-problem-scale-storage-depthwise",
+      "unit": "per-tensor-vs-per-channel",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "A $3\\times3$ depthwise convolution over 96 channels has int8 weights and one fp32 scale per channel. How many bytes of scales are there, and what fraction of the weight bytes is that? (Answer with the byte count.)",
+      "body": "384 bytes of scales, which is 44% of the 864 bytes of weights.\n\nSolution outline:\n1. Weights: $3\\cdot3\\cdot96 = 864$ values, so $864$ B in int8.\n2. Scales: $96\\times4\\,\\mathrm{B} = 384$ B.\n3. Overhead: $384/864 \\approx 0.444$.\n\nWhy it matters: a depthwise filter has only 9 weights, so a scale per filter is a big fraction of the layer. Compare a $3\\times3$ convolution with $64\\to64$ channels: $36{,}864$ B of weights against $256$ B of scales, $0.7\\%$.\n\nWatch out: per-channel quantization also needs a rescaling multiplier and shift per channel, and every layer already stores an int32 bias per channel ($96\\times4 = 384$ B again), so depthwise layers carry a lot of metadata. It's still small next to the pointwise layers that hold most of the weights.",
+      "searchQuery": "per-channel scale storage overhead depthwise conv 96 channels bytes",
+      "answer": "384",
+      "acceptedAnswers": [
+        "384 bytes",
+        "384 B"
+      ],
+      "answerDisplay": "$384$ B",
+      "refs": [
+        "LiteRT docs: quantization specification",
+        "Nagel et al. (2021), §2.4.2"
+      ],
+      "tags": [
+        "granularity",
+        "per-channel"
+      ]
+    },
+    {
+      "id": "litert-int8-quantization-spec",
+      "unit": "per-tensor-vs-per-channel",
+      "kind": "numbers",
+      "difficulty": 6,
+      "title": "What is the LiteRT int8 quantization spec for weights, activations and biases?",
+      "body": "Weights: int8 in $[-127, 127]$, zero-point 0, per-axis scales; activations: int8 in $[-128, 127]$, per-tensor, with a zero-point; bias: int32, zero-point 0, scale = input scale × weight scale.\n\nFor convolution the bias scale is $S_{\\text{in}}\\cdot S_{w,k}$ per output channel $k$, so it adds directly to the int32 accumulator. The spec also lists `FULLY_CONNECTED` weights as per-axis (dimension 0), with the same bias rule.\n\nWhy this design: symmetric per-axis weights keep the cross terms away and track channel ranges; asymmetric per-tensor activations use all 256 codes; a bias at scale $S_{\\text{in}} S_w$ needs no rescaling before the sum.\n\nWatch out: the older LiteRT/TFLite uint8 scheme was asymmetric for weights too, so converting old models changes the convention.",
+      "searchQuery": "LiteRT int8 quantization spec weights -127 127 activations bias int32",
+      "refs": [
+        "LiteRT docs: quantization specification",
+        "https://developers.google.com/edge/litert/models/quantization_spec"
+      ],
+      "tags": [
+        "granularity",
+        "litert-spec"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "per-channel-landmark-krishnamoorthi-2018",
+      "unit": "per-tensor-vs-per-channel",
+      "kind": "landmark",
+      "difficulty": 7,
+      "title": "What did Krishnamoorthi's 2018 whitepaper establish about per-channel quantization and 8-bit post-training quantization?",
+      "body": "Per-channel weight quantization with per-layer activation quantization to 8 bits, applied after training with no retraining, stays within about 2% of floating-point accuracy for a wide range of CNNs.\n\nThe paper (an arXiv whitepaper by Raghuraman Krishnamoorthi, June 2018, not peer-reviewed) also reports that 8-bit weights make models 4× smaller even without 8-bit arithmetic, CPU speed-ups of 2× to 3×, up to 10× on fixed-point SIMD DSPs, and that quantization-aware training narrows the gap to about 1%.\n\nKey idea: it is the practical recipe behind today's defaults: per-channel for weights, per-tensor for activations.\n\nWatch out: \"within 2%\" is a range over the networks tested; depthwise-heavy networks such as MobileNets are where per-channel scales matter most.",
+      "searchQuery": "Krishnamoorthi whitepaper 2018 quantizing deep convolutional networks per-channel",
+      "refs": [
+        "https://arxiv.org/abs/1806.08342"
+      ],
+      "tags": [
+        "granularity",
+        "per-channel"
+      ]
+    },
+    {
+      "id": "calibration-ptq-definition",
+      "unit": "calibration-and-range-setting",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "What is **post-training quantization (PTQ)**?",
+      "body": "Quantizing an already trained float model without retraining it, using at most a small unlabeled calibration set to choose the ranges of the activations.\n\nThe weights' ranges come from the weights themselves, so PTQ needs data only for activation tensors (and for optional refinements such as AdaRound). No labels, no gradients through the whole network, and no training pipeline are needed.\n\nKey idea: PTQ is cheap and fast (minutes), which is why it is the first thing to try. The price is that it cannot adapt the weights to the rounding, so accuracy can drop at low bit widths.\n\nWatch out: do not confuse it with quantization-aware training, which keeps training with simulated quantization (a later unit).",
+      "searchQuery": "post-training quantization PTQ definition calibration",
+      "refs": [
+        "Nagel et al. (2021), §3.1",
+        "LiteRT docs: post-training quantization"
+      ],
+      "tags": [
+        "ptq"
+      ]
+    },
+    {
+      "id": "calibration-procedure-representative-dataset",
+      "unit": "calibration-and-range-setting",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "How is activation calibration done, and how much data does it need?",
+      "body": "Run a few hundred unlabeled representative samples through the float model, record each activation tensor's statistics (min and max, or a histogram), and turn them into $S$ and $Z$.\n\nWeights need no calibration data. The **calibration dataset** (LiteRT calls it the **representative dataset**) is typically 100 to 500 samples in the LiteRT docs and 500 to 1,000 unlabeled images in Nagel et al.\n\nWhy a few hundred suffice: a range is an extreme statistic of the activations, and its estimate stabilizes quickly as samples accumulate. Rare overshoots beyond the range are clipped and cost little.\n\nWatch out: sufficiency assumes the samples are representative of deployment. Few and representative beats many and unrepresentative.",
+      "searchQuery": "calibration dataset representative dataset how many samples PTQ",
+      "refs": [
+        "LiteRT docs: post-training quantization",
+        "Nagel et al. (2021), §3.5"
+      ],
+      "tags": [
+        "ptq"
+      ]
+    },
+    {
+      "id": "calibration-standard-ptq-pipeline",
+      "unit": "calibration-and-range-setting",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "In what order does Nagel et al.'s standard PTQ pipeline apply its steps?",
+      "body": "Cross-layer equalization; add quantizers; set weight ranges (MSE); AdaRound if a small calibration set exists (bias correction if there is none); set activation ranges (MSE) on calibration data.\n\n- **Cross-layer equalization (CLE)** rescales channels between consecutive layers: with a ReLU in between, dividing a channel's outputs by $s > 0$ and multiplying the next layer's matching weights by $s$ leaves the function unchanged but evens out the ranges.\n- **Bias correction** subtracts the average output shift that rounding causes, using data or batch-norm statistics.\n- **AdaRound** learns, for each weight, whether to round up or down.\n\nWatch out: order matters: equalization changes the weights, so it has to run before any range is chosen.",
+      "searchQuery": "standard PTQ pipeline CLE AdaRound bias correction order Nagel",
+      "refs": [
+        "Nagel et al. (2021), §3.5"
+      ],
+      "tags": [
+        "ptq"
+      ]
+    },
+    {
+      "id": "calibration-tradeoff-range-setters",
+      "unit": "calibration-and-range-setting",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "Min–max, percentile, MSE or KL range setting: which should you use for activations, and when does min–max win?",
+      "body": "MSE (or KL) for activations with long tails, especially at low bit widths; min–max when outliers matter or tensors are well-behaved, such as per-channel weights.\n\n- **Min–max**: use the observed extremes. No clipping, but a single outlier sets the step for everything.\n- **Percentile**: set the range so that a small fixed fraction of the values (say 0.01%) falls outside it at each end and is clipped; the fraction is chosen by hand.\n- **MSE**: choose the clip that minimizes $\\|x - \\hat x\\|^2$ between the tensor and its quantized version.\n- **KL (entropy)**: choose the threshold that minimizes the KL divergence between the float histogram and the quantized one (the idea behind TensorRT's calibrator).\n\nWhy: the total error is rounding error (up with a wider range) plus clipping error (up with a narrower one); MSE and KL search for the balance, percentile guesses it.\n\nWatch out: clipping is catastrophic when the outliers carry information, as with the few huge activations in some transformers.",
+      "searchQuery": "min-max percentile MSE KL entropy calibration range setting comparison",
+      "refs": [
+        "Nagel et al. (2021), §3.1",
+        "Migacz, 8-bit Inference with TensorRT (GTC 2017)"
+      ],
+      "tags": [
+        "ptq",
+        "clipping-vs-rounding"
+      ]
+    },
+    {
+      "id": "calibration-tradeoff-bias-correction-vs-adaround",
+      "unit": "calibration-and-range-setting",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "When do you use bias correction instead of AdaRound, and when is AdaRound worth its cost?",
+      "body": "Bias correction when no calibration data exist (it can use batch-norm statistics); AdaRound when a small unlabeled set is available, especially for 4-bit weights.\n\nBias correction is analytic or one pass over data: it cancels the average shift in each output but leaves the per-weight rounding choices alone. AdaRound optimizes the rounding of every weight layer by layer against the layer's output error, with an iterative optimization per layer.\n\nExample: in Nagel et al.'s experiments on ResNet18 with 4-bit weights, AdaRound lifted ImageNet accuracy from 23.99% to 68.60%.\n\nWatch out: AdaRound needs calibration data and some compute time, and it adjusts only weight rounding, not the activation ranges.",
+      "searchQuery": "bias correction versus AdaRound 4-bit weights calibration data",
+      "refs": [
+        "Nagel et al. (2021), §3.3 and 3.4"
+      ],
+      "tags": [
+        "ptq"
+      ]
+    },
+    {
+      "id": "calibration-problem-outlier-mse",
+      "unit": "calibration-and-range-setting",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "A tensor has 99 values spread uniformly in $[0, 1]$ and one outlier at $10$, stored as uint8. Using rounding error $\\approx S^2/12$ per unclipped value, compare the mean squared error of min–max range $[0,10]$ with clipping at $1$.",
+      "body": "Min–max: $\\text{MSE} \\approx 1.3\\times10^{-4}$; clip at 1: $\\approx 0.81$, about 6,000× worse, so the MSE criterion keeps the outlier here.\n\nSolution outline:\n1. Min–max: $S = 10/255$, so every value has rounding error $\\approx S^2/12 \\approx 1.28\\times10^{-4}$.\n2. Clip at 1: $S = 1/255$, rounding error $\\approx 1.3\\times10^{-6}$ for the 99 values; the outlier becomes 1, an error of 9, so its squared error is 81.\n3. Mean over 100 values: $(99\\cdot1.3\\times10^{-6} + 81)/100 \\approx 0.81$.\n\nKey idea: clipping pays only when the clipped mass is small compared with the rounding saved. One value at $10\\times$ the rest is too large to drop.\n\nWatch out: a percentile setter at 99% would clip this outlier automatically. Whether that is right depends on what the outlier means for the task.",
+      "searchQuery": "min-max versus clipping outlier mean squared error uint8 example",
+      "refs": [
+        "Nagel et al. (2021), §3.1"
+      ],
+      "tags": [
+        "ptq",
+        "clipping-vs-rounding"
+      ]
+    },
+    {
+      "id": "calibration-problem-calibration-overshoot-probability",
+      "unit": "calibration-and-range-setting",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "A min–max calibrator saw $n = 99$ calibration samples. Assume each sample's tensor maximum is an independent draw from one continuous distribution. What is the probability that the next sample's maximum exceeds the calibrated maximum, and what is it for $n = 499$?",
+      "body": "$1/(n+1)$: 1% for $n = 99$ and 0.2% for $n = 499$.\n\nSolution outline:\n1. The $n+1$ maxima (the 99 seen and the new one) are exchangeable and, being continuous, have no ties.\n2. By symmetry, each of the $n+1$ values is equally likely to be the largest.\n3. The new maximum exceeds the calibrated range exactly when it is the largest of the $n+1$, with probability $1/(n+1)$: $1/100 = 1\\%$ and $1/500 = 0.2\\%$.\n\nWhy it matters: this is why a few hundred samples suffice. The chance of an overshoot falls like $1/n$, and most overshoots are small and get clipped at little cost.\n\nWatch out: the independence and same-distribution assumptions are exactly the condition that the calibration set be representative.",
+      "searchQuery": "probability next sample exceeds calibration max 1/(n+1) exchangeability",
+      "refs": [
+        "Nagel et al. (2021), §3.5"
+      ],
+      "tags": [
+        "ptq"
+      ]
+    },
+    {
+      "id": "calibration-code-percentile-observer",
+      "unit": "calibration-and-range-setting",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this print? (NumPy; `np.percentile` interpolates linearly.)\n\n```python\nimport numpy as np\nx = np.concatenate([np.linspace(0, 1, 999), [50.0]])\nprint(np.percentile(x, 99.9).round(3), x.max())\n```",
+      "body": "It prints `1.049 50.0`: the 99.9th percentile is 1.049 while the maximum is 50.\n\nThe 1,000 sorted values have the last two at $1.0$ and $50.0$. The 99.9th percentile sits at position $0.999\\times999 = 998.001$, so it is $1.0 + 0.001\\times(50 - 1) = 1.049$.\n\nConsequence for an 8-bit range starting at 0: min–max gives $S = 50/255 \\approx 0.196$, but percentile clipping gives $S = 1.049/255 \\approx 0.0041$, 48× finer for the 999 ordinary values, at the price of clipping one value.\n\nWatch out: percentile and min–max agree only when there are no outliers. Choose the percentile (99.9, 99.99) by checking accuracy, not by habit.",
+      "searchQuery": "numpy percentile calibration clip outlier range example",
+      "refs": [
+        "Nagel et al. (2021), §3.1"
+      ],
+      "tags": [
+        "ptq",
+        "clipping-vs-rounding"
+      ]
+    },
+    {
+      "id": "calibration-code-mse-clip-search",
+      "unit": "calibration-and-range-setting",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this print? ($x$ is a standard-normal sample, symmetric quantization with $2^{b-1}-1$ levels per side.)\n\n```python\nimport numpy as np\ndef best_clip(x, bits):\n    qmax = 2 ** (bits - 1) - 1\n    best = None\n    for t in np.linspace(0.1, 1.0, 100) * np.abs(x).max():\n        S = t / qmax\n        xq = np.clip(np.round(x / S), -qmax, qmax) * S\n        e = ((x - xq) ** 2).mean()\n        if best is None or e < best[0]:\n            best = (e, t)\n    return best[1]\nx = np.random.default_rng(0).normal(size=10_000)\nprint(best_clip(x, 8) > best_clip(x, 4))\n```",
+      "body": "It prints `True`: the MSE-optimal clip threshold is larger at 8 bits than at 4 bits.\n\nThe function tries 100 clip thresholds up to $\\max|x| \\approx 3.90$ and keeps the one with the smallest squared error. In this run it picks about $3.76$ at 8 bits and $2.41$ at 4 bits.\n\nWhy: with 255 levels the step is small, so rounding error is cheap and clipping the tails is the larger cost; with 15 levels the step is coarse, so it pays to clip the tails and shrink the step.\n\nKey idea: the optimal range is not a property of the data alone; it depends on the bit width. That is why a range tuned for int8 is wrong for int4.",
+      "searchQuery": "MSE optimal clipping threshold search bit width numpy",
+      "refs": [
+        "Nagel et al. (2021), §3.1"
+      ],
+      "tags": [
+        "ptq",
+        "clipping-vs-rounding"
+      ]
+    },
+    {
+      "id": "calibration-landmark-data-free-quantization",
+      "unit": "calibration-and-range-setting",
+      "kind": "landmark",
+      "difficulty": 7,
+      "title": "What did Nagel et al.'s \"Data-Free Quantization Through Weight Equalization and Bias Correction\" (ICCV 2019) introduce?",
+      "body": "Two data-free steps for 8-bit post-training quantization: equalizing weight ranges across consecutive layers (using the scale equivariance of ReLU-like activations) and correcting the bias shift that quantization causes.\n\nIt needs no data, fine-tuning or hyperparameter tuning, and reached near-original accuracy on common vision networks and state-of-the-art quantized results for the MobileNet family. It is a peer-reviewed paper (ICCV 2019, Nagel, van Baalen, Blankevoort and Welling).\n\nKey idea: networks with depthwise-separable layers have very unbalanced channel ranges, and a mathematically equivalent rescaling can fix that before quantizing.\n\nWatch out: the equivalence relies on activation functions with $f(sx) = s f(x)$ for $s > 0$ (ReLU qualifies; ReLU6 does not, because its clip at 6 does not scale).",
+      "searchQuery": "data-free quantization weight equalization bias correction Nagel ICCV 2019",
+      "refs": [
+        "https://arxiv.org/abs/1906.04721"
+      ],
+      "tags": [
+        "ptq"
+      ]
+    },
+    {
+      "id": "calibration-landmark-adaround-2020",
+      "unit": "calibration-and-range-setting",
+      "kind": "landmark",
+      "difficulty": 7,
+      "title": "What did Nagel et al.'s AdaRound (\"Up or Down? Adaptive Rounding for Post-Training Quantization\", ICML 2020) show?",
+      "body": "Rounding each weight to the nearest grid point is not optimal; learning whether to round up or down per weight, from a small unlabeled set and without fine-tuning, quantizes ResNet18 and ResNet50 weights to 4 bits within 1% of float accuracy.\n\nThe method approximates the task loss with a Taylor expansion, reduces it to a layer-wise loss on the layer's output, and optimizes the rounding choices with a soft relaxation. It is peer-reviewed (ICML 2020).\n\nKey idea: what matters is the layer's output error, not each weight's own error. Rounding the wrong way on two correlated weights can cancel their errors, and nearest rounding cannot exploit that.\n\nWatch out: AdaRound adjusts weight rounding only; activation ranges still come from calibration.",
+      "searchQuery": "AdaRound adaptive rounding post-training quantization ICML 2020",
+      "refs": [
+        "https://arxiv.org/abs/2004.10568"
+      ],
+      "tags": [
+        "ptq"
+      ]
+    },
+    {
+      "id": "calibration-misconception-any-data-works",
+      "unit": "calibration-and-range-setting",
+      "kind": "misconception",
+      "difficulty": 7,
+      "title": "Why is \"any few hundred images will do for calibration\" false?",
+      "body": "Calibration samples must match deployed inputs in preprocessing, domain and class coverage; otherwise the recorded ranges are wrong and activations clip or waste levels.\n\nExamples of failure: calibrating on raw 0 to 255 pixels when the model sees values divided by 255 (ranges 255× too large, so the useful values fall in a few codes); calibrating on one class, so a rarer class's larger activations clip; using noise or random tensors, whose statistics resemble nothing deployed.\n\nKey idea: the amount of data is not the issue, the distribution is. A few hundred representative samples beat thousands that are not.\n\nTip: pass calibration data through the same pipeline as deployment (same resize, normalization, windowing) to avoid training-serving skew.",
+      "searchQuery": "calibration data must be representative preprocessing mismatch PTQ failure",
+      "refs": [
+        "LiteRT docs: post-training quantization",
+        "Nagel et al. (2021), §3.5"
+      ],
+      "tags": [
+        "ptq",
+        "training-serving-skew"
+      ]
+    },
+    {
+      "id": "requantization-definition",
+      "unit": "integer-only-requantization",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "What is **requantization** in an integer-only layer?",
+      "body": "Rescaling the int32 accumulator (real scale $S_1S_2$) onto the output tensor's int8 grid (scale $S_3$): multiply by $M = S_1S_2/S_3$, round, add $Z_3$, and saturate to $[-128, 127]$.\n\nThe accumulator holds products of two quantized values, so its unit is $S_1S_2$, not the scale the next layer expects. Requantization is the conversion between the two, done with integers only.\n\nKey idea: it is the last step of every conv, fully connected and add layer, and it is where a fused activation is applied (see the clamp card).\n\nWatch out: skipping the rounding or the saturation does not just add noise. An out-of-range int32 value cast straight to int8 wraps around modulo 256, so a value just above 127 comes back large and negative.",
+      "searchQuery": "requantization int32 accumulator to int8 multiplier M integer-only",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2",
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)"
+      ],
+      "tags": [
+        "requantization"
+      ]
+    },
+    {
+      "id": "requantization-int32-accumulator-and-bias",
+      "unit": "integer-only-requantization",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "Why are int8 matrix multiplies accumulated in int32, and what scale and zero-point does the int32 bias have?",
+      "body": "A product of two int8 values needs up to 16 bits (signed) and a sum of many needs more, so the accumulator is int32; the bias is int32 with scale $S_1S_2$ and zero-point 0, so it adds straight into the accumulator.\n\nWhy: a real product term is $S_1(q_1 - Z_1)\\cdot S_2(q_2 - Z_2)$, so the sum's unit is $S_1S_2$. A real bias $b$ expressed in that unit is $q_b = \\mathrm{round}(b/(S_1S_2))$. With scale $S_1S_2$ it needs no rescaling before the sum.\n\nWhy 32 bits: a real bias divided by a tiny scale grows quickly (for example $1.0/10^{-4} = 10{,}000$), and it joins an accumulator that holds sums of thousands of products anyway.\n\nWatch out: quantizing the bias to 8 bits would be too coarse. At $S_1S_2$ the error is at most half of that tiny step.",
+      "searchQuery": "int32 accumulator bias quantization scale S1 S2 zero-point 0",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2",
+        "LiteRT docs: quantization specification"
+      ],
+      "tags": [
+        "requantization",
+        "accumulator"
+      ]
+    },
+    {
+      "id": "requantization-fixed-point-multiplier-concept",
+      "unit": "integer-only-requantization",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "How is the real multiplier $M$ applied to an int32 accumulator without any floating-point arithmetic?",
+      "body": "Write $M = 2^{-n} M_0$ with $M_0 \\in [0.5, 1)$ stored as a 32-bit fixed-point integer; compute a rounding high-multiply $\\mathrm{round}(\\text{acc}\\cdot M_0^{\\text{int}}/2^{31})$ and then a rounding right shift by $n$.\n\n$M_0^{\\text{int}} = M_0\\cdot2^{31}$ is $M_0$ in Q31 format, so dividing the 64-bit product by $2^{31}$ multiplies by $M_0$ (hardware gets this as the top 32 bits of the doubled product). The shift by $n$ applies the power of two. Both steps are integer operations available on every MCU (gemmlowp, TFLite and CMSIS-NN use this scheme).\n\nExample: $M = 0.3 = 2^{-1}\\times0.6$ is stored as $n = 1$ and $M_0^{\\text{int}} = \\mathrm{round}(0.6\\cdot2^{31}) = 1{,}288{,}490{,}189$.\n\nWatch out: do both roundings. Truncating the high product or the shift biases every output downward, and the bias adds up over layers.",
+      "searchQuery": "fixed-point multiplier M0 rounding right shift requantization integer",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2–2.4",
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)"
+      ],
+      "tags": [
+        "requantization",
+        "fixed-point"
+      ]
+    },
+    {
+      "id": "requantization-formula-integer-matmul",
+      "unit": "integer-only-requantization",
+      "kind": "formula",
+      "difficulty": 7,
+      "title": "Write the output code of a quantized layer in terms of the two input codes, for $r_3 = \\sum r_1 r_2$ (no bias).",
+      "body": "$q_3 = Z_3 + M\\sum_j (q_1^{j} - Z_1)(q_2^{j} - Z_2)$ with $M = \\dfrac{S_1S_2}{S_3}$.\n\nWhy: substitute $r_i = S_i(q_i - Z_i)$ into $r_3 = \\sum_j r_1^{j} r_2^{j}$ to get $S_3(q_3 - Z_3) = S_1S_2\\sum_j (q_1^{j}-Z_1)(q_2^{j}-Z_2)$, then divide by $S_3$ and add $Z_3$ (and round).\n\nEverything in the sum is an integer. The only non-integer quantity is $M$, a constant for the layer (a vector, with per-channel weight scales), which is applied by the fixed-point scheme.\n\nKey idea: Jacob et al. found empirically that $M$ is always in $(0, 1)$, which is what lets it be written as $2^{-n}M_0$ with $n \\ge 0$.",
+      "searchQuery": "quantized layer output code formula q3 = Z3 + M sum",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2"
+      ],
+      "tags": [
+        "requantization"
+      ]
+    },
+    {
+      "id": "requantization-formula-folded-bias-constant",
+      "unit": "integer-only-requantization",
+      "kind": "formula",
+      "difficulty": 7,
+      "title": "With symmetric weights ($Z_2 = 0$), how are the bias and the weight-only zero-point term folded into one precomputed constant, and what accumulator results?",
+      "body": "$\\text{acc}_k = \\sum_j q_1^{j}q_2^{j,k} + c_k$ with $c_k = q_{b,k} - Z_1\\sum_j q_2^{j,k}$, and then $q_3 = Z_3 + M\\cdot\\text{acc}_k$.\n\nWhy: $\\sum_j (q_1 - Z_1)q_2 + q_b = \\sum_j q_1q_2 - Z_1\\sum_j q_2 + q_b$. Both $q_b$ and $\\sum_j q_2$ are known when the model is converted, so $c_k$ is computed once per output channel $k$ and stored in place of the bias.\n\nAt run time the kernel is a pure int8 multiply-accumulate that starts from $c_k$.\n\nWatch out: if the weights had $Z_2 \\ne 0$, the term $Z_2\\sum_j q_1^j$ would depend on the input and could not be folded.",
+      "searchQuery": "folded bias constant zero-point term precompute per channel integer kernel",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2–2.4",
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)"
+      ],
+      "tags": [
+        "requantization",
+        "zero-point-cross-terms"
+      ]
+    },
+    {
+      "id": "requantization-formula-multiplier-decomposition",
+      "unit": "integer-only-requantization",
+      "kind": "formula",
+      "difficulty": 7,
+      "title": "Given a real multiplier $M \\in (0,1)$, how do you find $n$, $M_0 \\in [0.5,1)$ and the stored integer?",
+      "body": "$n = \\lceil -\\log_2 M\\rceil - 1$, $M_0 = M\\cdot2^{n}$, and the stored value is $M_0^{\\text{int}} = \\mathrm{round}(M_0\\cdot2^{31})$.\n\nWhy: $M_0 \\in [0.5, 1)$ means $M\\cdot2^n \\in [0.5, 1)$, so $2^{-n-1} \\le M < 2^{-n}$, which gives $n = \\lceil -\\log_2 M\\rceil - 1$ (equal to $\\lfloor -\\log_2 M\\rfloor$ unless $M$ is an exact power of two). This is what `frexp` computes.\n\nExample: $M = 0.25$: $-\\log_2 M = 2$, so $n = 1$, $M_0 = 0.5$, $M_0^{\\text{int}} = 2^{30}$.\n\nWatch out: if $M_0$ is within $2^{-32}$ of 1, the rounding gives $2^{31}$, which does not fit in int32. Implementations then store $2^{30}$ (that is, $M_0 = 0.5$) and subtract 1 from $n$, since $2^{-n}\\cdot1 = 2^{-(n-1)}\\cdot0.5$.",
+      "searchQuery": "multiplier decomposition M0 n frexp 2^31 fixed-point",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2–2.4",
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)"
+      ],
+      "tags": [
+        "requantization",
+        "fixed-point"
+      ]
+    },
+    {
+      "id": "requantization-numbers-accumulator-headroom",
+      "unit": "integer-only-requantization",
+      "kind": "numbers",
+      "difficulty": 7,
+      "title": "What is the largest number $K$ of int8×int8 products that can be summed in an int32 accumulator without any possibility of overflow? (Answer with the number.)",
+      "body": "131071\n\nThe largest product magnitude is $(-128)(-128) = 2^{14} = 16{,}384$. A sum of $K$ such terms stays within $2^{31}-1$ as long as $K\\cdot2^{14} \\le 2^{31}-1$, i.e. $K \\le 131{,}071$.\n\nExample: if one operand is first offset-subtracted ($|q - Z|$ up to 255) and the other is an int8 weight (up to 128), the product reaches $32{,}640$ and the safe length drops to $65{,}793$.\n\nWatch out: this is a worst-case guarantee. Real layers (inner dimension $K = 9\\cdot C_{\\text{in}}$, say) are far below it, and real data hardly ever align all the signs, which is why int32 is the standard accumulator.",
+      "searchQuery": "int32 accumulator overflow int8 products K 131071 headroom",
+      "answer": "131071",
+      "answerDisplay": "$131{,}071$",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2",
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)"
+      ],
+      "tags": [
+        "accumulator"
+      ]
+    },
+    {
+      "id": "requantization-problem-multiplier-and-output",
+      "unit": "integer-only-requantization",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "A layer has input scale $S_1 = 0.02$, weight scale $S_2 = 0.005$, output scale $S_3 = 0.04$ and $Z_3 = -5$. Find $M$, its decomposition $2^{-n}M_0$, the stored $M_0^{\\text{int}}$, and the output code for an accumulator value $\\text{acc} = 10{,}000$.",
+      "body": "$M = 0.0025 = 2^{-8}\\times0.64$, $M_0^{\\text{int}} = 1{,}374{,}389{,}535$, and $q_3 = 20$.\n\nSolution outline:\n1. $M = S_1S_2/S_3 = 0.02\\cdot0.005/0.04 = 0.0025$.\n2. $-\\log_2 0.0025 \\approx 8.64$, so $n = 9 - 1 = 8$, and $M_0 = 0.0025\\cdot256 = 0.64 \\in [0.5,1)$.\n3. $M_0^{\\text{int}} = \\mathrm{round}(0.64\\cdot2^{31}) = \\mathrm{round}(1{,}374{,}389{,}534.72) = 1{,}374{,}389{,}535$.\n4. High multiply: $\\mathrm{round}(10{,}000\\cdot M_0^{\\text{int}}/2^{31}) = 6400$; rounding shift by 8: $6400/256 = 25$.\n5. $q_3 = Z_3 + 25 = -5 + 25 = 20$.\n\nCheck: $M\\cdot\\text{acc} = 0.0025\\cdot10{,}000 = 25$. ✓",
+      "searchQuery": "compute requantization multiplier M0 shift output code example",
+      "checkpoint": true,
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2",
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)"
+      ],
+      "tags": [
+        "requantization",
+        "fixed-point"
+      ]
+    },
+    {
+      "id": "requantization-problem-multiplier-precision",
+      "unit": "integer-only-requantization",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "The multiplier mantissa $M_0\\in[0.5,1)$ is stored as $M_0^{\\text{int}} = \\mathrm{round}(M_0\\cdot2^{31})$. Bound the relative error this introduces in $M$, and say whether it can change an output code.",
+      "body": "Relative error at most $2^{-31}\\approx4.7\\times10^{-10}$; it can change a code only when the exact value lies within about $10^{-7}$ of a rounding boundary, so by at most 1 and very rarely.\n\nSolution outline:\n1. Rounding to the grid $2^{-31}$ gives an absolute error of at most $2^{-32}$ in $M_0$.\n2. Since $M_0 \\ge 0.5$, the relative error is at most $2^{-32}/0.5 = 2^{-31}$.\n3. Codes only matter inside the output range: before clamping, $|M\\cdot\\text{acc}| \\lesssim 255$, so the absolute error is below $255\\cdot2^{-31}\\approx1.2\\times10^{-7}$.\n4. That can only flip the final rounding if $M\\cdot\\text{acc}$ is within $10^{-7}$ of a half-integer, and then the code changes by 1.\n\nKey idea: the 32-bit multiplier is far more precise than the 8-bit grid it feeds. Mismatches against a float reference are rare rounding ties, which is why an integer kernel can match a float one to within one code.",
+      "searchQuery": "fixed-point multiplier precision error bound 2^-31 requantization",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2–2.4",
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)"
+      ],
+      "tags": [
+        "requantization",
+        "fixed-point"
+      ]
+    },
+    {
+      "id": "requantization-code-numpy-matmul",
+      "unit": "integer-only-requantization",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "This NumPy code runs an integer-only matmul with requantization (the float multiplier stands in for the fixed-point one) and compares it with a float reference built from the same quantized values. What does it print?\n\n```python\nimport numpy as np\nrng = np.random.default_rng(1)\nx, w = rng.uniform(0, 6, (4, 16)), rng.uniform(-1, 1, (16, 3))\nSx, Zx, Sw = 6 / 255, -128, 1 / 127\nqx = np.clip(np.round(x / Sx) + Zx, -128, 127).astype(np.int32)\nqw = np.clip(np.round(w / Sw), -127, 127).astype(np.int32)\nref = (Sx * (qx - Zx)) @ (Sw * qw)\nSy = np.ptp(ref) / 255\nZy = int(round(-128 - ref.min() / Sy))\nacc = (qx - Zx) @ qw\nqy = np.clip(Zy + np.round(Sx * Sw / Sy * acc), -128, 127).astype(np.int32)\nqref = np.clip(Zy + np.round(ref / Sy), -128, 127)\nprint(np.abs(qy - qref).max(), acc.dtype, qy.min(), qy.max())\n```",
+      "body": "It prints `0.0 int32 -128 127`: the integer path gives the same codes as quantizing the float result, the accumulator is int32, and the output uses the full code range.\n\nThe integer path computes $q_y = Z_y + M\\cdot\\sum(q_x - Z_x)q_w$ with $M = S_xS_w/S_y$. The reference computes the real product of the dequantized inputs and quantizes it once. They are algebraically identical, so they agree except at exact rounding ties, where the difference would be 1 (one step).\n\nWatch out: the reference uses the dequantized inputs, not the original floats. Input rounding error is already inside both results; the integer kernel is only responsible for adding none of its own.\n\nTip: `Sy` and `Zy` are chosen so $[\\min, \\max]$ of the result fills $[-128, 127]$, which is why `qy.min()` and `qy.max()` print the extremes.",
+      "searchQuery": "numpy integer matmul requantization matches float reference",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2",
+        "Nagel et al. (2021), §2.3"
+      ],
+      "tags": [
+        "requantization"
+      ]
+    },
+    {
+      "id": "requantization-code-c-rounding-high-multiply",
+      "unit": "integer-only-requantization",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this C program print? (32-bit `int`, 64-bit `long long`, $2^{31}$ = `1LL << 31`.)\n\n```c\n#include <stdint.h>\n#include <stdio.h>\nstatic int32_t srdhm(int32_t a, int32_t b) {   /* round(a*b / 2^31) */\n    int64_t ab = (int64_t)a * b;\n    int64_t nudge = ab >= 0 ? (1 << 30) : (1 - (1 << 30));\n    return (int32_t)((ab + nudge) / (1LL << 31));\n}\nint main(void) {\n    int32_t m0 = 1374389535;               /* 0.64 * 2^31, rounded */\n    printf(\"%d %d\\n\", srdhm(10000, m0), srdhm(-10000, m0));\n    return 0;\n}\n```",
+      "body": "It prints `6400 -6400`: the fixed-point multiply gives $\\mathrm{round}(10{,}000\\times0.64)$, and here the two signs mirror each other.\n\nThe product $10{,}000\\cdot1{,}374{,}389{,}535 \\approx 1.374\\times10^{13}$ is computed in 64 bits. Adding the nudge $2^{30}$ (half of $2^{31}$) and then dividing by $2^{31}$ rounds to nearest; for negative products the nudge is $1 - 2^{30}$ because C's division truncates toward zero. The net effect is that exact ties round up, toward $+\\infty$: $+0.5$ becomes $1$ but $-0.5$ becomes $0$. Neither product here is a tie, so the results are symmetric.\n\nWatch out: the 64-bit cast is essential. Computing `a * b` in 32 bits is signed overflow (undefined behavior). The only input pair that overflows this function's int32 result is $a = b = -2^{31}$, which real implementations saturate.\n\nTip: this is the same scheme as gemmlowp's `SaturatingRoundingDoublingHighMul`, which is what CMSIS-NN and TFLite's reference kernels use.",
+      "searchQuery": "C fixed-point high multiply rounding nudge int64 requantization",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2–2.4",
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)"
+      ],
+      "tags": [
+        "requantization",
+        "fixed-point"
+      ]
+    },
+    {
+      "id": "requantization-code-c-fused-relu-clamp",
+      "unit": "integer-only-requantization",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this C program print? (32-bit `int`, arithmetic right shift on negative values, which gcc provides.)\n\n```c\n#include <stdint.h>\n#include <stdio.h>\nstatic int8_t requant_relu(int32_t acc, int32_t m0, int n, int32_t zp_out) {\n    int64_t p = (int64_t)acc * m0;\n    int32_t v = (int32_t)((p + (1LL << 30)) >> 31);   /* acc * M0 */\n    v = (v + (1 << (n - 1))) >> n;                    /* times 2^-n */\n    v += zp_out;\n    int32_t lo = zp_out, hi = 127;                    /* ReLU in the clamp */\n    return (int8_t)(v < lo ? lo : v > hi ? hi : v);\n}\nint main(void) {\n    printf(\"%d %d\\n\", requant_relu(10000, 1374389535, 8, -5), requant_relu(-10000, 1374389535, 8, -5));\n    return 0;\n}\n```",
+      "body": "It prints `20 -5`: the positive accumulator gives $-5 + 25 = 20$, and the negative one is clamped up to the zero-point $-5$.\n\nFor $\\text{acc} = 10{,}000$: $v = 6400$, then $25$, then $25 + Z_{\\text{out}} = 20$. For $\\text{acc} = -10{,}000$ the value would be $-30$, below the lower bound, so it becomes $Z_{\\text{out}} = -5$, which dequantizes to real $0$: exactly what ReLU outputs.\n\nKey idea: a ReLU needs no separate pass. Real 0 is the code $Z_{\\text{out}}$, so ReLU is the clamp $[Z_{\\text{out}}, 127]$. ReLU6 also lowers the upper bound to $\\min(127, Z_{\\text{out}} + \\mathrm{round}(6/S_{\\text{out}}))$.\n\nWatch out: the bound must be the zero-point, not 0. Clamping at code 0 would force every output to be at least $S_{\\text{out}}\\cdot(0 - Z_{\\text{out}}) = 5S_{\\text{out}}$ instead of real 0.",
+      "searchQuery": "C requantize fused ReLU clamp zero-point int8 saturate",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2–2.4",
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)"
+      ],
+      "tags": [
+        "requantization",
+        "activation-fusion"
+      ]
+    },
+    {
+      "id": "requantization-code-c-rounding-shift",
+      "unit": "integer-only-requantization",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What do the two `printf` lines print? (32-bit `int`; `>>` on negative `int` is an arithmetic shift, as in gcc.)\n\n```c\n#include <stdint.h>\n#include <stdio.h>\nstatic int32_t rshift_round(int32_t x, int n) {   /* x / 2^n, ties away from 0 */\n    int32_t mask = (1 << n) - 1;\n    int32_t rem = x & mask;\n    int32_t thresh = (mask >> 1) + (x < 0);\n    return (x >> n) + (rem > thresh);\n}\nint main(void) {\n    printf(\"%d %d %d %d\\n\", 5 >> 1, -5 >> 1, rshift_round(5, 1), rshift_round(-5, 1));\n    printf(\"%d %d\\n\", rshift_round(6400, 8), rshift_round(-6400, 8));\n    return 0;\n}\n```",
+      "body": "It prints `2 -3 3 -3` and then `25 -25`: a plain shift floors, while `rshift_round` rounds ties away from zero.\n\n$5/2 = 2.5$ and $-5/2 = -2.5$. A shift floors both ($2$ and $-3$). The rounding version adds 1 when the discarded remainder `rem` is above half (`thresh`), with the threshold raised by 1 for negatives so that $-2.5$ rounds to $-3$: results $3$ and $-3$. For exact multiples ($\\pm6400/256$) nothing is discarded and both are exact.\n\nWatch out: a plain `>>` is biased downward by half a step on average, which is why it is not used for requantization. Also, right-shifting negative signed integers is implementation-defined in C (gcc uses an arithmetic shift).\n\nTip: this version also works for `n = 0` (the mask is 0), unlike the common shortcut `(x + (1 << (n - 1))) >> n`, which needs `n >= 1` and rounds negative ties toward $+\\infty$.",
+      "searchQuery": "C rounding right shift negative ties away from zero requantization",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2–2.4",
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)"
+      ],
+      "tags": [
+        "requantization",
+        "fixed-point"
+      ]
+    },
+    {
+      "id": "requantization-tradeoff-integer-vs-float-rescale",
+      "unit": "integer-only-requantization",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "Should the rescaling between layers use a fixed-point multiplier and shift, or a float multiply, and when does each win?",
+      "body": "Fixed-point multiplier and shift on cores without an FPU or when results must be bit-exact across devices; a float multiply is simpler and acceptable on FPU cores, GPUs and in prototypes.\n\nThe fixed-point path is integer-only: it runs on any MCU (Cortex-M0+/M3 included), and the same code gives the same bits everywhere, which makes testing against a reference exact. Its cost is the decomposition of $M$ and a few more instructions.\n\nA float requantization converts the accumulator to float, multiplies by $M$ and converts back. It is a few lines, but needs an FPU, and results can differ in the last bit between compilers, FPUs and rounding modes.\n\nWatch out: mixing the two across a model changes rounding ties and breaks bit-exact comparisons with the reference.",
+      "searchQuery": "fixed-point versus float requantization trade-off FPU bit-exact",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §2.2",
+        "CMSIS-NN (GitHub: ARM-software/CMSIS-NN)"
+      ],
+      "tags": [
+        "requantization",
+        "fixed-point"
+      ]
+    },
+    {
+      "id": "bnfold-definition",
+      "unit": "batchnorm-folding-and-fusion",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "What is **batch-norm folding**?",
+      "body": "Rewriting a convolution followed by an inference-mode batch norm as one convolution with rescaled weights $w'$ and an adjusted bias $b'$, so the batch-norm layer disappears.\n\nAt inference batch norm is a fixed per-channel affine map: it subtracts the running mean, divides by the running standard deviation, then scales by $\\gamma$ and shifts by $\\beta$. A convolution is linear, so a per-channel scale after it can be absorbed into that filter.\n\nKey idea: folding is exact in real arithmetic. The folded layer produces the same outputs up to floating-point rounding, with one operation fewer and no batch-norm parameters to store.\n\nWatch out: folding uses the running statistics, so it only applies to eval mode. In training the batch statistics change at every step.",
+      "searchQuery": "batch norm folding convolution weights bias inference",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §3.2",
+        "Nagel et al. (2021), §2.3.1",
+        "mlsysbook.ai Vol. I, §10.4.1"
+      ],
+      "tags": [
+        "batchnorm-folding"
+      ]
+    },
+    {
+      "id": "bnfold-fold-before-quantizing",
+      "unit": "batchnorm-folding-and-fusion",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "Why must batch norm be folded before the weights are quantized?",
+      "body": "Because the integer kernel will run the folded weights $w'$, so those are the values whose range and rounding must be set; quantizing $w$ and applying batch norm afterwards would need a float per-channel scale and shift on every output.\n\nFolding multiplies each filter by $\\gamma/\\sqrt{\\sigma^2+\\epsilon}$, which changes its range, so scales computed on the unfolded weights would be the wrong ones. And a separate batch-norm op after an integer convolution breaks the integer-only pipeline, or costs an extra requantization with its own rounding error.\n\nKey idea: fold first, then quantize the result. The rescaling rides on the weights and costs nothing at run time.\n\nWatch out: with per-tensor scales the order cannot be reversed afterwards: multiplying already-quantized int8 weights by a different factor per filter would push them off the integer grid. (With per-channel scales, each filter's factor could instead be absorbed into its scale.)",
+      "searchQuery": "why fold batch norm before quantization folded weights",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §3.2",
+        "Nagel et al. (2021), §2.3.1"
+      ],
+      "tags": [
+        "batchnorm-folding"
+      ]
+    },
+    {
+      "id": "bnfold-formula-weights",
+      "unit": "batchnorm-folding-and-fusion",
+      "kind": "formula",
+      "difficulty": 7,
+      "title": "A convolution has weights $w$ and bias $b$, followed by batch norm with $\\gamma$, $\\beta$, running mean $\\mu$, running variance $\\sigma^2$ and $\\epsilon$. What are the folded weights $w'$ for an output channel?",
+      "body": "$w' = \\dfrac{\\gamma\\,w}{\\sqrt{\\sigma^2 + \\epsilon}}$, applied to every weight of that output channel (with that channel's $\\gamma$ and $\\sigma^2$).\n\nWhy: the batch norm output is $y = \\gamma\\,\\dfrac{z - \\mu}{\\sqrt{\\sigma^2+\\epsilon}} + \\beta$, where $z = w * x + b$ is the convolution output. With $s = \\gamma/\\sqrt{\\sigma^2+\\epsilon}$ this is $y = s\\,(w * x) + s\\,(b-\\mu) + \\beta$, so the weights get scaled by $s$.\n\nKey idea: $s$ is per output channel, so the whole filter is multiplied by one number. Different channels get different factors, which is what changes the weight ranges.\n\nWatch out: $\\epsilon$ belongs in the denominator exactly as in the batch-norm layer. Dropping it makes tiny-variance channels blow up.",
+      "searchQuery": "folded weights w prime gamma over sqrt variance plus epsilon",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §3.2",
+        "Nagel et al. (2021), §2.3.1"
+      ],
+      "tags": [
+        "batchnorm-folding"
+      ]
+    },
+    {
+      "id": "bnfold-formula-bias",
+      "unit": "batchnorm-folding-and-fusion",
+      "kind": "formula",
+      "difficulty": 7,
+      "title": "With the same convolution and batch norm, what is the folded bias $b'$ for an output channel?",
+      "body": "$b' = \\beta + \\dfrac{\\gamma\\,(b - \\mu)}{\\sqrt{\\sigma^2 + \\epsilon}}$.\n\nWhy: from $y = s\\,(w * x) + s\\,(b - \\mu) + \\beta$ with $s = \\gamma/\\sqrt{\\sigma^2+\\epsilon}$, the constant part is $s\\,(b-\\mu) + \\beta$. If the convolution had no bias ($b = 0$) the folded layer still has one: $b' = \\beta - s\\mu$.\n\nExample: $\\gamma = 2$, $\\beta = -0.1$, $\\mu = 0.4$, $\\sigma^2+\\epsilon = 0.16$ and $b = 0.1$ give $s = 2/0.4 = 5$ and $b' = -0.1 + 5\\,(0.1 - 0.4) = -1.6$.\n\nWatch out: a common mistake is to forget that $\\mu$ is shifted by the convolution's own bias $b$. The term is $b - \\mu$, not $-\\mu$ alone.",
+      "searchQuery": "folded bias b prime beta plus gamma b minus mu",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §3.2",
+        "Nagel et al. (2021), §2.3.1"
+      ],
+      "tags": [
+        "batchnorm-folding"
+      ]
+    },
+    {
+      "id": "bnfold-problem-numeric-fold",
+      "unit": "batchnorm-folding-and-fusion",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "A one-channel convolution has weights $w = [2, -1]$ and bias $b = 0.5$, followed by batch norm with $\\gamma = 1.5$, $\\beta = 0.2$, $\\mu = 0.3$, $\\sigma^2 = 0.24$ and $\\epsilon = 0.01$. Fold it, and check the result for the input $x = [1, 1]$.",
+      "body": "$w' = [6, -3]$ and $b' = 0.8$; for $x = [1, 1]$ both the original and the folded layer output $3.8$.\n\nSolution outline:\n1. $\\sqrt{\\sigma^2+\\epsilon} = \\sqrt{0.25} = 0.5$, so $s = \\gamma/0.5 = 3$.\n2. $w' = s\\,w = [6, -3]$.\n3. $b' = \\beta + s\\,(b - \\mu) = 0.2 + 3\\,(0.5 - 0.3) = 0.8$.\n4. Original: the convolution gives $z = 2\\cdot1 - 1\\cdot1 + 0.5 = 1.5$, and batch norm gives $1.5\\,(1.5-0.3)/0.5 + 0.2 = 3.8$.\n5. Folded: $6\\cdot1 - 3\\cdot1 + 0.8 = 3.8$. ✓\n\nWatch out: the weights grew 3×, so a per-tensor int8 scale chosen before folding would now clip them.",
+      "searchQuery": "fold batch norm numeric example weights bias check",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §3.2",
+        "Nagel et al. (2021), §2.3.1"
+      ],
+      "tags": [
+        "batchnorm-folding"
+      ]
+    },
+    {
+      "id": "bnfold-code-numpy-fold-check",
+      "unit": "batchnorm-folding-and-fusion",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this print? (NumPy: a dense layer followed by batch norm, folded and compared.)\n\n```python\nimport numpy as np\nrng = np.random.default_rng(0)\nW, b = rng.normal(size=(3, 5)), rng.normal(size=3)\ng, beta, mu = rng.normal(size=3), rng.normal(size=3), rng.normal(size=3)\nvar, eps = rng.uniform(0.5, 2, 3), 1e-5\nx = rng.normal(size=5)\ny = g * (W @ x + b - mu) / np.sqrt(var + eps) + beta\ns = g / np.sqrt(var + eps)\nWf, bf = W * s[:, None], beta + s * (b - mu)\nprint(np.allclose(Wf @ x + bf, y))\n```",
+      "body": "It prints `True`: the folded layer `Wf @ x + bf` equals the layer followed by batch norm, up to floating-point rounding.\n\n`s` is the per-output-channel factor $\\gamma/\\sqrt{\\sigma^2+\\epsilon}$. `s[:, None]` makes it a column, so row $c$ of `W` (the filter of output channel $c$) is multiplied by `s[c]`. The bias is $\\beta + s(b-\\mu)$.\n\nWhy `allclose` and not `==`: the two computations round differently, and floating-point arithmetic is not associative.\n\nTip: a dense layer is a $1\\times1$ convolution on a single position, so the same two lines fold convolution weights shaped $[C_{\\text{out}}, C_{\\text{in}}, K, K]$ with `s[:, None, None, None]`.",
+      "searchQuery": "numpy fold batch norm into dense layer allclose",
+      "refs": [
+        "Jacob et al. (CVPR 2018), §3.2",
+        "Nagel et al. (2021), §2.3.1"
+      ],
+      "tags": [
+        "batchnorm-folding"
+      ]
+    },
+    {
+      "id": "bnfold-code-broadcast-axis-bug",
+      "unit": "batchnorm-folding-and-fusion",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "A square weight matrix is scaled by a per-channel vector. What does this print for each line, and which line is the correct fold of output-channel scales?\n\n```python\nimport numpy as np\nW = np.arange(9, dtype=float).reshape(3, 3)\ns = np.array([1.0, 10.0, 100.0])\nprint((W * s)[0])\nprint((W * s[:, None])[0])\n```",
+      "body": "It prints `[  0.  10. 200.]` and then `[0. 1. 2.]`; the second line is correct, because it multiplies row 0 (output channel 0) by `s[0]` $= 1$.\n\n`W * s` broadcasts `s` along the last axis, so it scales the columns (the input channels): element $j$ of every row is multiplied by `s[j]`. `W * s[:, None]` makes `s` a column, so row $i$ is multiplied by `s[i]`.\n\nWatch out: when $C_{\\text{out}} = C_{\\text{in}}$ the wrong version runs without any error; only a non-square layer makes it raise a broadcasting error. Code tested only on square layers can carry the bug silently.\n\nTip: test a fold by comparing the outputs of the folded and unfolded layer on a random input, as in the previous card.",
+      "searchQuery": "numpy broadcasting per-channel scale wrong axis fold bug",
+      "refs": [
+        "Nagel et al. (2021), §2.3.1"
+      ],
+      "tags": [
+        "batchnorm-folding"
+      ]
+    },
+    {
+      "id": "bnfold-tradeoff-per-channel-after-folding",
+      "unit": "batchnorm-folding-and-fusion",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "After batch-norm folding, should the folded weights use per-tensor or per-channel scales?",
+      "body": "Per-channel: folding multiplies each filter by its own $\\gamma/\\sqrt{\\sigma^2+\\epsilon}$, which can widen the spread of weight ranges across channels, and per-channel scales absorb exactly that spread.\n\nA channel with a large $\\gamma$ or a tiny $\\sigma$ gets large weights, and another with the opposite gets tiny ones. One per-tensor scale is set by the largest, leaving the others with few codes (see the depthwise example).\n\nPer-tensor can still be acceptable when the folding factors happen to be similar, or when the hardware only supports one scale per tensor; then cross-layer equalization is the alternative.\n\nWatch out: this is why quantizing an unfolded model and a folded one at per-tensor granularity can give very different accuracy. Evaluate after folding, as the deployed model will be.",
+      "searchQuery": "batch norm folding widens weight ranges per-channel scales",
+      "refs": [
+        "Nagel et al. (2021), §2.3.1",
+        "Nagel et al. (2021), §2.4.2",
+        "Nagel et al. (2021), §3.2"
+      ],
+      "tags": [
+        "batchnorm-folding",
+        "per-channel"
+      ]
+    },
+    {
+      "id": "bnfold-tradeoff-conv-bn-relu-fusion",
+      "unit": "batchnorm-folding-and-fusion",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "Should convolution, bias and ReLU run as one fused kernel or as separate operators, and what does fusion save?",
+      "body": "Fuse them when a kernel exists for the combination: the intermediate tensors never go to memory, which removes most of the memory traffic; keep them separate when you need to inspect or reuse intermediates.\n\nExample: a $96\\times96\\times16$ int8 feature map is $147{,}456$ B. Run as three kernels (conv, bias add, ReLU), each writes its output and the next reads it: five passes, $737{,}280$ B. Fused, only the final write remains: $147{,}456$ B, saving $589{,}824$ B (80%).\n\nFusion also needs fewer requantizations (only the final output gets a scale), so it removes rounding steps and calibration points.\n\nWatch out: fused kernels multiply the number of kernels a runtime must ship, and the intermediate values vanish, so layer-by-layer debugging of a fused model has nothing to compare.",
+      "searchQuery": "conv bias ReLU fusion memory traffic saved operator fusion",
+      "refs": [
+        "mlsysbook.ai Vol. I, §10.4.1",
+        "Nagel et al. (2021), §2.3.1",
+        "Nagel et al. (2021), §2.3.2"
+      ],
+      "tags": [
+        "operator-fusion",
+        "data-movement"
+      ]
+    },
+    {
+      "id": "bnfold-tradeoff-fold-or-keep-separate",
+      "unit": "batchnorm-folding-and-fusion",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "When can batch norm be folded into a neighboring layer, and when must it stay a separate operator?",
+      "body": "Fold it when it directly follows a convolution or fully connected layer with nothing nonlinear or branching in between; keep it separate (as a per-channel scale and shift) when it comes before a convolution or after an addition.\n\nFolding relies on linearity: a per-channel scale after a linear layer moves into its weights. If a ReLU or an add sits between them, the scale cannot pass through, which is the case in pre-activation blocks (batch norm, ReLU, convolution). Even a batch norm directly before a convolution folds only inexactly, because zero padding adds zeros after the batch norm, not before, so the borders come out wrong.\n\nA separate batch norm costs an extra element-wise pass and, in an integer model, its own requantization.\n\nTip: when converting a model, check the exported graph for batch-norm ops that survived. Each one is a missed fusion and a float-or-requantize step.",
+      "searchQuery": "when can batch norm be folded pre-activation residual add",
+      "refs": [
+        "Nagel et al. (2021), §2.3.1"
+      ],
+      "tags": [
+        "batchnorm-folding"
+      ]
+    },
+    {
+      "id": "ptq-concept-export-based-flow",
+      "unit": "ptq-in-practice",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "What are the steps of an **export-based PTQ** flow for a PyTorch model (the PT2E flow)?",
+      "body": "Capture the model with `torch.export`, let a backend-specific quantizer annotate the graph, call `prepare_pt2e` to insert observers, run calibration data through the prepared model, then call `convert_pt2e` to get the quantized model.\n\nThe export gives a graph of standard operators, so the quantizer can see exactly which tensors to quantize. `prepare_pt2e` also folds batch norm into the preceding convolution. The observers record the activation ranges during calibration, as in any PTQ.\n\nWatch out: by default `convert_pt2e` produces quantize and dequantize operators around float compute; a backend (XNNPACK, ExecuTorch, an NPU compiler) then lowers that to real integer kernels. The import path of these functions has moved between `torch.ao` and `torchao`, so check your installed version.\n\nTip: the quantizer is what encodes the target's conventions (per-channel weights, symmetric ranges), so pick the one that matches the deployment backend.",
+      "searchQuery": "PyTorch export-based PTQ prepare_pt2e convert_pt2e quantizer calibration",
+      "refs": [
+        "PyTorch torchao (GitHub: pytorch/ao)",
+        "https://docs.pytorch.org/ao/stable/pt2e_quantization/index.html"
+      ],
+      "tags": [
+        "ptq",
+        "export-based-ptq"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "ptq-code-litert-full-integer-recipe",
+      "unit": "ptq-in-practice",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "Which three settings must replace the comment so the converter emits a fully integer model with int8 input and output? (LiteRT/TensorFlow Lite converter.)\n\n```python\nimport tensorflow as tf\nconv = tf.lite.TFLiteConverter.from_saved_model(\"saved_model\")\nconv.optimizations = [tf.lite.Optimize.DEFAULT]\nconv.representative_dataset = rep_data   # yields [float32 array] per sample\n# ??? three more settings go here\ntflite_model = conv.convert()\n```",
+      "body": "`conv.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]`, `conv.inference_input_type = tf.int8` and `conv.inference_output_type = tf.int8`.\n\nThe first setting requires an integer kernel for every operator, so conversion fails rather than leave an op in float. The other two make the model's own input and output tensors int8, so an integer-only target never sees a float.\n\nWhy all three: with only `optimizations` and a representative dataset, operators without an integer kernel stay float and the input and output stay float32.\n\nWatch out: LiteRT's own page now marks conversion-time PTQ deprecated and points to the LiteRT Quantizer. The model structure and the ideas (representative data, int8 I/O, integer-only ops) are the same.",
+      "searchQuery": "LiteRT TFLiteConverter full integer quantization supported_ops inference_input_type int8",
+      "refs": [
+        "LiteRT docs: post-training quantization",
+        "https://developers.google.com/edge/litert/models/post_training_quantization"
+      ],
+      "tags": [
+        "ptq",
+        "full-integer"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "ptq-code-representative-dataset-preprocessing-bug",
+      "unit": "ptq-in-practice",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "A model was trained on images divided by 255. What is wrong with this representative dataset, and what happens to the quantized model?\n\n```python\ndef rep_data():\n    for img in calib_images:                  # uint8, shape (N, 96, 96, 1), values 0..255\n        yield [img[None].astype(\"float32\")]\n```",
+      "body": "The samples skip the division by 255, so the input range is recorded as $[0, 255]$ instead of $[0, 1]$; the input scale is about $1$ instead of $1/255$, and real inputs in $[0, 1]$ collapse onto two or three codes.\n\nEvery layer's recorded activation ranges are also wrong, because the whole network saw inputs 255× too big. The converter finishes without an error, and the model's accuracy is poor or at chance.\n\nFix: yield `img[None].astype(\"float32\") / 255.0`, the same preprocessing as in training and deployment.\n\nKey idea: this is training-serving skew applied to calibration. The representative dataset is part of the model's preprocessing pipeline, not an afterthought.",
+      "searchQuery": "representative dataset preprocessing mismatch calibration normalization bug",
+      "refs": [
+        "LiteRT docs: post-training quantization",
+        "https://developers.google.com/edge/litert/models/post_training_quantization"
+      ],
+      "tags": [
+        "ptq",
+        "training-serving-skew"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "ptq-code-onnx-runtime-static-quantization",
+      "unit": "ptq-in-practice",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "Which argument of `quantize_static` gives the weights one scale per output channel, and what does returning `None` from `get_next` mean? (ONNX Runtime static quantization.)\n\n```python\nfrom onnxruntime.quantization import (CalibrationDataReader, QuantFormat,\n                                      QuantType, quantize_static)\nclass Reader(CalibrationDataReader):\n    def __init__(self, samples):\n        self.it = iter([{\"input\": s} for s in samples])\n    def get_next(self):\n        return next(self.it, None)\nquantize_static(\"model.onnx\", \"model_int8.onnx\", Reader(samples),\n                quant_format=QuantFormat.QDQ,\n                activation_type=QuantType.QInt8, weight_type=QuantType.QInt8,\n                per_channel=True)\n```",
+      "body": "`per_channel=True` selects per-channel weight scales, and `None` from `get_next` tells ONNX Runtime that the calibration data are used up.\n\nThe tool runs the float model on each dictionary the reader returns (keys are the model's input names), records ranges, and writes an int8 model in QDQ format, with explicit quantize and dequantize nodes. S8S8 with QDQ is ONNX Runtime's default recommendation.\n\nTip: ONNX Runtime documents per-channel as worth trying when accuracy drops and weight ranges vary a lot, and a pre-processing step (`quant_pre_process`) before quantizing.\n\nWatch out: the reader's dictionary keys must equal the ONNX graph's input names, or calibration fails.",
+      "searchQuery": "onnx runtime quantize_static per_channel calibration data reader QDQ",
+      "refs": [
+        "ONNX Runtime docs: quantization",
+        "https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html"
+      ],
+      "tags": [
+        "ptq"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "ptq-code-layerwise-snr-comparison",
+      "unit": "ptq-in-practice",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this print, and which layer would you inspect first? (Each pair is a layer's float output and its quantized-model output.)\n\n```python\nimport numpy as np\ndef snr_db(ref, q):\n    return 10 * np.log10((ref ** 2).sum() / ((ref - q) ** 2).sum())\nf = [np.array([1., 2., 3.]), np.array([4., -4.]), np.array([5., 5., 5.])]\nq = [np.array([1.1, 1.9, 3.2]), np.array([3., -5.]), np.array([5.1, 4.9, 5.])]\nprint([round(float(snr_db(a, b)), 1) for a, b in zip(f, q)])\n```",
+      "body": "It prints `[23.7, 12.0, 35.7]`; inspect layer 2 first, the one with the lowest signal-to-noise ratio (12 dB).\n\nLayer 1: signal $14$, noise $0.06$, ratio $233$, $23.7$ dB. Layer 2: signal $32$, noise $2$, ratio $16$, $12.0$ dB. Layer 3: signal $75$, noise $0.02$, $35.7$ dB.\n\nWhy this works: comparing the float and quantized outputs layer by layer turns \"accuracy dropped\" into \"this layer adds the most error\", so you can fix that layer (finer scales, a better range, higher precision).\n\nWatch out: the SNR of the final output alone would not show where the damage was done, and even a high-SNR layer can flip a close decision. Use per-layer SNR to locate suspects, then confirm with accuracy.",
+      "searchQuery": "layer-wise SNR float versus quantized output debug accuracy loss",
+      "refs": [
+        "Nagel et al. (2021), §3.7"
+      ],
+      "tags": [
+        "ptq",
+        "debugging"
+      ]
+    },
+    {
+      "id": "ptq-misconception-representative-dataset-int8-io",
+      "unit": "ptq-in-practice",
+      "kind": "misconception",
+      "difficulty": 7,
+      "title": "Why is \"a representative dataset gives me an int8-input, int8-output model\" false in the LiteRT converter?",
+      "body": "A representative dataset only supplies calibration ranges; unless you also set `inference_input_type` and `inference_output_type` to `tf.int8`, the model's input and output stay float32.\n\nIn that default the converter wraps the integer interior with a quantize op at the input and a dequantize op at the output, so the interface matches the float model. An integer-only device or accelerator cannot run those float operators.\n\nKey idea: three different things are being chosen: how activation ranges are found (representative data), which ops are allowed (supported ops) and the interface types (input/output type).\n\nTip: inspect the converted model's input and output tensor dtypes and their scale and zero-point before shipping it. They tell you how to feed it.",
+      "searchQuery": "litert representative dataset float input output float32 inference_input_type",
+      "refs": [
+        "LiteRT docs: post-training quantization",
+        "https://developers.google.com/edge/litert/models/post_training_quantization"
+      ],
+      "tags": [
+        "ptq",
+        "full-integer"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "ptq-tradeoff-dynamic-vs-full-integer",
+      "unit": "ptq-in-practice",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "For deploying on a microcontroller or NPU, should you use LiteRT dynamic-range quantization or full-integer quantization?",
+      "body": "Full-integer quantization: dynamic-range quantization needs no calibration data but keeps float activations and float kernels, so it cannot run on integer-only targets.\n\nDynamic-range quantization stores weights as 8-bit integers and quantizes activations on the fly at run time, with float outputs. The LiteRT page lists about 4× smaller models and about 2× to 3× faster CPU execution, with no representative dataset needed.\n\nFull-integer quantization calibrates all tensors, uses int8 or integer kernels throughout, and runs on integer-only hardware, but needs a representative dataset and more care with accuracy.\n\nWatch out: dynamic range is the easy first step on a phone CPU. On an MCU without float kernels in the runtime, or an int8-only accelerator, only full-integer works.",
+      "searchQuery": "dynamic range quantization versus full integer quantization MCU NPU",
+      "refs": [
+        "LiteRT docs: post-training quantization",
+        "https://developers.google.com/edge/litert/models/post_training_quantization"
+      ],
+      "tags": [
+        "ptq",
+        "full-integer"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "ptq-tradeoff-float-fallback-sensitive-layers",
+      "unit": "ptq-in-practice",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "A fully int8 model loses too much accuracy, and layer-by-layer comparison blames one layer. Should you keep that layer in float?",
+      "body": "Keep it in float only if the target runs float kernels, has memory for them and the layer is cheap; otherwise fix its quantization, or raise its precision, and stay integer-only.\n\nA **float fallback** removes that layer's error and usually recovers most of the accuracy, but it needs a float kernel in the binary, adds dequantize and quantize operators at its boundaries, and moves the layer off an integer-only accelerator, often to the CPU.\n\nAlternatives, cheapest first: a better range setter for that tensor (percentile or MSE), per-channel scales, cross-layer equalization, a higher-precision type for that layer, or quantization-aware training.\n\nExample: an FPU-equipped Cortex-M7 can absorb one small float layer; an int8-only NPU would fall back to its host CPU for it, with a latency and energy cost.",
+      "searchQuery": "float fallback sensitive layers mixed precision keep layer float PTQ",
+      "refs": [
+        "Nagel et al. (2021), §3.7",
+        "LiteRT docs: post-training quantization"
+      ],
+      "tags": [
+        "ptq",
+        "float-fallback"
+      ]
+    },
+    {
+      "id": "ptq-tradeoff-ptq-before-qat",
+      "unit": "ptq-in-practice",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "Should you start with post-training quantization or with quantization-aware training, and what forces the other?",
+      "body": "Start with PTQ: it takes minutes, needs only a few hundred unlabeled samples, and often suffices at 8 bits; go to quantization-aware training when PTQ's accuracy loss is too large, especially for 4-bit weights or small, sensitive networks.\n\nQuantization-aware training means more training: the full labeled data, a training pipeline and compute. PTQ needs none of that, but it cannot adapt the weights to the rounding.\n\nA hard rule can force the choice: in MLPerf Tiny's closed division retraining is prohibited, so only PTQ with the provided calibration data is allowed. Open-division submissions may retrain.\n\nTip: record the float baseline, the PTQ result and the gap. If the gap is under about a point, stop; if not, find out which layers cause it before reaching for retraining.",
+      "searchQuery": "PTQ versus QAT start with post-training quantization when to use QAT",
+      "refs": [
+        "Nagel et al. (2021), §3.7",
+        "Banbury et al., MLPerf Tiny Benchmark, §5.2"
+      ],
+      "tags": [
+        "ptq"
+      ]
+    },
+    {
+      "id": "ptq-numbers-mlperf-tiny-closed-division",
+      "unit": "ptq-in-practice",
+      "kind": "numbers",
+      "difficulty": 7,
+      "title": "In MLPerf Tiny's closed division, what quantization is allowed, and what are the four quality targets?",
+      "body": "Post-training quantization with the provided calibration data only, no retraining or weight replacement; targets are keyword spotting 90% top-1, visual wake words 80% accuracy, image classification 85% top-1 and anomaly detection AUC 0.85.\n\nClosed-division submissions must use the same models, datasets and quality targets as the reference implementation, so the contest is about the system (compiler, runtime, hardware), not the model.\n\nWhy the targets sit where they do: the paper sets them to allow for slight quantization and optimization differences, so a well-done int8 conversion of the reference model passes.\n\nWatch out: the targets are quality floors, not accuracy goals; a submission below them is not valid in the closed division, however fast it is.",
+      "searchQuery": "MLPerf Tiny closed division PTQ calibration quality targets 90 80 85 0.85",
+      "refs": [
+        "Banbury et al., MLPerf Tiny Benchmark, §4 (quality targets) and §5.2 (divisions)",
+        "https://arxiv.org/abs/2106.07597"
+      ],
+      "tags": [
+        "mlperf-tiny"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "ptq-problem-layerwise-debugging",
+      "unit": "ptq-in-practice",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "A float network and its int8 PTQ version are compared layer by layer. The signal-to-noise ratio of the int8 output against the float output, after each of six layers in turn, is 38, 36, 35, 21, 20 and 19 dB. Which layer is the main source of error, how much did it add, and what do you try?",
+      "body": "Layer 4: the SNR fell 14 dB there (35 to 21), a 25-fold increase in the relative error power; try finer scales or a better range for it, or keep it float.\n\nSolution outline:\n1. The drops between layers are 2, 1, 14, 1 and 1 dB. Only layer 4 stands out.\n2. A 14 dB drop is a factor $10^{1.4} \\approx 25$ in noise power relative to the signal.\n3. To confirm, run layer 4 alone on float inputs and quantize only it: if the SNR is already poor, the layer itself is the problem, not accumulated error.\n4. Try, in order: per-channel weights, a percentile or MSE range for its activations, cross-layer equalization if it is depthwise, then a float or higher-precision fallback.\n\nWatch out: after the big drop the error mostly rides along. Quantizing layers 5 and 6 more carefully would barely help.",
+      "searchQuery": "layer by layer SNR drop find sensitive layer int8 PTQ debugging",
+      "refs": [
+        "Nagel et al. (2021), §3.7"
+      ],
+      "tags": [
+        "ptq",
+        "debugging"
+      ]
+    },
+    {
+      "id": "ptq-example-int8-input-code",
+      "unit": "ptq-in-practice",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "A fully integer LiteRT model's input tensor has scale $S = 1/255$ and zero-point $Z = -128$. What int8 code does the float input value $0.2$ map to? (Answer with the code.)",
+      "body": "-77\n\n$q = \\mathrm{round}(0.2/S) + Z = \\mathrm{round}(51) - 128 = -77$.\n\nWorked insight: because $S = 1/255$, an image normalized as $p/255$ for a byte pixel $p$ gives $x/S = p$, so $q = p - 128$ for every pixel. A camera's uint8 bytes can be fed in with a subtraction of 128 and no floating-point step.\n\nThe 256 codes span real $[0, 1]$ exactly: $q = -128$ is real 0 and $q = 127$ is $S\\cdot255 = 1.0$.\n\nWatch out: always read the input scale and zero-point from the model file. A different normalization (for example $[-1, 1]$) gives different values and the byte trick no longer applies.",
+      "searchQuery": "int8 model input quantization scale 1/255 zero-point -128 pixel code",
+      "answer": "-77",
+      "answerDisplay": "$-77$",
+      "refs": [
+        "LiteRT docs: post-training quantization",
+        "LiteRT docs: quantization specification"
+      ],
+      "tags": [
+        "ptq",
+        "full-integer"
+      ]
+    },
+    {
+      "id": "ptq-landmark-mlperf-tiny",
+      "unit": "ptq-in-practice",
+      "kind": "landmark",
+      "difficulty": 7,
+      "title": "What is the MLPerf Tiny benchmark (Banbury et al., 2021), and what does it measure?",
+      "body": "The first industry-standard benchmark suite for ultra-low-power TinyML systems, built by more than 50 organizations, measuring accuracy, latency and energy on four tasks: keyword spotting, visual wake words, image classification and anomaly detection.\n\nEach task has a reference model, training scripts and C inference code (on GitHub as mlcommons/tiny). The paper appeared in the NeurIPS 2021 Datasets and Benchmarks Track. Its modular design lets a submitter show gains at any layer of the deployment stack: hardware, compiler, runtime or model.\n\nKey idea: the closed division fixes the model and dataset so that systems are compared on equal terms; it also fixes which quantization is allowed (post-training only).\n\nWatch out: results measure inference only, not pre- or post-processing, so system-level latency of a real product can be higher.",
+      "searchQuery": "MLPerf Tiny benchmark Banbury 2021 keyword spotting visual wake words anomaly detection",
+      "refs": [
+        "https://arxiv.org/abs/2106.07597",
+        "Banbury et al., MLPerf Tiny Benchmark, §5.2"
+      ],
+      "tags": [
+        "mlperf-tiny"
+      ],
+      "asOf": "2026-11-24"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "module": "c-2-memory",
+  "checker": "claude-sonnet-5-5",
+  "summary": {
+    "reviewed": 90,
+    "ok": 85,
+    "fixed": 5,
+    "dropped": 0,
+    "added": 0
+  },
+  "verdicts": [
+    {
+      "id": "m-leak-valgrind",
+      "verdict": "fixed",
+      "note": "At -O2 the compiler deletes the unused malloc, so the program leaks nothing (checked in assembly). Added an -O0 assumption and a warning; the prompt now asks what Valgrind calls it, since ASan also reports leaks."
+    },
+    {
+      "id": "m-trade-off-scratch-buffer",
+      "verdict": "fixed",
+      "note": "Used 'fragments' before it is taught and had a garbled sentence about local arrays; reworded."
+    },
+    {
+      "id": "m-trade-off-bitfields-vs-masks",
+      "verdict": "fixed",
+      "note": "Bit-field was never defined and implementation-defined was used before its unit; added a definition and plain gloss."
+    },
+    {
+      "id": "m-ub-definition",
+      "verdict": "fixed",
+      "note": "Removed the overclaim about the earlier part of the run being affected."
+    },
+    {
+      "id": "m-code-signed-overflow-check",
+      "verdict": "fixed",
+      "note": "The pre-check x > INT_MAX - a needs a > 0 to be correct; added it."
+    }
+  ]
+}

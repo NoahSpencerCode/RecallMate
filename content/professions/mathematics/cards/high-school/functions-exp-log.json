@@ -1,0 +1,727 @@
+{
+  "profession": "mathematics",
+  "module": "functions-exp-log",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "functions-definition",
+      "unit": "functions-and-notation",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **function**, and what must be true of every input?",
+      "body": "A function assigns to each input in its domain exactly one output.\n\nA rule, a table or a graph can define a function. The only requirement is that no input is sent to two different outputs. Two different inputs may share an output.\n\nExample: the pairs $\\{(1,5),(2,5),(3,7)\\}$ form a function, since each input appears once. The pairs $\\{(1,3),(1,4),(2,5)\\}$ do not, because the input $1$ has two outputs.\n\nKey idea: \"one output per input\" is what lets us write $f(x)$ and trust that it names a single number.",
+      "searchQuery": "function definition one output per input",
+      "refs": [
+        "AoPS Introduction to Algebra §16.1",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Introduction to Functions'"
+      ]
+    },
+    {
+      "id": "functions-domain-range",
+      "unit": "functions-and-notation",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "Define the **domain** and the **range** of a function.",
+      "body": "The domain is the set of allowed inputs; the range is the set of outputs the function actually produces.\n\nUnless a problem says otherwise, the domain is every real number for which the rule makes sense: no division by zero and no square root of a negative number.\n\nExample: for $f(x)=x^2$ with domain $\\mathbb{R}$, the range is $[0,\\infty)$, because a square is never negative.\n\nWatch out: here \"range\" does not mean the largest value minus the smallest, as it did in statistics. It is the set of outputs that really occur.",
+      "searchQuery": "domain and range of a function definition",
+      "refs": [
+        "AoPS Introduction to Algebra §16.1",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Introduction to Functions'"
+      ]
+    },
+    {
+      "id": "functions-vertical-line-test",
+      "unit": "functions-and-notation",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How does the **vertical line test** decide whether a graph shows a function of $x$, and why does it work?",
+      "body": "A graph shows a function of $x$ exactly when no vertical line meets it more than once.\n\nWhy: a vertical line at $x=a$ stands for the single input $a$. Each point where it meets the graph is an output for that input, so two or more hits mean two or more outputs.\n\nExample: the parabola $y=x^2$ passes the test. The circle $x^2+y^2=1$ fails it, since the line $x=0$ meets it at $(0,1)$ and $(0,-1)$.\n\nTip: for a table, the same check is simply \"look for an input that appears twice with different outputs.\"",
+      "searchQuery": "vertical line test function graph",
+      "refs": [
+        "AoPS Introduction to Algebra §16.1",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Introduction to Functions'"
+      ]
+    },
+    {
+      "id": "functions-evaluate-notation",
+      "unit": "functions-and-notation",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Let $f(x)=2x^2-x$. Evaluate $f(3)$ and simplify $f(a+1)$.",
+      "body": "$f(3)=15$ and $f(a+1)=2a^2+3a+1$.\n\nFunction notation says \"put the input wherever $x$ appears.\" Think of the rule as $f(\\square)=2\\square^2-\\square$.\n\nExample: $f(3)=2(3)^2-3=18-3=15$. For the second, $f(a+1)=2(a+1)^2-(a+1)=2a^2+4a+2-a-1=2a^2+3a+1$.\n\nWatch out: keep parentheses around a substituted expression. Writing $2a+1^2$ instead of $2(a+1)^2$ gives a different, wrong function value.",
+      "searchQuery": "function notation evaluate f(a+1)",
+      "refs": [
+        "AoPS Introduction to Algebra §16.1",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Introduction to Functions'"
+      ]
+    },
+    {
+      "id": "functions-domain-problem",
+      "unit": "functions-and-notation",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Find the domain of $f(x)=\\dfrac{\\sqrt{x-1}}{x-4}$.",
+      "body": "$x\\ge 1$ and $x\\ne 4$, that is $[1,4)\\cup(4,\\infty)$.\n\nEach trouble spot gives one condition:\n\n1. The square root needs $x-1\\ge 0$, so $x\\ge 1$.\n2. The denominator must not be zero, so $x\\ne 4$.\n\nBoth conditions must hold at once. The number $4$ lies inside $[1,\\infty)$, so it is cut out of the middle, and $\\cup$ means \"together with\".\n\nTip: list one condition per trouble spot, then keep only the values that satisfy all of them.",
+      "searchQuery": "domain of function with square root and fraction",
+      "refs": [
+        "AoPS Introduction to Algebra §16.1",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Introduction to Functions'"
+      ]
+    },
+    {
+      "id": "functions-average-rate-of-change",
+      "unit": "functions-and-notation",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "For $f(x)=x^2-2x$, find the **average rate of change** of $f$ from $x=1$ to $x=4$.",
+      "body": "3\n\nThe average rate of change of $f$ from $a$ to $b$ is $\\dfrac{f(b)-f(a)}{b-a}$, the slope of the line through the points $(a,f(a))$ and $(b,f(b))$.\n\nExample: $f(4)=16-8=8$ and $f(1)=1-2=-1$, so the rate is $\\dfrac{8-(-1)}{4-1}=\\dfrac{9}{3}=3$.\n\nKey idea: it is called \"average\" because the function may speed up or slow down inside the interval; this one number only summarizes the whole stretch.",
+      "searchQuery": "average rate of change over an interval",
+      "answer": "3",
+      "refs": [
+        "AoPS Introduction to Algebra §16.1",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Introduction to Functions'"
+      ]
+    },
+    {
+      "id": "functions-piecewise-evaluate",
+      "unit": "functions-and-notation",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Let $f(x)=\\begin{cases} x+1 & \\text{if } x<0\\\\ x^2 & \\text{if } 0\\le x\\le 2\\\\ 5 & \\text{if } x>2\\end{cases}$. Find $f(-3)+f(2)+f(4)$.",
+      "body": "7\n\nA **piecewise function** uses a different formula on each part of its domain. For each input, first decide which condition it meets, then use only that formula.\n\n- $-3<0$, so $f(-3)=-3+1=-2$.\n- $0\\le 2\\le 2$, so $f(2)=2^2=4$.\n- $4>2$, so $f(4)=5$.\n\nThe sum is $-2+4+5=7$.\n\nWatch out: the conditions must not overlap, or an input would get two outputs and the rule would stop being a function. Check the boundary value (here $x=2$) with care.",
+      "searchQuery": "piecewise function evaluate cases",
+      "answer": "7",
+      "refs": [
+        "AoPS Introduction to Algebra §16.1",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Introduction to Functions'"
+      ]
+    },
+    {
+      "id": "functions-misconception-additive",
+      "unit": "functions-and-notation",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that $f(a+b)=f(a)+f(b)$ for every function $f$?",
+      "body": "Function notation means \"apply the rule to the single input $a+b$\"; it is not multiplication, so it does not distribute, and for most functions the two sides differ.\n\nExample: for $f(x)=x^2$, $f(1+2)=f(3)=9$, but $f(1)+f(2)=1+4=5$.\n\nThe equation does hold for some special functions, such as $f(x)=mx$, where $f(a+b)=ma+mb$.\n\nWatch out: the same slip appears as $\\sqrt{a+b}=\\sqrt a+\\sqrt b$ and $(a+b)^2=a^2+b^2$. Testing with small numbers exposes each of them.",
+      "searchQuery": "f(a+b) not equal f(a)+f(b) function notation",
+      "refs": [
+        "AoPS Introduction to Algebra §16.1",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Introduction to Functions'"
+      ]
+    },
+    {
+      "id": "composition-definition",
+      "unit": "composition-and-inverses",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "Define the **composition** $f\\circ g$. Which function acts first?",
+      "body": "$(f\\circ g)(x)=f(g(x))$: apply $g$ first, then $f$.\n\nThe input $x$ must be in the domain of $g$, and the output $g(x)$ must then be in the domain of $f$.\n\nExample: with $f(x)=2x$ and $g(x)=x+3$, $f(g(x))=2(x+3)=2x+6$, while $g(f(x))=2x+3$.\n\nWatch out: composition is usually not commutative, as that example shows. Read $f\\circ g$ from the inside out, or right to left.",
+      "searchQuery": "composition of functions f of g definition",
+      "refs": [
+        "AoPS Introduction to Algebra §16.3–16.4, §17.3",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "composition-domain-example",
+      "unit": "composition-and-inverses",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "For $f(x)=x^2+1$ and $g(x)=\\sqrt{x-3}$, find $(f\\circ g)(x)$ and its domain.",
+      "body": "$(f\\circ g)(x)=x-2$ with domain $[3,\\infty)$.\n\nSubstitute: $f(g(x))=\\left(\\sqrt{x-3}\\right)^2+1=(x-3)+1=x-2$.\n\nWhy: the formula $x-2$ would accept any real number, but the composite only exists where the inner function $g$ does, which needs $x-3\\ge 0$.\n\nWatch out: always find the domain before simplifying. After simplifying, the restriction from the inner function is no longer visible.",
+      "searchQuery": "composition domain inner function restriction",
+      "refs": [
+        "AoPS Introduction to Algebra §16.3–16.4, §17.3",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "composition-one-to-one-concept",
+      "unit": "composition-and-inverses",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What is a **one-to-one function**, and how does the **horizontal line test** detect one?",
+      "body": "A function is one-to-one when different inputs always give different outputs; on its graph, no horizontal line meets the curve more than once.\n\nWhy: a horizontal line at height $c$ collects every input whose output is $c$. If it hits the graph twice, two inputs share an output.\n\nExample: $f(x)=x^2$ fails, since $f(2)=f(-2)=4$. The function $f(x)=x^3$ passes.\n\nTip: a failing function can often be rescued by shrinking its domain. The same $x^2$ restricted to $[0,\\infty)$ is one-to-one.",
+      "searchQuery": "one-to-one function horizontal line test",
+      "refs": [
+        "AoPS Introduction to Algebra §16.3–16.4, §17.3",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "inverse-function-definition",
+      "unit": "composition-and-inverses",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is the **inverse function** $f^{-1}$ of a one-to-one function $f$?",
+      "body": "$f^{-1}$ undoes $f$: $f^{-1}(y)=x$ exactly when $f(x)=y$.\n\nThe domain of $f^{-1}$ is the range of $f$, and its range is the domain of $f$. An inverse exists only when $f$ is one-to-one, so each output can be traced back to a single input.\n\nExample: for $f(x)=2x+1$, $f(3)=7$ and so $f^{-1}(7)=3$.\n\nKey idea: if $(a,b)$ lies on the graph of $f$, then $(b,a)$ lies on the graph of $f^{-1}$. Swapping coordinates reflects the graph in the line $y=x$.",
+      "searchQuery": "inverse function definition reflection y=x",
+      "refs": [
+        "AoPS Introduction to Algebra §16.3–16.4, §17.3",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "inverse-composition-identities",
+      "unit": "composition-and-inverses",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Which two identities express that $f$ and $f^{-1}$ undo each other? What function do both compositions equal?",
+      "body": "$f^{-1}(f(x))=x$ for $x$ in the domain of $f$, and $f(f^{-1}(x))=x$ for $x$ in the domain of $f^{-1}$.\n\nBoth compositions equal the **identity function** $\\mathrm{id}(x)=x$, which returns its input unchanged.\n\nWhy: $f$ sends $x$ to $y$, and $f^{-1}$ sends $y$ straight back to $x$; the round trip changes nothing.\n\nTip: to check a proposed inverse, test both compositions. For $f(x)=2x+1$ and $g(x)=\\frac{x-1}{2}$: $f(g(x))=x-1+1=x$ and $g(f(x))=\\frac{2x}{2}=x$.",
+      "searchQuery": "inverse function composition identity f(f^-1(x))=x",
+      "refs": [
+        "AoPS Introduction to Algebra §16.3–16.4, §17.3",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "inverse-problem-fraction",
+      "unit": "composition-and-inverses",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Find the inverse of $f(x)=\\dfrac{2x+1}{x-3}$, where $x\\ne 3$.",
+      "body": "$f^{-1}(x)=\\dfrac{3x+1}{x-2}$\n\nWrite $y=\\dfrac{2x+1}{x-3}$ and solve for $x$:\n\n1. $y(x-3)=2x+1$, so $xy-3y=2x+1$.\n2. Collect the $x$ terms: $xy-2x=3y+1$, so $x(y-2)=3y+1$.\n3. $x=\\dfrac{3y+1}{y-2}$. Rename the input $x$ to get $f^{-1}(x)$.\n\nCheck: $f(f^{-1}(x))=\\dfrac{2\\cdot\\frac{3x+1}{x-2}+1}{\\frac{3x+1}{x-2}-3}=\\dfrac{(6x+2)+(x-2)}{(3x+1)-3(x-2)}=\\dfrac{7x}{7}=x$.\n\nWatch out: the variable $x$ appears twice, so you must gather it on one side before factoring it out.",
+      "searchQuery": "find inverse of fraction function algebraically",
+      "refs": [
+        "AoPS Introduction to Algebra §16.3–16.4, §17.3",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "inverse-problem-restricted-quadratic",
+      "unit": "composition-and-inverses",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Find the inverse of $f(x)=x^2-4x$ with domain $x\\ge 2$, and state the domain of $f^{-1}$.",
+      "body": "$f^{-1}(x)=2+\\sqrt{x+4}$, with domain $[-4,\\infty)$.\n\nComplete the square: $y=x^2-4x=(x-2)^2-4$.\n\n1. $y+4=(x-2)^2$.\n2. Because $x\\ge 2$, the number $x-2$ is not negative, so $x-2=\\sqrt{y+4}$.\n3. $x=2+\\sqrt{y+4}$; rename to get $f^{-1}(x)=2+\\sqrt{x+4}$.\n\nThe domain of $f^{-1}$ is the range of $f$. The lowest value of $f$ is $-4$ at $x=2$, so the range is $[-4,\\infty)$.\n\nWatch out: the domain restriction decides the sign of the root. With $x\\le 2$ the inverse would be $2-\\sqrt{x+4}$.",
+      "searchQuery": "inverse of quadratic restricted domain complete the square",
+      "refs": [
+        "AoPS Introduction to Algebra §16.3–16.4, §17.3",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "inverse-misconception-reciprocal",
+      "unit": "composition-and-inverses",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that $f^{-1}(x)=\\dfrac{1}{f(x)}$?",
+      "body": "The $-1$ in $f^{-1}$ marks the inverse function, which undoes $f$; it is not an exponent, and $\\frac{1}{f(x)}$ is the reciprocal.\n\nExample: for $f(x)=2x$, the inverse is $f^{-1}(x)=\\frac{x}{2}$, but the reciprocal is $\\frac{1}{2x}$. At $x=4$ they give $2$ and $\\frac18$.\n\nWatch out: the number $f(x)^{-1}$, with the exponent outside the parentheses, does mean the reciprocal. Only the symbol $f^{-1}$ with no argument next to it names the inverse function.",
+      "searchQuery": "inverse function versus reciprocal misconception",
+      "refs": [
+        "AoPS Introduction to Algebra §16.3–16.4, §17.3",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "transform-horizontal-shift-concept",
+      "unit": "transformations-of-graphs",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why does the graph of $y=f(x-2)$ move **right** by 2, not left?",
+      "body": "The new function needs $x$ to be 2 larger to receive the same input that $f$ received before, so every point slides 2 units right.\n\nA **horizontal shift** changes the input, so it acts \"backwards\". A **vertical shift**, $y=f(x)+k$, changes the output and moves the graph up $k$ in the way you would expect.\n\nExample: if the graph of $f$ has a peak at $x=0$, then $f(x-2)$ peaks where $x-2=0$, at $x=2$.\n\nWatch out: $f(x+3)$ moves the graph 3 units to the left, since $x+3=0$ happens at $x=-3$.",
+      "searchQuery": "horizontal shift f(x-h) right why",
+      "refs": [
+        "AoPS Introduction to Algebra §17.2",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "transform-general-form",
+      "unit": "transformations-of-graphs",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "How does $y=a\\,f\\big(b(x-h)\\big)+k$ transform the graph of $y=f(x)$? Where does a point $(u,v)$ of the old graph go?",
+      "body": "$(u,v)\\mapsto\\left(\\dfrac{u}{b}+h,\\ a v+k\\right)$: scale by $1/|b|$ horizontally and $|a|$ vertically (reflecting if $b<0$ or $a<0$), then shift right $h$ and up $k$.\n\nA **vertical stretch** by $|a|$ multiplies every height by $|a|$. A **reflection** flips the graph: in the $x$-axis when $a<0$, in the $y$-axis when $b<0$.\n\nWhy: the new point $(X,Y)$ satisfies $Y=a f(b(X-h))+k$. The inner value $u=b(X-h)$ is an old input, so $X=u/b+h$, and $Y=av+k$ for the old output $v=f(u)$.\n\nWatch out: the inside changes act on $x$ opposite to how they look, and with the form $b(x-h)$ the factor $b$ is applied before the shift $h$.",
+      "searchQuery": "transformation of graphs a f(b(x-h))+k",
+      "refs": [
+        "AoPS Introduction to Algebra §17.2",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "transform-example-sqrt",
+      "unit": "transformations-of-graphs",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Describe how the graph of $y=-2\\sqrt{x+3}+1$ comes from the graph of $y=\\sqrt{x}$.",
+      "body": "Shift left 3, stretch vertically by 2, reflect in the $x$-axis, then shift up 1.\n\nHere $a=-2$, $b=1$, $h=-3$, $k=1$. Follow the points of $y=\\sqrt x$:\n\n- $(0,0)\\mapsto(-3,\\,1)$\n- $(1,1)\\mapsto(-2,\\,-1)$\n- $(4,2)\\mapsto(1,\\,-3)$\n\nCheck: at $x=1$ the new function gives $-2\\sqrt{4}+1=-3$, matching $(1,-3)$. The domain is $[-3,\\infty)$.\n\nTip: move a few easy points through the rule instead of imagining the whole curve; the ordering mistakes show up at once.",
+      "searchQuery": "graph transformations square root shift stretch reflect",
+      "refs": [
+        "AoPS Introduction to Algebra §17.2",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "transform-even-function",
+      "unit": "transformations-of-graphs",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "Define an **even function** and describe the symmetry of its graph.",
+      "body": "$f(-x)=f(x)$ for every $x$ in the domain; the graph is symmetric about the $y$-axis.\n\nThe domain must also contain $-x$ whenever it contains $x$.\n\nExample: $f(x)=x^4-3x^2$ gives $f(-x)=(-x)^4-3(-x)^2=x^4-3x^2=f(x)$, so it is even. So are $x^2$ and $|x|$.\n\nWhy the name: powers $x^n$ with $n$ even are even functions.",
+      "searchQuery": "even function definition symmetry y-axis",
+      "refs": [
+        "AoPS Introduction to Algebra §17.2",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "transform-odd-function",
+      "unit": "transformations-of-graphs",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "Define an **odd function** and describe the symmetry of its graph.",
+      "body": "$f(-x)=-f(x)$ for every $x$ in the domain; the graph is unchanged by a rotation of $180^\\circ$ about the origin.\n\nExample: $f(x)=x^3+x$ gives $f(-x)=-x^3-x=-(x^3+x)=-f(x)$, so it is odd. So are $x$ and $x^5$.\n\nTip: an odd function that is defined at $0$ must have $f(0)=0$, because $f(0)=-f(0)$.",
+      "searchQuery": "odd function definition rotational symmetry origin",
+      "refs": [
+        "AoPS Introduction to Algebra §17.2",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "transform-point-problem",
+      "unit": "transformations-of-graphs",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "The graph of $y=f(x)$ passes through $(2,5)$. Give a point on the graph of $y=3f(x+1)-4$.",
+      "body": "$(1,11)$\n\nChoose the new input so that the inside equals the old input: $x+1=2$, so $x=1$.\n\nThen the output follows: $3f(2)-4=3\\cdot5-4=11$.\n\nCheck with the general rule: $x+1=u$ means $h=-1$ and $a=3$, $k=-4$, so $(2,5)\\mapsto(2-1,\\ 3\\cdot5-4)=(1,11)$.\n\nWatch out: the shift in $x$ is $-1$ (left), not $+1$.",
+      "searchQuery": "point on transformed graph f(x+1) stretch shift",
+      "refs": [
+        "AoPS Introduction to Algebra §17.2",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "transform-misconception-even-or-odd",
+      "unit": "transformations-of-graphs",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that every function is either even or odd?",
+      "body": "Most functions are neither: for example $f(x)=x^2+x$.\n\nCheck: $f(-x)=x^2-x$. That differs from $f(x)=x^2+x$, so $f$ is not even, and it differs from $-f(x)=-x^2-x$, so $f$ is not odd. At $x=1$: $f(1)=2$ and $f(-1)=0$.\n\nKey idea: an even part and an odd part can be added, as here ($x^2$ is even and $x$ is odd), and the sum has no symmetry of either kind.\n\nWatch out: $2^x$ and $x+1$ are also neither. Only the zero function is both even and odd.",
+      "searchQuery": "function neither even nor odd example",
+      "refs": [
+        "AoPS Introduction to Algebra §17.2",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Further Topics on Functions'"
+      ]
+    },
+    {
+      "id": "exp-rational-exponent",
+      "unit": "exponential-functions",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "For $a>0$ and integers $m,n$ with $n\\ge 1$, what does $a^{m/n}$ mean?",
+      "body": "$a^{m/n}=\\left(\\sqrt[n]{a}\\right)^m=\\sqrt[n]{a^m}$: take the $n$-th root, then the $m$-th power.\n\nThis definition keeps the exponent laws working: $\\left(a^{1/n}\\right)^n=a^{1}=a$, so $a^{1/n}$ has to be the $n$-th root.\n\nExample: $27^{2/3}=(\\sqrt[3]{27})^2=3^2=9$ and $16^{-3/4}=\\dfrac{1}{(\\sqrt[4]{16})^3}=\\dfrac{1}{2^3}=\\dfrac18$.\n\nTip: take the root first; the numbers stay small.",
+      "searchQuery": "rational exponent a^(m/n) nth root",
+      "refs": [
+        "AoPS Introduction to Algebra §1.7–1.8, ch. 19",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "exp-function-growth-factor",
+      "unit": "exponential-functions",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What is an **exponential function**, and what does its **growth factor** tell you?",
+      "body": "$f(t)=a\\,b^t$ with $a\\ne0$, $b>0$, $b\\ne1$; the growth factor $b$ is the number each output is multiplied by when $t$ goes up by 1.\n\nIf $b>1$ the function grows; if $0<b<1$ it decays. The number $a$ is the starting value $f(0)$.\n\nExample: growth of 3% per period has $b=1.03$; a loss of 20% per period has $b=0.8$.\n\nKey idea: a linear function adds the same amount each step; an exponential function multiplies by the same factor each step.",
+      "searchQuery": "exponential function growth factor a b^t",
+      "refs": [
+        "AoPS Introduction to Algebra §1.7–1.8, ch. 19",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "exp-example-population",
+      "unit": "exponential-functions",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "A town of 2000 people grows 5% each year. Write a formula for the population $P(t)$ after $t$ years and find $P(10)$, rounded to the nearest person.",
+      "body": "$P(t)=2000\\,(1.05)^t$ and $P(10)\\approx 3258$.\n\nEach year the population is multiplied by $1+0.05=1.05$, so the growth factor is $1.05$ and the starting value is $2000$.\n\nExample: $P(10)=2000\\cdot1.05^{10}\\approx2000\\cdot1.62889\\approx3257.8$, which rounds to $3258$.\n\nWatch out: the factor is $1.05$, not $0.05$ and not $5$. A percent increase turns into a multiplier of $1+$ the rate.",
+      "searchQuery": "exponential growth population 5 percent per year",
+      "refs": [
+        "AoPS Introduction to Algebra §1.7–1.8, ch. 19",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "exp-compound-interest-formula",
+      "unit": "exponential-functions",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Give the **compound interest** formula for a principal $P$ at annual rate $r$ compounded $n$ times per year for $t$ years.",
+      "body": "$A=P\\left(1+\\dfrac{r}{n}\\right)^{nt}$\n\nHere $r$ is written as a decimal, and $A$ is the final amount. Each of the $nt$ compounding periods multiplies the balance by $1+\\frac{r}{n}$.\n\nExample: $\\$1000$ at $6\\%$ compounded monthly for 1 year gives $1000(1.005)^{12}\\approx\\$1061.68$, a little more than the $\\$1060$ from simple yearly interest.\n\nWatch out: use $r/n$ per period, not $r$.",
+      "searchQuery": "compound interest formula P(1+r/n)^(nt)",
+      "refs": [
+        "AoPS Introduction to Algebra §1.7–1.8, ch. 19",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "exp-number-e",
+      "unit": "exponential-functions",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the number $e$, and what is its link to compounding?",
+      "body": "$e\\approx 2.71828$: the value that $\\left(1+\\frac1n\\right)^n$ approaches as $n$ grows without bound.\n\nCompounding $100\\%$ interest $n$ times a year gives $\\left(1+\\frac1n\\right)^n$ after a year. This is $2$ for $n=1$, about $2.613$ for $n=12$ and about $2.7169$ for $n=1000$, and it never passes $e$.\n\nKey idea: compounding as often as possible is called continuous compounding, and gives $A=Pe^{rt}$.\n\nWhy it matters: $e$ is the base for which exponential growth is simplest to describe, and $e$ is irrational.",
+      "searchQuery": "number e definition continuous compounding",
+      "refs": [
+        "AoPS Introduction to Algebra §1.7–1.8, ch. 19",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "exp-half-life-formula",
+      "unit": "exponential-functions",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Give the decay formula for a quantity with initial amount $N_0$ and **half-life** $h$.",
+      "body": "$N(t)=N_0\\left(\\tfrac12\\right)^{t/h}$\n\nThe half-life is the time it takes for the quantity to fall to half its amount. Every time $h$ passes, the amount is multiplied by $\\frac12$, so after time $t$ that happens $t/h$ times.\n\nExample: $80$ mg with half-life $3$ days. After $9$ days, $t/h=3$ and $N=80\\cdot\\frac18=10$ mg.\n\nTip: the same shape gives doubling time: $N=N_0\\,2^{t/d}$ for doubling time $d$.",
+      "searchQuery": "half-life decay formula N0 (1/2)^(t/h)",
+      "refs": [
+        "AoPS Introduction to Algebra §1.7–1.8, ch. 19",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "exp-problem-continuous",
+      "unit": "exponential-functions",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A deposit of $\\$1000$ earns $6\\%$ per year compounded continuously. Find the balance after 5 years, to the cent, and compare it with annual compounding at $6\\%$.",
+      "body": "$1000e^{0.3}\\approx\\$1349.86$, versus $\\$1338.23$ with annual compounding.\n\nFor continuous compounding $A=Pe^{rt}$, so $A=1000e^{0.06\\cdot5}=1000e^{0.3}$, and $e^{0.3}\\approx1.349859$.\n\nFor annual compounding $A=1000(1.06)^5\\approx1000\\cdot1.338226=\\$1338.23$.\n\nKey idea: the extra $\\$11.63$ is the small gain from compounding at every instant instead of once a year.\n\nWatch out: the product $rt$ must use the rate as a decimal ($0.06$, not $6$).",
+      "searchQuery": "continuous compounding Pe^(rt) problem",
+      "refs": [
+        "AoPS Introduction to Algebra §1.7–1.8, ch. 19",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "exp-misconception-two-half-lives",
+      "unit": "exponential-functions",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that after two half-lives a radioactive sample has completely disappeared?",
+      "body": "After two half-lives one quarter remains, because each half-life halves whatever is left.\n\nExample: from $100$ g, one half-life leaves $50$ g, two leave $25$ g, three leave $12.5$ g, and so on. The formula $N_0(\\frac12)^{t/h}$ gives $N_0(\\frac12)^2=\\frac14N_0$.\n\nWhy: the amount lost in each period is half of what is present, and that shrinks. An exponential decay never reaches exactly zero.\n\nWatch out: this is the same pattern as constant percent growth, only run in reverse.",
+      "searchQuery": "two half-lives one quarter remains misconception",
+      "refs": [
+        "AoPS Introduction to Algebra §1.7–1.8, ch. 19",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "log-definition",
+      "unit": "logarithms",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define the **logarithm** $\\log_b x$, for $b>0$, $b\\ne1$ and $x>0$.",
+      "body": "$\\log_b x=y$ exactly when $b^y=x$: the logarithm is the exponent that $b$ must be raised to in order to get $x$.\n\nSo a logarithm statement and an exponential statement say the same thing in two forms.\n\nExample: $\\log_2 32=5$ because $2^5=32$; $\\log_{10}0.001=-3$ because $10^{-3}=0.001$; $\\log_9 3=\\frac12$ because $9^{1/2}=3$.\n\nKey idea: when stuck on a logarithm, rewrite it as \"base to what power gives this number?\"\n\nWatch out: $b$ must be positive and not $1$, and $x$ must be positive, since no power of a positive base is zero or negative.",
+      "searchQuery": "logarithm definition exponent form conversion",
+      "refs": [
+        "AoPS Introduction to Algebra §19.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "log-common-natural",
+      "unit": "logarithms",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are the **common logarithm** $\\log_{10}$ and the **natural logarithm** $\\ln$?",
+      "body": "$\\log_{10}x$ is the logarithm with base $10$ (the common logarithm), and $\\ln x=\\log_e x$ is the logarithm with base $e$ (the natural logarithm).\n\nExample: $\\log_{10}1000=3$ because $10^3=1000$, and $\\ln e^5=5$.\n\nWhy: base $10$ matches our number system, so $\\log_{10}$ counts digits and powers of ten. Base $e$ is the one that works most cleanly with growth and decay formulas $Pe^{rt}$.\n\nWatch out: calculators label base 10 as \"log\" and base $e$ as \"ln\". Here and in school books we write $\\log_{10}$ and $\\ln$ so no base is left to guess.",
+      "searchQuery": "common logarithm natural logarithm ln log10",
+      "refs": [
+        "AoPS Introduction to Algebra §19.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "log-inverse-concept",
+      "unit": "logarithms",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How are $b^x$ and $\\log_b x$ related as functions, and what domain does $\\log_b x$ have?",
+      "body": "They are inverse functions: $b^{\\log_b x}=x$ for $x>0$, and $\\log_b(b^x)=x$ for all real $x$. The domain of $\\log_b x$ is $(0,\\infty)$ and its range is $\\mathbb{R}$.\n\nWhy: the domain and range swap with the inverse. The range of $b^x$ is $(0,\\infty)$, so that is the domain of the log. Its graph is the mirror image of the graph of $b^x$ in the line $y=x$.\n\nExample: $\\ln(e^7)=7$ and $10^{\\log_{10}25}=25$.\n\nWatch out: $\\log_b(-4)$ and $\\log_b 0$ do not exist as real numbers.",
+      "searchQuery": "logarithm inverse of exponential domain range",
+      "refs": [
+        "AoPS Introduction to Algebra §19.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "log-product-rule",
+      "unit": "logarithms",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the **product rule** for logarithms. What do the quotient and power rules say?",
+      "body": "$\\log_b(xy)=\\log_b x+\\log_b y$ for $x,y>0$.\n\nThe related rules are $\\log_b\\!\\left(\\frac xy\\right)=\\log_b x-\\log_b y$ and $\\log_b(x^k)=k\\log_b x$.\n\nWhy: write $x=b^s$ and $y=b^t$, so $s=\\log_b x$ and $t=\\log_b y$. Then $xy=b^{s+t}$, and the exponent $s+t$ is the logarithm of $xy$. Multiplying numbers adds their exponents.\n\nExample: $\\ln\\dfrac{x^3\\sqrt y}{z^2}=3\\ln x+\\tfrac12\\ln y-2\\ln z$.",
+      "searchQuery": "product rule logarithms quotient power rule",
+      "refs": [
+        "AoPS Introduction to Algebra §19.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "log-change-of-base",
+      "unit": "logarithms",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the **change of base** formula that expresses $\\log_b x$ with natural logarithms.",
+      "body": "$\\log_b x=\\dfrac{\\ln x}{\\ln b}$\n\nAny base the calculator offers can be used on top and bottom, so $\\log_b x=\\dfrac{\\log_{10}x}{\\log_{10}b}$ works too.\n\nWhy: set $y=\\log_b x$, so $b^y=x$. Take $\\ln$ of both sides: $y\\ln b=\\ln x$, so $y=\\frac{\\ln x}{\\ln b}$.\n\nExample: $\\log_2 20=\\dfrac{\\ln20}{\\ln2}\\approx\\dfrac{2.9957}{0.6931}\\approx4.32$.",
+      "searchQuery": "change of base formula logarithm",
+      "refs": [
+        "AoPS Introduction to Algebra §19.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "log-scale-ph-example",
+      "unit": "logarithms",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "On the pH scale, $\\mathrm{pH}=-\\log_{10}[\\mathrm{H}^+]$, where $[\\mathrm{H}^+]$ is the hydrogen-ion concentration. How many times larger is $[\\mathrm{H}^+]$ at pH 3 than at pH 6?",
+      "body": "$1000$ times larger.\n\nSince $[\\mathrm{H}^+]=10^{-\\mathrm{pH}}$, the ratio is $\\dfrac{10^{-3}}{10^{-6}}=10^{3}=1000$.\n\nKey idea: on a **logarithmic scale**, each step of one unit means multiplying by a fixed factor (here $10$) instead of adding a fixed amount.\n\nAnother example: sound level in decibels is $L=10\\log_{10}(I/I_0)$ for intensity $I$ and a reference $I_0$, so every $+10$ dB means ten times the intensity.\n\nWatch out: the minus sign flips the direction, so a lower pH means more hydrogen ions.",
+      "searchQuery": "logarithmic scale pH decibel factor of ten",
+      "refs": [
+        "AoPS Introduction to Algebra §19.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "log-problem-exponential-equation",
+      "unit": "logarithms",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Solve $4\\cdot3^x=100$. Give the exact answer and a value rounded to 3 decimal places.",
+      "body": "$x=\\log_3 25=\\dfrac{\\ln 25}{\\ln 3}\\approx 2.930$\n\n1. Isolate the power: $3^x=25$.\n2. Rewrite in logarithm form: $x=\\log_3 25$.\n3. Use change of base: $x=\\frac{\\ln25}{\\ln3}\\approx\\frac{3.2189}{1.0986}\\approx2.930$.\n\nCheck: $3^{2.93}\\approx25$ and $4\\cdot25=100$.\n\nWatch out: divide by 4 first. Taking the logarithm of $4\\cdot3^x$ and treating the $4$ as part of the base is a common slip.",
+      "searchQuery": "solve exponential equation using logarithms change of base",
+      "refs": [
+        "AoPS Introduction to Algebra §19.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "log-problem-extraneous-root",
+      "unit": "logarithms",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Solve $\\log_2 x+\\log_2(x-2)=3$.",
+      "body": "$x=4$\n\n1. Combine with the product rule: $\\log_2\\big(x(x-2)\\big)=3$.\n2. Rewrite in exponential form: $x(x-2)=2^3=8$.\n3. $x^2-2x-8=0$, so $(x-4)(x+2)=0$ and $x=4$ or $x=-2$.\n\nThe value $x=-2$ is extraneous: it makes $\\log_2 x$ meaningless, since $-2$ is not positive. At $x=4$: $\\log_2 4+\\log_2 2=2+1=3$.\n\nWatch out: solving can produce roots that are not in the domain of the original equation. Always substitute back.",
+      "searchQuery": "solve logarithmic equation extraneous solution",
+      "answer": "4",
+      "refs": [
+        "AoPS Introduction to Algebra §19.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "log-misconception-sum",
+      "unit": "logarithms",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that $\\log_b(x+y)=\\log_b x+\\log_b y$?",
+      "body": "The logarithm of a sum has no simple rule. The rule turns a product into a sum: $\\log_b x+\\log_b y=\\log_b(xy)$, not $\\log_b(x+y)$.\n\nExample: $\\log_2(4+4)=\\log_2 8=3$, but $\\log_2 4+\\log_2 4=2+2=4$.\n\nWhy: the product rule holds because multiplying powers adds exponents. Adding numbers has no such effect on exponents.\n\nWatch out: two related slips are $\\ln(xy)=\\ln x\\cdot\\ln y$ and $\\ln\\dfrac xy=\\dfrac{\\ln x}{\\ln y}$. Both are false; the rules turn a product into a sum and a quotient into a difference.",
+      "searchQuery": "log of a sum is not sum of logs misconception",
+      "refs": [
+        "AoPS Introduction to Algebra §19.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions'"
+      ]
+    },
+    {
+      "id": "rational-definition",
+      "unit": "rational-functions",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **rational function**, and what is its domain?",
+      "body": "A function $f(x)=\\dfrac{p(x)}{q(x)}$ where $p$ and $q$ are polynomials and $q$ is not the zero polynomial; its domain is every real $x$ with $q(x)\\ne0$.\n\nThe $x$-intercepts are the inputs where $p(x)=0$ (and $q(x)\\ne 0$). The $y$-intercept is $f(0)$, if $0$ is in the domain.\n\nExample: $f(x)=\\dfrac{x+1}{x^2-4}$ has domain all real $x$ except $\\pm2$, one $x$-intercept at $-1$, and $y$-intercept $f(0)=-\\frac14$.\n\nKey idea: a rational function is to polynomials what a fraction is to integers.",
+      "searchQuery": "rational function definition domain intercepts",
+      "refs": [
+        "AoPS Introduction to Algebra §20.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Rational Functions'"
+      ]
+    },
+    {
+      "id": "rational-vertical-asymptote",
+      "unit": "rational-functions",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **vertical asymptote** of a rational function, and where do you find it?",
+      "body": "A vertical asymptote is a line $x=a$ that the graph hugs as $x$ gets close to $a$, with $|f(x)|$ growing without bound; it occurs at $x=a$ when $q(a)=0$ but $p(a)\\ne0$ in lowest terms.\n\nNear $x=a$ the denominator is tiny while the numerator is not, so the quotient is huge. The sign of the huge value may differ on the two sides of $a$.\n\nExample: $f(x)=\\dfrac{1}{x-2}$ has the vertical asymptote $x=2$. Close to $2$ on the right $f$ is large and positive; on the left it is large and negative.\n\nWatch out: the graph never crosses a vertical asymptote, because $f$ is undefined there.",
+      "searchQuery": "vertical asymptote rational function denominator zero",
+      "refs": [
+        "AoPS Introduction to Algebra §20.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Rational Functions'"
+      ]
+    },
+    {
+      "id": "rational-hole-concept",
+      "unit": "rational-functions",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "When does a zero of the denominator give a **hole** instead of a vertical asymptote?",
+      "body": "When the factor $(x-a)$ cancels completely against the numerator, the graph has a hole at $x=a$; if some factor $(x-a)$ remains in the denominator after canceling, there is a vertical asymptote.\n\nWhy: after canceling, the function equals a simpler formula that is well-behaved at $a$, but the original is still undefined there. The graph is the simpler curve with one point removed.\n\nExample: $f(x)=\\dfrac{x^2-1}{x-1}=x+1$ for $x\\ne1$. This is a line with a hole at $(1,2)$.\n\nTip: find the hole's height by plugging $a$ into the canceled formula.",
+      "searchQuery": "hole versus vertical asymptote rational function cancel",
+      "refs": [
+        "AoPS Introduction to Algebra §20.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Rational Functions'"
+      ]
+    },
+    {
+      "id": "rational-horizontal-asymptote-rule",
+      "unit": "rational-functions",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "A rational function has numerator degree $n$ and denominator degree $m$. How do $n$ and $m$ decide its **horizontal asymptote**, which describes its **end behavior**?",
+      "body": "If $n<m$ the asymptote is $y=0$; if $n=m$ it is $y=\\dfrac{\\text{leading coefficient of }p}{\\text{leading coefficient of }q}$; if $n>m$ there is no horizontal asymptote.\n\nEnd behavior means what $f(x)$ does as $x$ becomes very large in size, positive or negative. A horizontal asymptote is a line $y=c$ that the graph approaches there.\n\nWhy: far out only the leading terms matter. Dividing top and bottom by $x^m$ leaves $\\frac{a_n x^{n-m}+\\cdots}{b_m+\\cdots}$.\n\nExample: $\\dfrac{3x^2+1}{x^2-4x+3}\\to 3$, the ratio of $3$ and $1$.\n\nWatch out: when $n=m+1$ the graph follows a slanted line, not a horizontal one.",
+      "searchQuery": "horizontal asymptote degree rule rational function end behavior",
+      "refs": [
+        "AoPS Introduction to Algebra §20.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Rational Functions'"
+      ]
+    },
+    {
+      "id": "rational-example-features",
+      "unit": "rational-functions",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "List the domain, holes, asymptotes and intercepts of $f(x)=\\dfrac{(x-1)(x+2)}{(x+2)(x-3)}$.",
+      "body": "Domain $x\\ne-2,3$; hole at $\\left(-2,\\tfrac35\\right)$; vertical asymptote $x=3$; horizontal asymptote $y=1$; $x$-intercept $1$; $y$-intercept $\\tfrac13$.\n\n1. The denominator is zero at $x=-2$ and $x=3$, so these are excluded.\n2. The factor $x+2$ cancels, leaving $\\frac{x-1}{x-3}$. That gives a hole at $x=-2$ of height $\\frac{-3}{-5}=\\frac35$.\n3. The factor $x-3$ remains, so $x=3$ is a vertical asymptote.\n4. Degrees are equal with leading coefficients $1$ and $1$, so $y=1$.\n5. $x$-intercept: $x-1=0$. $y$-intercept: $f(0)=\\frac{-1}{-3}=\\frac13$.\n\nTip: factor first, cancel next, then read every feature from the reduced form.",
+      "searchQuery": "rational function features hole asymptote intercepts example",
+      "refs": [
+        "AoPS Introduction to Algebra §20.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Rational Functions'"
+      ]
+    },
+    {
+      "id": "rational-problem-inequality",
+      "unit": "rational-functions",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Solve $\\dfrac{2x-1}{x+3}<1$.",
+      "body": "$-3<x<4$, that is $(-3,4)$.\n\nDo not multiply by $x+3$: its sign is unknown. Instead move everything to one side:\n\n$\\dfrac{2x-1}{x+3}-1=\\dfrac{(2x-1)-(x+3)}{x+3}=\\dfrac{x-4}{x+3}<0$.\n\nA **sign chart** records the sign of each factor on the intervals cut out by the zeros of the numerator and denominator ($x=4$ and $x=-3$):\n\n- $x<-3$: $(-)/(-)=+$\n- $-3<x<4$: $(-)/(+)=-$\n- $x>4$: $(+)/(+)=+$\n\nWe want negative values, so the answer is $(-3,4)$. Both endpoints are excluded: $-3$ is outside the domain, and $4$ gives $0$, which is not less than $0$.\n\nCheck: $x=0$ gives $-\\frac13<1$.",
+      "searchQuery": "solve rational inequality sign chart",
+      "refs": [
+        "AoPS Introduction to Algebra §20.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Rational Functions'"
+      ]
+    },
+    {
+      "id": "rational-problem-asymptotes",
+      "unit": "rational-functions",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Find the asymptotes and intercepts of $f(x)=\\dfrac{3x^2+1}{x^2-4x+3}$.",
+      "body": "Vertical asymptotes $x=1$ and $x=3$; horizontal asymptote $y=3$; no $x$-intercepts; $y$-intercept $\\tfrac13$.\n\n1. $x^2-4x+3=(x-1)(x-3)$. The numerator at $1$ is $4$ and at $3$ is $28$, neither $0$, so nothing cancels and both zeros give vertical asymptotes.\n2. The degrees are equal, with leading coefficients $3$ and $1$, so $y=3$.\n3. $3x^2+1\\ge1>0$ for all real $x$, so the numerator never vanishes: there are no $x$-intercepts.\n4. $f(0)=\\frac13$.\n\nWatch out: always test the numerator at each denominator zero; a zero there means a hole, not an asymptote.",
+      "searchQuery": "asymptotes and intercepts of rational function problem",
+      "refs": [
+        "AoPS Introduction to Algebra §20.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Rational Functions'"
+      ]
+    },
+    {
+      "id": "rational-misconception-cross-asymptote",
+      "unit": "rational-functions",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that a graph can never cross its horizontal asymptote?",
+      "body": "A horizontal asymptote describes what happens far from the origin only; at moderate $x$ the graph may cross it, even more than once.\n\nExample: $f(x)=\\dfrac{x}{x^2+1}$ has horizontal asymptote $y=0$ (numerator degree below denominator degree), yet $f(0)=0$, and $f$ is negative for $x<0$ and positive for $x>0$, so the graph crosses $y=0$ at the origin.\n\nKey idea: a vertical asymptote can never be crossed, since $f$ is undefined there. A horizontal one is only about the ends.",
+      "searchQuery": "graph can cross horizontal asymptote misconception",
+      "refs": [
+        "AoPS Introduction to Algebra §20.4",
+        "Stitz–Zeager, Precalculus 4i, ch. 'Rational Functions'"
+      ]
+    },
+    {
+      "id": "model-definition",
+      "unit": "modeling-with-functions",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **mathematical model**, and what is a **parameter** of a model?",
+      "body": "A mathematical model is a function or equation that describes a real situation in a simplified way; a parameter is a number in the model that is fixed to fit the situation, such as $a$ and $b$ in $f(t)=a\\,b^t$.\n\nA model keeps what matters and ignores the rest, so it is never perfectly accurate.\n\nExample: a car worth $\\$20000$ that loses $15\\%$ of its value each year has value $V(t)=20000(0.85)^t$ after $t$ years. Here $t$ is the input, and $20000$ and $0.85$ are the parameters.\n\nKey idea: fitting a model means choosing the parameters, such as the starting amount and growth factor, so that the model matches the data.",
+      "searchQuery": "mathematical model parameter definition",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions' (Applications)",
+        "Common Core State Standards, High School: Modeling"
+      ]
+    },
+    {
+      "id": "model-cycle-concept",
+      "unit": "modeling-with-functions",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What are the steps of the **modeling cycle**?",
+      "body": "Formulate, compute, interpret, validate, report; and if validation fails, go round again.\n\n1. Formulate: choose the quantities and the kind of function to describe them.\n2. Compute: fit the parameters and solve the equations.\n3. Interpret: say what the answers mean in the situation, with units.\n4. Validate: compare with data or common sense.\n5. Report: state the result, the assumptions and the limits.\n\nWhy: the model's first guess is rarely right. A failed check sends you back to formulate with a better kind of function.\n\nWatch out: a correct calculation can still answer the wrong question if the interpretation step is skipped.",
+      "searchQuery": "modeling cycle steps formulate compute interpret validate report",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions' (Applications)",
+        "Common Core State Standards, High School: Modeling"
+      ]
+    },
+    {
+      "id": "model-difference-ratio-concept",
+      "unit": "modeling-with-functions",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Given a table of outputs at equally spaced inputs, how do a **constant difference** and a **constant ratio** tell you the type of model?",
+      "body": "Constant differences between consecutive outputs mean a linear model; constant ratios mean an exponential model.\n\nWhy: a line $y=mx+c$ adds $m$ for every step, so differences are constant. An exponential $y=ab^x$ multiplies by $b$ each step, so ratios are constant.\n\nExample: outputs $3,7,11,15$ have differences $4,4,4$, so $y=4x+3$. Outputs $5,10,20,40$ have ratios $2,2,2$, so $y=5\\cdot2^x$.\n\nTip: if the differences themselves have a constant difference, a quadratic model is likely.",
+      "searchQuery": "constant difference constant ratio linear exponential table",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions' (Applications)",
+        "Common Core State Standards, High School: Modeling"
+      ]
+    },
+    {
+      "id": "model-example-table-quadratic",
+      "unit": "modeling-with-functions",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "The outputs at $x=0,1,2,3,4$ are $1,2,5,10,17$. Choose between a linear, quadratic or exponential model and find the rule.",
+      "body": "Quadratic: $y=x^2+1$.\n\nDifferences: $1,3,5,7$, not constant. Ratios: $2,\\,2.5,\\,2,\\,1.7$, not constant. But the differences of the differences are $2,2,2$, which are constant.\n\nFor $y=ax^2+bx+c$: $c=y(0)=1$; $y(1)=a+b+1=2$ and $y(2)=4a+2b+1=5$. These give $a+b=1$ and $2a+b=2$, so $a=1$, $b=0$.\n\nCheck: $x=4$ gives $16+1=17$.\n\nWatch out: differences that grow are not enough for an exponential model; check the ratios.",
+      "searchQuery": "choose model from table quadratic differences",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions' (Applications)",
+        "Common Core State Standards, High School: Modeling"
+      ]
+    },
+    {
+      "id": "model-problem-fit-exponential",
+      "unit": "modeling-with-functions",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "An exponential model $f(t)=a\\,b^t$ passes through $(1,6)$ and $(3,54)$ with $b>0$. Find $f(t)$ and say what $a$ and $b$ mean.",
+      "body": "$f(t)=2\\cdot3^t$: the starting value is $a=2$ and the quantity triples each step ($b=3$).\n\n1. Divide the two conditions: $\\dfrac{ab^3}{ab^1}=\\dfrac{54}{6}$, so $b^2=9$, and $b=3$ since $b>0$.\n2. Then $a\\cdot3=6$, so $a=2$.\n\nCheck: $f(1)=6$ and $f(3)=2\\cdot27=54$.\n\nKey idea: dividing the equations cancels the unknown $a$ and leaves a single equation for $b$.\n\nWatch out: the starting value is $f(0)=2$, not the first data point $6$.",
+      "searchQuery": "fit exponential model through two points",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions' (Applications)",
+        "Common Core State Standards, High School: Modeling"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "model-problem-pen-domain",
+      "unit": "modeling-with-functions",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A rectangular pen has perimeter $40$ m. Model its area as a function of the width $w$, state a sensible domain, and find the largest area.",
+      "body": "$A(w)=w(20-w)$ with domain $0<w<20$; the largest area is $100\\ \\mathrm{m^2}$ at $w=10$.\n\n1. Perimeter $2w+2\\ell=40$, so the length is $\\ell=20-w$.\n2. Area $A=w\\ell=w(20-w)=-w^2+20w$.\n3. Both sides must be positive: $w>0$ and $20-w>0$.\n4. The parabola opens downward, so its vertex is the maximum, at $w=-\\frac{20}{2(-1)}=10$, giving $A=10\\cdot10=100$.\n\nInterpret: the best rectangle is a square of side $10$ m.\n\nWatch out: the algebra of $A(w)$ is fine for $w=25$, but a negative length makes no sense. The domain comes from the situation, not the formula.",
+      "searchQuery": "model area rectangle fixed perimeter domain maximum",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions' (Applications)",
+        "Common Core State Standards, High School: Modeling"
+      ]
+    },
+    {
+      "id": "model-misconception-extrapolation",
+      "unit": "modeling-with-functions",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that a model which fits the data well can be trusted for any input?",
+      "body": "A model is only reliable on the range where it was checked and where it makes sense; far outside that range it can give impossible values.\n\nExample: bacteria counted as $N(t)=500\\cdot2^t$ for the first few hours fit well. But at $t=200$ hours it predicts about $8\\times10^{62}$ cells, far more than there is food, space or matter for.\n\nWhy: real growth runs into limits that the simple formula leaves out.\n\nTip: write the domain of the model next to the formula, and say which part of the data it was fitted to.",
+      "searchQuery": "model extrapolation limits misconception domain",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Exponential and Logarithmic Functions' (Applications)",
+        "Common Core State Standards, High School: Modeling"
+      ]
+    }
+  ]
+}

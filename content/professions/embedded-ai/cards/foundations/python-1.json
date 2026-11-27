@@ -1,0 +1,978 @@
+{
+  "profession": "embedded-ai",
+  "module": "python-1",
+  "tier": 0,
+  "cards": [
+    {
+      "id": "py1-interpreter",
+      "unit": "values-types-variables",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is the Python **interpreter**, and how do you run a Python script with it?",
+      "body": "The interpreter is the program that reads your Python code and carries it out, and you run a script with `python script.py` in the terminal.\n\nA **script** is a plain text file of Python instructions, usually named with `.py` at the end. The interpreter reads it from the top and does each instruction in order.\n\nExample: If `hello.py` holds the single line `print(\"hello\")`, then typing `python hello.py` shows `hello` on the screen. On some computers the command is `python3`.\n\nTip: Typing just `python` opens an interactive prompt (`>>>`) where every line you type is run at once. It is a handy scratchpad for trying small ideas.\n\nWatch out: Saving a script does not run it. After every edit you must call the interpreter on the file again to see the change.",
+      "searchQuery": "python interpreter run script python hello.py",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "The Python Tutorial, ch. 3 (An Informal Introduction to Python)"
+      ]
+    },
+    {
+      "id": "py1-variable-assignment",
+      "unit": "values-types-variables",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **variable** in Python, and what does the **assignment** `score = 10` do?",
+      "body": "A variable is a name that refers to a value, and an assignment (`=`) makes the name on the left refer to the value on the right.\n\nPython works out the right-hand side first, then attaches the name to the result. That is why `score = score + 1` makes sense: it takes the current value of `score`, adds 1, and points the name at the new value.\n\nExample: After `score = 10` and then `score = score + 1`, the name `score` refers to `11`.\n\nTip: Names can use letters, digits and underscores, cannot start with a digit, and are case-sensitive, so `Score` and `score` are different names. Choose names that say what the value means, such as `battery_volts`.\n\nWatch out: In Python, `=` is an instruction (\"make this name refer to that value\"), not a statement that two things are equal.",
+      "searchQuery": "python variable assignment name refers to value",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "The Python Tutorial, ch. 3 (An Informal Introduction to Python)"
+      ]
+    },
+    {
+      "id": "py1-basic-types",
+      "unit": "values-types-variables",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "What are Python's four basic value types, and how do you check which one a value has?",
+      "body": "`int` (whole numbers), `float` (numbers with a decimal point), `str` (text) and `bool` (`True` or `False`); the function `type(value)` reports which one a value has.\n\nEvery value has a **type** that decides what you can do with it. `7` is an **int**. `7.0` is a **float**, even though it stands for the same amount. `\"7\"` is a **str** (short for string, a piece of text): the quotes make it text, not a number. `True` and `False` are **bool** values, named after the mathematician George Boole, and must start with a capital letter.\n\nExample: `7 + 1` is `8`, but `\"7\" + \"1\"` is `\"71\"`, because adding two pieces of text joins them.\n\nWatch out: Quotes change the type. `\"7\"` looks like a number on the screen but behaves like text.",
+      "searchQuery": "python int float str bool basic types type()",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "The Python Tutorial, ch. 3 (An Informal Introduction to Python)"
+      ]
+    },
+    {
+      "id": "py1-type-conversion",
+      "unit": "values-types-variables",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is **type conversion** in Python, and which functions convert to `int`, `float` and `str`?",
+      "body": "Type conversion builds a value of one type from a value of another type, using `int()`, `float()` and `str()`.\n\nThe conversion functions return a new value. They do not change the variable you passed in.\n\nExample:\n- `int(\"42\")` gives the whole number `42`.\n- `float(3)` gives `3.0`.\n- `str(3.5)` gives the text `\"3.5\"`.\n- `int(3.9)` gives `3`: converting a float to an int cuts off the decimal part and does not round.\n\nWatch out: `int(-3.9)` is `-3`, because cutting off moves toward zero. If you need rounding, use `round()` instead.",
+      "searchQuery": "python type conversion int float str functions",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "The Python Tutorial, ch. 3 (An Informal Introduction to Python)"
+      ]
+    },
+    {
+      "id": "py1-int-string-decimal",
+      "unit": "values-types-variables",
+      "kind": "misconception",
+      "difficulty": 1,
+      "title": "Why is it false that `int(\"3.5\")` gives `3` because `int()` can convert any text that looks like a number?",
+      "body": "`int()` on text accepts only whole-number text, so `int(\"3.5\")` raises an error (a `ValueError`); convert in two steps with `int(float(\"3.5\"))`, which gives `3`.\n\nPython reads the text strictly: `\"3.5\"` contains a decimal point, so it is not a whole number, and Python refuses to guess. A `ValueError` means \"this is the right kind of value, but its content is not acceptable here\".\n\nExample: `float(\"3.5\")` turns the text into the float `3.5`, and `int(3.5)` then cuts it off to `3`. So `int(float(\"3.5\"))` is `3`.\n\nWatch out: The rule is about text only. `int(3.5)` (a float, not text) works fine and gives `3`.",
+      "searchQuery": "python int('3.5') ValueError convert string float",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "The Python Tutorial, ch. 3 (An Informal Introduction to Python)"
+      ]
+    },
+    {
+      "id": "py1-code-type-output",
+      "unit": "values-types-variables",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "What does this print?\n\n```python\nprint(type(7), type(7.0), type(\"7\"), type(True))\n```",
+      "body": "`<class 'int'> <class 'float'> <class 'str'> <class 'bool'>`\n\n`print` shows its values on one line with a space between them. `type(...)` reports each value's type, and Python writes a type as `<class 'int'>`, `<class 'float'>` and so on.\n\nKey idea: The type depends on how the value is written, not on its amount. `7` and `7.0` are equal in size but different types, and `\"7\"` in quotes is text.\n\nTip: When a program misbehaves, add `print(type(x))` to see what you really have. This is the fastest way to catch a number that is secretly text.",
+      "searchQuery": "python type() print int float str bool class",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "The Python Tutorial, ch. 3 (An Informal Introduction to Python)"
+      ]
+    },
+    {
+      "id": "py1-code-input-string",
+      "unit": "values-types-variables",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "A user runs this script, types `4` and presses Enter. What does the last line print?\n\n```python\nn = input(\"Number? \")\nprint(n + n)\n```",
+      "body": "`44`\n\n`input()` shows its prompt, waits for the user to type a line, and always returns that line as a **str**, even when the user typed digits. So `n` is the text `\"4\"`, and `+` between two pieces of text joins them: `\"4\" + \"4\"` is `\"44\"`.\n\nWhy it matters: Any program that does arithmetic on typed input must convert first.\n\nExample: With `n = int(input(\"Number? \"))`, typing `4` makes `n + n` equal `8`.\n\nWatch out: A typed answer such as `4` and the number `4` look the same on screen but are different types.",
+      "searchQuery": "python input() returns string n + n 44",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "The Python Tutorial, ch. 3 (An Informal Introduction to Python)"
+      ],
+      "answer": "44"
+    },
+    {
+      "id": "py1-code-conversion",
+      "unit": "values-types-variables",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "What does this print?\n\n```python\nage = \"12\"\nprint(int(age) + 3)\nprint(age + \"3\")\n```",
+      "body": "`15` on the first line and `123` on the second.\n\n`int(age)` builds a new whole number, `12`, so adding `3` gives `15`. The variable `age` itself is never changed: it still refers to the text `\"12\"`. So `age + \"3\"` joins two pieces of text and gives `\"123\"`.\n\nWatch out: Converting inside an expression does not convert the variable. To keep the number, assign it: `age = int(age)`.\n\nTip: When you see `+` between two names, ask whether they are both numbers or both text. Mixing them, as in `\"12\" + 3`, is an error.",
+      "searchQuery": "python int() convert string to number print age",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "The Python Tutorial, ch. 3 (An Informal Introduction to Python)"
+      ]
+    },
+    {
+      "id": "py1-code-fstring",
+      "unit": "values-types-variables",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "A string with an `f` right before its opening quote is an **f-string**: Python replaces each `{...}` with the value of the expression inside. What does this print?\n\n```python\nprice = 4\nprint(f\"{price * 3} items at {price:.2f} each\")\n```",
+      "body": "`12 items at 4.00 each`\n\nInside the braces Python works out `price * 3`, which is `12`, and puts it in the text. The part after the colon, `:.2f`, is a format instruction: show the number as a float with exactly 2 digits after the decimal point, so `4` becomes `4.00`.\n\nWhy it matters: F-strings are the easiest way to build readable output from several values without converting each one to text.\n\nWatch out: Without the leading `f`, Python prints the braces literally, as `{price * 3} items ...`.",
+      "searchQuery": "python f-string format .2f print expression",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "The Python Tutorial, ch. 3 (An Informal Introduction to Python)"
+      ]
+    },
+    {
+      "id": "py1-operators",
+      "unit": "operators-expressions",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is an **operator**, and what do `+`, `-`, `*`, `/` and `**` do?",
+      "body": "An operator is a symbol that combines values (its operands) into a new value: `+`, `-` and `*` add, subtract and multiply, `/` divides and always gives a float, and `**` is **exponentiation**, raising to a power.\n\nExample:\n- `2 ** 5` is `32`, which is 2 multiplied by itself 5 times.\n- `7 / 2` is `3.5`.\n- `6 / 3` is `2.0`, a float, not `2`.\n\nWatch out: The symbol `^` is not \"to the power of\" in Python. It does something unrelated, so `2 ^ 5` does not give `32`. Always use `**`.",
+      "searchQuery": "python arithmetic operators exponentiation division returns float",
+      "refs": [
+        "CS50x 2026, Week 6 notes: Truncation and Floating Point Imprecision",
+        "The Python Tutorial, ch. 15 (Floating-Point Arithmetic: Issues and Limitations)"
+      ]
+    },
+    {
+      "id": "py1-floor-modulo",
+      "unit": "operators-expressions",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What do the **floor division** operator `//` and the **modulo** operator `%` compute?",
+      "body": "`a // b` divides and rounds down to a whole number (the quotient), and `a % b` gives what is left over (the remainder).\n\nExample: `17 // 5` is `3` because 5 fits into 17 three times, and `17 % 5` is `2` because 17 - 3 × 5 = 2.\n\nKey idea: The two always fit together as `a == (a // b) * b + a % b`. Here that is 17 = 3 × 5 + 2.\n\nWatch out: \"Rounds down\" means toward minus infinity, not toward zero. `-7 // 2` is `-4`, and `-7 % 2` is `1`, so the identity above still holds.",
+      "searchQuery": "python floor division // modulo % quotient remainder",
+      "refs": [
+        "CS50x 2026, Week 6 notes: Truncation and Floating Point Imprecision",
+        "The Python Tutorial, ch. 15 (Floating-Point Arithmetic: Issues and Limitations)"
+      ]
+    },
+    {
+      "id": "py1-int-float-limits",
+      "unit": "operators-expressions",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "How do Python's `int` and `float` differ when numbers get very large or need many digits?",
+      "body": "A Python `int` is exact and never overflows because it grows as needed, while a `float` is stored in 64 bits and keeps only about 16 significant decimal digits.\n\nIn C, a 32-bit integer wraps around once it passes about 2.1 billion (the overflow you met earlier). A Python `int` has no such limit: `2 ** 100` prints `1267650600228229401496703205376`, every digit correct, and the only limit is the computer's memory.\n\nA `float` is fixed in size. `float(2 ** 100)` shows `1.2676506002282294e+30`: the size is right, but only the first 16 or so digits are meaningful. The largest float is about $1.8 \\times 10^{308}$.\n\nKey idea: Use ints when you need exact counts, and expect small errors when you use floats.",
+      "searchQuery": "python int never overflow float precision 64-bit",
+      "refs": [
+        "CS50x 2026, Week 6 notes: Truncation and Floating Point Imprecision",
+        "The Python Tutorial, ch. 15 (Floating-Point Arithmetic: Issues and Limitations)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "py1-float-equality",
+      "unit": "operators-expressions",
+      "kind": "misconception",
+      "difficulty": 1,
+      "title": "Why is it false that `0.1 + 0.2 == 0.3` evaluates to `True` in Python?",
+      "body": "`0.1 + 0.2` is actually `0.30000000000000004`, because floats store binary approximations (a **floating-point rounding error**), so the comparison is `False`.\n\nA computer stores a float in binary. Just as 1/3 cannot be written exactly with a finite number of decimal digits, 0.1 cannot be written exactly with a finite number of binary digits. The stored value is a tiny bit off, and the tiny errors show up after arithmetic.\n\nExample: `print(0.1 + 0.2)` shows `0.30000000000000004`.\n\nWatch out: This is not a Python bug. C, JavaScript and the processor hardware itself behave the same way. The fix is to never test floats with `==`, but to ask whether they are close, as the code card on `math.isclose` shows.",
+      "searchQuery": "python 0.1 + 0.2 == 0.3 False floating point rounding",
+      "refs": [
+        "CS50x 2026, Week 6 notes: Truncation and Floating Point Imprecision",
+        "The Python Tutorial, ch. 15 (Floating-Point Arithmetic: Issues and Limitations)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "py1-code-precedence",
+      "unit": "operators-expressions",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "**Operator precedence** is the order in which Python applies operators when brackets do not say otherwise: `**` first, then `*`, `/`, `//`, `%`, and last `+` and `-`. What does this print on one line?\n\n```python\nprint(2 + 3 * 4 ** 2, (2 + 3) * 4)\n```",
+      "body": "`50 20`\n\nFor the first value, `4 ** 2` is `16`, then `3 * 16` is `48`, then `2 + 48` is `50`. For the second, the brackets force `2 + 3` first, so it is `5 * 4`, which is `20`.\n\nTip: When in doubt, add brackets. They cost nothing and make your intent clear to the next reader.\n\nWatch out: `-2 ** 2` is `-4`, not `4`, because `**` binds tighter than the minus sign, so it means `-(2 ** 2)`.",
+      "searchQuery": "python operator precedence exponent before multiplication",
+      "refs": [
+        "CS50x 2026, Week 6 notes: Truncation and Floating Point Imprecision",
+        "The Python Tutorial, ch. 15 (Floating-Point Arithmetic: Issues and Limitations)"
+      ],
+      "answer": "50 20"
+    },
+    {
+      "id": "py1-code-digits",
+      "unit": "operators-expressions",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "What does this print?\n\n```python\nn = 4827\nprint(n // 100 % 10, n % 10)\n```",
+      "body": "`8 7`\n\n`//` and `%` have the same precedence and run left to right, so `n // 100 % 10` is `(n // 100) % 10`. First `4827 // 100` is `48`, which drops the last two digits. Then `48 % 10` is `8`, the last digit of 48. Finally `4827 % 10` is `7`.\n\nKey idea: Dividing by 10 with `//` removes the last digit, and `% 10` reads it.\n\nExample: To get the tens digit of any whole number `n`, write `n // 10 % 10`.",
+      "searchQuery": "python extract digits floor division modulo 10",
+      "refs": [
+        "CS50x 2026, Week 6 notes: Truncation and Floating Point Imprecision",
+        "The Python Tutorial, ch. 15 (Floating-Point Arithmetic: Issues and Limitations)"
+      ]
+    },
+    {
+      "id": "py1-code-wrap",
+      "unit": "operators-expressions",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "A 24-hour clock shows hour `22`. What does this print?\n\n```python\nhour = 22\nprint((hour + 5) % 24)\n```",
+      "body": "`3`\n\n`22 + 5` is `27`, and `27 % 24` is `3`. The remainder after dividing by 24 can never reach 24, so the counter wraps from 23 back to 0.\n\nWhy it matters: This is the standard way to make a counter go around, such as hours, array positions in a circular buffer, or days of the week. It is the same wrap-around you saw with fixed-size integers, but you choose the size.\n\nTip: To wrap around a counter of size `n`, use `% n`; the result is always between 0 and `n - 1`.",
+      "searchQuery": "python modulo wrap around counter clock % 24",
+      "refs": [
+        "CS50x 2026, Week 6 notes: Truncation and Floating Point Imprecision",
+        "The Python Tutorial, ch. 15 (Floating-Point Arithmetic: Issues and Limitations)"
+      ],
+      "answer": "3"
+    },
+    {
+      "id": "py1-code-isclose",
+      "unit": "operators-expressions",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "`import math` makes Python's toolbox of math functions available (a later unit explains `import`). What does this print?\n\n```python\nimport math\na = 0.1 + 0.2\nprint(a == 0.3, math.isclose(a, 0.3))\n```",
+      "body": "`False True`\n\n`a == 0.3` is `False` because `a` is `0.30000000000000004`. `math.isclose(a, 0.3)` asks whether the two numbers are within a tiny relative distance of each other (by default one part in a billion), and they are.\n\nTip: Use `math.isclose` whenever you compare floats that came from calculations.\n\nWatch out: By default the tolerance is relative, so comparing to exactly `0` never counts as close: `math.isclose(1e-12, 0)` is `False`. For values near zero, add an absolute tolerance, as in `math.isclose(1e-12, 0, abs_tol=1e-9)`, which is `True`.",
+      "searchQuery": "python math.isclose compare floats tolerance",
+      "refs": [
+        "CS50x 2026, Week 6 notes: Truncation and Floating Point Imprecision",
+        "The Python Tutorial, ch. 15 (Floating-Point Arithmetic: Issues and Limitations)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "py1-boolean-comparison",
+      "unit": "conditionals",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **Boolean expression**, and what do the **comparison operators** `==`, `!=`, `<`, `>`, `<=` and `>=` do?",
+      "body": "A Boolean expression is one whose value is `True` or `False`, and a comparison operator compares two values to make one: `==` equal, `!=` not equal, `<` less, `>` greater, `<=` less or equal, `>=` greater or equal.\n\nExample: `5 >= 5` is `True`, `5 != 5` is `False`, and `\"a\" == \"A\"` is `False` because upper and lower case are different characters.\n\nWatch out: `=` assigns and `==` compares. Writing `if x = 5:` is a mistake, and Python refuses to run it. You want `if x == 5:`.",
+      "searchQuery": "python boolean expression comparison operators == != < >",
+      "refs": [
+        "CS50P, Lecture 1 (Conditionals)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-if-elif-else",
+      "unit": "conditionals",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "How does an **if/elif/else** chain decide which block of code to run?",
+      "body": "Python tests the conditions from top to bottom, runs only the block of the first one that is `True`, and runs the `else` block only if none of them was.\n\n```python\nif temp > 30:\n    print(\"hot\")\nelif temp > 15:\n    print(\"mild\")\nelse:\n    print(\"cold\")\n```\n\nEach condition ends with a colon, and the indented lines below it are its block. With `temp = 20` this prints `mild`.\n\nWatch out: Once one branch has run, all the later `elif` and `else` branches are skipped, even if their conditions would also be true. So the order of the conditions matters.",
+      "searchQuery": "python if elif else chain first true branch runs",
+      "refs": [
+        "CS50P, Lecture 1 (Conditionals)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-and-or-not",
+      "unit": "conditionals",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "How do `and`, `or` and `not` combine conditions, and what is **short-circuit evaluation**?",
+      "body": "`and` is `True` only when both sides are, `or` is `True` when at least one side is, and `not` flips a bool; Python stops as soon as the answer is settled, which is called short-circuit evaluation.\n\nWith `A and B`, if `A` is `False` the whole thing must be `False`, so `B` is never looked at. With `A or B`, if `A` is `True` the answer is already `True`, so `B` is skipped.\n\nExample: `True or print(\"hi\")` prints nothing, because the `print` on the right never runs.\n\nTip: `not` is applied first, then `and`, then `or`. Add brackets when you mix them, such as `(a or b) and c`.",
+      "searchQuery": "python and or not short-circuit evaluation precedence",
+      "refs": [
+        "CS50P, Lecture 1 (Conditionals)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-truthiness",
+      "unit": "conditionals",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "Which values count as **falsy** and which as **truthy** when used as an `if` condition?",
+      "body": "`False`, `0`, `0.0`, the empty string `\"\"` and the empty list `[]` are falsy; almost every other value is truthy.\n\n**Truthiness** is how a non-bool value behaves in a condition. A falsy value acts like `False`, a truthy one like `True`. A list is an ordered collection written with square brackets, such as `[1, 2]`, and a later unit covers it in full.\n\nExample: `if items:` is a short way to ask \"is the list non-empty?\". It is `False` for `[]` and `True` for `[5]`.\n\nWatch out: Non-empty text is always truthy, even `\"0\"` and `\"False\"`. `bool(\"0\")` is `True`, because the string has a character in it.",
+      "searchQuery": "python truthiness falsy truthy empty string list zero",
+      "refs": [
+        "CS50P, Lecture 1 (Conditionals)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-elif-order",
+      "unit": "conditionals",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "What does this print?\n\n```python\nscore = 95\nif score >= 70:\n    print(\"C\")\nelif score >= 90:\n    print(\"A\")\nelse:\n    print(\"F\")\n```",
+      "body": "`C`\n\n`95 >= 70` is `True`, so the first block runs and prints `C`. The `elif` is never tested, even though `95 >= 90` is also true.\n\nKey idea: In an if/elif chain, the first true condition wins, so test the most specific condition first.\n\nExample: Putting the tests in the order `>= 90`, then `>= 70` prints `A` for a score of 95, which is what was meant.",
+      "searchQuery": "python if elif order first true condition wins grade",
+      "refs": [
+        "CS50P, Lecture 1 (Conditionals)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-compare",
+      "unit": "conditionals",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "What does this print on one line?\n\n```python\nprint(3 == 3.0, \"a\" < \"b\", \"Z\" < \"a\", \"10\" < \"9\")\n```",
+      "body": "`True True True True`\n\n`3 == 3.0` is `True`, since an int and a float with the same value compare equal. Text is compared character by character using each character's code point: `\"a\"` comes before `\"b\"`, and `\"Z\"` (code 90) comes before `\"a\"` (code 97), so capital letters sort before lowercase ones. For `\"10\" < \"9\"`, only the first characters count, `\"1\"` (49) against `\"9\"` (57), so it is `True`.\n\nWatch out: Comparing text that holds digits compares characters, not numbers. To compare as numbers, convert first: `int(\"10\") < int(\"9\")` is `False`.",
+      "searchQuery": "python compare strings numbers == < code point order",
+      "refs": [
+        "CS50P, Lecture 1 (Conditionals)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-short-circuit",
+      "unit": "conditionals",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "What does this print?\n\n```python\nx = 0\nif x != 0 and 10 / x > 2:\n    print(\"big\")\nelse:\n    print(\"safe\")\n```",
+      "body": "`safe`\n\n`x != 0` is `False`, so `and` short-circuits: the right side `10 / x > 2` is never evaluated. If it were, dividing by zero would stop the program with an error.\n\nWhy it matters: Putting a safety check on the left of `and` protects the right side. This pattern guards against dividing by zero, or using a value that is not there.\n\nWatch out: Reverse the order, `10 / x > 2 and x != 0`, and the division runs first and crashes. The order of the two conditions matters.",
+      "searchQuery": "python short-circuit and guard divide by zero condition",
+      "refs": [
+        "CS50P, Lecture 1 (Conditionals)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-match",
+      "unit": "conditionals",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "A **match statement** compares one value against each `case` in turn and runs the first one that fits. The case `_` fits anything, and `|` means \"or\". It needs Python 3.10 or newer. What does this print?\n\n```python\ncommand = \"stop\"\nmatch command:\n    case \"go\":\n        print(\"moving\")\n    case \"stop\" | \"halt\":\n        print(\"stopping\")\n    case _:\n        print(\"unknown\")\n```",
+      "body": "`stopping`\n\n`command` is `\"stop\"`. The first case, `\"go\"`, does not fit. The second case lists two choices separated by `|`, and `\"stop\"` is one of them, so it prints `stopping` and the match statement ends. The `case _:` block would only run if nothing before it had fit.\n\nTip: A match statement is a tidy replacement for a long `if/elif` chain that compares one value against many exact options.\n\nWatch out: Only the first matching case runs, and there is no need for `break`.",
+      "searchQuery": "python match statement case wildcard underscore 3.10",
+      "refs": [
+        "CS50P, Lecture 1 (Conditionals)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-while-loop",
+      "unit": "loops",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **while loop**, and what is one **iteration**?",
+      "body": "A while loop repeats its indented block for as long as its condition is `True`, and each pass through the block is one iteration.\n\n```python\nn = 3\nwhile n > 0:\n    print(n)\n    n = n - 1\n```\n\nThis prints `3`, `2`, `1`. Python checks the condition `n > 0` before every iteration, and stops as soon as it is `False`.\n\nKey idea: The body must change something the condition depends on, here `n`, or the loop never finishes.\n\nWatch out: The condition is checked first, so if it is `False` from the start, the body runs zero times.",
+      "searchQuery": "python while loop condition iteration repeat",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-for-range",
+      "unit": "loops",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **for loop**, and which numbers does `range(a, b)` produce?",
+      "body": "A for loop runs its block once for each item of a sequence, and `range(a, b)` produces the whole numbers from `a` up to but not including `b`.\n\n`range(2, 5)` produces `2`, `3`, `4`. The shorter `range(b)` starts at 0, so `range(3)` produces `0`, `1`, `2`.\n\nExample: `for i in range(3): print(i)` prints `0`, `1`, `2` on separate lines. The same loop works over text: `for ch in \"hi\":` runs once for `\"h\"` and once for `\"i\"`.\n\nTip: `range(a, b)` produces exactly `b - a` numbers, which is a quick way to count them.",
+      "searchQuery": "python for loop range(a, b) stop excluded sequence",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-break-continue",
+      "unit": "loops",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "What do `break` and `continue` do inside a loop?",
+      "body": "`break` ends the loop immediately, while `continue` skips the rest of the current iteration and jumps to the next one.\n\nExample: To stop at the first multiple of 7, loop upward and run `break` as soon as `i % 7 == 0`. To skip every odd number but keep looping, run `continue` when `i % 2 == 1`.\n\nWatch out: `break` leaves only the innermost loop it sits in, and `continue` does not leave the loop at all. It only moves on to the next iteration, where the loop condition is checked again.",
+      "searchQuery": "python break continue loop skip exit iteration",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-range-misconception",
+      "unit": "loops",
+      "kind": "misconception",
+      "difficulty": 1,
+      "title": "Why is it false that `range(5)` produces the numbers 1 to 5?",
+      "body": "`range(5)` produces `0, 1, 2, 3, 4`: it starts at 0 and stops before 5, so it gives five numbers.\n\nAn **off-by-one error** is a bug where a loop runs one time too many or one too few, usually because of a boundary like this one. Counting from 0 and excluding the end is the cause of most of them.\n\nExample: To loop over 1 to 5, write `range(1, 6)`. The stop value must be one past the last number you want.\n\nTip: `range(a, b)` gives `b - a` numbers. If the count is wrong, check both the start and the stop.",
+      "searchQuery": "python range(5) 0 to 4 off-by-one error",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-infinite",
+      "unit": "loops",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "An **infinite loop** is a loop whose condition never becomes `False`. This one should print 3, 2, 1 and stop, but it never ends. What line fixes it, and where does it go?\n\n```python\nn = 3\nwhile n > 0:\n    print(n)\n```",
+      "body": "Add `n = n - 1` as the last line inside the loop.\n\nThe condition `n > 0` depends on `n`, but nothing in the body ever changes `n`, so the condition is `True` forever and the program prints `3` without end. With `n = n - 1` at the end of the body, `n` goes 3, 2, 1, 0, and the loop stops.\n\nTip: In a terminal, press Ctrl+C to stop a runaway program.\n\nWatch out: The new line must be indented so it is inside the loop. At the left margin, it would run only after the loop, which never ends.",
+      "searchQuery": "python infinite loop while never changes condition fix",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-range-step",
+      "unit": "loops",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "`range(start, stop, step)` moves by `step` each time. What does this print?\n\n```python\nfor i in range(2, 10, 3):\n    print(i)\n```",
+      "body": "`2`, `5` and `8`, each on its own line.\n\nThe loop starts at 2 and adds 3 each time: 2, 5, 8, and the next would be 11, which is past the stop value 10. The stop value 10 itself is never reached, because `range` stops before it.\n\nExample: `range(10, 0, -2)` counts down by 2, giving 10, 8, 6, 4, 2. Notice that 0 is excluded again.",
+      "searchQuery": "python range start stop step loop output",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-break-continue",
+      "unit": "loops",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this print?\n\n```python\nfor i in range(1, 8):\n    if i % 2 == 0:\n        continue\n    if i > 5:\n        break\n    print(i)\n```",
+      "body": "`1`, `3` and `5`, each on its own line.\n\nTrace it. For `i` equal to 1, 3 and 5 the number is odd and not above 5, so it prints. For 2, 4 and 6, `i % 2 == 0` is true, so `continue` skips the print. For 7 the number is odd but above 5, so `break` ends the loop.\n\nWatch out: The order of the two checks matters. Because `continue` comes first, `6` is skipped before the `break` test is ever reached.",
+      "searchQuery": "python break continue trace for loop odd numbers output",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-off-by-one",
+      "unit": "loops",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "This code was meant to add up the numbers 1 through 4. What does it print, and what one change makes it do what was meant?\n\n```python\ntotal = 0\ni = 1\nwhile i < 4:\n    total = total + i\n    i = i + 1\nprint(total)\n```",
+      "body": "It prints `6`, and changing `i < 4` to `i <= 4` makes it print `10`.\n\nThe loop runs for `i` equal to 1, 2 and 3, and stops when `i` reaches 4, so the total is 1 + 2 + 3 = 6. The number 4 is never added: this is an off-by-one error in the condition.\n\nTip: When a loop is wrong by exactly one step, check each boundary: does `<` need to be `<=`, and does the starting value need to change?\n\nExample: Another fix is `while i < 5`. Both versions add 4 and give `10`.",
+      "searchQuery": "python while loop off-by-one error total sum condition",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-function",
+      "unit": "functions",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **function**, and how do you define it and call it?",
+      "body": "A function is a named, reusable block of code: `def name():` defines it, and `name()` calls it, which runs the block.\n\n```python\ndef greet():\n    print(\"hello\")\n\ngreet()\ngreet()\n```\n\nThis prints `hello` twice. The `def` line only teaches Python the name. The code inside runs each time you call the function.\n\nWhy it matters: Functions let you write a piece of logic once and use it many times, and they give it a name that says what it does.\n\nWatch out: `greet` without the brackets only refers to the function. It is the brackets, `greet()`, that run it.",
+      "searchQuery": "python function def call reusable block of code",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "CS50P, Lecture 9 (Et Cetera): Global Variables; Type Hints; Docstrings",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-parameter-argument",
+      "unit": "functions",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is the difference between a **parameter** and an **argument**?",
+      "body": "A parameter is the name listed in a function's definition, and an argument is the actual value you pass in when you call the function.\n\nExample: In `def square(n):`, the name `n` is the parameter. In `square(4)`, the value `4` is the argument. While the function runs, `n` refers to `4`.\n\nTip: You can also pass an argument by name, as in `square(n=4)`.\n\nWatch out: Passing the wrong number of arguments is an error. A function that needs two values cannot be called with one, unless the missing one has a default.",
+      "searchQuery": "python parameter vs argument function definition call",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "CS50P, Lecture 9 (Et Cetera): Global Variables; Type Hints; Docstrings",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-scope",
+      "unit": "functions",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What are **scope**, a **local variable** and a **global variable**?",
+      "body": "Scope is the part of a program where a name can be used; a local variable exists only inside the function that assigned it, and a global variable is assigned at the top level of the file.\n\nAssigning to a name inside a function always creates a new local variable, even when a global with the same name exists. The global is left alone. To really change a global from inside a function, you must declare it first with the line `global name`.\n\nExample: A function can read a global variable freely. It is only assigning that makes the name local.\n\nKey idea: Prefer passing values in as arguments and sending results back to the caller (the next card covers `return`). Functions that depend on globals are harder to test and to reuse.",
+      "searchQuery": "python scope local variable global variable function",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "CS50P, Lecture 9 (Et Cetera): Global Variables; Type Hints; Docstrings",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-return-value",
+      "unit": "functions",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "What is a **return value**, and how does `return` differ from `print`?",
+      "body": "`return` hands a value back to the code that called the function and ends the function, whereas `print` only shows text on the screen.\n\nThe value sent back is the function's **return value**. The caller can store it, calculate with it or pass it on.\n\nExample: With `def add(a, b): return a + b`, the line `total = add(2, 3)` stores `5` in `total`. Had the function only printed `5`, `total` would hold nothing useful.\n\nWatch out: A `return` ends the function at once, so any lines after it inside the function never run.",
+      "searchQuery": "python return value vs print function returns",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "CS50P, Lecture 9 (Et Cetera): Global Variables; Type Hints; Docstrings",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-print-not-return",
+      "unit": "functions",
+      "kind": "misconception",
+      "difficulty": 1,
+      "title": "Why is it false that a function that **prints** its result also gives that result back to the caller?",
+      "body": "A function with no `return` hands back `None`, Python's \"no value\" value, so the caller gets `None` even though the function printed something.\n\n```python\ndef double(n):\n    print(n * 2)\n\nx = double(4)\nprint(x)\n```\n\nThe first `print` inside the function shows `8`. But `x` is `None`, so the last line shows `None`.\n\nWatch out: Using `x` later, as in `x + 1`, then raises an error, because you cannot add a number to `None`. If the caller needs the value, use `return n * 2`.",
+      "searchQuery": "python function print vs return None missing return",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "CS50P, Lecture 9 (Et Cetera): Global Variables; Type Hints; Docstrings",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-default-arg",
+      "unit": "functions",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "A **default argument** is a value written in the definition that is used when the caller leaves that argument out. What does this print?\n\n```python\ndef greet(name=\"world\"):\n    return \"hi \" + name\n\nprint(greet(), greet(\"Ada\"))\n```",
+      "body": "`hi world hi Ada`\n\n`greet()` passes nothing, so `name` takes its default, `\"world\"`, and the function returns `\"hi world\"`. `greet(\"Ada\")` supplies an argument, which replaces the default, giving `\"hi Ada\"`. `print` puts a space between the two.\n\nTip: Defaults make a function easy to call in the common case while still allowing a change. Parameters with defaults go after the ones without.",
+      "searchQuery": "python default argument function def greet output",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "CS50P, Lecture 9 (Et Cetera): Global Variables; Type Hints; Docstrings",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-scope",
+      "unit": "functions",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Which values does this print?\n\n```python\nx = 5\n\ndef f():\n    x = 99\n    return x\n\nprint(f(), x)\n```",
+      "body": "`99 5`\n\nInside `f`, the line `x = 99` creates a new local variable that exists only while `f` runs. The global `x` still refers to `5`. So `f()` returns `99`, and the global `x` printed afterwards is still `5`.\n\nKey idea: Assigning inside a function never changes a global. The name on the left of `=` becomes local unless you declare it with `global x`.\n\nWatch out: If the function had no assignment, it could read the global `x`. The assignment is what makes `x` local for the whole function.",
+      "searchQuery": "python local vs global variable same name function output",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "CS50P, Lecture 9 (Et Cetera): Global Variables; Type Hints; Docstrings",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-docstring-hints",
+      "unit": "functions",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "The `: float` and `-> float` parts are **type hints**, which say what types are expected, and the triple-quoted line is a **docstring**, which describes the function. What does this print?\n\n```python\ndef area(w: float, h: float) -> float:\n    \"\"\"Return the area of a w by h rectangle.\"\"\"\n    return w * h\n\nprint(area(2, 3.5))\n```",
+      "body": "`7.0`\n\nThe function multiplies `2` by `3.5`, and an int times a float is a float, so the result is `7.0`.\n\nThe docstring is text placed first in the function, to explain what it does. Tools and the `help()` function show it. The type hints document the intended types, but Python does not enforce them when the code runs.\n\nWatch out: `area(\"a\", 2)` is not blocked by the hints. It would run and give `\"aa\"`. The hints help readers and checking tools only.",
+      "searchQuery": "python docstring type hints function annotation float",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "CS50P, Lecture 9 (Et Cetera): Global Variables; Type Hints; Docstrings",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-code-main-idiom",
+      "unit": "functions",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "The file `tool.py` below is saved. What does `python tool.py` print, and what does it print when some other program loads `tool.py` as a library?\n\n```python\n# tool.py\ndef main():\n    print(\"running\")\n\nif __name__ == \"__main__\":\n    main()\n```",
+      "body": "It prints `running` when run directly, and nothing when loaded by another program.\n\nPython sets a special variable called `__name__` in every file. For the file you run directly it is `\"__main__\"`, so the `if` test is true and `main()` runs. When another file loads this one as a library, `__name__` is the file's own name, `\"tool\"`, so the test is false and nothing is printed.\n\nWhy it matters: This lets a file work both as a program and as a library of functions other code can borrow, without running the program part by accident.\n\nTip: Putting the program's steps in `main()` keeps the file tidy and easy to test.",
+      "searchQuery": "python if __name__ == __main__ main() idiom run directly",
+      "refs": [
+        "CS50P, Lecture 0 (Functions, Variables)",
+        "CS50P, Lecture 9 (Et Cetera): Global Variables; Type Hints; Docstrings",
+        "The Python Tutorial, ch. 4 (More Control Flow Tools)"
+      ]
+    },
+    {
+      "id": "py1-list-index",
+      "unit": "lists-and-dicts",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **list** in Python, and what is an **index**?",
+      "body": "A list is an ordered, changeable collection written `[a, b, c]`, and an index is an item's position in it, counted from 0 (or from -1 for the last item, going backward).\n\nExample: With `colors = [\"red\", \"green\", \"blue\"]`:\n- `colors[0]` is `\"red\"`.\n- `colors[2]` and `colors[-1]` are both `\"blue\"`.\n- `len(colors)` is `3`.\n\nWatch out: A list of 3 items has indexes 0, 1 and 2. Asking for `colors[3]` is an error (an `IndexError`), because there is no item 3.",
+      "searchQuery": "python list index zero-based negative index len",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "CS50P, Lecture 9 (Et Cetera): set; List Comprehensions; Dictionary Comprehensions; enumerate",
+        "The Python Tutorial, ch. 5 (Data Structures)"
+      ]
+    },
+    {
+      "id": "py1-dictionary",
+      "unit": "lists-and-dicts",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **dictionary** (dict) in Python, and what are its **keys** and **values**?",
+      "body": "A dictionary stores pairs in which each key maps to a value, so `ages = {\"Ada\": 36}` lets you look up `ages[\"Ada\"]` and get `36`.\n\nThe **key** (`\"Ada\"`) is what you look up by, and the **value** (`36`) is what you get back. Keys are unique, and you find an entry by its key, not by a position number.\n\nExample: `ages[\"Cy\"] = 20` adds a new pair, and `ages[\"Ada\"] = 37` replaces an existing value.\n\nWatch out: Looking up a key that is not there is an error (a `KeyError`). The call `ages.get(\"Zed\", 0)` returns `0` instead of failing.",
+      "searchQuery": "python dictionary key value pairs lookup get",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "CS50P, Lecture 9 (Et Cetera): set; List Comprehensions; Dictionary Comprehensions; enumerate",
+        "The Python Tutorial, ch. 5 (Data Structures)"
+      ]
+    },
+    {
+      "id": "py1-slice",
+      "unit": "lists-and-dicts",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What does the **slice** `items[a:b]` return?",
+      "body": "A new list (or piece of text) containing the items from index `a` up to but not including index `b`.\n\nExample: `[10, 20, 30, 40][1:3]` is `[20, 30]`. Leaving out a number means \"from the start\" or \"to the end\": `[:2]` is the first two items, and `[2:]` is everything from index 2 on.\n\nKey idea: Like `range`, the stop index is excluded, and the slice has `b - a` items.\n\nTip: A third number sets the step: `items[::2]` takes every second item.",
+      "searchQuery": "python slice list a:b stop excluded [1:3]",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "CS50P, Lecture 9 (Et Cetera): set; List Comprehensions; Dictionary Comprehensions; enumerate",
+        "The Python Tutorial, ch. 5 (Data Structures)"
+      ]
+    },
+    {
+      "id": "py1-choose-collection",
+      "unit": "lists-and-dicts",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "How do you choose between a list, a tuple, a set and a dict?",
+      "body": "Use a list for an ordered, changeable sequence, a tuple for a fixed sequence, a set for unique items, and a dict to look values up by key.\n\nAn object is **mutable** if it can be changed in place. Lists, sets and dicts are mutable. A **tuple**, written `(3, 4)`, is like a list that cannot be changed after it is made. A **set**, written `{1, 2, 3}`, keeps each item only once and has no positions.\n\nExample: Readings in order are a list. A point `(3, 4)` is a tuple. The IDs seen so far are a set, because `set([1, 2, 2, 3])` is just `{1, 2, 3}`. Names with ages are a dict.\n\nWatch out: `{}` is an empty dict, not an empty set. For an empty set, write `set()`.",
+      "searchQuery": "python list tuple set dict difference mutable choose",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "CS50P, Lecture 9 (Et Cetera): set; List Comprehensions; Dictionary Comprehensions; enumerate",
+        "The Python Tutorial, ch. 5 (Data Structures)"
+      ]
+    },
+    {
+      "id": "py1-list-alias",
+      "unit": "lists-and-dicts",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that `b = a` makes a separate copy of the list `a`?",
+      "body": "`b = a` makes a second name for the same list, called **aliasing**, so a change made through `b` is also seen through `a`; use `a.copy()` to get a real copy.\n\n```python\na = [1, 2, 3]\nb = a\nb.append(4)\nprint(a)\n```\n\nThis prints `[1, 2, 3, 4]`. There is only one list, with two names attached. Because a list is mutable, changing it in place shows up under every name.\n\nWatch out: With immutable values such as ints and text, aliasing is invisible, because they cannot be changed in place. It bites only with mutable ones such as lists and dicts. `a[:]` also makes a copy.",
+      "searchQuery": "python list aliasing b = a copy mutable same list",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "CS50P, Lecture 9 (Et Cetera): set; List Comprehensions; Dictionary Comprehensions; enumerate",
+        "The Python Tutorial, ch. 5 (Data Structures)"
+      ]
+    },
+    {
+      "id": "py1-code-list-ops",
+      "unit": "lists-and-dicts",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "What does this print?\n\n```python\nnums = [10, 20, 30, 40]\nnums[0] = 99\nnums.append(50)\nprint(nums[0], nums[-1], len(nums))\n```",
+      "body": "`99 50 5`\n\n`nums[0] = 99` replaces the first item, which is allowed because lists are mutable. `nums.append(50)` adds a new item at the end, so the list is `[99, 20, 30, 40, 50]`. Its first item is `99`, its last is `50`, and it holds `5` items.\n\nTip: `append` adds to the end, and `nums.pop()` removes and returns the last item.",
+      "searchQuery": "python list assign index append len output",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "CS50P, Lecture 9 (Et Cetera): set; List Comprehensions; Dictionary Comprehensions; enumerate",
+        "The Python Tutorial, ch. 5 (Data Structures)"
+      ]
+    },
+    {
+      "id": "py1-code-enumerate",
+      "unit": "lists-and-dicts",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "`enumerate(items)` gives the position and the item together on each pass of a loop. What does this print?\n\n```python\nfor i, color in enumerate([\"red\", \"green\"]):\n    print(i, color)\n```",
+      "body": "`0 red` on the first line and `1 green` on the second.\n\nOn each pass, `enumerate` hands over a pair: the index and the item. The line `for i, color in ...` unpacks the pair into the two names. Counting starts at 0.\n\nTip: `enumerate(items, start=1)` counts from 1 instead, which suits numbered output.\n\nWhy it matters: It replaces the clumsy `for i in range(len(items))` pattern and is less likely to cause an off-by-one error.",
+      "searchQuery": "python enumerate loop index and item for i, x",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "CS50P, Lecture 9 (Et Cetera): set; List Comprehensions; Dictionary Comprehensions; enumerate",
+        "The Python Tutorial, ch. 5 (Data Structures)"
+      ]
+    },
+    {
+      "id": "py1-code-dict-items",
+      "unit": "lists-and-dicts",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "`.items()` gives each key and its value as a pair. What does this print?\n\n```python\nages = {\"Ada\": 36, \"Bo\": 5}\nages[\"Cy\"] = 20\nfor name, age in ages.items():\n    print(name, age)\nprint(ages[\"Bo\"], len(ages))\n```",
+      "body": "`Ada 36`, `Bo 5` and `Cy 20` on three lines, then `5 3`.\n\nAssigning to a new key adds a pair, so the dict now holds three. The loop visits the pairs in the order they were added, which Python guarantees for dicts. The last line looks up `\"Bo\"` to get `5`, and `len(ages)` counts the pairs, which is `3`.\n\nWatch out: Looping over `ages` with a plain `for name in ages:` gives only the keys. Add `.items()` to get both parts.",
+      "searchQuery": "python dict items loop key value pairs len",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "CS50P, Lecture 9 (Et Cetera): set; List Comprehensions; Dictionary Comprehensions; enumerate",
+        "The Python Tutorial, ch. 5 (Data Structures)"
+      ]
+    },
+    {
+      "id": "py1-code-list-comp",
+      "unit": "lists-and-dicts",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "A **list comprehension** builds a new list in one line: `[expression for name in sequence if condition]`. What does this print?\n\n```python\nsquares = [n * n for n in range(5) if n % 2 == 0]\nprint(squares)\n```",
+      "body": "`[0, 4, 16]`\n\nThe loop part takes `n` from `0, 1, 2, 3, 4`. The `if` part keeps only the even ones: `0`, `2` and `4`. For each one kept, the expression `n * n` gives the new item: `0`, `4` and `16`.\n\nTip: Read it left to right as \"the square of n, for each n in range(5), if n is even\".\n\nWatch out: The `if` filters which items are used. It does not choose between two results.",
+      "searchQuery": "python list comprehension squares if condition output",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "CS50P, Lecture 9 (Et Cetera): set; List Comprehensions; Dictionary Comprehensions; enumerate",
+        "The Python Tutorial, ch. 5 (Data Structures)"
+      ]
+    },
+    {
+      "id": "py1-code-dict-comp",
+      "unit": "lists-and-dicts",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "A **dictionary comprehension** builds a dict in one line: `{key: value for name in sequence}`. What does this print?\n\n```python\nwords = [\"hi\", \"hello\"]\nlengths = {w: len(w) for w in words}\nprint(lengths)\n```",
+      "body": "`{'hi': 2, 'hello': 5}`\n\nFor each word `w` in the list, the comprehension makes one pair with the word as the key and its length as the value. Python prints text inside a dict with single quotes.\n\nExample: Swapping keys and values of a dict `d` is `{v: k for k, v in d.items()}`.\n\nWhy it matters: It is a compact way to build a lookup table from existing data.",
+      "searchQuery": "python dictionary comprehension key value len words",
+      "refs": [
+        "CS50P, Lecture 2 (Loops)",
+        "CS50P, Lecture 9 (Et Cetera): set; List Comprehensions; Dictionary Comprehensions; enumerate",
+        "The Python Tutorial, ch. 5 (Data Structures)"
+      ]
+    },
+    {
+      "id": "py1-with-open",
+      "unit": "files-and-modules",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What does `with open(\"data.txt\") as f:` do, and what is a **file object**?",
+      "body": "`open` returns a file object, your handle for reading or writing the file, and the `with` statement closes the file automatically when its indented block ends.\n\n```python\nwith open(\"data.txt\") as f:\n    text = f.read()\n```\n\nHere `f` is the **file object**, and `f.read()` returns the whole contents as one string. The **with statement** guarantees the file is closed afterwards, even if an error happens inside the block.\n\nWhy it matters: A file left open can lose written data that has not yet been saved to disk.\n\nWatch out: Using `f` after the `with` block has ended is an error, because the file is already closed.",
+      "searchQuery": "python with open as f file object read close automatically",
+      "refs": [
+        "CS50P, Lecture 4 (Libraries)",
+        "CS50P, Lecture 6 (File I/O)",
+        "The Python Tutorial, ch. 6 (Modules)",
+        "The Python Tutorial, ch. 7 (Input and Output)"
+      ]
+    },
+    {
+      "id": "py1-file-modes",
+      "unit": "files-and-modules",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What do the **file modes** `'r'`, `'w'` and `'a'` do in `open(name, mode)`?",
+      "body": "`'r'` reads (the default), `'w'` writes after erasing any existing content, and `'a'` appends to the end of the file.\n\nA **file mode** is the text that tells `open` what you intend to do with the file. Both `'w'` and `'a'` create the file if it does not exist, while `'r'` on a missing file is an error (a `FileNotFoundError`).\n\nWatch out: `'w'` erases the old contents the moment the file is opened, even if you never write anything. Use `'a'` when you want to keep what is already there.",
+      "searchQuery": "python file modes r w a open write append read",
+      "refs": [
+        "CS50P, Lecture 4 (Libraries)",
+        "CS50P, Lecture 6 (File I/O)",
+        "The Python Tutorial, ch. 6 (Modules)",
+        "The Python Tutorial, ch. 7 (Input and Output)"
+      ]
+    },
+    {
+      "id": "py1-modules-import",
+      "unit": "files-and-modules",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What are a **module**, `import` and the **standard library**?",
+      "body": "A module is a file of ready-made Python code, `import name` makes it available to your program, and the standard library is the collection of modules that comes with Python.\n\nExample: After `import math`, the call `math.sqrt(16)` gives `4.0`. After `import random`, `random.randint(1, 6)` gives a whole number from 1 to 6, both ends included. Other standard modules include `statistics`, `csv` and `sys`.\n\nTip: `from math import sqrt` lets you write `sqrt(16)` without the `math.` in front.\n\nWatch out: Never name your own file the same as a library module, such as `random.py`. Python would then load your file instead of the library.",
+      "searchQuery": "python module import standard library math random",
+      "refs": [
+        "CS50P, Lecture 4 (Libraries)",
+        "CS50P, Lecture 6 (File I/O)",
+        "The Python Tutorial, ch. 6 (Modules)",
+        "The Python Tutorial, ch. 7 (Input and Output)"
+      ]
+    },
+    {
+      "id": "py1-csv-example",
+      "unit": "files-and-modules",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "What is a **CSV** file, and what does `csv.reader` give you for each line of a file holding `name,age` and `Ada,36`?",
+      "body": "CSV (comma-separated values) is plain text with one record per line and fields separated by commas, and `csv.reader` gives each line as a list of strings, such as `['Ada', '36']`.\n\n```python\nimport csv\nwith open(\"people.csv\") as f:\n    for row in csv.reader(f):\n        print(row)\n```\n\nThis prints `['name', 'age']` and then `['Ada', '36']`.\n\nWatch out: Every field comes back as text, so convert numbers yourself: `int(row[1])`.\n\nWhy not just split on commas? A field can contain a comma inside quotes, and the csv module handles that correctly while `line.split(\",\")` does not.",
+      "searchQuery": "python csv file reader rows list of strings",
+      "refs": [
+        "CS50P, Lecture 4 (Libraries)",
+        "CS50P, Lecture 6 (File I/O)",
+        "The Python Tutorial, ch. 6 (Modules)",
+        "The Python Tutorial, ch. 7 (Input and Output)"
+      ]
+    },
+    {
+      "id": "py1-code-write-append",
+      "unit": "files-and-modules",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this print?\n\n```python\nwith open(\"notes.txt\", \"w\") as f:\n    f.write(\"one\\n\")\n    f.write(\"two\\n\")\nwith open(\"notes.txt\", \"a\") as f:\n    f.write(\"three\\n\")\nwith open(\"notes.txt\") as f:\n    print(len(f.readlines()))\n```",
+      "body": "`3`\n\nThe first block creates the file with two lines. The second block, in append mode, adds a third line after them. `f.readlines()` returns a list with one entry per line, and its length is `3`.\n\nWatch out: If the second block used `\"w\"` instead of `\"a\"`, the old two lines would be erased first, and the program would print `1`.\n\nTip: `write` adds exactly what you give it. You must include the `\\n` yourself to end a line.",
+      "searchQuery": "python write append file readlines len lines",
+      "refs": [
+        "CS50P, Lecture 4 (Libraries)",
+        "CS50P, Lecture 6 (File I/O)",
+        "The Python Tutorial, ch. 6 (Modules)",
+        "The Python Tutorial, ch. 7 (Input and Output)"
+      ],
+      "answer": "3"
+    },
+    {
+      "id": "py1-code-read-lines",
+      "unit": "files-and-modules",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "The file `scores.txt` holds the two lines `ab` and `cd`, each ended by a newline. What does this print?\n\n```python\nwith open(\"scores.txt\") as f:\n    for line in f:\n        print(line.strip().upper())\n```",
+      "body": "`AB` on the first line and `CD` on the second.\n\nLooping over a file object gives one line at a time, and each line still carries its newline character at the end. `line.strip()` removes whitespace, including that newline, from both ends, and `.upper()` makes the text capital letters.\n\nWatch out: Without `strip()`, `print` adds its own newline on top of the one in the line, so blank lines appear between your output lines.",
+      "searchQuery": "python read file line by line strip upper loop",
+      "refs": [
+        "CS50P, Lecture 4 (Libraries)",
+        "CS50P, Lecture 6 (File I/O)",
+        "The Python Tutorial, ch. 6 (Modules)",
+        "The Python Tutorial, ch. 7 (Input and Output)"
+      ]
+    },
+    {
+      "id": "py1-code-csv-roundtrip",
+      "unit": "files-and-modules",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this print?\n\n```python\nimport csv\nwith open(\"p.csv\", \"w\", newline=\"\") as f:\n    w = csv.writer(f)\n    w.writerow([\"name\", \"age\"])\n    w.writerow([\"Ada\", 36])\nwith open(\"p.csv\") as f:\n    for row in csv.reader(f):\n        print(row)\n```",
+      "body": "`['name', 'age']` on the first line and `['Ada', '36']` on the second.\n\nThe writer saves the file as `name,age` and `Ada,36`. When the file is read back, every field is text, so the number `36` returns as the string `'36'`. Number types are not stored in a CSV file.\n\nTip: The `newline=\"\"` in `open` is the csv module's documented advice when writing, so that line endings come out right on every system.\n\nKey idea: Writing and reading a CSV file round-trips the content but not the types, so convert numbers back with `int()` or `float()`.",
+      "searchQuery": "python csv writer reader roundtrip strings newline",
+      "refs": [
+        "CS50P, Lecture 4 (Libraries)",
+        "CS50P, Lecture 6 (File I/O)",
+        "The Python Tutorial, ch. 6 (Modules)",
+        "The Python Tutorial, ch. 7 (Input and Output)"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "py1-code-argv",
+      "unit": "files-and-modules",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "`sys.argv` is the list of words typed on the command line, starting with the script's own name. If the file `hi.py` holds the code below, what does `python hi.py a b` print?\n\n```python\nimport sys\nprint(sys.argv)\n```",
+      "body": "`['hi.py', 'a', 'b']`\n\n`sys.argv` is a list of strings. The first item, at index 0, is the script name, and the words after it follow in order. This is how a program receives options from the person who runs it.\n\nWatch out: Everything in `sys.argv` is text, even if you typed digits. `python hi.py 3 4` gives `['hi.py', '3', '4']`, so use `int(sys.argv[1])` to calculate with it.",
+      "searchQuery": "python sys.argv command line arguments list script name",
+      "refs": [
+        "CS50P, Lecture 4 (Libraries)",
+        "CS50P, Lecture 6 (File I/O)",
+        "The Python Tutorial, ch. 6 (Modules)",
+        "The Python Tutorial, ch. 7 (Input and Output)"
+      ]
+    },
+    {
+      "id": "py1-code-exit",
+      "unit": "files-and-modules",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "`sys.exit(message)` stops the program and shows the message as an error. If `greet.py` holds the code below, what happens when you run `python greet.py Ada Bo`?\n\n```python\nimport sys\nif len(sys.argv) != 2:\n    sys.exit(\"Usage: python greet.py NAME\")\nprint(\"hello,\", sys.argv[1])\n```",
+      "body": "It shows `Usage: python greet.py NAME` and stops, without printing `hello`.\n\n`sys.argv` holds three items here: `greet.py`, `Ada` and `Bo`. Its length is `3`, not `2`, so the `if` is true and `sys.exit` ends the program. The message goes to the error output, and the program's exit status becomes 1, which tells the shell something went wrong.\n\nExample: `python greet.py Ada` has `len(sys.argv)` equal to `2`, so it prints `hello, Ada`.\n\nTip: Checking `len(sys.argv)` first and exiting with a usage message is the standard way to handle missing or extra arguments.",
+      "searchQuery": "python sys.exit usage message sys.argv length check",
+      "refs": [
+        "CS50P, Lecture 4 (Libraries)",
+        "CS50P, Lecture 6 (File I/O)",
+        "The Python Tutorial, ch. 6 (Modules)",
+        "The Python Tutorial, ch. 7 (Input and Output)"
+      ]
+    },
+    {
+      "id": "py1-exception",
+      "unit": "exceptions-and-testing",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is an **exception** in Python?",
+      "body": "An exception is an error that happens while the program is running, and unless the program handles it, it stops the program and prints a **traceback**, a report of where the error happened.\n\nIts type name tells you what went wrong. Four you will meet constantly:\n- `ValueError`: the right type of value but an unacceptable one, as in `int(\"abc\")`.\n- `KeyError`: a dict key that is not there, as in `{}[\"k\"]`.\n- `IndexError`: a list position that does not exist, as in `[1][5]`.\n- `ZeroDivisionError`: dividing by zero, as in `1 / 0`.\n\nKey idea: When a function fails, Python is said to **raise** an exception. Code can catch it and carry on, which the try/except card shows.",
+      "searchQuery": "python exception ValueError KeyError IndexError ZeroDivisionError",
+      "refs": [
+        "CS50P, Lecture 3 (Exceptions)",
+        "CS50P, Lecture 5 (Unit Tests)",
+        "The Python Tutorial, ch. 8 (Errors and Exceptions)"
+      ]
+    },
+    {
+      "id": "py1-syntax-error",
+      "unit": "exceptions-and-testing",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "How does a **syntax error** differ from a runtime exception such as `ValueError`?",
+      "body": "A syntax error means the code breaks Python's grammar, so Python refuses to start running the file, while a runtime exception happens during the run, after earlier lines have already executed.\n\nExample: A file that begins `print(\"start\")` and later contains `print(\"oops\"` with a missing bracket shows only the syntax error, and `start` never appears. A file with `print(\"start\")` followed by `int(\"x\")` prints `start` first, and then stops with a `ValueError`.\n\nTip: Fix a syntax error by looking at the line Python points to and the line just before it, since a missing bracket is often only noticed on the next line.",
+      "searchQuery": "python syntax error vs runtime exception before running",
+      "refs": [
+        "CS50P, Lecture 3 (Exceptions)",
+        "CS50P, Lecture 5 (Unit Tests)",
+        "The Python Tutorial, ch. 8 (Errors and Exceptions)"
+      ]
+    },
+    {
+      "id": "py1-traceback",
+      "unit": "exceptions-and-testing",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How do you read a **traceback**?",
+      "body": "Read it from the bottom: the last line names the exception type and message, and the lines just above it show the file, line number and code where it happened.\n\n```text\nTraceback (most recent call last):\n  File \"calc.py\", line 3, in <module>\n    print(10 / n)\nZeroDivisionError: division by zero\n```\n\nThis says: in `calc.py`, line 3, the expression `10 / n` divided by zero. When the error is deep inside several function calls, the traceback lists the chain of calls, with the most recent one last.\n\nTip: Look at the last line first for what went wrong, then at the line above it for where.\n\nWatch out: Newer Python versions add marker lines (`^^^^`) under the failing code. The layout is otherwise the same.",
+      "searchQuery": "python traceback how to read error line exception message",
+      "refs": [
+        "CS50P, Lecture 3 (Exceptions)",
+        "CS50P, Lecture 5 (Unit Tests)",
+        "The Python Tutorial, ch. 8 (Errors and Exceptions)"
+      ]
+    },
+    {
+      "id": "py1-try-except",
+      "unit": "exceptions-and-testing",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "In a `try`/`except`/`else`/`finally` statement, when does each block run?",
+      "body": "`try` runs first, `except` runs only if the try block raised a matching exception, `else` runs only if it raised nothing, and `finally` always runs.\n\n```python\ntry:\n    n = int(text)\nexcept ValueError:\n    print(\"not a number\")\n```\n\nPut the risky code in `try`. The `except` line names the exception to catch, and its block says what to do about it. The program then carries on after the whole statement instead of stopping.\n\nTip: Catch the specific exception you expect, such as `ValueError`, and keep the `try` block as short as you can.\n\nExample: Use `finally` for cleanup that must happen either way, such as a message saying the work is done.",
+      "searchQuery": "python try except else finally when each block runs",
+      "refs": [
+        "CS50P, Lecture 3 (Exceptions)",
+        "CS50P, Lecture 5 (Unit Tests)",
+        "The Python Tutorial, ch. 8 (Errors and Exceptions)"
+      ]
+    },
+    {
+      "id": "py1-bare-except",
+      "unit": "exceptions-and-testing",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that wrapping code in `try: ... except: pass` makes a program safe?",
+      "body": "It hides every error, including bugs and typos, so the program carries on silently with wrong or missing results; catch only the specific exception you expect and handle it.\n\nA bare `except:` catches everything, so a misspelled variable name or a failed file read vanishes without a trace. You are left with a program that \"works\" but does the wrong thing, and no message to tell you why. The `pass` statement means \"do nothing\".\n\nExample: Write `except ValueError:` around `int(input())` and print \"please type a whole number\". Other errors still stop the program loudly, which is what you want.\n\nWatch out: A bare `except:` even catches the Ctrl+C you press to stop the program.",
+      "searchQuery": "python bare except pass hides errors catch specific exception",
+      "refs": [
+        "CS50P, Lecture 3 (Exceptions)",
+        "CS50P, Lecture 5 (Unit Tests)",
+        "The Python Tutorial, ch. 8 (Errors and Exceptions)"
+      ]
+    },
+    {
+      "id": "py1-code-try-flow",
+      "unit": "exceptions-and-testing",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this print?\n\n```python\ndef check(text):\n    try:\n        n = int(text)\n    except ValueError:\n        print(\"bad\")\n    else:\n        print(\"ok\", n)\n    finally:\n        print(\"done\")\n\ncheck(\"7\")\ncheck(\"x\")\n```",
+      "body": "`ok 7`, `done`, `bad`, `done`, each on its own line.\n\nFor `\"7\"`, the conversion works, so no exception is raised: `except` is skipped, `else` prints `ok 7`, and `finally` prints `done`. For `\"x\"`, `int(\"x\")` raises a `ValueError`, so the `except` block prints `bad`, `else` is skipped, and `finally` still prints `done`.\n\nKey idea: `finally` runs on both paths, and `else` and `except` are mutually exclusive.",
+      "searchQuery": "python try except else finally trace output ValueError int",
+      "refs": [
+        "CS50P, Lecture 3 (Exceptions)",
+        "CS50P, Lecture 5 (Unit Tests)",
+        "The Python Tutorial, ch. 8 (Errors and Exceptions)"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "py1-code-raise",
+      "unit": "exceptions-and-testing",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "The statement `raise` makes Python signal an exception on purpose. What does this print?\n\n```python\ndef set_age(age):\n    if age < 0:\n        raise ValueError(\"age cannot be negative\")\n    return age\n\ntry:\n    set_age(-5)\nexcept ValueError as e:\n    print(\"caught:\", e)\n```",
+      "body": "`caught: age cannot be negative`\n\n`set_age(-5)` finds that the age is below 0 and raises a `ValueError` carrying a message. The function stops at once, so `return age` never runs. The `except ValueError as e` block catches it and binds the exception to the name `e`, and printing `e` shows its message.\n\nWhy it matters: Raising an exception is how a function refuses bad input without guessing. The caller decides what to do.\n\nTip: Choose the exception type that fits, and write a message that says what was wrong.",
+      "searchQuery": "python raise ValueError message except as e output",
+      "refs": [
+        "CS50P, Lecture 3 (Exceptions)",
+        "CS50P, Lecture 5 (Unit Tests)",
+        "The Python Tutorial, ch. 8 (Errors and Exceptions)"
+      ]
+    },
+    {
+      "id": "py1-code-assert",
+      "unit": "exceptions-and-testing",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "An `assert` statement checks that a condition is true, and stops the program with an `AssertionError` if it is not. What happens when this runs?\n\n```python\nx = 5\nassert x > 10, \"x too small\"\nprint(\"fine\")\n```",
+      "body": "It stops with `AssertionError: x too small` and never prints `fine`.\n\n`x > 10` is false, so `assert` raises an `AssertionError` carrying the message that follows the comma. The program stops at that line and never reaches the `print`. If the condition were true, `assert` would do nothing and the program would carry on.\n\nWatch out: Python can be run with the `-O` option, which removes `assert` lines. Use `assert` to check your own assumptions and in tests, never to check input from a user or file.",
+      "searchQuery": "python assert statement AssertionError message condition false",
+      "refs": [
+        "CS50P, Lecture 3 (Exceptions)",
+        "CS50P, Lecture 5 (Unit Tests)",
+        "The Python Tutorial, ch. 8 (Errors and Exceptions)"
+      ]
+    },
+    {
+      "id": "py1-code-pytest",
+      "unit": "exceptions-and-testing",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "A **unit test** is a small function that checks one behavior of your code, usually with `assert`, and **pytest** is a tool that finds and runs such tests. If you run `pytest` on this file, what does it report?\n\n```python\n# test_double.py\ndef double(n):\n    return n * 2\n\ndef test_double():\n    assert double(3) == 6\n    assert double(-1) == -1\n```",
+      "body": "It reports `1 failed`: the second `assert` fails because `double(-1)` is `-2`, not `-1`.\n\npytest looks for files named `test_*.py` and runs every function whose name starts with `test_`. A test passes if it finishes without an exception. Here the first assert is true, but the second is false, and pytest shows the line and the values, something like `assert -2 == -1`.\n\nTip: The test is wrong here, not the function. To fix it, write `assert double(-1) == -2`.\n\nWhy it matters: Tests that run in seconds let you change code and find out right away whether you broke something.",
+      "searchQuery": "python pytest unit test assert failing test_double",
+      "refs": [
+        "CS50P, Lecture 3 (Exceptions)",
+        "CS50P, Lecture 5 (Unit Tests)",
+        "The Python Tutorial, ch. 8 (Errors and Exceptions)"
+      ]
+    }
+  ]
+}

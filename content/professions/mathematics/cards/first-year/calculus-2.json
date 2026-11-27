@@ -1,0 +1,1087 @@
+{
+  "profession": "mathematics",
+  "module": "calculus-2",
+  "tier": 2,
+  "cards": [
+    {
+      "id": "calc2-riemann-sum-definition",
+      "unit": "riemann-sums-and-definite-integral",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "State the **Riemann sum** of $f$ on $[a, b]$ with $n$ equal subintervals and sample points $x_i^*$.",
+      "body": "$\\sum_{i=1}^{n} f(x_i^*)\\,\\Delta x$, where $\\Delta x = \\frac{b-a}{n}$ and $x_i^*$ is a point chosen in the $i$-th subinterval $[x_{i-1}, x_i]$.\n\nCutting $[a, b]$ at the points $a = x_0 < x_1 < \\dots < x_n = b$ is called a **partition**; with equal widths, $x_i = a + i\\,\\Delta x$. Each term $f(x_i^*)\\,\\Delta x$ is the area of a thin rectangle of height $f(x_i^*)$ and width $\\Delta x$.\n\nWhy: Adding up thin rectangles approximates the area under a curve, and thinner rectangles should approximate it better.\n\nWatch out: The sample point may be the left end, the right end or the midpoint of each subinterval. The three choices give different sums for the same $n$.",
+      "searchQuery": "Riemann sum definition partition sample points rectangles",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.1–5.2"
+      ]
+    },
+    {
+      "id": "calc2-definite-integral-definition",
+      "unit": "riemann-sums-and-definite-integral",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define the **definite integral** $\\int_a^b f(x)\\,dx$ as a limit of Riemann sums.",
+      "body": "$\\int_a^b f(x)\\,dx = \\lim_{n\\to\\infty}\\sum_{i=1}^{n} f(x_i^*)\\,\\Delta x$ with $\\Delta x = \\frac{b-a}{n}$, when the limit exists and is the same for every choice of sample points $x_i^*$; $f$ is the **integrand**.\n\nEvery continuous function on $[a, b]$ has this limit, so continuous functions can always be integrated.\n\nExample: For $f(x) = x^2$ on $[0, 1]$ with right endpoints, $R_n = \\frac{1}{n^3}\\sum_{i=1}^n i^2 = \\frac{(n+1)(2n+1)}{6n^2}$, which tends to $\\frac13$. So $\\int_0^1 x^2\\,dx = \\frac13$.\n\nKey idea: The integral is defined by a limit, not by antiderivatives. The link between the two is the fundamental theorem, coming next.",
+      "searchQuery": "definite integral limit of Riemann sums definition integrand",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.1–5.2"
+      ]
+    },
+    {
+      "id": "calc2-net-signed-area",
+      "unit": "riemann-sums-and-definite-integral",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How does $\\int_a^b f(x)\\,dx$ count area when $f$ is negative on part of $[a, b]$?",
+      "body": "As **net signed area**: area between the graph and the $x$-axis counts as positive where $f > 0$ and as negative where $f < 0$.\n\nWhy: Where $f(x_i^*) < 0$, the rectangle in a Riemann sum has negative height, so its term is negative, and that survives in the limit.\n\nExample: $\\int_0^4 (x-2)\\,dx$. The graph is a line through $(2, 0)$. Between $0$ and $2$ it bounds a triangle of area $\\frac12\\cdot 2\\cdot 2 = 2$ below the axis, and between $2$ and $4$ a triangle of the same area above it. The integral is $-2 + 2 = 0$.\n\nWatch out: A definite integral of $0$ does not mean there is no area, only that the positive and negative parts cancel.",
+      "searchQuery": "definite integral net signed area below x-axis negative",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.1–5.2"
+      ]
+    },
+    {
+      "id": "calc2-right-endpoint-sum-formula",
+      "unit": "riemann-sums-and-definite-integral",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Write the right-endpoint sum $R_n$ of $f$ on $[a, b]$ using $a$ and $\\Delta x$, and say which indices give the left-endpoint sum $L_n$.",
+      "body": "$R_n = \\Delta x\\sum_{i=1}^{n} f(a + i\\,\\Delta x)$ with $\\Delta x = \\frac{b-a}{n}$; the left-endpoint sum $L_n$ uses $f(a + (i-1)\\Delta x)$ for $i = 1, \\dots, n$.\n\nThe midpoint sum $M_n$ uses $f\\big(a + (i - \\tfrac12)\\Delta x\\big)$.\n\nWhy: The $i$-th subinterval is $[a + (i-1)\\Delta x,\\ a + i\\,\\Delta x]$, so its right end is $a + i\\,\\Delta x$.\n\nKey idea: $L_n$ and $R_n$ share all their terms except one at each end, so $R_n - L_n = \\Delta x\\,\\big(f(b) - f(a)\\big)$. If $f$ is increasing, $L_n \\le \\int_a^b f \\le R_n$; if decreasing, the inequalities reverse.",
+      "searchQuery": "right endpoint Riemann sum formula left midpoint indices",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.1–5.2"
+      ]
+    },
+    {
+      "id": "calc2-comparison-property-integral",
+      "unit": "riemann-sums-and-definite-integral",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **comparison property** of the definite integral.",
+      "body": "If $f$ and $g$ are integrable on $[a, b]$ with $a < b$ and $f(x) \\le g(x)$ for all $x \\in [a, b]$, then $\\int_a^b f(x)\\,dx \\le \\int_a^b g(x)\\,dx$.\n\nIn particular, if $m \\le f(x) \\le M$ on $[a, b]$, then $m(b-a) \\le \\int_a^b f(x)\\,dx \\le M(b-a)$.\n\nWhy: With the same sample points, every Riemann sum of $f$ is at most the matching sum of $g$, and limits preserve $\\le$.\n\nExample: On $[0, 1]$ we have $1 \\le e^{x^2} \\le e$, so $1 \\le \\int_0^1 e^{x^2}\\,dx \\le e$, with no antiderivative needed.\n\nWatch out: The condition $a < b$ matters. The inequality is about the order of the functions, not of the limits.",
+      "searchQuery": "comparison property definite integral inequality bounds m(b-a)",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.1–5.2"
+      ]
+    },
+    {
+      "id": "calc2-midpoint-sum-problem",
+      "unit": "riemann-sums-and-definite-integral",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Estimate $\\int_0^2 x^2\\,dx$ by the midpoint sum $M_4$ ($n = 4$ equal subintervals). Give the number.",
+      "body": "$M_4 = 2.625$\n\nHere $\\Delta x = \\frac{2-0}{4} = 0.5$, so the midpoints are $0.25,\\ 0.75,\\ 1.25,\\ 1.75$.\n\n1. Heights: $0.0625,\\ 0.5625,\\ 1.5625,\\ 3.0625$.\n2. Their sum is $5.25$.\n3. Multiply by $\\Delta x$: $M_4 = 0.5 \\times 5.25 = 2.625$.\n\nCheck: The exact value is $\\frac83 \\approx 2.667$. For comparison, $L_4 = 1.75$ and $R_4 = 3.75$ are far off, because $x^2$ is increasing and they miss on opposite sides. The midpoint sum is usually much closer.",
+      "searchQuery": "midpoint sum M4 integral x squared 0 to 2",
+      "answer": "2.625",
+      "acceptedAnswers": [
+        "21/8"
+      ],
+      "refs": [
+        "Stewart, Calculus ET 8e §5.1–5.2"
+      ]
+    },
+    {
+      "id": "calc2-linearity-additivity-problem",
+      "unit": "riemann-sums-and-definite-integral",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Suppose $\\int_0^3 f(x)\\,dx = 4$ and $\\int_3^7 f(x)\\,dx = 5$. Find $\\int_0^7 \\big(2f(x) - 1\\big)\\,dx$.",
+      "body": "$11$\n\nTwo properties do the work, both valid when the integrals exist:\n\n- Additivity over intervals: $\\int_a^c f = \\int_a^b f + \\int_b^c f$ for $a < b < c$.\n- Linearity: $\\int_a^b (c\\,f + g) = c\\int_a^b f + \\int_a^b g$.\n\n1. Additivity: $\\int_0^7 f = 4 + 5 = 9$.\n2. Linearity: $\\int_0^7 (2f - 1) = 2\\cdot 9 - \\int_0^7 1\\,dx$.\n3. The constant $1$ on $[0, 7]$ is a rectangle of height $1$ and width $7$, so $\\int_0^7 1\\,dx = 7$.\n4. Result: $18 - 7 = 11$.\n\nWatch out: The constant $-1$ contributes $-1\\cdot(b-a)$, not just $-1$.",
+      "searchQuery": "integral properties linearity additivity find integral of 2f(x)-1",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.1–5.2"
+      ]
+    },
+    {
+      "id": "calc2-definite-integral-is-number-misconception",
+      "unit": "riemann-sums-and-definite-integral",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is “$\\int_a^b f(x)\\,dx$ is a function of $x$” false?",
+      "body": "The definite integral is a single number that depends on $f$, $a$ and $b$; $x$ is a dummy variable that can be renamed, so $\\int_a^b f(x)\\,dx = \\int_a^b f(t)\\,dt$.\n\nWhy: The Riemann sum in the definition adds up over $i$ and takes a limit in $n$. No $x$ is left once the limit is taken, just as no $i$ is left in $\\sum_{i=1}^n i$.\n\nExample: $\\int_0^1 x^2\\,dx = \\frac13$ is just the number $\\frac13$. It has no $x$ in it.\n\nWatch out: This is the difference from an indefinite integral $\\int f(x)\\,dx$, which is a family of functions. Putting a variable in a limit, as in $\\int_a^x f(t)\\,dt$, does give a function of $x$, and that is the topic of the next unit.",
+      "searchQuery": "definite integral is a number not function dummy variable",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.1–5.2"
+      ]
+    },
+    {
+      "id": "calc2-accumulation-function-concept",
+      "unit": "fundamental-theorem-of-calculus",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is an **accumulation function**, and why is it written $F(x) = \\int_a^x f(t)\\,dt$ with a $t$ inside?",
+      "body": "It gives the net signed area of $f$ from the fixed point $a$ up to a moving point $x$, so it is a function of $x$; the inner variable $t$ is a dummy so that it does not clash with the upper limit $x$.\n\nExample: For $f(t) = t$ and $a = 0$, the region from $0$ to $x$ is a triangle with base $x$ and height $x$, so $F(x) = \\frac{x^2}{2}$. For the constant $f(t) = 2$, $F(x) = 2x$.\n\nKey idea: In both examples $F'(x) = f(x)$. The fundamental theorem says this is no accident.\n\nWatch out: $\\int_a^x f(x)\\,dx$ is a bad way to write this, because $x$ would be both the limit and the variable being summed.",
+      "searchQuery": "accumulation function integral variable upper limit net area",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.3–5.4",
+        "Spivak, Calculus 4e ch. 14"
+      ]
+    },
+    {
+      "id": "calc2-ftc-part-1",
+      "unit": "fundamental-theorem-of-calculus",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State **part 1 of the fundamental theorem of calculus**.",
+      "body": "If $f$ is continuous on $[a, b]$ and $F(x) = \\int_a^x f(t)\\,dt$ for $x \\in [a, b]$, then $F$ is continuous on $[a, b]$, differentiable on $(a, b)$, and $F'(x) = f(x)$.\n\nKey idea of the proof: $F(x+h) - F(x) = \\int_x^{x+h} f(t)\\,dt$ lies between $h$ times the smallest and $h$ times the largest value of $f$ on that short interval. Divide by $h$ and let $h \\to 0$: by continuity both bounds tend to $f(x)$.\n\nWhy it matters: Every continuous function has an antiderivative, namely its accumulation function, even when no formula for it exists.\n\nWatch out: Continuity of $f$ is what makes $F' = f$ hold at every $x$.",
+      "searchQuery": "fundamental theorem of calculus part 1 F'(x)=f(x) accumulation",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.3–5.4",
+        "Spivak, Calculus 4e ch. 14"
+      ]
+    },
+    {
+      "id": "calc2-ftc-part-2",
+      "unit": "fundamental-theorem-of-calculus",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State **part 2 of the fundamental theorem of calculus** (the evaluation theorem).",
+      "body": "If $f$ is continuous on $[a, b]$ and $F$ is any antiderivative of $f$ on $[a, b]$ (that is, $F' = f$), then $\\int_a^b f(x)\\,dx = F(b) - F(a)$.\n\nThe right side is often written $\\big[F(x)\\big]_a^b$.\n\nWhy: The accumulation function $G(x) = \\int_a^x f$ is also an antiderivative of $f$ by part 1. Two antiderivatives differ by a constant, so $F = G + C$, and $F(b) - F(a) = G(b) - G(a) = \\int_a^b f - 0$.\n\nExample: $\\int_0^2 x^2\\,dx = \\big[\\frac{x^3}{3}\\big]_0^2 = \\frac83$, a value Riemann sums only approach in the limit.\n\nTip: Any antiderivative works. The constant $C$ cancels in $F(b) - F(a)$.",
+      "searchQuery": "fundamental theorem of calculus part 2 evaluation theorem F(b)-F(a)",
+      "checkpoint": true,
+      "refs": [
+        "Stewart, Calculus ET 8e §5.3–5.4",
+        "Spivak, Calculus 4e ch. 14"
+      ]
+    },
+    {
+      "id": "calc2-average-value-formula",
+      "unit": "fundamental-theorem-of-calculus",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Give the formula for the **average value** of a continuous function $f$ on $[a, b]$.",
+      "body": "$f_{\\text{avg}} = \\dfrac{1}{b-a}\\displaystyle\\int_a^b f(x)\\,dx$\n\nWhy: Take $n$ sample values and average them: $\\frac1n\\sum f(x_i^*)$. Since $\\frac1n = \\frac{\\Delta x}{b-a}$, this equals $\\frac{1}{b-a}\\sum f(x_i^*)\\,\\Delta x$, which tends to the formula above.\n\nExample: For $f(x) = x^2$ on $[0, 3]$, $\\int_0^3 x^2\\,dx = 9$, so $f_{\\text{avg}} = \\frac93 = 3$. The function takes the value $3$ at $x = \\sqrt3$ inside the interval.\n\nKey idea: A continuous function actually reaches its average value somewhere on $[a, b]$, so the rectangle of height $f_{\\text{avg}}$ has the same area as the region under the graph.",
+      "searchQuery": "average value of a function integral formula 1/(b-a)",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.3–5.4",
+        "Spivak, Calculus 4e ch. 14"
+      ]
+    },
+    {
+      "id": "calc2-derivative-of-accumulation-chain-example",
+      "unit": "fundamental-theorem-of-calculus",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Find $\\dfrac{d}{dx}\\displaystyle\\int_1^{x^2} e^{t^2}\\,dt$.",
+      "body": "$2x\\,e^{x^4}$\n\nName the accumulation function $A(u) = \\int_1^u e^{t^2}\\,dt$. Part 1 gives $A'(u) = e^{u^2}$. The expression in question is $A(x^2)$, so the chain rule applies.\n\nIn general, for $f$ continuous and $g$ differentiable: $\\frac{d}{dx}\\int_a^{g(x)} f(t)\\,dt = f(g(x))\\,g'(x)$.\n\n1. Evaluate the integrand at the upper limit: $e^{(x^2)^2} = e^{x^4}$.\n2. Multiply by the derivative of the limit: $\\frac{d}{dx}x^2 = 2x$.\n\nWatch out: Forgetting the factor $g'(x)$ is the usual slip. Also, the integral itself is never computed, since $e^{t^2}$ has no elementary antiderivative.",
+      "searchQuery": "derivative of integral with variable upper limit chain rule fundamental theorem",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.3–5.4",
+        "Spivak, Calculus 4e ch. 14"
+      ]
+    },
+    {
+      "id": "calc2-net-change-displacement-problem",
+      "unit": "fundamental-theorem-of-calculus",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use the **net change theorem** for a particle with velocity $v(t) = 2t - 4\\ \\mathrm{m/s}$ on $0 \\le t \\le 5$. Find the displacement and the total distance traveled.",
+      "body": "Displacement $5\\ \\mathrm{m}$; total distance $13\\ \\mathrm{m}$.\n\nThe net change theorem: if $F'$ is continuous, then $\\int_a^b F'(x)\\,dx = F(b) - F(a)$. The integral of a rate of change is the net change. It is part 2 of the fundamental theorem with a new reading.\n\n1. Displacement $= \\int_0^5 (2t-4)\\,dt = \\big[t^2 - 4t\\big]_0^5 = 25 - 20 = 5$.\n2. The velocity is negative for $t < 2$ and positive for $t > 2$, so distance needs $|v|$ and a split at $t = 2$.\n3. $\\int_0^2 |v| = -\\big[t^2 - 4t\\big]_0^2 = -(4 - 8) = 4$.\n4. $\\int_2^5 |v| = \\big[t^2 - 4t\\big]_2^5 = 5 - (-4) = 9$.\n5. Distance $= 4 + 9 = 13$.\n\nWatch out: Displacement uses $v$, distance uses $|v|$. They differ whenever the particle turns around.",
+      "searchQuery": "net change theorem displacement versus total distance velocity integral",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.3–5.4",
+        "Spivak, Calculus 4e ch. 14"
+      ]
+    },
+    {
+      "id": "calc2-accumulation-both-limits-problem",
+      "unit": "fundamental-theorem-of-calculus",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find $\\dfrac{d}{dx}\\displaystyle\\int_x^{x^2}\\sqrt{1+t^4}\\,dt$ for $x > 0$.",
+      "body": "$2x\\sqrt{1+x^8} - \\sqrt{1+x^4}$\n\nNeither limit is constant, so split at a fixed point such as $0$. With the convention $\\int_b^a f = -\\int_a^b f$, additivity gives $\\int_x^{x^2} = \\int_0^{x^2} - \\int_0^{x}$.\n\n1. Differentiate the first piece using the chain rule version of part 1: $\\sqrt{1 + (x^2)^4}\\cdot 2x = 2x\\sqrt{1+x^8}$.\n2. Differentiate the second piece: $\\sqrt{1+x^4}$.\n3. Subtract: $2x\\sqrt{1+x^8} - \\sqrt{1+x^4}$.\n\nTip: A moving lower limit contributes with a minus sign, because swapping the limits flips the sign of the integral.",
+      "searchQuery": "derivative of integral both limits variable fundamental theorem split at constant",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.3–5.4",
+        "Spivak, Calculus 4e ch. 14"
+      ]
+    },
+    {
+      "id": "calc2-ftc-discontinuous-misconception",
+      "unit": "fundamental-theorem-of-calculus",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is $\\int_{-1}^{1}\\frac{1}{x^2}\\,dx = \\Big[-\\frac1x\\Big]_{-1}^{1} = -2$ wrong?",
+      "body": "Part 2 of the fundamental theorem needs $f$ continuous on the whole interval, and $\\frac{1}{x^2}$ is unbounded near $x = 0$, so the calculation does not apply.\n\nA quick sanity check shows the answer cannot be right: the integrand is positive everywhere, so any integral of it must be positive, not $-2$.\n\nWhy: The antiderivative $-\\frac1x$ blows up at $0$. It is not an antiderivative on $[-1, 1]$, so $F(1) - F(-1)$ says nothing about the area. The area on each side of $0$ grows without bound.\n\nTip: Before applying $F(b) - F(a)$, check that the integrand is continuous on the closed interval. A negative answer for a positive function is a red flag.",
+      "searchQuery": "fundamental theorem misuse discontinuous integrand 1/x^2 from -1 to 1",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.3–5.4",
+        "Spivak, Calculus 4e ch. 14"
+      ]
+    },
+    {
+      "id": "calc2-substitution-rule-concept",
+      "unit": "substitution-and-parts",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What does the **substitution rule** do, and which rule of differentiation does it reverse?",
+      "body": "It reverses the chain rule: $\\int f(g(x))\\,g'(x)\\,dx = \\int f(u)\\,du$ with $u = g(x)$, valid for $g'$ continuous and $f$ continuous on the range of $g$.\n\nWhy: By the chain rule, $\\frac{d}{dx}F(g(x)) = F'(g(x))\\,g'(x) = f(g(x))\\,g'(x)$ when $F' = f$. So $F(g(x))$ is an antiderivative of the left-hand integrand.\n\nTip: Look for an inner function whose derivative (up to a constant factor) also appears in the integrand. In $\\int 2x\\cos(x^2)\\,dx$, take $u = x^2$, so $du = 2x\\,dx$ and the result is $\\sin(x^2) + C$.\n\nWatch out: After substituting, no $x$ may remain. If one does, the choice of $u$ was wrong or more algebra is needed.",
+      "searchQuery": "substitution rule integration reverse chain rule u substitution",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.5, §7.1"
+      ]
+    },
+    {
+      "id": "calc2-substitution-definite-formula",
+      "unit": "substitution-and-parts",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the substitution rule for **definite integrals**.",
+      "body": "$\\int_a^b f(g(x))\\,g'(x)\\,dx = \\int_{g(a)}^{g(b)} f(u)\\,du$, for $g'$ continuous on $[a, b]$ and $f$ continuous on the range of $g$.\n\nWhy: If $F' = f$, both sides equal $F(g(b)) - F(g(a))$ by part 2 of the fundamental theorem.\n\nKey idea: Convert the limits along with the variable and the integrand, and then there is no need to return to $x$.\n\nWatch out: The new limits are $g(a)$ and $g(b)$, in that order. The lower new limit may be larger than the upper one, which is fine.",
+      "searchQuery": "substitution definite integral change limits g(a) g(b)",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.5, §7.1"
+      ]
+    },
+    {
+      "id": "calc2-substitution-reversed-limits-example",
+      "unit": "substitution-and-parts",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Evaluate $\\displaystyle\\int_1^2 \\frac{e^{1/x}}{x^2}\\,dx$ by substitution.",
+      "body": "$e - \\sqrt{e}$\n\n1. Let $u = \\frac1x$, so $du = -\\frac{1}{x^2}\\,dx$, that is, $\\frac{dx}{x^2} = -du$.\n2. Limits: $x = 1$ gives $u = 1$, and $x = 2$ gives $u = \\frac12$.\n3. The integral becomes $\\int_1^{1/2} -e^u\\,du = \\int_{1/2}^{1} e^u\\,du$, flipping the limits to remove the minus sign.\n4. $= e^1 - e^{1/2} = e - \\sqrt e$.\n\nCheck: The integrand is positive on $[1, 2]$ and the result $\\approx 1.07$ is positive. \n\nWatch out: Here the substitution makes the limits run downward, from $1$ to $\\frac12$. That is allowed, and the minus sign from $du$ accounts for it.",
+      "searchQuery": "substitution example integral e^(1/x)/x^2 from 1 to 2",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.5, §7.1"
+      ]
+    },
+    {
+      "id": "calc2-integration-by-parts-formula",
+      "unit": "substitution-and-parts",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the formula for **integration by parts**, in indefinite and definite form.",
+      "body": "$\\int u\\,dv = uv - \\int v\\,du$, and $\\int_a^b f(x)\\,g'(x)\\,dx = \\big[f(x)\\,g(x)\\big]_a^b - \\int_a^b f'(x)\\,g(x)\\,dx$.\n\nWhy: It is the product rule integrated. From $(fg)' = f'g + fg'$ we get $\\int fg' = fg - \\int f'g$, with $u = f$ and $dv = g'\\,dx$.\n\nKey idea: The method pays off when $\\int v\\,du$ is simpler than $\\int u\\,dv$: $u$ should get simpler on differentiating, and $dv$ should be easy to integrate.\n\nWatch out: In the definite form, the boundary term $[fg]_a^b$ is evaluated at both limits.",
+      "searchQuery": "integration by parts formula uv minus integral v du product rule",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.5, §7.1"
+      ]
+    },
+    {
+      "id": "calc2-liate-example",
+      "unit": "substitution-and-parts",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Use the **LIATE heuristic** to choose $u$ and evaluate $\\int x\\log x\\,dx$.",
+      "body": "$\\frac{x^2}{2}\\log x - \\frac{x^2}{4} + C$\n\nLIATE ranks the candidates for $u$: Logarithmic, Inverse trigonometric, Algebraic, Trigonometric, Exponential. Pick $u$ from the earliest type present. It is a rule of thumb, not a theorem.\n\n1. Here $\\log x$ comes before the algebraic $x$, so $u = \\log x$ and $dv = x\\,dx$.\n2. Then $du = \\frac1x\\,dx$ and $v = \\frac{x^2}{2}$.\n3. $\\int x\\log x\\,dx = \\frac{x^2}{2}\\log x - \\int \\frac{x^2}{2}\\cdot\\frac1x\\,dx = \\frac{x^2}{2}\\log x - \\frac{x^2}{4} + C$.\n\nCheck: Differentiating gives $x\\log x + \\frac x2 - \\frac x2 = x\\log x$.\n\nWatch out: The reverse choice $u = x$ would need an antiderivative of $\\log x$ first, which is harder.",
+      "searchQuery": "LIATE integration by parts choose u x log x integral",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.5, §7.1"
+      ]
+    },
+    {
+      "id": "calc2-repeated-parts-reduction-problem",
+      "unit": "substitution-and-parts",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\int x^2 e^x\\,dx$, and write the **reduction formula** for $\\int x^n e^x\\,dx$ that your steps follow.",
+      "body": "$e^x\\,(x^2 - 2x + 2) + C$; the reduction formula is $\\int x^n e^x\\,dx = x^n e^x - n\\int x^{n-1} e^x\\,dx$.\n\nA **reduction formula** expresses an integral in terms of a similar one with a smaller parameter, so applying it repeatedly finishes the job.\n\n1. Parts with $u = x^2$, $dv = e^x\\,dx$: $\\int x^2 e^x\\,dx = x^2 e^x - 2\\int x e^x\\,dx$.\n2. Parts again with $u = x$: $\\int x e^x\\,dx = x e^x - \\int e^x\\,dx = x e^x - e^x$.\n3. Combine: $x^2 e^x - 2x e^x + 2e^x + C = e^x(x^2 - 2x + 2) + C$.\n\nCheck: $\\frac{d}{dx}\\big[e^x(x^2-2x+2)\\big] = e^x(x^2 - 2x + 2 + 2x - 2) = x^2 e^x$.",
+      "searchQuery": "repeated integration by parts x^2 e^x reduction formula",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.5, §7.1"
+      ]
+    },
+    {
+      "id": "calc2-parts-cyclic-problem",
+      "unit": "substitution-and-parts",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\int e^x\\sin x\\,dx$.",
+      "body": "$\\frac{e^x}{2}(\\sin x - \\cos x) + C$\n\nNeither factor gets simpler under differentiation, so by parts twice returns the original integral, which can then be solved for.\n\n1. Let $I = \\int e^x\\sin x\\,dx$. With $u = \\sin x$, $dv = e^x\\,dx$: $I = e^x\\sin x - \\int e^x\\cos x\\,dx$.\n2. By parts again, $u = \\cos x$, $dv = e^x\\,dx$: $\\int e^x\\cos x\\,dx = e^x\\cos x + \\int e^x\\sin x\\,dx = e^x\\cos x + I$.\n3. So $I = e^x\\sin x - e^x\\cos x - I$, hence $2I = e^x(\\sin x - \\cos x)$.\n4. Divide by $2$ and add the constant.\n\nWatch out: Use the same type of choice for $u$ in both rounds (trigonometric for $u$ each time). Switching in the second round undoes the first and gives $0 = 0$.",
+      "searchQuery": "integral e^x sin x integration by parts twice solve for integral",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.5, §7.1"
+      ]
+    },
+    {
+      "id": "calc2-arctan-definite-parts-problem",
+      "unit": "substitution-and-parts",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\int_0^1 \\arctan x\\,dx$, using $\\frac{d}{dx}\\arctan x = \\frac{1}{1+x^2}$.",
+      "body": "$\\frac{\\pi}{4} - \\frac12\\log 2$\n\nWrite the integrand as $\\arctan x\\cdot 1$ and use parts, taking $u = \\arctan x$ (an inverse trigonometric function, which LIATE puts first) and $dv = dx$.\n\n1. $du = \\frac{dx}{1+x^2}$ and $v = x$.\n2. $\\int_0^1 \\arctan x\\,dx = \\big[x\\arctan x\\big]_0^1 - \\int_0^1\\frac{x}{1+x^2}\\,dx$.\n3. The boundary term is $1\\cdot\\frac\\pi4 - 0 = \\frac\\pi4$.\n4. For the last integral let $w = 1 + x^2$, $dw = 2x\\,dx$, limits $1$ to $2$: $\\frac12\\int_1^2\\frac{dw}{w} = \\frac12\\log 2$.\n5. Result: $\\frac\\pi4 - \\frac12\\log 2 \\approx 0.439$.\n\nTip: When the integrand is a single function with no obvious product, such as $\\log x$ or $\\arctan x$, try $dv = dx$.",
+      "searchQuery": "integral arctan x from 0 to 1 integration by parts",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.5, §7.1"
+      ]
+    },
+    {
+      "id": "calc2-substitution-keep-limits-misconception",
+      "unit": "substitution-and-parts",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it wrong to evaluate $\\int_1^2 2x\\,e^{x^2}\\,dx$ as $\\int_1^2 e^u\\,du$ after setting $u = x^2$?",
+      "body": "The limits $1$ and $2$ are values of $x$; after substituting they must become the values of $u$, namely $u = 1$ and $u = 4$, so the correct result is $\\int_1^4 e^u\\,du = e^4 - e$.\n\nThe wrong version gives $e^2 - e$.\n\nWhy: The definite-integral rule integrates from $g(a)$ to $g(b)$. A limit written next to $du$ is a value of $u$, not of $x$.\n\nTip: Either change the limits as you substitute, or find the antiderivative in $u$, convert back to $x$, and use the original limits. Never mix the two.\n\nWatch out: The slip is easy to miss when $g(a) = a$ and $g(b) = b$, as with $u = x^2$ on $[0, 1]$, where the wrong method happens to work.",
+      "searchQuery": "substitution definite integral forgot to change limits of integration",
+      "refs": [
+        "Stewart, Calculus ET 8e §5.5, §7.1"
+      ]
+    },
+    {
+      "id": "calc2-partial-fractions-concept",
+      "unit": "trig-integrals-and-partial-fractions",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "What is a **partial fraction decomposition**, and which terms does each kind of factor of the denominator produce?",
+      "body": "It rewrites a rational function $\\frac{P(x)}{Q(x)}$, with $\\deg P < \\deg Q$, as a sum of simpler fractions: a factor $(x - r)^k$ in $Q$ gives $\\frac{A_1}{x-r} + \\dots + \\frac{A_k}{(x-r)^k}$, and an **irreducible quadratic factor** $(x^2 + bx + c)^k$, one with no real roots, gives $\\frac{B_1x + C_1}{x^2+bx+c} + \\dots + \\frac{B_kx + C_k}{(x^2+bx+c)^k}$.\n\nWhy: Each simple piece integrates easily: $\\frac{A}{x-r}$ to a logarithm, and $\\frac{Bx+C}{x^2+bx+c}$ to a logarithm plus an arctangent.\n\nExample: $\\frac{1}{(x-1)(x+2)} = \\frac{1/3}{x-1} - \\frac{1/3}{x+2}$.\n\nTip: Find the constants by clearing denominators, then either plugging in convenient values of $x$ or matching coefficients of like powers.",
+      "searchQuery": "partial fraction decomposition irreducible quadratic factor repeated factors",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.2–7.5",
+        "Spivak, Calculus 4e ch. 19"
+      ]
+    },
+    {
+      "id": "calc2-trig-substitution-table-formula",
+      "unit": "trig-integrals-and-partial-fractions",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Give the **trigonometric substitution** for each of $\\sqrt{a^2 - x^2}$, $\\sqrt{a^2 + x^2}$ and $\\sqrt{x^2 - a^2}$ (with $a > 0$).",
+      "body": "$\\sqrt{a^2-x^2}$: $x = a\\sin\\theta$; $\\sqrt{a^2+x^2}$: $x = a\\tan\\theta$; $\\sqrt{x^2-a^2}$: $x = a\\sec\\theta$, where $\\sec\\theta = \\frac{1}{\\cos\\theta}$ is the **secant**.\n\nWhy: Each choice turns the root into a single trigonometric function through a Pythagorean identity: $a^2 - a^2\\sin^2\\theta = a^2\\cos^2\\theta$, $a^2 + a^2\\tan^2\\theta = a^2\\sec^2\\theta$, $a^2\\sec^2\\theta - a^2 = a^2\\tan^2\\theta$.\n\nKey idea: Take $\\theta \\in [-\\frac\\pi2, \\frac\\pi2]$ for the sine substitution, $\\theta \\in (-\\frac\\pi2, \\frac\\pi2)$ for tangent, and $\\theta \\in [0, \\frac\\pi2) \\cup [\\pi, \\frac{3\\pi}{2})$ for secant. On these ranges $\\cos\\theta$, $\\sec\\theta$ and $\\tan\\theta$ have the sign that makes each root equal $a\\cos\\theta$, $a\\sec\\theta$ and $a\\tan\\theta$ exactly, with no absolute values.\n\nTip: Draw a right triangle to convert the final answer from $\\theta$ back to $x$.",
+      "searchQuery": "trigonometric substitution x=a sin theta tan theta sec theta square root",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.2–7.5",
+        "Spivak, Calculus 4e ch. 19"
+      ]
+    },
+    {
+      "id": "calc2-sec-integral-formula",
+      "unit": "trig-integrals-and-partial-fractions",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State $\\int\\sec x\\,dx$.",
+      "body": "$\\log|\\sec x + \\tan x| + C$\n\nWhy: Differentiate: $\\frac{d}{dx}(\\sec x + \\tan x) = \\sec x\\tan x + \\sec^2 x = \\sec x(\\tan x + \\sec x)$. Dividing by $\\sec x + \\tan x$ leaves $\\sec x$, so the chain rule for $\\log$ gives the result.\n\nWhy it matters: It is the key step in several **trigonometric integrals**, such as $\\int\\sec^3 x\\,dx$, and in trig substitutions with $x = a\\tan\\theta$.\n\nTip: The proof is a trick. Memorize the result, rather than expecting to find it by technique.",
+      "searchQuery": "integral of secant x log sec x plus tan x",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.2–7.5",
+        "Spivak, Calculus 4e ch. 19"
+      ]
+    },
+    {
+      "id": "calc2-trig-odd-power-example",
+      "unit": "trig-integrals-and-partial-fractions",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Evaluate $\\int\\sin^3 x\\cos^2 x\\,dx$.",
+      "body": "$-\\frac{\\cos^3 x}{3} + \\frac{\\cos^5 x}{5} + C$\n\nWhen the power of sine is odd, split off one $\\sin x$ and rewrite the rest using $\\sin^2 x = 1 - \\cos^2 x$. The leftover $\\sin x\\,dx$ is $-du$ for $u = \\cos x$.\n\n1. $\\sin^3 x\\cos^2 x = (1 - \\cos^2 x)\\cos^2 x\\,\\sin x$.\n2. With $u = \\cos x$, $du = -\\sin x\\,dx$: $-\\int (1 - u^2)\\,u^2\\,du = -\\int (u^2 - u^4)\\,du$.\n3. $= -\\frac{u^3}{3} + \\frac{u^5}{5} + C$.\n\nTip: If the cosine power is odd, do the same with the roles swapped ($u = \\sin x$). If both powers are even, use the half-angle formulas to lower the powers.",
+      "searchQuery": "integral sin^3 x cos^2 x odd power substitution",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.2–7.5",
+        "Spivak, Calculus 4e ch. 19"
+      ]
+    },
+    {
+      "id": "calc2-trig-substitution-tan-example",
+      "unit": "trig-integrals-and-partial-fractions",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Evaluate $\\int\\frac{dx}{x^2\\sqrt{x^2+4}}$ by trigonometric substitution.",
+      "body": "$-\\frac{\\sqrt{x^2+4}}{4x} + C$\n\nThe form $\\sqrt{x^2 + 4}$ suggests $x = 2\\tan\\theta$.\n\n1. Then $dx = 2\\sec^2\\theta\\,d\\theta$ and $\\sqrt{x^2+4} = 2\\sec\\theta$, taking $-\\frac\\pi2<\\theta<\\frac\\pi2$.\n2. The integral becomes $\\int\\frac{2\\sec^2\\theta}{4\\tan^2\\theta\\cdot 2\\sec\\theta}\\,d\\theta = \\frac14\\int\\frac{\\sec\\theta}{\\tan^2\\theta}\\,d\\theta = \\frac14\\int\\frac{\\cos\\theta}{\\sin^2\\theta}\\,d\\theta$.\n3. With $w = \\sin\\theta$: $\\frac14\\int w^{-2}\\,dw = -\\frac{1}{4\\sin\\theta} + C$.\n4. From the triangle with legs $x$ and $2$ and hypotenuse $\\sqrt{x^2+4}$, $\\sin\\theta = \\frac{x}{\\sqrt{x^2+4}}$.\n5. So the answer is $-\\frac{\\sqrt{x^2+4}}{4x} + C$.\n\nCheck: Differentiating gives $\\frac{1}{x^2\\sqrt{x^2+4}}$.",
+      "searchQuery": "trig substitution example integral 1/(x^2 sqrt(x^2+4))",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.2–7.5",
+        "Spivak, Calculus 4e ch. 19"
+      ]
+    },
+    {
+      "id": "calc2-partial-fractions-quadratic-problem",
+      "unit": "trig-integrals-and-partial-fractions",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\displaystyle\\int\\frac{x^2+2}{(x-1)(x^2+1)}\\,dx$.",
+      "body": "$\\frac32\\log|x-1| - \\frac14\\log(x^2+1) - \\frac12\\arctan x + C$\n\n1. Set up: $\\frac{x^2+2}{(x-1)(x^2+1)} = \\frac{A}{x-1} + \\frac{Bx+C}{x^2+1}$, so $x^2 + 2 = A(x^2+1) + (Bx+C)(x-1)$.\n2. Put $x = 1$: $3 = 2A$, so $A = \\frac32$.\n3. Compare $x^2$ coefficients: $1 = A + B$, so $B = -\\frac12$. Compare constants: $2 = A - C$, so $C = -\\frac12$.\n4. Integrate: $\\frac32\\int\\frac{dx}{x-1} - \\frac12\\int\\frac{x}{x^2+1}\\,dx - \\frac12\\int\\frac{dx}{x^2+1}$.\n5. The middle integral is $\\frac12\\cdot\\frac12\\log(x^2+1)$ by $w = x^2+1$, and the last is $\\arctan x$.\n\nCheck: The $x$ coefficients on both sides: $0 = -B + C = \\frac12 - \\frac12$, as required.",
+      "searchQuery": "partial fractions integral (x^2+2)/((x-1)(x^2+1)) arctan",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.2–7.5",
+        "Spivak, Calculus 4e ch. 19"
+      ]
+    },
+    {
+      "id": "calc2-even-trig-powers-problem",
+      "unit": "trig-integrals-and-partial-fractions",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\int\\sin^2 x\\cos^2 x\\,dx$.",
+      "body": "$\\frac{x}{8} - \\frac{\\sin 4x}{32} + C$\n\nBoth powers are even, so no substitution works directly. Use the double-angle formula to lower the powers.\n\n1. $\\sin x\\cos x = \\frac12\\sin 2x$, so $\\sin^2 x\\cos^2 x = \\frac14\\sin^2 2x$.\n2. Half-angle formula: $\\sin^2 2x = \\frac{1 - \\cos 4x}{2}$, so the integrand is $\\frac{1 - \\cos 4x}{8}$.\n3. $\\int\\frac{1-\\cos 4x}{8}\\,dx = \\frac x8 - \\frac{\\sin 4x}{32} + C$.\n\nTip: For even powers, repeated half-angle reductions ($\\sin^2 x = \\frac{1-\\cos 2x}{2}$, $\\cos^2 x = \\frac{1+\\cos 2x}{2}$) turn the integrand into a sum of cosines that integrate directly.",
+      "searchQuery": "integral sin^2 x cos^2 x even powers double angle formula",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.2–7.5",
+        "Spivak, Calculus 4e ch. 19"
+      ]
+    },
+    {
+      "id": "calc2-quarter-circle-area-problem",
+      "unit": "trig-integrals-and-partial-fractions",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\displaystyle\\int_0^1\\sqrt{1-x^2}\\,dx$ by trigonometric substitution, and say what it measures.",
+      "body": "$\\frac\\pi4$, the area of a quarter of the unit disk.\n\n1. The root $\\sqrt{1 - x^2}$ suggests $x = \\sin\\theta$, so $dx = \\cos\\theta\\,d\\theta$ and $\\sqrt{1-x^2} = \\cos\\theta$ for $0\\le\\theta\\le\\frac\\pi2$.\n2. The limits change: $x = 0$ gives $\\theta = 0$ and $x = 1$ gives $\\theta = \\frac\\pi2$.\n3. The integral becomes $\\int_0^{\\pi/2}\\cos^2\\theta\\,d\\theta = \\int_0^{\\pi/2}\\frac{1+\\cos 2\\theta}{2}\\,d\\theta$.\n4. $= \\big[\\frac\\theta2 + \\frac{\\sin 2\\theta}{4}\\big]_0^{\\pi/2} = \\frac\\pi4$.\n\nCheck: The graph of $y = \\sqrt{1-x^2}$ on $[0, 1]$ is the quarter circle in the first quadrant, with area $\\frac14\\pi\\cdot 1^2$.\n\nTip: Changing the limits to $\\theta$ avoids drawing a triangle to convert back.",
+      "searchQuery": "integral sqrt(1-x^2) 0 to 1 trig substitution quarter circle",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.2–7.5",
+        "Spivak, Calculus 4e ch. 19"
+      ]
+    },
+    {
+      "id": "calc2-partial-fractions-equal-degree-misconception",
+      "unit": "trig-integrals-and-partial-fractions",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why can $\\frac{x^2+1}{x^2-1}$ not be written directly as $\\frac{A}{x-1} + \\frac{B}{x+1}$, and what must be done first?",
+      "body": "The numerator must have lower degree than the denominator; here the degrees are equal, so divide first: $\\frac{x^2+1}{x^2-1} = 1 + \\frac{2}{x^2-1}$, and only the remainder is decomposed.\n\nThe decomposition of the proper part is $\\frac{2}{x^2-1} = \\frac{1}{x-1} - \\frac{1}{x+1}$, so $\\int\\frac{x^2+1}{x^2-1}\\,dx = x + \\log|x-1| - \\log|x+1| + C$.\n\nWhy: A sum $\\frac{A}{x-1} + \\frac{B}{x+1}$ tends to $0$ as $x \\to \\infty$, but $\\frac{x^2+1}{x^2-1}$ tends to $1$. No constants $A$ and $B$ can match that.\n\nTip: Use polynomial long division whenever $\\deg P \\ge \\deg Q$.",
+      "searchQuery": "partial fractions improper rational function long division first degree",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.2–7.5",
+        "Spivak, Calculus 4e ch. 19"
+      ]
+    },
+    {
+      "id": "calc2-area-between-curves-concept",
+      "unit": "applications-of-integration",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "How is the **area between curves** $y = f(x)$ and $y = g(x)$ on $[a, b]$ computed when $f(x) \\ge g(x)$ throughout?",
+      "body": "$\\int_a^b \\big(f(x) - g(x)\\big)\\,dx$: integrate the height of the gap, top curve minus bottom curve.\n\nWhy: Thin vertical strips have height $f(x) - g(x)$ and width $dx$, and the integral adds up their areas as a limit of Riemann sums.\n\nExample: For $y = x$ and $y = x^2$ the curves meet where $x = x^2$, that is, at $x = 0$ and $x = 1$, with $x \\ge x^2$ between them. The area is $\\int_0^1 (x - x^2)\\,dx = \\frac12 - \\frac13 = \\frac16$.\n\nTip: Find the intersection points first, since they usually give the limits. If the curves are easier to describe as $x$ in terms of $y$, slice horizontally and integrate in $y$.",
+      "searchQuery": "area between two curves integral top minus bottom",
+      "refs": [
+        "Stewart, Calculus ET 8e §6.1–6.4, ch. 8"
+      ]
+    },
+    {
+      "id": "calc2-washer-method-formula",
+      "unit": "applications-of-integration",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State the **washer method** for the solid made by rotating $\\{a \\le x \\le b,\\ g(x) \\le y \\le f(x)\\}$ about the $x$-axis, where $0 \\le g \\le f$, and its special case the **disk method**.",
+      "body": "$V = \\pi\\displaystyle\\int_a^b \\big(f(x)^2 - g(x)^2\\big)\\,dx$; with $g = 0$ this is the disk method, $V = \\pi\\displaystyle\\int_a^b f(x)^2\\,dx$.\n\nWhy: Cutting the solid by a plane perpendicular to the axis gives a ring (a washer) with outer radius $f(x)$ and inner radius $g(x)$, of area $\\pi\\big(f^2 - g^2\\big)$. Then volume is the integral of the slice area, $V = \\int_a^b A(x)\\,dx$.\n\nExample: $y = \\sqrt x$ for $0 \\le x \\le 4$ rotated about the $x$-axis: $V = \\pi\\int_0^4 x\\,dx = 8\\pi$.\n\nWatch out: Square each radius first and then subtract. $\\pi(f - g)^2$ is wrong.",
+      "searchQuery": "washer method disk method volume of revolution formula x-axis",
+      "refs": [
+        "Stewart, Calculus ET 8e §6.1–6.4, ch. 8"
+      ]
+    },
+    {
+      "id": "calc2-shell-method-formula",
+      "unit": "applications-of-integration",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State the **shell method** for the volume of the solid made by rotating the region under $y = f(x) \\ge 0$, $a \\le x \\le b$ (with $a \\ge 0$), about the $y$-axis.",
+      "body": "$V = 2\\pi\\displaystyle\\int_a^b x\\,f(x)\\,dx$\n\nWhy: A thin vertical strip at distance $x$ from the axis sweeps out a hollow cylinder. Unrolled, it is a thin slab of length $2\\pi x$ (the circumference), height $f(x)$ and thickness $dx$, so its volume is $2\\pi x\\,f(x)\\,dx$.\n\nExample: The region under $y = x$ on $[0, 1]$ about the $y$-axis has $V = 2\\pi\\int_0^1 x^2\\,dx = \\frac{2\\pi}{3}$. As a check, it is a cylinder of volume $\\pi$ with a cone of volume $\\frac\\pi3$ removed.\n\nTip: Shells are convenient when the strips run parallel to the axis of rotation, since washers would then require solving for $x$ in terms of $y$.",
+      "searchQuery": "shell method volume 2 pi x f(x) rotate about y-axis",
+      "refs": [
+        "Stewart, Calculus ET 8e §6.1–6.4, ch. 8"
+      ]
+    },
+    {
+      "id": "calc2-arc-length-formula",
+      "unit": "applications-of-integration",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State the **arc length** formula for the graph of $y = f(x)$ on $[a, b]$, where $f'$ is continuous.",
+      "body": "$L = \\displaystyle\\int_a^b \\sqrt{1 + \\big(f'(x)\\big)^2}\\,dx$\n\nWhy: A tiny piece of the curve is nearly a straight segment with horizontal run $dx$ and vertical rise $dy = f'(x)\\,dx$. By Pythagoras its length is $\\sqrt{dx^2 + dy^2} = \\sqrt{1 + f'(x)^2}\\,dx$.\n\nExample: For a line $f(x) = mx$ on $[0, b]$ this gives $b\\sqrt{1 + m^2}$, which matches the distance formula.\n\nWatch out: Few choices of $f$ make $1 + f'^2$ a perfect square, so arc length integrals are often hard or must be done numerically.",
+      "searchQuery": "arc length formula integral sqrt 1 + f'(x)^2",
+      "refs": [
+        "Stewart, Calculus ET 8e §6.1–6.4, ch. 8"
+      ]
+    },
+    {
+      "id": "calc2-work-spring-example",
+      "unit": "applications-of-integration",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "A force of $8\\ \\mathrm{N}$ holds a spring $0.2\\ \\mathrm{m}$ beyond its natural length. Assuming Hooke's law, $F(x) = kx$, how much **work** does it take to stretch the spring from its natural length to $0.3\\ \\mathrm{m}$ beyond it? Give joules.",
+      "body": "$1.8\\ \\mathrm{J}$\n\nWork done by a force $F(x)$ moving an object along a line from $a$ to $b$ is $W = \\int_a^b F(x)\\,dx$. For a constant force this reduces to force times distance.\n\n1. From $8 = k(0.2)$, $k = 40\\ \\mathrm{N/m}$.\n2. $W = \\int_0^{0.3} 40x\\,dx = 20x^2\\Big|_0^{0.3} = 20(0.09) = 1.8$.\n3. Units: newtons times meters is joules.\n\nWatch out: The force grows as the spring stretches, so $F \\cdot d$ with the final force would overcount. Hooke's law also holds only for small stretches, not for any extension.",
+      "searchQuery": "work variable force integral Hooke's law spring joules",
+      "refs": [
+        "Stewart, Calculus ET 8e §6.1–6.4, ch. 8"
+      ]
+    },
+    {
+      "id": "calc2-washer-region-problem",
+      "unit": "applications-of-integration",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "The region between $y = \\sqrt x$ and $y = x^2$ is rotated about the $x$-axis. Find the volume of the solid.",
+      "body": "$\\frac{3\\pi}{10}$\n\n1. The curves meet where $\\sqrt x = x^2$, that is, at $x = 0$ and $x = 1$; on $(0, 1)$ we have $\\sqrt x > x^2$.\n2. The slices are washers with outer radius $\\sqrt x$ and inner radius $x^2$.\n3. $V = \\pi\\int_0^1 \\big((\\sqrt x)^2 - (x^2)^2\\big)\\,dx = \\pi\\int_0^1 (x - x^4)\\,dx$.\n4. $= \\pi\\big(\\frac12 - \\frac15\\big) = \\frac{3\\pi}{10}$.\n\nCheck: This is smaller than the volume $\\frac\\pi2$ of the solid made from $y = \\sqrt x$ alone, as it should be, since the hole removes some volume.",
+      "searchQuery": "volume washer method region between sqrt x and x^2 about x-axis",
+      "refs": [
+        "Stewart, Calculus ET 8e §6.1–6.4, ch. 8"
+      ]
+    },
+    {
+      "id": "calc2-arc-length-problem",
+      "unit": "applications-of-integration",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the arc length of $y = \\frac23 x^{3/2}$ from $x = 0$ to $x = 3$.",
+      "body": "$\\frac{14}{3}$\n\n1. $f'(x) = x^{1/2}$, so $1 + f'(x)^2 = 1 + x$.\n2. $L = \\int_0^3 \\sqrt{1 + x}\\,dx$.\n3. Substituting $u = 1 + x$ gives $\\int_1^4 u^{1/2}\\,du = \\frac23 u^{3/2}\\Big|_1^4$.\n4. $= \\frac23(8 - 1) = \\frac{14}{3}$.\n\nCheck: The straight-line distance from $(0, 0)$ to $(3, 2\\sqrt3)$ is $\\sqrt{9 + 12} \\approx 4.58$, and the curve is longer, at $\\frac{14}{3} \\approx 4.67$.",
+      "searchQuery": "arc length of y = 2/3 x^(3/2) from 0 to 3",
+      "refs": [
+        "Stewart, Calculus ET 8e §6.1–6.4, ch. 8"
+      ]
+    },
+    {
+      "id": "calc2-area-crossing-curves-misconception",
+      "unit": "applications-of-integration",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is $\\int_{-1}^{1}(x - x^3)\\,dx = 0$ not the area between $y = x$ and $y = x^3$ on $[-1, 1]$?",
+      "body": "The curves cross at $x = 0$, so the top and bottom curves swap there, and the integral gives a net signed area; the true area is $\\int_{-1}^{1}|x - x^3|\\,dx = \\frac12$.\n\nOn $[0, 1]$, $x \\ge x^3$ and $\\int_0^1 (x - x^3)\\,dx = \\frac12 - \\frac14 = \\frac14$. On $[-1, 0]$, $x^3 \\ge x$ and $\\int_{-1}^0 (x^3 - x)\\,dx = \\frac14$. The two pieces add to $\\frac12$.\n\nWhy: A region always has positive area, but $\\int (f - g)$ counts it negatively wherever $f < g$.\n\nTip: Find every crossing in the interval, split there, and on each piece subtract bottom from top.",
+      "searchQuery": "area between curves that cross absolute value split at intersections",
+      "refs": [
+        "Stewart, Calculus ET 8e §6.1–6.4, ch. 8"
+      ]
+    },
+    {
+      "id": "calc2-improper-integral-definition",
+      "unit": "improper-integrals",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define an **improper integral** over an infinite interval, and over an interval where the integrand is unbounded at an endpoint.",
+      "body": "$\\int_a^\\infty f(x)\\,dx = \\lim_{t\\to\\infty}\\int_a^t f(x)\\,dx$; and if $f$ is continuous on $[a, b)$ but unbounded near $b$, $\\int_a^b f(x)\\,dx = \\lim_{t\\to b^-}\\int_a^t f(x)\\,dx$.\n\nIf the limit exists and is finite, the integral **converges** to that value; otherwise it diverges. The case of a bad left endpoint is symmetric, with $t \\to a^+$.\n\nExample: $\\int_1^\\infty \\frac{dx}{x^2} = \\lim_{t\\to\\infty}\\Big(1 - \\frac1t\\Big) = 1$.\n\nWatch out: If the trouble point is inside $(a, b)$, split the integral there. It converges only if both pieces converge separately.",
+      "searchQuery": "improper integral definition infinite interval unbounded integrand limit",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.7–7.8"
+      ]
+    },
+    {
+      "id": "calc2-comparison-test-integrals-theorem",
+      "unit": "improper-integrals",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **comparison test for integrals** on $[a, \\infty)$.",
+      "body": "If $f$ and $g$ are continuous with $0 \\le f(x) \\le g(x)$ for all $x \\ge a$, then $\\int_a^\\infty g$ converging implies $\\int_a^\\infty f$ converges, and $\\int_a^\\infty f$ diverging implies $\\int_a^\\infty g$ diverges.\n\nWhy: For $0 \\le f \\le g$, the integrals $\\int_a^t f$ and $\\int_a^t g$ both increase with $t$, and the first stays below the second. A growing quantity below a bounded one cannot run off to infinity.\n\nExample: $\\int_1^\\infty e^{-x^2}\\,dx$ converges, because $0 < e^{-x^2} \\le e^{-x}$ for $x \\ge 1$ and $\\int_1^\\infty e^{-x}\\,dx = e^{-1}$.\n\nWatch out: The inequality must point the right way. Knowing $f \\ge g$ with $\\int g$ convergent tells nothing about $\\int f$.",
+      "searchQuery": "comparison test improper integrals 0 <= f <= g converge diverge",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.7–7.8"
+      ]
+    },
+    {
+      "id": "calc2-p-integral-example",
+      "unit": "improper-integrals",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "For which real $p$ do the **p-integrals** $\\int_1^\\infty x^{-p}\\,dx$ and $\\int_0^1 x^{-p}\\,dx$ converge?",
+      "body": "$\\int_1^\\infty x^{-p}\\,dx$ converges exactly when $p > 1$ (to $\\frac{1}{p-1}$); $\\int_0^1 x^{-p}\\,dx$ converges exactly when $p < 1$ (to $\\frac{1}{1-p}$).\n\nFor $p \\ne 1$, $\\int_1^t x^{-p}\\,dx = \\frac{t^{1-p} - 1}{1-p}$. As $t \\to \\infty$ this has a finite limit only if $1 - p < 0$. Likewise $\\int_s^1 x^{-p}\\,dx = \\frac{1 - s^{1-p}}{1-p}$ has a finite limit as $s \\to 0^+$ only if $1 - p > 0$.\n\nFor $p = 1$ both integrals involve $\\log$ and diverge: $\\log t \\to \\infty$ and $-\\log s \\to \\infty$.\n\nKey idea: Each integral is a benchmark for comparison. The two ranges are opposite because a large $p$ helps at infinity and hurts near $0$.",
+      "searchQuery": "p-integral convergence 1/x^p infinite interval and near zero",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.7–7.8"
+      ]
+    },
+    {
+      "id": "calc2-trapezoidal-rule-formula",
+      "unit": "improper-integrals",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State the **trapezoidal rule** $T_n$ for approximating $\\int_a^b f(x)\\,dx$.",
+      "body": "$T_n = \\dfrac{\\Delta x}{2}\\Big[f(x_0) + 2f(x_1) + \\dots + 2f(x_{n-1}) + f(x_n)\\Big]$, with $\\Delta x = \\frac{b-a}{n}$ and $x_i = a + i\\,\\Delta x$.\n\nWhy: It adds up the areas of $n$ trapezoids, one over each subinterval, each with area $\\frac{\\Delta x}{2}\\big(f(x_{i-1}) + f(x_i)\\big)$. Every interior value appears in two neighboring trapezoids, which is why it has coefficient $2$.\n\nKey idea: $T_n = \\frac12(L_n + R_n)$, the average of the left and right sums.\n\nExample: For $f(x) = x^2$ on $[0, 2]$ with $n = 4$, $T_4 = \\frac{0.5}{2}\\big[0 + 2(0.25 + 1 + 2.25) + 4\\big] = 2.75$.",
+      "searchQuery": "trapezoidal rule formula T_n approximate integral",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.7–7.8"
+      ]
+    },
+    {
+      "id": "calc2-simpson-rule-problem",
+      "unit": "improper-integrals",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "**Simpson's rule** with $n$ even is $S_n = \\frac{\\Delta x}{3}\\big[f(x_0) + 4f(x_1) + 2f(x_2) + 4f(x_3) + \\dots + 4f(x_{n-1}) + f(x_n)\\big]$. Compute $S_4$ and $T_4$ for $\\int_0^1\\frac{4}{1+x^2}\\,dx$ (exact value $\\pi$) and compare.",
+      "body": "$S_4 \\approx 3.14157$ and $T_4 \\approx 3.13118$; Simpson's error is about $2.4\\times 10^{-5}$, the trapezoidal error about $0.0104$.\n\nSimpson's rule replaces the graph on each pair of subintervals by a parabola through three points. Here $\\Delta x = 0.25$.\n\n1. Values: $f(0) = 4$, $f(0.25) \\approx 3.76471$, $f(0.5) = 3.2$, $f(0.75) = 2.56$, $f(1) = 2$.\n2. $S_4 = \\frac{0.25}{3}\\big[4 + 4(3.76471) + 2(3.2) + 4(2.56) + 2\\big] \\approx \\frac{37.6988}{12} \\approx 3.14157$.\n3. $T_4 = \\frac{0.25}{2}\\big[4 + 2(3.76471 + 3.2 + 2.56) + 2\\big] \\approx 3.13118$.\n4. The exact value is $4\\arctan 1 = \\pi \\approx 3.14159$.\n\nWatch out: The weights run $1, 4, 2, 4, \\dots, 4, 1$ and need an even number of subintervals.",
+      "searchQuery": "Simpson's rule trapezoidal rule compare integral 4/(1+x^2) approximate pi",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.7–7.8"
+      ]
+    },
+    {
+      "id": "calc2-improper-xe-problem",
+      "unit": "improper-integrals",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\displaystyle\\int_0^\\infty x\\,e^{-x}\\,dx$.",
+      "body": "$1$\n\nWrite it as $\\lim_{t\\to\\infty}\\int_0^t x e^{-x}\\,dx$ and use integration by parts.\n\n1. With $u = x$, $dv = e^{-x}\\,dx$: $\\int x e^{-x}\\,dx = -x e^{-x} + \\int e^{-x}\\,dx = -(x+1)e^{-x}$.\n2. $\\int_0^t x e^{-x}\\,dx = -(t+1)e^{-t} + 1$.\n3. $\\frac{t+1}{e^t} \\to 0$ as $t \\to \\infty$ by L'Hôpital's rule (the form is $\\frac\\infty\\infty$ and the ratio of derivatives is $\\frac{1}{e^t}$).\n4. So the limit is $1 - 0 = 1$.\n\nTip: Never plug $\\infty$ into an antiderivative as if it were a number. Evaluate the limit explicitly.",
+      "searchQuery": "improper integral x e^{-x} 0 to infinity integration by parts limit",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.7–7.8"
+      ]
+    },
+    {
+      "id": "calc2-symmetric-limit-counterexample",
+      "unit": "improper-integrals",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give a function for which $\\lim_{t\\to\\infty}\\int_{-t}^{t} f(x)\\,dx$ exists but $\\int_{-\\infty}^{\\infty} f(x)\\,dx$ diverges. (By definition, $\\int_{-\\infty}^{\\infty} f = \\int_{-\\infty}^{c} f + \\int_{c}^{\\infty} f$, and both pieces must converge.)",
+      "body": "$f(x) = x$\n\nFor every $t$, $\\int_{-t}^{t} x\\,dx = \\frac{t^2}{2} - \\frac{t^2}{2} = 0$, so the symmetric limit is $0$.\n\nBut $\\int_0^\\infty x\\,dx = \\lim_{t\\to\\infty}\\frac{t^2}{2} = \\infty$, so the half-line pieces diverge and, by the definition, so does $\\int_{-\\infty}^{\\infty} x\\,dx$.\n\nWhy: The symmetric limit lets the infinite positive and negative areas cancel. The two-sided integral requires each end to be settled on its own, with the two ends going to infinity independently.",
+      "searchQuery": "counterexample improper integral minus infinity to infinity x symmetric limit",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.7–7.8"
+      ]
+    },
+    {
+      "id": "calc2-trapezoid-error-halving-misconception",
+      "unit": "improper-integrals",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is “doubling $n$ halves the error of the trapezoidal rule” false in general, and what happens for Simpson's rule?",
+      "body": "The trapezoidal error bound is proportional to $\\frac{1}{n^2}$, so doubling $n$ cuts the error by about a factor of $4$; Simpson's bound is proportional to $\\frac{1}{n^4}$, a factor of $16$.\n\nBounds, for $f$ with continuous derivatives: $|E_T| \\le \\frac{K(b-a)^3}{12n^2}$ if $|f''| \\le K$, and $|E_S| \\le \\frac{M(b-a)^5}{180n^4}$ if $|f^{(4)}| \\le M$.\n\nExample: For $\\int_0^1\\frac{4}{1+x^2}\\,dx$ the trapezoidal errors are about $0.01042$, $0.00260$ and $0.00065$ for $n = 4, 8, 16$. Each doubling divides the error by about $4$.\n\nWatch out: These are bounds. A particular function can behave better than the bound, but not worse. For this reason, Simpson's rule is usually far more efficient per function evaluation.",
+      "searchQuery": "trapezoidal rule error bound 1/n^2 Simpson's rule 1/n^4 doubling n",
+      "refs": [
+        "Stewart, Calculus ET 8e §7.7–7.8"
+      ]
+    },
+    {
+      "id": "calc2-convergent-sequence-definition",
+      "unit": "sequences",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define precisely what it means for a **sequence** $(a_n)$ to be a **convergent sequence** with limit $L$.",
+      "body": "For every $\\varepsilon > 0$ there is an $N$ such that $|a_n - L| < \\varepsilon$ for all $n \\ge N$; we write $\\lim_{n\\to\\infty} a_n = L$.\n\nA **sequence** is a function from the positive integers to $\\mathbb{R}$, written $a_1, a_2, a_3, \\dots$ A sequence that has no such $L$ diverges.\n\nWhy: In words, the terms eventually stay inside every window around $L$, however narrow. It is the definition of a limit at infinity, with the variable restricted to integers.\n\nExample: $a_n = \\frac1n$ converges to $0$. Given $\\varepsilon > 0$, choose $N > \\frac1\\varepsilon$. Then $n \\ge N$ gives $\\left|\\frac1n - 0\\right| = \\frac1n \\le \\frac1N < \\varepsilon$.\n\nWatch out: Only the tail matters. Changing finitely many terms never changes whether or to what the sequence converges.",
+      "searchQuery": "convergent sequence definition epsilon N limit of a sequence",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.1",
+        "Spivak, Calculus 4e ch. 22"
+      ]
+    },
+    {
+      "id": "calc2-monotone-bounded-definition",
+      "unit": "sequences",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define a **monotone sequence** and a **bounded sequence**.",
+      "body": "Monotone: $a_{n+1} \\ge a_n$ for all $n$ (increasing), or $a_{n+1} \\le a_n$ for all $n$ (decreasing). Bounded: there is a number $M$ with $|a_n| \\le M$ for all $n$.\n\nExample: $\\frac1n$ is decreasing and bounded. $(-1)^n$ is bounded but not monotone. $n^2$ is monotone but not bounded.\n\nKey idea: Boundedness caps the size of the terms. Monotonicity rules out oscillation. Either alone is not enough for convergence, but both together are, as the next card shows.\n\nTip: To test monotonicity, compare $a_{n+1}$ with $a_n$ directly (difference or ratio), or differentiate a function $f$ with $f(n) = a_n$ and check the sign of $f'$.",
+      "searchQuery": "monotone sequence bounded sequence definition increasing decreasing",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.1",
+        "Spivak, Calculus 4e ch. 22"
+      ]
+    },
+    {
+      "id": "calc2-monotone-convergence-theorem",
+      "unit": "sequences",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **monotone convergence theorem** for sequences.",
+      "body": "Every bounded monotone sequence of real numbers converges: an increasing sequence bounded above converges to the smallest number that is at least every term, and a decreasing sequence bounded below converges to the largest number that is at most every term.\n\nKey idea of the proof (increasing case): The terms have a smallest upper bound $L$, since the real line has no gaps. For any $\\varepsilon > 0$, $L - \\varepsilon$ is not an upper bound, so some $a_N > L - \\varepsilon$. Monotonicity keeps every later term in $(L - \\varepsilon, L]$.\n\nExample: The sequence $\\left(1 + \\frac1n\\right)^n$ is increasing and bounded above by $3$, so it converges. Its limit is the number $e$.\n\nWatch out: The theorem proves a limit exists. It does not say what it is, so finding the value needs another step.",
+      "searchQuery": "monotone convergence theorem bounded monotone sequence converges",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.1",
+        "Spivak, Calculus 4e ch. 22"
+      ]
+    },
+    {
+      "id": "calc2-geometric-sequence-limit-example",
+      "unit": "sequences",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "For which real $r$ does the sequence $r^n$ converge, and what is the limit?",
+      "body": "It converges exactly for $-1 < r \\le 1$: the limit is $0$ if $|r| < 1$ and $1$ if $r = 1$.\n\nFor $r > 1$ the terms tend to $\\infty$; for $r = -1$ they alternate between $-1$ and $1$; for $r < -1$ they alternate in sign with growing size. All of these diverge.\n\nWhy the limit is $0$ for $|r| < 1$: The sequence $|r|^n$ is decreasing and bounded below by $0$, so by the monotone convergence theorem it has a limit $L$. Since $|r|^{n+1} = |r|\\cdot|r|^n$, taking limits gives $L = |r|\\,L$, so $L = 0$. Hence $|r^n| \\to 0$, and so $r^n \\to 0$.\n\nTip: This is the engine behind geometric series, which converge exactly when $|r| < 1$.",
+      "searchQuery": "limit of r^n sequence converges for which r geometric",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.1",
+        "Spivak, Calculus 4e ch. 22"
+      ]
+    },
+    {
+      "id": "calc2-n-th-root-of-n-problem",
+      "unit": "sequences",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\lim_{n\\to\\infty} n^{1/n}$.",
+      "body": "$1$\n\nAn indeterminate form of type $\\infty^0$ is best handled with a logarithm.\n\n1. $\\log\\big(n^{1/n}\\big) = \\frac{\\log n}{n}$.\n2. The function $\\frac{\\log x}{x}$ has the form $\\frac\\infty\\infty$ as $x \\to \\infty$, and L'Hôpital's rule gives $\\lim \\frac{1/x}{1} = 0$. So the sequence $\\frac{\\log n}{n}$ tends to $0$.\n3. Since $n^{1/n} = \\exp\\!\\big(\\frac{\\log n}{n}\\big)$ and $\\exp$ is continuous, $n^{1/n} \\to e^0 = 1$.\n\nCheck: $2^{1/2} \\approx 1.41$, $10^{1/10} \\approx 1.26$, $100^{1/100} \\approx 1.047$. The sequence slowly decreases toward $1$ after $n = 3$.\n\nWatch out: To use L'Hôpital's rule on a sequence, apply it to the function of a real variable $x$ with $f(n) = a_n$.",
+      "searchQuery": "limit n^(1/n) as n goes to infinity equals 1 logarithm",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.1",
+        "Spivak, Calculus 4e ch. 22"
+      ]
+    },
+    {
+      "id": "calc2-recursive-sequence-mct-problem",
+      "unit": "sequences",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $a_1 = \\sqrt2$ and $a_{n+1} = \\sqrt{2 + a_n}$. Show that $(a_n)$ converges and find its limit.",
+      "body": "The sequence converges to $2$.\n\nThe plan: prove it is bounded and monotone, apply the monotone convergence theorem, and then solve for the limit.\n\n1. Bounded: $a_1 < 2$. If $a_n < 2$, then $a_{n+1} < \\sqrt{2 + 2} = 2$. By induction $0 < a_n < 2$ for all $n$.\n2. Increasing: $a_n < 2$ gives $a_n^2 - a_n - 2 = (a_n - 2)(a_n + 1) < 0$, so $a_n^2 < 2 + a_n$, that is, $a_n < a_{n+1}$.\n3. By the monotone convergence theorem, $L = \\lim a_n$ exists.\n4. Take limits in $a_{n+1} = \\sqrt{2 + a_n}$, using continuity of the square root: $L = \\sqrt{2 + L}$, so $L^2 = L + 2$.\n5. Then $(L-2)(L+1) = 0$. Since $L \\ge 0$, $L = 2$.\n\nWatch out: Passing to the limit in step 4 assumes the limit exists. That is why steps 1 to 3 must come first.",
+      "searchQuery": "recursive sequence sqrt(2+a_n) converges monotone convergence theorem limit 2",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.1",
+        "Spivak, Calculus 4e ch. 22"
+      ]
+    },
+    {
+      "id": "calc2-bounded-implies-convergent-misconception",
+      "unit": "sequences",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is “every bounded sequence converges” false, and what is the true statement?",
+      "body": "A bounded sequence can oscillate forever: $a_n = (-1)^n$ satisfies $|a_n| \\le 1$ but diverges. Boundedness alone is not enough; adding monotonicity gives convergence, and the converse holds too: every convergent sequence is bounded.\n\nWhy a convergent sequence is bounded: Past some index $N$, all terms lie within $1$ of the limit $L$. The finitely many earlier terms have some largest size, so a single bound works.\n\nKey idea: Convergent $\\Rightarrow$ bounded, but not the reverse. Bounded and monotone $\\Rightarrow$ convergent.\n\nWatch out: Staying inside a fixed window is not the same as settling down. Convergence needs the terms to stay inside every window around some $L$ eventually.",
+      "searchQuery": "bounded sequence need not converge (-1)^n counterexample monotone",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.1",
+        "Spivak, Calculus 4e ch. 22"
+      ]
+    },
+    {
+      "id": "calc2-series-convergence-definition",
+      "unit": "series-and-convergence-tests",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define when the **series** $\\sum_{n=1}^\\infty a_n$ converges and what its sum is.",
+      "body": "Let $s_N = a_1 + a_2 + \\dots + a_N$ be the $N$-th **partial sum**. The series converges to $S$ if the sequence $(s_N)$ converges to $S$, and then $\\sum_{n=1}^\\infty a_n = S$; otherwise it diverges.\n\nWhy: An infinite sum has no meaning until we say how to add infinitely many terms. This definition adds finitely many at a time and asks where the totals settle.\n\nExample: The geometric series $\\sum_{n=0}^\\infty a r^n$ with $a \\ne 0$ has $s_N = a\\frac{1 - r^{N+1}}{1 - r}$. It converges to $\\frac{a}{1-r}$ when $|r| < 1$, and diverges when $|r| \\ge 1$.\n\nWatch out: Convergence of a series is about the sequence of partial sums, not the sequence of terms $a_n$.",
+      "searchQuery": "series convergence definition partial sums geometric series sum",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.2–11.7",
+        "Spivak, Calculus 4e ch. 23"
+      ]
+    },
+    {
+      "id": "calc2-absolute-conditional-definition",
+      "unit": "series-and-convergence-tests",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define **absolute convergence** and **conditional convergence** of a series $\\sum a_n$.",
+      "body": "$\\sum a_n$ converges absolutely if $\\sum |a_n|$ converges; it converges conditionally if $\\sum a_n$ converges but $\\sum |a_n|$ diverges.\n\nEvery absolutely convergent series converges, because the positive and negative parts are each controlled by $\\sum |a_n|$.\n\nExample: $\\sum_{n=1}^\\infty \\frac{(-1)^{n+1}}{n^2}$ converges absolutely, since $\\sum\\frac1{n^2}$ converges. $\\sum_{n=1}^\\infty \\frac{(-1)^{n+1}}{n}$ converges (to $\\log 2$) but $\\sum\\frac1n$ diverges, so it converges conditionally.\n\nWhy it matters: Absolutely convergent series can be rearranged without changing the sum. Rearranging a conditionally convergent series can change the sum, or make it diverge.",
+      "searchQuery": "absolute convergence conditional convergence series definition",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.2–11.7",
+        "Spivak, Calculus 4e ch. 23"
+      ]
+    },
+    {
+      "id": "calc2-integral-test-theorem",
+      "unit": "series-and-convergence-tests",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **integral test** and its consequence for $\\sum \\frac{1}{n^p}$.",
+      "body": "If $f$ is continuous, positive and decreasing on $[1, \\infty)$ and $a_n = f(n)$, then $\\sum_{n=1}^\\infty a_n$ and $\\int_1^\\infty f(x)\\,dx$ either both converge or both diverge. Hence $\\sum_{n=1}^\\infty \\frac{1}{n^p}$ converges exactly when $p > 1$.\n\nWhy: Because $f$ decreases, $\\sum_{n=2}^N a_n \\le \\int_1^N f \\le \\sum_{n=1}^{N-1} a_n$. Rectangles of height $a_n$ sit under or over the curve, so the partial sums and the integrals are trapped between each other.\n\nTip: The $p$-series result is the $p$-integral result from before, translated into series.\n\nWatch out: The test decides convergence only. The integral is not the sum of the series.",
+      "searchQuery": "integral test series p-series convergence positive decreasing",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.2–11.7",
+        "Spivak, Calculus 4e ch. 23"
+      ]
+    },
+    {
+      "id": "calc2-comparison-tests-theorem",
+      "unit": "series-and-convergence-tests",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **comparison test** and the **limit comparison test** for series with positive terms.",
+      "body": "Comparison: if $0 \\le a_n \\le b_n$ for all large $n$, then $\\sum b_n$ converging forces $\\sum a_n$ to converge, and $\\sum a_n$ diverging forces $\\sum b_n$ to diverge. Limit comparison: if $a_n, b_n > 0$ and $\\lim\\frac{a_n}{b_n} = c$ with $0 < c < \\infty$, then $\\sum a_n$ and $\\sum b_n$ both converge or both diverge.\n\nWhy: In the limit comparison test, $a_n \\approx c\\,b_n$ for large $n$, so the two series behave alike up to a constant factor.\n\nTip: Use benchmark series: geometric series and $p$-series.\n\nExample: $\\sum\\frac{1}{n^2 + 1}$ converges by comparison with $\\sum\\frac1{n^2}$, since $\\frac{1}{n^2+1} < \\frac1{n^2}$.\n\nWatch out: The inequality must favor the conclusion. $a_n \\ge b_n$ with $\\sum b_n$ convergent proves nothing.",
+      "searchQuery": "comparison test limit comparison test series positive terms benchmark",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.2–11.7",
+        "Spivak, Calculus 4e ch. 23"
+      ]
+    },
+    {
+      "id": "calc2-ratio-root-test-theorem",
+      "unit": "series-and-convergence-tests",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **ratio test** and the **root test**.",
+      "body": "Let $L = \\lim\\left|\\frac{a_{n+1}}{a_n}\\right|$. If $L < 1$ the series $\\sum a_n$ converges absolutely, if $L > 1$ (or $L = \\infty$) it diverges, and if $L = 1$ the test is inconclusive. The root test is identical with $L = \\lim |a_n|^{1/n}$.\n\nWhy: If $L < 1$, then eventually $|a_{n+1}| \\le r|a_n|$ for some $r < 1$, so the terms are bounded by a geometric series.\n\nExample: For $a_n = \\frac{n!}{n^n}$, $\\left|\\frac{a_{n+1}}{a_n}\\right| = \\left(\\frac{n}{n+1}\\right)^n \\to \\frac1e < 1$, so $\\sum\\frac{n!}{n^n}$ converges.\n\nWatch out: $L = 1$ tells nothing. $\\sum\\frac1n$ and $\\sum\\frac1{n^2}$ both have $L = 1$, yet one diverges and the other converges.\n\nTip: Use the ratio test with factorials and exponentials, and the root test when $n$ is in an exponent, as in $\\sum\\left(\\frac{n}{2n+1}\\right)^n$ with $L = \\frac12$.",
+      "searchQuery": "ratio test root test series L<1 converges inconclusive L=1",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.2–11.7",
+        "Spivak, Calculus 4e ch. 23"
+      ]
+    },
+    {
+      "id": "calc2-telescoping-series-example",
+      "unit": "series-and-convergence-tests",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Find the sum of the **telescoping** series $\\sum_{n=1}^\\infty \\frac{1}{n(n+1)}$.",
+      "body": "$1$\n\nSplit each term with partial fractions: $\\frac{1}{n(n+1)} = \\frac1n - \\frac1{n+1}$.\n\n1. Partial sum: $s_N = \\Big(1 - \\tfrac12\\Big) + \\Big(\\tfrac12 - \\tfrac13\\Big) + \\dots + \\Big(\\tfrac1N - \\tfrac1{N+1}\\Big)$.\n2. Every middle term cancels, leaving $s_N = 1 - \\frac{1}{N+1}$.\n3. As $N \\to \\infty$, $s_N \\to 1$.\n\nKey idea: A telescoping series collapses because each term cancels part of its neighbor. Writing out the partial sum is how the sum is found.\n\nWatch out: Always take the limit of $s_N$ after canceling. Canceling terms inside an infinite sum without partial sums can give wrong answers.",
+      "searchQuery": "telescoping series sum 1/(n(n+1)) partial fractions partial sums",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.2–11.7",
+        "Spivak, Calculus 4e ch. 23"
+      ]
+    },
+    {
+      "id": "calc2-limit-comparison-problem",
+      "unit": "series-and-convergence-tests",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Decide whether $\\sum_{n=1}^\\infty \\frac{3n+1}{n^3+2}$ converges.",
+      "body": "It converges.\n\nFor large $n$ the terms behave like $\\frac{3n}{n^3} = \\frac{3}{n^2}$, so compare with the convergent $p$-series $\\sum\\frac1{n^2}$ ($p = 2 > 1$).\n\n1. All terms are positive.\n2. $\\dfrac{a_n}{b_n} = \\dfrac{(3n+1)\\,n^2}{n^3+2} = \\dfrac{3n^3 + n^2}{n^3 + 2} \\to 3$.\n3. The limit is finite and positive, so by the limit comparison test both series converge or both diverge. Since $\\sum\\frac1{n^2}$ converges, so does the given series.\n\nWhy not direct comparison: $\\frac{3n+1}{n^3+2}$ is not obviously smaller than $\\frac{1}{n^2}$, since it is about three times larger. A constant factor does not affect convergence, which is exactly what limit comparison captures.",
+      "searchQuery": "limit comparison test (3n+1)/(n^3+2) series converge p-series",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.2–11.7",
+        "Spivak, Calculus 4e ch. 23"
+      ]
+    },
+    {
+      "id": "calc2-alternating-series-test-problem",
+      "unit": "series-and-convergence-tests",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Decide whether $\\sum_{n=1}^\\infty \\frac{(-1)^{n+1}}{\\sqrt n}$ converges, and if so, whether absolutely or conditionally. Use the **alternating series test**.",
+      "body": "It converges conditionally.\n\nThe alternating series test: if $b_n > 0$, $b_n$ is decreasing and $b_n \\to 0$, then $\\sum (-1)^{n+1} b_n$ converges.\n\n1. Here $b_n = \\frac{1}{\\sqrt n}$ is positive, decreasing, and tends to $0$. So the series converges.\n2. Absolute convergence would require $\\sum\\frac{1}{\\sqrt n} = \\sum\\frac{1}{n^{1/2}}$ to converge. It is a $p$-series with $p = \\frac12 \\le 1$, so it diverges.\n3. The series converges but not absolutely, so the convergence is conditional.\n\nTip: When the test applies, the error in stopping after $N$ terms is at most the first omitted term $b_{N+1}$.",
+      "searchQuery": "alternating series test (-1)^(n+1)/sqrt(n) conditionally convergent",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.2–11.7",
+        "Spivak, Calculus 4e ch. 23"
+      ]
+    },
+    {
+      "id": "calc2-harmonic-series-counterexample",
+      "unit": "series-and-convergence-tests",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give a series whose terms tend to $0$ but which diverges. Show that it diverges.",
+      "body": "The harmonic series $\\sum_{n=1}^\\infty \\frac1n$.\n\nGroup terms in blocks that double in size: $1 + \\frac12 + \\big(\\frac13 + \\frac14\\big) + \\big(\\frac15 + \\dots + \\frac18\\big) + \\dots$. Each block has $2^{k-1}$ terms, each at least $\\frac{1}{2^k}$, so each block sums to at least $\\frac12$.\n\nTherefore $s_{2^k} \\ge 1 + \\frac k2$, which tends to $\\infty$, so the partial sums are unbounded and the series diverges.\n\nWhy it matters: This is why the divergence test is one-way. If $a_n \\not\\to 0$, the series $\\sum a_n$ diverges. But $a_n \\to 0$ alone proves nothing.\n\nWatch out: The terms $\\frac1n$ shrink, but they shrink too slowly, so the total area grows like $\\log N$.",
+      "searchQuery": "harmonic series diverges terms tend to zero divergence test",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.2–11.7",
+        "Spivak, Calculus 4e ch. 23"
+      ]
+    },
+    {
+      "id": "calc2-alternating-terms-to-zero-misconception",
+      "unit": "series-and-convergence-tests",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is “an alternating series whose terms tend to $0$ must converge” false?",
+      "body": "The alternating series test also requires the sizes $b_n$ to be decreasing; without that, an alternating series with $b_n \\to 0$ can diverge.\n\nExample: Take $\\frac11 - \\frac1{2^2} + \\frac13 - \\frac1{4^2} + \\frac15 - \\dots$, with $+\\frac1n$ at odd $n$ and $-\\frac1{n^2}$ at even $n$. The signs alternate and the terms tend to $0$. The positive terms alone add up to a divergent series (the odd-indexed terms of the harmonic series, which also diverge), while the negative terms form a convergent series. A divergent part with a convergent part gives divergence.\n\nWhy: In a convergent alternating series, positives and negatives must cancel almost exactly. Decreasing $b_n$ guarantees this.\n\nTip: When checking the alternating series test, verify three things: positive, decreasing, tending to $0$.",
+      "searchQuery": "alternating series test needs decreasing terms counterexample diverges",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.2–11.7",
+        "Spivak, Calculus 4e ch. 23"
+      ]
+    },
+    {
+      "id": "calc2-power-series-definition",
+      "unit": "power-series",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define a **power series** centered at $a$.",
+      "body": "A series of the form $\\sum_{n=0}^\\infty c_n (x-a)^n = c_0 + c_1(x-a) + c_2(x-a)^2 + \\dots$, where $a$ is the center and the $c_n$ are fixed numbers (the coefficients).\n\nWhy: It is a polynomial of infinite degree. Each choice of $x$ turns it into an ordinary series of numbers, so it defines a function on the set of $x$ where that series converges.\n\nExample: $\\sum_{n=0}^\\infty \\frac{x^n}{n!}$ converges for every $x$, while $\\sum_{n=0}^\\infty n!\\,x^n$ converges only at $x = 0$, since the terms grow too fast for any $x \\ne 0$.\n\nWatch out: At $x = a$ every term except $c_0$ vanishes, so a power series always converges at its center.",
+      "searchQuery": "power series definition center coefficients sum c_n (x-a)^n",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.8–11.9",
+        "Spivak, Calculus 4e ch. 24"
+      ]
+    },
+    {
+      "id": "calc2-radius-interval-convergence-definition",
+      "unit": "power-series",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **radius of convergence** and **interval of convergence** of a power series $\\sum c_n(x-a)^n$.",
+      "body": "There is a number $R$ with $0 \\le R \\le \\infty$ such that the series converges absolutely for $|x - a| < R$ and diverges for $|x - a| > R$; $R$ is the radius of convergence, and the set of all $x$ where the series converges is the interval of convergence.\n\nThe interval of convergence is $(a - R, a + R)$ together with whichever endpoints $a \\pm R$ the series converges at.\n\nTip: If $\\lim\\left|\\frac{c_{n+1}}{c_n}\\right|$ exists, then $R$ is its reciprocal (with $R = \\infty$ when the limit is $0$, and $R = 0$ when it is $\\infty$). This is the ratio test applied to the terms $c_n(x-a)^n$.\n\nWatch out: The definition says nothing about what happens at $|x - a| = R$. Those two points must be tested one at a time.",
+      "searchQuery": "radius of convergence interval of convergence definition power series ratio test",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.8–11.9",
+        "Spivak, Calculus 4e ch. 24"
+      ]
+    },
+    {
+      "id": "calc2-term-by-term-theorem",
+      "unit": "power-series",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the theorem on **term-by-term differentiation** and integration of power series.",
+      "body": "If $f(x) = \\sum c_n(x-a)^n$ has radius of convergence $R > 0$, then on $(a - R, a + R)$, $f$ is differentiable with $f'(x) = \\sum_{n=1}^\\infty n\\,c_n(x-a)^{n-1}$, and $\\int f(x)\\,dx = C + \\sum_{n=0}^\\infty \\frac{c_n}{n+1}(x-a)^{n+1}$; both new series have the same radius $R$.\n\nWhy it matters: Power series behave like polynomials: differentiate and integrate one term at a time. This produces new series, such as those for $\\log(1+x)$ and $\\arctan x$, from the geometric series.\n\nWatch out: The radius stays the same, but the behavior at the endpoints can change. Differentiating can lose an endpoint where the original converged, and integrating can gain one.",
+      "searchQuery": "term by term differentiation integration power series same radius theorem",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.8–11.9",
+        "Spivak, Calculus 4e ch. 24"
+      ]
+    },
+    {
+      "id": "calc2-geometric-power-series-formula",
+      "unit": "power-series",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Give the power series for $\\frac{1}{1-x}$ and its interval of convergence.",
+      "body": "$\\dfrac{1}{1-x} = \\displaystyle\\sum_{n=0}^\\infty x^n = 1 + x + x^2 + \\dots$ for $|x| < 1$.\n\nWhy: It is the geometric series with first term $1$ and ratio $x$, which converges to $\\frac{1}{1-x}$ exactly when $|x| < 1$.\n\nKey idea: Substituting turns this one series into many. Replacing $x$ by $-x$ gives $\\frac{1}{1+x} = \\sum(-1)^n x^n$, and replacing it by $-x^2$ gives $\\frac{1}{1+x^2} = \\sum(-1)^n x^{2n}$, each valid when the substituted quantity has size less than $1$.\n\nExample: $\\frac{1}{1-x}$ at $x = \\frac12$ gives $2 = 1 + \\frac12 + \\frac14 + \\dots$.",
+      "searchQuery": "power series 1/(1-x) geometric series radius of convergence 1",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.8–11.9",
+        "Spivak, Calculus 4e ch. 24"
+      ]
+    },
+    {
+      "id": "calc2-log-series-example",
+      "unit": "power-series",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Use term-by-term integration to find a power series for $\\log(1+x)$.",
+      "body": "$\\log(1+x) = \\displaystyle\\sum_{n=1}^\\infty \\frac{(-1)^{n+1}x^n}{n} = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\dots$ for $-1 < x \\le 1$.\n\n1. For $|t| < 1$, $\\frac{1}{1+t} = \\sum_{n=0}^\\infty (-1)^n t^n$.\n2. Integrate from $0$ to $x$ with $|x| < 1$: $\\log(1+x) = \\sum_{n=0}^\\infty \\frac{(-1)^n x^{n+1}}{n+1}$. The constant is $0$ because $\\log 1 = 0$.\n3. Reindexing gives the formula above. The radius is still $1$.\n\nEndpoints: At $x = -1$ the series becomes the negative of the harmonic series, so it diverges. At $x = 1$ it is the alternating harmonic series, which converges, and the equality still holds there by a theorem of Abel. So $\\log 2 = 1 - \\frac12 + \\frac13 - \\dots$\n\nWatch out: The integration gives the series only inside $(-1, 1)$ directly. The endpoint $x = 1$ needs the extra theorem.",
+      "searchQuery": "power series log(1+x) integrate geometric series interval of convergence",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.8–11.9",
+        "Spivak, Calculus 4e ch. 24"
+      ]
+    },
+    {
+      "id": "calc2-interval-of-convergence-problem",
+      "unit": "power-series",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the radius and interval of convergence of $\\sum_{n=1}^\\infty \\frac{x^n}{n\\,3^n}$.",
+      "body": "$R = 3$ and the interval of convergence is $[-3, 3)$.\n\n1. Ratio test on the terms: $\\left|\\frac{x^{n+1}}{(n+1)3^{n+1}}\\cdot\\frac{n\\,3^n}{x^n}\\right| = \\frac{|x|}{3}\\cdot\\frac{n}{n+1} \\to \\frac{|x|}{3}$.\n2. This is less than $1$ exactly when $|x| < 3$, so $R = 3$.\n3. At $x = 3$ the series is $\\sum\\frac1n$, the harmonic series, which diverges.\n4. At $x = -3$ it is $\\sum\\frac{(-1)^n}{n}$, which converges by the alternating series test.\n5. So the interval is $[-3, 3)$: the left endpoint is included and the right is not.\n\nWatch out: The ratio test gives no verdict at $|x| = 3$, since the limit there is $1$. The endpoints need separate tests, and they can behave differently.",
+      "searchQuery": "radius and interval of convergence sum x^n/(n 3^n) endpoints",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.8–11.9",
+        "Spivak, Calculus 4e ch. 24"
+      ]
+    },
+    {
+      "id": "calc2-arctan-series-problem",
+      "unit": "power-series",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the power series of $\\arctan x$ and use it to write $\\frac\\pi4$ as an infinite series.",
+      "body": "$\\arctan x = \\sum_{n=0}^\\infty \\frac{(-1)^n x^{2n+1}}{2n+1}$ for $|x| \\le 1$, and $\\frac\\pi4 = 1 - \\frac13 + \\frac15 - \\frac17 + \\dots$\n\n1. Replace $x$ by $-t^2$ in the geometric series: $\\frac{1}{1+t^2} = \\sum_{n=0}^\\infty (-1)^n t^{2n}$ for $|t| < 1$.\n2. Integrate from $0$ to $x$: $\\arctan x = \\sum \\frac{(-1)^n x^{2n+1}}{2n+1}$. The constant is $0$ because $\\arctan 0 = 0$.\n3. At $x = 1$ the series converges by the alternating series test, and Abel's theorem says its sum equals $\\arctan 1 = \\frac\\pi4$.\n\nWatch out: This series converges very slowly. After $1000$ terms the error in $\\pi$ is still about $0.001$. It is a nice formula, not a good algorithm.",
+      "searchQuery": "arctan power series Leibniz series pi/4 1 - 1/3 + 1/5",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.8–11.9",
+        "Spivak, Calculus 4e ch. 24"
+      ]
+    },
+    {
+      "id": "calc2-endpoints-misconception",
+      "unit": "power-series",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is “the series converges at $x = a \\pm R$ if $R$ is its radius of convergence” false, and what is true instead?",
+      "body": "At $|x - a| = R$ the series may converge at both endpoints, one, or neither; the radius says nothing there, and each endpoint must be tested separately.\n\nExamples, all with $a = 0$ and $R = 1$:\n\n- $\\sum x^n$ converges only on $(-1, 1)$, since the terms do not tend to $0$ at $x = \\pm1$.\n- $\\sum\\frac{x^n}{n}$ converges on $[-1, 1)$: harmonic series at $1$ (diverges), alternating harmonic series at $-1$ (converges).\n- $\\sum\\frac{x^n}{n^2}$ converges on $[-1, 1]$, since $\\sum\\frac1{n^2}$ converges.\n\nWhy: The ratio and root tests are inconclusive when their limit is $1$, and at an endpoint that is exactly what happens.",
+      "searchQuery": "endpoints power series radius of convergence test endpoints separately",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.8–11.9",
+        "Spivak, Calculus 4e ch. 24"
+      ]
+    },
+    {
+      "id": "calc2-taylor-polynomial-definition",
+      "unit": "taylor-series",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **Taylor polynomial** $T_n$ of $f$ at $a$, and the **Maclaurin series**.",
+      "body": "$T_n(x) = \\sum_{k=0}^{n} \\frac{f^{(k)}(a)}{k!}(x-a)^k$, for $f$ with $n$ derivatives at $a$. The Taylor series is the same sum with $n \\to \\infty$, and the **Maclaurin series** is the Taylor series at $a = 0$.\n\nWhy: $T_n$ is the one polynomial of degree at most $n$ whose value and first $n$ derivatives at $a$ equal those of $f$. The factor $\\frac{1}{k!}$ cancels the $k!$ that appears when differentiating $(x-a)^k$ a total of $k$ times.\n\nExample: For $f(x) = \\log x$ at $a = 1$: $f(1) = 0$, $f'(1) = 1$, $f''(1) = -1$, so $T_2(x) = (x - 1) - \\frac{(x-1)^2}{2}$.\n\nKey idea: $T_1$ is the linearization, so Taylor polynomials extend linear approximation to higher degrees.",
+      "searchQuery": "Taylor polynomial definition Maclaurin series formula f^(k)(a)/k!",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.10–11.11",
+        "Spivak, Calculus 4e ch. 20"
+      ]
+    },
+    {
+      "id": "calc2-taylor-theorem-lagrange",
+      "unit": "taylor-series",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Taylor's theorem** with the **Lagrange remainder**.",
+      "body": "If $f$ has $n+1$ derivatives on an open interval containing $a$ and $x$, then $f(x) = T_n(x) + R_n(x)$ where $R_n(x) = \\frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}$ for some $c$ strictly between $a$ and $x$.\n\nKey idea: For $n = 0$ this is the mean value theorem: $f(x) = f(a) + f'(c)(x - a)$. The general case repeats the mean value argument on a function built from $f$ and its derivatives.\n\nWhy it matters: It gives an error bound. If $|f^{(n+1)}| \\le M$ between $a$ and $x$, then $|f(x) - T_n(x)| \\le \\frac{M}{(n+1)!}|x-a|^{n+1}$.\n\nWatch out: The point $c$ exists but is unknown. The theorem is used through a bound on $|f^{(n+1)}|$, never through the value of $c$.",
+      "searchQuery": "Taylor's theorem Lagrange remainder form error bound f^(n+1)(c)",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.10–11.11",
+        "Spivak, Calculus 4e ch. 20"
+      ]
+    },
+    {
+      "id": "calc2-taylor-series-convergence-theorem",
+      "unit": "taylor-series",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State when a smooth function equals its Taylor series: the criterion in terms of the remainder $R_n$.",
+      "body": "If $f$ has derivatives of all orders on an open interval $I$ containing $a$, and $x \\in I$, then $f(x) = \\sum_{k=0}^\\infty \\frac{f^{(k)}(a)}{k!}(x-a)^k$ if and only if $R_n(x) \\to 0$ as $n \\to \\infty$.\n\nWhy: The partial sums of the Taylor series are exactly the polynomials $T_n$, and $f(x) - T_n(x) = R_n(x)$. The partial sums tend to $f(x)$ exactly when the remainder tends to $0$.\n\nExample: Suppose $|f^{(n)}(t)| \\le M$ for all $n$ and all $t$ in $I$. Then $|R_n(x)| \\le \\frac{M|x-a|^{n+1}}{(n+1)!} \\to 0$, because factorials beat powers. This works for $e^x$ (on any bounded interval), $\\sin x$ and $\\cos x$.\n\nWatch out: Convergence of the Taylor series at $x$ is a separate matter from equality with $f(x)$. The remainder must go to $0$ for equality.",
+      "searchQuery": "Taylor series converges to function remainder tends to zero theorem",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.10–11.11",
+        "Spivak, Calculus 4e ch. 20"
+      ]
+    },
+    {
+      "id": "calc2-maclaurin-exp-sin-cos-formula",
+      "unit": "taylor-series",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Give the Maclaurin series of $e^x$, $\\sin x$ and $\\cos x$.",
+      "body": "$e^x = \\sum_{n=0}^\\infty \\frac{x^n}{n!}$, $\\sin x = \\sum_{n=0}^\\infty \\frac{(-1)^n x^{2n+1}}{(2n+1)!}$, $\\cos x = \\sum_{n=0}^\\infty \\frac{(-1)^n x^{2n}}{(2n)!}$, each valid for all real $x$.\n\nWhy: Every derivative of $e^x$ is $e^x$, which equals $1$ at $0$. The derivatives of $\\sin x$ at $0$ cycle through $0, 1, 0, -1$ (so only odd powers appear, with alternating signs), and those of $\\cos x$ through $1, 0, -1, 0$. The remainder tends to $0$ in all three cases.\n\nMnemonic: $\\sin$ is odd and has only odd powers; $\\cos$ is even and has only even powers.\n\nTip: Replacing $x$ by $ix$ in the first series and splitting real and imaginary parts gives Euler's formula $e^{ix} = \\cos x + i\\sin x$.",
+      "searchQuery": "Maclaurin series e^x sin x cos x formulas factorials",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.10–11.11",
+        "Spivak, Calculus 4e ch. 20"
+      ]
+    },
+    {
+      "id": "calc2-binomial-series-formula",
+      "unit": "taylor-series",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State the **binomial series** for $(1+x)^k$, with $k$ any real number.",
+      "body": "$(1+x)^k = \\sum_{n=0}^\\infty \\binom{k}{n}x^n$ for $|x| < 1$, where $\\binom{k}{n} = \\frac{k(k-1)\\cdots(k-n+1)}{n!}$ and $\\binom{k}{0} = 1$.\n\nWhy: The $n$-th derivative of $(1+x)^k$ at $0$ is $k(k-1)\\cdots(k-n+1)$, so the Maclaurin coefficient is $\\frac{1}{n!}$ times that. For $k$ a nonnegative integer the coefficients vanish from $n = k+1$ on and this is the ordinary binomial theorem.\n\nExample: With $k = \\frac12$: $\\sqrt{1+x} = 1 + \\frac x2 - \\frac{x^2}{8} + \\frac{x^3}{16} - \\dots$ The coefficient of $x^2$ is $\\frac{\\frac12\\cdot(-\\frac12)}{2!} = -\\frac18$.\n\nWatch out: The generalized coefficient uses a falling product of $n$ factors starting at $k$, so it works for non-integer $k$.",
+      "searchQuery": "binomial series (1+x)^k generalized binomial coefficient |x|<1",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.10–11.11",
+        "Spivak, Calculus 4e ch. 20"
+      ]
+    },
+    {
+      "id": "calc2-limit-via-series-example",
+      "unit": "taylor-series",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Use Maclaurin series to evaluate $\\lim_{x\\to0}\\frac{\\sin x - x}{x^3}$.",
+      "body": "$-\\frac16$\n\nReplace $\\sin x$ by its series, $x - \\frac{x^3}{6} + \\frac{x^5}{120} - \\dots$.\n\n1. $\\sin x - x = -\\frac{x^3}{6} + \\frac{x^5}{120} - \\dots$\n2. Divide by $x^3$: $\\frac{\\sin x - x}{x^3} = -\\frac16 + \\frac{x^2}{120} - \\dots$\n3. Every term after the first has a positive power of $x$, so the limit as $x \\to 0$ is $-\\frac16$.\n\nCheck: L'Hôpital's rule agrees after three rounds: $\\frac{\\cos x - 1}{3x^2}$, then $\\frac{-\\sin x}{6x}$, then $\\frac{-\\cos x}{6} \\to -\\frac16$.\n\nTip: Keep just enough terms to see the lowest power of $x$ left after dividing. Series often replace several rounds of L'Hôpital's rule.",
+      "searchQuery": "limit sin x - x over x^3 Maclaurin series -1/6",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.10–11.11",
+        "Spivak, Calculus 4e ch. 20"
+      ]
+    },
+    {
+      "id": "calc2-lagrange-error-problem",
+      "unit": "taylor-series",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $T_n$ be the degree-$n$ Maclaurin polynomial of $e^x$. Use the Lagrange remainder and $e < 3$ to find the smallest $n$ for which the bound guarantees $|e - T_n(1)| < 0.001$.",
+      "body": "$n = 6$\n\nTaylor's theorem at $x = 1$ gives $R_n(1) = \\frac{e^c}{(n+1)!}$ for some $c \\in (0, 1)$. Since $e^c < e < 3$, $|R_n(1)| < \\frac{3}{(n+1)!}$.\n\n1. We need $\\frac{3}{(n+1)!} < 0.001$, that is, $(n+1)! > 3000$.\n2. $6! = 720$ is too small and $7! = 5040$ works, so $n + 1 = 7$ and $n = 6$.\n3. For $n = 5$ the bound is $\\frac{3}{720} \\approx 0.0042$, which does not guarantee it.\n\nCheck: $T_6(1) = \\sum_{k=0}^6\\frac1{k!} \\approx 2.71806$, and $e \\approx 2.71828$ differs from it by about $0.00023$.\n\nWatch out: A bound that fails does not prove the approximation is bad. Here, though, $n = 5$ really does fail, since $e - T_5(1) \\approx 0.0016$.",
+      "searchQuery": "Lagrange remainder bound approximate e error less than 0.001 Maclaurin polynomial",
+      "checkpoint": true,
+      "answer": "6",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.10–11.11",
+        "Spivak, Calculus 4e ch. 20"
+      ]
+    },
+    {
+      "id": "calc2-coefficient-derivative-problem",
+      "unit": "taylor-series",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $f(x) = x^2\\cos x$. Find $f^{(10)}(0)$.",
+      "body": "$90$\n\nThe Maclaurin coefficient of $x^{10}$ is $\\frac{f^{(10)}(0)}{10!}$. Differentiating ten times by hand is hopeless, but the series gives that coefficient directly.\n\n1. $\\cos x = \\sum_{n=0}^\\infty \\frac{(-1)^n x^{2n}}{(2n)!}$, so $x^2\\cos x = \\sum_{n=0}^\\infty \\frac{(-1)^n x^{2n+2}}{(2n)!}$.\n2. The power $x^{10}$ needs $2n + 2 = 10$, that is, $n = 4$, with coefficient $\\frac{(-1)^4}{8!} = \\frac1{8!}$.\n3. So $\\frac{f^{(10)}(0)}{10!} = \\frac{1}{8!}$ and $f^{(10)}(0) = \\frac{10!}{8!} = 10\\cdot 9 = 90$.\n\nWhy this is legitimate: a power series that represents $f$ near $0$ must be the Maclaurin series of $f$, so its coefficients are $\\frac{f^{(k)}(0)}{k!}$.",
+      "searchQuery": "tenth derivative at 0 of x^2 cos x Maclaurin series coefficient",
+      "answer": "90",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.10–11.11",
+        "Spivak, Calculus 4e ch. 20"
+      ]
+    },
+    {
+      "id": "calc2-flat-function-counterexample",
+      "unit": "taylor-series",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give a function that has derivatives of all orders at $0$ but is not equal to its Maclaurin series on any interval around $0$.",
+      "body": "$f(x) = e^{-1/x^2}$ for $x \\ne 0$, with $f(0) = 0$.\n\nEvery derivative of $f$ at $0$ is $0$. Away from $0$, each derivative has the form (polynomial in $\\frac1x$)$\\cdot e^{-1/x^2}$, and $e^{-1/x^2}$ tends to $0$ faster than any power of $x$, so each difference quotient at $0$ tends to $0$.\n\nSo the Maclaurin series is $0 + 0x + 0x^2 + \\dots = 0$, yet $f(x) > 0$ for every $x \\ne 0$. The series converges everywhere, but to the wrong function.\n\nWhy it matters: The remainder $R_n(x)$ does not tend to $0$ here. Having all derivatives is not enough for a function to equal its Taylor series.",
+      "searchQuery": "e^(-1/x^2) smooth function Taylor series zero not equal counterexample",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.10–11.11",
+        "Spivak, Calculus 4e ch. 20"
+      ]
+    },
+    {
+      "id": "calc2-taylor-radius-misconception",
+      "unit": "taylor-series",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is “a function that is smooth at every real number has a Taylor series that converges for every real $x$” false?",
+      "body": "$\\frac{1}{1+x^2}$ has derivatives of all orders at every real $x$, but its Maclaurin series $\\sum(-1)^n x^{2n}$ converges only for $|x| < 1$.\n\nAt $|x| = 1$ the terms are $\\pm1$ and do not tend to $0$, and for $|x| > 1$ they grow.\n\nWhy: The reason is invisible on the real line. In the complex numbers, $1 + x^2 = 0$ at $x = \\pm i$, which are at distance $1$ from the center $0$, and the series cannot reach beyond them.\n\nWatch out: At $x = 1$ the function equals $\\frac12$ and is perfectly tame, yet the series there is $1 - 1 + 1 - \\dots$, which diverges. The domain of the function says nothing about where its Taylor series converges.",
+      "searchQuery": "Taylor series radius of convergence 1/(1+x^2) smooth function diverges",
+      "refs": [
+        "Stewart, Calculus ET 8e §11.10–11.11",
+        "Spivak, Calculus 4e ch. 20"
+      ]
+    }
+  ]
+}

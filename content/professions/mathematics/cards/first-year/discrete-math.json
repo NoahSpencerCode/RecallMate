@@ -1,0 +1,1001 @@
+{
+  "profession": "mathematics",
+  "module": "discrete-math",
+  "tier": 2,
+  "cards": [
+    {
+      "id": "discrete-pigeonhole-principle",
+      "unit": "pigeonhole-principle",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "State the **pigeonhole principle**.",
+      "body": "If more than $k$ objects are placed into $k$ boxes, some box contains at least two objects.\n\nEquivalently, there is no injective function from a set with $k+1$ elements to a set with $k$ elements: any function from a bigger finite set to a smaller one sends two different inputs to the same output.\n\nWhy: If every box held at most one object, the total number of objects would be at most $k$, contradicting that there are more than $k$.\n\nTip: Before using the principle, say out loud what the objects are and what the boxes are. The boxes are usually the possible values of some quantity, such as a remainder, a pair label or a count.",
+      "searchQuery": "pigeonhole principle statement more objects than boxes",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-pigeonhole-same-number-of-friends",
+      "unit": "pigeonhole-principle",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "At a gathering of $n \\ge 2$ people, friendship is mutual and nobody is their own friend. Why must two people have the same number of friends at the gathering?",
+      "body": "The $n$ people can have only $n-1$ different friend counts, so two of them share one.\n\nEach person has between $0$ and $n-1$ friends, which looks like $n$ possible counts. But a count of $0$ and a count of $n-1$ cannot both occur: someone with $n-1$ friends is friends with everyone, so nobody has $0$.\n\nSo the counts take at most $n-1$ different values. Putting people (the objects) into boxes labeled by their friend count ($n-1$ boxes) leaves two people in one box.\n\nExample: in a group of $4$ where the friendships form a chain $a - b - c - d$, the counts are $1, 2, 2, 1$: repeats, as promised.\n\nWatch out: the naive box count $n$ is one too large and gives no conclusion. The whole proof is spotting that two of the boxes can never both be used.",
+      "searchQuery": "two people same number of friends pigeonhole proof",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-generalized-pigeonhole-principle",
+      "unit": "pigeonhole-principle",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **generalized pigeonhole principle** for $N$ objects placed into $k$ boxes, using the **ceiling function** $\\lceil x \\rceil$.",
+      "body": "If $N$ objects are placed into $k$ boxes, some box contains at least $\\lceil N/k \\rceil$ objects.\n\nThe **ceiling** $\\lceil x \\rceil$ is the smallest integer that is greater than or equal to $x$. For instance $\\lceil 7/3 \\rceil = 3$, $\\lceil 4 \\rceil = 4$ and $\\lceil -1.5 \\rceil = -1$.\n\nWhy: Suppose every box held at most $\\lceil N/k \\rceil - 1$ objects. Since $\\lceil x \\rceil - 1 < x$, that number is less than $N/k$, so the total would be less than $k \\cdot N/k = N$, a contradiction.\n\nWatch out: the bound is for the fullest box, and you must round up, not to the nearest integer. With $N = 10$ objects in $k = 4$ boxes the guarantee is $\\lceil 10/4 \\rceil = 3$, not $2$.",
+      "searchQuery": "generalized pigeonhole principle ceiling N over k",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-pigeonhole-cards-same-suit",
+      "unit": "pigeonhole-principle",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "How many cards must be drawn from a standard $52$-card deck (four suits) to guarantee that at least three of them have the same suit? Give the number.",
+      "body": "9\n\nWith $8$ cards you can still avoid three of a kind of suit: two hearts, two diamonds, two clubs, two spades. The ninth card must give some suit a third card, and indeed $\\lceil 9/4 \\rceil = 3$.\n\nKey idea: to force $r$ objects into one of $k$ boxes you need $k(r-1) + 1$ objects. Here $4 \\cdot 2 + 1 = 9$.\n\nWhy: $k(r-1)$ objects can be spread with $r-1$ per box, and one more object breaks the pattern.",
+      "searchQuery": "cards needed guarantee three same suit pigeonhole",
+      "answer": "9",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.2"
+      ]
+    },
+    {
+      "id": "discrete-pigeonhole-difference-divisible-by-n",
+      "unit": "pigeonhole-principle",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "Let $n \\in \\mathbb{Z}_{>0}$. Using the pigeonhole principle, show that among any $n+1$ integers there are two (at different positions in the list) whose difference is divisible by $n$.",
+      "body": "Among any $n+1$ integers, two have a difference divisible by $n$.\n\nDivide each integer by $n$ and look at the remainder, which is one of $0, 1, \\dots, n-1$. These are $n$ boxes for $n+1$ integers, so two integers $a$ and $b$ land in the same box.\n\nThen $a = nq + r$ and $b = nq' + r$ for the same remainder $r$, so $a - b = n(q - q')$ is divisible by $n$.\n\nWhy it matters: this is the seed of congruences. Two integers that leave the same remainder on division by $n$ will later be called congruent modulo $n$.\n\nExample: take the $5$ integers $3, 8, 14, 21, 30$ and $n = 4$. Their remainders on division by $4$ are $3, 0, 2, 1, 2$, so $14$ and $30$ share a box, and $30 - 14 = 16$ is divisible by $4$.",
+      "searchQuery": "n+1 integers two differ by multiple of n pigeonhole",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-pigeonhole-coprime-pair",
+      "unit": "pigeonhole-principle",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Let $n \\in \\mathbb{Z}_{>0}$. Show that if you choose any $n+1$ numbers from $\\{1, 2, \\dots, 2n\\}$, two of the chosen numbers are relatively prime.",
+      "body": "Use the $n$ boxes $\\{1,2\\}, \\{3,4\\}, \\dots, \\{2n-1, 2n\\}$: two chosen numbers share a box, so they are consecutive and hence relatively prime.\n\nStep by step:\n\n1. The $n$ pairs $\\{2j-1, 2j\\}$ for $j = 1, \\dots, n$ cover $\\{1, \\dots, 2n\\}$ with no overlap.\n2. You pick $n+1$ numbers, so by the pigeonhole principle two of them lie in the same pair. Being different numbers, they are $2j-1$ and $2j$.\n3. Any common divisor $d$ of $2j-1$ and $2j$ divides their difference $1$, so $d = 1$.\n\nWatch out: the claim fails for $n$ numbers. The $n$ even numbers $2, 4, \\dots, 2n$ share the divisor $2$, so the count $n+1$ is sharp.",
+      "searchQuery": "n+1 numbers from 1 to 2n two coprime pigeonhole",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-pigeonhole-existence-not-location",
+      "unit": "pigeonhole-principle",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that the pigeonhole principle tells you *which* box holds two objects (or which two objects collide)?",
+      "body": "It only proves that some box is crowded; it says nothing about which box or which objects.\n\nThe argument is a pure counting contradiction: if every box were uncrowded, there would not be enough room. That proves existence without constructing anything, so it is a non-constructive proof.\n\nExample: among $13$ people two share a birth month, but the principle cannot tell you who. The shared month could be any of the $12$.\n\nWatch out: the guarantee $\\lceil N/k \\rceil$ is also only a minimum. It does not say that every box is nonempty, and one box can hold far more than the minimum.\n\nTip: when you need the actual pair, you must search, or use a finer argument that pins down the structure.",
+      "searchQuery": "pigeonhole principle existence not constructive which box",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-combinatorial-proof-definition",
+      "unit": "binomial-coefficients-and-identities",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **combinatorial proof** of an identity, and what is **double counting**?",
+      "body": "A combinatorial proof shows two expressions are equal by exhibiting a set of objects that both of them count; counting one set in two different ways is called **double counting**.\n\nExample: $\\binom{n}{k} = \\binom{n}{n-k}$. Both sides count the ways to split $n$ people into a group of $k$ and a group of $n-k$: either pick the $k$ who are in, or pick the $n-k$ who are left out.\n\nWhy it works: if two correct counts of the same finite set give two formulas, the formulas must be equal. The second type of combinatorial proof builds a bijection between two sets, which forces their sizes to agree.\n\nTip: look for a story, such as a committee or a set of subsets, in which each side of the identity is a natural way to count.",
+      "searchQuery": "combinatorial proof double counting identity definition",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 1, ch. 3",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.3–6.5"
+      ]
+    },
+    {
+      "id": "discrete-sum-binomial-coefficients-two-to-the-n",
+      "unit": "binomial-coefficients-and-identities",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the identity for $\\sum_{k=0}^{n} \\binom{n}{k}$ and give its combinatorial proof.",
+      "body": "$\\displaystyle\\sum_{k=0}^{n} \\binom{n}{k} = 2^n$ for every $n \\in \\mathbb{N}$: both sides count the subsets of an $n$-element set.\n\nLeft side: there are $\\binom{n}{k}$ subsets of size $k$, so summing over $k = 0, 1, \\dots, n$ counts every subset exactly once.\n\nRight side: build a subset by deciding, for each of the $n$ elements, whether it is in or out. These $n$ independent two-way choices give $2^n$ subsets.\n\nWatch out: the sum starts at $k = 0$, the empty subset. Starting at $k = 1$ gives $2^n - 1$.\n\nWhy it matters: it is the binomial theorem at $x = y = 1$, but the counting proof shows *why* the entries of each row of Pascal's triangle add up to $2^n$.",
+      "searchQuery": "sum of binomial coefficients equals 2^n subsets proof",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 1, ch. 3",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.3–6.5"
+      ]
+    },
+    {
+      "id": "discrete-committee-with-chair-double-counting",
+      "unit": "binomial-coefficients-and-identities",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Prove $\\sum_{k=0}^{n} k\\binom{n}{k} = n\\,2^{n-1}$ for $n \\ge 1$ by double counting.",
+      "body": "Count the pairs (committee, chair), where the committee is any subset of $n$ people and the chair is a member of it, in two ways.\n\nBy committee size: for each $k$ there are $\\binom{n}{k}$ committees of size $k$, each with $k$ choices of chair, giving $\\sum_{k} k\\binom{n}{k}$.\n\nBy chair first: choose the chair in $n$ ways, then each of the other $n-1$ people is in or out, giving $2^{n-1}$ options. Total: $n\\,2^{n-1}$.\n\nBoth counts are of the same set of pairs, so the two expressions are equal.\n\nCheck: for $n = 3$ the left side is $0 + 3 + 6 + 3 = 12$ and the right side is $3 \\cdot 4 = 12$.\n\nTip: when a factor $k$ multiplies $\\binom{n}{k}$, try picking a distinguished member (a chair, a leader, a marked object).",
+      "searchQuery": "committee with chair double counting k binomial n 2^(n-1)",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 1, ch. 3",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.3–6.5"
+      ]
+    },
+    {
+      "id": "discrete-multinomial-coefficient-definition",
+      "unit": "binomial-coefficients-and-identities",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **multinomial coefficient** $\\binom{n}{k_1, k_2, \\dots, k_r}$, where $k_1 + \\dots + k_r = n$, and what does it count?",
+      "body": "$\\displaystyle\\binom{n}{k_1, \\dots, k_r} = \\frac{n!}{k_1!\\,k_2!\\cdots k_r!}$, the number of ways to split $n$ distinct objects into $r$ labeled groups of sizes $k_1, \\dots, k_r$.\n\nHere $k_1, \\dots, k_r$ are nonnegative integers. Equivalently it counts the arrangements of $n$ symbols in a row in which the $i$th kind of symbol appears $k_i$ times.\n\nWhy: choose group $1$ in $\\binom{n}{k_1}$ ways, group $2$ from the rest in $\\binom{n-k_1}{k_2}$ ways, and so on. The product of these binomial coefficients cancels down to $\\frac{n!}{k_1!\\cdots k_r!}$.\n\nExample: the letters of MISSISSIPPI ($1$ M, $4$ I, $4$ S, $2$ P) can be arranged in $\\frac{11!}{1!\\,4!\\,4!\\,2!} = 34650$ ways.\n\nWatch out: with $r = 2$ it is the ordinary binomial coefficient $\\binom{n}{k_1}$.",
+      "searchQuery": "multinomial coefficient n! over k1! k2! rearrangements of letters",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 1, ch. 3",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.3–6.5"
+      ]
+    },
+    {
+      "id": "discrete-vandermonde-identity",
+      "unit": "binomial-coefficients-and-identities",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Vandermonde's identity** and prove it by double counting.",
+      "body": "$\\displaystyle\\sum_{k=0}^{r} \\binom{m}{k}\\binom{n}{r-k} = \\binom{m+n}{r}$ for $m, n, r \\in \\mathbb{N}$, with $\\binom{a}{b} = 0$ when $b > a$.\n\nBoth sides count the ways to pick $r$ people from a room of $m$ men and $n$ women.\n\nRight side: choose $r$ of the $m+n$ people directly. Left side: sort the choices by the number $k$ of men chosen, picking $k$ of the men in $\\binom{m}{k}$ ways and the other $r-k$ from the women in $\\binom{n}{r-k}$ ways.\n\nExample: with $m = n = r = 2$ the left side is $1\\cdot 1 + 2 \\cdot 2 + 1 \\cdot 1 = 6 = \\binom{4}{2}$.\n\nTip: taking $m = n = r$ and using $\\binom{n}{n-k} = \\binom{n}{k}$ gives $\\sum_{k} \\binom{n}{k}^2 = \\binom{2n}{n}$.",
+      "searchQuery": "Vandermonde identity combinatorial proof binomial convolution",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 1, ch. 3",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.3–6.5"
+      ]
+    },
+    {
+      "id": "discrete-misconception-binomial-of-sum-splits",
+      "unit": "binomial-coefficients-and-identities",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that $\\binom{m+n}{r} = \\binom{m}{r} + \\binom{n}{r}$ in general?",
+      "body": "The right side counts only the $r$-subsets taken entirely from one group; it misses every subset that mixes the two groups.\n\nPicking $r$ people from $m$ men and $n$ women, the sum $\\binom{m}{r} + \\binom{n}{r}$ covers \"all men\" and \"all women\" only.\n\nExample: $m = n = r = 2$. Then $\\binom{4}{2} = 6$ but $\\binom{2}{2} + \\binom{2}{2} = 2$. The four missing selections are the mixed pairs.\n\nFix: Vandermonde's identity adds the mixed terms, $\\sum_{k=0}^{r}\\binom{m}{k}\\binom{n}{r-k}$. The two terms the wrong formula keeps are its $k = r$ and $k = 0$ terms.\n\nWatch out: the same slip appears as \"$(a+b)^n = a^n + b^n$\": dropping the mixed terms.",
+      "searchQuery": "why binomial m+n choose r not sum of two binomials",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 1, ch. 3",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.3–6.5"
+      ]
+    },
+    {
+      "id": "discrete-stars-and-bars-formula",
+      "unit": "binomial-coefficients-and-identities",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Using **stars and bars**, how many solutions $(x_1, \\dots, x_n) \\in \\mathbb{N}^n$ does $x_1 + \\dots + x_n = k$ have? (Equivalently, how many **multisets** of size $k$ can be formed from $n$ types, where repeats are allowed and order is ignored?)",
+      "body": "$\\displaystyle\\binom{n+k-1}{k} = \\binom{n+k-1}{n-1}$\n\nWrite a solution as a row of $k$ stars, with $n-1$ bars splitting it into $n$ blocks; $x_i$ is the number of stars in block $i$. Each solution is a row of $n+k-1$ symbols, and is determined by which $k$ positions hold stars.\n\nExample: $x + y + z = 4$ has $\\binom{6}{4} = 15$ solutions in $\\mathbb{N}$: the row $\\star\\star|\\star|\\star$ means $(2, 1, 1)$.\n\nWatch out: this counts with repetition. Choosing $3$ items from $5$ types with repeats allowed gives $\\binom{7}{3} = 35$, not $\\binom{5}{3} = 10$.\n\nTip: if every $x_i$ must be positive, subtract $1$ from each first, which leaves $\\binom{k-1}{n-1}$ solutions.",
+      "searchQuery": "stars and bars multisets nonnegative integer solutions formula",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 1, ch. 3",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.3–6.5"
+      ]
+    },
+    {
+      "id": "discrete-stars-and-bars-lower-bounds-problem",
+      "unit": "binomial-coefficients-and-identities",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "How many integer solutions does $x_1 + x_2 + x_3 + x_4 = 20$ have if $x_1 \\ge 1$, $x_2 \\ge 2$, $x_3 \\ge 0$ and $x_4 \\ge 3$? Give the number.",
+      "body": "680\n\nRemove the forced minimum from each variable: put $y_1 = x_1 - 1$, $y_2 = x_2 - 2$, $y_3 = x_3$, $y_4 = x_4 - 3$. Then every $y_i \\ge 0$ and\n\n$$y_1 + y_2 + y_3 + y_4 = 20 - (1 + 2 + 0 + 3) = 14.$$\n\nSolutions correspond one-to-one with the original ones. By stars and bars the count is $\\binom{14 + 4 - 1}{4 - 1} = \\binom{17}{3} = \\frac{17 \\cdot 16 \\cdot 15}{6} = 680$.\n\nWatch out: use the number of variables ($4$) for the bars, not the lower bounds, and subtract the *sum* of the lower bounds from the total before counting.",
+      "searchQuery": "integer solutions lower bounds stars and bars x1+x2+x3+x4=20",
+      "answer": "680",
+      "acceptedAnswers": [
+        "C(17,3)"
+      ],
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 1, ch. 3",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §6.3–6.5"
+      ]
+    },
+    {
+      "id": "discrete-division-algorithm",
+      "unit": "divisibility-and-euclid",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "State the **division algorithm** for integers.",
+      "body": "For integers $a$ and $b > 0$ there are unique integers $q$ and $r$ with $a = bq + r$ and $0 \\le r < b$.\n\n$q$ is the quotient and $r$ the remainder. It is called an \"algorithm\" for historical reasons; the content is that the quotient and remainder exist and are unique.\n\nWhy: Among the numbers $a - bq$ ($q \\in \\mathbb{Z}$) that are $\\ge 0$, take the smallest, $r$ (the well-ordering principle). If $r \\ge b$, then $r - b$ would be a smaller one, so $r < b$. For uniqueness, two answers would give $b(q - q') = r' - r$ with $|r' - r| < b$, which forces $q = q'$.\n\nExample: $a = -17$, $b = 5$ gives $-17 = 5 \\cdot (-4) + 3$, so $q = -4$ and $r = 3$.\n\nWatch out: the remainder is never negative, so for negative $a$ the quotient rounds down, not toward zero.",
+      "searchQuery": "division algorithm quotient remainder existence uniqueness",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.3",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 6",
+        "Velleman, How to Prove It 3e, §7.1–7.2"
+      ]
+    },
+    {
+      "id": "discrete-euclidean-algorithm-gcd-step",
+      "unit": "divisibility-and-euclid",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "In the **Euclidean algorithm**, if $a = bq + r$ with $b > 0$ and integers $q, r$, how is $\\gcd(a, b)$ related to $r$? Use it to compute $\\gcd(1071, 462)$.",
+      "body": "$\\gcd(a, b) = \\gcd(b, r)$, and the process stops when a remainder is $0$, because $\\gcd(b, 0) = b$.\n\nWhy: a common divisor of $a$ and $b$ divides $r = a - bq$, and a common divisor of $b$ and $r$ divides $a = bq + r$. So the pairs $(a, b)$ and $(b, r)$ have exactly the same common divisors, hence the same greatest one.\n\nExample:\n\n- $1071 = 2 \\cdot 462 + 147$\n- $462 = 3 \\cdot 147 + 21$\n- $147 = 7 \\cdot 21 + 0$\n\nThe last nonzero remainder is $\\gcd(1071, 462) = 21$.\n\nWhy it matters: the remainders strictly decrease, so the algorithm always stops, and the number of steps grows only like the number of digits. Finding gcds this way avoids factoring, which is far slower for large numbers.",
+      "searchQuery": "Euclidean algorithm gcd a b equals gcd b remainder",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.3",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 6",
+        "Velleman, How to Prove It 3e, §7.1–7.2"
+      ]
+    },
+    {
+      "id": "discrete-extended-euclid-bezout-example",
+      "unit": "divisibility-and-euclid",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Use the extended Euclidean algorithm to find integers $x, y$ with $252x + 198y = \\gcd(252, 198)$.",
+      "body": "$\\gcd(252, 198) = 18 = 4 \\cdot 252 - 5 \\cdot 198$\n\nRun the Euclidean algorithm: $252 = 1\\cdot 198 + 54$, $198 = 3 \\cdot 54 + 36$, $54 = 1 \\cdot 36 + 18$, $36 = 2 \\cdot 18 + 0$. The last nonzero remainder is $18$.\n\nNow back-substitute, each time writing a remainder in terms of the earlier ones:\n\n$$18 = 54 - 36 = 54 - (198 - 3\\cdot 54) = 4 \\cdot 54 - 198 = 4(252 - 198) - 198 = 4 \\cdot 252 - 5 \\cdot 198.$$\n\nCheck: $1008 - 990 = 18$.\n\nKey idea: this is an instance of **Bézout's identity**: for integers $a, b$ not both $0$ there exist integers $x, y$ with $ax + by = \\gcd(a, b)$.\n\nWatch out: $x, y$ are not unique. Adding $198/18 = 11$ to $x$ and subtracting $252/18 = 14$ from $y$ gives another pair, $(15, -19)$.",
+      "searchQuery": "extended Euclidean algorithm Bezout coefficients 252 198",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.3",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 6",
+        "Velleman, How to Prove It 3e, §7.1–7.2"
+      ]
+    },
+    {
+      "id": "discrete-euclids-lemma",
+      "unit": "divisibility-and-euclid",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Euclid's lemma** and prove it using Bézout's identity.",
+      "body": "If $p$ is prime and $p \\mid ab$ for integers $a, b$, then $p \\mid a$ or $p \\mid b$.\n\nProof: Suppose $p \\nmid a$. The only positive divisors of $p$ are $1$ and $p$, and $p$ does not divide $a$, so $\\gcd(p, a) = 1$. By Bézout, $1 = px + ay$ for some integers $x, y$. Multiply by $b$:\n\n$$b = pbx + (ab)y.$$\n\nNow $p$ divides $pbx$ and, since $p \\mid ab$, also $(ab)y$. So $p \\mid b$.\n\nWhy it matters: this is the single fact that makes unique prime factorization work. By induction it extends to $p \\mid a_1 a_2 \\cdots a_k \\Rightarrow p \\mid a_i$ for some $i$.\n\nWatch out: primality is essential; the lemma is false for composite divisors.",
+      "searchQuery": "Euclid's lemma prime divides product proof Bezout",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.3",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 6",
+        "Velleman, How to Prove It 3e, §7.1–7.2"
+      ]
+    },
+    {
+      "id": "discrete-misconception-divides-product-composite",
+      "unit": "divisibility-and-euclid",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that for every positive integer $n$, $n \\mid bc$ implies $n \\mid b$ or $n \\mid c$?",
+      "body": "It fails for composite $n$: $6 \\mid 4 \\cdot 3 = 12$, yet $6 \\nmid 4$ and $6 \\nmid 3$.\n\nEuclid's lemma needs $n$ to be prime. A composite $n$ can split its prime factors between $b$ and $c$: here the $2$ of $6$ comes from $4$ and the $3$ from $3$.\n\nCorrect versions that do hold:\n\n- If $n \\mid bc$ and $\\gcd(n, b) = 1$, then $n \\mid c$ (the Bézout argument for Euclid's lemma works whenever the gcd is $1$).\n- If $n$ is prime, $n \\mid bc$ implies $n \\mid b$ or $n \\mid c$.\n\nWatch out: the safe condition is $\\gcd(n, b) = 1$. A shared factor between $n$ and $b$ is exactly what lets the argument break.",
+      "searchQuery": "n divides bc not b or c composite counterexample",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.3",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 6",
+        "Velleman, How to Prove It 3e, §7.1–7.2"
+      ]
+    },
+    {
+      "id": "discrete-fundamental-theorem-of-arithmetic",
+      "unit": "divisibility-and-euclid",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "How is the **fundamental theorem of arithmetic** proved, for existence and for uniqueness?",
+      "body": "Existence by strong induction on $n$; uniqueness from Euclid's lemma, since a prime that divides a product of primes must be one of them.\n\nThe theorem says every integer $n > 1$ is a product of primes, unique apart from the order of the factors.\n\nExistence, by strong induction: $n$ is either prime or $n = ab$ with $1 < a, b < n$, and both $a$ and $b$ factor into primes by the inductive hypothesis.\n\nUniqueness: if $p_1 \\cdots p_r = q_1 \\cdots q_s$ with all $p_i, q_j$ prime, then $p_1$ divides the right side, so by Euclid's lemma $p_1 = q_j$ for some $j$. Cancel it and repeat.\n\nWatch out: uniqueness is not automatic. In the set $\\{1, 4, 7, 10, \\dots\\}$ of numbers of the form $3k+1$, the numbers $4, 10, 25$ cannot be written as a product of two members bigger than $1$, yet $100 = 10 \\cdot 10 = 4 \\cdot 25$. Only Euclid's lemma rules this out for the integers.\n\nTip: $1$ is not prime precisely so that this uniqueness holds.",
+      "searchQuery": "fundamental theorem of arithmetic unique prime factorization",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.3",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 6",
+        "Velleman, How to Prove It 3e, §7.1–7.2"
+      ]
+    },
+    {
+      "id": "discrete-coprime-linear-forms-problem",
+      "unit": "divisibility-and-euclid",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Show that $21n + 4$ and $14n + 3$ are relatively prime for every integer $n$.",
+      "body": "Find a combination that equals $1$: $3(14n + 3) - 2(21n + 4) = 1$.\n\nStep by step:\n\n1. Compute $3(14n + 3) = 42n + 9$ and $2(21n + 4) = 42n + 8$. Their difference is $1$.\n2. Let $d$ be a common positive divisor of $21n + 4$ and $14n + 3$. Then $d$ divides $3(14n + 3) - 2(21n + 4)$, which is $1$.\n3. So $d = 1$, that is, $\\gcd(21n + 4, 14n + 3) = 1$.\n\nKey idea: any common divisor of two numbers divides every integer combination of them. Bézout's identity says the combination $1$ exists exactly when the gcd is $1$, so this is also how to prove coprimality.\n\nTip: to find such a combination, run the Euclidean algorithm on the expressions: $21n + 4 - (14n + 3) = 7n + 1$ and $14n + 3 - 2(7n + 1) = 1$.",
+      "searchQuery": "21n+4 and 14n+3 relatively prime proof",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.3",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 6",
+        "Velleman, How to Prove It 3e, §7.1–7.2"
+      ]
+    },
+    {
+      "id": "discrete-inclusion-exclusion-principle",
+      "unit": "inclusion-exclusion",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **inclusion–exclusion principle** for finite sets $A_1, \\dots, A_n$.",
+      "body": "$$\\Bigl|\\bigcup_{i=1}^{n} A_i\\Bigr| = \\sum_{k=1}^{n} (-1)^{k+1} \\sum_{1 \\le i_1 < \\dots < i_k \\le n} \\bigl|A_{i_1} \\cap \\dots \\cap A_{i_k}\\bigr|$$\n\nIn words: add the sizes of the sets, subtract the sizes of all pairwise intersections, add back all triple intersections, and so on, alternating. For two and three sets:\n\n- $|A \\cup B| = |A| + |B| - |A \\cap B|$\n- $|A \\cup B \\cup C| = |A| + |B| + |C| - |A \\cap B| - |A \\cap C| - |B \\cap C| + |A \\cap B \\cap C|$\n\nWhy: an element lying in exactly $m \\ge 1$ of the sets is counted $\\sum_{k=1}^{m} (-1)^{k+1}\\binom{m}{k}$ times. By the binomial theorem, $\\sum_{k=0}^{m}(-1)^k\\binom{m}{k} = (1-1)^m = 0$, so that sum equals $1$: every element is counted exactly once.\n\nTip: to count the elements of a universe $U$ that lie in none of the sets, use $|U| - \\bigl|\\bigcup A_i\\bigr|$, which flips every sign and starts with $|U|$.",
+      "searchQuery": "inclusion exclusion principle formula n sets proof",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.5–8.6",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-ie-multiples-of-2-3-5-example",
+      "unit": "inclusion-exclusion",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "How many integers from $1$ to $100$ are divisible by $2$, by $3$ or by $5$ (at least one of them)? Give the number.",
+      "body": "74\n\nLet $A$, $B$, $C$ be the multiples of $2$, $3$, $5$ in $\\{1, \\dots, 100\\}$. Then $|A| = 50$, $|B| = 33$, $|C| = 20$.\n\nBecause $2, 3, 5$ are pairwise relatively prime, a number is divisible by two of them exactly when it is divisible by their product. So $|A \\cap B| = 16$ (multiples of $6$), $|A \\cap C| = 10$ (multiples of $10$), $|B \\cap C| = 6$ (multiples of $15$), and $|A \\cap B \\cap C| = 3$ (multiples of $30$: $30, 60, 90$).\n\n$$50 + 33 + 20 - 16 - 10 - 6 + 3 = 74.$$\n\nCheck by complement: $100 - 74 = 26$ numbers are divisible by none of $2, 3, 5$.\n\nWatch out: for intersections use the least common multiple; the product only works when the numbers are relatively prime.",
+      "searchQuery": "integers up to 100 divisible by 2 3 or 5",
+      "answer": "74",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.5–8.6",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-misconception-three-sets-pairs-only",
+      "unit": "inclusion-exclusion",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that $|A \\cup B \\cup C| = |A| + |B| + |C| - |A \\cap B| - |A \\cap C| - |B \\cap C|$?",
+      "body": "The triple overlap is missing: an element in all three sets is added $3$ times and then subtracted $3$ times, so it is counted $0$ times.\n\nThe correct formula adds $|A \\cap B \\cap C|$ back at the end.\n\nExample: let $A = B = C = \\{x\\}$. The faulty formula gives $1 + 1 + 1 - 1 - 1 - 1 = 0$, but $|A \\cup B \\cup C| = 1$.\n\nWatch out: for $n$ sets the signs keep alternating through all $n$ levels of intersection. Stopping after the pairs is only correct if no element lies in three sets.",
+      "searchQuery": "inclusion exclusion three sets triple intersection mistake",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.5–8.6",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-euler-phi-product-formula",
+      "unit": "inclusion-exclusion",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "What is **Euler's phi function** $\\varphi(n)$, and what product over the distinct primes $p$ dividing $n$ gives it?",
+      "body": "$\\varphi(n)$ is the number of integers $k$ with $1 \\le k \\le n$ and $\\gcd(k, n) = 1$, and $\\displaystyle\\varphi(n) = n\\prod_{p \\mid n}\\Bigl(1 - \\frac{1}{p}\\Bigr)$, over the distinct primes $p$ dividing $n$.\n\nWhy: let $p_1, \\dots, p_r$ be the distinct primes dividing $n$, and let $A_i$ be the multiples of $p_i$ in $\\{1, \\dots, n\\}$. Then $|A_i| = n/p_i$, and an intersection of several $A_i$ is the set of multiples of the product of those primes, with $n/(p_{i_1}\\cdots p_{i_k})$ elements. Inclusion–exclusion on the numbers divisible by none of the $p_i$ gives $n - \\sum \\frac{n}{p_i} + \\sum \\frac{n}{p_ip_j} - \\cdots = n\\prod_i (1 - \\tfrac{1}{p_i})$.\n\nExample: $\\varphi(12) = 12 \\cdot \\frac12 \\cdot \\frac23 = 4$, matching the numbers $1, 5, 7, 11$.\n\nWatch out: each prime counts once, whatever its exponent. $\\varphi(8) = 8\\cdot\\frac12 = 4$, and for a prime $p$, $\\varphi(p) = p - 1$.",
+      "searchQuery": "Euler phi function product formula distinct primes inclusion exclusion",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.5–8.6",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-ie-not-divisible-by-2-3-5-7-problem",
+      "unit": "inclusion-exclusion",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "How many integers from $1$ to $1000$ are divisible by none of $2, 3, 5, 7$? Give the number.",
+      "body": "228\n\nUse inclusion–exclusion on the complement. Let $S$ be the numbers in $1, \\dots, 1000$ divisible by at least one of the four primes. Every count below is the number of multiples in $1, \\dots, 1000$, and since the primes are distinct, an intersection is a set of multiples of the product.\n\n- Singles: multiples of $2, 3, 5, 7$ number $500 + 333 + 200 + 142 = 1175$.\n- Pairs: $6, 10, 14, 15, 21, 35$ give $166 + 100 + 71 + 66 + 47 + 28 = 478$.\n- Triples: $30, 42, 70, 105$ give $33 + 23 + 14 + 9 = 79$.\n- All four: multiples of $210$ number $4$.\n\nSo $|S| = 1175 - 478 + 79 - 4 = 772$, and the answer is $1000 - 772 = 228$.\n\nCheck: by the phi formula, $\\varphi(210) = 210 \\cdot \\frac12 \\cdot \\frac23 \\cdot \\frac45 \\cdot \\frac67 = 48$, and a proportion $48/210$ of $1000$ numbers is about $228.6$, consistent with $228$.",
+      "searchQuery": "count integers to 1000 coprime to 210 inclusion exclusion",
+      "answer": "228",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.5–8.6",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-derangement-count-formula",
+      "unit": "inclusion-exclusion",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "A **derangement** of $\\{1, \\dots, n\\}$ is a permutation with no fixed point (no $i$ goes to position $i$). Give the formula for the number $D_n$ of derangements and the limit of $D_n/n!$.",
+      "body": "$D_n = n!\\displaystyle\\sum_{k=0}^{n}\\frac{(-1)^k}{k!}$, and $D_n/n! \\to 1/e \\approx 0.368$ as $n \\to \\infty$.\n\nWhy: let $A_i$ be the permutations that fix $i$. Any $k$ chosen positions can be fixed in $(n-k)!$ ways, and there are $\\binom{n}{k}$ ways to choose them. Inclusion–exclusion over the complement gives $D_n = \\sum_{k=0}^{n}(-1)^k\\binom{n}{k}(n-k)! = n!\\sum_{k=0}^n \\frac{(-1)^k}{k!}$.\n\nExample: $D_4 = 24 - 24 + 12 - 4 + 1 = 9$. The first values for $n = 1, \\dots, 6$ are $0, 1, 2, 9, 44, 265$.\n\nWhy the limit holds: the sum $\\sum_{k=0}^{n}(-1)^k/k!$ consists of partial sums of the series of $e^{-1}$, which you will meet in calculus. So a random shuffle has no fixed point with probability about $37\\%$ for any large $n$, e.g. $265/720 \\approx 0.368$ for $n = 6$.\n\nWatch out: the proportion does not shrink to $0$ as $n$ grows.",
+      "searchQuery": "derangement count formula n! sum (-1)^k/k! limit 1/e",
+      "checkpoint": true,
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.5–8.6",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-ie-exactly-one-fixed-point-problem",
+      "unit": "inclusion-exclusion",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "How many permutations of $\\{1, 2, 3, 4, 5\\}$ have exactly one fixed point? Give the number.",
+      "body": "45\n\nChoose which element is the fixed point: $5$ ways. The other four elements must then be permuted with no fixed point, which is a derangement of $4$ objects: $D_4 = 9$ ways.\n\n$$5 \\cdot D_4 = 5 \\cdot 9 = 45.$$\n\nWhy it works: the choice of fixed point and the derangement of the rest are independent, and the multiplication principle combines them.\n\nCheck with the total: the numbers of permutations of $5$ objects with $0, 1, 2, 3, 5$ fixed points are $44, 45, 20, 10, 1$, and these sum to $120 = 5!$. (Exactly $4$ fixed points is impossible: the fifth element would be fixed too.)\n\nTip: \"exactly $j$ fixed points\" is $\\binom{n}{j} D_{n-j}$.",
+      "searchQuery": "permutations of 5 exactly one fixed point derangement count",
+      "answer": "45",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.5–8.6",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-surjection-count-example",
+      "unit": "inclusion-exclusion",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Use inclusion–exclusion to count the surjections from a $5$-element set onto a $3$-element set.",
+      "body": "$3^5 - 3\\cdot 2^5 + 3\\cdot 1^5 = 150$\n\nCount all functions, $3^5 = 243$, and remove those that miss some element of the target. Let $A_i$ be the functions that never hit target element $i$. Then $|A_i| = 2^5$, $|A_i \\cap A_j| = 1^5$, and $A_1 \\cap A_2 \\cap A_3$ is empty (a function must hit something).\n\nThe surjections are the functions in none of the $A_i$: $243 - 3 \\cdot 32 + 3 \\cdot 1 - 0 = 150$.\n\nIn general the number of surjections from an $n$-set onto an $m$-set is $\\displaystyle\\sum_{k=0}^{m}(-1)^k\\binom{m}{k}(m-k)^n$.\n\nCheck: for $n = m = 3$ the formula gives $27 - 24 + 3 - 0 = 6 = 3!$, as it must, since a surjection between two sets of equal size is a bijection.\n\nTip: this counts ways to give each of $n$ distinct people one of $m$ distinct jobs so that every job is filled.",
+      "searchQuery": "count surjections n-set onto m-set inclusion exclusion",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.5–8.6",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 2"
+      ]
+    },
+    {
+      "id": "discrete-recurrence-relation-definition",
+      "unit": "recurrences",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **recurrence relation**, and what must be added to it to determine a sequence uniquely?",
+      "body": "A recurrence relation is an equation that gives each term $a_n$ of a sequence in terms of earlier terms; adding the first few terms (the initial conditions) determines the whole sequence.\n\nThe number of initial conditions needed equals how far back the equation reaches. $a_n = 2a_{n-1} + 1$ needs one, $a_n = a_{n-1} + a_{n-2}$ needs two.\n\nExample (modeling): let $a_n$ be the number of binary strings of length $n$ with no two consecutive $0$s. A valid string ends in $1$ (preceded by any valid string of length $n-1$) or ends in $10$ (preceded by any valid string of length $n-2$). So $a_n = a_{n-1} + a_{n-2}$, with $a_1 = 2$ and $a_2 = 3$.\n\nWhy it matters: many counting problems have a simple \"last step\" that reduces size $n$ to smaller cases, and the recurrence records that step.\n\nWatch out: without initial conditions a recurrence has infinitely many solutions.",
+      "searchQuery": "recurrence relation definition initial conditions sequence",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.1–8.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 4"
+      ]
+    },
+    {
+      "id": "discrete-homogeneous-recurrence-definition",
+      "unit": "recurrences",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **linear homogeneous recurrence relation with constant coefficients** of order $k$?",
+      "body": "A relation $a_n = c_1 a_{n-1} + c_2 a_{n-2} + \\dots + c_k a_{n-k}$ with constants $c_1, \\dots, c_k$ and $c_k \\neq 0$.\n\n\"Linear\" means each earlier term appears to the first power, multiplied only by a constant. \"Homogeneous\" means there is no extra term beyond these multiples: every term is a combination of earlier ones. \"Order $k$\" means it reaches back $k$ steps.\n\nExample: $F_n = F_{n-1} + F_{n-2}$ is of order $2$.\n\nNon-examples: $a_n = a_{n-1} + n$ is not homogeneous, $a_n = a_{n-1}^2$ is not linear, and $a_n = n\\,a_{n-1}$ does not have constant coefficients.\n\nWhy it matters: for this family, if two sequences satisfy the relation, so does every combination $\\alpha a_n + \\beta b_n$. That is why the solutions can be built from a few basic ones.",
+      "searchQuery": "linear homogeneous recurrence constant coefficients definition order k",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.1–8.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 4"
+      ]
+    },
+    {
+      "id": "discrete-characteristic-equation-distinct-roots",
+      "unit": "recurrences",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "For $a_n = c_1 a_{n-1} + c_2 a_{n-2}$ with $c_2 \\ne 0$, what is the **characteristic equation**, and what is the general solution when it has two distinct roots $r_1, r_2$?",
+      "body": "The characteristic equation is $r^2 = c_1 r + c_2$, and for distinct roots the general solution is $a_n = \\alpha\\, r_1^{\\,n} + \\beta\\, r_2^{\\,n}$, with constants $\\alpha, \\beta$ set by two initial conditions.\n\nWhy: try $a_n = r^n$. Then $r^n = c_1 r^{n-1} + c_2 r^{n-2}$, and dividing by $r^{n-2}$ (note $r \\neq 0$ as $c_2 \\neq 0$) leaves the characteristic equation. Each root gives a solution, so every combination $\\alpha r_1^n + \\beta r_2^n$ is one, and two distinct roots give enough freedom to match any two initial values.\n\nExample: $a_n = 5a_{n-1} - 6a_{n-2}$ has characteristic equation $r^2 - 5r + 6 = 0$ with roots $2$ and $3$, so $a_n = \\alpha 2^n + \\beta 3^n$. With $a_0 = 1$ and $a_1 = 4$ we get $\\alpha = -1$, $\\beta = 2$, so $a_n = 2\\cdot 3^n - 2^n$ (check: $a_2 = 14$).\n\nWatch out: the roots can be complex numbers; then the real solutions oscillate.",
+      "searchQuery": "characteristic equation linear recurrence distinct roots general solution",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.1–8.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 4"
+      ]
+    },
+    {
+      "id": "discrete-binet-formula-derivation",
+      "unit": "recurrences",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Solve $F_n = F_{n-1} + F_{n-2}$ with $F_0 = 0$, $F_1 = 1$ using the characteristic equation. What is **Binet's formula**?",
+      "body": "$\\displaystyle F_n = \\frac{1}{\\sqrt{5}}\\left[\\left(\\frac{1+\\sqrt{5}}{2}\\right)^{n} - \\left(\\frac{1-\\sqrt{5}}{2}\\right)^{n}\\right]$\n\nThe characteristic equation $r^2 = r + 1$ has roots $r_{1,2} = \\frac{1 \\pm \\sqrt{5}}{2}$, so $F_n = \\alpha r_1^n + \\beta r_2^n$.\n\nThe initial conditions give $\\alpha + \\beta = 0$ and $\\alpha r_1 + \\beta r_2 = 1$. So $\\beta = -\\alpha$ and $\\alpha(r_1 - r_2) = \\alpha\\sqrt{5} = 1$, which gives $\\alpha = 1/\\sqrt{5}$ and $\\beta = -1/\\sqrt{5}$.\n\nCheck: $F_2 = (r_1^2 - r_2^2)/\\sqrt{5} = (r_1 - r_2)(r_1 + r_2)/\\sqrt{5} = \\sqrt{5}\\cdot 1/\\sqrt{5} = 1$.\n\nWhy it matters: since $\\bigl|\\frac{1-\\sqrt5}{2}\\bigr| \\approx 0.618 < 1$, the second term is tiny, so $F_n$ is the integer nearest to $\\frac{1}{\\sqrt5}\\bigl(\\frac{1+\\sqrt5}{2}\\bigr)^n$. For example, this quantity at $n = 10$ is about $55.0$, and $F_{10} = 55$.",
+      "searchQuery": "Binet formula Fibonacci closed form characteristic equation",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.1–8.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 4"
+      ]
+    },
+    {
+      "id": "discrete-repeated-root-general-solution",
+      "unit": "recurrences",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "If the characteristic equation $r^2 = c_1 r + c_2$ of $a_n = c_1 a_{n-1} + c_2 a_{n-2}$ has one repeated root $r_0$, what is the general solution?",
+      "body": "$a_n = (\\alpha + \\beta n)\\, r_0^{\\,n}$, with constants $\\alpha, \\beta$ fixed by two initial conditions.\n\nWhy: a repeated root means $r^2 - c_1 r - c_2 = (r - r_0)^2$, so $c_1 = 2r_0$ and $c_2 = -r_0^2$ (and $r_0 \\ne 0$). Then $r_0^n$ is a solution, but it is only one. A second one is $n r_0^n$:\n\n$$2r_0\\,(n-1)r_0^{\\,n-1} - r_0^2\\,(n-2)r_0^{\\,n-2} = r_0^{\\,n}\\bigl(2(n-1) - (n-2)\\bigr) = n\\,r_0^{\\,n}.$$\n\nWatch out: $\\alpha r_0^n + \\beta r_0^n = (\\alpha + \\beta) r_0^n$ has only one free constant, so it cannot match two initial conditions. The factor $n$ is what restores the second degree of freedom.\n\nTip: for a longer recurrence, a root of multiplicity $m$ contributes $r^n, n r^n, \\dots, n^{m-1} r^n$.",
+      "searchQuery": "recurrence repeated root solution (alpha + beta n) r^n",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.1–8.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 4"
+      ]
+    },
+    {
+      "id": "discrete-repeated-root-recurrence-problem",
+      "unit": "recurrences",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Solve $a_n = 6a_{n-1} - 9a_{n-2}$ for $n \\ge 2$ with $a_0 = 1$ and $a_1 = 9$.",
+      "body": "$a_n = (1 + 2n)\\,3^n$\n\n1. The characteristic equation is $r^2 - 6r + 9 = (r-3)^2 = 0$, with the repeated root $r_0 = 3$.\n2. So $a_n = (\\alpha + \\beta n)3^n$.\n3. From $a_0 = 1$: $\\alpha = 1$. From $a_1 = 9$: $3(\\alpha + \\beta) = 9$, so $\\beta = 2$.\n\nCheck: $a_2 = 6 \\cdot 9 - 9 \\cdot 1 = 45$, and the formula gives $(1 + 4)\\cdot 9 = 45$.\n\nWatch out: using $\\alpha 3^n + \\beta 3^n$ would force $\\alpha + \\beta = 1$ and $3(\\alpha + \\beta) = 9$, which is inconsistent. That clash signals a missing factor of $n$.",
+      "searchQuery": "solve a_n = 6a_{n-1} - 9a_{n-2} repeated root",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.1–8.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 4"
+      ]
+    },
+    {
+      "id": "discrete-nonhomogeneous-recurrence-structure",
+      "unit": "recurrences",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "For $a_n = c_1 a_{n-1} + \\dots + c_k a_{n-k} + f(n)$, how is the general solution built from a **particular solution**?",
+      "body": "Every solution is $a_n = a_n^{(p)} + a_n^{(h)}$, where $a_n^{(p)}$ is any one particular solution of the full recurrence and $a_n^{(h)}$ runs over the general solution of the associated homogeneous recurrence (the same relation with $f(n)$ removed).\n\nWhy: if $a_n$ and $b_n$ both solve the full recurrence, their difference solves the homogeneous one, because the $f(n)$ terms cancel.\n\nGuessing a particular solution (when $f$ is a constant, polynomial or $s^n$):\n\n- constant $f$: try a constant $c$;\n- polynomial $f$ of degree $d$: try a polynomial of degree $d$;\n- $f(n) = s^n$: try $c\\,s^n$.\n\nIf the guess, or a part of it, is already a solution of the homogeneous recurrence (for example $s$ is a root of the characteristic equation, or $f$ is constant or polynomial and $1$ is a root), multiply it by $n$ (or by $n^m$ for a root of multiplicity $m$).\n\nExample: for $a_n = 2a_{n-1} + 3$ try $a_n = c$: $c = 2c + 3$, so $c = -3$, and $a_n = A\\cdot 2^n - 3$.",
+      "searchQuery": "non-homogeneous recurrence particular solution plus homogeneous solution",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.1–8.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 4"
+      ]
+    },
+    {
+      "id": "discrete-nonhomogeneous-recurrence-problem",
+      "unit": "recurrences",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Solve $a_n = 3a_{n-1} + 2^n$ for $n \\ge 1$ with $a_0 = 1$.",
+      "body": "$a_n = 3^{n+1} - 2^{n+1}$\n\n1. Homogeneous part: $a_n = 3a_{n-1}$ has solutions $A\\cdot 3^n$.\n2. Particular solution: since $f(n) = 2^n$ and $2$ is not a root of $r = 3$, try $a_n = c\\,2^n$. Substituting, $c\\,2^n = 3c\\,2^{n-1} + 2^n$; dividing by $2^{n-1}$ gives $2c = 3c + 2$, so $c = -2$ and $a_n^{(p)} = -2\\cdot 2^n$.\n3. General solution: $a_n = A\\cdot 3^n - 2^{n+1}$.\n4. Initial condition: $a_0 = A - 2 = 1$, so $A = 3$.\n\nCheck: $a_1 = 3\\cdot 1 + 2 = 5$ and $3^2 - 2^2 = 5$; $a_2 = 3\\cdot 5 + 4 = 19$ and $27 - 8 = 19$.\n\nTip: always verify one or two terms from the recurrence itself. Sign errors in $c$ are the usual mistake.",
+      "searchQuery": "solve a_n = 3a_{n-1} + 2^n particular solution",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.1–8.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 4"
+      ]
+    },
+    {
+      "id": "discrete-misconception-initial-conditions-total-solution",
+      "unit": "recurrences",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "When solving a non-homogeneous recurrence, why is it wrong to fit the initial conditions to the homogeneous part alone and add the particular solution afterwards?",
+      "body": "The initial conditions must hold for the complete solution $a_n^{(p)} + a_n^{(h)}$; the particular part contributes to $a_0, a_1, \\dots$ too, so the constants must be chosen after adding it.\n\nExample: $a_n = 2a_{n-1} + 3$, $a_0 = 1$. A particular solution is $-3$, and the homogeneous part is $A\\cdot 2^n$.\n\n- Wrong: fit $A\\cdot 2^0 = 1$ to get $A = 1$, giving $2^n - 3$. But then $a_0 = -2$, not $1$.\n- Right: $a_0 = A - 3 = 1$ gives $A = 4$, so $a_n = 4\\cdot 2^n - 3 = 2^{n+2} - 3$. Check: $a_1 = 2\\cdot 1 + 3 = 5$ and $2^3 - 3 = 5$.\n\nWatch out: this is a very common error. Plug $n = 0$ (and $n = 1$) into the *final* formula to test it.",
+      "searchQuery": "non-homogeneous recurrence initial conditions apply to full solution",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §8.1–8.2",
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 4"
+      ]
+    },
+    {
+      "id": "discrete-graph-definition",
+      "unit": "graphs-basics",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a (simple) **graph**?",
+      "body": "A graph $G = (V, E)$ is a finite set $V$ of vertices together with a set $E$ of edges, each edge being an unordered pair of two distinct vertices.\n\n\"Simple\" means there are no loops (an edge from a vertex to itself) and no repeated edges. If $\\{u, v\\} \\in E$, we say $u$ and $v$ are adjacent, and write the edge as $uv$.\n\nExample: $V = \\{1, 2, 3, 4\\}$ and $E = \\{12, 23, 34, 41\\}$ is a square with corners $1, 2, 3, 4$. The complete graph $K_n$ has every pair of its $n$ vertices joined, so it has $\\binom{n}{2}$ edges.\n\nWatch out: a graph is the abstract data $(V, E)$, not a picture. Edges may cross in a drawing, and one graph has many different drawings.\n\nWhy it matters: graphs model networks of any kind, such as friendships, roads or dependencies, and many counting and existence questions become questions about $(V, E)$.",
+      "searchQuery": "simple graph definition vertices edges unordered pairs",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 7",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.1–10.5"
+      ]
+    },
+    {
+      "id": "discrete-handshake-lemma",
+      "unit": "graphs-basics",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **handshake lemma**, defining the **degree** $\\deg(v)$ of a vertex.",
+      "body": "In every graph, $\\displaystyle\\sum_{v \\in V}\\deg(v) = 2\\,|E|$, where $\\deg(v)$ is the number of edges that contain the vertex $v$.\n\nConsequence: the number of vertices of odd degree is even, since the total $2|E|$ is even and the even degrees contribute an even amount.\n\nWhy: count the pairs $(v, e)$ where $v$ is an end of the edge $e$. Each edge has exactly two ends, giving $2|E|$ pairs; grouping by vertex instead, $v$ appears in $\\deg(v)$ pairs. This is double counting.\n\nExample: $K_4$ has four vertices of degree $3$, and $4 \\cdot 3 = 12 = 2 \\cdot 6$ edges.\n\nWatch out: you cannot have a party of $7$ people in which each person knows exactly $3$ others: the degree sum would be $21$, which is odd.",
+      "searchQuery": "handshake lemma sum of degrees equals twice number of edges",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 7",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.1–10.5"
+      ]
+    },
+    {
+      "id": "discrete-connected-graph-path-cycle",
+      "unit": "graphs-basics",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are a **path** and a **cycle** in a graph, and what does it mean for a graph to be **connected**?",
+      "body": "A graph is connected if every two of its vertices are joined by a path.\n\nA path is a sequence of distinct vertices $v_0, v_1, \\dots, v_k$ in which consecutive vertices are adjacent. A cycle is such a sequence with $k \\ge 2$ and $v_k$ adjacent to $v_0$, closing it up, so it has $k+1 \\ge 3$ vertices and as many edges. A cycle with an odd number of edges is an odd cycle.\n\nKey idea: \"joined by a path\" is an equivalence relation on the vertices, and its equivalence classes are the connected components, the maximal connected pieces of the graph.\n\nExample: two disjoint triangles form a graph with two components, so it is not connected.\n\nWatch out: a walk may revisit vertices or edges; a path may not. Two vertices joined by a walk are always joined by a path (cut out the loops).",
+      "searchQuery": "connected graph path cycle definition connected components",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 7",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.1–10.5"
+      ]
+    },
+    {
+      "id": "discrete-graph-isomorphism-pentagon-example",
+      "unit": "graphs-basics",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "What does it mean for two graphs to be **isomorphic**? Show that the pentagon with edges $12, 23, 34, 45, 51$ is isomorphic to the pentagram with vertices $A, B, C, D, E$ and edges $AC, CE, EB, BD, DA$.",
+      "body": "Two graphs are isomorphic if there is a bijection $f$ between their vertex sets such that $uv$ is an edge exactly when $f(u)f(v)$ is an edge.\n\nFor the pentagon and pentagram take $f(1) = A$, $f(2) = C$, $f(3) = E$, $f(4) = B$, $f(5) = D$. The pentagon's edges go to\n\n- $12 \\mapsto AC$\n- $23 \\mapsto CE$\n- $34 \\mapsto EB$\n- $45 \\mapsto BD$\n- $51 \\mapsto DA$\n\nwhich are exactly the five pentagram edges. Both graphs have $5$ edges, so no edge is left over.\n\nWhy it matters: isomorphic graphs are \"the same graph with the vertices renamed\".\n\nWatch out: the condition must hold in both directions: edges map to edges and non-edges to non-edges. Counting both graphs' edges (or checking the inverse) handles the second part.",
+      "searchQuery": "graph isomorphism definition bijection preserves edges pentagon pentagram",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 7",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.1–10.5"
+      ]
+    },
+    {
+      "id": "discrete-counterexample-same-degrees-not-isomorphic",
+      "unit": "graphs-basics",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give two graphs on six vertices in which every vertex has degree $2$ but which are not isomorphic.",
+      "body": "The $6$-cycle, and the graph made of two disjoint triangles.\n\nBoth have six vertices, six edges and all degrees equal to $2$. But the $6$-cycle is connected and the two triangles are not, and an isomorphism preserves connectedness (a path is carried to a path).\n\nSo equal degrees do not imply isomorphism.\n\nWatch out: matching quantities such as the number of vertices, the number of edges, the degrees or the connectedness are necessary for isomorphism, never sufficient. To prove two graphs isomorphic you must exhibit the bijection.\n\nTip: to prove graphs are not isomorphic, find any property preserved by isomorphism (degrees, cycle lengths, connectedness) on which they differ.",
+      "searchQuery": "same degree sequence non-isomorphic graphs 6-cycle two triangles",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 7",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.1–10.5"
+      ]
+    },
+    {
+      "id": "discrete-bipartite-graph-odd-cycles",
+      "unit": "graphs-basics",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a **bipartite graph**, and how is it characterized in terms of cycles?",
+      "body": "A graph is bipartite if its vertices can be split into two sets $X$ and $Y$ so that every edge joins a vertex of $X$ to a vertex of $Y$. A finite graph is bipartite exactly when it has no odd cycle.\n\nWhy an odd cycle is impossible: going around a cycle, the vertices alternate between $X$ and $Y$, and an odd cycle would need to close up with two neighbors on the same side.\n\nWhy no odd cycle suffices (idea): in each component, pick a base vertex and put the vertices at even distance from it in $X$ and those at odd distance in $Y$. An edge inside one side would create an odd cycle.\n\nExample: the cycle with $n$ edges is bipartite when $n$ is even, but the triangle and the pentagon are not. Any graph with a triangle is not bipartite.\n\nTip: the complete bipartite graph $K_{m,n}$ has all $mn$ edges between a part of size $m$ and a part of size $n$.",
+      "searchQuery": "bipartite graph definition no odd cycles characterization",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 7",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.1–10.5"
+      ]
+    },
+    {
+      "id": "discrete-hypercube-edge-count-problem",
+      "unit": "graphs-basics",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "The $n$-cube graph $Q_n$ has the binary strings of length $n$ as vertices, and two strings are adjacent when they differ in exactly one position. Find the number of edges of $Q_n$ as a formula in $n$.",
+      "body": "$|E| = n\\,2^{n-1}$\n\n1. There are $2^n$ vertices, one for each binary string of length $n$.\n2. Each string has exactly $n$ neighbors, one for each position you can flip, so every vertex has degree $n$.\n3. By the handshake lemma, $2|E| = n \\cdot 2^n$, so $|E| = n\\,2^{n-1}$.\n\nCheck: $Q_3$ is the ordinary cube, with $3 \\cdot 4 = 12$ edges. $Q_2$ is a square, with $2 \\cdot 2 = 4$.\n\nWhy it matters: it shows the handshake lemma as a counting tool: you count edges without ever drawing them.\n\nTip: $Q_n$ is also bipartite, with $X$ the strings having an even number of $1$s and $Y$ those with an odd number. Flipping one bit changes the parity, so every edge joins $X$ to $Y$.",
+      "searchQuery": "hypercube graph Q_n number of edges handshake lemma n 2^(n-1)",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 7",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.1–10.5"
+      ]
+    },
+    {
+      "id": "discrete-euler-circuit-criterion",
+      "unit": "graphs-basics",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Euler's criterion**: when does a connected graph have an **Euler circuit**?",
+      "body": "A connected graph has an Euler circuit if and only if every vertex has even degree.\n\nAn Euler circuit is a closed walk that uses every edge exactly once (vertices may repeat).\n\nWhy it is necessary: each time the walk passes through a vertex it uses one edge to enter and a different one to leave, so the edges at that vertex are used in pairs. (For the start vertex, the first departure pairs with the final return.)\n\nWhy it is sufficient (idea): start anywhere and keep walking along unused edges. With all degrees even, you can only get stuck at the starting vertex, so you have closed a circuit. If edges remain, connectedness gives a vertex on your circuit with an unused edge; walk a new circuit from there and splice it in.\n\nExample: $K_5$ (all degrees $4$) has an Euler circuit; $K_4$ (all degrees $3$) does not.\n\nTip: this is a degree check you can do in a glance, unlike the Hamilton cycle question.",
+      "searchQuery": "Euler circuit criterion connected graph all degrees even proof",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 7",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.1–10.5"
+      ]
+    },
+    {
+      "id": "discrete-misconception-hamilton-cycle-degree-test",
+      "unit": "graphs-basics",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "A **Hamilton cycle** is a cycle through every vertex of a graph exactly once. Why is it false that having an Euler circuit tells you whether a graph has a Hamilton cycle, or that an even-degree check settles the question?",
+      "body": "The two properties are independent, and no simple degree test is known for Hamilton cycles.\n\n- Two triangles sharing one vertex (a \"bowtie\") have all degrees even ($2, 2, 2, 2, 4$), so there is an Euler circuit. But there is no Hamilton cycle: deleting the shared vertex disconnects the rest, while a Hamilton cycle minus one vertex is still connected.\n- $K_4$ has a Hamilton cycle ($1\\text{-}2\\text{-}3\\text{-}4\\text{-}1$) but all degrees are $3$, so it has no Euler circuit.\n\nWhy it matters: Euler circuits use every *edge* once and are decided by degrees; Hamilton cycles use every *vertex* once, and deciding whether one exists is a famously hard problem with no fast general method known.\n\nTip: some conditions guarantee a Hamilton cycle without deciding it. For $n \\ge 3$ vertices, if every vertex has degree at least $n/2$ then one exists (Dirac's theorem), but graphs without that property may still have one.",
+      "searchQuery": "Hamilton cycle versus Euler circuit no simple test",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 7",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.1–10.5"
+      ]
+    },
+    {
+      "id": "discrete-tree-and-leaf-definition",
+      "unit": "trees",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **tree**, and what is a **leaf**?",
+      "body": "A tree is a connected graph with no cycles; a leaf is a vertex of degree $1$.\n\nExamples: a path, and a star (one center joined to all the other vertices), are trees. A single vertex is a tree too.\n\nKey fact: every tree with at least $2$ vertices has at least $2$ leaves.\n\nWhy: take a longest path in the tree. Its two end vertices are leaves, since an extra neighbor of an end would either extend the path (contradicting that it is longest) or close a cycle (impossible in a tree).\n\nWhy it matters: leaves let you prove facts about trees by induction: delete a leaf and what remains is still a tree.\n\nWatch out: deleting a leaf keeps the graph connected, but deleting a vertex of degree at least $2$ from a tree always disconnects it.",
+      "searchQuery": "tree definition connected acyclic graph leaf degree one",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 8, ch. 9",
+        "Rosen, Discrete Mathematics and Its Applications 8e, ch. 11"
+      ]
+    },
+    {
+      "id": "discrete-tree-characterizations-edges",
+      "unit": "trees",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the equivalent characterizations of a **tree** among graphs $G$ with $n \\ge 1$ vertices, including the number of edges.",
+      "body": "For a graph $G$ with $n \\ge 1$ vertices the following are equivalent: (a) $G$ is a tree; (b) $G$ is connected with exactly $n-1$ edges; (c) $G$ has no cycles and exactly $n-1$ edges; (d) any two vertices are joined by exactly one path.\n\nKey step, a tree has $n-1$ edges: induct on $n$. For $n \\ge 2$ remove a leaf and its edge; what remains is a tree on $n-1$ vertices, with $n-2$ edges, so the original has $n-1$.\n\n(b) $\\Rightarrow$ (a): while a cycle remains, delete one of its edges; this keeps $G$ connected. The end result is a tree with fewer than $n-1$ edges if anything was deleted, contradicting the key step.\n\n(c) $\\Rightarrow$ (a): the components are trees with $n_1, \\dots, n_c$ vertices, so the edges total $\\sum (n_i - 1) = n - c = n - 1$, giving $c = 1$.\n\n(a) $\\Leftrightarrow$ (d): two different paths between two vertices produce a cycle, and a cycle gives two paths between adjacent vertices.\n\nWatch out: $n-1$ edges alone is not enough. A triangle plus an isolated vertex has $3$ edges and $4$ vertices but is not a tree.",
+      "searchQuery": "tree equivalent characterizations n-1 edges connected acyclic unique path",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 8, ch. 9",
+        "Rosen, Discrete Mathematics and Its Applications 8e, ch. 11"
+      ]
+    },
+    {
+      "id": "discrete-spanning-tree-definition",
+      "unit": "trees",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **spanning tree** of a connected graph $G$?",
+      "body": "A spanning tree of $G$ is a subgraph (a graph made from some of the vertices and edges of $G$) that is a tree and contains every vertex of $G$.\n\nSo it uses all $|V|$ vertices, hence exactly $|V| - 1$ of the edges of $G$, chosen so that the result stays connected and has no cycle.\n\nWhy every connected graph has one: if the graph still contains a cycle, delete any edge of that cycle. The graph stays connected, because anything routed through that edge can go the other way around the cycle. Repeat until no cycle is left.\n\nWhy it matters: a spanning tree is the cheapest skeleton that keeps everything connected, for example the least wiring that links all computers in a network.\n\nWatch out: a spanning tree is a choice of edges of $G$, not a new graph; one graph usually has many spanning trees.",
+      "searchQuery": "spanning tree definition subgraph tree contains all vertices",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 8, ch. 9",
+        "Rosen, Discrete Mathematics and Its Applications 8e, ch. 11"
+      ]
+    },
+    {
+      "id": "discrete-spanning-trees-of-a-cycle-example",
+      "unit": "trees",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "How many spanning trees does a cycle graph with $n \\ge 3$ vertices have?",
+      "body": "$n$\n\nThe cycle has $n$ vertices and $n$ edges, and a spanning tree needs exactly $n - 1$ edges, so we must delete exactly one edge.\n\nDeleting any one edge leaves a path through all the vertices, which is a tree. Different deleted edges give different trees, so there are $n$ spanning trees.\n\nCheck: for the triangle ($n = 3$) the three spanning trees are the three ways to keep two of its three edges.\n\nWatch out: deleting two or more edges disconnects the cycle, so it can never give a spanning tree.\n\nTip: a connected graph with $n$ vertices and $n$ edges (exactly one cycle) always has as many spanning trees as its unique cycle has edges.",
+      "searchQuery": "number of spanning trees of cycle graph n",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 8, ch. 9",
+        "Rosen, Discrete Mathematics and Its Applications 8e, ch. 11"
+      ]
+    },
+    {
+      "id": "discrete-kruskal-greedy-minimum-spanning-tree",
+      "unit": "trees",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Kruskal's algorithm**, a **greedy algorithm**, for finding a **minimum spanning tree** (a spanning tree of least total weight) in a connected graph whose edges have weights.",
+      "body": "Repeatedly add the cheapest remaining edge that does not create a cycle, until $|V| - 1$ edges are chosen; the result is a minimum spanning tree.\n\nA greedy algorithm makes the best-looking choice at each step and never reconsiders it. Ties may be broken arbitrarily.\n\nWhy it works (exchange argument): suppose the edges $F$ chosen so far lie in some minimum spanning tree $T$, and the algorithm now adds $e \\notin T$. Adding $e$ to $T$ creates a cycle. That cycle contains another edge $f \\notin F$ that joins two different pieces of $F$, so $f$ was also available to the algorithm and $w(e) \\le w(f)$. Then $T - f + e$ is a spanning tree of no greater weight that contains $F \\cup \\{e\\}$.\n\nWatch out: greedy is not optimal in general. With coin values $1, 3, 4$ and target $6$, greedy takes $4 + 1 + 1$ (three coins) while $3 + 3$ uses two. Spanning trees are special.\n\nTip: the same tree can be built by growing a single tree from one vertex, always adding the cheapest edge leaving it (Prim's algorithm).",
+      "searchQuery": "Kruskal algorithm greedy minimum spanning tree proof exchange",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 8, ch. 9",
+        "Rosen, Discrete Mathematics and Its Applications 8e, ch. 11"
+      ]
+    },
+    {
+      "id": "discrete-kruskal-six-vertex-problem",
+      "unit": "trees",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A graph has vertices $A, \\dots, F$ and weighted edges $AB{:}4$, $AC{:}2$, $BC{:}5$, $BD{:}10$, $CD{:}3$, $CE{:}8$, $DE{:}7$, $DF{:}6$, $EF{:}9$. Find the total weight of a minimum spanning tree.",
+      "body": "22\n\nApply Kruskal's algorithm: go through the edges from cheapest to dearest, keeping an edge unless it closes a cycle.\n\n1. $AC{:}2$: keep.\n2. $CD{:}3$: keep.\n3. $AB{:}4$: keep.\n4. $BC{:}5$: skip, since $B, C$ are already joined through $A$ (it would close the cycle $A, B, C$).\n5. $DF{:}6$: keep.\n6. $DE{:}7$: keep. Now we have $5 = |V| - 1$ edges, so we stop.\n\nThe tree is $\\{AC, CD, AB, DF, DE\\}$ with total weight $2 + 3 + 4 + 6 + 7 = 22$.\n\nCheck: all edge weights are distinct, so this is the only minimum spanning tree. Any spanning tree has $5$ edges, and the five cheapest edges $(2, 3, 4, 5, 6)$ would total $20$ but contain the cycle $A, B, C$, so they cannot be used.",
+      "searchQuery": "minimum spanning tree Kruskal weighted graph total weight problem",
+      "answer": "22",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 8, ch. 9",
+        "Rosen, Discrete Mathematics and Its Applications 8e, ch. 11"
+      ]
+    },
+    {
+      "id": "discrete-misconception-cayley-labelled-trees",
+      "unit": "trees",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "**Cayley's formula** says there are $n^{n-2}$ trees on $n$ vertices. Why is it false that this counts the trees on $n$ vertices up to isomorphism?",
+      "body": "It counts labeled trees: trees on the fixed vertex set $\\{1, \\dots, n\\}$, where relabelling gives a different tree. Up to isomorphism there are far fewer.\n\nExample, $n = 4$: Cayley gives $4^2 = 16$ trees. There are only two shapes: the path, which has $12$ labellings, and the star, which has $4$ (choose the center). Indeed $12 + 4 = 16$.\n\nFor $n = 5$ there are $5^3 = 125$ labeled trees but only $3$ shapes: path ($60$), star ($5$) and the \"fork\" ($60$ labellings).\n\nWhy it matters: Cayley's formula is proved by a bijection between labeled trees and sequences of length $n-2$ with entries in $\\{1, \\dots, n\\}$ (Prüfer sequences), and there are $n^{n-2}$ such sequences.\n\nWatch out: the number of trees up to isomorphism has no simple formula; the first values for $n = 1, \\dots, 8$ are $1, 1, 1, 2, 3, 6, 11, 23$.",
+      "searchQuery": "Cayley formula n^(n-2) labelled trees not isomorphism classes",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 8, ch. 9",
+        "Rosen, Discrete Mathematics and Its Applications 8e, ch. 11"
+      ]
+    },
+    {
+      "id": "discrete-planar-graph-definition",
+      "unit": "planarity-and-coloring-basics",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a **planar graph**?",
+      "body": "A graph is planar if it can be drawn in the plane so that no two edges cross; edges may be curves and may meet only at shared endpoints. Such a crossing-free drawing is called a plane graph.\n\nExample: $K_4$ is planar. Draw three vertices as a triangle, put the fourth inside it, and join it to the three corners with no crossing. Cycles and trees are planar as well.\n\nWatch out: planarity asks whether *some* crossing-free drawing exists. A picture with crossings, such as a square with both diagonals drawn inside it ($K_4$ again), does not show that the graph is non-planar.\n\nWhy it matters: planar graphs model circuit boards without crossing wires and maps of regions, and they obey strong counting restrictions that the next cards develop.",
+      "searchQuery": "planar graph definition drawn in plane no crossing edges",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 12, ch. 13",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.7–10.8"
+      ]
+    },
+    {
+      "id": "discrete-euler-formula-planar-graphs",
+      "unit": "planarity-and-coloring-basics",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Euler's formula** for a connected plane graph with $V$ vertices, $E$ edges and $F$ **faces**.",
+      "body": "$V - E + F = 2$\n\nA face is a region of the plane left after removing the drawing; one of them, the outer face, is unbounded and counts too.\n\nWhy: induct on the number of edges. A tree has $E = V - 1$ and a single face, so $V - E + F = V - (V-1) + 1 = 2$. If the graph has a cycle, delete one edge of the cycle. The cycle separates the plane, so the two sides of that edge belong to different faces, and deleting the edge merges them into one. $E$ and $F$ each drop by $1$ and $V - E + F$ is unchanged.\n\nExample: draw the cube as a small square inside a large one with matching corners joined. Then $V = 8$, $E = 12$ and $F = 6$ (the inner square, four side regions and the outer face), and $8 - 12 + 6 = 2$.\n\nWatch out: the formula needs the graph to be connected. With $c$ components, $V - E + F = 1 + c$.",
+      "searchQuery": "Euler formula V-E+F=2 connected planar graph",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 12, ch. 13",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.7–10.8"
+      ]
+    },
+    {
+      "id": "discrete-k5-not-planar-example",
+      "unit": "planarity-and-coloring-basics",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Show that $K_5$ is not planar by first proving that a connected simple planar graph with $V \\ge 3$ vertices has $E \\le 3V - 6$.",
+      "body": "$K_5$ has $E = 10$ edges, but a connected simple planar graph with $V = 5$ vertices has at most $3 \\cdot 5 - 6 = 9$.\n\nProof of the bound: take a plane drawing and add up, over all faces, the number of edge sides along each face's boundary. Each edge has two sides, so the total is $2E$. In a simple graph with $V \\ge 3$ each face has at least $3$ edge sides, so $3F \\le 2E$.\n\nEuler's formula gives $F = 2 - V + E$, so $3(2 - V + E) \\le 2E$, which rearranges to $E \\le 3V - 6$.\n\nConclusion: $K_5$ has $\\binom{5}{2} = 10 > 9$ edges, so it cannot be drawn without crossings.\n\nWatch out: the bound is only a necessary condition for planarity. Passing it proves nothing: $K_{3,3}$ has $9 \\le 3 \\cdot 6 - 6 = 12$ edges, within the bound, yet it is not planar (see the next card).",
+      "searchQuery": "K5 not planar edges at most 3V-6 proof",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 12, ch. 13",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.7–10.8"
+      ]
+    },
+    {
+      "id": "discrete-k33-not-planar-problem",
+      "unit": "planarity-and-coloring-basics",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Show that $K_{3,3}$, the complete bipartite graph with parts of size $3$ and $3$, is not planar.",
+      "body": "$K_{3,3}$ has $9$ edges, but a connected simple planar bipartite graph with $V = 6$ vertices has at most $2 \\cdot 6 - 4 = 8$.\n\n1. Suppose a plane drawing exists. $K_{3,3}$ is connected with $V = 6$ and $E = 9$, so Euler's formula gives $F = 2 - 6 + 9 = 5$.\n2. Every face boundary has at least $3$ edge sides, and exactly $3$ would be a triangle. A bipartite graph has no odd cycles, so every face has at least $4$ edge sides.\n3. Counting edge sides: $4F \\le 2E$, that is, $20 \\le 18$. This is false, a contradiction.\n\nIn general, a connected simple planar graph with no triangles and $V \\ge 3$ satisfies $E \\le 2V - 4$.\n\nWhy it matters: $K_5$ and $K_{3,3}$ are the two basic obstructions to planarity. Kuratowski's theorem says a graph is non-planar exactly when it contains a copy of $K_5$ or $K_{3,3}$ with some edges replaced by paths (a subdivision).\n\nWatch out: the bound $E \\le 3V - 6$ alone cannot rule out $K_{3,3}$ ($9 \\le 12$); the triangle-free refinement is needed.",
+      "searchQuery": "K3,3 not planar proof bipartite E at most 2V-4",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 12, ch. 13",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.7–10.8"
+      ]
+    },
+    {
+      "id": "discrete-chromatic-number-definition",
+      "unit": "planarity-and-coloring-basics",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a proper **coloring** of a graph and the **chromatic number** $\\chi(G)$?",
+      "body": "A proper coloring gives each vertex a color so that adjacent vertices get different colors; the chromatic number $\\chi(G)$ is the smallest number of colors that allows one.\n\nExamples: $\\chi(K_n) = n$ (all vertices are mutually adjacent), $\\chi(G) = 2$ for a bipartite graph with at least one edge, and $\\chi = 3$ for an odd cycle such as the triangle or the pentagon.\n\nKey idea: the color classes are sets of pairwise non-adjacent vertices, so a coloring with $k$ colors is a partition of the vertices into $k$ such sets.\n\nWhy it matters: coloring a map means coloring the graph that has a vertex for each region and an edge for each pair of regions sharing a border segment. Coloring also models scheduling, where adjacent vertices are conflicting tasks.\n\nWatch out: non-adjacent vertices may share a color; they do not have to.",
+      "searchQuery": "chromatic number definition proper colouring graph",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 12, ch. 13",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.7–10.8"
+      ]
+    },
+    {
+      "id": "discrete-misconception-chromatic-number-delta-plus-one",
+      "unit": "planarity-and-coloring-basics",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Greedy coloring uses at most $\\Delta + 1$ colors, where $\\Delta$ is the largest vertex degree. Why is it false that $\\chi(G) = \\Delta + 1$?",
+      "body": "The greedy argument only proves the upper bound $\\chi(G) \\le \\Delta + 1$; the chromatic number can be much smaller.\n\nWhy the bound holds: color the vertices one at a time, each with the smallest color not used on its already-colored neighbors. A vertex has at most $\\Delta$ neighbors, so at most $\\Delta$ colors are blocked and one of the colors $1, \\dots, \\Delta + 1$ is free.\n\nExample: the star with one center and five leaves has $\\Delta = 5$, so the bound is $6$, yet $\\chi = 2$ (center one color, leaves the other).\n\nGreedy can also use more than $\\chi$ colors: on the path $a - b - c - d$, coloring in the order $a, d, b, c$ gives $a = d = 1$, $b = 2$, and then $c$ sees colors $2$ and $1$, so $c = 3$ even though $\\chi = 2$.\n\nWatch out: the bound is attained, for instance by $K_n$ and by odd cycles, but not in general.",
+      "searchQuery": "greedy colouring max degree plus one chromatic number",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 12, ch. 13",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.7–10.8"
+      ]
+    },
+    {
+      "id": "discrete-four-colour-theorem",
+      "unit": "planarity-and-coloring-basics",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **four color theorem**.",
+      "body": "Every planar graph (simple, with no loops) can be properly colored with at most $4$ colors, that is, $\\chi(G) \\le 4$ for every planar graph $G$.\n\nMap form: the regions of any map in the plane (each region in one piece) can be colored with four colors so that regions sharing a border segment (not just a point) get different colors.\n\nThe number $4$ cannot be lowered, since $K_4$ is planar and needs $4$ colors.\n\nHistory: it was proved by Appel and Haken in 1976, using a computer to check a large list of cases; a simpler computer-assisted proof was given by Robertson, Sanders, Seymour and Thomas in 1997.\n\nWatch out: this is far harder than the bound with $5$ colors, which has a short proof using Euler's formula (Heawood, 1890). Do not expect a simple hand proof of the $4$-color statement.",
+      "searchQuery": "four colour theorem planar graph four colours Appel Haken",
+      "refs": [
+        "Lovász–Pelikán–Vesztergombi, Discrete Mathematics: Elementary and Beyond, ch. 12, ch. 13",
+        "Rosen, Discrete Mathematics and Its Applications 8e, §10.7–10.8"
+      ]
+    },
+    {
+      "id": "discrete-congruence-modulo-n-definition",
+      "unit": "modular-arithmetic",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What does $a \\equiv b \\pmod n$ mean for $n \\in \\mathbb{Z}_{>0}$, and how does it interact with sums and products?",
+      "body": "$a \\equiv b \\pmod n$ means $n \\mid (a - b)$, which is the same as $a$ and $b$ leaving the same remainder on division by $n$.\n\nCongruence modulo $n$ is an equivalence relation. Its equivalence classes are the **residue classes** modulo $n$: there are exactly $n$ of them, one for each remainder $0, 1, \\dots, n-1$.\n\nKey idea: congruences can be added and multiplied. If $a \\equiv a'$ and $b \\equiv b' \\pmod n$, then $a + b \\equiv a' + b'$ and $ab \\equiv a'b'$, and hence $a^k \\equiv a'^k$ for $k \\in \\mathbb{N}$.\n\nWhy: write $a = a' + nr$ and $b = b' + ns$; then $ab = a'b' + n(a's + b'r + nrs)$.\n\nExample: $17 \\equiv 2$ and $23 \\equiv 3 \\pmod 5$, so $17 \\cdot 23 \\equiv 2 \\cdot 3 = 6 \\equiv 1 \\pmod 5$. Indeed $391 = 5 \\cdot 78 + 1$.\n\nTip: reduce before you multiply or take powers; the numbers stay small.",
+      "searchQuery": "congruence modulo n definition residue class arithmetic rules",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.4",
+        "Velleman, How to Prove It 3e, §7.3–7.4"
+      ]
+    },
+    {
+      "id": "discrete-modular-inverse-definition",
+      "unit": "modular-arithmetic",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is the **modular inverse** of $a$ modulo $n$, when does it exist, and how do you compute it?",
+      "body": "A modular inverse of $a$ modulo $n$ is an integer $x$ with $ax \\equiv 1 \\pmod n$. It exists exactly when $\\gcd(a, n) = 1$, and then it is unique modulo $n$ (written $a^{-1}$).\n\nWhy it exists when $\\gcd(a, n) = 1$: by Bézout, $ax + ny = 1$ for some integers $x, y$, so $ax \\equiv 1 \\pmod n$. The extended Euclidean algorithm computes $x$.\n\nWhy it needs the gcd to be $1$: if $ax \\equiv 1$, then $ax - 1 = nk$, so any common divisor of $a$ and $n$ divides $1$.\n\nExample: inverse of $7$ modulo $20$. From $20 = 2\\cdot 7 + 6$ and $7 = 1 \\cdot 6 + 1$ we get $1 = 7 - 6 = 7 - (20 - 2\\cdot 7) = 3\\cdot 7 - 20$, so $7^{-1} \\equiv 3$. Check: $7 \\cdot 3 = 21 \\equiv 1$.\n\nWatch out: $6$ has no inverse modulo $10$ since $\\gcd(6, 10) = 2$.",
+      "searchQuery": "modular inverse exists iff gcd(a,n)=1 extended Euclid",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.4",
+        "Velleman, How to Prove It 3e, §7.3–7.4"
+      ]
+    },
+    {
+      "id": "discrete-linear-congruence-solutions",
+      "unit": "modular-arithmetic",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Let $g = \\gcd(a, n)$. When does the **linear congruence** $ax \\equiv b \\pmod n$ have a solution, and how many solutions does it have modulo $n$?",
+      "body": "It is solvable exactly when $g \\mid b$, and then it has exactly $g$ solutions modulo $n$ (in particular a unique one when $g = 1$, namely $x \\equiv a^{-1}b$).\n\nWhy: $ax \\equiv b \\pmod n$ says $ax - ny = b$ for some integer $y$, which by Bézout is solvable exactly when $g \\mid b$. When it is, divide everything by $g$: $(a/g)\\,x \\equiv b/g \\pmod{n/g}$, where $a/g$ and $n/g$ are relatively prime. This has one solution modulo $n/g$, and lifting it to modulo $n$ gives $g$ solutions.\n\nExample: $6x \\equiv 4 \\pmod{10}$ has $g = 2$, which divides $4$. Dividing by $2$: $3x \\equiv 2 \\pmod 5$, so $x \\equiv 4 \\pmod 5$, that is, $x \\equiv 4$ or $9 \\pmod{10}$. Check: $6 \\cdot 4 = 24 \\equiv 4$ and $6 \\cdot 9 = 54 \\equiv 4$.\n\nWatch out: $6x \\equiv 3 \\pmod{10}$ has no solution, because $2 \\nmid 3$.",
+      "searchQuery": "linear congruence ax=b mod n number of solutions",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.4",
+        "Velleman, How to Prove It 3e, §7.3–7.4"
+      ]
+    },
+    {
+      "id": "discrete-misconception-cancel-in-congruence",
+      "unit": "modular-arithmetic",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that $ac \\equiv bc \\pmod n$ always lets you cancel $c$ to get $a \\equiv b \\pmod n$?",
+      "body": "Canceling $c$ is valid only when $\\gcd(c, n) = 1$. In general $ac \\equiv bc \\pmod n$ gives only $a \\equiv b \\pmod{n/\\gcd(c, n)}$.\n\nExample: $2 \\cdot 1 \\equiv 2 \\cdot 4 \\pmod 6$, since both sides are $\\equiv 2$, but $1 \\not\\equiv 4 \\pmod 6$. Canceling $2$ is only valid modulo $6/2 = 3$, and indeed $1 \\equiv 4 \\pmod 3$.\n\nWhy: canceling means multiplying by the inverse of $c$, and $c$ has an inverse modulo $n$ only when $\\gcd(c, n) = 1$. Otherwise $c$ can multiply two different residues to the same value.\n\nWatch out: this is why modular arithmetic with a composite modulus lets two nonzero residues multiply to zero, as in $2 \\cdot 3 \\equiv 0 \\pmod 6$. This never happens modulo a prime.",
+      "searchQuery": "cancel common factor congruence only if coprime to modulus",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.4",
+        "Velleman, How to Prove It 3e, §7.3–7.4"
+      ]
+    },
+    {
+      "id": "discrete-fermat-little-theorem",
+      "unit": "modular-arithmetic",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Fermat's little theorem**.",
+      "body": "If $p$ is prime and $p \\nmid a$, then $a^{p-1} \\equiv 1 \\pmod p$. Equivalently, $a^p \\equiv a \\pmod p$ for every integer $a$.\n\nProof idea: the numbers $a, 2a, \\dots, (p-1)a$ are nonzero modulo $p$ and pairwise different modulo $p$ (a difference $ia - ja$ divisible by $p$ would force $p \\mid i - j$ by Euclid's lemma). So they are a rearrangement of $1, 2, \\dots, p-1$ modulo $p$. Comparing products, $a^{p-1}(p-1)! \\equiv (p-1)! \\pmod p$, and $(p-1)!$ is coprime to $p$, so it cancels.\n\nExample: $2^{10} = 1024 = 11 \\cdot 93 + 1$, so $2^{10} \\equiv 1 \\pmod{11}$.\n\nWatch out: the converse is false. $341 = 11 \\cdot 31$ is composite, yet $2^{340} \\equiv 1 \\pmod{341}$. So passing the test for one base does not prove primality.",
+      "searchQuery": "Fermat little theorem a^(p-1) = 1 mod p proof",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.4",
+        "Velleman, How to Prove It 3e, §7.3–7.4"
+      ]
+    },
+    {
+      "id": "discrete-euler-theorem-congruence",
+      "unit": "modular-arithmetic",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Euler's theorem** for congruences.",
+      "body": "If $n \\in \\mathbb{Z}_{>0}$ and $\\gcd(a, n) = 1$, then $a^{\\varphi(n)} \\equiv 1 \\pmod n$.\n\nHere $\\varphi(n)$ is Euler's phi function, the number of integers in $\\{1, \\dots, n\\}$ relatively prime to $n$.\n\nProof idea: the same rearrangement trick as for Fermat. Let $r_1, \\dots, r_{\\varphi(n)}$ be the residues relatively prime to $n$. Multiplying each by $a$ gives residues that are still relatively prime to $n$ and are distinct (cancel $a$, which has an inverse), so $a r_1, \\dots, a r_{\\varphi(n)}$ is a rearrangement of the $r_i$. Comparing products and canceling $\\prod r_i$ gives $a^{\\varphi(n)} \\equiv 1$.\n\nExample: $3^{\\varphi(10)} = 3^4 = 81 \\equiv 1 \\pmod{10}$.\n\nWhy it matters: for prime $n = p$ it is Fermat's little theorem, since $\\varphi(p) = p - 1$. It lets you reduce huge exponents.\n\nWatch out: it needs $\\gcd(a, n) = 1$. For $a = 2$ and $n = 10$, $2^4 = 16 \\equiv 6$, not $1$.",
+      "searchQuery": "Euler theorem a^phi(n) congruent 1 mod n coprime",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.4",
+        "Velleman, How to Prove It 3e, §7.3–7.4"
+      ]
+    },
+    {
+      "id": "discrete-last-two-digits-of-7-power-problem",
+      "unit": "modular-arithmetic",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the last two digits of $7^{803}$. Give the two-digit number.",
+      "body": "43\n\nThe last two digits of a number are its remainder modulo $100$, so we want $7^{803} \\bmod 100$.\n\n1. $\\gcd(7, 100) = 1$ and $\\varphi(100) = 100 \\cdot \\tfrac12 \\cdot \\tfrac45 = 40$, so Euler's theorem gives $7^{40} \\equiv 1 \\pmod{100}$.\n2. Divide the exponent by $40$: $803 = 20 \\cdot 40 + 3$.\n3. Therefore $7^{803} = (7^{40})^{20} \\cdot 7^3 \\equiv 7^3 = 343 \\equiv 43 \\pmod{100}$.\n\nCheck: $7^2 = 49$, $7^3 = 343$ and $7^4 = 2401 \\equiv 1 \\pmod{100}$, so in fact $7^4 \\equiv 1$ and $803 = 4\\cdot 200 + 3$ gives the same $7^3 \\equiv 43$.\n\nWatch out: the exponent is reduced modulo $\\varphi(n)$ only when the base is relatively prime to $n$.",
+      "searchQuery": "last two digits of 7^803 Euler theorem modulo 100",
+      "answer": "43",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.1, §4.4",
+        "Velleman, How to Prove It 3e, §7.3–7.4"
+      ]
+    },
+    {
+      "id": "discrete-chinese-remainder-theorem",
+      "unit": "chinese-remainder-theorem-and-rsa",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **Chinese remainder theorem** for **simultaneous congruences**.",
+      "body": "If $m_1, \\dots, m_k$ are pairwise relatively prime positive integers, then for any integers $a_1, \\dots, a_k$ the system $x \\equiv a_i \\pmod{m_i}$ ($i = 1, \\dots, k$) has a solution, and it is unique modulo $M = m_1 m_2 \\cdots m_k$.\n\nWhy unique: two solutions differ by a number divisible by every $m_i$, hence by their product $M$ (the $m_i$ are pairwise relatively prime).\n\nWhy a solution exists (idea): the map sending $x \\bmod M$ to the list $(x \\bmod m_1, \\dots, x \\bmod m_k)$ is injective by the uniqueness argument. Both sides have exactly $M$ possible values, so the map is also onto.\n\nExample: $x \\equiv 2 \\pmod 3$ and $x \\equiv 3 \\pmod 5$ have the solution $x \\equiv 8 \\pmod{15}$.\n\nWatch out: the moduli must be pairwise relatively prime. $x \\equiv 1 \\pmod 4$ and $x \\equiv 2 \\pmod 6$ has no solution at all: the first forces $x$ odd and the second forces $x$ even.",
+      "searchQuery": "Chinese remainder theorem statement pairwise coprime moduli unique modulo product",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.4, §4.6",
+        "Velleman, How to Prove It 3e, §7.5"
+      ]
+    },
+    {
+      "id": "discrete-crt-construction-formula",
+      "unit": "chinese-remainder-theorem-and-rsa",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "For pairwise relatively prime $m_1, \\dots, m_k$ with $M = m_1 \\cdots m_k$, what formula builds a solution of $x \\equiv a_i \\pmod{m_i}$?",
+      "body": "$x \\equiv \\sum_{i=1}^{k} a_i\\,M_i\\,y_i \\pmod M$, where $M_i = M/m_i$ and $y_i$ is an inverse of $M_i$ modulo $m_i$.\n\nWhy it works: $M_i y_i \\equiv 1 \\pmod{m_i}$ by the choice of $y_i$, while $M_i y_i \\equiv 0 \\pmod{m_j}$ for every $j \\neq i$, because $m_j$ divides $M_i$. So modulo $m_i$ the sum collapses to $a_i \\cdot 1$.\n\nExample: solve $x \\equiv 2 \\pmod 3$, $x \\equiv 3 \\pmod 5$, $x \\equiv 2 \\pmod 7$. Here $M = 105$ and $M_1 = 35 \\equiv 2 \\pmod 3$, so $y_1 = 2$. Next $M_2 = 21 \\equiv 1 \\pmod 5$ gives $y_2 = 1$, and $M_3 = 15 \\equiv 1 \\pmod 7$ gives $y_3 = 1$. Then\n\n$$x \\equiv 2\\cdot 35\\cdot 2 + 3 \\cdot 21 \\cdot 1 + 2 \\cdot 15 \\cdot 1 = 233 \\equiv 23 \\pmod{105}.$$\n\nCheck: $23 = 3\\cdot 7 + 2 = 5 \\cdot 4 + 3 = 7 \\cdot 3 + 2$.\n\nTip: with two congruences it is often quicker to write $x = a_1 + m_1 t$ and solve a single linear congruence for $t$.",
+      "searchQuery": "CRT construction formula M_i y_i inverse solve simultaneous congruences",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.4, §4.6",
+        "Velleman, How to Prove It 3e, §7.5"
+      ]
+    },
+    {
+      "id": "discrete-toy-rsa-example",
+      "unit": "chinese-remainder-theorem-and-rsa",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "In **RSA**, a user picks distinct primes $p, q$, publishes the **public key** $(n, e)$ with $n = pq$ and $\\gcd(e, \\varphi(n)) = 1$, and keeps $d$ with $ed \\equiv 1 \\pmod{\\varphi(n)}$ secret. Encryption is $c \\equiv m^e \\pmod n$ and decryption is $m \\equiv c^d \\pmod n$. For $p = 5$, $q = 11$, $e = 3$, find $n$, $d$, and the ciphertext of $m = 7$.",
+      "body": "$n = 55$, $d = 27$, and the ciphertext is $c = 13$.\n\nStep by step:\n\n1. $n = 5 \\cdot 11 = 55$ and $\\varphi(55) = 4 \\cdot 10 = 40$. The public key is $(55, 3)$, and $\\gcd(3, 40) = 1$.\n2. The private exponent solves $3d \\equiv 1 \\pmod{40}$. Since $3 \\cdot 27 = 81 = 2 \\cdot 40 + 1$, take $d = 27$.\n3. Encrypt: $7^3 = 343 = 6 \\cdot 55 + 13$, so $c = 13$.\n4. Decrypt: $13^{27} \\bmod 55$. Modulo $5$: $13 \\equiv 3$ and $3^{27} = (3^4)^6\\cdot 3^3 \\equiv 27 \\equiv 2$. Modulo $11$: $13 \\equiv 2$ and $2^{27} = (2^{10})^2 \\cdot 2^7 \\equiv 128 \\equiv 7$. The Chinese remainder theorem recovers the residue that is $2 \\bmod 5$ and $7 \\bmod 11$, namely $7$.\n\nWhy it matters: anyone can encrypt with $(n, e)$, but computing $d$ requires $\\varphi(n)$, which is easy once $n$ is factored and (as far as anyone knows) hard otherwise.\n\nWatch out: these numbers are far too small to be secure. Real keys use $n$ of at least $2048$ bits.",
+      "searchQuery": "toy RSA example p=5 q=11 e=3 encrypt decrypt",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.4, §4.6",
+        "Velleman, How to Prove It 3e, §7.5"
+      ]
+    },
+    {
+      "id": "discrete-crt-three-moduli-problem",
+      "unit": "chinese-remainder-theorem-and-rsa",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the smallest positive integer $x$ with $x \\equiv 3 \\pmod 4$, $x \\equiv 4 \\pmod 9$ and $x \\equiv 2 \\pmod 5$.",
+      "body": "67\n\nThe moduli $4, 9, 5$ are pairwise relatively prime, so the solution is unique modulo $M = 180$.\n\n1. $M_1 = 45 \\equiv 1 \\pmod 4$, so $y_1 = 1$.\n2. $M_2 = 20 \\equiv 2 \\pmod 9$, and $2 \\cdot 5 = 10 \\equiv 1$, so $y_2 = 5$.\n3. $M_3 = 36 \\equiv 1 \\pmod 5$, so $y_3 = 1$.\n4. $x \\equiv 3\\cdot 45\\cdot 1 + 4\\cdot 20\\cdot 5 + 2\\cdot 36\\cdot 1 = 135 + 400 + 72 = 607 \\equiv 607 - 540 = 67 \\pmod{180}$.\n\nCheck: $67 = 4 \\cdot 16 + 3 = 9 \\cdot 7 + 4 = 5 \\cdot 13 + 2$. Since the solutions are $67 + 180t$, the smallest positive one is $67$.\n\nTip: for a quick search, list the numbers $\\equiv 4 \\pmod 9$ ($4, 13, 22, \\dots$) and keep those that also satisfy the other two congruences.",
+      "searchQuery": "Chinese remainder theorem three congruences moduli 4 9 5",
+      "answer": "67",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.4, §4.6",
+        "Velleman, How to Prove It 3e, §7.5"
+      ]
+    },
+    {
+      "id": "discrete-rsa-decryption-correct-problem",
+      "unit": "chinese-remainder-theorem-and-rsa",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $n = pq$ with $p \\neq q$ prime, and let $e, d \\in \\mathbb{Z}_{>0}$ satisfy $ed \\equiv 1 \\pmod{\\varphi(n)}$. Show that $(m^e)^d \\equiv m \\pmod n$ for every integer $m$ with $\\gcd(m, n) = 1$.",
+      "body": "Write $ed = 1 + k\\varphi(n)$ with $k \\ge 0$; then $m^{ed} = m\\,(m^{\\varphi(n)})^k \\equiv m \\pmod n$ by Euler's theorem.\n\nStep by step:\n\n1. Since $ed \\equiv 1 \\pmod{\\varphi(n)}$ and $ed \\ge 1$, there is an integer $k \\ge 0$ with $ed = 1 + k\\varphi(n)$.\n2. Because $\\gcd(m, n) = 1$, Euler's theorem gives $m^{\\varphi(n)} \\equiv 1 \\pmod n$.\n3. So $(m^e)^d = m^{1 + k\\varphi(n)} = m \\cdot (m^{\\varphi(n)})^k \\equiv m \\cdot 1^k = m \\pmod n$.\n\nDecryption therefore recovers the message. Note $\\varphi(pq) = pq(1 - \\tfrac1p)(1 - \\tfrac1q) = (p-1)(q-1)$.\n\nExtra case, $\\gcd(m, n) > 1$: the result still holds for $n = pq$. If $p \\mid m$, both sides are $\\equiv 0 \\pmod p$. If $p \\nmid m$, then $p - 1$ divides $k\\varphi(n)$, so Fermat's little theorem gives $m^{ed} = m \\cdot (m^{p-1})^{k(q-1)} \\equiv m \\pmod p$. The same argument works modulo $q$, and the Chinese remainder theorem combines the two congruences modulo $pq$.",
+      "searchQuery": "why RSA decryption works Euler theorem proof",
+      "checkpoint": true,
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.4, §4.6",
+        "Velleman, How to Prove It 3e, §7.5"
+      ]
+    },
+    {
+      "id": "discrete-misconception-textbook-rsa-secure",
+      "unit": "chinese-remainder-theorem-and-rsa",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that encrypting a message directly as $c \\equiv m^e \\pmod n$ is already a secure way to use RSA, as long as $n$ is large?",
+      "body": "Plain (\"textbook\") RSA is deterministic and algebraically structured, so it can be attacked without ever factoring $n$; real systems add randomized padding before encrypting.\n\n- Same message, same ciphertext: an attacker who can guess the message (say \"yes\" or \"no\") encrypts each guess with the public key and compares.\n- Small messages: if $m^e < n$, then $c$ is just the integer $m^e$ with no reduction, and taking an ordinary $e$-th root recovers $m$.\n- Malleability: $(m_1 m_2)^e \\equiv m_1^e\\, m_2^e \\pmod n$, so multiplying two ciphertexts yields a valid ciphertext of the product of the messages.\n\nWhat the hardness really is: computing $d$ from $(n, e)$ is as hard as factoring $n$, and no fast factoring method is known for large $n$. That protects the secret key, not a badly formatted message.\n\nTip: practical schemes, such as RSA with OAEP padding, randomize the message first so equal messages encrypt differently.",
+      "searchQuery": "textbook RSA insecure deterministic padding OAEP malleability",
+      "refs": [
+        "Rosen, Discrete Mathematics and Its Applications 8e, §4.4, §4.6",
+        "Velleman, How to Prove It 3e, §7.5"
+      ]
+    }
+  ]
+}

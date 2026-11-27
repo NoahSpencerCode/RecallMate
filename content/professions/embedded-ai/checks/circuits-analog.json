@@ -1,0 +1,289 @@
+{
+  "module": "circuits-analog",
+  "checker": "independent checker (Claude)",
+  "verdicts": [
+    {
+      "id": "circuits-potentiometer",
+      "verdict": "fixed",
+      "note": "Wiper position 'a quarter of the way up' was ambiguous; now measured from the ground end."
+    },
+    {
+      "id": "circuits-thevenin-equivalent",
+      "verdict": "fixed",
+      "note": "Example did not say which terminals; now 'seen across R2'."
+    },
+    {
+      "id": "circuits-capacitor",
+      "verdict": "fixed",
+      "note": "Example used an LED, a term not taught until the diodes unit; replaced by a resistor."
+    },
+    {
+      "id": "circuits-capacitance-farad",
+      "verdict": "fixed",
+      "note": "Tip used 'decoupling' before it is taught; reworded."
+    },
+    {
+      "id": "circuits-cutoff-formula",
+      "verdict": "fixed",
+      "note": "Example (1.6 kohm, 100 nF, 995 Hz) gave away the answer to circuits-rc-lowpass-design; changed to 10 kohm, 1 uF, 15.9 Hz."
+    },
+    {
+      "id": "circuits-diode",
+      "verdict": "fixed",
+      "note": "Answer line used anode and cathode without defining them; definition added."
+    },
+    {
+      "id": "circuits-led-resistor-value",
+      "verdict": "fixed",
+      "note": "Typed card asked two things but checked one, against the README rule of number-only typed answers; prompt now asks only R (260 ohm), 270 ohm case moved to explanation."
+    },
+    {
+      "id": "circuits-flyback-diode",
+      "verdict": "fixed",
+      "note": "Coil, relay and inductance were never defined (the brief says to define them inline); added."
+    },
+    {
+      "id": "circuits-sensor-amp-design",
+      "verdict": "fixed",
+      "note": "Claimed a 5 V supply 'usually' reaches 3.3 V with non-rail-to-rail parts, which is false for many parts; softened to check the datasheet, and added the single-supply near-0 V requirement."
+    },
+    {
+      "id": "circuits-voltage-regulator",
+      "verdict": "fixed",
+      "note": "Key idea said input must always exceed output, contradicting the later boost converter card; scoped to step-down regulators."
+    },
+    {
+      "id": "circuits-boost-converter-choice",
+      "verdict": "fixed",
+      "note": "'Only a boost converter can step up' was too broad; limited to the three options offered."
+    },
+    {
+      "id": "circuits-mosfet-vs-bjt",
+      "verdict": "fixed",
+      "note": "Solenoid was undefined; short gloss added."
+    },
+    {
+      "id": "circuits-decoupling-values",
+      "verdict": "fixed",
+      "note": "Added ST AN4488 pointer; search results quoting it confirm 100 nF per VDD pin plus one 4.7 uF (typ. 10 uF) bulk."
+    },
+    {
+      "id": "circuits-kvl",
+      "verdict": "fixed",
+      "note": "Answer line said rises and drops 'add up to zero' with no sign convention, while the card's own example quotes drops as positive numbers; now counts rises as positive and drops as negative.",
+      "round": 2
+    },
+    {
+      "id": "circuits-two-loop-currents",
+      "verdict": "fixed",
+      "note": "Prompt referred to 'the arrow's direction', but a text card has no arrows; now refers to the directions just stated. 'It is charging' now 'it is being charged'.",
+      "round": 2
+    },
+    {
+      "id": "circuits-node-equation",
+      "verdict": "fixed",
+      "note": "Tip credited the saved equation to choosing ground; any reference node saves it. Now says the reference node needs no equation, and ground also fixes the + end of grounded sources.",
+      "round": 2
+    },
+    {
+      "id": "circuits-nodal-ladder",
+      "verdict": "fixed",
+      "note": "Prompt never said where the source's negative end connects, so the problem was underspecified; now at ground.",
+      "round": 2
+    },
+    {
+      "id": "circuits-superposition",
+      "verdict": "fixed",
+      "note": "Prompt did not say the sources' negative ends are at ground, which the worked solution relies on; now stated.",
+      "round": 2
+    },
+    {
+      "id": "circuits-voltage-divider",
+      "verdict": "fixed",
+      "note": "Claimed the same current flows in both resistors and the output is a fixed fraction without the unloaded condition; added 'as long as nothing draws current from the junction'.",
+      "round": 2
+    },
+    {
+      "id": "circuits-loading-effect",
+      "verdict": "fixed",
+      "note": "Answer line 'it stays small' could be read as the output voltage staying small, the opposite of the meaning; now 'the drop stays small'.",
+      "round": 2
+    },
+    {
+      "id": "circuits-adc-divider-design",
+      "verdict": "fixed",
+      "note": "'If it is too low, scale both resistors down' was ambiguous about what is too low; now compares the 6.6 kohm output impedance with the ADC's limit. Defined 'datasheet', used here for the first time in the profession.",
+      "round": 2
+    },
+    {
+      "id": "circuits-rc-debounce-design",
+      "verdict": "fixed",
+      "note": "'The nearest standard value is 470 nF' is false in the E24 series (510 nF); now 'the nearest common capacitor value'.",
+      "round": 2
+    },
+    {
+      "id": "circuits-capacitor-reactance",
+      "verdict": "fixed",
+      "note": "Example (100 nF at 1 kHz is 1.59 kohm) is exactly the answer to circuits-rc-lowpass-design, since f_c is where X_C = R; changed to 47 nF (3.4 kohm at 1 kHz, 340 ohm at 10 kHz).",
+      "round": 2
+    },
+    {
+      "id": "circuits-low-high-pass",
+      "verdict": "fixed",
+      "note": "'Voltage dividers whose second element changes with frequency' is wrong for the high-pass, whose second element is the resistor; now 'one element, the capacitor'. Defined 'first-order', used on three later cards but never defined, and 'cutoff frequency'.",
+      "round": 2
+    },
+    {
+      "id": "circuits-bode-plot",
+      "verdict": "fixed",
+      "note": "The -20 dB per decade slope holds only well above f_c, and 'each tenfold rise cuts the amplitude by ten' followed the f_c to 10 f_c step, where the factor is 7.1; now 'well beyond' and 'another factor of ten', with the 100 f_c point added.",
+      "round": 2
+    },
+    {
+      "id": "circuits-rc-lowpass-design",
+      "verdict": "fixed",
+      "note": "Wrong: said a very large R makes the filter load the source badly. A large R loads the source lightly but gives a high output impedance that the next stage loads; it is a small R that draws heavy source current. Corrected.",
+      "round": 2
+    },
+    {
+      "id": "circuits-anti-aliasing",
+      "verdict": "fixed",
+      "note": "Answer line said the filter 'removes' signal above f_s/2; a real filter only weakens it (the next card shows a first-order one cuts a 1.8 kHz tone by just 19 dB); now 'weakens'.",
+      "round": 2
+    },
+    {
+      "id": "circuits-anti-alias-design",
+      "verdict": "fixed",
+      "note": "Named only a lower cutoff or a higher sample rate as remedies, omitting a steeper multi-stage filter; 'out-of-band' was undefined. Both fixed.",
+      "round": 2
+    },
+    {
+      "id": "circuits-diode",
+      "verdict": "fixed",
+      "note": "Title asks for forward voltage and reverse bias, but the answer line defined neither; it now states forward bias with its nearly fixed forward-voltage drop and reverse bias blocking.",
+      "round": 2
+    },
+    {
+      "id": "circuits-led",
+      "verdict": "fixed",
+      "note": "Wrong: claimed a blue LED needs more than 3 V to light and may not light from a 3 V coin cell; blue and white LEDs routinely run straight from a CR2032 (LED throwies). Replaced with the real issue (very little headroom on a 3.3 V rail), gave typical V_f per colour (red 1.8-2.2 V, blue and white about 3-3.5 V) and rewrote the muddled red-LED example.",
+      "round": 2
+    },
+    {
+      "id": "circuits-led-needs-resistor",
+      "verdict": "fixed",
+      "note": "'A few tenths of a volt can push an LED to many times its rated current' overstated it (an incremental resistance of roughly 8-20 ohm gives about 2-3 times); now 'well past its rated current'. 'Almost no resistance of its own' reworded.",
+      "round": 2
+    },
+    {
+      "id": "circuits-flyback-diode",
+      "verdict": "fixed",
+      "note": "Called inductance's opposition to change 'that resistance', confusing it with resistance in ohms; reworded. The spike now 'possibly' reaches hundreds of volts.",
+      "round": 2
+    },
+    {
+      "id": "circuits-threshold-voltage",
+      "verdict": "fixed",
+      "note": "Said datasheets quote V_GS(th) at 'a fraction of a milliamp'; many use 1 mA (2N7002K, Toshiba, Rohm), others 250 uA (TI, Vishay); now 'usually 250 uA or 1 mA'.",
+      "round": 2
+    },
+    {
+      "id": "circuits-gate-resistor-pulldown",
+      "verdict": "fixed",
+      "note": "'Ringing' and 'edges' were used without definition; glossed.",
+      "round": 2
+    },
+    {
+      "id": "circuits-mosfet-vs-bjt",
+      "verdict": "fixed",
+      "note": "Key idea said MOSFETs suit loads 'of an amp or more', contradicting the card's own 500 mA answer; now 'from a few hundred milliamps up'. Added that the MOSFET's R_DS(on) must be specified at 3.3 V gate drive, as the logic-level card teaches.",
+      "round": 2
+    },
+    {
+      "id": "circuits-op-amp",
+      "verdict": "fixed",
+      "note": "Said rail-to-rail op-amps swing 'within millivolts' of the rails; datasheets give tens of mV at a 10 kohm load (TLV316 30 mV, OPA4196 50 mV typ). The example ('unable to output 4.8 V or go below 0.2 V') contradicted the 'a volt or more' just stated; rewritten.",
+      "round": 2
+    },
+    {
+      "id": "circuits-negative-feedback-rules",
+      "verdict": "fixed",
+      "note": "'Only resistors in the feedback path decide the gain' is misleading: the inverting amplifier's gain also depends on R_in. Now 'the gain is set by the external resistors, not by the op-amp's A'.",
+      "round": 2
+    },
+    {
+      "id": "circuits-inverting-amp-problem",
+      "verdict": "fixed",
+      "note": "Said a non-rail-to-rail output clips 'a little inside' the rail, contradicting the op-amp card's 'a volt or more'; made consistent.",
+      "round": 2
+    },
+    {
+      "id": "circuits-voltage-follower",
+      "verdict": "fixed",
+      "note": "Answer line did not say where the signal goes; now 'with the signal on its + input'.",
+      "round": 2
+    },
+    {
+      "id": "circuits-gain-bandwidth-product",
+      "verdict": "fixed",
+      "note": "Unstated condition: bandwidth = GBW/G holds for a non-inverting stage only; an inverting stage of gain -G gets about GBW/(1+G) (half of GBW at gain -1). Title and answer now say non-inverting, the inverting case is in the explanation, and the undefined 'closed-loop gain' is reworded.",
+      "round": 2
+    },
+    {
+      "id": "circuits-sensor-amp-design",
+      "verdict": "fixed",
+      "note": "Checkpoint answer line required only that the output reach 3.3 V, omitting the equally necessary swing down to near 0 V on a single supply; added.",
+      "round": 2
+    },
+    {
+      "id": "circuits-voltage-regulator",
+      "verdict": "fixed",
+      "note": "Key idea used 'linear', 'buck' and 'boost' before any card defines them; reworded without them.",
+      "round": 2
+    },
+    {
+      "id": "circuits-ldo",
+      "verdict": "fixed",
+      "note": "Wrong cause: said the load current passes through the regulator because the excess voltage is burned as heat. It passes through because the regulator is in series, and that is why (Vin - Vout) x I becomes heat; reordered.",
+      "round": 2
+    },
+    {
+      "id": "circuits-boost-converter-choice",
+      "verdict": "fixed",
+      "note": "Answer line still said 'only a boost converter can step voltage up', which is false in general (buck-boost, SEPIC, charge pumps); round 1 narrowed only the explanation. Now 'of these three'.",
+      "round": 2
+    },
+    {
+      "id": "circuits-decoupling-capacitor",
+      "verdict": "fixed",
+      "note": "Example (waking a peripheral draws 50 mA for a few nanoseconds) mixed a sustained load step with a nanosecond spike and used the untaught 'peripheral'; replaced with a switching spike and the dV = I dt / C check (1.5 mV). Glossed 'trace'.",
+      "round": 2
+    },
+    {
+      "id": "circuits-droop-ground-bounce",
+      "verdict": "fixed",
+      "note": "Defined inductance as 'a resistance to changes in current', confusing it with resistance; reworded and named the symbol L.",
+      "round": 2
+    },
+    {
+      "id": "circuits-decoupling-values",
+      "verdict": "fixed",
+      "note": "Tip insisted the 100 nF goes on the same side as the chip, but ST's hardware guides place it as close as possible to, or below, the pins on the board's underside; the example put the bulk capacitor 'near the regulator', contradicting the answer line ('nearby') and AN4488 (on VDD at the MCU). Both fixed.",
+      "round": 2
+    }
+  ],
+  "summary": {
+    "reviewed": 65,
+    "ok": 52,
+    "fixed": 13,
+    "dropped": 0,
+    "added": 0
+  },
+  "round2": {
+    "reviewed": 65,
+    "ok": 31,
+    "fixed": 34,
+    "dropped": 0,
+    "added": 0
+  }
+}

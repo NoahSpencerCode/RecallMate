@@ -1,0 +1,17 @@
+{
+  "module": "modern-cpp-embedded",
+  "checker": "claude-sonnet-5-5",
+  "verdicts": [
+    { "id": "modern-cpp-class-private-access", "verdict": "fixed", "note": "Snippet comment said line 12 but the failing return is on line 11; corrected in snippet and answer (compiled to confirm)." },
+    { "id": "modern-cpp-move-assignment-leak", "verdict": "fixed", "note": "Self-move claim was wrong: after delete[] the function nulls the pointer and size, so data is lost, not a dangling pointer (run with ASan to confirm)." },
+    { "id": "modern-cpp-zero-overhead-principle", "verdict": "fixed", "note": "Used virtual functions, vtable and member functions before they are taught; replaced with struct layout and reference examples." },
+    { "id": "modern-cpp-copy-constructor-vs-assignment", "verdict": "fixed", "note": "Claimed returning by value calls the copy constructor; usually elided or moved, so the claim was removed." },
+    { "id": "modern-cpp-copy-or-move-output", "verdict": "fixed", "note": "Overgeneral 'standard containers' noexcept claim narrowed to std::vector growth." },
+    { "id": "modern-cpp-const-vs-constexpr", "verdict": "fixed", "note": "Example used std::array before the STL unit; replaced with a plain array." },
+    { "id": "modern-cpp-constexpr-crc-table", "verdict": "fixed", "note": "std::array used before it is taught; added a one-line gloss. static_assert value 0x89 verified by compiling." },
+    { "id": "modern-cpp-rvo-return-by-value", "verdict": "fixed", "note": "'Eliding' was undefined; glossed in place. Output verified." },
+    { "id": "modern-cpp-shared-ptr-trade-off", "verdict": "fixed", "note": "'Tasks' not yet taught; reworded to modules and parts of the program." },
+    { "id": "modern-cpp-irq-lock-scope-guard", "verdict": "fixed", "note": "Tip used 'mutex', which is not taught yet; reworded to a generic lock." }
+  ],
+  "summary": { "reviewed": 60, "ok": 50, "fixed": 10, "dropped": 0, "added": 0 }
+}

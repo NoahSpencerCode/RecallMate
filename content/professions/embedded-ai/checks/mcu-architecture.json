@@ -1,0 +1,279 @@
+{
+  "module": "mcu-architecture",
+  "checker": "independent checker (Claude)",
+  "verdicts": [
+    {
+      "id": "mcu-vision-core-tradeoff",
+      "verdict": "fixed",
+      "note": "Other side said pick the M7 for float32 or double-precision hardware, but the M85 and M55 have an optional FPU with double precision (checked on Arm and ST pages) and Helium also does float32. Rewrote it around part choice, maturity and price. Replaced the Yiu M3/M4 ref, which does not cover the M7 or M85."
+    },
+    {
+      "id": "mcu-riscv-mcause-decode-code",
+      "verdict": "fixed",
+      "note": "Watch-out was backwards: switching on the raw mcause keeps interrupt 7 and exception 7 apart. They only clash once the top bit is masked off. Rewrote it."
+    },
+    {
+      "id": "mcu-w1c-clear-flag-code",
+      "verdict": "fixed",
+      "note": "Claimed a flag that sets between the read and the write is lost too. It is not: its bit was read as 0, so 0 is written back. Also borrowed STM32 TIM6_SR's name, flags and exact address, whose real flags are rc_w0 (checked). Renamed to neutral names, said both flags start set each time, and added the rc_w0 note. Recompiled."
+    },
+    {
+      "id": "mcu-msp-psp-definition",
+      "verdict": "fixed",
+      "note": "Claimed a task that overflows its own stack cannot corrupt the kernel's stack. Without an MPU guard region or a stack-limit register it can. Also glossed Thread and Handler mode, which were used before their card."
+    },
+    {
+      "id": "mcu-riscv-plic-clic-vs-nvic-tradeoff",
+      "verdict": "fixed",
+      "note": "Named R0-R3, LR, PC and xPSR before the programmer's-model unit. 'All interrupts share one trap entry' contradicted the vectored mode on the previous card: only external interrupts share one cause. Credited the NVIC with stacking, which the core does. Presented CLIC as settled, though it is still an unratified draft. Fixed all four, expanded CLINT and added asOf."
+    },
+    {
+      "id": "mcu-pipeline-depth-numbers",
+      "verdict": "fixed",
+      "note": "Credited dual issue with the M7's higher MHz, and a deeper pipeline with more work per cycle. Those causes are swapped. The watch-out also contradicted the depth-allows-faster-clock point. Glossed TCM, used here before its card."
+    },
+    {
+      "id": "mcu-m33-trustzone-example",
+      "verdict": "fixed",
+      "note": "M55 and M85 also have optional TrustZone and FPU, so 'which core fits' had more than one answer. The prompt now gives M0+, M4, M23 and M33. The body says the M33's TrustZone, FPU and DSP are all options."
+    },
+    {
+      "id": "mcu-cpacr-enable-fpu-code",
+      "verdict": "fixed",
+      "note": "Said the first FP instruction raises a UsageFault. After reset the UsageFault handler is disabled, so it escalates to HardFault. Recompiled for thumbv7em."
+    },
+    {
+      "id": "mcu-smlad-dot-product-problem",
+      "verdict": "fixed",
+      "note": "'For real signals it usually fits' was unsupported, since 256 Q15 products overflow int32 at modest amplitudes. Now points to SMLALD's 64-bit accumulator or scaling the inputs."
+    },
+    {
+      "id": "mcu-pll-concept",
+      "verdict": "fixed",
+      "note": "Said switching to an unlocked PLL can crash the chip, but RM0090 says the STM32F4 holds the switch until the PLL is ready (checked). The crash risk is too few wait states. Also, three integer settings is an STM32F4 rule, now stated as such."
+    },
+    {
+      "id": "mcu-pll-divider-problem",
+      "verdict": "fixed",
+      "note": "Tip said to choose the VCO input first, but the worked solution fixes P first, and the recommended 2 MHz input needs M = 12.5 here. Rewrote the tip to match. Answer M=25, N=336, P=2 re-solved by brute force and unique. VCO limits 100-432 MHz confirmed against RM0090 and the current datasheet."
+    },
+    {
+      "id": "mcu-rv32imac-name-definition",
+      "verdict": "fixed",
+      "note": "Used 'CSR' before its card, and the Zicsr remark clashed with the bare -march=rv32imac example on GCC 12 and later. Removed it. The ref pointed to Volume II, but extension naming is in Volume I. ESP32-C3 RV32IMC confirmed in Espressif's ESP-IDF docs."
+    },
+    {
+      "id": "mcu-riscv-machine-mode-definition",
+      "verdict": "fixed",
+      "note": "Used 'CSR' and Cortex-M privilege before they are taught. 'M-mode has no MMU' was imprecise: addresses are untranslated, and PMP restricts M-mode only for locked entries. Reworded."
+    },
+    {
+      "id": "mcu-soc-definition",
+      "verdict": "fixed",
+      "note": "Said single-board-computer SoCs put radios on the die, and that an MCU always has its flash on the core's die, which contradicts the ESP32-C3 card. Hedged both and glossed 'die'."
+    },
+    {
+      "id": "mcu-core-vs-chip-ip-licensing",
+      "verdict": "fixed",
+      "note": "Said the core is only the CPU. A Cortex-M core also includes its interrupt controller and debug logic, which the PPB/SCS card relies on. Reworded, keeping the answer line short."
+    },
+    {
+      "id": "mcu-microcontroller-definition",
+      "verdict": "fixed",
+      "note": "Said an MCU has no operating system, contradicting later cards where it runs an RTOS. It also implied a single decoupling capacitor. Now says no full OS such as Linux, and decoupling capacitors."
+    },
+    {
+      "id": "mcu-flash-memory-definition",
+      "verdict": "fixed",
+      "note": "Erase-to-1 is not universal: STM32L0/L1 erase to 0 (checked). The smallest erase unit can be a few hundred bytes, not 'a couple of KiB'. Hedged both."
+    },
+    {
+      "id": "mcu-flash-endurance-numbers",
+      "verdict": "fixed",
+      "note": "The logging example assumed an erase per record without saying so. It is now a rewrite-in-place example. STM32F412 figures (10 kcycles; 30 years at 85 °C after 1 kcycle) checked. The F407 datasheet also gives 10 kcycles."
+    },
+    {
+      "id": "mcu-double-slow-concept",
+      "verdict": "fixed",
+      "note": "'a * 0.1 ... converts back' only holds when the result is stored as a float, so the example now uses 'float y = a * 0.1;'. -fsingle-precision-constant is a GCC option. Codegen rechecked with clang for an M4F at -O0 and -O2."
+    },
+    {
+      "id": "mcu-cortex-m4-definition",
+      "verdict": "fixed",
+      "note": "SIMD was used undefined, and the watch-out repeated the FPU-optional misconception card. Glossed SIMD and replaced the watch-out with the point that the M3 and M4 match on integer speed per MHz (1.25 DMIPS/MHz each, checked)."
+    },
+    {
+      "id": "mcu-armv-m-version-map",
+      "verdict": "fixed",
+      "note": "Helium was named but never defined in its unit, and not marked optional. Said Armv8-A has 'a different instruction set', but it also runs T32. Fixed both."
+    },
+    {
+      "id": "mcu-cortex-m0plus-definition",
+      "verdict": "fixed",
+      "note": "Used FPU and DSP before their definitions. 'A filter runs as a software routine' implied other cores filter in hardware. Glossed and reworded. Arm's 'smallest footprint and lowest power' wording confirmed."
+    },
+    {
+      "id": "mcu-fpu-optional-misconception",
+      "verdict": "fixed",
+      "note": "Tip said vendor part-number decoders show whether an FPU is present. Many, such as ST's, do not. Now says to check each part's datasheet."
+    },
+    {
+      "id": "mcu-keyword-spotting-core-tradeoff",
+      "verdict": "fixed",
+      "note": "'Peak rates are never reached' stated a rule of thumb as absolute, and 'kernels' clashes with the OS sense taught earlier. Reworded. M55's 8 int8 MACs/cycle confirmed in Arm's spec."
+    },
+    {
+      "id": "mcu-esp32c3-vs-m4f-tradeoff",
+      "verdict": "fixed",
+      "note": "'400 KB' broke the notation. It is 400 KiB, 16 KiB of it cache, per Espressif's datasheet."
+    },
+    {
+      "id": "mcu-core-registers-definition",
+      "verdict": "fixed",
+      "note": "Said every branch target needs bit 0 set. Only addresses that code branches to through a register do."
+    },
+    {
+      "id": "mcu-thread-handler-modes-concept",
+      "verdict": "fixed",
+      "note": "Said returning from a handler goes back to Thread mode. A nested handler returns to the handler it interrupted."
+    },
+    {
+      "id": "mcu-unaligned-access-code",
+      "verdict": "fixed",
+      "note": "Armv7-M unaligned support was stated without its 'by default' condition (CCR.UNALIGN_TRP), and the memcpy codegen claim needs optimization. Checked with clang at -O2: byte loads on v6-M, one LDR on v7-M."
+    },
+    {
+      "id": "mcu-register-address-problem",
+      "verdict": "fixed",
+      "note": "Difficulty 3 sat after three difficulty-4 cards in the unit. Raised it to 4 so the unit climbs. GPIOD base and BSRR offset checked in the F407 datasheet."
+    },
+    {
+      "id": "mcu-sram-definition",
+      "verdict": "fixed",
+      "note": "Said variables must live in SRAM, but constants live in flash. Also stated full core speed for SRAM as universal. Hedged both."
+    },
+    {
+      "id": "mcu-ahb-apb-bus-matrix-concept",
+      "verdict": "fixed",
+      "note": "AHB and APB were never expanded. 'One CPU cycle' for an SRAM load is too low, since LDR takes 1-2 cycles. Fixed. APB1 42 MHz and APB2 84 MHz checked in the F407 datasheet."
+    },
+    {
+      "id": "mcu-flash-clock-misconception",
+      "verdict": "fixed",
+      "note": "'Speedup is smaller than the clock ratio' was stated as always true, but ST rates the ART at 0-wait-state-equivalent on CoreMark. Also, the ART has a data cache too. Hedged. The 0 WS to 30 MHz and 5 WS at 168 MHz figures checked."
+    },
+    {
+      "id": "mcu-tcm-vs-cache-tradeoff",
+      "verdict": "fixed",
+      "note": "'Execution time is the same every time' overclaimed. TCM fixes memory timing only."
+    },
+    {
+      "id": "mcu-clock-tree-definition",
+      "verdict": "fixed",
+      "note": "PLL was used before being defined, and Yiu §4.8 (Reset) was cited for clock trees. Glossed the PLL and replaced the ref with the cpq clocks guide."
+    },
+    {
+      "id": "mcu-clock-gating-definition",
+      "verdict": "fixed",
+      "note": "Stated 'STM32 registers read back 0' as a rule. ST manuals only say access is not supported. Softened to 'usually'."
+    },
+    {
+      "id": "mcu-sysclk-formula",
+      "verdict": "fixed",
+      "note": "Cited Yiu §4.8 (Reset) for the PLL formula. Replaced it with the F405/407 datasheet PLL table, whose current revision gives a 100-432 MHz VCO, matching RM0090."
+    },
+    {
+      "id": "mcu-rc-vs-crystal-tradeoff",
+      "verdict": "fixed",
+      "note": "'Around 2%' was ambiguous between per-end and total error, and 'baud' was undefined. Now stated as a rule of thumb for the total, and baud is glossed."
+    },
+    {
+      "id": "mcu-reset-sources-definition",
+      "verdict": "fixed",
+      "note": "Setting SYSRESETREQ alone is ignored: the AIRCR write must also carry the 0x05FA key."
+    },
+    {
+      "id": "mcu-datasheet-vs-reference-manual-definition",
+      "verdict": "fixed",
+      "note": "Said a datasheet covers one part number, but it usually covers several. Presented the datasheet/reference-manual split as universal, but Microchip AVR and SAM datasheets include the registers. Fixed both and shortened the answer line under the validator limit."
+    },
+    {
+      "id": "mcu-alternate-function-code",
+      "verdict": "fixed",
+      "note": "Watch-out said USART2's clock is needed for the GPIO writes, which is wrong. The AFR[0] = AFRL naming was also never stated. Fixed. PA2 AF7 = USART2_TX is standard; I could not extract that row from the datasheet PDF."
+    },
+    {
+      "id": "mcu-stm32f407-numbers",
+      "verdict": "fixed",
+      "note": "RTOS and FPU/M4F were used before being taught. Added glosses. 168 MHz, 1 MB flash, 192 KB SRAM (112+16+64 CCM) and 4 KB backup SRAM checked in the F407 datasheet."
+    },
+    {
+      "id": "mcu-peripheral-definition",
+      "verdict": "fixed",
+      "note": "The GPIO example left out its condition that the pin is configured as an output."
+    },
+    {
+      "id": "mcu-thumb2-definition",
+      "verdict": "fixed",
+      "note": "'Low registers' was used before the core-registers card defines it. Reworded. The movs/movw encodings were reassembled and match."
+    },
+    {
+      "id": "mcu-coin-cell-core-tradeoff",
+      "verdict": "fixed",
+      "note": "'FFT' was not taught. Replaced it with long multiply-accumulate loops."
+    },
+    {
+      "id": "mcu-riscv-csr-definition",
+      "verdict": "fixed",
+      "note": "'NVIC' was used before its definition. Glossed it."
+    },
+    {
+      "id": "mcu-riscv-trap-sequence",
+      "verdict": "fixed",
+      "note": "'ecall' was not taught, so I glossed it. Clarified that for an interrupt, mepc holds the interrupted instruction, as the privileged spec words it."
+    },
+    {
+      "id": "mcu-xpsr-definition",
+      "verdict": "fixed",
+      "note": "'SysTick' was undefined, and 'plain add in its 32-bit form' was confusing. Glossed SysTick and simplified the add wording."
+    },
+    {
+      "id": "mcu-control-psp-switch-code",
+      "verdict": "fixed",
+      "note": "'Naked function' was not taught. Glossed it. The snippet reassembled for thumbv7m."
+    },
+    {
+      "id": "mcu-basepri-mask-code",
+      "verdict": "fixed",
+      "note": "HardFault was used undefined, and 'never call kernel functions' stated a rule as a fact. Glossed and reworded. Confirmed BASEPRI is rejected for v6-M."
+    },
+    {
+      "id": "mcu-register-address-definition",
+      "verdict": "fixed",
+      "note": "'offsetof' was used before being taught. Glossed it."
+    },
+    {
+      "id": "mcu-smlad-definition",
+      "verdict": "fixed",
+      "note": "'CMSIS' was used before being defined. Glossed it."
+    },
+    {
+      "id": "mcu-float32-vs-int8-tradeoff",
+      "verdict": "fixed",
+      "note": "'Validation set' was not taught. Reworded to 'your own test data'."
+    },
+    {
+      "id": "mcu-errata-workaround-example",
+      "verdict": "fixed",
+      "note": "'SPI' was not taught. Glossed it in the prompt."
+    }
+  ],
+  "summary": {
+    "reviewed": 75,
+    "ok": 22,
+    "fixed": 53,
+    "dropped": 0,
+    "added": 0,
+    "notes": "All C snippets compiled with ASan/UBSan and gave the stated output: mcause, endianness, offsetof, PLLCFGR, and a mock of the alternate-function writes. Thumb snippets were assembled for thumbv7m, and the movw/movs encodings match. The unaligned, CPACR, w1c and double-promotion snippets were compiled with clang for thumbv6m/v7m/v7em. All numeric answers were recomputed in Python, including the bit-band alias, the PLL brute force, wait states, RTC drift, UART margin, conv MACs, SMLAD, memory budget and endurance. These were checked by web search or the F407 datasheet text: F407 sizes, APB limits, the wait-state table, GPIOD base, the VCO range (100-432 MHz in RM0090 and the current datasheet; an old 2013 datasheet said 192), F412 endurance, M55 MAC rate, the M55/M85 DP FPU, ESP32-C3 specs, M0+ wording, M3/M4 DMIPS, the CLIC draft status, STM32 TIM rc_w0 and the RCC switch hold-off. Not verified: Yiu, Valvano and White section numbers (pointers taken from the brief), and the F407 alternate-function row and retention rows, which I could not extract from the PDF. GCC was not available; clang only."
+  }
+}

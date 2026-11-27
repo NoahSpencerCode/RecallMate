@@ -1,0 +1,961 @@
+{
+  "profession": "embedded-ai",
+  "module": "mcu-architecture",
+  "tier": 2,
+  "cards": [
+    {
+      "id": "mcu-microcontroller-definition",
+      "unit": "mcu-anatomy",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **microcontroller** (MCU)?",
+      "body": "A single chip that holds a CPU core, program memory (flash), working memory (SRAM) and peripherals, so it can run a program with very few outside parts.\n\nA typical MCU contains these blocks, all on one piece of silicon:\n- CPU core\n- on-chip **flash** (program storage) and on-chip **SRAM** (working memory)\n- a bus matrix that connects the blocks\n- clock and reset circuits\n- general-purpose input/output (GPIO) pins that software can drive high or low or read\n- timers, serial ports such as UARTs (simple two-wire serial links), and an analog-to-digital converter (ADC)\n- a DMA controller and a debug port\n\nKey idea: everything the program needs is inside the package. Add power, decoupling capacitors and the sensors or actuators, and it runs.\n\nWatch out: an MCU is not a tiny laptop. It usually has no MMU, no full operating system such as Linux and no external DRAM, and its program lives in its own flash.",
+      "searchQuery": "microcontroller MCU definition CPU flash SRAM peripherals one chip",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §2.1 What are inside typical ARM microcontrollers?"
+      ]
+    },
+    {
+      "id": "mcu-peripheral-definition",
+      "unit": "mcu-anatomy",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **peripheral** on a microcontroller?",
+      "body": "A hardware block on the chip, outside the CPU core, that software controls through memory-mapped registers: a GPIO port, timer, UART or ADC, for example.\n\nThe CPU configures a peripheral by writing its control registers and checks it by reading its status registers. Once started, the peripheral works on its own: a timer keeps counting and an ADC keeps converting without the CPU executing a single instruction for them.\n\nExample: once a pin is set up as an output, writing a 1 to its bit in the GPIO output register makes the pin go high. The pin voltage changes because dedicated hardware reacts to that write.\n\nWatch out: peripheral registers are not ordinary memory. Reading one can clear a flag, and the value can change by itself, so accesses must go through `volatile` pointers.",
+      "searchQuery": "microcontroller peripheral definition memory-mapped registers GPIO timer",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §2.1 What are inside typical ARM microcontrollers?"
+      ]
+    },
+    {
+      "id": "mcu-soc-definition",
+      "unit": "mcu-anatomy",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **system-on-chip (SoC)**, and how does an MCU fit that label?",
+      "body": "A chip that integrates processor core(s) and most of the other blocks of a system on one die; an MCU is a small SoC, though \"SoC\" usually means a bigger chip whose main memory is external DRAM.\n\nA **die** is one piece of silicon. A phone or single-board-computer SoC packs several CPU cores, a GPU, memory controllers and often a modem or radio onto one die, but its gigabytes of DRAM sit in separate chips. An MCU usually puts its flash and SRAM on the same die as the core.\n\nWhy it matters: the label tells you little, so ask what is inside. On-chip program memory and no external DRAM means MCU-style design. A memory controller for external DRAM and a memory management unit (MMU) for a full operating system means an application-class SoC.\n\nWatch out: vendors call MCUs with a radio built in \"wireless SoCs\". Judge the part by its memory and its processor core, not by the marketing word.",
+      "searchQuery": "system-on-chip SoC definition microcontroller difference DRAM",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §1.1 What are the ARM Cortex-M processors?"
+      ]
+    },
+    {
+      "id": "mcu-core-vs-chip-ip-licensing",
+      "unit": "mcu-anatomy",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How does a **processor core** differ from the microcontroller chip built around it, and what is **IP licensing**?",
+      "body": "The core is the processor design (pipeline, registers and closely tied blocks such as the interrupt controller), often licensed from a company such as Arm; the chip is a vendor's product that wraps that core with flash, SRAM, a bus matrix, clocks, peripherals and pins.\n\nIn **IP licensing** a company sells a reusable design block (its \"intellectual property\") instead of chips. Arm designs cores such as the Cortex-M family and licenses them to chip makers, which build MCUs around them. Arm does not sell the MCU chips.\n\nExample: two vendors can both ship a Cortex-M4 part. The CPU runs the same instructions on both (apart from optional blocks the vendor picks, such as a floating-point unit) and has the same kind of interrupt controller, but flash size, peripherals, pin layout and peripheral register addresses differ, because the vendor designed everything outside the core.\n\nWatch out: \"Cortex-M4\" tells you the CPU and its instruction set, not the peripherals. Firmware that touches GPIO or timers does not port between vendors without rewriting; read the vendor's own manual.",
+      "searchQuery": "processor core versus microcontroller chip Arm IP licensing vendor",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §1.1.3 Differences between a processor and a microcontroller",
+        "Yiu, Cortex-M3/M4 3e, §2.1 What are inside typical ARM microcontrollers?"
+      ]
+    },
+    {
+      "id": "mcu-stm32f407-numbers",
+      "unit": "mcu-anatomy",
+      "kind": "numbers",
+      "difficulty": 3,
+      "title": "Roughly what clock speed, flash and SRAM does a mainstream Cortex-M4F microcontroller such as the STM32F407VG have?",
+      "body": "$168\\,\\mathrm{MHz}$, $1\\,\\mathrm{MiB}$ of flash and $192\\,\\mathrm{KiB}$ of SRAM.\n\nThe STM32F407VG datasheet quotes a Cortex-M4 with FPU (a hardware floating-point unit, hence \"M4F\") at up to $168\\,\\mathrm{MHz}$, up to $1\\,\\mathrm{MB}$ of flash and $192\\,\\mathrm{KB}$ of SRAM ($112 + 16 + 64$, where the $64$ is a separate core-coupled block). ST writes \"Mbyte\" and \"Kbyte\" for binary sizes, so in this course's notation these are $1\\,\\mathrm{MiB}$ and $192\\,\\mathrm{KiB}$. It also has $4\\,\\mathrm{KiB}$ of backup SRAM.\n\nExample: a laptop with $16\\,\\mathrm{GiB}$ of RAM has about $87{,}000$ times more memory than this chip's $192\\,\\mathrm{KiB}$, yet the chip can run an RTOS (a small real-time operating system), a USB stack and a small neural network.\n\nTip: use this part as your mental anchor for a \"mid-range\" MCU. Small parts have tens of KiB of flash and a few KiB of SRAM; flagship parts have megabytes and hundreds of MHz.",
+      "searchQuery": "STM32F407 168 MHz 1 MiB flash 192 KiB SRAM Cortex-M4F",
+      "asOf": "2026-11-26",
+      "tags": [
+        "mcu-sizing"
+      ],
+      "refs": [
+        "STM32F407VG product page and datasheet, STMicroelectronics: https://www.st.com/en/microcontrollers-microprocessors/stm32f407vg.html"
+      ]
+    },
+    {
+      "id": "mcu-selection-table-example",
+      "unit": "mcu-anatomy",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Example: using this made-up product-selection table, which is the lowest-cost part that meets every requirement? Price rises from A to D.\n\n- Part A: Cortex-M0+, 48 MHz, 64 KiB flash, 8 KiB RAM, 2 UARTs, 32 pins\n- Part B: Cortex-M0+, 48 MHz, 128 KiB flash, 16 KiB RAM, 2 UARTs, 48 pins\n- Part C: Cortex-M4F, 80 MHz, 256 KiB flash, 64 KiB RAM, 3 UARTs, 48 pins\n- Part D: Cortex-M4F, 80 MHz, 512 KiB flash, 128 KiB RAM, 3 UARTs, 64 pins\n\nRequirements: firmware of 90 KiB plus 30 KiB spare flash, at least 20 KiB RAM, 2 UARTs, at most 48 pins.",
+      "body": "Part C.\n\nConvert each requirement into a minimum and test every part against all of them: flash at least $90 + 30 = 120\\,\\mathrm{KiB}$, RAM at least $20\\,\\mathrm{KiB}$, at least 2 UARTs, at most 48 pins.\n\n- A: $64\\,\\mathrm{KiB}$ flash is too small.\n- B: flash and UARTs pass, but $16\\,\\mathrm{KiB}$ of RAM is below $20\\,\\mathrm{KiB}$.\n- C: $256 \\geq 120$, $64 \\geq 20$, 3 UARTs, 48 pins. It passes everything.\n- D: passes the memory tests, but 64 pins breaks the package limit and it costs more.\n\nTip: shortlist on the hard limits first (flash, RAM, pins, peripheral counts), then compare price. Real tables add package types and supply voltage, so check those columns too.",
+      "searchQuery": "microcontroller product selection table shortlist flash RAM pins",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §2.1 What are inside typical ARM microcontrollers?",
+        "Arm Education, Embedded Systems Essentials with Arm: Get Started with the micro:bit"
+      ]
+    },
+    {
+      "id": "mcu-vs-application-processor-tradeoff",
+      "unit": "mcu-anatomy",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Trade-off: a battery-powered sensor must react to an event within microseconds and run for months. Do you pick a microcontroller or an application processor?",
+      "body": "A microcontroller, because it wakes in microseconds, responds with predictable timing and can sleep at a tiny fraction of the power an application processor idles at.\n\nAn **application processor** is a CPU with an MMU, built to run a full operating system such as Linux from external DRAM. It boots in seconds, runs at GHz clock speeds and usually draws well over a milliwatt even when idle.\n\nAn MCU runs one program or a small RTOS straight from flash and starts from reset almost at once. Low-power MCUs sleep at currents on the order of a microamp.\n\nThe other side: pick the application processor when the product needs Linux services (a file system, a full network stack, a display toolkit), camera pipelines or gigabytes of memory. Many products use both: an MCU handles real-time work and wake-ups, and an application processor sleeps until needed.\n\nWatch out: raw MHz is a poor guide. A $48\\,\\mathrm{MHz}$ MCU can meet a microsecond deadline that a $1\\,\\mathrm{GHz}$ Linux system misses, because the OS scheduler adds unpredictable delay.",
+      "searchQuery": "microcontroller versus application processor Linux real-time low power",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §1.1.3 Differences between a processor and a microcontroller",
+        "Valvano, Vol. 1, ch. 3"
+      ]
+    },
+    {
+      "id": "mcu-product-family-headroom-tradeoff",
+      "unit": "mcu-anatomy",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Trade-off: do you pick the smallest part that fits today's firmware, or the next larger member of the same product family?",
+      "body": "The next larger, pin-compatible family member when the firmware may still grow and the price gap is small; the smallest part only when the firmware is frozen and volume makes every cent count.\n\nA **product family** is a set of parts with the same core and peripheral design but different flash, RAM and pin counts, often pin-compatible so a bigger part can drop onto the same board.\n\nWhy: running out of flash or RAM late in a project forces a firmware squeeze or a board respin, which costs far more than the price difference. A bigger part also leaves room for features, a larger model and a second firmware copy for safe updates.\n\nThe other side: at millions of units, a few cents per chip is real money, and a frozen design can safely use the smallest part. Choose a family whose smaller members you can move down to later.\n\nTip: a common rule of thumb is to keep some spare flash and RAM (often 20 to 30 percent) at the first design review, then pick the part from there.",
+      "searchQuery": "microcontroller product family pin-compatible headroom flash RAM choose part",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §2.1 What are inside typical ARM microcontrollers?"
+      ]
+    },
+    {
+      "id": "mcu-thumb2-definition",
+      "unit": "cortex-m-family",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **Thumb-2**, and why does it matter for flash size?",
+      "body": "An instruction set that mixes 16-bit and 32-bit instructions, giving near-full speed with compact code; Cortex-M processors run only Thumb-family instructions.\n\nCommon operations, such as adding two registers or loading a small constant, have 16-bit encodings. Operations that need more bits, such as a 16-bit immediate or a long branch, use 32-bit encodings. The decoder handles both in the same stream.\n\nExample (assembled for a Cortex-M3): `movs r0, #1` is 2 bytes (`0x2001`) while `movw r5, #0x1234` is 4 bytes (`0xf241 0x2534`).\n\nWhy it matters: **code density** is how few bytes of machine code a program needs. Denser code fits in a smaller, cheaper flash and needs fewer flash reads, which saves energy.\n\nWatch out: Cortex-M0 and M0+ implement a smaller Thumb subset with only a handful of 32-bit instructions, so they need more instructions for the same job than M3 and above.",
+      "searchQuery": "Thumb-2 instruction set 16-bit 32-bit code density Cortex-M",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §1.5 Background and history",
+        "Yiu, Cortex-M3/M4 3e, ch. 3 (Technical Overview)"
+      ]
+    },
+    {
+      "id": "mcu-cortex-m0plus-definition",
+      "unit": "cortex-m-family",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **Cortex-M0+**?",
+      "body": "Arm's smallest, most energy-efficient Cortex-M core: an Armv6-M design with a two-stage pipeline, no FPU, no DSP instructions and no hardware divide.\n\nIt is still a 32-bit core, with 32-bit registers and a 4 GiB address space, but it executes a deliberately small Thumb subset to keep silicon area and power low. It has no floating-point unit (FPU: hardware for `float` arithmetic) and none of the DSP (digital signal processing) instructions that speed up multiply-accumulate loops.\n\nWhy it matters: low area means low cost and low leakage, so the M0+ suits coin-cell sensor nodes, simple motor or LED controllers and the housekeeping brains inside larger chips.\n\nWatch out: small does not mean weak at control tasks. It means weak at heavy arithmetic: each divide or floating-point operation becomes a library routine, and multiply-heavy loops get no DSP help.",
+      "searchQuery": "Cortex-M0+ Armv6-M smallest low power core two-stage pipeline",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §1.5 Background and history",
+        "Arm Developer documentation: Cortex-M0+ processor"
+      ]
+    },
+    {
+      "id": "mcu-cortex-m4-definition",
+      "unit": "cortex-m-family",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does the **Cortex-M4** add over the Cortex-M3?",
+      "body": "DSP instructions (fast multiply-accumulate and SIMD operations on packed 8- and 16-bit values) and an optional single-precision FPU.\n\nThe Cortex-M3 implements Armv7-M. The M4 implements Armv7E-M, which is Armv7-M plus these digital-signal-processing extensions. **SIMD** (single instruction, multiple data) means one instruction works on several small values packed into one 32-bit register. A **floating-point unit (FPU)** is a hardware block that does floating-point add, multiply and similar operations in a few cycles instead of running a software library.\n\nA Cortex-M4 with the FPU is called an M4F. Both M3 and M4 have a three-stage pipeline and full Thumb-2.\n\nWhy it matters: audio, motor-control and sensor-fusion code is dominated by multiply-accumulate loops, which is what these additions speed up.\n\nWatch out: on ordinary integer code an M4 runs at about the same speed per MHz as an M3, because the pipeline is the same. The gain shows only in code that uses the new instructions.",
+      "searchQuery": "Cortex-M4 DSP extension FPU Armv7E-M difference Cortex-M3",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, ch. 3 (Technical Overview)",
+        "Yiu, Cortex-M3/M4 3e, §1.5 Background and history"
+      ]
+    },
+    {
+      "id": "mcu-armv-m-version-map",
+      "unit": "cortex-m-family",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Which Armv-M architecture version does each core implement: Cortex-M0+, M3, M4, M7, M23, M33, M55 and M85?",
+      "body": "M0+: Armv6-M. M3: Armv7-M. M4 and M7: Armv7E-M. M23 and M33: Armv8-M (Baseline and Mainline). M55 and M85: Armv8.1-M Mainline.\n\nAn architecture version is the contract between hardware and software: the instructions, registers and memory model. A core is one implementation of it, so many cores can share one version.\n\n- Armv7E-M is Armv7-M plus DSP extensions (so M4 and M7 can run M3 code).\n- Armv8-M Baseline is the small, Armv6-M-like profile (M23); Mainline is the fuller, Armv7-M-like profile (M33).\n- Armv8.1-M adds the optional **Helium** vector extension (MVE), whose instructions work on 128-bit vectors holding several values at once (M55 and M85).\n\nWatch out: Armv8-M is the microcontroller line, not Armv8-A. The \"A\" profile is the application-processor family, with 64-bit execution and an MMU for operating systems such as Linux.",
+      "searchQuery": "Cortex-M architecture versions Armv6-M Armv7-M Armv8-M Armv8.1-M cores",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §1.5 Background and history",
+        "Yiu, Cortex-M23/M33, ch. 1 (Introduction)"
+      ]
+    },
+    {
+      "id": "mcu-m33-trustzone-example",
+      "unit": "cortex-m-family",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Example: a connected sensor must keep its cloud credentials safe even if its network code has a bug, and it also runs light floating-point filtering. Of the Cortex-M0+, M4, M23 and M33, which core fits, and which feature protects the credentials?",
+      "body": "The Cortex-M33, with TrustZone protecting the credentials and its FPU handling the filtering.\n\nThe M33 is an Armv8-M Mainline core whose TrustZone, single-precision FPU and DSP instructions are all options. The M0+ has neither feature, the M4 can have an FPU but never TrustZone, and the M23 can have TrustZone but never an FPU. **TrustZone** for Armv8-M splits memory and CPU state into a Secure world and a Non-secure world in hardware. Non-secure code cannot read Secure memory and can enter Secure code only through defined entry points.\n\nKey idea: keep key storage and crypto in the Secure world and the application and network stack in the Non-secure world. A bug that hijacks the network code still cannot read the keys.\n\nWatch out: TrustZone and the FPU are options the chip designer chooses, so check that the part includes both. M0+, M3, M4 and M7 have no TrustZone at all, and TrustZone isolates software only; it does not stop physical attacks such as probing the chip.",
+      "searchQuery": "Cortex-M33 TrustZone Secure Non-secure world Armv8-M FPU",
+      "refs": [
+        "Yiu, Cortex-M23/M33, ch. 1 (Introduction)",
+        "Yiu, Cortex-M23/M33, ch. 3 (Technical overview)"
+      ]
+    },
+    {
+      "id": "mcu-fpu-optional-misconception",
+      "unit": "cortex-m-family",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is the belief \"every Cortex-M4 chip has a floating-point unit\" false?",
+      "body": "The FPU is an optional part of the Cortex-M4 design; the chip maker decides whether to include it, and only parts with it are Cortex-M4F.\n\nCores such as the M7, M33, M55 and M85 also offer the FPU as an option. A chip with no FPU runs every float operation as a software routine that costs many cycles.\n\nWhy it matters: building for the wrong target fails in two ways. Code built to use an FPU that is missing, or one that is present but not yet enabled, faults on the first floating-point instruction. Code built for no FPU on an FPU part works but wastes the hardware.\n\nTip: read the core line of the exact part's datasheet (\"Cortex-M4 with FPU\" or not) before choosing build flags. Families from the same vendor can differ, so check each part.",
+      "searchQuery": "Cortex-M4 FPU optional Cortex-M4F datasheet floating-point unit check",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, ch. 3 (Technical Overview)"
+      ]
+    },
+    {
+      "id": "mcu-pipeline-depth-numbers",
+      "unit": "cortex-m-family",
+      "kind": "numbers",
+      "difficulty": 3,
+      "title": "How many pipeline stages do the Cortex-M0+, Cortex-M4 and Cortex-M7 have?",
+      "body": "Cortex-M0+: 2 stages. Cortex-M4: 3 stages. Cortex-M7: 6 stages.\n\nThe Cortex-M3 also has 3 stages. The M7's deeper pipeline lets it clock higher, and it can also issue two instructions per cycle. Its caches and **tightly coupled memory** (fast SRAM wired straight to the core) keep it fed at those speeds, which flash alone could not, so M7 parts run at hundreds of MHz.\n\nWhy it matters: a shallower pipeline costs less area and power and loses fewer cycles when a branch flushes it, which suits small cores. A deeper one allows a faster clock, at the cost of more area and a bigger loss on each flush.\n\nWatch out: the stage count belongs to Arm's core design and is the same in every chip built on that core. It does not fix the chip's clock, which also depends on the vendor's silicon process and memory system.",
+      "searchQuery": "Cortex-M0+ M4 M7 pipeline stages 2 3 6",
+      "asOf": "2026-11-26",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, ch. 3 (Technical Overview)",
+        "Arm Developer documentation: Cortex-M technical reference manuals"
+      ]
+    },
+    {
+      "id": "mcu-coin-cell-core-tradeoff",
+      "unit": "cortex-m-family",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Trade-off: a temperature node on a coin cell wakes once a minute, reads one sensor and sends a few bytes. Cortex-M0+ or Cortex-M4F?",
+      "body": "Cortex-M0+, because the tiny amount of integer work per wake-up makes sleep current, wake-up time and chip cost matter far more than arithmetic speed.\n\nOver a minute the node is asleep almost all the time, so average power is dominated by sleep current and by how quickly it wakes, does its job and returns to sleep. A small core leaks less and the part costs less.\n\nThe other side: if each wake-up filters or transforms data with floating-point math or long multiply-accumulate loops, the M4F can finish in a fraction of the cycles and return to sleep sooner, which can use less energy overall even though its active power is higher.\n\nWatch out: the chip's sleep current, wake-up time and radio usually decide battery life more than the core does, so compare whole parts and their datasheet current figures, not just core names.",
+      "searchQuery": "Cortex-M0+ versus Cortex-M4F coin cell sensor node low power core choice",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, ch. 3 (Technical Overview)"
+      ]
+    },
+    {
+      "id": "mcu-keyword-spotting-core-tradeoff",
+      "unit": "cortex-m-family",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Trade-off: an always-on keyword spotter runs an int8 model needing about 50 million multiply-accumulates per second. Cortex-M4F or Cortex-M55?",
+      "body": "Cortex-M55, because Helium's vector multiply-accumulate finishes the work in far fewer cycles, so the core is busy a much smaller share of the time.\n\nAn M4 does at most two 16-bit multiply-accumulates per cycle with its DSP instructions, and in real code load and loop overhead cut that further, so $50\\times10^{6}$ MACs per second can keep it busy at a large fraction of a $100\\,\\mathrm{MHz}$ clock. The M55 can do up to eight 8-bit multiply-accumulates per cycle at peak, so it needs far fewer active cycles.\n\nThe other side: if the model is tiny (tens of thousands of MACs per inference) an M4F is idle almost all the time and is cheaper and widely available. Pick the M55 when the workload would keep the M4F busy near full speed, or when you want headroom for a larger model.\n\nWatch out: whole models rarely sustain the peak rates, so compare measured inference time on the actual parts, using optimized library code on both.",
+      "searchQuery": "keyword spotting Cortex-M4F versus Cortex-M55 Helium int8 MACs per cycle",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, ch. 3 (Technical Overview)",
+        "Arm Developer documentation: Cortex-M55 processor"
+      ]
+    },
+    {
+      "id": "mcu-vision-core-tradeoff",
+      "unit": "cortex-m-family",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Trade-off: a battery camera must run an int8 person-detection network several times per second. Cortex-M7 or Cortex-M85?",
+      "body": "Cortex-M85 (or M55), because Helium vector instructions do int8 convolutions much faster per MHz than the M7's scalar and 16-bit SIMD instructions.\n\nThe deciding factor is the workload: a vision network spends most of its time in convolutions, long runs of int8 multiply-accumulates that map directly onto Helium's wide vectors. Both cores have optional caches and tightly coupled memory, which help with large frame buffers kept in external or on-chip RAM.\n\nThe other side: pick the M7 when the network is small enough to meet the frame rate on it and you want the widest choice of parts, mature drivers and tools, or a lower price. M7 parts have been on the market far longer than M85 parts.\n\nTip: very heavy vision loads often add a separate neural-network accelerator next to the core. Then the core's job is control and pre-processing, and the cheaper core may win.",
+      "searchQuery": "Cortex-M7 versus Cortex-M85 Helium on-device vision int8 person detection",
+      "refs": [
+        "Arm Developer documentation: Cortex-M7 processor",
+        "Arm Developer documentation: Cortex-M85 processor"
+      ]
+    },
+    {
+      "id": "mcu-rv32imac-name-definition",
+      "unit": "riscv-mcus",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Decode the RISC-V name **RV32IMAC**.",
+      "body": "A 32-bit RISC-V core with the base integer instructions (I) plus the extensions M (multiply and divide), A (atomic instructions) and C (16-bit compressed instructions).\n\nAn **ISA extension** is an optional, standardized group of instructions named by a letter. The base RV32I has no multiply or divide at all, so small cores add M. Other common letters: F is single-precision floating point and D is double-precision.\n\nExample: RV32IMC is the same core without A. The ESP32-C3 is described as RV32IMC: it multiplies and divides in hardware and has compressed instructions, but no atomics and no FPU.\n\nWatch out: no F means no FPU, so `float` math runs as library code. Match the compiler flags to the chip: `-march=rv32imac -mabi=ilp32` for this core, where `ilp32` is the ABI that uses no floating-point registers.",
+      "searchQuery": "RISC-V RV32IMAC extensions M A C meaning decode",
+      "refs": [
+        "The RISC-V Instruction Set Manual, Volume I: Unprivileged ISA, ISA extension naming conventions chapter",
+        "Harris & Harris, DDCA RISC-V ed., ch. 6 (Architecture)"
+      ]
+    },
+    {
+      "id": "mcu-riscv-machine-mode-definition",
+      "unit": "riscv-mcus",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **machine mode** in RISC-V?",
+      "body": "The highest privilege level (M-mode) and the only one every RISC-V core must have: the core starts in it after reset, and it can access every control register, all memory and all devices.\n\nSmall RISC-V MCUs often implement only machine mode, or machine plus user mode. Traps and interrupts go to machine mode by default, so the firmware's trap handler runs there.\n\nWhy it matters: it plays the role of an operating system's kernel mode: the level that owns the interrupt and system registers, while the optional user mode runs less trusted code.\n\nWatch out: M-mode uses physical addresses with no MMU translation, and the optional memory-protection feature normally restricts only the lower modes, so a bug in M-mode code can overwrite anything, including the trap handler's own data.",
+      "searchQuery": "RISC-V machine mode M-mode highest privilege reset trap",
+      "refs": [
+        "The RISC-V Instruction Set Manual, Volume II: Privileged Architecture, machine-level ISA chapter"
+      ]
+    },
+    {
+      "id": "mcu-riscv-csr-definition",
+      "unit": "riscv-mcus",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **control and status register (CSR)** in RISC-V?",
+      "body": "A register in a separate 12-bit address space (4096 possible CSRs) that holds core configuration and trap state, accessed with special instructions such as `csrr`, `csrw`, `csrs` and `csrc` rather than loads and stores.\n\nThe CSRs for machine mode include `mstatus` (global interrupt enable), `mie` (which interrupts are enabled), `mtvec` (trap handler address), `mepc` (where the trap happened) and `mcause` (why it happened).\n\nExample: `csrs mstatus, 8` sets bit 3 of `mstatus`, the machine-mode global interrupt enable (MIE), because $8 = 1 \\ll 3$. The `csrr rd, csr` form reads one.\n\nWatch out: CSRs are not memory-mapped, so a `volatile` pointer cannot reach them; use inline assembly or compiler intrinsics. This differs from the Cortex-M's interrupt controller (the NVIC) and system control registers, which are memory-mapped.",
+      "searchQuery": "RISC-V CSR control and status register csrr csrw mstatus",
+      "refs": [
+        "The RISC-V Instruction Set Manual, Volume II: Privileged Architecture, machine-level ISA chapter",
+        "Harris & Harris, DDCA RISC-V ed., ch. 9 (Embedded I/O Systems)"
+      ]
+    },
+    {
+      "id": "mcu-riscv-trap-sequence",
+      "unit": "riscv-mcus",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What does RISC-V hardware do when a trap is taken in machine mode, and what are `mtvec` and `mcause`?",
+      "body": "It saves the trapped PC in `mepc`, writes the cause to `mcause`, clears the global interrupt enable (`mstatus.MIE`, keeping the old value in `MPIE`) and jumps to the address in `mtvec`; `mret` returns.\n\n`mtvec` is the trap vector base address; its low two bits are the mode. In direct mode (0) every trap goes to the base address. In vectored mode (1) interrupts go to the base plus 4 times the cause number, and exceptions go to the base.\n\n`mcause` has the top bit set for an interrupt and clear for an exception, and the remaining bits give the code (for example 7 is the machine timer interrupt, 11 the machine external interrupt, 2 an illegal instruction).\n\nWatch out: the hardware does not save any general registers. Unlike a Cortex-M, the handler must save and restore everything it uses. For an exception `mepc` points at the trapping instruction, so a handler for `ecall` (the instruction that traps on purpose to request a service) must add 4 to `mepc` before `mret` to skip it. For an interrupt `mepc` points at the interrupted instruction, which has not run yet and runs after `mret`.",
+      "searchQuery": "RISC-V trap mtvec mcause mepc mret machine mode sequence",
+      "refs": [
+        "The RISC-V Instruction Set Manual, Volume II: Privileged Architecture, machine-level ISA chapter"
+      ]
+    },
+    {
+      "id": "mcu-riscv-mcause-decode-code",
+      "unit": "riscv-mcus",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume RV32 (32-bit `mcause`). What does this program print?\n\n```c\n#include <stdint.h>\n#include <stdio.h>\nstatic void decode(uint32_t mcause) {\n    uint32_t code = mcause & 0x7FFFFFFFu;\n    printf(\"%s %u\\n\", (mcause >> 31) ? \"interrupt\" : \"exception\", (unsigned)code);\n}\nint main(void) {\n    decode(0x80000007u);\n    decode(0x00000002u);\n    return 0;\n}\n```",
+      "body": "`interrupt 7`, then `exception 2`.\n\nThe top bit of `mcause` says what kind of trap it was: set means interrupt, clear means exception. The mask `0x7FFFFFFF` removes that bit to leave the code.\n\n`0x80000007` is an interrupt with code 7, the machine timer interrupt. `0x00000002` is an exception with code 2, an illegal instruction.\n\nWatch out: the code alone is ambiguous. Interrupt 7 (machine timer) and exception 7 (a store access fault) share a code, so test the top bit before switching on the code.",
+      "searchQuery": "RISC-V mcause decode interrupt bit exception code C",
+      "refs": [
+        "The RISC-V Instruction Set Manual, Volume II: Privileged Architecture, machine-level ISA chapter"
+      ]
+    },
+    {
+      "id": "mcu-riscv-plic-clic-vs-nvic-tradeoff",
+      "unit": "riscv-mcus",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Trade-off: for hard real-time interrupt response on a small MCU, does a basic RISC-V CLINT plus PLIC setup or the Cortex-M NVIC give lower, more predictable latency out of the box?",
+      "body": "The Cortex-M NVIC, because the core and its NVIC vector, prioritize and save registers in hardware, while the basic RISC-V scheme leaves much of that to software.\n\nThe **NVIC** (nested vectored interrupt controller) is built into every Cortex-M core: each interrupt has its own vector and priority, a higher-priority interrupt can preempt a lower one, and the core pushes eight registers onto the stack on entry, before the handler's first instruction.\n\nThe basic RISC-V arrangement is the **CLINT** (core-local interruptor, for timer and software interrupts) plus the **PLIC** (platform-level interrupt controller), which ranks external interrupts and hands them over one at a time through a claim and complete handshake. Every external interrupt arrives as the same cause (machine external interrupt), so software saves registers, reads the PLIC's claim register to learn which device it was, and dispatches.\n\nThe other side: the **CLIC** (core-local interrupt controller), a RISC-V extension still in draft that several vendors already implement in some form, adds per-interrupt levels, preemption and hardware vectoring, and closes much of the gap on chips that have it.\n\nWatch out: latency depends on the specific chip, so compare measured numbers.",
+      "asOf": "2026-11-26",
+      "searchQuery": "RISC-V CLINT PLIC CLIC versus Cortex-M NVIC interrupt latency",
+      "refs": [
+        "The RISC-V Instruction Set Manual, Volume II: Privileged Architecture, machine-level ISA chapter",
+        "Yiu, Cortex-M3/M4 3e, ch. 3 (Technical Overview)"
+      ]
+    },
+    {
+      "id": "mcu-esp32c3-vs-m4f-tradeoff",
+      "unit": "riscv-mcus",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "Trade-off: a Wi-Fi and Bluetooth LE sensor with simple control logic needs a processor. ESP32-C3 (RISC-V) or a Cortex-M4F part?",
+      "body": "The ESP32-C3, because it puts Wi-Fi, Bluetooth LE and a RISC-V core on one low-cost chip and the logic needs no floating-point or DSP speed.\n\nThe ESP32-C3 has a single 32-bit RISC-V core (RV32IMC) at up to $160\\,\\mathrm{MHz}$, $400\\,\\mathrm{KiB}$ of SRAM (Espressif writes 400 KB; 16 KiB of it serves as cache), 2.4 GHz Wi-Fi and Bluetooth 5 LE. Program flash is a separate die or chip: most modules pair it with external or in-package flash.\n\nA typical Cortex-M4F part has no Wi-Fi, so the design needs a separate radio module and a way to talk to it.\n\nThe other side: choose the M4F when the work is float-heavy or DSP-heavy. The ESP32-C3's core has no FPU and no SIMD multiply-accumulate instructions, so that code would run far slower.\n\nWatch out: also compare sleep current, available drivers and the part's availability. The core's ISA is rarely the deciding factor.",
+      "searchQuery": "ESP32-C3 RISC-V Wi-Fi BLE versus Cortex-M4F design choice",
+      "asOf": "2026-11-26",
+      "refs": [
+        "ESP32-C3 Series Datasheet, Espressif: https://documentation.espressif.com/api/resource/doc/file/aYwvqd1B/FILE/esp32-c3_datasheet_en.pdf"
+      ]
+    },
+    {
+      "id": "mcu-core-registers-definition",
+      "unit": "programmers-model",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are the sixteen core registers of a Cortex-M processor?",
+      "body": "R0 to R12 are general-purpose registers, R13 is the stack pointer (SP), R14 is the link register (LR) and R15 is the program counter (PC).\n\nR0 to R7 are the **low registers**, reachable by nearly all 16-bit instructions. R8 to R12 are the **high registers** with more limited access. LR receives the return address on a function call (`bl`), and PC holds the address of the current instruction stream.\n\nUnder Arm's calling convention (the ABI), R0 to R3 and R12 are caller-saved (R0 to R3 carry arguments, and R0 returns the result), while R4 to R11 are callee-saved.\n\nWatch out: Cortex-M runs only Thumb code, so an address that code branches to through a register, such as a function pointer or the value in LR, must have bit 0 set to 1. Such a branch to an address with bit 0 clear faults.\n\nBesides these sixteen there are special registers (xPSR, PRIMASK, BASEPRI, FAULTMASK, CONTROL) reached with the `mrs` and `msr` instructions.",
+      "searchQuery": "Cortex-M core registers R0-R12 SP LR PC low high registers",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §4.2 Programmer's model"
+      ]
+    },
+    {
+      "id": "mcu-xpsr-definition",
+      "unit": "programmers-model",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **xPSR** in a Cortex-M, and what do the N, Z, C and V flags mean?",
+      "body": "The combined program status register, made of APSR (flags N, Z, C, V, Q), IPSR (current exception number) and EPSR (Thumb bit and execution state); N = negative, Z = zero, C = carry, V = signed overflow.\n\nThe flags are bits 31 to 28 of the APSR: N is bit 31, Z bit 30, C bit 29, V bit 28, and bit 27 is Q, a sticky saturation flag set by saturating and DSP instructions.\n\nIPSR is 0 in normal code. Inside a handler it holds the exception number: 15 for SysTick (the core's built-in system timer) and 16 + n for external interrupt n.\n\nWhy it matters: conditional branches test these flags. Only flag-setting instructions update them: `adds`, `subs` and `cmp` do, while plain `add` and `sub` do not.\n\nWatch out: C after a subtraction means \"no borrow\", not \"borrow happened\".",
+      "searchQuery": "Cortex-M xPSR APSR IPSR EPSR flags N Z C V",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §4.2 Programmer's model",
+        "Yiu, Cortex-M3/M4 3e, §4.3 Behavior of the application program status register (APSR)"
+      ]
+    },
+    {
+      "id": "mcu-msp-psp-definition",
+      "unit": "programmers-model",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are **MSP** and **PSP**, and why does an RTOS give tasks the PSP?",
+      "body": "Two banked stack pointers behind R13: the main stack pointer (MSP), used from reset and by exception handlers, and the process stack pointer (PSP), which Thread mode may use instead; an RTOS points PSP at the running task's stack and keeps MSP for itself and interrupts.\n\nNormal code runs in **Thread mode** and exception handlers run in **Handler mode**. `CONTROL.SPSEL` picks which stack pointer Thread mode uses; Handler mode always uses MSP. A context switch is then mostly swapping PSP to the next task's stack.\n\nWhy: on interrupt entry the hardware pushes the eight-word exception frame onto the stack in use, so it lands on the task's stack (each task stack needs room for it), but the handler itself then runs on MSP, and nested interrupts also push onto MSP. One MSP can be sized for the deepest interrupt nesting, instead of every task reserving that space.\n\nWatch out: separate stacks do not stop a task that overflows its stack from overwriting whatever memory lies next to it. Catching that takes an MPU guard region or, on Armv8-M Mainline cores such as the M33, the stack-limit registers.",
+      "searchQuery": "Cortex-M MSP PSP main stack pointer process stack pointer RTOS",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §4.2 Programmer's model",
+        "Valvano, Vol. 3, ch. 1 (Computer Architecture)"
+      ]
+    },
+    {
+      "id": "mcu-thread-handler-modes-concept",
+      "unit": "programmers-model",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What are Thread mode and Handler mode in a Cortex-M, and how do privileged and unprivileged execution fit in?",
+      "body": "Thread mode runs normal application code and can be privileged or unprivileged (set by `CONTROL.nPRIV`); Handler mode runs exception and interrupt handlers and is always privileged.\n\nAfter reset the core is in Thread mode, privileged, using MSP. When an exception occurs it switches to Handler mode. Returning from the last active handler goes back to Thread mode; a nested handler returns to the handler it interrupted.\n\n**Privileged** code can use all instructions and registers. **Unprivileged** code is limited: it cannot write most special registers (apart from the APSR flags) or the core's own system control registers, such as the interrupt controller, and the optional memory protection unit can restrict its memory access further.\n\nWhy it matters: this is the same user/kernel split an OS uses. An RTOS can run application tasks unprivileged so a stray write cannot disable interrupts or reconfigure the system.\n\nWatch out: privilege and mode are separate. Handler mode is always privileged, but Thread mode is not always unprivileged.",
+      "searchQuery": "Cortex-M Thread mode Handler mode privileged unprivileged CONTROL nPRIV",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §4.2 Programmer's model"
+      ]
+    },
+    {
+      "id": "mcu-unprivileged-escape-misconception",
+      "unit": "programmers-model",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is the belief \"unprivileged code can write `CONTROL` to make itself privileged again\" false?",
+      "body": "Writes to special registers such as `CONTROL` from unprivileged code are ignored; the only way back to privileged is an exception, whose handler runs privileged and can clear `CONTROL.nPRIV`.\n\nTypically the code executes `svc`, which raises an exception. The handler runs in Handler mode, which is always privileged, and may clear `nPRIV` in `CONTROL` so Thread mode becomes privileged on return.\n\nWhy it matters: this is what makes privilege a real protection, like a system call into a kernel. The handler decides what the caller may do.\n\nWatch out: the escalation path itself needs checking. An SVC handler that clears `nPRIV` for any caller defeats the protection.",
+      "searchQuery": "Cortex-M unprivileged cannot write CONTROL SVC exception escalate privilege",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §4.2 Programmer's model"
+      ]
+    },
+    {
+      "id": "mcu-apsr-flags-code",
+      "unit": "programmers-model",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "On a Cortex-M3, what are the N, Z, C and V flags after this code?\n\n```asm\n.syntax unified\n.thumb\n    movs  r0, #1\n    subs  r0, r0, #1\n```",
+      "body": "N = 0, Z = 1, C = 1, V = 0.\n\n`subs` computes $1 - 1 = 0$. The result is zero, so Z = 1, and it is not negative, so N = 0.\n\nWhy: on Arm, C after a subtraction means no borrow occurred, which is true when the first operand is at least the second as unsigned numbers. $1 \\geq 1$, so C = 1. No signed overflow happens, so V = 0.\n\nWatch out: this is why `cmp r0, r1` followed by `bhs` (\"higher or same\") branches when C = 1. A programmer expecting C = 1 to mean \"borrow\" gets unsigned comparisons backwards.",
+      "searchQuery": "Cortex-M APSR flags after subs zero carry no borrow",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §4.3 Behavior of the application program status register (APSR)"
+      ]
+    },
+    {
+      "id": "mcu-control-psp-switch-code",
+      "unit": "programmers-model",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This runs in privileged Thread mode on a Cortex-M3. After `isb`, which stack pointer does `push` use, and is the code still privileged?\n\n```asm\n.syntax unified\n.thumb\nstart_task:\n    ldr   r0, =task_stack_top\n    msr   psp, r0\n    movs  r0, #2\n    msr   control, r0\n    isb\n    push  {r4}\n```",
+      "body": "`push` uses PSP, and the code is still privileged.\n\n`CONTROL` is now $2 = 0b10$. Bit 1 is SPSEL: 1 selects PSP for Thread mode. Bit 0 is nPRIV: 0 means privileged. So only the stack changed.\n\nWhy: PSP is loaded first, so the new stack is valid the moment the switch happens. The `isb` (instruction synchronization barrier) is needed after writing `CONTROL` so the change takes effect before later instructions.\n\nWatch out: from this point `r4` goes onto the task's stack. In C, do this in assembly or a naked function (one the compiler emits with no prologue or epilogue): if the compiler had locals on the old stack, they would now be out of reach. To make the task unprivileged too, write 3 instead of 2.",
+      "searchQuery": "Cortex-M CONTROL register SPSEL nPRIV switch to PSP msr isb",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §4.2 Programmer's model"
+      ]
+    },
+    {
+      "id": "mcu-basepri-mask-code",
+      "unit": "programmers-model",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A Cortex-M4's interrupt controller implements 4 priority bits, kept in the top 4 bits of each 8-bit priority value (so levels are `0x00`, `0x10`, ... `0xF0`). Smaller numbers are more urgent. After this code, which interrupts can still preempt?\n\n```asm\n.syntax unified\n.thumb\n    movs  r0, #0x40\n    msr   basepri, r0\n```",
+      "body": "Only interrupts with priority value below `0x40`: levels `0x00`, `0x10`, `0x20` and `0x30`, the four most urgent of the 16.\n\nWhen `BASEPRI` is nonzero, it blocks every interrupt whose priority value is equal to or larger than it (equal or less urgent). Interrupts with level `0x40` and above are held off until `BASEPRI` is set back to 0.\n\nWhy it matters: RTOS kernels use `BASEPRI` for critical sections so that the most urgent interrupts, which must not call kernel functions, keep running. `PRIMASK` is the blunt tool: setting it to 1 blocks all interrupts except NMI (a non-maskable interrupt) and HardFault (the core's catch-all fault exception).\n\nWatch out: `BASEPRI` exists on Armv7-M cores (M3, M4, M7) but not on Cortex-M0 and M0+.",
+      "searchQuery": "Cortex-M BASEPRI PRIMASK interrupt masking priority 0x40 example",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §4.2 Programmer's model"
+      ]
+    },
+    {
+      "id": "mcu-memory-map-regions-definition",
+      "unit": "memory-map",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **memory map**, and how does the Cortex-M's 4 GiB address space divide into regions?",
+      "body": "The fixed assignment of address ranges to memories and peripherals; in a Cortex-M: Code `0x00000000`, SRAM `0x20000000`, Peripheral `0x40000000`, External RAM `0x60000000`, External device `0xA0000000`, System `0xE0000000`.\n\nThe **address space** is every address the core can produce. A 32-bit core has $2^{32}$ bytes, which is 4 GiB. The regions are 512 MiB (Code), 512 MiB (SRAM), 512 MiB (Peripheral), 1 GiB (External RAM), 1 GiB (External device) and 512 MiB (System, which holds the private peripheral bus at `0xE0000000` and vendor-specific space above it).\n\nWhy it matters: the CPU reaches flash, RAM and peripherals with the same load and store instructions, and the address alone decides which one answers.\n\nWatch out: the generic map says which kind of thing belongs where. The actual flash size and base, SRAM size and peripheral addresses come from the vendor's memory-map table. An access to an address nothing answers causes a bus fault.",
+      "searchQuery": "Cortex-M memory map regions code SRAM peripheral external system 4 GiB",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §4.4 Memory system (§4.4.2 Memory map)",
+        "Yiu, Cortex-M3/M4 3e, §6.2 Memory map"
+      ]
+    },
+    {
+      "id": "mcu-register-address-definition",
+      "unit": "memory-map",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are a **peripheral base address** and a **register offset**, and how do they give a register's address?",
+      "body": "The base address is where a peripheral's register block starts and the offset is a register's distance in bytes from it; register address = base address + offset.\n\nA vendor's memory-map table lists each peripheral's base address, and the peripheral's register map lists each register's offset.\n\nExample: on the STM32F407, GPIOD has base `0x40020C00` and its output data register (ODR) has offset `0x14`, so ODR is at `0x40020C14`.\n\nWatch out: offsets are in bytes, not register numbers. Registers are usually 4 bytes apart, so the sixth register has offset `0x14`, not 6. In C a struct overlay gives the same result: the address of a member is the base plus the member's byte offset in the struct, which the `offsetof` macro from `<stddef.h>` returns.",
+      "searchQuery": "peripheral base address register offset address calculation memory-mapped",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.2 Memory map",
+        "STM32F407 reference manual RM0090, memory map and register boundary addresses"
+      ]
+    },
+    {
+      "id": "mcu-ppb-scs-definition",
+      "unit": "memory-map",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are the **Private Peripheral Bus (PPB)** and the **System Control Space (SCS)**?",
+      "body": "The PPB is the 1 MiB region at `0xE0000000` holding the core's own debug, trace and system blocks; the SCS, starting at `0xE000E000`, holds SysTick, the NVIC, the System Control Block and the MPU registers.\n\nInside the SCS: SysTick at `0xE000E010`, the NVIC at `0xE000E100`, the System Control Block (SCB) at `0xE000ED00` and the MPU at `0xE000ED90`.\n\nKey idea: these registers belong to the core, not to the vendor, so they sit at the same addresses on every Cortex-M3 or M4 chip, and the core reaches them over its own bus.\n\nWatch out: the vendor's reference manual does not describe them. Look in Arm's documentation for the core. Only privileged code can access them.",
+      "searchQuery": "Cortex-M private peripheral bus System Control Space 0xE000E000 NVIC SysTick",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.2 Memory map",
+        "Yiu, Cortex-M3/M4 3e, §4.4 Memory system (§4.4.2 Memory map)"
+      ]
+    },
+    {
+      "id": "mcu-endianness-bytes-code",
+      "unit": "memory-map",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "On a little-endian Cortex-M with 32-bit `int`, what does this program print?\n\n```c\n#include <stdint.h>\n#include <stdio.h>\nint main(void) {\n    uint32_t v = 0x12345678u;\n    const uint8_t *p = (const uint8_t *)&v;\n    printf(\"%02x %02x %02x %02x\\n\", p[0], p[1], p[2], p[3]);\n    return 0;\n}\n```",
+      "body": "`78 56 34 12`\n\n**Endianness** is the order in which a multi-byte value's bytes sit in memory. Little-endian stores the least significant byte at the lowest address, so `p[0]` is `0x78` and `p[3]` is `0x12`.\n\nWhy it matters: Cortex-M devices run little-endian in practice (the architecture allows a big-endian build chosen at reset, but it is rare). Network protocols and many file formats are big-endian, so multi-byte fields must be swapped. The `REV` instruction reverses the bytes of a word in one cycle.\n\nWatch out: reading a `uint32_t` through a `uint8_t *` is allowed, but reading a byte array as a `uint32_t *` is not (strict aliasing and alignment). Copy bytes with `memcpy` instead.",
+      "searchQuery": "little-endian byte order uint32 bytes printf Cortex-M",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.5 Memory endianness"
+      ]
+    },
+    {
+      "id": "mcu-unaligned-access-code",
+      "unit": "memory-map",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "`buf` may point at any address. What can go wrong with the first function on a Cortex-M0+, and why does the second fix it?\n\n```c\n#include <stdint.h>\n#include <string.h>\nuint32_t read_a(const uint8_t *buf) {\n    return *(const uint32_t *)buf;\n}\nuint32_t read_b(const uint8_t *buf) {\n    uint32_t v;\n    memcpy(&v, buf, sizeof v);\n    return v;\n}\n```",
+      "body": "`read_a` causes a HardFault on a Cortex-M0+ if `buf` is not a multiple of 4, and it is undefined behavior in C; `read_b` copies the bytes and is correct everywhere.\n\n**Alignment** means a value of $n$ bytes sits at an address divisible by $n$. The Cortex-M0+ (Armv6-M) cannot load a word from an unaligned address, so the access faults. By default, Armv7-M cores (M3, M4, M7) accept unaligned `LDR`, `STR` and halfword accesses, though they can cost extra cycles and are not atomic, and multi-register transfers such as `LDM` still fault.\n\nWhy it works: the compiler sees `memcpy` and, when optimizing, emits whatever sequence is safe for the target: byte loads on an M0+, a single `LDR` on an M4.\n\nWatch out: it also compiles and runs on an M4, which hides the bug until the code moves to a smaller core.",
+      "searchQuery": "unaligned access Cortex-M0+ HardFault memcpy alignment uint32 cast",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.6 Data alignment and unaligned data access support"
+      ]
+    },
+    {
+      "id": "mcu-register-struct-offsetof-code",
+      "unit": "memory-map",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "On a 32-bit target, what does this program print? (A device manual lists these registers at offsets `0x00`, `0x04`, ... in this order.)\n\n```c\n#include <stddef.h>\n#include <stdint.h>\n#include <stdio.h>\ntypedef struct {\n    volatile uint32_t MODER, OTYPER, OSPEEDR, PUPDR, IDR, ODR, BSRR;\n} GPIO_t;\nint main(void) {\n    printf(\"%zu %zu\\n\", offsetof(GPIO_t, ODR), offsetof(GPIO_t, BSRR));\n    return 0;\n}\n```",
+      "body": "`20 24`, which are `0x14` and `0x18`.\n\nEvery member is a 4-byte `uint32_t`, so there is no padding, and a member's offset is 4 times its index. `ODR` has index 5, giving $5 \\times 4 = 20 = \\text{0x14}$, and `BSRR` has index 6, giving 24 = `0x18`.\n\nExample: with `#define GPIOD ((GPIO_t *)0x40020C00u)`, the expression `GPIOD->ODR` accesses address `0x40020C14`. This is how vendor headers map a whole register block onto one struct.\n\nWatch out: reserved gaps in the register map must be filled with dummy members, or every later offset drifts. Guard against this with `_Static_assert(offsetof(GPIO_t, ODR) == 0x14, \"ODR offset\")`.",
+      "searchQuery": "struct overlay peripheral registers offsetof register offset C volatile",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.2 Memory map"
+      ]
+    },
+    {
+      "id": "mcu-bit-banding-concept",
+      "unit": "memory-map",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "How does **bit-banding** let a Cortex-M3 or M4 change a single bit atomically?",
+      "body": "Each bit in the lowest 1 MiB of the SRAM and peripheral regions has its own 32-bit alias word in a 32 MiB region above; writing 0 or 1 to that word changes just that bit in one atomic access. Alias address = alias base + byte offset × 32 + bit number × 4.\n\nThe bit-band regions: SRAM `0x20000000` to `0x200FFFFF` with alias `0x22000000` to `0x23FFFFFF`; peripherals `0x40000000` to `0x400FFFFF` with alias `0x42000000` to `0x43FFFFFF`. The sizes match: $1\\,\\mathrm{MiB} \\times 8$ bits $\\times\\ 4$ bytes $= 32\\,\\mathrm{MiB}$.\n\nWhy it works: the bus hardware turns a write to the alias word into an indivisible read-modify-write of the real byte, so an interrupt cannot slip in between. Only the least significant bit of the written value matters, and a read returns 0 or 1.\n\nWatch out: bit-banding exists only on Cortex-M3 and M4 parts whose vendor implemented it. Cortex-M0+, M7 and the Armv8-M cores do not have it.",
+      "searchQuery": "bit-banding Cortex-M3 M4 alias address atomic single bit SRAM peripheral",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.7 Bit-band operations"
+      ]
+    },
+    {
+      "id": "mcu-register-address-problem",
+      "unit": "memory-map",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A reference manual's memory map lists GPIOD at base `0x40020C00`; its register map lists BSRR at offset `0x18`. Bits 0 to 15 of BSRR set the matching output pins when written as 1, and bits 16 to 31 clear them; writing 0 does nothing. (a) At what address do you write? (b) What value sets pin PD12 without touching other pins?",
+      "body": "Write to `0x40020C18`; the value `0x00001000` sets PD12 (the value `0x10000000` would clear it).\n\nAddress: base + offset $=$ `0x40020C00` + `0x18` $=$ `0x40020C18`.\n\nValue: PD12 is pin 12 of the port, so the set bit is bit 12: $1 \\ll 12 =$ `0x1000`. The clear bit for the same pin is bit $12 + 16 = 28$: $1 \\ll 28 =$ `0x10000000`. All other bits are 0, which BSRR ignores.\n\nWhy it works: because zeros have no effect, one write changes exactly one pin, with no need to read the output register first.\n\nWatch out: use plain assignment such as `GPIOD->BSRR = 1u << 12;`, not `|=`. BSRR is write-only, so a read-modify-write on it is meaningless and would be wrong on any register whose read value differs from what was written.",
+      "searchQuery": "GPIO BSRR address base plus offset set pin PD12 value",
+      "refs": [
+        "STM32F407 reference manual RM0090, GPIO registers (BSRR)",
+        "Yiu, Cortex-M3/M4 3e, §6.2 Memory map"
+      ]
+    },
+    {
+      "id": "mcu-bitband-alias-problem",
+      "unit": "memory-map",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "On a Cortex-M3 or M4 with bit-banding, what is the alias address of bit 2 of the SRAM byte at `0x20000300`? (Give it as hex.)",
+      "body": "`0x22006008`\n\nAlias address $=$ alias base $+$ byte offset $\\times 32 +$ bit $\\times 4$.\n\n- Byte offset from the SRAM base: `0x20000300` $-$ `0x20000000` $=$ `0x300` $= 768$.\n- $768 \\times 32 = 24{,}576 =$ `0x6000`.\n- Bit 2: $2 \\times 4 = 8 =$ `0x8`.\n- Total: `0x22000000` $+$ `0x6000` $+$ `0x8` $=$ `0x22006008`.\n\nWriting 1 to that word sets bit 2 of the byte at `0x20000300`, for example with `*(volatile uint32_t *)0x22006008u = 1;`.\n\nTip: the same formula works for the peripheral region; only the two base addresses change.",
+      "searchQuery": "bit-band alias address calculation 0x20000300 bit 2 Cortex-M",
+      "answer": "0x22006008",
+      "acceptedAnswers": [
+        "22006008"
+      ],
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.7 Bit-band operations"
+      ]
+    },
+    {
+      "id": "mcu-atomic-bit-set-tradeoff",
+      "unit": "memory-map",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "Trade-off: an interrupt handler and the main loop each set and clear different pins of the same GPIO output register. Do you use `ODR |= mask`, a bit-band alias, or the BSRR set/reset register?",
+      "body": "The BSRR set/reset register, because it changes only the pins you name in one write, so it is atomic and works on every core.\n\n`ODR |= mask` is a read-modify-write: if the interrupt changes a different pin between the read and the write, the main loop's write puts back the old value and the interrupt's change is lost. This is a race condition.\n\nA bit-band alias write is also atomic, but only for one bit at a time, only on M3 and M4 parts that implement it, and only in the lowest 1 MiB of a region. Use it when the register has no set/reset pair, for example a flag byte in SRAM shared with an interrupt.\n\nAnother fix is to disable interrupts around the read-modify-write, which costs interrupt latency.\n\nTip: prefer hardware set/clear registers. They also survive a move from an M4 to an M7 or M33, which have no bit-banding.",
+      "searchQuery": "atomic GPIO bit set BSRR versus bit-band versus read-modify-write interrupt race",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.7 Bit-band operations"
+      ]
+    },
+    {
+      "id": "mcu-flash-memory-definition",
+      "unit": "flash-sram-buses",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **flash memory**, and why must a **page** be erased before it is rewritten?",
+      "body": "Non-volatile memory that keeps its contents without power; on most MCUs an erase sets every bit in a page (or sector) to 1 and programming can only change 1s to 0s, so rewriting needs a **page erase** first.\n\nA page is the smallest erase unit: from a few hundred bytes on some parts to sectors of 128 KiB or more on others, depending on the chip. On those parts erased flash reads as all ones (`0xFF` in each byte).\n\nWhy it matters: flash reads are fast enough to execute code in place, but writes are slow and the erase unit is coarse. To change one byte in a stored settings block, you must save the page, erase it and program it again.\n\nWatch out: on many MCUs, while a flash bank is being erased or programmed the CPU stalls on any read from that bank. Code that must keep running (such as a motor control interrupt) should live in SRAM during the operation or in the other bank.",
+      "searchQuery": "flash memory page erase program 1 to 0 non-volatile MCU",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.12 Memory system in a microcontroller"
+      ]
+    },
+    {
+      "id": "mcu-sram-definition",
+      "unit": "flash-sram-buses",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **SRAM**, and how does it differ from flash inside an MCU?",
+      "body": "Volatile static RAM: it loses its contents without power, but reads and writes, usually at full core speed, with no erase step and effectively unlimited write cycles.\n\nSRAM holds the stack, heap, global variables and buffers. It is small (a few KiB to about a megabyte on most MCUs) because every bit takes several transistors, and it is kept on-chip beside the core.\n\nKey idea: the MCU **memory hierarchy** is short. From fastest to slowest: registers, optional cache or tightly coupled memory on bigger cores, on-chip SRAM, on-chip flash, then optional external memory. There is usually no DRAM.\n\nWatch out: the program and its constants live in flash, but writable variables must live in SRAM. The startup code copies initial values for globals from flash to SRAM and zeroes the bss, which costs both memories.",
+      "searchQuery": "SRAM definition volatile fast MCU memory hierarchy flash versus SRAM",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.12 Memory system in a microcontroller"
+      ]
+    },
+    {
+      "id": "mcu-wait-state-definition",
+      "unit": "flash-sram-buses",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **wait state** in a memory access?",
+      "body": "An extra clock cycle the CPU waits for a memory access to complete because the memory cannot respond within one clock period.\n\nFlash needs a fixed time to deliver data, so as the clock gets faster the same time spans more cycles. The number of wait states is $\\lceil t_{\\text{access}} / T_{\\text{clk}} \\rceil - 1$, where $T_{\\text{clk}}$ is the clock period, and it is set in a flash access-control register.\n\nExample: with a flash that needs $20\\,\\mathrm{ns}$, a $50\\,\\mathrm{MHz}$ clock ($T = 20\\,\\mathrm{ns}$) needs 0 wait states, but a $100\\,\\mathrm{MHz}$ clock ($T = 10\\,\\mathrm{ns}$) needs $\\lceil 2 \\rceil - 1 = 1$.\n\nWatch out: when raising the clock, raise the wait states first; when lowering it, lower the clock first and the wait states after. The reverse order can read flash too fast and crash.",
+      "searchQuery": "wait state flash access latency clock cycles MCU definition",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.12 Memory system in a microcontroller"
+      ]
+    },
+    {
+      "id": "mcu-ahb-apb-bus-matrix-concept",
+      "unit": "flash-sram-buses",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What are the AHB, the APB and the bus matrix in an MCU, and why is a peripheral on the APB slower to reach than SRAM?",
+      "body": "The AHB is the fast, pipelined bus for the CPU, DMA, memories and fast peripherals; the APB is a simple, low-power bus for ordinary peripherals, reached through a bridge; the bus matrix lets several masters reach different slaves at the same time.\n\nAHB stands for Advanced High-performance Bus and APB for Advanced Peripheral Bus; both are Arm bus standards. A **master** (CPU, DMA) starts transfers; a **slave** (SRAM, flash, a peripheral) answers. The bus matrix is a crossbar that arbitrates: the CPU can fetch from flash while the DMA writes SRAM, and a master waits only if two want the same slave.\n\nAn APB transfer is not pipelined, takes at least two APB clock cycles, and passes through the AHB-to-APB bridge. The APB is also usually clocked slower than the AHB (on an STM32F407 at $168\\,\\mathrm{MHz}$: APB1 at most $42\\,\\mathrm{MHz}$, APB2 at most $84\\,\\mathrm{MHz}$).\n\nWatch out: a load that takes a cycle or two from SRAM can take many cycles from an APB register. Avoid tight polling loops on APB registers, and let DMA move bulk data.",
+      "searchQuery": "AHB APB bus matrix bridge bus master slave MCU peripheral access slower",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.3 Connecting the processor to memory and peripherals",
+        "Yiu, Cortex-M3/M4 3e, §6.12 Memory system in a microcontroller"
+      ]
+    },
+    {
+      "id": "mcu-flash-clock-misconception",
+      "unit": "flash-sram-buses",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is the belief \"doubling the clock doubles how fast code runs from flash\" false?",
+      "body": "Flash access time does not shrink with the clock, so a faster clock needs more wait states; prefetch buffers and small caches hide part of that, so the speedup is usually smaller than the clock ratio.\n\nA **prefetch buffer** reads a wide chunk of flash (for example 128 bits) ahead of the CPU, so straight-line code pays the wait only once per chunk. A branch or a data read from flash breaks the pattern and pays the full wait.\n\nExample: the STM32F407 needs 0 wait states up to $30\\,\\mathrm{MHz}$ and 5 at $168\\,\\mathrm{MHz}$ (at $2.7$ to $3.6\\,\\mathrm{V}$): each flash read takes 6 cycles instead of 1. ST's flash accelerator (prefetch plus small instruction and data caches) exists to claw most of that back.\n\nWatch out: benchmark on your own code. Loops that fit the cache run nearly at full clock speed, while branchy code or reads of constant tables in flash run much slower than the MHz figure suggests.",
+      "searchQuery": "flash wait states faster clock not proportional speed prefetch buffer accelerator",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.12 Memory system in a microcontroller",
+        "STM32F407 reference manual RM0090, embedded flash memory interface"
+      ]
+    },
+    {
+      "id": "mcu-flash-endurance-numbers",
+      "unit": "flash-sram-buses",
+      "kind": "numbers",
+      "difficulty": 3,
+      "title": "About how many erase cycles can a typical on-chip MCU flash page endure?",
+      "body": "About $10{,}000$ erase cycles (a datasheet figure of 10 kcycles); some parts rate $100{,}000$.\n\nWrite endurance is the number of erase-and-program cycles a page is guaranteed to survive. For example, the STM32F412 datasheet quotes 10 kcycles over its temperature range, and its data retention figure is $30$ years at $85\\,^\\circ\\mathrm{C}$ after only 1 kcycle. Retention shortens as cycles and temperature rise.\n\nExample: rewriting a settings record in the same page once per second (an erase and a program each time) reaches $10{,}000$ erases in $10{,}000\\,\\mathrm{s}$, under $3$ hours. Spreading the writes evenly over 100 pages (**wear leveling**) stretches that to about $11.6$ days.\n\nWatch out: endurance counts erases of a page, not writes to a byte. Check the datasheet's memory characteristics table for your part, and store frequently changed data in SRAM, a small dedicated memory, or a log that rotates across pages.",
+      "searchQuery": "MCU flash endurance 10000 erase cycles wear leveling datasheet retention",
+      "asOf": "2026-11-26",
+      "refs": [
+        "STM32F412 datasheet, embedded flash memory characteristics, STMicroelectronics"
+      ]
+    },
+    {
+      "id": "mcu-flash-wait-states-problem",
+      "unit": "flash-sram-buses",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A flash datasheet says each read needs at least $24\\,\\mathrm{ns}$. A core runs at $120\\,\\mathrm{MHz}$ and a zero-wait-state access takes one clock cycle. How many wait states are needed, and up to what clock can the part run with zero?",
+      "body": "2 wait states; zero wait states up to about $41.7\\,\\mathrm{MHz}$.\n\nClock period at $120\\,\\mathrm{MHz}$: $T = 1/120\\,\\mathrm{MHz} \\approx 8.33\\,\\mathrm{ns}$.\n\nCycles needed: $\\lceil 24 / 8.33 \\rceil = \\lceil 2.88 \\rceil = 3$ cycles per read, which is 1 normal cycle plus 2 wait states.\n\nZero wait states means the access fits in one period: $T \\geq 24\\,\\mathrm{ns}$, so $f \\leq 1/24\\,\\mathrm{ns} \\approx 41.7\\,\\mathrm{MHz}$.\n\nWatch out: this assumes whole-cycle accesses and ignores prefetch. Real parts publish a table of wait states per frequency band and supply voltage; follow that table, not a calculation. Check also that 2.88 rounds up (never down): rounding down gives a read that finishes after the CPU has already sampled the data.",
+      "searchQuery": "flash wait states calculation 24 ns 120 MHz ceil access time",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.12 Memory system in a microcontroller"
+      ]
+    },
+    {
+      "id": "mcu-memory-budget-problem",
+      "unit": "flash-sram-buses",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A part has $512\\,\\mathrm{KiB}$ of flash and $128\\,\\mathrm{KiB}$ of SRAM. The firmware without the model uses $140\\,\\mathrm{KiB}$ of flash and $20\\,\\mathrm{KiB}$ of SRAM (globals, heap, stack). An int8 network has $230\\,\\mathrm{KiB}$ of weights and needs a $70\\,\\mathrm{KiB}$ tensor arena for activations. Does it fit, where does each part live, and what is left of each memory?",
+      "body": "It fits: flash $370$ of $512\\,\\mathrm{KiB}$ used ($142$ free), SRAM $90$ of $128\\,\\mathrm{KiB}$ used ($38$ free); weights in flash, tensor arena in SRAM.\n\nWeights are constant, so they are placed in flash and read in place. The tensor arena holds intermediate activations that change on every inference, so it must be in SRAM.\n\n- Flash: $140 + 230 = 370\\,\\mathrm{KiB}$; $512 - 370 = 142\\,\\mathrm{KiB}$ free.\n- SRAM: $20 + 70 = 90\\,\\mathrm{KiB}$; $128 - 90 = 38\\,\\mathrm{KiB}$ free.\n\nWatch out: if the product needs a second complete firmware image for safe updates, flash needs $2 \\times 370 = 740\\,\\mathrm{KiB}$, which does not fit. Check that headroom for your plan before committing to a part.",
+      "searchQuery": "MCU memory budget model weights flash tensor arena SRAM fit calculation",
+      "tags": [
+        "memory-budget"
+      ],
+      "checkpoint": true,
+      "refs": [
+        "Warden & Situnayake, TinyML, ch. 17 (Optimizing Model and Binary Size)"
+      ]
+    },
+    {
+      "id": "mcu-tcm-vs-cache-tradeoff",
+      "unit": "flash-sram-buses",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "Trade-off: on a Cortex-M7, do you place a control-loop interrupt's code and data in tightly coupled memory (TCM) or rely on the caches?",
+      "body": "TCM, when you need hard, repeatable timing for a small, known set of hot code and data; caches when the working set is large or you cannot predict what will be hot.\n\n**Tightly coupled memory** is SRAM wired directly to the core over a dedicated port (ITCM for instructions, DTCM for data). Accesses never miss and take a fixed small number of cycles, so memory timing does not change from run to run.\n\nA cache is automatic, but a miss can cost many cycles, so the same code can take different times: jitter in the loop. When a DMA engine writes memory that is also cached, the cache may keep stale data, so you must clean or invalidate it in software.\n\nThe other side: TCM is small and you place code and data in it by hand, using the linker. Large programs and big buffers go to normal SRAM or flash behind the caches.\n\nTip: put the interrupt handlers, the stack of time-critical code and the data they touch in TCM; leave everything else to the caches.",
+      "searchQuery": "Cortex-M7 TCM versus cache deterministic interrupt latency tightly coupled memory",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §6.12 Memory system in a microcontroller",
+        "Arm Developer documentation: Cortex-M7 processor"
+      ]
+    },
+    {
+      "id": "mcu-weights-flash-or-sram-tradeoff",
+      "unit": "flash-sram-buses",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "Trade-off: keep int8 model weights in flash and read them in place, or copy them into SRAM at boot?",
+      "body": "Read them in place from flash when SRAM is scarce, which is the usual case; copy them to SRAM (or TCM) only if SRAM is plentiful and flash reads are the bottleneck.\n\nWeights are read-only and read in order, so prefetching and the flash accelerator serve them well. Flash is also far larger than SRAM, and weights rarely fit in SRAM next to the activations and stack.\n\nThe other side: SRAM has no wait states and no stalls. If the model is slow because reads of weights from flash or slow external flash dominate, copying them into fast memory can speed inference up noticeably. Weights stored in external serial flash may need a copy to fast internal memory.\n\nWatch out: a copy costs SRAM equal to the whole weight set, plus boot time to copy it. Compare the weights' size with what is left after activations, buffers and stack, as in a memory-budget table.",
+      "searchQuery": "model weights flash versus SRAM copy at boot TinyML memory placement",
+      "refs": [
+        "Warden & Situnayake, TinyML, ch. 17 (Optimizing Model and Binary Size)",
+        "Yiu, Cortex-M3/M4 3e, §6.12 Memory system in a microcontroller"
+      ]
+    },
+    {
+      "id": "mcu-clock-tree-definition",
+      "unit": "clock-tree-reset",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **clock tree** in a microcontroller?",
+      "body": "The network that takes clock sources (an internal RC oscillator, an external crystal), optionally multiplies them in a PLL, selects the system clock (SYSCLK) and divides it with prescalers into the clocks for the core, the buses and each peripheral.\n\nAn **oscillator** is a circuit that makes a repeating signal. A **crystal** is a quartz part that sets an oscillator's frequency very precisely. A **PLL** (phase-locked loop) multiplies a clock up to a higher frequency. A **prescaler** divides a clock by a fixed ratio. **SYSCLK** is the main clock that feeds the core and the buses.\n\nExample (STM32F407): internal RC at $16\\,\\mathrm{MHz}$ or an external crystal feeds the PLL, which produces SYSCLK of up to $168\\,\\mathrm{MHz}$. An AHB prescaler gives the core and bus clock, and the APB buses sit behind two more prescalers (at most $42\\,\\mathrm{MHz}$ and $84\\,\\mathrm{MHz}$).\n\nTip: the clock-tree diagram in the reference manual is the first thing to read when bringing up a chip. Every branch has its own maximum frequency, and each peripheral has its own clock gate.",
+      "searchQuery": "microcontroller clock tree oscillator crystal PLL prescaler SYSCLK peripheral",
+      "refs": [
+        "STM32F407 reference manual RM0090, reset and clock control (RCC)",
+        "cpq, Bare-metal programming guide (GitHub): Setting up clocks"
+      ]
+    },
+    {
+      "id": "mcu-clock-gating-definition",
+      "unit": "clock-tree-reset",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **clock gating** of peripherals, and what happens if you forget to enable a peripheral's clock?",
+      "body": "Each peripheral's clock has an enable bit; with the clock off the block is frozen and its registers do not respond (on an STM32, writes are lost and reads usually return 0), so you must set the enable bit first.\n\nWhy: a frozen block does not switch, so its dynamic power (activity factor times switched capacitance times $V^2 f$) drops to nearly zero. Chips therefore start with most peripheral clocks off.\n\nExample (STM32): `RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;` turns on the GPIOD clock, after which `GPIOD->MODER` and other registers respond.\n\nWatch out: the classic \"nothing happens\" bug is configuring a peripheral before enabling its clock. On some families a short delay is needed after enabling, and reading the enable register back once is a common way to provide it.",
+      "searchQuery": "peripheral clock gating enable bit RCC registers ignore writes power saving",
+      "refs": [
+        "STM32F407 reference manual RM0090, reset and clock control (RCC)",
+        "cpq, Bare-metal programming guide (GitHub): Setting up clocks"
+      ]
+    },
+    {
+      "id": "mcu-reset-sources-definition",
+      "unit": "clock-tree-reset",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Name the common MCU **reset sources**.",
+      "body": "Power-on reset, brown-out reset, watchdog reset, the external reset pin and software reset.\n\n- **Power-on reset (POR):** the supply rises from zero past a threshold.\n- **Brown-out reset (BOR):** the supply falls below a set threshold while running, so the chip holds reset instead of executing at too low a voltage.\n- **Watchdog:** a timer that software must refresh regularly; if it expires, the chip resets, which recovers from hangs.\n- **Pin:** the reset input is pulled low (button, debugger).\n- **Software:** firmware requests a reset (on Cortex-M by setting the `SYSRESETREQ` bit in the AIRCR register, in a write whose top half carries the key `0x05FA`, or the write is ignored).\n\nAfter any reset a Cortex-M loads the initial MSP from the first word of the vector table (the table of addresses at the start of the program image) and the reset handler's address (PC) from the second.\n\nTip: read the chip's reset-status flags at startup and log which source fired. A watchdog or brown-out reset in the field is a bug report.",
+      "searchQuery": "MCU reset sources power-on brown-out watchdog pin software reset",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §4.8 Reset and reset sequence"
+      ]
+    },
+    {
+      "id": "mcu-pll-concept",
+      "unit": "clock-tree-reset",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How does a **PLL** turn an $8\\,\\mathrm{MHz}$ crystal into a $168\\,\\mathrm{MHz}$ system clock?",
+      "body": "A phase-locked loop (PLL) steers an internal voltage-controlled oscillator (VCO) until a divided copy of its output matches the reference clock, so the output is the reference times a ratio.\n\nCrystals top out at tens of MHz, but a PLL's feedback loop forces its faster oscillator to stay in step with the crystal, so the output keeps the crystal's accuracy. On an STM32F4 the ratio comes from three integer settings: an input divider, a multiplier and an output divider.\n\nThe PLL takes time to lock, typically tens to hundreds of microseconds, and its VCO works only within a specified frequency range.\n\nWatch out: set the flash wait states first, then wait for the PLL's \"ready\" flag before switching SYSCLK to it. Too few wait states at the new speed make the core read wrong data from flash and crash. The STM32F4 holds off a switch to a PLL that is not ready yet, but not every chip does.",
+      "searchQuery": "phase-locked loop PLL VCO multiplier crystal system clock lock time",
+      "refs": [
+        "STM32F407 reference manual RM0090, reset and clock control (RCC)",
+        "cpq, Bare-metal programming guide (GitHub): Setting up clocks"
+      ]
+    },
+    {
+      "id": "mcu-sysclk-formula",
+      "unit": "clock-tree-reset",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "For an STM32F4-style PLL with input clock $f_{in}$, input divider $M$, multiplier $N$ and output divider $P$, what is the system clock, and what limits the VCO?",
+      "body": "$f_{\\text{SYSCLK}} = f_{in} \\cdot \\dfrac{N}{M \\cdot P}$, where the VCO runs at $f_{in} \\cdot N / M$.\n\nOn the STM32F4 the VCO input $f_{in}/M$ must be $1$ to $2\\,\\mathrm{MHz}$ and the VCO output $f_{in} N / M$ must be $100$ to $432\\,\\mathrm{MHz}$. $P$ is one of 2, 4, 6 or 8.\n\nExample: with $f_{in} = 8\\,\\mathrm{MHz}$, $M = 8$, $N = 336$, $P = 2$: VCO input $= 1\\,\\mathrm{MHz}$, VCO output $= 336\\,\\mathrm{MHz}$ and $f_{\\text{SYSCLK}} = 168\\,\\mathrm{MHz}$.\n\nWatch out: the field names $M$, $N$ and $P$ and their limits are those of the STM32F4 family. Other chips name and limit them differently, and some add a fractional multiplier, so use the reference manual's formula for your part.",
+      "searchQuery": "PLL formula SYSCLK input clock N over M times P STM32F4 VCO range",
+      "refs": [
+        "STM32F407 reference manual RM0090, reset and clock control (RCC)",
+        "STM32F405xx/STM32F407xx datasheet DS8626, main PLL characteristics, STMicroelectronics"
+      ]
+    },
+    {
+      "id": "mcu-pllcfgr-decode-code",
+      "unit": "clock-tree-reset",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "On an STM32F407 with an $8\\,\\mathrm{MHz}$ crystal, `RCC_PLLCFGR` fields are: PLLM bits 5:0, PLLN bits 14:6, PLLP bits 17:16 (`00` means divide by 2), PLLSRC bit 22 (1 means crystal), PLLQ bits 27:24. What does this program print: the SYSCLK in Hz and the PLLQ output in Hz?\n\n```c\n#include <stdint.h>\n#include <stdio.h>\nint main(void) {\n    uint32_t cfg = (8u << 0) | (336u << 6) | (0u << 16) | (1u << 22) | (7u << 24);\n    uint32_t m = cfg & 0x3Fu, n = (cfg >> 6) & 0x1FFu;\n    uint32_t p = 2u * (((cfg >> 16) & 3u) + 1u), q = (cfg >> 24) & 0xFu;\n    uint32_t vco = 8000000u / m * n;\n    printf(\"%u %u\\n\", (unsigned)(vco / p), (unsigned)(vco / q));\n    return 0;\n}\n```",
+      "body": "`168000000 48000000`\n\nThe fields decode to $M = 8$, $N = 336$, $P = 2$ (the `00` encoding means divide by 2) and $Q = 7$. VCO input $= 8\\,\\mathrm{MHz}/8 = 1\\,\\mathrm{MHz}$, VCO output $= 336\\,\\mathrm{MHz}$, SYSCLK $= 336/2 = 168\\,\\mathrm{MHz}$, and the Q output is $336/7 = 48\\,\\mathrm{MHz}$.\n\nWhy it matters: that $48\\,\\mathrm{MHz}$ output clocks the USB full-speed peripheral, which needs it accurately, and it is why the VCO is set to $336\\,\\mathrm{MHz}$: that one value divides cleanly into both $168\\,\\mathrm{MHz}$ (by 2) and $48\\,\\mathrm{MHz}$ (by 7).\n\nWatch out: the register encodes P as 0 to 3, not 2, 4, 6, 8. Forgetting to convert is a common bug when computing a frequency from a register dump.",
+      "searchQuery": "STM32F407 RCC PLLCFGR decode PLLM PLLN PLLP PLLQ 168 MHz 48 MHz",
+      "refs": [
+        "STM32F407 reference manual RM0090, reset and clock control (RCC)"
+      ]
+    },
+    {
+      "id": "mcu-pll-divider-problem",
+      "unit": "clock-tree-reset",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A board has a $25\\,\\mathrm{MHz}$ crystal. On an STM32F4-style PLL (VCO input $1$ to $2\\,\\mathrm{MHz}$, VCO output $100$ to $432\\,\\mathrm{MHz}$, $P \\in \\{2, 4, 6, 8\\}$, integer $M$ and $N$) choose $M$, $N$ and $P$ for a $168\\,\\mathrm{MHz}$ system clock.",
+      "body": "$M = 25$, $N = 336$, $P = 2$.\n\nWork from the constraints. The VCO output must equal $168 \\cdot P$ and stay at or below $432\\,\\mathrm{MHz}$, so $P = 2$ ($336\\,\\mathrm{MHz}$) works, while $P = 4$ would need $672\\,\\mathrm{MHz}$, which is out of range.\n\nThe VCO input is $25/M$ and must lie in $[1, 2]\\,\\mathrm{MHz}$, so $13 \\leq M \\leq 25$. Then $N = 336 / (25/M) = 336M/25$ must be an integer, which needs $M$ to be a multiple of 25. Only $M = 25$ fits, giving a VCO input of $1\\,\\mathrm{MHz}$ and $N = 336$.\n\nCheck: $25 \\cdot 336 / (25 \\cdot 2) = 168\\,\\mathrm{MHz}$. Both limits hold.\n\nTip: the manual recommends a $2\\,\\mathrm{MHz}$ VCO input to limit jitter. With this crystal that needs $M = 12.5$, which is not an integer, so a $1\\,\\mathrm{MHz}$ input is the only choice here.",
+      "searchQuery": "PLL settings M N P 25 MHz crystal 168 MHz STM32F4 solve",
+      "checkpoint": true,
+      "refs": [
+        "STM32F407 reference manual RM0090, reset and clock control (RCC)"
+      ]
+    },
+    {
+      "id": "mcu-rtc-crystal-drift-problem",
+      "unit": "clock-tree-reset",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A real-time clock counts seconds from a **32.768 kHz RTC crystal**. How many seconds per day can it drift if the crystal is accurate to $\\pm 20\\,\\mathrm{ppm}$, compared with a clock from an on-chip RC oscillator accurate to $\\pm 2\\%$?",
+      "body": "At most about $1.73\\,\\mathrm{s}$ per day for the crystal, versus about $1{,}728\\,\\mathrm{s}$ (28.8 minutes) per day for the RC.\n\nThe crystal's frequency, $32{,}768 = 2^{15}$ Hz, is chosen so a chain of 15 divide-by-2 stages yields exactly 1 Hz, which is why it is the standard RTC part.\n\n$20\\,\\mathrm{ppm}$ means 20 parts per million, a fractional error of $20 \\times 10^{-6}$. Over a day of $86{,}400\\,\\mathrm{s}$: $86{,}400 \\times 20 \\times 10^{-6} = 1.728\\,\\mathrm{s}$.\n\nFor $\\pm 2\\%$: $86{,}400 \\times 0.02 = 1{,}728\\,\\mathrm{s}$.\n\nWatch out: these are worst-case tolerance bounds for a constant error. Real crystals also drift with temperature and with the load capacitors on the board, but they remain far better than an RC oscillator, which is why RTCs use a crystal.",
+      "searchQuery": "32.768 kHz RTC crystal drift ppm seconds per day RC oscillator accuracy",
+      "refs": [
+        "Scherz & Monk 4e, ch. 10 (Oscillators and Timers)"
+      ]
+    },
+    {
+      "id": "mcu-rc-vs-crystal-tradeoff",
+      "unit": "clock-tree-reset",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "Trade-off: a cost-sensitive node has only a UART at 115200 baud and no USB or radio. Should the main clock come from the internal RC oscillator or an external crystal?",
+      "body": "The internal RC oscillator, if its worst-case error over temperature and supply voltage stays inside what the UART tolerates, because that saves a crystal, two capacitors and board space and the chip starts up faster.\n\nA UART has no clock wire: the receiver times each bit from the start edge and samples near the middle. Its **baud** rate is its bit rate, here 115,200 bits per second. For 8N1 framing (start bit, 8 data bits, stop bit) the stop bit is sampled about 9.5 bit times after the start edge, and the sample must stay within half a bit, so the combined error of both ends must be below about $0.5/9.5 \\approx 5\\%$. A common rule of thumb keeps the total within about 2%, because noise, edge distortion and the receiver's sampling steps eat into that margin.\n\nThe other side: choose a crystal when something needs accuracy. USB full speed requires a clock within about $0.25\\%$, radios have tight frequency limits, and timekeeping needs the ppm-level accuracy of a crystal.\n\nWatch out: an RC oscillator's error includes drift with temperature and voltage, not only the factory-calibrated figure at room temperature.",
+      "searchQuery": "internal RC oscillator versus crystal UART baud error tolerance USB RTC",
+      "refs": [
+        "Scherz & Monk 4e, ch. 10 (Oscillators and Timers)",
+        "STM32F407 reference manual RM0090, reset and clock control (RCC)"
+      ]
+    },
+    {
+      "id": "mcu-smlad-definition",
+      "unit": "fpu-dsp-extensions",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What does the Cortex-M4 DSP instruction **SMLAD** do?",
+      "body": "`SMLAD Rd, Rn, Rm, Ra` computes Rd = Ra + Rn[15:0] × Rm[15:0] + Rn[31:16] × Rm[31:16]: two signed 16-bit multiply-accumulates in one instruction, which takes one cycle on the M4.\n\nThis is **SIMD** (single instruction, multiple data): one instruction works on several values packed into one 32-bit register. Here each register holds two 16-bit samples, so one `LDR` fetches two values and one SMLAD uses them.\n\nKey idea: a dot product of $n$ pairs of int16 values needs only about $n/2$ SMLADs. CMSIS, Arm's standard software layer for Cortex-M, provides it as the intrinsic `__SMLAD()`. The accumulator is 32 bits wide, so long sums of large products can overflow it; the Q flag is set if the final add overflows.\n\nWhy it matters: **Helium** (the vector extension on Cortex-M55 and M85) widens this idea to 128-bit vectors: 16 int8, 8 int16 or 4 int32 lanes per instruction.\n\nWatch out: SMLAD is not on Cortex-M0+ or M3; it is part of the DSP extension.",
+      "searchQuery": "SMLAD instruction dual 16-bit multiply accumulate SIMD Cortex-M4 DSP",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §5.7 Cortex-M4-specific instructions (SIMD, MAC, floating point)"
+      ]
+    },
+    {
+      "id": "mcu-double-slow-concept",
+      "unit": "fpu-dsp-extensions",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "Why is double-precision math slow on a Cortex-M4F?",
+      "body": "The M4F's FPU handles only single precision (32-bit `float`), so every `double` operation becomes a call to a software library routine that costs tens to hundreds of cycles.\n\nA **single-precision** value is the 32-bit IEEE 754 float format. The FPU does an add or multiply on it in a few cycles. For 64-bit values there is no hardware at all on an M4F (some Cortex-M7 parts do offer a double-precision FPU).\n\nExample: in C, `0.1` is a `double`. For `float a`, `float y = a * 0.1;` converts `a` to double, multiplies in software and converts the result back to float. Compiled for an M4F, it calls three library routines (`__aeabi_f2d`, `__aeabi_dmul`, `__aeabi_d2f`), while `a * 0.1f` is a single `vmul.f32`.\n\nWatch out: `printf(\"%f\", x)` also converts a `float` to double. Use `f` suffixes, `sinf` rather than `sin`, and consider GCC's option `-fsingle-precision-constant`.",
+      "searchQuery": "double precision slow Cortex-M4F single precision FPU float literal software library",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §5.7 Cortex-M4-specific instructions (SIMD, MAC, floating point)"
+      ]
+    },
+    {
+      "id": "mcu-cpacr-enable-fpu-code",
+      "unit": "fpu-dsp-extensions",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "The FPU's coprocessors CP10 and CP11 are controlled by bits 23:20 of CPACR, in the System Control Space. Which hex digit completes the line so both get full access?\n\n```c\n#include <stdint.h>\n#define CPACR (*(volatile uint32_t *)0xE000ED88u)\nvoid fpu_enable(void) {\n    CPACR |= (0x?u << 20);\n    __asm volatile(\"dsb\\n isb\");\n}\n```",
+      "body": "`0xF`\n\nEach coprocessor gets a 2-bit field, and `0b11` means full access. CP10 is bits 21:20 and CP11 is bits 23:22, so setting both gives `0b1111`, which is `0xF`, shifted up to bit 20.\n\nWhy it matters: after reset the access is off. The first floating-point instruction, even one the compiler emitted in startup code, faults: a UsageFault, which becomes a HardFault while the UsageFault handler is still disabled, as it is after reset. So this runs very early, usually in the startup or system-init function, before any floating-point code.\n\nWatch out: the `dsb` and `isb` barriers make the new setting take effect before the next instruction. Skip them and an FP instruction right after can still fault.",
+      "searchQuery": "CPACR enable FPU CP10 CP11 full access 0xF Cortex-M4 startup",
+      "answer": "0xF",
+      "acceptedAnswers": [
+        "F",
+        "15"
+      ],
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §9.10 Co-processor access control register"
+      ]
+    },
+    {
+      "id": "mcu-float-abi-flags-code",
+      "unit": "fpu-dsp-extensions",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "Fill in the blanks to compile for a Cortex-M4F so the compiler uses the FPU and passes floats in FPU registers.\n\n```sh\narm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=___ -mfpu=___ -c main.c\n```",
+      "body": "`-mfloat-abi=hard -mfpu=fpv4-sp-d16`\n\n`hard` makes the compiler emit FPU instructions and pass `float` arguments and results in FPU registers. `fpv4-sp-d16` names the M4F's FPU: version 4, single precision, 16 double-word registers.\n\n- `softfp`: uses FPU instructions but passes floats in integer registers, so it links with older soft-float libraries.\n- `soft`: no FPU; every float operation is a library call.\n\nOther targets use other `-mfpu` values: for example `fpv5-sp-d16` for a Cortex-M7 or M33 with single-precision FPU, and `fpv5-d16` for an M7 with double precision.\n\nWatch out: every object file and library in the link must use the same float ABI. A mismatch fails at link time with a message about VFP register arguments. The FPU must still be enabled at run time through CPACR.",
+      "searchQuery": "Cortex-M4F build flags mfloat-abi hard mfpu fpv4-sp-d16 gcc",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §5.7 Cortex-M4-specific instructions (SIMD, MAC, floating point)"
+      ]
+    },
+    {
+      "id": "mcu-smlad-dot-product-problem",
+      "unit": "fpu-dsp-extensions",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Two vectors of 256 Q15 (int16) values are stored as packed pairs in 32-bit words. A Cortex-M4 loop uses one SMLAD per pair of words. How many SMLADs and how many MACs does it perform, and what is the minimum time at $80\\,\\mathrm{MHz}$ if each SMLAD takes one cycle and all other overhead is ignored?",
+      "body": "128 SMLADs, 256 MACs, at least $1.6\\,\\mu\\mathrm{s}$.\n\nEach 32-bit word holds two int16 values, so 256 values take $256/2 = 128$ words per vector. One SMLAD multiplies two pairs and adds both, so 128 SMLADs perform $128 \\times 2 = 256$ MACs. At one cycle each, that is 128 cycles: $128 / 80 \\times 10^{6} = 1.6\\,\\mu\\mathrm{s}$.\n\nThis is a lower bound. Real loops also load two words per SMLAD and count the loop, so the loop is slower. That is why optimized library kernels unroll and schedule loads.\n\nWatch out: the accumulator is 32 bits. A Q15 product is up to $2^{30}$, so a sum of 256 products could reach about $2^{38}$ in the worst case, far past the 32-bit limit of $2^{31}$. For a guarantee, scale the inputs down or use SMLALD, the same dual multiply into a 64-bit accumulator, which gives more guard bits.",
+      "searchQuery": "SMLAD dot product 256 Q15 cycles time Cortex-M4 80 MHz",
+      "refs": [
+        "Yiu, Cortex-M3/M4 3e, §5.7 Cortex-M4-specific instructions (SIMD, MAC, floating point)"
+      ]
+    },
+    {
+      "id": "mcu-conv-layer-time-problem",
+      "unit": "fpu-dsp-extensions",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A convolution layer has an NHWC input of $16 \\times 16 \\times 8$ (height, width, channels), 16 output channels, a $3 \\times 3$ kernel, stride 1 and padding that keeps the output $16 \\times 16$. How many MACs is that, and how long does it take on a Cortex-M4 at $80\\,\\mathrm{MHz}$ if code achieves an effective 1 MAC per cycle?",
+      "body": "294,912 MACs, about $3.7\\,\\mathrm{ms}$.\n\nEach output value needs $K \\times K \\times C_{in} = 3 \\times 3 \\times 8 = 72$ MACs. There are $16 \\times 16 \\times 16 = 4096$ output values, so $4096 \\times 72 = 294{,}912$ MACs.\n\nTime: $294{,}912 / (80 \\times 10^{6}\\,\\mathrm{MACs/s}) = 3.69\\,\\mathrm{ms}$. In operations (one MAC counts as 2) that is $589{,}824$.\n\nTip: the assumption is the weak point. The M4 can reach 2 MACs per cycle at peak with SMLAD, but loads and loop overhead usually cut it to around 1 or less. Measure on hardware. A Helium core with a much higher effective rate would cut this time proportionally.",
+      "searchQuery": "convolution MAC count estimate 3x3 16 channels Cortex-M4 inference time layer",
+      "refs": [
+        "Arm CMSIS-DSP and CMSIS-NN documentation"
+      ]
+    },
+    {
+      "id": "mcu-float32-vs-int8-tradeoff",
+      "unit": "fpu-dsp-extensions",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "Trade-off: on a Cortex-M4F, do you run a small neural network in float32 on the FPU, or quantize it to int8 and use SIMD integer kernels?",
+      "body": "Quantize to int8 when flash, SRAM or speed is tight, which is usual on an MCU; keep float32 only when accuracy or development time matters more and the model is small.\n\n**CMSIS-DSP** is Arm's library of optimized signal-processing routines (filters, FFTs, matrix math), and **CMSIS-NN** is Arm's library of optimized neural-network kernels, mainly for int8. They use the M4's SIMD instructions such as SMLAD.\n\nint8 weights take one quarter the memory of float32 and the SIMD kernels do more MACs per instruction, so both memory and time improve.\n\nThe other side: quantization needs calibration data and loses some accuracy, and an unusually wide range of values can hurt int8 more than float. Float32 on the FPU needs no conversion work, so it suits early prototypes and tiny models.\n\nWatch out: measure accuracy on your own test data after quantizing; do not assume it is unchanged.",
+      "searchQuery": "float32 versus int8 quantization Cortex-M4F CMSIS-NN CMSIS-DSP SIMD trade-off",
+      "refs": [
+        "Arm CMSIS-DSP and CMSIS-NN documentation",
+        "Yiu, Cortex-M3/M4 3e, §5.7 Cortex-M4-specific instructions (SIMD, MAC, floating point)"
+      ]
+    },
+    {
+      "id": "mcu-datasheet-vs-reference-manual-definition",
+      "unit": "reading-datasheets",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What are an MCU's **datasheet** and **reference manual**, and what does each cover?",
+      "body": "The datasheet gives the electrical and physical facts of a part (pinout, packages, absolute maximum ratings, electrical characteristics, memory sizes); the reference manual explains how the chip's blocks and registers work for the whole family (register map, bit fields, reset values).\n\nThe **pinout** is the table of which signal each pin carries, including the **alternate functions** a pin can be switched to. **Electrical characteristics** are the guaranteed voltages, currents and timings. The **register map** lists every register's offset and its **reset value**, the value it holds right after reset. One datasheet often covers a few closely related part numbers, which differ in flash size or package.\n\nWhy it matters: a question about \"how much current does it draw in sleep\" goes to the datasheet; \"which bit starts the ADC\" goes to the reference manual. A third document, the errata sheet, lists known silicon bugs.\n\nTip: keep both open when writing drivers. The datasheet tells you which pin and peripheral to use, and the reference manual tells you the register bits. Not every vendor splits them this way: Microchip's AVR and SAM datasheets, for example, include the register descriptions too.",
+      "searchQuery": "MCU datasheet versus reference manual pinout register map electrical characteristics",
+      "refs": [
+        "White, Making Embedded Systems 2e, ch. 3 (Getting Your Hands on the Hardware)",
+        "Yiu, Cortex-M3/M4 3e, §1.4 Resources for using ARM processors and ARM microcontrollers"
+      ]
+    },
+    {
+      "id": "mcu-register-access-types-definition",
+      "unit": "reading-datasheets",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "In a reference manual's register description, what does the access type **w1c** mean?",
+      "body": "Write-1-to-clear: writing a 1 to that bit clears it, and writing a 0 leaves it unchanged.\n\nOther common access types are `rw` (read and write), `r` (read-only) and `w` (write-only). Status flags are often w1c, so software can clear exactly the flags it has handled by writing 1s to just those bits, without reading first.\n\nExample: if bits 0 and 1 of a flag register are both set and are w1c, writing `0x1` clears bit 0 and leaves bit 1 set.\n\nWatch out: manuals differ in the labels they use (for example `rc_w1` or `rc_w0` for \"read, clear by writing 1 or 0\"). Always read the legend at the start of the register chapter before trusting a three-letter code.",
+      "searchQuery": "register access type w1c write 1 to clear rw r reference manual",
+      "refs": [
+        "White, Making Embedded Systems 2e, ch. 3 (Getting Your Hands on the Hardware)"
+      ]
+    },
+    {
+      "id": "mcu-errata-workaround-example",
+      "unit": "reading-datasheets",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Example: your SPI (a clocked serial bus) transfers sometimes lose the last byte, and the errata sheet has a matching entry for your chip. What do you do with it?",
+      "body": "Check whether the entry applies to your silicon revision, then apply its workaround and re-test.\n\nAn **errata sheet** lists known silicon bugs. Each entry gives the symptom, the conditions, the affected revisions and a workaround. The revision is marked on the package or can be read from the chip's ID register (on STM32, the revision ID in `DBGMCU_IDCODE`).\n\nExample entry (made up): \"SPI loses the last byte when DMA is used above $20\\,\\mathrm{MHz}$; workaround: keep the SPI clock at or below $20\\,\\mathrm{MHz}$ or end the transfer with a software read.\" If your chip is an affected revision, apply that, document it in the code and re-run the test that failed.\n\nWatch out: you cannot fix a silicon bug in software, only avoid it. A workaround often trades speed or power, so note that cost in the design.",
+      "searchQuery": "errata sheet silicon bug workaround revision MCU SPI example",
+      "refs": [
+        "White, Making Embedded Systems 2e, ch. 3 (Getting Your Hands on the Hardware)"
+      ]
+    },
+    {
+      "id": "mcu-w1c-clear-flag-code",
+      "unit": "reading-datasheets",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "In a fictional timer, status register `TMR_FLAGS` has two flags, bit 0 (OVF) and bit 1 (CMP), both w1c. Starting each time with both flags set, which flags are still set after each function?\n\n```c\n#include <stdint.h>\n#define TMR_FLAGS (*(volatile uint32_t *)0x4000A004u)\nvoid clear_a(void) { TMR_FLAGS |= 1u; }\nvoid clear_b(void) { TMR_FLAGS = 1u; }\n```",
+      "body": "After `clear_a` neither flag is set; after `clear_b` only bit 1 (CMP) is still set.\n\n`clear_a` reads `0b11`, ORs in 1, still `0b11`, and writes it back. Writing 1 to both w1c bits clears both, so the CMP event is lost without being handled.\n\n`clear_b` writes only `0b01`, which clears bit 0 and leaves bit 1 untouched.\n\nWatch out: `|=` is the right way to set bits in a normal read-write register but the wrong way on a w1c register, because the read-modify-write writes back a 1 to every flag that happened to be set. Real parts also differ: STM32 timer flags, for example, are cleared by writing 0, so check the access type in the manual.\n\nTip: to clear one flag, write a mask with only that bit: `TMR_FLAGS = (1u << n);`.",
+      "searchQuery": "w1c status register clear flag read-modify-write bug OR equals C",
+      "refs": [
+        "White, Making Embedded Systems 2e, ch. 3 (Getting Your Hands on the Hardware)"
+      ]
+    },
+    {
+      "id": "mcu-alternate-function-code",
+      "unit": "reading-datasheets",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "The STM32F407 datasheet's alternate-function table lists PA2 as AF7 = USART2_TX. In the reference manual, GPIOA_MODER uses 2 bits per pin (`00` input, `01` output, `10` alternate function, `11` analog) and the low alternate-function register AFRL (`AFR[0]` in ST's device header) uses 4 bits per pin for pins 0 to 7. Fill in the two blanks to route PA2 to USART2_TX.\n\n```c\nGPIOA->MODER = (GPIOA->MODER & ~(3u << 4)) | (__ << 4);\nGPIOA->AFR[0] = (GPIOA->AFR[0] & ~(0xFu << 8)) | (__ << 8);\n```",
+      "body": "The first blank is 2 (`0b10`, alternate function mode); the second is 7 (AF7).\n\nPin 2 sits at bits 5:4 of MODER ($2 \\times 2 = 4$) and bits 11:8 of AFRL ($2 \\times 4 = 8$). MODER value 2 hands the pin to a peripheral, and the AFRL value 7 chooses which peripheral: the datasheet's table says AF7 on PA2 is USART2_TX.\n\nKey idea: the two documents work together. The datasheet says which function is on which pin (AF number), and the reference manual says which register bits to write.\n\nWatch out: enable the GPIOA clock first, or these writes are ignored, and enable the USART2 clock before setting up the USART itself.",
+      "searchQuery": "STM32F407 alternate function PA2 AF7 USART2_TX MODER AFRL pin mux",
+      "refs": [
+        "White, Making Embedded Systems 2e, ch. 3 (Getting Your Hands on the Hardware)",
+        "STM32F407 datasheet (pinout and alternate function mapping) and RM0090 (GPIO registers)"
+      ]
+    },
+    {
+      "id": "mcu-min-typ-max-tradeoff",
+      "unit": "reading-datasheets",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "Trade-off: sizing the regulator for an MCU board, do you use the datasheet's typical or maximum supply-current figure?",
+      "body": "The maximum, which is guaranteed over temperature, voltage and part-to-part variation; use typical values only for estimating average battery life.\n\nElectrical-characteristics tables give minimum, typical and maximum columns. Typical is what a normal chip does at room temperature and nominal supply, while the maximum is the most any chip of that type is guaranteed to draw under the stated conditions. Current rises with temperature and clock speed.\n\nA regulator sized on typical current can overload on a hot day with a high-current part. Size it on the maximum, plus the peak currents of peripherals and I/O pins you drive.\n\nThe other side: for battery life, the maximum is too pessimistic. Use typical figures at the expected temperature, then leave margin.\n\nWatch out: read the table's conditions (clock, enabled peripherals, voltage, temperature). Also, absolute maximum ratings are damage limits, not operating values; stay inside the recommended operating conditions.",
+      "searchQuery": "datasheet typical versus maximum supply current regulator sizing battery life",
+      "refs": [
+        "White, Making Embedded Systems 2e, ch. 3 (Getting Your Hands on the Hardware)"
+      ]
+    }
+  ]
+}

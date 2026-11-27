@@ -1,0 +1,1007 @@
+{
+  "profession": "embedded-ai",
+  "module": "c-1",
+  "tier": 0,
+  "cards": [
+    {
+      "id": "c-compiler-source-file",
+      "unit": "first-program-compile",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What does a **compiler** do with a **source file**?",
+      "body": "A compiler translates a source file, the plain-text program you wrote, into machine code the processor can run.\n\nA **source file** is just text. In C it ends in `.c`, for example `hello.c`, and you can open it in any editor. The processor cannot run text, so a **compiler** (such as `gcc` or `clang`) reads the whole file, checks that it follows the rules of C, and produces instructions in the processor's own language.\n\nWhy: Processors only understand machine instructions made of bits. Writing those by hand is slow and error-prone, so we write readable C and let the compiler do the translation.\n\nExample: `gcc hello.c` reads `hello.c` and writes an executable file called `a.out` in the working directory.\n\nWatch out: The `.c` file is not the program. Editing it changes nothing until you compile again.",
+      "searchQuery": "c compiler translates source file machine code gcc clang",
+      "refs": [
+        "K&R 2e, ch. 1 (A Tutorial Introduction)",
+        "CS50x 2026, Week 1 notes: Hello World"
+      ]
+    },
+    {
+      "id": "c-include-stdio",
+      "unit": "first-program-compile",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What does the line `#include <stdio.h>` do?",
+      "body": "It tells the **preprocessor** to paste the text of the header `stdio.h` into your file before compiling, so the compiler knows what `printf` is.\n\nThe **preprocessor** is a text-editing step that runs before the compiler and handles every line starting with `#`. A line starting with **#include** is replaced by the full contents of the named file. The file `stdio.h` is a header: a text file that lists the functions the standard input/output library offers, including `printf`.\n\nExample: Without the line, the compiler sees `printf` and has no idea what it is. With it, the compiler knows `printf` exists and how to call it.\n\nTip: Angle brackets, as in `<stdio.h>`, search the system's standard headers. Quotes, as in `\"myfile.h\"`, look in your own folder first.\n\nWatch out: `#include` only brings in descriptions of functions. The machine code of `printf` itself is added later, when the linker joins your program to the standard library.",
+      "searchQuery": "c include stdio.h preprocessor paste header printf",
+      "refs": [
+        "CS50x 2026, Week 1 notes: Header Files and CS50 Manual Pages",
+        "K&R 2e, §1.1"
+      ]
+    },
+    {
+      "id": "c-main-entry-point",
+      "unit": "first-program-compile",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "Where does a C program start running?",
+      "body": "In the function **main()**: when the program is launched, the operating system calls `main`, and the program ends when `main` returns.\n\nEvery C program must have exactly one `main`. Its usual first line is `int main(void)`: it returns an `int`, and `void` means it takes no inputs. The statements inside the braces `{ }` run from top to bottom.\n\nExample: In `int main(void) { printf(\"hi\\n\"); return 0; }`, the `printf` runs first, then `return 0;` ends the program.\n\nKey idea: The `int` that `main` returns goes back to the shell as the program's exit code. Zero means success.\n\nTip: If execution reaches the closing brace of `main` without a `return`, C99 and later behave as if you wrote `return 0;`. Only `main` gets this shortcut, and writing the return explicitly is clearer.",
+      "searchQuery": "c main function entry point program starts int main void",
+      "refs": [
+        "K&R 2e, §1.1",
+        "CS50x 2026, Week 1 notes: Hello World"
+      ]
+    },
+    {
+      "id": "c-build-pipeline",
+      "unit": "first-program-compile",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "Which four stages turn `hello.c` into a program you can run?",
+      "body": "Preprocess, compile, assemble, link.\n\n1. The **preprocessor** handles every `#` line, for example pasting in `#include` files.\n2. The **compiler** translates the C text into assembly, a readable form of machine instructions.\n3. The assembler turns the assembly into machine code and stores it in an **object file** (`.o`).\n4. The **linker** joins your object files with library code, such as `printf`, into one **executable**: the file you can actually run.\n\nExample: `gcc -E hello.c` stops after step 1 and prints the result, `-S` stops after step 2, and `-c` stops after step 3 and leaves `hello.o`. A plain `gcc hello.c` runs all four stages.\n\nWhy: Knowing the stages tells you where an error comes from. A typo in a statement is caught by the compiler. A function that was never provided is caught later, by the linker.\n\nTip: People often say \"compile\" for the whole process, even though strictly it is only step 2.",
+      "searchQuery": "c build pipeline preprocess compile assemble link object file executable",
+      "refs": [
+        "CS:APP 3e, §7.1 Compiler Drivers",
+        "CS50x 2026, Week 2 notes: Compiling"
+      ]
+    },
+    {
+      "id": "c-error-vs-warning",
+      "unit": "first-program-compile",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "In a build, how does a compiler **error** differ from a **warning**, and what does `-Wall` do?",
+      "body": "An error stops the build and gives no executable; a warning lets the build finish but flags code that is probably wrong, and `-Wall` turns on the common warnings.\n\nThe `-Wall` **flag** (command-line flag) asks the compiler to report many suspicious patterns that it would otherwise let pass silently, such as a variable that is never used or a `printf` format that does not match its argument.\n\nWatch out: The name is misleading. `-Wall` does not enable literally all warnings. A good habit is `gcc -Wall -Wextra`, which adds more checks.\n\nWhy: A program that compiles with warnings can still run, and still be wrong. Warnings are cheap bug reports from the compiler, so treat each one as a bug until you have understood it.\n\nTip: Adding `-Werror` turns every warning into an error, which forces you to fix them all.",
+      "searchQuery": "c compiler error vs warning -Wall flag",
+      "refs": [
+        "CS50x 2026, Week 2 notes: Compiling",
+        "CS:APP 3e, §7.1 Compiler Drivers"
+      ]
+    },
+    {
+      "id": "c-hello-output",
+      "unit": "first-program-compile",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "Assume this program is compiled and run. What does it print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    printf(\"Hi\");\n    printf(\" there\\n\");\n    return 0;\n}\n```",
+      "body": "`Hi there` followed by a newline.\n\n`printf` prints exactly the characters inside the quotes and nothing more. The first call prints `Hi` and the second prints ` there` (note the leading space) and then `\\n`, which is the code for \"start a new line\". Both go to standard output, so they appear one after the other on a single line.\n\nWatch out: Unlike Python's `print`, C's `printf` never adds a newline by itself. If you forget `\\n`, the shell prompt appears right after your text.\n\nTip: The backslash in `\\n` is an escape: it makes the next character mean something special. It is two characters in your file but only one character in the output.",
+      "searchQuery": "c printf hello world newline escape output",
+      "refs": [
+        "K&R 2e, §1.1",
+        "CS50x 2026, Week 1 notes: Hello World"
+      ]
+    },
+    {
+      "id": "c-compile-and-run-commands",
+      "unit": "first-program-compile",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "`hello.c` is in your working directory. Write the two shell commands that compile it into an executable named `hello` with common warnings on, then run it.",
+      "body": "`gcc -Wall -o hello hello.c` then `./hello`\n\nThe flag `-o hello` names the output file. Without it, the executable is called `a.out`. The flag `-Wall` switches on the common warnings, and the last word is the source file to compile.\n\nWhy: The run command needs `./` because your working directory is normally not in the `PATH`. Typing just `hello` makes the shell search only the `PATH` folders and answer \"command not found\".\n\nTip: `clang` accepts the same flags, so `clang -Wall -o hello hello.c` works too.",
+      "searchQuery": "gcc -Wall -o hello hello.c compile run command",
+      "refs": [
+        "CS50x 2026, Week 2 notes: Compiling",
+        "K&R 2e, §1.1"
+      ]
+    },
+    {
+      "id": "c-exit-status-echo",
+      "unit": "first-program-compile",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "Assume this program is compiled and run as `./a.out`. Right afterward you type `echo $?` in the shell. Type the number it prints.\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    printf(\"done\\n\");\n    return 3;\n}\n```",
+      "body": "3\n\nThe value returned from `main` becomes the program's **exit code**, and the shell stores it in `$?` until the next command runs. So `echo $?` prints `3`.\n\nKey idea: By convention `0` means success and any other number means some kind of failure. Scripts rely on this: `if` in a shell script and `&&` between commands both test the exit code.\n\nWatch out: Only the low 8 bits reach the shell on Linux and macOS, so exit codes range from 0 to 255. Returning 256 would show up as 0.",
+      "searchQuery": "c main return value exit code echo status shell",
+      "answer": "3",
+      "refs": [
+        "K&R 2e, §1.1",
+        "CS50x 2026, Week 2 notes: Exit Status"
+      ]
+    },
+    {
+      "id": "c-error-or-warning-snippet",
+      "unit": "first-program-compile",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "You compile this with `gcc -Wall hello.c`. Which problem is a compiler **error** and which is only a **warning**?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int unused = 7;\n    printf(\"hi\\n\")\n    return 0;\n}\n```",
+      "body": "The missing semicolon after `printf(\"hi\\n\")` is an error; the unused variable `unused` would only be a warning.\n\nC statements must end with `;`. Without it the compiler cannot understand the code, so the build stops and no executable is made. The variable `unused` is legal C, and `-Wall` merely reports that it is never used.\n\nExample: After you add the `;`, the build succeeds, prints a warning such as \"unused variable\", and still produces an executable.\n\nTip: The compiler may report only the error at first. Fix the first message in the list and rebuild, because later messages are often fallout from the first.",
+      "searchQuery": "c missing semicolon error unused variable warning -Wall",
+      "refs": [
+        "CS50x 2026, Week 1 notes: Hello World",
+        "K&R 2e, ch. 1"
+      ]
+    },
+    {
+      "id": "c-data-type",
+      "unit": "types-sizeof-stdint",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **data type** in C, and which basic ones will you use most?",
+      "body": "A data type fixes how many bytes a value takes and how those bits are read: `char` (one character), `int` (whole number), `long` (bigger whole number), `float` and `double` (numbers with a fraction).\n\nC makes you declare a type for every variable before you use it, for example `int count = 42;` or `double price = 2.5;`. The type tells the compiler how much memory to set aside and which machine instructions to use for arithmetic.\n\nExample: `float` and `double` store fractional numbers; `double` takes twice the space of `float` and is more precise. Use whole-number types such as `int` for counts and indexes.\n\nWatch out: Unlike a Python variable, a C variable keeps its type for life. You cannot put text into an `int`.\n\nTip: Plain `char` may be signed on one platform and unsigned on another. When you want a small number rather than a letter, use a fixed-width type like `uint8_t` (covered below).",
+      "searchQuery": "c data type int char float double declare variable",
+      "refs": [
+        "K&R 2e, §2.2 Data Types and Sizes",
+        "CS50x 2026, Week 1 notes: Types"
+      ]
+    },
+    {
+      "id": "c-format-specifier",
+      "unit": "types-sizeof-stdint",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **format specifier** in `printf`, and what are the codes for `int`, `char`, `double` and `long`?",
+      "body": "A format specifier is a `%` code inside the `printf` string that is replaced by a value: `%d` for `int`, `%c` for `char`, `%f` for `double`, `%ld` for `long`.\n\n`printf(\"%d apples\\n\", 3);` prints `3 apples`. Each specifier in the string is filled in, in order, by the extra arguments after the string.\n\nOther useful ones: `%s` for a string, `%u` for an unsigned `int`, and `%x` for an integer shown in hexadecimal.\n\nWatch out: The compiler does not make the specifier fit the value unless you turn on `-Wall`. A mismatch such as printing a `double` with `%d` gives garbage, not an error.\n\nTip: `%f` shows six digits after the decimal point by default. `%.2f` shows two.",
+      "searchQuery": "c printf format specifier %d %c %f %ld",
+      "refs": [
+        "CS50x 2026, Week 1 notes: Format Codes",
+        "K&R 2e, §1.1"
+      ]
+    },
+    {
+      "id": "c-printf-formats-code",
+      "unit": "types-sizeof-stdint",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "Assume 64-bit Linux or macOS. What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int count = 42;\n    char grade = 'A';\n    double price = 2.5;\n    long big = 3000000000L;\n    printf(\"%d %c %f %ld\\n\", count, grade, price, big);\n    return 0;\n}\n```",
+      "body": "`42 A 2.500000 3000000000`\n\nEach specifier takes the next argument in order: `%d` takes `count`, `%c` takes `grade`, `%f` takes `price`, and `%ld` takes `big`. The `%f` code prints six digits after the decimal point, so `2.5` appears as `2.500000`.\n\nWhy: The `L` after `3000000000` marks it as a `long` constant. The value is larger than the biggest 32-bit `int`, which is 2,147,483,647. On 64-bit Linux and macOS a `long` has 64 bits and holds it easily.\n\nWatch out: On 64-bit Windows a `long` is only 32 bits, so this value would not fit there.",
+      "searchQuery": "c printf %d %c %f %ld output char double long",
+      "refs": [
+        "CS50x 2026, Week 1 notes: Format Codes",
+        "K&R 2e, §2.2 Data Types and Sizes"
+      ]
+    },
+    {
+      "id": "c-sizeof-sizes-code",
+      "unit": "types-sizeof-stdint",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "**sizeof** gives a type's size in bytes. Assume 64-bit Linux or macOS. What does this print? (`%zu` is the code for printing a `sizeof` result.)\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    printf(\"%zu %zu %zu %zu\\n\",\n           sizeof(char), sizeof(int),\n           sizeof(long), sizeof(double));\n    return 0;\n}\n```",
+      "body": "`1 4 8 8`\n\nThe operator **sizeof** reports how many bytes a type or variable occupies. Here that is $1$ byte for `char`, $4$ bytes for `int`, $8$ bytes for `long` and $8$ bytes for `double`.\n\nThe result of `sizeof` is an unsigned whole number whose type is called `size_t`, and `%zu` is the matching format specifier.\n\nKey idea: `sizeof(char)` is $1$ by definition, so sizes in C are counted in units of `char`.\n\nWatch out: Do not memorize these numbers as laws of C. On 64-bit Windows `sizeof(long)` is $4$, and on a small 8-bit microcontroller `sizeof(int)` is often $2$. Ask `sizeof` instead of guessing.",
+      "searchQuery": "c sizeof operator bytes char int long double",
+      "refs": [
+        "K&R 2e, §2.2 Data Types and Sizes",
+        "CS50x 2026, Week 1 notes: Types"
+      ]
+    },
+    {
+      "id": "c-int-not-always-32-bits",
+      "unit": "types-sizeof-stdint",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is \"an `int` is always 32 bits\" false?",
+      "body": "C only promises that an `int` has at least 16 bits; its real size is chosen by the platform.\n\nOn a desktop or a 32-bit ARM chip an `int` is 32 bits, but on 8-bit AVR microcontrollers (such as the Arduino Uno's) it is 16 bits, so it tops out at 32,767.\n\nWhy: C was designed to run on many kinds of hardware, and an `int` is meant to be the natural, fast whole-number size of the machine it runs on.\n\nExample: Code that stores 100,000 in an `int` works on your laptop and quietly breaks on a 16-bit chip, because 100,000 does not fit in 16 bits.\n\nTip: When the exact width matters, which is most of the time in embedded work, use the fixed-width types from `stdint.h`.",
+      "searchQuery": "c int size 16 bits not always 32 platform dependent",
+      "refs": [
+        "K&R 2e, §2.2 Data Types and Sizes",
+        "cppreference.com: Arithmetic types (C)"
+      ]
+    },
+    {
+      "id": "c-stdint-fixed-width",
+      "unit": "types-sizeof-stdint",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What does `#include <stdint.h>` give you, and why do embedded programmers prefer these types?",
+      "body": "It gives fixed-width integer types such as `uint8_t`, `int16_t` and `uint32_t`, whose name states the exact number of bits and signedness on every platform.\n\nThe pattern is `u` for unsigned (leave it off for signed), then `int`, then the width in bits, then `_t`: `uint8_t` is unsigned 8-bit, `int32_t` is signed 32-bit.\n\nWhy: Hardware registers, sensor values and network packets have an exact size. If a sensor sends 16 bits, `int16_t` always matches it, while a plain `int` might be 16 or 32 bits.\n\nExample: `uint8_t brightness = 200;` is one byte everywhere, which makes it a good fit for a byte that goes straight to an LED driver.\n\nTip: Use plain `int` for loop counters and small everyday values. Use fixed-width types for anything whose size is part of the problem.",
+      "searchQuery": "c stdint.h fixed width integer uint8_t int16_t uint32_t",
+      "refs": [
+        "cppreference.com: Fixed width integer types (C, <stdint.h>)",
+        "K&R 2e, §2.2 Data Types and Sizes"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "c-small-int-ranges",
+      "unit": "types-sizeof-stdint",
+      "kind": "numbers",
+      "difficulty": 2,
+      "title": "What range of values can `uint8_t`, `int8_t`, `uint16_t` and `int16_t` hold?",
+      "body": "`uint8_t`: $0$ to $255$; `int8_t`: $-128$ to $127$; `uint16_t`: $0$ to $65{,}535$; `int16_t`: $-32{,}768$ to $32{,}767$.\n\nAn unsigned type with $n$ bits holds $0$ to $2^{n}-1$. A signed type uses two's complement, so it holds $-2^{n-1}$ to $2^{n-1}-1$.\n\nExample: For 8 bits, $2^{8}-1 = 255$ and $2^{7} = 128$, giving $-128$ to $127$ for the signed type.\n\nTip: Memorize 255 and 65,535 for the unsigned types. The signed range always has one more negative value than positive, because zero takes one of the non-negative slots.",
+      "searchQuery": "uint8_t int8_t uint16_t int16_t range values",
+      "refs": [
+        "cppreference.com: Fixed width integer types (C, <stdint.h>)",
+        "K&R 2e, §2.2 Data Types and Sizes"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "c-int32-range",
+      "unit": "types-sizeof-stdint",
+      "kind": "numbers",
+      "difficulty": 2,
+      "title": "What range of values can `uint32_t` and `int32_t` hold?",
+      "body": "`uint32_t`: $0$ to $4{,}294{,}967{,}295$; `int32_t`: $-2{,}147{,}483{,}648$ to $2{,}147{,}483{,}647$.\n\nThose are $2^{32}-1$ and $-2^{31}$ to $2^{31}-1$. A quick way to remember: $2^{10} \\approx 10^{3}$, so $2^{32} = 4 \\cdot 2^{30} \\approx 4$ billion, and the signed range reaches about plus or minus 2.1 billion.\n\nExample: A millisecond counter in a `uint32_t` runs for about 49.7 days before it wraps back to 0, because $4{,}294{,}967{,}296\\ \\text{ms} \\approx 49.7$ days.\n\nWatch out: Seconds since 1970 stored in an `int32_t` run out in the year 2038, a famous real-world overflow.",
+      "searchQuery": "uint32_t int32_t range 4294967295 2147483647",
+      "refs": [
+        "cppreference.com: Fixed width integer types (C, <stdint.h>)",
+        "K&R 2e, §2.2 Data Types and Sizes"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "c-integer-overflow",
+      "unit": "types-sizeof-stdint",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is **integer overflow**, and how does C treat it for unsigned versus signed types?",
+      "body": "Integer overflow is a result too big for its type: unsigned values wrap around modulo $2^{n}$, while signed overflow is undefined and the program may do anything.\n\nFor an unsigned type with $n$ bits, the answer simply loses its top bits (wrap-around, as in the binary lessons). For a signed type, the C standard does not say what happens, and compilers are allowed to assume it never occurs.\n\nExample: With `uint8_t x = 250;`, the statement `x = x + 10;` stores $260 \\bmod 256 = 4$, so `x` becomes $4$.\n\nWatch out: Never rely on signed wrap-around, even though it often seems to \"work\" in a test. Optimizing compilers may remove checks such as `if (x + 1 < x)` entirely.\n\nTip: Compile with `-fsanitize=undefined` during testing and the program will report signed overflow when it happens.",
+      "searchQuery": "c integer overflow unsigned wrap around signed undefined behavior",
+      "refs": [
+        "K&R 2e, §2.2 Data Types and Sizes",
+        "CS50x 2026, Week 1 notes: Types"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "c-signed-unsigned-compare",
+      "unit": "types-sizeof-stdint",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume 32-bit `int`. What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int a = -1;\n    unsigned int b = 1;\n    if (a < b)\n        printf(\"less\\n\");\n    else\n        printf(\"not less\\n\");\n    return 0;\n}\n```",
+      "body": "`not less`\n\nWhen a signed and an unsigned value of the same size meet in one comparison, C converts the signed one to unsigned first. The value $-1$ becomes $4{,}294{,}967{,}295$ (all 32 bits set), which is larger than $1$.\n\nWhy: This follows from how two's complement works: the same bits that mean $-1$ as signed mean the largest value when read as unsigned.\n\nWatch out: `-Wextra` (not plain `-Wall`, in C) flags this with a \"comparison of integers of different signs\" warning. A classic trap is a loop like `for (unsigned i = n; i >= 0; i--)`, which never ends because an unsigned value is always at least $0$.",
+      "searchQuery": "c signed unsigned comparison -1 unsigned int surprise",
+      "refs": [
+        "K&R 2e, §2.7 Type Conversions",
+        "CS50x 2026, Week 1 notes: Types"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "c-integer-division",
+      "unit": "operators-in-c",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is **integer division** in C, and what does `7 / 2` give?",
+      "body": "When both operands are integers, `/` discards the fractional part (it truncates toward zero), so `7 / 2` is `3`.\n\nThe **arithmetic operators** in C are `+`, `-`, `*`, `/` and `%`. For `+`, `-` and `*` on integers, nothing surprising happens. Division is different: the result of an integer divided by an integer is also an integer, so there is no room for the `.5`.\n\nExample: `7 / 2` is `3`, `9 / 10` is `0`, and `-7 / 2` is `-3` (toward zero, not down to `-4`).\n\nWatch out: If either operand is a `double`, the division is done in floating point instead: `7 / 2.0` is `3.5`.\n\nWhy: This matches what the hardware does: the processor has an integer divide instruction that returns a whole quotient.",
+      "searchQuery": "c integer division truncation 7 / 2 equals 3",
+      "refs": [
+        "K&R 2e, §2.5 Arithmetic Operators",
+        "CS50x 2026, Week 1 notes: Operators"
+      ]
+    },
+    {
+      "id": "c-modulo-operator",
+      "unit": "operators-in-c",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What does **modulo** (`%`) compute in C, and what is `-7 % 3`?",
+      "body": "`a % b` is the remainder of `a / b`, and its sign follows `a`, so `-7 % 3` is `-1`.\n\nThe **modulo** operator gives what is left over after integer division. For positive numbers, `7 % 3` is `1` because $7 = 2 \\cdot 3 + 1$. C guarantees this identity: `(a / b) * b + a % b` always equals `a`.\n\nExample: `-7 / 3` is `-2` (truncated toward zero), so `-7 % 3` must be `-1`, because $(-2)(3) + (-1) = -7$.\n\nWatch out: Python's `%` gives `2` for `-7 % 3`, because Python rounds division down. In C the remainder takes the sign of the left operand. Both operands must be integers; `%` does not work on `double`.\n\nTip: `i % 2 == 0` tests whether `i` is even, and `i % n` wraps a counter around a ring buffer of size `n`.",
+      "searchQuery": "c modulo operator remainder sign negative -7 % 3",
+      "refs": [
+        "K&R 2e, §2.5 Arithmetic Operators",
+        "CS50x 2026, Week 1 notes: Operators"
+      ]
+    },
+    {
+      "id": "c-int-division-assign-misconception",
+      "unit": "operators-in-c",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why does `double x = 7 / 2;` store `3.0` and not `3.5`?",
+      "body": "Because 7 and 2 are both `int`, the division is integer division and gives `3`; only then is the result converted to `double`.\n\nC works out the right-hand side first, using only the types of its own operands. The type of the variable on the left plays no part. The fraction is already gone before the assignment happens.\n\nTo get `3.5`, make one operand a floating-point value before the division. Write `7 / 2.0`, or use a **type cast**: `(double) 7 / 2`. A type cast, written as a type name in parentheses, converts the value that follows it to that type.\n\nWatch out: The cast applies only to what follows it. `(double)(7 / 2)` divides first and is still `3.0`.\n\nExample: To average two `int` variables, write `(double)(a + b) / 2`, not `(a + b) / 2`.",
+      "searchQuery": "c double x = 7 / 2 integer division type cast 3.0",
+      "refs": [
+        "K&R 2e, §2.7 Type Conversions",
+        "CS50x 2026, Week 1 notes: Operators"
+      ]
+    },
+    {
+      "id": "c-increment-code",
+      "unit": "operators-in-c",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "What does this program print? (`++` is the **increment** operator.)\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int i = 5;\n    int a = i++;\n    int b = ++i;\n    printf(\"%d %d %d\\n\", a, b, i);\n    return 0;\n}\n```",
+      "body": "`5 7 7`\n\nThe **increment** operator `++` adds 1 to a variable. Written after the variable (`i++`, postfix), the expression's value is the old value, and the add happens afterward. Written before (`++i`, prefix), the add happens first and the expression's value is the new value.\n\nTrace it: `a = i++` stores the old `5` in `a`, and `i` becomes `6`. Then `b = ++i` makes `i` equal to `7` first and stores `7` in `b`. So `a` is `5`, `b` is `7` and `i` is `7`.\n\nTip: When `i++` stands alone as a statement, as in the update part of a `for` loop, the prefix and postfix forms do the same thing. The difference only shows when you use the value.",
+      "searchQuery": "c increment operator prefix postfix i++ ++i output",
+      "refs": [
+        "K&R 2e, §2.8 Increment and Decrement Operators",
+        "CS50x 2026, Week 1 notes: Operators"
+      ]
+    },
+    {
+      "id": "c-logical-short-circuit-code",
+      "unit": "operators-in-c",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "What does this program print, and does it crash?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int n = 0;\n    int ok = (n != 0) && (10 / n > 1);\n    printf(\"%d %d\\n\", ok, !ok);\n    return 0;\n}\n```",
+      "body": "`0 1`, and it does not crash.\n\n`!=` and `>` are **relational operators**: they compare two values. `&&` (and), `||` (or) and `!` (not) are **logical operators**: they combine true/false results. In C a true/false result is the `int` `1` or `0`.\n\nBecause `&&` short-circuits (as `and` does in Python), the right side is skipped when the left side is already false. Here `n != 0` is `0`, so `10 / n` never runs. Dividing an integer by zero would otherwise be undefined and normally crashes.\n\nKey idea: Put the safety check on the left of `&&`, and the risky expression on the right.\n\nWatch out: In C, `&&` and `||` are the logical ones. A single `&` or `|` is a bitwise operator that works on bits and does not short-circuit.",
+      "searchQuery": "c logical operators && || ! short-circuit relational operators",
+      "refs": [
+        "K&R 2e, §2.6 Relational and Logical Operators",
+        "CS50x 2026, Week 1 notes: Operators"
+      ]
+    },
+    {
+      "id": "c-operator-precedence",
+      "unit": "operators-in-c",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "In what order does C apply operators, and when should you add parentheses?",
+      "body": "Arithmetic first, then shifts, then comparisons, then bitwise `&` `^` `|`, then `&&` and `||`, with assignment last; when in doubt, add parentheses.\n\n**Precedence** is the rule for which operator grabs its operands first, just as `*` beats `+` in school arithmetic. Operators of equal precedence usually group left to right.\n\nExample: `1 << 2 + 1` is `1 << 3`, which is `8`, because `+` binds tighter than `<<`. If you meant `(1 << 2) + 1`, which is `5`, you must write the parentheses.\n\nWatch out: Equality (`==`) binds tighter than bitwise `&`, which surprises almost everyone: `x & 4 == 4` means `x & (4 == 4)`. Parentheses cost nothing at run time.\n\nTip: You do not have to memorize the whole table. Memorize \"multiply before add\", and wrap everything else in parentheses.",
+      "searchQuery": "c operator precedence parentheses order shift comparison bitwise",
+      "refs": [
+        "K&R 2e, §2.12 Precedence and Order of Evaluation",
+        "CS50x 2026, Week 1 notes: Operators"
+      ]
+    },
+    {
+      "id": "c-bit-set-test-code",
+      "unit": "operators-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume 32-bit `int`. What does this program print? (`<<` and `>>` are **shift operators**.)\n\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void)\n{\n    uint8_t flags = 0;\n    flags |= 1 << 3;\n    flags |= 1;\n    printf(\"%d %d\\n\", flags, (flags >> 3) & 1);\n    return 0;\n}\n```",
+      "body": "`9 1`\n\nThe **bitwise operators** `&` (and), `|` (or), `^` (xor) and `~` (not) work on each bit separately. The **shift operators** move all the bits: `x << n` shifts left by `n` places, which multiplies by $2^{n}$, and `>>` shifts right.\n\nBits are numbered from 0 at the least significant bit. `1 << 3` is binary `1000`, which is `8`. The line `flags |= 1 << 3;` sets bit 3, so `flags` is `8`. Then `flags |= 1;` sets bit 0, giving binary `1001`, which is `9`.\n\nTo test a bit, shift it down to position 0 and mask with `& 1`. Bit 3 of `1001` is `1`.\n\nTip: The four standard moves: set with `|=`, clear with `&= ~`, toggle with `^=`, and test with `&`.",
+      "searchQuery": "c bitwise operators set test bit shift left right flags",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators",
+        "CS50x 2026, Week 1 notes: Operators"
+      ],
+      "tags": [
+        "bit-manipulation"
+      ]
+    },
+    {
+      "id": "c-bit-clear-toggle-code",
+      "unit": "operators-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume 32-bit `int`. What two lines does this program print?\n\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void)\n{\n    uint8_t v = 0xFF;\n    v &= ~(1 << 4);\n    printf(\"%d\\n\", v);\n    v ^= 0x0F;\n    printf(\"0x%X\\n\", v);\n    return 0;\n}\n```",
+      "body": "`239` then `0xE0`\n\nTo clear a bit, AND with a mask that has a `0` in that position and `1` everywhere else. `1 << 4` is `0001 0000`, and `~` flips it to `...1110 1111`. Anding `1111 1111` with that gives `1110 1111`, which is `0xEF`, or `239` in decimal.\n\nTo toggle bits, XOR with a mask that has `1` in each position you want to flip. `0x0F` is `0000 1111`, so the low nibble flips: `1110 1111` becomes `1110 0000`, which is `0xE0`.\n\nWatch out: `~` works on the whole `int`, not just 8 bits, so `~(1 << 4)` is a big negative number. That is fine here, because the result is stored back into an 8-bit variable and the extra high bits are dropped.\n\nTip: Printing with `%X` shows uppercase hexadecimal, and `0x` before it makes the output look like a hex literal.",
+      "searchQuery": "c clear bit toggle xor mask ~ bitwise and uint8_t",
+      "refs": [
+        "K&R 2e, §2.9 Bitwise Operators",
+        "CS50x 2026, Week 1 notes: Operators"
+      ],
+      "tags": [
+        "bit-manipulation"
+      ]
+    },
+    {
+      "id": "c-precedence-trap-code",
+      "unit": "operators-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume 32-bit `int`. This code is meant to test whether bit 2 of `flags` is set. What does it actually print, and why?\n\n```c\n#include <stdio.h>\n#include <stdint.h>\nint main(void)\n{\n    uint8_t flags = 4;\n    if (flags & 0x04 == 0x04)\n        printf(\"bit 2 set\\n\");\n    else\n        printf(\"bit 2 clear\\n\");\n    return 0;\n}\n```",
+      "body": "It prints `bit 2 clear`, because `==` binds tighter than `&`, so the test is `flags & (0x04 == 0x04)`, which is `4 & 1`, which is `0`.\n\nThe comparison `0x04 == 0x04` is true, so it equals `1`. Then `flags & 1` checks bit 0, not bit 2. Since `4` is binary `100`, bit 0 is clear and the condition is false, even though bit 2 really is set.\n\nThe fix is to add parentheses around the bit test: `if ((flags & 0x04) == 0x04)`, or simply `if (flags & 0x04)`.\n\nWatch out: This bug is silent unless you compile with `-Wall`, which warns that `&` has lower precedence than `==`.",
+      "searchQuery": "c precedence trap flags & 0x04 == 0x04 bitwise equality bug",
+      "refs": [
+        "K&R 2e, §2.12 Precedence and Order of Evaluation",
+        "K&R 2e, §2.9 Bitwise Operators"
+      ],
+      "tags": [
+        "bit-manipulation"
+      ]
+    },
+    {
+      "id": "c-if-else-block",
+      "unit": "control-flow-c",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "How does `if` / `else` work in C, and what is a **block**?",
+      "body": "`if (condition) { ... } else { ... }` runs the first block when the condition is nonzero (true) and the `else` block otherwise; a block is a group of statements inside braces.\n\nC has no separate true/false test for an `if`: the condition is any number, where `0` means false and every other value means true. A **block** is the code between `{` and `}`. It lets one `if` or `else` control several statements at once. Extra cases chain with `else if`.\n\nExample: `if (score >= 90) { printf(\"A\\n\"); } else if (score >= 80) { printf(\"B\\n\"); } else { printf(\"C or lower\\n\"); }`\n\nWatch out: Without braces, `if` controls only the single statement after it. Adding a second line later, indented to look like part of the `if`, does not make it one. Always use braces.",
+      "searchQuery": "c if else statement block braces condition nonzero true",
+      "refs": [
+        "K&R 2e, §3.1 Statements and Blocks; §3.2 If-Else",
+        "CS50x 2026, Week 1 notes: Conditionals"
+      ]
+    },
+    {
+      "id": "c-assign-vs-compare-bug",
+      "unit": "control-flow-c",
+      "kind": "misconception",
+      "difficulty": 1,
+      "title": "Why does `if (x = 5)` run its body even when `x` was `3`?",
+      "body": "A single `=` assigns and `==` compares: `x = 5` stores `5` in `x`, and the expression's value is `5`, which is nonzero and so counts as true.\n\nSo the condition is not a question at all. It overwrites `x` and then always passes. The program compiles and runs, which is what makes this bug dangerous.\n\nExample: With `int x = 3;` the code `if (x = 5) printf(\"x is five\\n\");` prints the message and leaves `x` equal to `5`.\n\nTip: Compile with `-Wall`. It warns that the result of an assignment is used as a condition (the wording differs between compilers). Some programmers also write the constant first, as in `if (5 == x)`, because a slip to `5 = x` is then a compile error.",
+      "searchQuery": "c if x = 5 assignment vs comparison == bug",
+      "refs": [
+        "K&R 2e, §2.6 Relational and Logical Operators",
+        "CS50x 2026, Week 1 notes: Conditionals"
+      ]
+    },
+    {
+      "id": "c-switch-case-label",
+      "unit": "control-flow-c",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **switch** statement, and what is a **case label**?",
+      "body": "A `switch` jumps to the `case` label whose constant equals the switched integer value, and `default` catches everything else.\n\n```c\nswitch (n) {\n    case 1: ...; break;\n    case 2: ...; break;\n    default: ...;\n}\n```\n\nA **case label** is the `case 1:` line: a constant value followed by a colon. The `switch` evaluates `n` once, jumps to the matching label, and keeps running from there. The `break` statement leaves the `switch`.\n\nWhy: A `switch` is tidier than a long `else if` chain when you compare one integer, or a `char`, against many fixed values, such as command codes or button numbers.\n\nWatch out: The labels must be constants, and the switched value must be an integer type. You cannot switch on a string or a `double`.",
+      "searchQuery": "c switch statement case label default break integer",
+      "refs": [
+        "K&R 2e, §3.4 Switch",
+        "CS50x 2026, Week 1 notes: Conditionals"
+      ]
+    },
+    {
+      "id": "c-switch-fall-through-code",
+      "unit": "control-flow-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print? Use the term **fall-through** in your answer.\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int n = 1;\n    switch (n) {\n        case 1: printf(\"one \");\n        case 2: printf(\"two \"); break;\n        default: printf(\"many \");\n    }\n    printf(\"\\n\");\n    return 0;\n}\n```",
+      "body": "`one two ` : case 1 has no `break`, so execution falls through into case 2.\n\n**Fall-through** means that after a `case` finishes, execution carries on into the next `case` body unless a `break` stops it. The `switch` only chooses where to start; it does not stop on its own.\n\nTrace: `n` is `1`, so we jump to `case 1` and print `one `. Without a `break` we continue into `case 2`, print `two `, and then `break` leaves the `switch`. `default` never runs.\n\nWatch out: Forgetting `break` is one of the classic C bugs. Fall-through is sometimes useful, for example several labels sharing one body, but then add a comment so readers know it was intended. `gcc -Wextra` warns about accidental fall-through.",
+      "searchQuery": "c switch fall-through missing break case output",
+      "refs": [
+        "K&R 2e, §3.4 Switch",
+        "CS50x 2026, Week 1 notes: Conditionals"
+      ]
+    },
+    {
+      "id": "c-loop-forms",
+      "unit": "control-flow-c",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "How do C's `while`, `do`-`while` and `for` loops differ?",
+      "body": "`while` tests first and may run zero times; `do`-`while` runs the body once before it tests; `for` puts the start, test and update of a counter on one line.\n\n- A **while loop**: `while (condition) { ... }` repeats as long as the condition is nonzero.\n- A **do-while loop**: `do { ... } while (condition);` runs the body first, so it always runs at least once. Note the semicolon at the end.\n- A **for loop**: `for (int i = 0; i < 5; i++) { ... }` has three parts: set-up (once), test (before every pass) and update (after every pass).\n\nExample: Use `for` when you count, `while` when you wait for something, and `do`-`while` when the body must run once before the test makes sense, such as asking the user for input and checking it.\n\nTip: Declaring the counter inside the `for`, as in `int i = 0`, is allowed in C99 and later, and keeps it local to the loop.",
+      "searchQuery": "c while do-while for loop difference body runs at least once",
+      "refs": [
+        "K&R 2e, §3.5 Loops - While and For; §3.6 Loops - Do-While",
+        "CS50x 2026, Week 1 notes: Loops and meow.c"
+      ]
+    },
+    {
+      "id": "c-do-while-code",
+      "unit": "control-flow-c",
+      "kind": "code",
+      "difficulty": 1,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int n = 10;\n    do {\n        printf(\"%d\\n\", n);\n        n++;\n    } while (n < 5);\n    return 0;\n}\n```",
+      "body": "`10` (printed once)\n\nA `do`-`while` loop checks its condition after the body. So the body runs once, printing `10`, and `n` becomes `11`. Now `n < 5` is false, so the loop stops.\n\nCompare a plain `while (n < 5)`: the condition is checked first, `10 < 5` is false, and nothing would print at all.\n\nKey idea: The difference between `while` and `do`-`while` only matters when the condition is false at the start.\n\nWatch out: Don't forget the semicolon after the closing `while (...)`. It is required for `do`-`while`.",
+      "searchQuery": "c do-while loop runs once condition false output",
+      "refs": [
+        "K&R 2e, §3.6 Loops - Do-While",
+        "CS50x 2026, Week 1 notes: Loops and meow.c"
+      ],
+      "answer": "10"
+    },
+    {
+      "id": "c-break-continue-code",
+      "unit": "control-flow-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    for (int i = 1; i <= 6; i++) {\n        if (i % 2 == 0)\n            continue;\n        if (i == 5)\n            break;\n        printf(\"%d \", i);\n    }\n    printf(\"\\n\");\n    return 0;\n}\n```",
+      "body": "`1 3 `\n\n`continue` skips the rest of the current pass and jumps to the next one (in a `for`, to the update `i++`). `break` leaves the whole loop immediately.\n\nTrace by `i`:\n- `1`: odd, not `5`, so print `1`.\n- `2`: even, `continue`, nothing printed.\n- `3`: print `3`.\n- `4`: even, skipped.\n- `5`: odd, but equals `5`, so `break` ends the loop. The loop never reaches `6`.\n\nWatch out: `break` leaves only the innermost loop (or `switch`) it sits in. It does not exit nested loops all at once.",
+      "searchQuery": "c break continue for loop trace output skip iterations",
+      "refs": [
+        "K&R 2e, §3.7 Break and Continue",
+        "CS50x 2026, Week 1 notes: Loops and meow.c"
+      ]
+    },
+    {
+      "id": "c-nested-loops-pyramid-code",
+      "unit": "control-flow-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    for (int row = 1; row <= 3; row++) {\n        for (int col = 0; col < row; col++)\n            printf(\"#\");\n        printf(\"\\n\");\n    }\n    return 0;\n}\n```",
+      "body": "A left-aligned staircase of three lines: `#`, then `##`, then `###`.\n\nThe outer loop counts rows. For each row, the inner loop starts again from `col = 0` and prints one `#` per pass, as many as the row number. Then `printf(\"\\n\")` ends the line.\n\nTrace: `row = 1` prints `#`; `row = 2` prints `##`; `row = 3` prints `###`. In total the inner body runs $1 + 2 + 3 = 6$ times.\n\nKey idea: With nested loops, the inner loop runs completely for every single pass of the outer loop.\n\nTip: This is the heart of the CS50 \"Mario\" exercise. To right-align the steps, print spaces first and `#` after them.",
+      "searchQuery": "c nested for loops print pyramid staircase hash output",
+      "refs": [
+        "CS50x 2026, Week 1 notes: Mario",
+        "K&R 2e, §3.5 Loops - While and For"
+      ]
+    },
+    {
+      "id": "c-function-definition",
+      "unit": "functions-in-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What are the parts of a C **function definition**, and what does **void** mean there?",
+      "body": "A function definition is a return type, a name, a parameter list in parentheses and a body in braces, as in `int square(int n) { return n * n; }`.\n\nThe **return type** (`int` here) says what kind of value the function hands back with `return`. Each parameter has its own type and name. The body is the code that runs when the function is called.\n\n`void` is C's word for \"nothing\". As a return type, as in `void blink(void)`, it means the function returns no value. In a parameter list, `(void)` means the function takes no arguments.\n\nWatch out: Write `(void)` for no parameters. In C (before C23), an empty `()` means \"unspecified arguments\", which switches off the compiler's checking of calls.\n\nExample: `double half(int n) { return n / 2.0; }` takes an `int` and returns a `double`.",
+      "searchQuery": "c function definition return type parameters void body",
+      "refs": [
+        "K&R 2e, §1.7 Functions; §4.1 Basics of Functions",
+        "CS50x 2026, Week 1 notes: Functions"
+      ]
+    },
+    {
+      "id": "c-function-prototype",
+      "unit": "functions-in-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **function prototype**, and why do you need one?",
+      "body": "A function prototype is a declaration giving a function's return type, name and parameter types, ended by a semicolon, so it can be called before its body appears: `int square(int n);`.\n\nThe compiler reads a file from top to bottom. When it reaches a call, it must already know the function's return type and what arguments it takes, so it can check the call. A prototype supplies exactly that, with no body.\n\nExample: Put `int square(int n);` near the top of the file. Now `main` can call `square`, while the full definition sits further down or in another file.\n\nWatch out: The prototype must agree with the definition. If it says `int` but the definition says `double`, the program is broken, and the compiler may not notice when the two are in different files.\n\nTip: The parameter names are optional in a prototype, so `int square(int);` is also valid.",
+      "searchQuery": "c function prototype declaration before use semicolon",
+      "refs": [
+        "K&R 2e, §1.7 Functions; §4.1 Basics of Functions",
+        "CS50x 2026, Week 1 notes: Functions"
+      ]
+    },
+    {
+      "id": "c-header-file",
+      "unit": "functions-in-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **header file** (`.h`) and what belongs in it?",
+      "body": "A header file is a text file, ending in `.h`, that holds the prototypes and shared declarations other `.c` files need, so each can `#include` it instead of repeating them.\n\nSuppose `math_utils.c` defines `int square(int n)`. Its header `math_utils.h` contains only the prototype `int square(int n);`. Any file that wants to call `square` writes `#include \"math_utils.h\"`. The quotes tell the preprocessor to look in your own folder first.\n\nWhy: A header is the public list of what a `.c` file offers, so the files that use it never need to read its body. It also keeps every prototype in a single place, so they can't drift apart.\n\nWatch out: Put declarations in a header, not function bodies or variable definitions. If two files include a header with a definition, the linker later sees two copies. Including a header twice in one file needs an include guard, covered later in this module.",
+      "searchQuery": "c header file .h prototypes include quotes separate",
+      "refs": [
+        "K&R 2e, §4.5 Header Files",
+        "CS50x 2026, Week 1 notes: Functions"
+      ]
+    },
+    {
+      "id": "c-pass-by-value-misconception",
+      "unit": "functions-in-c",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is \"assigning to a parameter inside a function changes the caller's variable\" false?",
+      "body": "C passes arguments by value: the function receives copies, so changing a parameter changes only the function's own copy.\n\n```c\nvoid add_ten(int n) { n = n + 10; }\n/* in main: */\nint score = 5;\nadd_ten(score);   /* score is still 5 */\n```\n\nWhen `add_ten(score)` runs, the value `5` is copied into the parameter `n`. The function adds 10 to its copy, and when the function returns, the copy disappears. The variable `score` in the caller was never touched.\n\nKey idea: To get a result back, use the return value: `score = add_ten(score);` with a function that does `return n + 10;`.\n\nWatch out: This is why a `swap(a, b)` function written with two plain `int` parameters can never swap anything. Later lessons show how to give a function access to the caller's own variable.",
+      "searchQuery": "c pass by value function copy argument parameter does not change caller",
+      "refs": [
+        "K&R 2e, §1.8 Arguments - Call by Value",
+        "CS50x 2026, Week 1 notes: Functions"
+      ]
+    },
+    {
+      "id": "c-separate-compilation",
+      "unit": "functions-in-c",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What is **separate compilation**, and how do you build a program from two `.c` files?",
+      "body": "Compile each `.c` file on its own into an object file (`gcc -c`), then let the linker join the object files into one executable.\n\n```text\ngcc -Wall -c main.c       (makes main.o)\ngcc -Wall -c counter.c    (makes counter.o)\ngcc main.o counter.o -o app\n```\n\nEach `.c` file is compiled without seeing the other; the prototypes in headers tell the compiler how to call across files. The **linker** then connects each call to the real function in the other object file.\n\nWhy: In a big project, changing one file means recompiling only that file and re-linking, which is much faster than rebuilding everything. It also lets different people own different files.\n\nTip: `gcc -Wall main.c counter.c -o app` does all of the steps in one command. Build tools like `make` automate the separate version.",
+      "searchQuery": "c separate compilation object files linker gcc -c two source files",
+      "refs": [
+        "CS:APP 3e, §7.1 Compiler Drivers",
+        "K&R 2e, §4.5 Header Files",
+        "CS50x 2026, Week 2 notes: Compiling"
+      ]
+    },
+    {
+      "id": "c-static-local-code",
+      "unit": "functions-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What number does this program print? (A local variable declared `static` is a **static variable**.)\n\n```c\n#include <stdio.h>\nint next_id(void)\n{\n    static int id = 0;\n    id++;\n    return id;\n}\nint main(void)\n{\n    next_id();\n    next_id();\n    printf(\"%d\\n\", next_id());\n    return 0;\n}\n```",
+      "body": "3\n\nA **static variable** inside a function is created and set to its initial value once, and it keeps its value between calls. Without `static`, `id` would be a normal local variable, reset to `0` on each call, and the program would print `1`.\n\nTrace: the first call makes `id` equal to `1`, the second makes it `2`, and the third makes it `3`, which is returned and printed.\n\nKey idea: `static` on a local variable changes how long it lives, but not who can see it. Only `next_id` can use the name `id`.\n\nTip: In embedded code, static locals are a tidy way to keep state, such as a counter or the previous sensor reading, without a global variable. On a global variable or a function, `static` means something else: the name is private to its own `.c` file.",
+      "searchQuery": "c static local variable keeps value between calls counter",
+      "answer": "3",
+      "refs": [
+        "K&R 2e, §4.6 Static Variables",
+        "K&R 2e, §4.4 Scope Rules"
+      ]
+    },
+    {
+      "id": "c-extern-two-files-code",
+      "unit": "functions-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "These two files are compiled together. What does the program print, and what does the `extern` line do?\n\n```c\n/* counter.c */\nint hits = 0;\nvoid hit(void) { hits++; }\n\n/* main.c */\n#include <stdio.h>\nextern int hits;\nvoid hit(void);\nint main(void)\n{\n    hit(); hit();\n    printf(\"%d\\n\", hits);\n    return 0;\n}\n```",
+      "body": "It prints `2`; `extern int hits;` declares that the global variable `hits` is defined in another file, without creating a second one.\n\nA global variable lives outside every function. It is created in exactly one place, here `counter.c`. In `main.c`, **extern** says \"a variable with this name and type exists somewhere else, so don't make a new one; the linker will connect it\".\n\nBoth `hit` calls increment the single shared `hits`, so `main` sees `2`.\n\nWatch out: Without the `extern` line, `main.c` would not know the name `hits` at all and would give an error. If you wrote `int hits;` there instead, you would define a second variable, and the linker may complain.\n\nTip: Shared globals are usually declared with `extern` in a header, so every file sees the same line.",
+      "searchQuery": "c extern global variable shared between two files",
+      "refs": [
+        "K&R 2e, §4.3 External Variables",
+        "K&R 2e, §4.5 Header Files"
+      ]
+    },
+    {
+      "id": "c-link-error-code",
+      "unit": "functions-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "`counter.c` defines `hit`, but you build with the command below. At which stage does the build fail, and with what kind of message?\n\n```c\n/* main.c */\nvoid hit(void);\nint main(void)\n{\n    hit();\n    return 0;\n}\n/* command: gcc -Wall main.c -o app */\n```",
+      "body": "It fails at the link stage, with an \"undefined reference to `hit`\" message on Linux (macOS says \"Undefined symbols\").\n\nCompiling `main.c` succeeds: the prototype tells the compiler that `hit` exists, so the call is accepted. The linker then has to find the real function and cannot, because `counter.c` was never part of the command.\n\nFix: add the missing file, `gcc -Wall main.c counter.c -o app`, or link in its object file.\n\nKey idea: A compile error means the compiler didn't understand your code. A link error (\"undefined reference\", \"undefined symbols\") means a name was promised and nothing supplied it, so look for a missing source file, a missing library or a misspelled function name.",
+      "searchQuery": "c linker error undefined reference missing source file build",
+      "refs": [
+        "CS:APP 3e, §7.1 Compiler Drivers",
+        "CS50x 2026, Week 2 notes: Compiling"
+      ]
+    },
+    {
+      "id": "c-local-shadows-global-code",
+      "unit": "functions-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\nint level = 10;\nvoid bump(void)\n{\n    int level = 1;\n    level++;\n}\nint main(void)\n{\n    bump();\n    printf(\"%d\\n\", level);\n    return 0;\n}\n```",
+      "body": "`10`\n\nA **global variable** such as the first `level` is visible to every function in the file. But `bump` declares its own **local variable** with the same name. Inside `bump`, the local one hides (shadows) the global, so `level++` changes only the local copy, which disappears when `bump` returns.\n\n`main` has no `level` of its own, so it prints the untouched global, `10`.\n\nWatch out: Shadowing compiles without a complaint, which makes mix-ups easy. You can ask for a warning with `-Wshadow`.\n\nTip: Prefer passing values through parameters and return values. Reserve globals for state that truly is shared, and give them clear names.",
+      "searchQuery": "c local variable shadows global variable scope output",
+      "refs": [
+        "K&R 2e, §4.4 Scope Rules",
+        "CS50x 2026, Week 1 notes: Functions"
+      ]
+    },
+    {
+      "id": "c-array-definition",
+      "unit": "arrays-in-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is an **array** in C, and how are its **elements** numbered?",
+      "body": "An array is a fixed-size row of elements of one type stored side by side, and the elements are numbered from 0, so `int a[5];` has indexes 0 to 4.\n\nEach item in the array is an **element**, and its position is the **zero-based index**: `a[0]` is the first element and `a[4]` is the last. The size is fixed when you declare the array and cannot grow later.\n\nExample: `int a[5];` reserves room for five `int` values, which is $5 \\times 4 = 20$ bytes with a 32-bit `int`. `a[2] = 7;` stores 7 in the third element.\n\nWhy: The index counts how far the element is from the start of the array. The first element is zero steps from the start, so its index is 0.\n\nWatch out: There is no index 5 in a five-element array. Unlike a Python list, a C array does not know its own length and cannot be resized.",
+      "searchQuery": "c array declaration elements zero-based index fixed size",
+      "refs": [
+        "K&R 2e, §1.6 Arrays",
+        "CS50x 2026, Week 2 notes: Arrays"
+      ]
+    },
+    {
+      "id": "c-array-initializer-code",
+      "unit": "arrays-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print? (The braces list is an **initializer list**.)\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int a[5] = {1, 2};\n    for (int i = 0; i < 5; i++)\n        printf(\"%d \", a[i]);\n    printf(\"\\n\");\n    return 0;\n}\n```",
+      "body": "`1 2 0 0 0`\n\nAn **initializer list** gives the starting values of an array in braces. When it lists fewer values than the array has elements, C sets all the remaining elements to zero. So `a[0]` is `1`, `a[1]` is `2` and the other three are `0`.\n\nTip: `int a[5] = {0};` is the usual way to start with all zeros. You can also leave the size out, `int a[] = {4, 8, 15};`, and the compiler counts the values for you, here 3.\n\nWatch out: A local array declared without an initializer, as in `int a[5];`, holds whatever bytes happened to be in that memory. Reading it before writing gives unpredictable values.",
+      "searchQuery": "c array initializer list partial initialization remaining zero",
+      "refs": [
+        "K&R 2e, §4.9 Initialization",
+        "CS50x 2026, Week 2 notes: Arrays"
+      ]
+    },
+    {
+      "id": "c-array-length-sizeof-code",
+      "unit": "arrays-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume 32-bit `int`. What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int a[] = {4, 8, 15, 16, 23, 42};\n    int n = sizeof(a) / sizeof(a[0]);\n    int sum = 0;\n    for (int i = 0; i < n; i++)\n        sum += a[i];\n    printf(\"%d %d\\n\", n, sum);\n    return 0;\n}\n```",
+      "body": "`6 108`\n\n`sizeof(a)` is the total size of the array in bytes: 6 elements of 4 bytes is $24$ bytes. `sizeof(a[0])` is the size of one element, $4$ bytes. Dividing gives the number of elements: $24 / 4 = 6$.\n\nThe loop then adds every element: $4 + 8 + 15 + 16 + 23 + 42 = 108$.\n\nKey idea: Use `sizeof(a) / sizeof(a[0])` instead of typing the length. If you later add a value to the list, the count updates itself.\n\nWatch out: This trick works only where the array is defined, in the same scope. It does not work on an array that was passed into a function (next cards).",
+      "searchQuery": "c array length sizeof(a) / sizeof(a[0]) loop sum",
+      "refs": [
+        "K&R 2e, §1.6 Arrays",
+        "CS50x 2026, Week 2 notes: Arrays"
+      ]
+    },
+    {
+      "id": "c-array-to-function-code",
+      "unit": "arrays-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print? Note that the length `n` is passed separately.\n\n```c\n#include <stdio.h>\nvoid double_all(int v[], int n)\n{\n    for (int i = 0; i < n; i++)\n        v[i] = v[i] * 2;\n}\nint main(void)\n{\n    int a[3] = {1, 2, 3};\n    double_all(a, 3);\n    printf(\"%d %d %d\\n\", a[0], a[1], a[2]);\n    return 0;\n}\n```",
+      "body": "`2 4 6`\n\nArrays are the exception to \"functions get copies\". When you pass `a`, the function gets access to the caller's own array, so writing to `v[i]` changes `a[i]` in `main`. (A later module explains why this happens.)\n\nThe function cannot find out the array's length from `v`, so you pass it as a second argument, `n`. Functions that take an array usually take its length as well.\n\nTip: Pass the length every time, and trust only that number. A function that guesses the length is a buffer overflow waiting to happen.\n\nWatch out: This is a shared array, not a copy. If you need the original values later, copy them first.",
+      "searchQuery": "c pass array to function and length modifies original",
+      "refs": [
+        "K&R 2e, §5.3 Pointers and Arrays",
+        "CS50x 2026, Week 2 notes: Arrays"
+      ]
+    },
+    {
+      "id": "c-sizeof-array-parameter-misconception",
+      "unit": "arrays-in-c",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is \"`sizeof(v) / sizeof(v[0])` gives the length of an array parameter `v`\" false?",
+      "body": "Inside the function, `v` is only the address where the array starts, so `sizeof(v)` is the size of an address (8 bytes on a 64-bit machine) and the division gives the wrong number.\n\n```c\nint count(int v[])\n{\n    return sizeof(v) / sizeof(v[0]);   /* 8 / 4 = 2 */\n}\n```\n\nOn a 64-bit machine with 4-byte `int`, this returns `2` for an array of 10 elements. The function was told where the array begins, not how long it is.\n\nFix: Work out the length in the function that defines the array, then pass it as an argument: `count(a, n)`.\n\nWatch out: `-Wall` warns about this (\"sizeof on array function parameter will return size of 'int *'\"). Read that warning carefully when you see it.",
+      "searchQuery": "c sizeof array parameter in function wrong length address size",
+      "refs": [
+        "K&R 2e, §5.3 Pointers and Arrays",
+        "CS50x 2026, Week 2 notes: Arrays"
+      ]
+    },
+    {
+      "id": "c-array-out-of-bounds",
+      "unit": "arrays-in-c",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Does C check **array bounds**, and what can an out-of-bounds write do?",
+      "body": "No: C does not check array bounds, so `a[5]` on a five-element array reads or writes whatever lies beyond the end, and a write can corrupt other variables or crash.\n\nThe **array bounds** are the valid indexes, here 0 to 4. An out-of-bounds access is undefined behavior: the program may print garbage, change an unrelated variable, crash, or seem to work.\n\nA **buffer overflow** is a write past the end of a buffer (an array holding data). It can overwrite neighboring variables or even the saved return address of a function, which is how many real-world security attacks work.\n\nWatch out: On a microcontroller there is often no operating system to stop you. An out-of-bounds write can silently change another variable and cause a bug that appears far from its cause.\n\nTip: Build test versions with `-fsanitize=address,undefined`: it reports the exact line of an out-of-bounds access.",
+      "searchQuery": "c array bounds not checked buffer overflow out-of-bounds write undefined behavior",
+      "checkpoint": true,
+      "refs": [
+        "K&R 2e, §1.6 Arrays",
+        "CS50x 2026, Week 2 notes: Arrays"
+      ]
+    },
+    {
+      "id": "c-array-off-by-one-code",
+      "unit": "arrays-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "This program is meant to add up the three elements of `a`, but it has a bug. What is wrong, and what is the fix?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int a[3] = {10, 20, 30};\n    int sum = 0;\n    for (int i = 0; i <= 3; i++)\n        sum += a[i];\n    printf(\"%d\\n\", sum);\n    return 0;\n}\n```",
+      "body": "The loop condition `i <= 3` runs one time too many: it reads `a[3]`, which is past the last valid index `2`. The fix is `i < 3`.\n\nA three-element array has indexes `0`, `1` and `2`. With `<=`, the loop also runs for `i = 3`, and `a[3]` reads whatever memory sits just after the array, so the sum is not `60` and can differ from run to run.\n\nWatch out: This is the classic off-by-one error. C prints no error, so the bug shows up only as a wrong answer or a crash later on.\n\nTip: Write array loops as `for (int i = 0; i < n; i++)`, using `<` with the length. Compile with `-fsanitize=address` and the program stops with a clear \"out of bounds\" report at that line.",
+      "searchQuery": "c off-by-one array loop i <= n out of bounds bug fix",
+      "refs": [
+        "K&R 2e, §1.6 Arrays",
+        "CS50x 2026, Week 2 notes: Arrays"
+      ]
+    },
+    {
+      "id": "c-2d-array-definition",
+      "unit": "arrays-in-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **2-D array** in C, and how do you index it?",
+      "body": "A 2-D array is an array whose elements are themselves arrays: `int img[2][3];` has 2 rows and 3 columns, and `img[r][c]` is the element in row `r`, column `c`.\n\nYou declare it with two sizes, rows first. Initialize it with nested braces, one pair per row: `int img[2][3] = {{1, 2, 3}, {4, 5, 6}};`. Both indexes start at 0, so the first row is `img[0]`.\n\nWhy: A small grayscale image, an LED matrix or a sensor grid maps naturally onto rows and columns.\n\nKey idea: In memory, a 2-D array is stored row after row, the \"row-major\" layout you saw in NumPy. Row 0 comes first, then row 1, so it is one block of $2 \\times 3 = 6$ elements.\n\nWatch out: Order matters: `img[2][3]` means 2 rows of 3, and the valid row indexes are only 0 and 1.",
+      "searchQuery": "c 2-d array rows columns index img[r][c] declaration",
+      "refs": [
+        "K&R 2e, §5.7 Multi-dimensional Arrays",
+        "CS50x 2026, Week 2 notes: Arrays"
+      ]
+    },
+    {
+      "id": "c-2d-array-code",
+      "unit": "arrays-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int img[2][3] = {{1, 2, 3}, {4, 5, 6}};\n    int total = 0;\n    for (int r = 0; r < 2; r++)\n        total += img[r][2];\n    printf(\"%d %d\\n\", img[1][0], total);\n    return 0;\n}\n```",
+      "body": "`4 9`\n\n`img[1][0]` is row 1, column 0: the first value of the second row, which is `4`.\n\nThe loop visits `r = 0` and `r = 1`, always at column `2`, which is the last column. It adds `img[0][2] = 3` and `img[1][2] = 6`, so `total` is $3 + 6 = 9$.\n\nTip: To visit every pixel, nest two loops: an outer loop over rows and an inner loop over columns. Visiting in that order walks through memory in the order it is stored, which is also the fastest.",
+      "searchQuery": "c 2d array traverse rows columns column sum output",
+      "refs": [
+        "K&R 2e, §5.7 Multi-dimensional Arrays",
+        "CS50x 2026, Week 2 notes: Arrays"
+      ]
+    },
+    {
+      "id": "c-string-definition",
+      "unit": "strings-in-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **string** in C, and what is the **null terminator**?",
+      "body": "A C string is an array of `char` that ends with the null terminator `'\\0'` (a character with the value 0), so text of length n needs n + 1 bytes.\n\nA `char` holds one character, such as `'A'`, written in single quotes. C has no separate string type: a string is just characters in a row, and the final `'\\0'` marks where the text stops. Every function that works on strings keeps reading until it finds that marker.\n\nExample: `char s[] = \"hi\";` makes a 3-element array holding `'h'`, `'i'` and `'\\0'`.\n\nWatch out: Forget room for the terminator and string functions read past the end of your array, which is a buffer overflow. A buffer meant for 8 characters must be 9 bytes.\n\nKey idea: `'\\0'` is not the same as the digit character `'0'`. The first has value 0, the second has the ASCII code 48.",
+      "searchQuery": "c string char array null terminator zero byte n plus 1 bytes",
+      "refs": [
+        "K&R 2e, §1.9 Character Arrays",
+        "CS50x 2026, Week 2 notes: Strings"
+      ]
+    },
+    {
+      "id": "c-string-literal",
+      "unit": "strings-in-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **string literal**, and how does `\"h\"` differ from `'h'`?",
+      "body": "A string literal is text in double quotes in your source code, such as `\"hello\"`; the compiler adds the `'\\0'` itself, so `\"h\"` is two bytes while `'h'` is a single character.\n\nUse single quotes for one character (a `char` value) and double quotes for a string. `'h'` is the single value $104$, the ASCII code for h. `\"h\"` is the characters `'h'` followed by `'\\0'`.\n\nExample: `printf(\"%s\\n\", \"hello\");` passes a string literal to `printf`, which prints characters until it meets the terminator.\n\nWatch out: They are different kinds of thing, so `'h' == \"h\"` is a mistake. Use `%c` to print a single character and `%s` to print a string.\n\nTip: You can use a string literal to start an array, as in `char s[] = \"hello\";`. The array gets its own copy of the six bytes.",
+      "searchQuery": "c string literal double quotes vs char literal single quotes",
+      "refs": [
+        "K&R 2e, §1.9 Character Arrays; §2.3 Constants",
+        "CS50x 2026, Week 2 notes: Strings"
+      ]
+    },
+    {
+      "id": "c-strlen-sizeof-code",
+      "unit": "strings-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Assume 64-bit Linux or macOS. What does this program print? (`strlen` comes from `string.h`.)\n\n```c\n#include <stdio.h>\n#include <string.h>\nint main(void)\n{\n    char s[] = \"hello\";\n    printf(\"%zu %zu\\n\", strlen(s), sizeof(s));\n    printf(\"%zu %zu\\n\", sizeof(\"h\"), sizeof(\"hi\"));\n    return 0;\n}\n```",
+      "body": "`5 6` on the first line and `2 3` on the second.\n\n**strlen** counts the characters before the null terminator, so `strlen(\"hello\")` is `5`. The array `s` really holds 6 bytes, because the `'\\0'` takes one slot, so `sizeof(s)` is `6`. Likewise `\"h\"` takes 2 bytes and `\"hi\"` takes 3.\n\nThe header **string.h** declares `strlen` and the other string functions. They all rely on the terminator to find the end.\n\nKey idea: `strlen` is the text length; `sizeof` is the storage size. For an array that is exactly as big as its text plus the terminator, `sizeof` is `strlen` plus one.\n\nWatch out: `strlen` walks the string until the terminator, so calling it in a loop condition makes the loop slower than it looks.",
+      "searchQuery": "c strlen vs sizeof string null terminator length plus one",
+      "checkpoint": true,
+      "refs": [
+        "K&R 2e, §1.9 Character Arrays",
+        "CS50x 2026, Week 2 notes: String Length"
+      ]
+    },
+    {
+      "id": "c-string-equality-misconception",
+      "unit": "strings-in-c",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why does `==` not tell you whether two C strings contain the same text?",
+      "body": "`==` compares where the two arrays live in memory, not their characters, so two separate arrays with identical text still compare as different; use `strcmp`.\n\n```c\nchar a[] = \"cat\";\nchar b[] = \"cat\";\n/* a == b is 0 (false); strcmp(a, b) == 0 is 1 (true) */\n```\n\nTwo arrays are two separate blocks of memory, even if they hold the same text, and `==` asks only whether they are the same block. A compiler with `-Wall` may warn that the comparison \"always evaluates to false\".\n\nKey idea: To compare string contents, call `strcmp(a, b)` from `string.h`. It returns `0` when the strings are equal. To copy a string, use a copy function, not `=`.\n\nTip: In Python `==` compares text, so this is an easy habit to carry over by mistake.",
+      "searchQuery": "c compare strings == vs strcmp wrong memory location",
+      "refs": [
+        "K&R 2e, §5.5 Character Pointers and Functions",
+        "CS50x 2026, Week 2 notes: Strings"
+      ]
+    },
+    {
+      "id": "c-strcmp-code",
+      "unit": "strings-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print? (`strcmp` returns `0` for equal strings, a negative number if the first string sorts earlier, and a positive number if it sorts later.)\n\n```c\n#include <stdio.h>\n#include <string.h>\nint main(void)\n{\n    printf(\"%d %d\\n\",\n           strcmp(\"cat\", \"cat\") == 0,\n           strcmp(\"Zebra\", \"apple\") < 0);\n    return 0;\n}\n```",
+      "body": "`1 1`\n\n**strcmp** compares two strings character by character and stops at the first difference. `strcmp(\"cat\", \"cat\")` is `0`, so the first test is true, which prints as `1`.\n\nFor `\"Zebra\"` and `\"apple\"`, the first characters differ right away: `'Z'` has ASCII code $90$ and `'a'` has code $97$. Since $90 < 97$, `\"Zebra\"` sorts before `\"apple\"`, `strcmp` returns a negative number, and the second test is also true.\n\nWatch out: Sorting by ASCII code puts every uppercase letter before every lowercase letter, so it is not dictionary order. Only the sign of the result is meaningful; don't compare it to specific numbers like `-1`.",
+      "searchQuery": "c strcmp return value zero negative positive ascii order",
+      "refs": [
+        "K&R 2e, §5.5 Character Pointers and Functions",
+        "CS50x 2026, Week 2 notes: Strings"
+      ]
+    },
+    {
+      "id": "c-strncpy-code",
+      "unit": "strings-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print, and why is the line `buf[3] = '\\0';` needed?\n\n```c\n#include <stdio.h>\n#include <string.h>\nint main(void)\n{\n    char buf[4];\n    strncpy(buf, \"hello\", 3);\n    buf[3] = '\\0';\n    printf(\"%s %zu\\n\", buf, strlen(buf));\n    return 0;\n}\n```",
+      "body": "`hel 3`; the line is needed because `strncpy` does not add a `'\\0'` when the source is as long as or longer than the limit.\n\n`strncpy(dest, src, n)` copies at most `n` characters. Here `\"hello\"` is longer than 3, so it copies `h`, `e`, `l` and stops, with no terminator written. Without the next line, `buf` would not be a valid string, and `printf` or `strlen` would read past its end.\n\nBy writing `buf[3] = '\\0'` ourselves, `buf` holds `'h'`, `'e'`, `'l'`, `'\\0'` and fits its 4 bytes exactly.\n\nTip: A safe pattern is to copy at most `size - 1` characters and then put the terminator at index `size - 1`.\n\nWatch out: If the source is shorter than `n`, `strncpy` fills the rest of the destination with zeros, which can waste time on big buffers.",
+      "searchQuery": "c strncpy null terminator not added truncation buffer",
+      "refs": [
+        "K&R 2e, §5.5 Character Pointers and Functions",
+        "CS50x 2026, Week 2 notes: Strings"
+      ]
+    },
+    {
+      "id": "c-ctype-ascii-code",
+      "unit": "strings-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print? (`ctype.h` provides `isdigit` and `toupper`.)\n\n```c\n#include <stdio.h>\n#include <ctype.h>\nint main(void)\n{\n    char word[] = \"c2d\";\n    for (int i = 0; word[i] != '\\0'; i++) {\n        if (isdigit(word[i]))\n            printf(\"%d\", word[i] - '0');\n        else\n            printf(\"%c\", toupper(word[i]));\n    }\n    printf(\"\\n%d\\n\", 'a' - 'A');\n    return 0;\n}\n```",
+      "body": "`C2D` on the first line and `32` on the second.\n\nThe header **ctype.h** has functions that classify and convert single characters: `isdigit(c)` is true for `'0'` to `'9'`, and `toupper(c)` turns a lowercase letter into uppercase (other characters are unchanged). The loop stops when it reaches `'\\0'`.\n\nA `char` is a small integer, so you can do arithmetic on it. In ASCII the digits are in order from `'0'` (code 48), so `word[i] - '0'` turns the digit character `'2'` into the number `2`. Lowercase letters are exactly $32$ above uppercase: $97 - 65 = 32$.\n\nTip: Prefer `toupper` over subtracting 32 by hand: it leaves characters that aren't lowercase letters alone.",
+      "searchQuery": "c ctype.h isdigit toupper ascii arithmetic char minus '0'",
+      "refs": [
+        "K&R 2e, §2.7 Type Conversions",
+        "CS50x 2026, Week 2 notes: Strings"
+      ]
+    },
+    {
+      "id": "c-argc-argv",
+      "unit": "strings-in-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What are **argc** and **argv** in `int main(int argc, char *argv[])`?",
+      "body": "`argc` is the number of command-line words including the program's own name, and `argv` is the list of those words as strings, so `argv[0]` is the program name and `argv[1]` is the first argument.\n\nWhen you type `./greet Ada` in the shell, the program receives `argc = 2`, `argv[0] = \"./greet\"` and `argv[1] = \"Ada\"`. For now, read `char *argv[]` as \"a list of strings\"; the odd syntax is explained in a later module.\n\nExample: With no arguments, `argc` is `1`, because the program name always counts.\n\nWatch out: Every argument arrives as text. The argument `5` is the string `\"5\"`, not the number five, and must be converted before arithmetic.\n\nTip: Always check `argc` before using `argv[1]`. Reading an argument that was not given is out of bounds.",
+      "searchQuery": "c command-line arguments argc argv main program name strings",
+      "refs": [
+        "K&R 2e, §5.10 Command-line Arguments",
+        "CS50x 2026, Week 2 notes: Command-Line Arguments"
+      ]
+    },
+    {
+      "id": "c-argv-usage-code",
+      "unit": "strings-in-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "This program is compiled to `./greet`. What does `./greet Ada Bo` print?\n\n```c\n#include <stdio.h>\nint main(int argc, char *argv[])\n{\n    if (argc != 2) {\n        printf(\"usage: greet NAME\\n\");\n        return 1;\n    }\n    printf(\"hello, %s\\n\", argv[1]);\n    return 0;\n}\n```",
+      "body": "`usage: greet NAME`\n\nWith `./greet Ada Bo`, the shell passes three words, so `argc` is `3`. That is not `2`, so the `if` branch prints the usage message and returns `1`.\n\n`./greet Ada` has `argc` equal to `2` and prints `hello, Ada`. Running `./greet` alone gives `argc` equal to `1`, so it also prints the usage message.\n\nWhy: Checking `argc` first is what makes the program safe, since `argv[1]` exists only when at least one argument was given.\n\nTip: Words separated by spaces become separate arguments. Quote them to keep them together: `./greet \"Ada Bo\"` has `argc` equal to `2`.",
+      "searchQuery": "c argc check usage message argv[1] program output arguments",
+      "refs": [
+        "K&R 2e, §5.10 Command-line Arguments",
+        "CS50x 2026, Week 2 notes: Command-Line Arguments"
+      ]
+    },
+    {
+      "id": "c-exit-status-convention",
+      "unit": "strings-in-c",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How does a C program report success or failure to the shell, and how is that used?",
+      "body": "It returns an **exit status** from `main` (or calls `exit(n)`): `0` means success and any nonzero value means failure, which the shell reads in `$?`.\n\nThe exit status is the exit code you saw earlier. Command-line tools use it as their one-number report card, and the shell and scripts react to it: `make && ./app` runs `./app` only when `make` exited with `0`.\n\nExample: In the `greet` program, a wrong number of arguments does `return 1;`. A script can then detect the failure with `if ! ./greet; then ...`.\n\nTip: The header `stdlib.h` defines the names `EXIT_SUCCESS` (0) and `EXIT_FAILURE` (1), which make the intent clear in the source. Calling `exit(EXIT_FAILURE)` also works from inside any function, not just `main`.\n\nWatch out: Don't print an error and then return 0. The message is for people; scripts only look at the status.",
+      "searchQuery": "c exit status return from main 0 success nonzero failure exit EXIT_FAILURE",
+      "refs": [
+        "K&R 2e, §7.6 Error Handling - Stderr and Exit",
+        "CS50x 2026, Week 2 notes: Exit Status"
+      ]
+    },
+    {
+      "id": "c-define-macro",
+      "unit": "preprocessor-macros",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What does `#define` do, and what is a **macro**?",
+      "body": "`#define NAME text` is a **preprocessor directive** that makes the preprocessor replace every use of `NAME` with `text` before the compiler runs; `NAME` is called a macro.\n\nA **preprocessor directive** is any line starting with `#`. After `#define LED_COUNT 8`, every `LED_COUNT` later in the file becomes `8` as plain text. A macro can also take parameters, as in `#define DOUBLE(x) ((x) * 2)`.\n\nWhy: It gives a number a readable name in one place, so changing the value means editing a single line.\n\nWatch out: The replacement is plain text with no type checking, and it runs to the end of the line. Writing `#define LED_COUNT 8;` with a semicolon puts the `;` into every use, which breaks code such as `int a[LED_COUNT];`.\n\nTip: By convention, macro names are written in UPPER_CASE so they stand out from variables.",
+      "searchQuery": "c #define macro preprocessor directive text replacement",
+      "refs": [
+        "K&R 2e, §4.11 The C Preprocessor"
+      ]
+    },
+    {
+      "id": "c-macro-parentheses-code",
+      "unit": "preprocessor-macros",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What number does this program print?\n\n```c\n#include <stdio.h>\n#define SQUARE(x) x * x\nint main(void)\n{\n    printf(\"%d\\n\", SQUARE(2 + 3));\n    return 0;\n}\n```",
+      "body": "11\n\nThe preprocessor replaces text without understanding it, so `SQUARE(2 + 3)` becomes `2 + 3 * 2 + 3`. Multiplication goes first: $2 + 6 + 3 = 11$, not $5 \\cdot 5 = 25$.\n\nFix: Put parentheses around every use of the parameter, and around the whole expression: `#define SQUARE(x) ((x) * (x))`. Now `SQUARE(2 + 3)` becomes `((2 + 3) * (2 + 3))`, which is $25$.\n\nWatch out: Even the safe version evaluates its argument twice, so `SQUARE(i++)` increments `i` twice. A real function does not have this problem.",
+      "searchQuery": "c macro argument parentheses SQUARE(2 + 3) precedence bug",
+      "answer": "11",
+      "refs": [
+        "K&R 2e, §4.11 The C Preprocessor"
+      ]
+    },
+    {
+      "id": "c-const-enum-over-macros",
+      "unit": "preprocessor-macros",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why prefer a `const` variable or an `enum` over a `#define` constant when you can?",
+      "body": "Unlike a macro, a `const` variable or an `enum` constant has a type and obeys scope, so the compiler can check it and a debugger can show it.\n\nA **const** variable is one the compiler won't let you change after it is set: `const int max_len = 8;`. An **enum** defines a set of named whole-number constants: `enum { RED, GREEN, BLUE };` gives `RED` the value 0, `GREEN` 1 and `BLUE` 2.\n\nWhy: A macro name vanishes before the compiler runs, so errors and debugger views show only a bare `8`. A macro also ignores scope: it applies from the `#define` to the end of the file.\n\nWatch out: In C, a `const` variable is not guaranteed to count as a constant for array sizes or `case` labels. An `enum` constant always does, so `enum { N = 8 };` is a common way to name a size.\n\nTip: Keep macros for what only the preprocessor can do, such as include guards and conditional compilation.",
+      "searchQuery": "c const vs enum vs #define constants type scope debugger",
+      "refs": [
+        "K&R 2e, §2.4 Declarations; §2.3 Constants; §4.11 The C Preprocessor",
+        "CS50x 2026, Week 1 notes: Types"
+      ]
+    },
+    {
+      "id": "c-enum-values-code",
+      "unit": "preprocessor-macros",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "What does this program print?\n\n```c\n#include <stdio.h>\nenum { RED, GREEN = 5, BLUE };\nint main(void)\n{\n    printf(\"%d %d %d\\n\", RED, GREEN, BLUE);\n    return 0;\n}\n```",
+      "body": "`0 5 6`\n\nInside an `enum`, the first name gets the value 0 unless you give one. Each later name gets the previous value plus 1, unless you assign a value explicitly. So `RED` is `0`, `GREEN` is set to `5`, and `BLUE`, which follows it, is `6`.\n\nEnum constants behave like `int` constants and can be used in `printf` with `%d`, as array sizes, and as `switch` labels.\n\nExample: Use an enum to name states: `enum { IDLE, RUNNING, ERROR };`. Then `case RUNNING:` is much clearer than `case 1:`.\n\nTip: Don't depend on the automatic numbers if the values mean something outside the program, such as codes sent to hardware. Assign each one explicitly.",
+      "searchQuery": "c enum values auto increment explicit value output",
+      "refs": [
+        "K&R 2e, §2.3 Constants"
+      ]
+    },
+    {
+      "id": "c-include-guard",
+      "unit": "preprocessor-macros",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is an **include guard**, and how do you write one?",
+      "body": "An include guard wraps a header's contents in `#ifndef NAME`, `#define NAME` and `#endif`, so the contents are used only the first time the header is included.\n\n```c\n#ifndef SENSOR_H\n#define SENSOR_H\nint read_sensor(void);\n#endif\n```\n\nThe first time the file is included, `SENSOR_H` is not yet defined, so the preprocessor keeps the contents and defines `SENSOR_H`. On any later include, `SENSOR_H` already exists, so the whole body is skipped.\n\nWhy: Headers often include other headers, so the same header can arrive twice through different routes. Repeating some declarations, such as an `enum` definition, is an error. Guards make double inclusion harmless.\n\nTip: Name the guard after the file, in capitals (`SENSOR_H`). Many compilers also accept `#pragma once`, but it is not part of the C standard.",
+      "searchQuery": "c include guard #ifndef #define #endif header file twice",
+      "refs": [
+        "K&R 2e, §4.11.3 Conditional Inclusion; §4.5 Header Files"
+      ]
+    },
+    {
+      "id": "c-ifdef-debug-code",
+      "unit": "preprocessor-macros",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "This file is saved as `app.c`. What does it print when built with `gcc -DDEBUG app.c` and with plain `gcc app.c`?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n#ifdef DEBUG\n    printf(\"debug on\\n\");\n#endif\n    printf(\"running\\n\");\n    return 0;\n}\n```",
+      "body": "With `-DDEBUG` it prints `debug on` then `running`; without it, only `running`.\n\n`#ifdef DEBUG` starts **conditional compilation**: the lines up to `#endif` are given to the compiler only if the macro `DEBUG` is defined. The flag `-DDEBUG` has the same effect as putting `#define DEBUG` at the top of the file, without editing it.\n\nWhy: Debug printing, extra checks and test hooks can stay in the source and still disappear from the final build. The removed code isn't even compiled, so it costs no memory or time, which matters on a small microcontroller.\n\nTip: `#if` tests a value instead, such as `#if DEBUG_LEVEL > 1`, and `#else` provides the other branch. Unlike a normal `if`, these are decided before the program is built.",
+      "searchQuery": "c #ifdef DEBUG conditional compilation -D flag gcc debug build",
+      "refs": [
+        "K&R 2e, §4.11.3 Conditional Inclusion"
+      ]
+    },
+    {
+      "id": "c-decode-compiler-errors-code",
+      "unit": "debugging-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "This file will not compile. Which mistake should you fix first, and why?",
+      "body": "Fix the first error in the output, the missing `;` after `int total = 5`; the misspelled name `totl` is the second problem.\n\nCompiler messages have the form `file:line:column: error: text`. Read the first one, fix it, and rebuild: later messages are often fallout from the first.\n\nCommon messages:\n- `expected ';'`: a semicolon is missing. The compiler may point at the start of the next line, so look at the end of the line before.\n- `use of undeclared identifier 'totl'` (gcc: `'totl' undeclared (first use in this function)`): a name was never declared, usually a typo or a missing `#include`.\n- `implicit declaration of function`: you called a function the compiler has not seen declared, for example `printf` without `#include <stdio.h>`.\n\nTip: The exact wording differs between gcc and clang, but the file, line and kind of message are always there.",
+      "searchQuery": "c compiler errors expected ; undeclared identifier implicit declaration fix first",
+      "refs": [
+        "CS50x 2026, Week 2 notes: Debugging",
+        "CS50x 2026, Week 1 notes: Hello World"
+      ]
+    },
+    {
+      "id": "c-segmentation-fault",
+      "unit": "debugging-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **segmentation fault**?",
+      "body": "A segmentation fault is the operating system stopping your program because it touched memory it is not allowed to use.\n\nThe shell shows \"Segmentation fault\", and `$?` usually reads `139`: that is 128 plus 11, where 11 is the number of the signal sent to the program (`SIGSEGV`).\n\nTypical causes are an index far outside an array, or using a value that was never set as if it were a memory location.\n\nWatch out: A segfault is a lucky outcome. A small out-of-bounds write often lands on memory that does belong to your program, so nothing crashes and a different variable changes silently instead. Many microcontrollers have no operating system to catch accesses at all.\n\nKey idea: A crash tells you that there is a memory bug but not where it started. Use the debugger or a sanitizer to find the real line.",
+      "searchQuery": "c segmentation fault meaning memory access violation SIGSEGV",
+      "refs": [
+        "CS50x 2026, Week 2 notes: Debugging"
+      ]
+    },
+    {
+      "id": "c-debugger-gdb",
+      "unit": "debugging-c",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **debugger**, and what do gdb's `break`, `run`, `next`, `step` and `print` do?",
+      "body": "A debugger runs your program under your control so you can pause it and look at its variables; in gdb, `break` sets a breakpoint, `run` starts the program, `next` runs one line, `step` runs one line and enters calls, and `print x` shows `x`.\n\n**gdb** is the standard debugger for programs built with gcc. A **breakpoint** is a place where the program pauses. `next` steps over function calls, while `step` steps into them (the same ideas you met in `pdb`).\n\nExample: `break main`, then `run`, stops at the start of `main`. Then `next` repeatedly, with `print total` as you go, lets you watch a variable change line by line.\n\nTip: On macOS the equivalent debugger is `lldb`, with very similar commands (`breakpoint set`, `run`, `next`, `step`, `print`). Also useful: `continue` to run to the next breakpoint, and `quit`.",
+      "searchQuery": "gdb debugger break run next step print commands breakpoint",
+      "refs": [
+        "CS50x 2026, Week 2 notes: Debugging",
+        "MIT Missing Semester 2026: Debugging and Profiling"
+      ]
+    },
+    {
+      "id": "c-gdb-session-code",
+      "unit": "debugging-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "You compile `prog.c` below and start `gdb ./prog`. After `break 5` and `run`, what must the compile command have included for gdb to show source lines and names, and what does `print x` show?\n\n```c\nint main(void)\n{\n    int x = 2;\n    x = x * 3;\n    return x;      /* line 5 */\n}\n```",
+      "body": "The compile command needs `-g`, and `print x` shows `$1 = 6`.\n\nThe **-g flag** tells the compiler to store extra information in the executable: which machine instructions belong to which source line, and the names and types of variables. Without it, gdb can show only raw instructions and addresses.\n\nThe command is `gcc -g -o prog prog.c`. After `break 5` and `run`, the program stops just before line 5 executes. At that point lines 3 and 4 have run, so `x` is $2 \\cdot 3 = 6$.\n\nTip: Don't turn on compiler optimization (`-O2`) while debugging. It reorders and removes code, so lines jump around and variables show as \"optimized out\". Build with `-g` and no optimization (or `-O0`) when you want to step through.",
+      "searchQuery": "gdb -g flag debug symbols break line print x output",
+      "refs": [
+        "CS50x 2026, Week 2 notes: Debugging",
+        "MIT Missing Semester 2026: Debugging and Profiling"
+      ]
+    },
+    {
+      "id": "c-addresssanitizer-code",
+      "unit": "debugging-c",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "You build and run this program with `gcc -g -fsanitize=address,undefined`. What does it report?\n\n```c\n#include <stdio.h>\nint main(void)\n{\n    int a[3] = {1, 2, 3};\n    int i = 3;\n    printf(\"%d\\n\", a[i]);\n    return 0;\n}\n```",
+      "body": "AddressSanitizer reports a `stack-buffer-overflow` (a READ of size 4) at the line with `a[i]`, and the undefined-behavior checker says index 3 is out of bounds for `int[3]`.\n\nA **sanitizer** adds extra checks to your program when you compile it, and prints a report the moment the program breaks a rule. **AddressSanitizer** (`-fsanitize=address`) catches memory errors such as out-of-bounds accesses. The second one, `-fsanitize=undefined`, catches other undefined behavior, such as signed overflow.\n\nWithout it this program may print an unpredictable number or seem to work; with it you get the exact file and line.\n\nTip: Sanitizers slow the program down and need an operating system and extra memory. Use them on your computer, for example on your logic compiled for the desktop, not on a small microcontroller.",
+      "searchQuery": "c AddressSanitizer -fsanitize=address undefined out-of-bounds stack-buffer-overflow",
+      "refs": [
+        "CS50x 2026, Week 2 notes: Debugging",
+        "MIT Missing Semester 2026: Debugging and Profiling"
+      ]
+    }
+  ]
+}

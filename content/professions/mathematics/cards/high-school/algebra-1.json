@@ -1,0 +1,708 @@
+{
+  "profession": "mathematics",
+  "module": "algebra-1",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "alg1-slope-definition",
+      "unit": "lines-and-slope",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is the **slope** of a line, and how do you compute it from two points $(x_1, y_1)$ and $(x_2, y_2)$ on it?",
+      "body": "$m = \\dfrac{y_2 - y_1}{x_2 - x_1}$, the rise (vertical change) divided by the run (horizontal change).\n\nSlope measures how steeply the line climbs as you move to the right. A positive slope rises from left to right, a negative slope falls, and a slope of $0$ is flat. Any two points on the line give the same ratio, which is why slope is a property of the line itself.\n\nExample: For $(1, 2)$ and $(4, 8)$, $m = \\dfrac{8 - 2}{4 - 1} = \\dfrac{6}{3} = 2$.\n\nWatch out: Subtract in the same order on top and bottom. Using $y_2 - y_1$ over $x_1 - x_2$ flips the sign of the answer.",
+      "searchQuery": "slope of a line rise over run formula",
+      "refs": [
+        "AoPS Introduction to Algebra §8.1–8.6"
+      ]
+    },
+    {
+      "id": "alg1-y-intercept-definition",
+      "unit": "lines-and-slope",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is the **$y$-intercept** of a line, and how do you find it from an equation?",
+      "body": "The $y$-value of the point where the line crosses the vertical axis; set $x = 0$ and solve for $y$.\n\nThe $x$-intercept is the matching point on the horizontal axis, found by setting $y = 0$. Two intercepts are two points, and two points are enough to draw a line.\n\nExample: For $2x + 3y = 12$, setting $x = 0$ gives $y = 4$ and setting $y = 0$ gives $x = 6$. Plot $(0, 4)$ and $(6, 0)$ and draw the line through them.\n\nTip: If both intercepts are the same point $(0, 0)$, pick another value of $x$ to get a second point. Check the graph with a third point.",
+      "searchQuery": "y-intercept definition set x equals 0",
+      "refs": [
+        "AoPS Introduction to Algebra §8.1–8.6"
+      ]
+    },
+    {
+      "id": "alg1-slope-intercept-form",
+      "unit": "lines-and-slope",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Write the equation of the line with slope $m$ and $y$-intercept $b$ in **slope-intercept form**.",
+      "body": "$y = mx + b$\n\nYou can read the slope and the $y$-intercept straight off the equation and graph the line: start at $(0, b)$, then move $1$ to the right and $m$ up (down if $m$ is negative), and repeat.\n\nWhy: At $x = 0$ the equation gives $y = b$, so $(0, b)$ is on the line. Each step of $1$ in $x$ adds $m$ to $y$, which is exactly what slope means.\n\nExample: A taxi charges a pickup fee of 3 dollars plus 2 dollars per mile, so the cost after $x$ miles is $y = 2x + 3$. The slope $2$ is the rate of change (dollars per mile) and the intercept $3$ is the cost at zero miles.\n\nWatch out: The equation must be solved for $y$ first. In $3x + 2y = 6$ the slope is not $3$.",
+      "searchQuery": "slope-intercept form y = mx + b",
+      "refs": [
+        "AoPS Introduction to Algebra §8.1–8.6"
+      ]
+    },
+    {
+      "id": "alg1-point-slope-form",
+      "unit": "lines-and-slope",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Write the **point-slope form** of the line with slope $m$ through the point $(x_1, y_1)$.",
+      "body": "$y - y_1 = m(x - x_1)$\n\nUse it whenever you know a point and the slope. If you are given two points, compute the slope first and use either point.\n\nWhy: For any other point $(x, y)$ on the line, the slope between it and $(x_1, y_1)$ is $\\dfrac{y - y_1}{x - x_1} = m$. Multiply both sides by $x - x_1$.\n\nExample: Slope $3$ through $(2, 5)$ gives $y - 5 = 3(x - 2)$, which simplifies to $y = 3x - 1$.\n\nWatch out: Mind the signs. Through $(-1, 4)$ the equation is $y - 4 = m(x + 1)$, not $m(x - 1)$.",
+      "searchQuery": "point-slope form of a line formula",
+      "refs": [
+        "AoPS Introduction to Algebra §8.1–8.6"
+      ]
+    },
+    {
+      "id": "alg1-parallel-perpendicular-slopes",
+      "unit": "lines-and-slope",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How do slopes tell you whether two lines are **parallel** or **perpendicular**?",
+      "body": "Parallel lines have equal slopes; perpendicular lines have slopes that multiply to $-1$, so $m_2 = -\\dfrac{1}{m_1}$.\n\nParallel lines never meet, so they must tilt in exactly the same way. Perpendicular lines meet at a right angle. The one exception to the product rule is a horizontal line (slope $0$) with a vertical line (no slope), which are perpendicular.\n\nExample: $y = 2x + 1$ is parallel to $y = 2x - 5$ and perpendicular to $y = -\\tfrac{1}{2}x + 3$, since $2 \\cdot \\left(-\\tfrac{1}{2}\\right) = -1$.\n\nWhy: A quarter turn sends a step of $1$ right and $m$ up to a step of $m$ left and $1$ up, whose slope is $\\dfrac{1}{-m} = -\\dfrac{1}{m}$ (for $m \\neq 0$).\n\nWatch out: The opposite of $2$ is $-2$, but the perpendicular slope is $-\\tfrac{1}{2}$. Flip and change the sign.",
+      "searchQuery": "parallel perpendicular lines slopes negative reciprocal",
+      "refs": [
+        "AoPS Introduction to Algebra §8.1–8.6"
+      ]
+    },
+    {
+      "id": "alg1-standard-form-example",
+      "unit": "lines-and-slope",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Write the line through $(2, 1)$ and $(6, 9)$ in **standard form** $Ax + By = C$, with integer coefficients that have no common factor and $A > 0$.",
+      "body": "$2x - y = 3$\n\nThe slope is $\\dfrac{9 - 1}{6 - 2} = 2$. Point-slope form with $(2, 1)$ gives $y - 1 = 2(x - 2)$, so $y = 2x - 3$. Move the $x$ term to the left: $2x - y = 3$. Check with $(6, 9)$: $12 - 9 = 3$.\n\nStandard form has integer coefficients $A$, $B$, $C$ with no common factor, and $A$ is usually written non-negative.\n\nKey idea: From standard form you can read off the slope $-\\dfrac{A}{B}$ (when $B \\neq 0$) and the intercepts $\\dfrac{C}{A}$ and $\\dfrac{C}{B}$. Here the slope is $-\\dfrac{2}{-1} = 2$ and the $y$-intercept is $\\dfrac{3}{-1} = -3$.",
+      "searchQuery": "standard form of a line Ax + By = C",
+      "refs": [
+        "AoPS Introduction to Algebra §8.1–8.6"
+      ]
+    },
+    {
+      "id": "alg1-perpendicular-line-problem",
+      "unit": "lines-and-slope",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Find the equation, in slope-intercept form, of the line through $(4, 1)$ that is perpendicular to the line $2x - 3y = 6$.",
+      "body": "$y = -\\dfrac{3}{2}x + 7$\n\nOutline:\n\n1. Solve the given line for $y$: $-3y = -2x + 6$, so $y = \\tfrac{2}{3}x - 2$. Its slope is $\\tfrac{2}{3}$.\n2. The perpendicular slope is $-\\tfrac{3}{2}$.\n3. Point-slope form through $(4, 1)$: $y - 1 = -\\tfrac{3}{2}(x - 4)$, so $y = -\\tfrac{3}{2}x + 6 + 1$.\n\nCheck: At $x = 4$ the line gives $-6 + 7 = 1$, and $\\tfrac{2}{3} \\cdot \\left(-\\tfrac{3}{2}\\right) = -1$.\n\nTip: Always plug the given point back in. A sign slip in the point-slope step is the most common error.",
+      "searchQuery": "line through point perpendicular to given line equation",
+      "refs": [
+        "AoPS Introduction to Algebra §8.1–8.6"
+      ]
+    },
+    {
+      "id": "alg1-vertical-line-slope-misconception",
+      "unit": "lines-and-slope",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that a vertical line has slope $0$?",
+      "body": "A vertical line has undefined slope; slope $0$ belongs to horizontal lines.\n\nOn a vertical line $x = c$, any two points have the same $x$-value, so the run is $0$ and the slope formula would divide by $0$. On a horizontal line $y = c$ the rise is $0$ while the run is not, so the slope is $\\dfrac{0}{\\text{run}} = 0$.\n\nMnemonic: HOY VUX. Horizontal lines have slope zero and the equation $y = c$; vertical lines have undefined slope and the equation $x = c$.\n\nWatch out: \"Undefined\" is not the same as \"zero\". A vertical line cannot be written as $y = mx + b$ at all.",
+      "searchQuery": "vertical line slope undefined versus zero",
+      "refs": [
+        "AoPS Introduction to Algebra §8.1–8.6"
+      ]
+    },
+    {
+      "id": "alg1-system-of-equations-definition",
+      "unit": "systems-of-equations",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **system of equations**, and what counts as a solution of one?",
+      "body": "Two or more equations in the same variables that must all hold at once; a solution is a set of values that satisfies every equation.\n\nFor two equations in $x$ and $y$, a solution is an ordered pair $(x, y)$, a point that lies on both lines. Solving the system means finding where the lines meet.\n\nExample: The system $x + y = 5$, $x - y = 1$ has the solution $(3, 2)$, since $3 + 2 = 5$ and $3 - 2 = 1$.\n\nWatch out: A pair that fits only one equation is not a solution. The pair $(4, 1)$ satisfies $x + y = 5$ but not $x - y = 1$.",
+      "searchQuery": "system of linear equations definition solution ordered pair",
+      "refs": [
+        "AoPS Introduction to Algebra §5.1–5.6"
+      ]
+    },
+    {
+      "id": "alg1-elimination-definition",
+      "unit": "systems-of-equations",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is **elimination** for solving a system of equations?",
+      "body": "Adding or subtracting multiples of the equations so that one variable cancels, leaving a single equation in one variable.\n\nWhy: Adding equal quantities to both sides keeps an equation true, so you may add one true equation to another. If the coefficients of a variable are not opposites, first multiply an equation by a nonzero number to make them so.\n\nExample: For $3x + 2y = 12$ and $x - 2y = 4$, add the equations: $4x = 16$, so $x = 4$. Then $4 - 2y = 4$ gives $y = 0$. Check: $12 + 0 = 12$ and $4 - 0 = 4$.\n\nTip: Cancel whichever variable needs the least multiplying.",
+      "searchQuery": "elimination method solving systems of equations",
+      "refs": [
+        "AoPS Introduction to Algebra §5.1–5.6"
+      ]
+    },
+    {
+      "id": "alg1-system-solution-count",
+      "unit": "systems-of-equations",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How can the slopes and $y$-intercepts of two non-vertical lines tell you whether their system has one solution, none, or infinitely many?",
+      "body": "Different slopes: exactly one solution. Same slope, different $y$-intercepts: no solution. Same slope and same $y$-intercept: infinitely many solutions.\n\nA system with at least one solution is **consistent**. A system with no solution is **inconsistent**: its lines are parallel and never meet. A **dependent** system has infinitely many solutions: its two equations describe the same line.\n\nExample: $y = 2x + 1$ and $y = 2x + 4$ are inconsistent. $y = 2x + 1$ and $2y = 4x + 2$ are dependent, because dividing the second by $2$ gives the first.\n\nWatch out: Two equations can look different and still describe the same line. Rewrite both as $y = mx + b$ before comparing.",
+      "searchQuery": "consistent inconsistent dependent system of equations",
+      "refs": [
+        "AoPS Introduction to Algebra §5.1–5.6"
+      ]
+    },
+    {
+      "id": "alg1-two-by-two-solution-formula",
+      "unit": "systems-of-equations",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "For the system $ax + by = e$, $cx + dy = f$ with $ad - bc \\neq 0$, what are $x$ and $y$?",
+      "body": "$x = \\dfrac{ed - bf}{ad - bc}, \\qquad y = \\dfrac{af - ec}{ad - bc}$\n\nWhy: Multiply the first equation by $d$ and the second by $b$, then subtract: $(ad - bc)x = ed - bf$. Multiply the first by $c$ and the second by $a$ and subtract to get $(ad - bc)y = af - ec$.\n\nExample: For $x + 2y = 5$, $3x + 4y = 6$ we have $ad - bc = 4 - 6 = -2$, so $x = \\dfrac{20 - 12}{-2} = -4$ and $y = \\dfrac{6 - 15}{-2} = 4.5$. Check: $-4 + 9 = 5$ and $-12 + 18 = 6$.\n\nKey idea: $ad - bc = 0$ exactly when the two lines have the same slope or are both vertical, that is, when they are parallel or identical. Those are the cases with no solution or infinitely many.",
+      "searchQuery": "solve 2x2 linear system formula ad minus bc",
+      "refs": [
+        "AoPS Introduction to Algebra §5.1–5.6"
+      ]
+    },
+    {
+      "id": "alg1-substitution-example",
+      "unit": "systems-of-equations",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Solve by **substitution**: $y = 2x - 1$ and $3x + 2y = 12$.",
+      "body": "$(x, y) = (2, 3)$\n\nSubstitution means solving one equation for a variable and replacing that variable in the other equation.\n\nHere $y$ is already isolated, so replace it in the second equation: $3x + 2(2x - 1) = 12$. This gives $7x - 2 = 12$, so $x = 2$. Then $y = 2(2) - 1 = 3$. Check in the second equation: $6 + 6 = 12$.\n\nTip: Substitution is easiest when some variable has coefficient $1$ or is already alone. When no variable is, elimination usually produces fewer fractions.",
+      "searchQuery": "solve system by substitution example",
+      "refs": [
+        "AoPS Introduction to Algebra §5.1–5.6"
+      ]
+    },
+    {
+      "id": "alg1-three-by-three-problem",
+      "unit": "systems-of-equations",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Solve the system $x + y + z = 6$, $\\;2x - y + z = 3$, $\\;x + 2y - z = 2$.",
+      "body": "$(x, y, z) = (1, 2, 3)$\n\nKey idea: Eliminate the same variable from two different pairs of equations to get a $2 \\times 2$ system.\n\nOutline:\n\n1. Add the first and third equations: $2x + 3y = 8$ (the $z$ terms cancel).\n2. Add the second and third equations: $3x + y = 5$.\n3. From the last equation, $y = 5 - 3x$. Then $2x + 15 - 9x = 8$, so $x = 1$ and $y = 2$.\n4. Put both into the first equation: $1 + 2 + z = 6$, so $z = 3$.\n\nCheck: Equation two gives $2 - 2 + 3 = 3$. Equation three gives $1 + 4 - 3 = 2$.",
+      "searchQuery": "solve three variable system of equations elimination",
+      "refs": [
+        "AoPS Introduction to Algebra §5.1–5.6"
+      ]
+    },
+    {
+      "id": "alg1-tickets-word-problem",
+      "unit": "systems-of-equations",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A theater sold $120$ tickets for a total of $750$ dollars. Adult tickets cost $8$ dollars and child tickets cost $5$ dollars. How many adult tickets were sold?",
+      "body": "50\n\nLet $a$ be the number of adult tickets and $c$ the number of child tickets. Then $a + c = 120$ (tickets) and $8a + 5c = 750$ (dollars).\n\nSubstitute $c = 120 - a$: $8a + 600 - 5a = 750$, so $3a = 150$ and $a = 50$. Then $c = 70$.\n\nCheck: $8 \\cdot 50 + 5 \\cdot 70 = 400 + 350 = 750$.\n\nTip: Say in words what each variable counts before writing any equation, and make each equation add up a single kind of thing (tickets in one, dollars in the other).",
+      "searchQuery": "word problem system of equations tickets adult child",
+      "answer": "50",
+      "refs": [
+        "AoPS Introduction to Algebra §5.1–5.6"
+      ]
+    },
+    {
+      "id": "alg1-zero-equals-zero-misconception",
+      "unit": "systems-of-equations",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that if elimination ends with $0 = 0$, the system has no solution?",
+      "body": "$0 = 0$ means the two equations describe the same line, so there are infinitely many solutions; it is a false statement like $0 = 5$ that signals no solution.\n\nExample: In $x + y = 2$ and $2x + 2y = 4$, subtracting twice the first equation from the second gives $0 = 0$. Every point of the line $x + y = 2$ is a solution. In $x + y = 2$ and $2x + 2y = 5$ the same step gives $0 = 1$, which is impossible, so there is no solution.\n\nKey idea: A true statement with no variables left means the equations never disagree. A false one means they contradict each other.",
+      "searchQuery": "elimination result 0=0 infinitely many solutions",
+      "refs": [
+        "AoPS Introduction to Algebra §5.1–5.6"
+      ]
+    },
+    {
+      "id": "alg1-half-plane-definition",
+      "unit": "linear-inequalities-and-absolute-value",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **half-plane**, and what is its **boundary line**?",
+      "body": "A half-plane is one of the two sides of a line in the coordinate plane; that line is its boundary line. The solutions of a linear inequality in two variables, such as $y > 2x - 1$, fill a half-plane.\n\nThe boundary line is the graph of the matching equation, here $y = 2x - 1$. Points on one side satisfy $y > 2x - 1$, points on the other satisfy $y < 2x - 1$, and points on the line itself satisfy $y = 2x - 1$.\n\nExample: The point $(0, 0)$ gives $0 > -1$, which is true, so $(0, 0)$ is in the half-plane.\n\nWatch out: The boundary line belongs to the solution set only when the inequality is $\\le$ or $\\ge$.",
+      "searchQuery": "half-plane boundary line linear inequality two variables",
+      "refs": [
+        "AoPS Introduction to Algebra §9.3–9.5, §20.2"
+      ]
+    },
+    {
+      "id": "alg1-graph-inequality-concept",
+      "unit": "linear-inequalities-and-absolute-value",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How do you graph a linear inequality in two variables such as $2x + y \\le 4$?",
+      "body": "Draw the boundary line $2x + y = 4$, solid for $\\le$ or $\\ge$ and dashed for $<$ or $>$, then test one point off the line and shade the side where it makes the inequality true.\n\nThe boundary line splits the plane into two half-planes, and every point in one half-plane gives the same true-or-false answer. So one test point decides the whole side.\n\nExample: The line $2x + y = 4$ passes through $(0, 4)$ and $(2, 0)$. The test point $(0, 0)$ gives $0 \\le 4$, which is true, so shade the side containing $(0, 0)$. The line is solid because of the $\\le$.\n\nTip: $(0, 0)$ is the easiest test point unless the boundary line passes through it.",
+      "searchQuery": "graph linear inequality test point shade solid dashed",
+      "refs": [
+        "AoPS Introduction to Algebra §9.3–9.5, §20.2"
+      ]
+    },
+    {
+      "id": "alg1-absolute-value-inequality-formula",
+      "unit": "linear-inequalities-and-absolute-value",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "For $r > 0$, rewrite the **absolute value inequality** $|x - a| < r$ without absolute value signs.",
+      "body": "$a - r < x < a + r$\n\nAn absolute value inequality is an inequality in which the variable appears inside absolute value bars.\n\nWhy: $|x - a|$ is the distance between $x$ and $a$ on the number line. Distance less than $r$ means $x$ lies within $r$ of $a$, which is the interval $(a - r, a + r)$.\n\nExample: $|x - 3| < 2$ becomes $1 < x < 5$.\n\nKey idea: The matching **absolute value equation** $|x - a| = r$ says the distance is exactly $r$, so it has the two solutions $x = a - r$ and $x = a + r$.",
+      "searchQuery": "absolute value inequality less than interval distance",
+      "refs": [
+        "AoPS Introduction to Algebra §9.3–9.5, §20.2"
+      ]
+    },
+    {
+      "id": "alg1-feasible-region-example",
+      "unit": "linear-inequalities-and-absolute-value",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "What are the corner points of the **feasible region** defined by $x \\ge 0$, $y \\ge 0$, $x + y \\le 4$ and $x \\le 3$?",
+      "body": "$(0, 0)$, $(3, 0)$, $(3, 1)$ and $(0, 4)$.\n\nThe feasible region is the set of points that satisfy all the inequalities at once: the overlap of their half-planes.\n\nCorners come from intersecting pairs of boundary lines: $x = 0$ with $y = 0$ gives $(0, 0)$; $y = 0$ with $x = 3$ gives $(3, 0)$; $x = 3$ with $x + y = 4$ gives $(3, 1)$; $x = 0$ with $x + y = 4$ gives $(0, 4)$.\n\nWatch out: Some intersections are not corners. The lines $y = 0$ and $x + y = 4$ meet at $(4, 0)$, but $4 > 3$ breaks $x \\le 3$, so that point is outside the region. Test every candidate in all the inequalities.",
+      "searchQuery": "feasible region system of linear inequalities corner points",
+      "refs": [
+        "AoPS Introduction to Algebra §9.3–9.5, §20.2"
+      ]
+    },
+    {
+      "id": "alg1-absolute-value-equation-problem",
+      "unit": "linear-inequalities-and-absolute-value",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Solve the absolute value equation $|2x - 3| = x + 3$.",
+      "body": "$x = 0$ or $x = 6$\n\nIdea: $|u| = v$ means $u = v$ or $u = -v$, so split into two cases.\n\nOutline:\n\n1. $2x - 3 = x + 3$ gives $x = 6$.\n2. $2x - 3 = -(x + 3)$ gives $3x = 0$, so $x = 0$.\n\nCheck: For $x = 6$, $|9| = 9$ and $x + 3 = 9$. For $x = 0$, $|-3| = 3$ and $x + 3 = 3$. Both work.\n\nWatch out: Always check the answers. The right side must be non-negative, and a case can produce a value that fails this. For example, $|x| = x - 2$ gives $x = 1$ from the second case, but then $|1| = 1$ while $1 - 2 = -1$.",
+      "searchQuery": "solve absolute value equation two cases check solutions",
+      "refs": [
+        "AoPS Introduction to Algebra §9.3–9.5, §20.2"
+      ]
+    },
+    {
+      "id": "alg1-absolute-value-greater-misconception",
+      "unit": "linear-inequalities-and-absolute-value",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that $|x - 3| > 2$ means $1 < x < 5$?",
+      "body": "$|x - 3| > 2$ means $x < 1$ or $x > 5$; the \"greater than\" case describes two pieces outside the interval, not one piece inside.\n\nWhy: $|x - 3| > 2$ says the distance from $x$ to $3$ is more than $2$, so $x$ is far from $3$ on either side: below $3 - 2 = 1$ or above $3 + 2 = 5$.\n\nExample: $x = 0$ has distance $|-3| = 3 > 2$, but $0$ is not between $1$ and $5$.\n\nTip: Less than means \"and\" (one interval, a single chained inequality). Greater than means \"or\" (two rays).",
+      "searchQuery": "absolute value greater than inequality two rays or",
+      "refs": [
+        "AoPS Introduction to Algebra §9.3–9.5, §20.2"
+      ]
+    },
+    {
+      "id": "alg1-polynomial-definition",
+      "unit": "polynomial-arithmetic",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **monomial**, and what is a **polynomial**?",
+      "body": "A monomial is a number times variables raised to whole-number powers, such as $5x^3$ or $-2xy^2$; a polynomial is a sum of monomials.\n\nThe powers $0, 1, 2, \\dots$ are the allowed ones. A plain number like $7$ counts as a monomial (the variable power is $0$).\n\nExample: $3x^2 - 5x + 7$ is a polynomial with three monomial terms. $\\dfrac{1}{x} + 2$ is not, because $\\dfrac{1}{x} = x^{-1}$ has a negative power, and neither is $\\sqrt{x} + 1$.\n\nWatch out: A fraction in the coefficient is fine, so $\\dfrac{x}{2}$ is a monomial. A variable in the denominator is not.",
+      "searchQuery": "monomial polynomial definition whole-number powers",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§22–31",
+        "AoPS Introduction to Algebra, ch. 18"
+      ]
+    },
+    {
+      "id": "alg1-degree-leading-coefficient",
+      "unit": "polynomial-arithmetic",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What are the **degree** and the **leading coefficient** of a polynomial in one variable such as $4x^3 - x + 9$?",
+      "body": "The degree is the highest power of the variable (here $3$), and the leading coefficient is the coefficient of that highest-power term (here $4$).\n\nDegrees behave simply under multiplication: for nonzero polynomials, the degree of a product is the sum of the degrees. For a sum, the degree is at most the larger of the two, and smaller only if the leading terms cancel.\n\nExample: $(x^2 + 1)(x^3 - 2x)$ has degree $2 + 3 = 5$ and leading coefficient $1 \\cdot 1 = 1$.\n\nWatch out: Reorder the terms first. $7 + 2x^2 - 5x^3$ has degree $3$ and leading coefficient $-5$, not $7$.",
+      "searchQuery": "degree and leading coefficient of a polynomial",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§22–31",
+        "AoPS Introduction to Algebra, ch. 18"
+      ]
+    },
+    {
+      "id": "alg1-square-of-sum-formula",
+      "unit": "polynomial-arithmetic",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Expand the **square of a sum** $(a + b)^2$ and the square of a difference $(a - b)^2$.",
+      "body": "$(a + b)^2 = a^2 + 2ab + b^2$ and $(a - b)^2 = a^2 - 2ab + b^2$.\n\nWhy: $(a + b)^2 = (a + b)(a + b) = a^2 + ab + ba + b^2$. As a picture, a square of side $a + b$ is cut into an $a \\times a$ square, a $b \\times b$ square and two $a \\times b$ rectangles.\n\nExample: $47^2 = (50 - 3)^2 = 2500 - 300 + 9 = 2209$.\n\nTip: The middle term is twice the product of the two pieces, and its sign is the sign inside the brackets.",
+      "searchQuery": "square of a sum formula (a+b)^2 expand",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§22–31",
+        "AoPS Introduction to Algebra, ch. 18"
+      ]
+    },
+    {
+      "id": "alg1-difference-of-squares-formula",
+      "unit": "polynomial-arithmetic",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Multiply out $(a + b)(a - b)$. What is this **difference of squares** pattern?",
+      "body": "$(a + b)(a - b) = a^2 - b^2$\n\nWhy: Distributing gives $a^2 - ab + ba - b^2$, and the two middle terms cancel.\n\nExample: $101 \\times 99 = (100 + 1)(100 - 1) = 10000 - 1 = 9999$.\n\nWatch out: The pattern needs the same two terms with opposite signs. $(a + b)(a + b)$ has a middle term and gives $a^2 + 2ab + b^2$ instead.",
+      "searchQuery": "difference of squares pattern (a+b)(a-b)",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§22–31",
+        "AoPS Introduction to Algebra, ch. 18"
+      ]
+    },
+    {
+      "id": "alg1-square-of-sum-misconception",
+      "unit": "polynomial-arithmetic",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that $(a + b)^2 = a^2 + b^2$?",
+      "body": "Squaring $(a + b)$ also produces a middle term: $(a + b)^2 = a^2 + 2ab + b^2$, so the claim holds only when $ab = 0$.\n\nSquaring does not distribute over addition. Writing $(a + b)^2 = (a + b)(a + b)$ shows that every term of the first bracket multiplies every term of the second, and $a \\cdot b$ appears twice.\n\nExample: With $a = 3$ and $b = 4$: $(3 + 4)^2 = 49$, but $3^2 + 4^2 = 25$. The missing $24$ is exactly $2ab$.\n\nWatch out: The same error appears as $(a - b)^2 = a^2 - b^2$ and as $(a + b)^3 = a^3 + b^3$.",
+      "searchQuery": "why (a+b)^2 is not a^2 + b^2",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§22–31",
+        "AoPS Introduction to Algebra, ch. 18"
+      ]
+    },
+    {
+      "id": "alg1-pascal-triangle-cube-expansion",
+      "unit": "polynomial-arithmetic",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Use row $3$ of **Pascal's triangle** to expand $(a + b)^3$.",
+      "body": "$(a + b)^3 = a^3 + 3a^2b + 3ab^2 + b^3$\n\nPascal's triangle starts with a single $1$, and each entry is the sum of the two entries above it. Numbering rows from $0$, row $n$ lists the coefficients of $(a + b)^n$, with the power of $a$ falling from $n$ to $0$ and the power of $b$ rising from $0$ to $n$.\n\nThe rows begin: $1$; $1, 1$; $1, 2, 1$; $1, 3, 3, 1$; $1, 4, 6, 4, 1$. Row $2$ matches $(a + b)^2$.\n\nExample: For $(x - 2)^3$ take $a = x$ and $b = -2$: $x^3 + 3x^2(-2) + 3x(4) + (-8) = x^3 - 6x^2 + 12x - 8$. At $x = 1$ both sides equal $-1$.\n\nWatch out: For $(a - b)^n$ the signs alternate, because odd powers of $-b$ are negative.",
+      "searchQuery": "Pascal's triangle binomial expansion (a+b)^3 coefficients",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§22–31",
+        "AoPS Introduction to Algebra, ch. 18"
+      ]
+    },
+    {
+      "id": "alg1-polynomial-product-problem",
+      "unit": "polynomial-arithmetic",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Multiply $(2x + 3)(x^2 - x + 4)$. What are the degree and the leading coefficient of the result?",
+      "body": "$2x^3 + x^2 + 5x + 12$, with degree $3$ and leading coefficient $2$.\n\nOutline:\n\n1. Multiply the whole second factor by $2x$: $2x^3 - 2x^2 + 8x$.\n2. Multiply it by $3$: $3x^2 - 3x + 12$.\n3. Add and combine like terms: $2x^3 + (-2 + 3)x^2 + (8 - 3)x + 12$.\n\nThe degree is $1 + 2 = 3$ and the leading coefficient is $2 \\cdot 1 = 2$, as the product rule predicts.\n\nTip: Check by setting $x = 1$: the left side is $5 \\cdot 4 = 20$ and the right side is $2 + 1 + 5 + 12 = 20$.",
+      "searchQuery": "multiply polynomials degree leading coefficient of product",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§22–31",
+        "AoPS Introduction to Algebra, ch. 18"
+      ]
+    },
+    {
+      "id": "alg1-factor-definition",
+      "unit": "factoring",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What does it mean to **factor** a polynomial, and what should you always try first?",
+      "body": "To write it as a product of simpler polynomials, its factors; always try factoring out a common factor first.\n\nFactoring is expanding in reverse, and you can always check an answer by multiplying it back out.\n\nExample: $6x^3 - 12x^2 = 6x^2(x - 2)$ takes out the common factor $6x^2$. After that, look for patterns: $x^2 - 9 = (x - 3)(x + 3)$ is the difference of squares read backwards.\n\nTip: Taking out a common factor first makes every later step smaller. It also stops you from missing a factor like the $6x^2$ above.",
+      "searchQuery": "what is factoring a polynomial common factor first",
+      "refs": [
+        "Gelfand–Shen, Algebra, §32",
+        "AoPS Introduction to Algebra §10.2–10.3, ch. 11"
+      ]
+    },
+    {
+      "id": "alg1-factor-trinomial-concept",
+      "unit": "factoring",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How do you factor a **trinomial** $x^2 + bx + c$, a polynomial with three terms?",
+      "body": "Find two integers $p$ and $q$ with $pq = c$ and $p + q = b$; then $x^2 + bx + c = (x + p)(x + q)$.\n\nWhy: Expanding gives $(x + p)(x + q) = x^2 + (p + q)x + pq$, so the middle coefficient is the sum and the constant is the product.\n\nExample: For $x^2 - x - 12$ we need $pq = -12$ and $p + q = -1$. The pair $-4$ and $3$ works, so the result is $(x - 4)(x + 3)$. Check: $x^2 + 3x - 4x - 12$.\n\nTip: Start from the factor pairs of $c$. If $c$ is negative, the two numbers have opposite signs. If no pair of integers adds up to $b$, the trinomial does not factor into such pieces.",
+      "searchQuery": "factor trinomial x^2 + bx + c product and sum",
+      "refs": [
+        "Gelfand–Shen, Algebra, §32",
+        "AoPS Introduction to Algebra §10.2–10.3, ch. 11"
+      ]
+    },
+    {
+      "id": "alg1-sum-of-cubes-formula",
+      "unit": "factoring",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Factor the **sum of cubes** $a^3 + b^3$.",
+      "body": "$a^3 + b^3 = (a + b)(a^2 - ab + b^2)$\n\nWhy: Expand the right side: $a^3 - a^2b + ab^2 + a^2b - ab^2 + b^3$. Every middle term cancels in pairs.\n\nExample: $x^3 + 8 = (x + 2)(x^2 - 2x + 4)$, with $a = x$ and $b = 2$.\n\nMnemonic: SOAP. The first sign is the Same as in the original, the second is Opposite, and the last is Always Positive.\n\nWatch out: The second factor $a^2 - ab + b^2$ does not factor further, and it is not $(a - b)^2$.",
+      "searchQuery": "sum of cubes factoring formula a^3 + b^3",
+      "refs": [
+        "Gelfand–Shen, Algebra, §32",
+        "AoPS Introduction to Algebra §10.2–10.3, ch. 11"
+      ]
+    },
+    {
+      "id": "alg1-difference-of-cubes-formula",
+      "unit": "factoring",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Factor the **difference of cubes** $a^3 - b^3$.",
+      "body": "$a^3 - b^3 = (a - b)(a^2 + ab + b^2)$\n\nWhy: Expand the right side: $a^3 + a^2b + ab^2 - a^2b - ab^2 - b^3$. The middle terms cancel.\n\nExample: $27x^3 - 1 = (3x - 1)(9x^2 + 3x + 1)$, with $a = 3x$ and $b = 1$. Check: $27x^3 + 9x^2 + 3x - 9x^2 - 3x - 1$.\n\nTip: Know the small cubes: $1, 8, 27, 64, 125$. When a term is one of them, think of a sum or difference of cubes.",
+      "searchQuery": "difference of cubes factoring formula a^3 - b^3",
+      "refs": [
+        "Gelfand–Shen, Algebra, §32",
+        "AoPS Introduction to Algebra §10.2–10.3, ch. 11"
+      ]
+    },
+    {
+      "id": "alg1-factor-by-grouping-example",
+      "unit": "factoring",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Factor $x^3 + 2x^2 + 3x + 6$ by **grouping**.",
+      "body": "$(x^2 + 3)(x + 2)$\n\nFactoring by grouping means splitting the terms into pairs, factoring each pair, and hoping the same bracket appears so it can be factored out.\n\nHere $x^3 + 2x^2 = x^2(x + 2)$ and $3x + 6 = 3(x + 2)$. The bracket $x + 2$ appears in both, so $x^2(x + 2) + 3(x + 2) = (x^2 + 3)(x + 2)$.\n\nCheck: $(x^2 + 3)(x + 2) = x^3 + 2x^2 + 3x + 6$.\n\nTip: If the second pair starts with a minus sign, factor out a negative so the brackets match. For $x^3 - x^2 - 4x + 4$ this gives $x^2(x - 1) - 4(x - 1) = (x^2 - 4)(x - 1)$.",
+      "searchQuery": "factor by grouping four terms polynomial example",
+      "refs": [
+        "Gelfand–Shen, Algebra, §32",
+        "AoPS Introduction to Algebra §10.2–10.3, ch. 11"
+      ]
+    },
+    {
+      "id": "alg1-factor-leading-coefficient-problem",
+      "unit": "factoring",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Factor $6x^2 + 7x - 3$.",
+      "body": "$(3x - 1)(2x + 3)$\n\nKey idea: Grouping works on a trinomial too. Split the middle term using two numbers whose product is the first coefficient times the last, and whose sum is the middle coefficient.\n\nOutline:\n\n1. $6 \\cdot (-3) = -18$. Two numbers with product $-18$ and sum $7$ are $9$ and $-2$.\n2. Split $7x = 9x - 2x$: $6x^2 + 9x - 2x - 3$.\n3. Group: $3x(2x + 3) - 1(2x + 3) = (3x - 1)(2x + 3)$.\n\nCheck: $(3x - 1)(2x + 3) = 6x^2 + 9x - 2x - 3 = 6x^2 + 7x - 3$.",
+      "searchQuery": "factor ax^2 + bx + c split the middle term grouping",
+      "refs": [
+        "Gelfand–Shen, Algebra, §32",
+        "AoPS Introduction to Algebra §10.2–10.3, ch. 11"
+      ]
+    },
+    {
+      "id": "alg1-simons-trick-problem",
+      "unit": "factoring",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "How many ordered pairs $(x, y)$ of positive integers satisfy $xy + 2x + 3y = 18$?",
+      "body": "3\n\nSimon's Favorite Factoring Trick: for $xy + ax + by$, add $ab$ to both sides so the left side factors as $(x + b)(y + a)$.\n\nOutline:\n\n1. Add $2 \\cdot 3 = 6$ to both sides: $xy + 2x + 3y + 6 = 24$, so $(x + 3)(y + 2) = 24$.\n2. Positive integers give $x + 3 \\ge 4$ and $y + 2 \\ge 3$.\n3. The factor pairs of $24$ that fit are $(4, 6)$, $(6, 4)$ and $(8, 3)$. The pairs $(12, 2)$ and $(24, 1)$ fail $y + 2 \\ge 3$.\n\nThe solutions are $(x, y) = (1, 4)$, $(3, 2)$ and $(5, 1)$. Check $(3, 2)$: $6 + 6 + 6 = 18$.\n\nWatch out: List every factor pair, then apply the size limits on $x + 3$ and $y + 2$ to discard the ones that fail.",
+      "searchQuery": "Simon's Favorite Factoring Trick integer solutions",
+      "answer": "3",
+      "acceptedAnswers": [
+        "three"
+      ],
+      "refs": [
+        "Gelfand–Shen, Algebra, §32",
+        "AoPS Introduction to Algebra §10.2–10.3, ch. 11"
+      ]
+    },
+    {
+      "id": "alg1-sum-of-squares-misconception",
+      "unit": "factoring",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that the sum of squares $x^2 + 9$ factors as $(x + 3)(x + 3)$, or as $(x + 3)(x - 3)$?",
+      "body": "Neither product equals $x^2 + 9$: $(x + 3)^2 = x^2 + 6x + 9$ and $(x + 3)(x - 3) = x^2 - 9$. In fact $x^2 + 9$ has no factorization into two linear factors with real coefficients.\n\nWhy: Suppose $x^2 + 9 = (x + p)(x + q)$. Then $p + q = 0$ and $pq = 9$. But $q = -p$ gives $pq = -p^2$, which is never positive, so $pq = 9$ is impossible.\n\nExample: A sum of cubes does factor, as $x^3 + 27 = (x + 3)(x^2 - 3x + 9)$, but a sum of squares of this kind does not.\n\nWatch out: Only a difference of squares factors. Do not copy its pattern onto a sum.",
+      "searchQuery": "sum of squares does not factor x^2 + 9",
+      "refs": [
+        "Gelfand–Shen, Algebra, §32",
+        "AoPS Introduction to Algebra §10.2–10.3, ch. 11"
+      ]
+    },
+    {
+      "id": "alg1-quadratic-equation-definition",
+      "unit": "quadratic-formula",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **quadratic equation**, and what are its **roots**?",
+      "body": "An equation that can be written as $ax^2 + bx + c = 0$ with $a \\neq 0$; its solutions are called its roots.\n\nThe condition $a \\neq 0$ matters: if $a = 0$ the $x^2$ term disappears and the equation is linear.\n\nExample: $x^2 - 5x + 6 = 0$ factors as $(x - 2)(x - 3) = 0$. A product is zero only if one of its factors is zero (the zero-product property), so $x - 2 = 0$ or $x - 3 = 0$, and the roots are $2$ and $3$.\n\nKey idea: Factoring turns one hard equation into two easy linear ones. The equation must have $0$ on one side first.",
+      "searchQuery": "quadratic equation definition roots zero product property",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§48–59",
+        "AoPS Introduction to Algebra, ch. 13–14, §15.1, §15.4"
+      ]
+    },
+    {
+      "id": "alg1-completing-the-square-concept",
+      "unit": "quadratic-formula",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What number do you add to $x^2 + bx$ to **complete the square**, and what perfect square do you get?",
+      "body": "Add $\\left(\\dfrac{b}{2}\\right)^2$: then $x^2 + bx + \\left(\\dfrac{b}{2}\\right)^2 = \\left(x + \\dfrac{b}{2}\\right)^2$.\n\nWhy: By the square of a sum, $\\left(x + \\dfrac{b}{2}\\right)^2 = x^2 + bx + \\dfrac{b^2}{4}$. So half of the $x$ coefficient, squared, is exactly the missing piece.\n\nExample: $x^2 + 6x$ needs $\\left(\\tfrac{6}{2}\\right)^2 = 9$, giving $x^2 + 6x + 9 = (x + 3)^2$.\n\nTip: When solving an equation, add the same number to both sides. If the $x^2$ coefficient is not $1$, divide the equation by it (or factor it out) first.",
+      "searchQuery": "completing the square add (b/2)^2",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§48–59",
+        "AoPS Introduction to Algebra, ch. 13–14, §15.1, §15.4"
+      ]
+    },
+    {
+      "id": "alg1-quadratic-formula",
+      "unit": "quadratic-formula",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "State the **quadratic formula** for the roots of $ax^2 + bx + c = 0$, where $a \\neq 0$.",
+      "body": "$x = \\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$\n\nWhy: Divide by $a$ to get $x^2 + \\tfrac{b}{a}x = -\\tfrac{c}{a}$. Complete the square by adding $\\left(\\tfrac{b}{2a}\\right)^2$ to both sides: $\\left(x + \\tfrac{b}{2a}\\right)^2 = \\dfrac{b^2 - 4ac}{4a^2}$. Take square roots of both sides, keeping $\\pm$, and subtract $\\tfrac{b}{2a}$.\n\nExample: For $2x^2 - 3x - 2 = 0$: $x = \\dfrac{3 \\pm \\sqrt{9 + 16}}{4} = \\dfrac{3 \\pm 5}{4}$, so $x = 2$ or $x = -\\tfrac{1}{2}$. Check $x = 2$: $8 - 6 - 2 = 0$.\n\nWatch out: The whole numerator $-b \\pm \\sqrt{b^2 - 4ac}$ is divided by $2a$, not just the square root.",
+      "searchQuery": "quadratic formula derivation completing the square",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§48–59",
+        "AoPS Introduction to Algebra, ch. 13–14, §15.1, §15.4"
+      ]
+    },
+    {
+      "id": "alg1-discriminant-definition",
+      "unit": "quadratic-formula",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is the **discriminant** of $ax^2 + bx + c = 0$, and what does its sign say about the real roots?",
+      "body": "$D = b^2 - 4ac$. If $D > 0$ there are two different real roots, if $D = 0$ there is exactly one (a repeated root), and if $D < 0$ there are no real roots.\n\nWhy: $D$ is the quantity under the square root in the quadratic formula. A positive number has two square roots, zero has one, and a negative number has no real square root.\n\nExample: $x^2 + 2x + 5$ has $D = 4 - 20 = -16 < 0$, so $x^2 + 2x + 5 = 0$ has no real roots. $x^2 - 6x + 9$ has $D = 36 - 36 = 0$, with the single root $3$.\n\nTip: When $a$, $b$, $c$ are integers and $D$ is a perfect square, the roots are rational numbers.",
+      "searchQuery": "discriminant b^2 - 4ac number of real roots",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§48–59",
+        "AoPS Introduction to Algebra, ch. 13–14, §15.1, §15.4"
+      ]
+    },
+    {
+      "id": "alg1-vieta-formulas-theorem",
+      "unit": "quadratic-formula",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State **Vieta's formulas** for a quadratic with roots $r$ and $s$.",
+      "body": "If $a \\neq 0$ and $r, s$ are the two real roots of $ax^2 + bx + c = 0$ (with $r = s$ for a repeated root), then $r + s = -\\dfrac{b}{a}$ and $rs = \\dfrac{c}{a}$.\n\nKey idea: Add and multiply the two roots from the quadratic formula. In the sum the $\\pm\\sqrt{D}$ terms cancel, leaving $\\dfrac{-2b}{2a}$. In the product, $\\dfrac{(-b)^2 - D}{4a^2} = \\dfrac{4ac}{4a^2} = \\dfrac{c}{a}$.\n\nExample: For $x^2 - 5x + 6 = 0$ the sum is $5$ and the product is $6$, matching the roots $2$ and $3$.\n\nWhy it matters: You can build a quadratic from its roots as $x^2 - (r + s)x + rs = 0$, and you can find expressions in the roots without solving the equation.",
+      "searchQuery": "Vieta's formulas sum and product of roots quadratic",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§48–59",
+        "AoPS Introduction to Algebra, ch. 13–14, §15.1, §15.4"
+      ]
+    },
+    {
+      "id": "alg1-vertex-form-formula",
+      "unit": "quadratic-formula",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "In **vertex form** $y = a(x - h)^2 + k$ with $a \\neq 0$, where is the **vertex** of the parabola, and when is it a minimum?",
+      "body": "The vertex is $(h, k)$; it is the lowest point (minimum value $k$) when $a > 0$ and the highest point (maximum value $k$) when $a < 0$.\n\nThe graph of $y = ax^2 + bx + c$ with $a \\neq 0$ is a curve called a **parabola**. It opens upward when $a > 0$ and downward when $a < 0$, and it is symmetric about the vertical line $x = h$ through its vertex.\n\nWhy: $(x - h)^2 \\ge 0$, and it equals $0$ only at $x = h$. So $a(x - h)^2$ is smallest at $x = h$ when $a > 0$, and largest there when $a < 0$.\n\nWatch out: The sign of $h$ is reversed. $y = (x + 1)^2 - 4$ has vertex $(-1, -4)$.\n\nTip: For $y = ax^2 + bx + c$, the vertex is at $x = -\\dfrac{b}{2a}$.",
+      "searchQuery": "vertex form parabola vertex minimum maximum",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§48–59",
+        "AoPS Introduction to Algebra, ch. 13–14, §15.1, §15.4"
+      ]
+    },
+    {
+      "id": "alg1-complete-square-solve-example",
+      "unit": "quadratic-formula",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Solve $x^2 - 4x - 1 = 0$ by completing the square.",
+      "body": "$x = 2 \\pm \\sqrt{5}$\n\nMove the constant: $x^2 - 4x = 1$. Half of $-4$ is $-2$, and its square is $4$, so add $4$ to both sides: $(x - 2)^2 = 5$. Take square roots: $x - 2 = \\pm\\sqrt{5}$.\n\nCheck with Vieta's formulas: the roots add to $4 = -\\tfrac{b}{a}$ and multiply to $(2)^2 - 5 = -1 = \\tfrac{c}{a}$.\n\nWatch out: Do not drop the $\\pm$ when taking the square root, and add the new number to both sides, not just the left.",
+      "searchQuery": "solve quadratic by completing the square example",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§48–59",
+        "AoPS Introduction to Algebra, ch. 13–14, §15.1, §15.4"
+      ]
+    },
+    {
+      "id": "alg1-vertex-form-problem",
+      "unit": "quadratic-formula",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Write $y = 2x^2 - 12x + 7$ in vertex form. What are the vertex and the minimum value?",
+      "body": "$y = 2(x - 3)^2 - 11$, with vertex $(3, -11)$ and minimum value $-11$.\n\nOutline:\n\n1. Factor $2$ from the $x$ terms: $y = 2(x^2 - 6x) + 7$.\n2. Complete the square inside: $x^2 - 6x + 9 = (x - 3)^2$. Adding $9$ inside the bracket adds $2 \\cdot 9 = 18$ to the expression, so subtract $18$: $y = 2(x - 3)^2 - 18 + 7$.\n3. Simplify: $y = 2(x - 3)^2 - 11$.\n\nSince $a = 2 > 0$, the parabola opens upward and its lowest point is the vertex.\n\nCheck: At $x = 0$, $2 \\cdot 9 - 11 = 7$. The vertex formula gives $x = -\\tfrac{-12}{4} = 3$.\n\nWatch out: The most common error is forgetting the factor $2$ when compensating for the added $9$.",
+      "searchQuery": "rewrite quadratic in vertex form complete the square",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§48–59",
+        "AoPS Introduction to Algebra, ch. 13–14, §15.1, §15.4"
+      ]
+    },
+    {
+      "id": "alg1-vieta-sum-of-squares-problem",
+      "unit": "quadratic-formula",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "If $r$ and $s$ are the roots of $x^2 - 7x + 3 = 0$, what is $r^2 + s^2$?",
+      "body": "43\n\nKey idea: Rewrite the target in terms of $r + s$ and $rs$, which Vieta's formulas give directly.\n\nOutline:\n\n1. Vieta: $r + s = 7$ and $rs = 3$.\n2. $r^2 + s^2 = (r + s)^2 - 2rs = 49 - 6 = 43$.\n\nThe roots are real because $D = 49 - 12 = 37 > 0$, so Vieta's formulas apply. Check with the roots $\\dfrac{7 \\pm \\sqrt{37}}{2}$: the squares add to $\\dfrac{2(49 + 37)}{4} = 43$.\n\nTip: The same trick handles other symmetric expressions, since $(r + s)^2$ expands to include $r^2 + s^2$ and $2rs$.",
+      "searchQuery": "sum of squares of roots Vieta's formulas problem",
+      "checkpoint": true,
+      "answer": "43",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§48–59",
+        "AoPS Introduction to Algebra, ch. 13–14, §15.1, §15.4"
+      ]
+    },
+    {
+      "id": "alg1-zero-product-misconception",
+      "unit": "quadratic-formula",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that $(x - 2)(x - 3) = 6$ gives $x - 2 = 6$ or $x - 3 = 6$?",
+      "body": "The zero-product property only works when the product equals $0$; first move everything to one side, then factor.\n\nWhy: Many different pairs of numbers multiply to $6$ (such as $2 \\cdot 3$ or $1 \\cdot 6$), so knowing the product is $6$ says nothing about either factor alone. Only $0$ forces a factor to be $0$.\n\nExample: $(x - 2)(x - 3) = 6$ becomes $x^2 - 5x + 6 = 6$, so $x^2 - 5x = 0$ and $x(x - 5) = 0$, giving $x = 0$ or $x = 5$. Check: $(-2)(-3) = 6$ and $3 \\cdot 2 = 6$. The wrong rule would give $x = 8$ or $x = 9$, and $(8 - 2)(8 - 3) = 30$.",
+      "searchQuery": "zero product property only works when equal to zero",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§48–59",
+        "AoPS Introduction to Algebra, ch. 13–14, §15.1, §15.4"
+      ]
+    },
+    {
+      "id": "alg1-zero-and-multiplicity-definition",
+      "unit": "polynomial-division-and-roots",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **zero** of a polynomial $p(x)$, and what is its **multiplicity**?",
+      "body": "A zero is a number $r$ with $p(r) = 0$, where $p(r)$ is the value of $p$ when $x$ is replaced by $r$. Its multiplicity is the largest $m$ for which $(x - r)^m$ is a factor of $p(x)$.\n\nA zero of $p(x)$ is the same thing as a root of the equation $p(x) = 0$.\n\nExample: $p(x) = (x - 1)^2(x + 2)$ has the zero $1$ with multiplicity $2$, and the zero $-2$ with multiplicity $1$.\n\nWatch out: A zero of multiplicity $2$ is one number, counted twice only when you list zeros with multiplicity.",
+      "searchQuery": "zero of a polynomial multiplicity definition",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§35–38",
+        "Stitz–Zeager, Precalculus, Polynomial Functions chapter (Remainder and Factor Theorems; Real Zeros of Polynomials)"
+      ]
+    },
+    {
+      "id": "alg1-polynomial-long-division-example",
+      "unit": "polynomial-division-and-roots",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Use **polynomial long division** to divide $2x^3 + 3x^2 - x + 5$ by $x + 2$.",
+      "body": "Quotient $2x^2 - x + 1$, remainder $3$.\n\nPolynomial long division works like long division of numbers: divide leading terms, multiply back, subtract, and repeat until the remainder has lower degree than the divisor.\n\n1. $2x^3 \\div x = 2x^2$. Subtract $2x^2(x + 2) = 2x^3 + 4x^2$: this leaves $-x^2 - x + 5$.\n2. $-x^2 \\div x = -x$. Subtract $-x(x + 2) = -x^2 - 2x$: this leaves $x + 5$.\n3. $x \\div x = 1$. Subtract $x + 2$: this leaves $3$.\n\nSo $2x^3 + 3x^2 - x + 5 = (x + 2)(2x^2 - x + 1) + 3$. Check: $(x + 2)(2x^2 - x + 1) = 2x^3 + 3x^2 - x + 2$, and adding $3$ gives $+5$.\n\nTip: Write missing powers with a $0$ coefficient, so $x^3 - 2$ becomes $x^3 + 0x^2 + 0x - 2$.",
+      "searchQuery": "polynomial long division worked example quotient remainder",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§35–38",
+        "Stitz–Zeager, Precalculus, Polynomial Functions chapter (Remainder and Factor Theorems; Real Zeros of Polynomials)"
+      ]
+    },
+    {
+      "id": "alg1-remainder-theorem",
+      "unit": "polynomial-division-and-roots",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **remainder theorem**.",
+      "body": "If $p(x)$ is a polynomial and $a$ is a number, then dividing $p(x)$ by $x - a$ leaves the remainder $p(a)$.\n\nWhy: Division gives $p(x) = (x - a)\\,q(x) + r$, where the remainder $r$ has degree below $1$, so it is a plain number. Putting $x = a$ kills the first term, leaving $p(a) = r$.\n\nExample: Dividing $2x^3 + 3x^2 - x + 5$ by $x + 2 = x - (-2)$ left the remainder $3$. Evaluating at $x = -2$: $-16 + 12 + 2 + 5 = 3$.\n\nWhy it matters: You can find a remainder by evaluating, with no division at all.",
+      "searchQuery": "remainder theorem p(a) remainder divide by x minus a",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§35–38",
+        "Stitz–Zeager, Precalculus, Polynomial Functions chapter (Remainder and Factor Theorems; Real Zeros of Polynomials)"
+      ]
+    },
+    {
+      "id": "alg1-factor-theorem-concept",
+      "unit": "polynomial-division-and-roots",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How is a zero of $p(x)$ linked to a factor of $p(x)$ (the **factor theorem**)?",
+      "body": "$p(a) = 0$ exactly when $x - a$ is a factor of $p(x)$.\n\nWhy: By the remainder theorem, the remainder of $p(x)$ divided by $x - a$ is $p(a)$. A zero remainder means the division is exact, which is what \"is a factor\" means.\n\nExample: For $p(x) = x^3 - 7x + 6$, $p(1) = 0$, so $x - 1$ is a factor: $p(x) = (x - 1)(x^2 + x - 6) = (x - 1)(x - 2)(x + 3)$. The zeros are $1$, $2$ and $-3$.\n\nWatch out: The factor $x - a$ matches the zero $+a$. The zero $-3$ goes with the factor $x + 3$.",
+      "searchQuery": "factor theorem zero of polynomial linear factor",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§35–38",
+        "Stitz–Zeager, Precalculus, Polynomial Functions chapter (Remainder and Factor Theorems; Real Zeros of Polynomials)"
+      ]
+    },
+    {
+      "id": "alg1-rational-root-theorem",
+      "unit": "polynomial-division-and-roots",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **rational root theorem** for a polynomial with integer coefficients.",
+      "body": "If $p(x) = a_n x^n + \\dots + a_1 x + a_0$ has integer coefficients with $a_n \\neq 0$, and $\\dfrac{u}{v}$ is a zero of $p$ written in lowest terms (integers $u, v$ with $v > 0$), then $u$ divides $a_0$ and $v$ divides $a_n$.\n\nWhy: Put $\\tfrac{u}{v}$ into $p$ and multiply by $v^n$: $a_n u^n + a_{n-1}u^{n-1}v + \\dots + a_0 v^n = 0$. Every term but $a_0 v^n$ has a factor $u$, so $u$ divides $a_0 v^n$. Since $u$ and $v$ are relatively prime, $u$ divides $a_0$. The argument for $v$ is the same.\n\nExample: For $2x^3 - 3x^2 - 11x + 6$: $u \\in \\{\\pm 1, \\pm 2, \\pm 3, \\pm 6\\}$ and $v \\in \\{1, 2\\}$. The candidates are $\\pm 1, \\pm 2, \\pm 3, \\pm 6, \\pm\\tfrac{1}{2}, \\pm\\tfrac{3}{2}$.\n\nWatch out: It only lists candidates. You still have to test each one.",
+      "searchQuery": "rational root theorem candidates integer coefficients",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§35–38",
+        "Stitz–Zeager, Precalculus, Polynomial Functions chapter (Remainder and Factor Theorems; Real Zeros of Polynomials)"
+      ]
+    },
+    {
+      "id": "alg1-remainder-conditions-problem",
+      "unit": "polynomial-division-and-roots",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A polynomial $p(x) = x^3 + ax + b$ leaves remainder $4$ when divided by $x - 1$ and remainder $1$ when divided by $x + 2$. Find $a$ and $b$.",
+      "body": "$a = -2$ and $b = 5$\n\nKey idea: By the remainder theorem, each condition says the value of $p$ at one point.\n\nOutline:\n\n1. Dividing by $x - 1$: $p(1) = 1 + a + b = 4$, so $a + b = 3$.\n2. Dividing by $x + 2 = x - (-2)$: $p(-2) = -8 - 2a + b = 1$, so $-2a + b = 9$.\n3. Subtract the second equation from the first: $3a = -6$, so $a = -2$ and $b = 5$.\n\nCheck: $p(x) = x^3 - 2x + 5$ gives $p(1) = 4$ and $p(-2) = -8 + 4 + 5 = 1$.",
+      "searchQuery": "remainder theorem find unknown coefficients two remainders",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§35–38",
+        "Stitz–Zeager, Precalculus, Polynomial Functions chapter (Remainder and Factor Theorems; Real Zeros of Polynomials)"
+      ]
+    },
+    {
+      "id": "alg1-solve-cubic-rational-roots-problem",
+      "unit": "polynomial-division-and-roots",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Find all zeros of $p(x) = 2x^3 - 3x^2 - 11x + 6$.",
+      "body": "$3$, $\\tfrac{1}{2}$ and $-2$, each with multiplicity $1$.\n\nOutline:\n\n1. The rational root theorem gives the candidates $\\pm 1, \\pm 2, \\pm 3, \\pm 6, \\pm\\tfrac{1}{2}, \\pm\\tfrac{3}{2}$.\n2. Test: $p(3) = 54 - 27 - 33 + 6 = 0$, so $x - 3$ is a factor.\n3. Divide: $p(x) = (x - 3)(2x^2 + 3x - 2)$. Check: $2x^3 + 3x^2 - 2x - 6x^2 - 9x + 6 = 2x^3 - 3x^2 - 11x + 6$.\n4. Factor the quotient: $2x^2 + 3x - 2 = (2x - 1)(x + 2)$, so the zeros are $\\tfrac{1}{2}$ and $-2$.\n\nTip: Try the small integers first. Here $p(-2) = -16 - 12 + 22 + 6 = 0$ also works, and would lead to the same answer.",
+      "searchQuery": "find all zeros of a cubic rational root theorem factor",
+      "checkpoint": true,
+      "refs": [
+        "Gelfand–Shen, Algebra, §§35–38",
+        "Stitz–Zeager, Precalculus, Polynomial Functions chapter (Remainder and Factor Theorems; Real Zeros of Polynomials)"
+      ]
+    },
+    {
+      "id": "alg1-remainder-sign-misconception",
+      "unit": "polynomial-division-and-roots",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that the remainder when $p(x)$ is divided by $x + 3$ is $p(3)$?",
+      "body": "The remainder is $p(-3)$, because $x + 3 = x - (-3)$ and the theorem evaluates at the number being subtracted.\n\nWhy: The remainder theorem is about division by $x - a$ and gives $p(a)$. For $x + 3$ we have $a = -3$.\n\nExample: Take $p(x) = x + 5$. Dividing by $x + 3$ gives quotient $1$ and remainder $2$. Indeed $p(-3) = 2$, while $p(3) = 8$.\n\nTip: To avoid the sign slip, ask which value of $x$ makes the divisor equal to $0$, and evaluate $p$ there.",
+      "searchQuery": "remainder theorem sign divide by x plus 3 evaluate at minus 3",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§35–38",
+        "Stitz–Zeager, Precalculus, Polynomial Functions chapter (Remainder and Factor Theorems; Real Zeros of Polynomials)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,962 @@
+{
+  "profession": "embedded-ai",
+  "module": "dataflow-mapping",
+  "tier": 6,
+  "partial": true,
+  "cards": [
+    {
+      "id": "dataflow-loop-nest-definition",
+      "unit": "loop-nests-and-einsums",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "What is a **loop nest** description of a neural-network layer, and what does one pass through its innermost body compute?",
+      "body": "A set of nested for-loops, one per index of the layer, whose innermost body is one multiply-accumulate (MAC); the product of the loop bounds is the layer's MAC count.\n\nEvery layer built from MACs (matrix multiply, convolution, the attention products) is a perfect loop nest: all arithmetic sits in the innermost body, and the loops only enumerate which operands meet.\n\nExample: a matrix multiply $C[m,n] \\mathrel{+}= A[m,k]\\,B[k,n]$ is three loops over $m$, $n$, $k$ with bounds $M$, $N$, $K$, so it costs $M \\cdot N \\cdot K$ MACs.\n\nKey idea: the additions can be done in any order (ignoring floating-point rounding), so the loops can be reordered, split into tiles and spread over processing elements (PEs) without changing the result. Every schedule of the layer is a transformation of this one nest.\n\nWatch out: the layer's reference nest fixes one loop order only as a way of writing down what is computed. The order in a framework's reference code is one of many equivalent orders, and the hardware may run any of them.",
+      "searchQuery": "loop nest representation neural network layer MAC count",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests"
+      ]
+    },
+    {
+      "id": "dataflow-einsum-and-rank-definition",
+      "unit": "loop-nests-and-einsums",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "What is an **Einsum**, and what does **rank** mean in it?",
+      "body": "An equation that names each tensor axis with a rank (an index letter); the output sums, over every rank missing from the output, the product of the operands' elements.\n\nMatrix multiply: $Z_{m,n} = \\sum_k A_{m,k}\\,B_{k,n}$, written in NumPy as `np.einsum('mk,kn->mn', A, B)`. Convolution: $O_{n,m,p,q} = \\sum_{c,r,s} I_{n,c,Up+r,Uq+s}\\,W_{m,c,r,s}$ with stride $U$.\n\nEach rank has a name and a bound (its extent), and the Einsum's iteration space has one point per combination of rank values. One point is one MAC.\n\nWatch out: here a rank is one named axis, not the number of axes of a tensor and not the rank of a matrix. In the convolution above the ranks are $N, M, C, P, Q, R, S$: batch, output channels, input channels, output height and width, kernel height and width.\n\nTip: an Einsum states the arithmetic only. It does not fix a loop order, tiling or parallelism.",
+      "searchQuery": "Einsum notation named ranks tensor contraction iteration space",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests"
+      ]
+    },
+    {
+      "id": "dataflow-reduction-ranks-partial-sums",
+      "unit": "loop-nests-and-einsums",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "In an Einsum, what separates a **reduction rank** from an output rank, and why do reduction ranks create **partial sums**?",
+      "body": "A reduction rank appears in the operands but not in the output, so many MACs add into the same output element; each running total before the last such MAC is a partial sum.\n\nConvolution: the output ranks are $N, M, P, Q$ and the reduction ranks are $C, R, S$. Every output element is the sum of $C \\cdot R \\cdot S$ products, for example $64 \\cdot 9 = 576$ products for a $3\\times3$ layer with 64 input channels.\n\nOutput ranks give independent work: different output elements never need to exchange data. Reduction ranks tie iterations together, because their products must be added.\n\nWhy it matters: the loop order decides how many partial sums are alive at once. With the reduction loops innermost, one running total per output being worked on sits in an accumulator. With the reduction loops outermost, the partial sums of the whole output tensor are alive together and must be buffered. For $64\\times56\\times56$ outputs with 32-bit accumulators that is $200{,}704 \\cdot 4\\,\\mathrm{B} = 784\\,\\mathrm{KiB}$.\n\nWatch out: partial sums are wider than the operands (int8 inputs need int32 accumulators), so they cost more storage and traffic per element than weights or inputs.",
+      "searchQuery": "reduction rank output rank partial sums accumulation convolution",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests",
+        "partial-sums"
+      ]
+    },
+    {
+      "id": "dataflow-projection-iteration-space",
+      "unit": "loop-nests-and-einsums",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "A layer's Einsum defines an iteration space with one point per MAC. What is a tensor's **projection** of that space, and what do the ranks it ignores tell you?",
+      "body": "Each iteration point touches one element of every tensor, found by keeping only the ranks that index that tensor (the projection); the ranks a tensor ignores are the ones along which the same element is touched again.\n\nMatrix multiply, iteration space $(m,n,k)$ of size $M \\times N \\times K$: $A$ is the projection onto $(m,k)$, so $|A| = M K$ and $A[m,k]$ is touched $N$ times (once per $n$). Likewise $B$ onto $(k,n)$ and $Z$ onto $(m,n)$.\n\nConvolution: $W$ is indexed by $(m,c,r,s)$, so $|W| = M C R S$ and each weight is touched $N \\cdot P \\cdot Q$ times. $O$ is indexed by $(n,m,p,q)$, so each output is touched $C \\cdot R \\cdot S$ times. The input is indexed by $(n,c,Up+r,Uq+s)$: its index is a sum of two ranks, so its projection is a sliding window and neighboring outputs share input pixels.\n\nKey idea: for a tensor indexed directly by ranks (weights, outputs), its size is the product of the bounds of those ranks, and each element is touched once for every combination of the ranks it ignores. The input, indexed by sums of ranks, needs both counts adjusted for the overlapping windows.",
+      "searchQuery": "tensor projection iteration space Einsum ranks element touched",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests",
+        "reuse"
+      ]
+    },
+    {
+      "id": "dataflow-conv-loop-nest-count-code",
+      "unit": "loop-nests-and-einsums",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this C program print? It counts the MACs of a convolution on a $9 \\times 9$ input with a $3 \\times 3$ kernel and stride $U = 2$ (no padding; 32-bit `int`, 64-bit `long`).\n\n```c\n#include <stdio.h>\nint main(void) {\n  enum { N = 1, M = 2, C = 3, H = 9, R = 3, U = 2 };\n  enum { P = (H - R) / U + 1 };  /* output height = width */\n  long macs = 0;\n  for (int n = 0; n < N; n++) for (int m = 0; m < M; m++)\n    for (int c = 0; c < C; c++) for (int p = 0; p < P; p++)\n      for (int q = 0; q < P; q++) for (int r = 0; r < R; r++)\n        for (int s = 0; s < R; s++) macs++;\n  printf(\"%ld\\n\", macs);\n}\n```",
+      "body": "864\n\nThe output size is $P = (9-3)/2 + 1 = 4$, so the seven loop bounds are $1, 2, 3, 4, 4, 3, 3$ and their product is $1 \\cdot 2 \\cdot 3 \\cdot 4 \\cdot 4 \\cdot 3 \\cdot 3 = 864$.\n\nKey idea: the loops run over output positions $(p,q)$ and kernel offsets $(r,s)$, not over input pixels. Stride changes $P$ and $Q$ but not the kernel work per output.\n\nWatch out: looping $p$ and $q$ up to the input height $H = 9$ would give $1\\cdot2\\cdot3\\cdot9\\cdot9\\cdot3\\cdot3 = 4{,}374$ MACs, a $5\\times$ overcount that ignores the stride.",
+      "answer": "864",
+      "searchQuery": "convolution loop nest MAC count stride output size C program",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests"
+      ]
+    },
+    {
+      "id": "dataflow-attention-einsum-code",
+      "unit": "loop-nests-and-einsums",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "How many MACs do the two `einsum` calls perform in total? (Python 3 with NumPy; the normalization line is not a MAC.)\n\n```python\nimport numpy as np\nH, L, D = 4, 8, 16\nQ = np.ones((H, L, D)); K = np.ones((H, L, D)); V = np.ones((H, L, D))\nS = np.einsum('hmd,hnd->hmn', Q, K)    # attention scores\nA = S / S.sum(axis=-1, keepdims=True)   # stand-in for softmax\nO = np.einsum('hmn,hnd->hmd', A, V)    # weighted values\nprint(O.shape)\n```",
+      "body": "8192\n\nThe first call has ranks $h, m, n, d$ with bounds $4, 8, 8, 16$, so it costs $4 \\cdot 8 \\cdot 8 \\cdot 16 = 4096$ MACs. The second has the same four ranks and bounds, so another $4096$, for $8192$ in all. The program prints `(4, 8, 16)`.\n\nKey idea: the letter `d` plays two roles. In the score product it is a reduction rank (it is missing from `hmn`). In the second product it is an output rank, and `n` is the reduction rank.\n\nWatch out: the score tensor `S` has $H \\cdot L \\cdot L = 256$ elements, which grows with $L^2$, while `Q`, `K` and `V` grow only with $L$. This $L \\times L$ intermediate is what later makes attention a data-movement problem.",
+      "answer": "8192",
+      "searchQuery": "attention Einsum QK^T AV MAC count numpy einsum heads",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests",
+        "attention"
+      ]
+    },
+    {
+      "id": "dataflow-conv-mac-count-formula",
+      "unit": "loop-nests-and-einsums",
+      "kind": "formula",
+      "difficulty": 7,
+      "title": "State the number of MACs in a convolution layer with batch $N$, $M$ output channels, $C$ input channels, a $P \\times Q$ output and an $R \\times S$ kernel (any stride or padding).",
+      "body": "$N \\cdot M \\cdot C \\cdot P \\cdot Q \\cdot R \\cdot S$\n\nWhy: it is the product of the seven loop bounds of the convolution loop nest, one MAC per iteration. FLOPs are twice this.\n\nExample: the first layer of ResNet-50 ($7\\times7$ kernel, $C=3$, $M=64$, $112\\times112$ output, $N=1$) costs $64 \\cdot 3 \\cdot 112 \\cdot 112 \\cdot 49 = 118{,}013{,}952$ MACs.\n\nStride and padding enter only through $P$ and $Q$. Without padding, the input extent needed is $H = U(P-1) + R$ rows and similarly for columns.\n\nWatch out: in a grouped convolution with $G$ groups, each output channel sums over only the $C/G$ input channels of its group, so the count is $N \\cdot M \\cdot (C/G) \\cdot P \\cdot Q \\cdot R \\cdot S$, with $C$ the total input channels; a depthwise layer has $G = C = M$.",
+      "searchQuery": "convolution layer MAC count formula N M C P Q R S",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests"
+      ]
+    },
+    {
+      "id": "dataflow-einsum-mac-count-formula",
+      "unit": "loop-nests-and-einsums",
+      "kind": "formula",
+      "difficulty": 7,
+      "title": "State the MAC count of an Einsum in terms of its ranks' bounds, and apply it to the attention score product $S_{h,m,n} = \\sum_d Q_{h,m,d}\\,K_{h,n,d}$.",
+      "body": "The product of the bounds of every distinct rank in the Einsum, output and reduction alike; the score product has ranks $h, m, n, d$, so it costs $H \\cdot M \\cdot N \\cdot D$ MACs.\n\nWhy: one iteration point is one MAC, and the iteration space is the box spanned by all distinct ranks. A rank that appears in several tensors, like $d$ here, is counted once.\n\nExample: 8 heads, $128$ query and key positions, head dimension $64$: $8 \\cdot 128 \\cdot 128 \\cdot 64 = 8{,}388{,}608$ MACs. The value product $O_{h,m,d} = \\sum_n A_{h,m,n} V_{h,n,d}$ has the same ranks and bounds, so it costs the same.\n\nWatch out: do not multiply tensor sizes together. $|Q| \\cdot |K|$ would count $d$ twice and miss that $h$ is shared.\n\nSoftmax between the two products needs exponentials, a sum and a division per row, not MACs, so it is outside this count.",
+      "searchQuery": "Einsum MAC count product of rank bounds attention scores",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests",
+        "attention"
+      ]
+    },
+    {
+      "id": "dataflow-compare-conv-layers-macs-problem",
+      "unit": "loop-nests-and-einsums",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Layer A is a $3\\times3$ convolution with $C = M = 64$ and a $56\\times56$ output. Layer B is a $1\\times1$ convolution with $C = M = 192$ and a $28\\times28$ output. Both have batch $N=1$. Which has more MACs, by what factor, and how do their weight counts compare?",
+      "body": "A has $4\\times$ the MACs of B ($115{,}605{,}504$ versus $28{,}901{,}376$), although both have exactly $36{,}864$ weights.\n\nOutline:\n1. A: $64 \\cdot 64 \\cdot 56 \\cdot 56 \\cdot 3 \\cdot 3 = 4096 \\cdot 3136 \\cdot 9 = 115{,}605{,}504$ MACs; weights $M C R S = 64 \\cdot 64 \\cdot 9 = 36{,}864$.\n2. B: $192 \\cdot 192 \\cdot 28 \\cdot 28 \\cdot 1 \\cdot 1 = 36{,}864 \\cdot 784 = 28{,}901{,}376$ MACs; weights $192 \\cdot 192 = 36{,}864$.\n3. Both layers have $36{,}864$ weights, so the ratio is the ratio of uses per weight: $(36{,}864 \\cdot 3136)/(36{,}864 \\cdot 784) = 3136/784 = 4$.\n\nKey idea: the MACs divided by the weights is the number of times each weight is used, $N \\cdot P \\cdot Q$: $3136$ for A and $784$ for B. Two layers with the same parameter count can differ widely in compute, and in how much each weight fetched from memory is worth.\n\nWatch out: parameter count and MAC count are different budgets. A model that fits in memory (parameters) can still be slow (MACs), and the reverse.",
+      "searchQuery": "compare convolution layers MACs weights ratio 3x3 versus 1x1",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests"
+      ]
+    },
+    {
+      "id": "dataflow-depthwise-reduction-ranks-problem",
+      "unit": "loop-nests-and-einsums",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Write a depthwise $3\\times3$ convolution (batch 1, $C = 32$ channels, $112\\times112$ output, stride 1) as an Einsum. Which ranks are reduction ranks, and how many MACs does it perform?",
+      "body": "$O_{c,p,q} = \\sum_{r,s} I_{c,p+r,q+s}\\,W_{c,r,s}$: only $R$ and $S$ are reduction ranks, and the layer performs $32 \\cdot 112 \\cdot 112 \\cdot 9 = 3{,}612{,}672$ MACs.\n\nOutline:\n1. Each channel has its own $3\\times3$ filter, so the channel rank $c$ appears in $W$, $I$ and $O$.\n2. A rank that appears in the output is an output rank, so $c$ is not summed over. The sum runs only over $r$ and $s$, giving 9 products per output element.\n3. MACs: $C \\cdot P \\cdot Q \\cdot R \\cdot S = 32 \\cdot 12{,}544 \\cdot 9 = 3{,}612{,}672$.\n\nCompare a standard $32 \\to 32$ channel convolution with the same output and kernel: $C$ and $M$ are separate ranks, $C$ is a reduction rank, and the count is $32 \\cdot 32 \\cdot 12{,}544 \\cdot 9 = 115{,}605{,}504$, which is $32\\times$ more.\n\nWhy it matters: the reduction chain per output shrinks from $C \\cdot R \\cdot S$ to $R \\cdot S$ elements, and no input pixel feeds more than one output channel. That removes cross-channel work, and also the reuse a wide array could exploit.",
+      "searchQuery": "depthwise convolution Einsum reduction ranks MAC count",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests",
+        "reuse"
+      ]
+    },
+    {
+      "id": "dataflow-transformer-block-macs-problem",
+      "unit": "loop-nests-and-einsums",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "One transformer block processes $L = 128$ tokens with model width $d = 512$, $h = 8$ heads (head dimension $d/h$) and a feed-forward sublayer of width $d_{ff} = 2048$ made of two matrices (no gating, no grouped keys). Counting only the MACs in the four attention projections, the two attention products and the two feed-forward matrices, what is the total?",
+      "body": "$4Ld^2 + 2L^2d + 2L\\,d\\,d_{ff} = 419{,}430{,}400$ MACs.\n\nOutline:\n1. Projections $Q, K, V$ and output: each is an $L \\times d$ times $d \\times d$ product, $L d^2$ MACs, so $4 L d^2 = 4 \\cdot 128 \\cdot 512^2 = 134{,}217{,}728$.\n2. Scores: $h \\cdot L \\cdot L \\cdot (d/h) = L^2 d = 8{,}388{,}608$. Value product: the same. Together $2L^2d = 16{,}777{,}216$.\n3. Feed-forward: $L \\cdot d \\cdot d_{ff}$ twice, $2 \\cdot 128 \\cdot 512 \\cdot 2048 = 268{,}435{,}456$.\n4. Sum: $134{,}217{,}728 + 16{,}777{,}216 + 268{,}435{,}456 = 419{,}430{,}400$.\n\nKey idea: with $d_{ff} = 4d$ the projection and feed-forward MACs are $12 L d^2$, so the attention products overtake them when $2L^2d = 12Ld^2$, that is $L = 6d = 3072$ tokens here. At $L = 128$ the attention products are only $4\\%$ of the total.\n\nWatch out: the score tensor has $h L^2 = 131{,}072$ elements, twice the $L d = 65{,}536$ elements of the block input, and it grows as $L^2$. Its size, not its MACs, is what hurts first.",
+      "searchQuery": "transformer block MAC count attention projections feed-forward Einsum",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests",
+        "attention"
+      ]
+    },
+    {
+      "id": "dataflow-einsum-vs-loop-nest-trade-off",
+      "unit": "loop-nests-and-einsums",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "To let a tool search for the best schedule of a layer, should you hand it the layer as an Einsum or as one fixed loop nest?",
+      "body": "An Einsum: it states the arithmetic without committing to a loop order, tiling or parallelism, so the search is free to choose them. A fixed loop nest is better once the schedule is chosen and must be executed or costed exactly.\n\nWhy: a matrix-multiply Einsum has $3! = 6$ loop orders, and the innermost loop of each decides which of the three tensors stays unchanged; the number of tilings and spatial assignments is far larger. A loop nest has already used up that freedom.\n\nThe other side: a loop nest is exact. It fixes which loop is innermost, so it fixes the sequence of partial sums, the order of accesses and what a PE does each cycle. An Einsum cannot say any of that, which is why a schedule, written as nested loops, comes after the Einsum.\n\nWatch out: an Einsum covers only the sum-of-products parts. Softmax, normalization and activations between two Einsums still need their own description.",
+      "searchQuery": "Einsum versus loop nest schedule search declarative representation",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 2 and 5"
+      ],
+      "tags": [
+        "loop-nests"
+      ]
+    },
+    {
+      "id": "dataflow-convolutional-reuse-definition",
+      "unit": "data-reuse-taxonomy",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "What is **convolutional reuse**, and how often is a weight, and an interior input pixel, used within one input channel and one filter plane (stride 1)?",
+      "body": "Reuse from the sliding window: one weight is used for all $P \\cdot Q$ output positions, and an interior input pixel is used by up to $R \\cdot S$ outputs.\n\nWhy: a convolution applies the same small kernel at every output position (weight sharing), and neighboring windows overlap, so a few unique values feed many MACs. A fully connected layer has no sliding window and no convolutional reuse.\n\nExample: a $3\\times3$ kernel on a $56\\times56$ output plane: each weight is used $3136$ times, and each interior input pixel by $9$ outputs. Pixels at the border are used by fewer outputs.\n\nWatch out: this counts one input channel and one filter. The other reuse types (across the batch and across filters) multiply on top of it and are separate ideas.",
+      "searchQuery": "convolutional reuse sliding window weight reuse input pixel reuse",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5",
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016"
+      ],
+      "tags": [
+        "reuse"
+      ]
+    },
+    {
+      "id": "dataflow-filter-reuse-definition",
+      "unit": "data-reuse-taxonomy",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "What is **filter reuse** (weight reuse across the batch), and how many MACs does one weight take part in once it is added to convolutional reuse?",
+      "body": "Filter reuse: the same weight is applied to every one of the $N$ images in a batch, so with convolutional reuse a weight takes part in $N \\cdot P \\cdot Q$ MACs.\n\nWhy: the weights do not depend on the input image. Fetching a weight once and using it for all $N$ images divides its fetch cost by $N$ per image.\n\nExample: a $3\\times3$ layer with $56\\times56$ output and batch $N=4$: each weight is used $4 \\cdot 3136 = 12{,}544$ times.\n\nKey idea: in a fully connected layer ($P = Q = R = S = 1$) filter reuse is the only reuse the weights have: each weight takes part in exactly $N$ MACs, so at batch 1 each weight is used once and has no reuse at all.\n\nWatch out: batching reuses weights, not inputs or outputs, and it multiplies the activation storage by $N$.",
+      "searchQuery": "filter reuse weight reuse across batch fully connected layer",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5",
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016"
+      ],
+      "tags": [
+        "reuse"
+      ]
+    },
+    {
+      "id": "dataflow-input-fmap-reuse-definition",
+      "unit": "data-reuse-taxonomy",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "What is **input feature-map (ifmap) reuse**, and how many MACs does an interior input pixel take part in when it is combined with convolutional reuse?",
+      "body": "Ifmap reuse: each input pixel is read by all $M$ filters (it contributes to all $M$ output channels), so it is reused $M$ times, and an interior pixel takes part in up to $M \\cdot R \\cdot S$ MACs.\n\nWhy: every output channel needs the same input window, differing only in which filter is applied. One fetched input value can feed $M$ MACs, one per filter.\n\nExample: $M = 64$ filters of size $3\\times3$ at stride 1: an interior input pixel takes part in $64 \\cdot 9 = 576$ MACs (per input image; the batch gives no extra reuse of the same pixel).\n\nWatch out: depthwise convolution has no ifmap reuse across filters. Each input channel meets only its own filter, so the factor $M$ disappears and the pixel is reused only $R \\cdot S$ times.",
+      "searchQuery": "input feature map reuse ifmap reuse across filters output channels",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5",
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016"
+      ],
+      "tags": [
+        "reuse"
+      ]
+    },
+    {
+      "id": "dataflow-temporal-vs-spatial-reuse",
+      "unit": "data-reuse-taxonomy",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "Distinguish **temporal reuse** from **spatial reuse** of a value on a PE array.",
+      "body": "Temporal reuse: the same PE uses a value again in a later cycle, from its own local storage. Spatial reuse: one fetch is delivered to several PEs (by multicast, or forwarded from neighbor to neighbor), and each uses it.\n\nEach needs different hardware. Temporal reuse needs storage in the PE, such as a register file, and a schedule that keeps the value there between uses. Spatial reuse needs a network that delivers one value to many PEs, and no per-PE copy beyond use.\n\nExample: a weight held in a PE while the ifmap streams past is reused in time over the $P \\cdot Q$ output positions. An input pixel broadcast to the $R \\cdot S$ PEs that hold the different kernel weights is reused in space.\n\nKey idea: for partial sums, the spatial counterpart is a reduction across PEs, with products from different PEs added instead of one value copied to many.\n\nTip: both count as reuse of one fetch from the level above; they differ in what they cost: local storage (time) or wires and a network (space).",
+      "searchQuery": "temporal reuse spatial reuse multicast processing elements dataflow",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5"
+      ],
+      "tags": [
+        "reuse"
+      ]
+    },
+    {
+      "id": "dataflow-available-reuse-not-captured-misconception",
+      "unit": "data-reuse-taxonomy",
+      "kind": "misconception",
+      "difficulty": 7,
+      "title": "Why is this false: 'A convolution reuses each weight $P \\cdot Q$ times, so an accelerator fetches each weight from DRAM only once'?",
+      "body": "Reuse counts what the layer offers; a schedule captures it only if the value stays in on-chip storage between its uses, which depends on loop order and buffer capacity.\n\nIf the loops over output positions are outermost, every position needs all the weights of the layer again, and the weights are fetched once per position unless the whole weight tensor stays on chip.\n\nExample: a $3\\times3$ layer with $C = M = 64$ has $36{,}864$ weights ($36\\,\\mathrm{KiB}$ at 8 bits), which fit in a $64\\,\\mathrm{KiB}$ buffer. A $3\\times3$ layer with $C = M = 512$ has $2{,}359{,}296$ weights ($2.25\\,\\mathrm{MiB}$) that do not fit in a $512\\,\\mathrm{KiB}$ buffer, so a poor order refetches them from DRAM.\n\nKey idea: the three tensors compete for the same on-chip storage and for the innermost loop. Capturing all of one tensor's reuse usually costs reuse of another.\n\nWatch out: reuse figures in a paper or a datasheet are upper bounds. The traffic you get comes from the schedule chosen, which later units cover.",
+      "searchQuery": "available data reuse versus captured reuse buffer capacity loop order DRAM",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5",
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016"
+      ],
+      "tags": [
+        "reuse"
+      ]
+    },
+    {
+      "id": "dataflow-min-traffic-vs-naive-problem",
+      "unit": "data-reuse-taxonomy",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "The **algorithmic minimum traffic** of a layer is the DRAM traffic when every input and weight element is read once and every output element is written once. For a layer with $N=1$, $C=M=64$, $P=Q=56$, $R=S=3$, stride 1, 'same' padding and 8-bit data, what is it (padding is generated on chip, not stored), and how does it compare with a schedule with no on-chip storage where every MAC reads its weight and input pixel from DRAM (for simplicity, count two reads for every MAC, including the few at the border that use padding), the running sum stays in an accumulator, and each output is written once?",
+      "body": "Minimum $438{,}272\\,\\mathrm{B}$; with no on-chip storage $231{,}411{,}712\\,\\mathrm{B}$, about $528\\times$ more.\n\nOutline:\n1. Elements: input $64\\cdot56\\cdot56 = 200{,}704$, weights $64\\cdot64\\cdot9 = 36{,}864$, output $64\\cdot56\\cdot56 = 200{,}704$. At 1 byte each: $438{,}272\\,\\mathrm{B}$.\n2. MACs: $64\\cdot64\\cdot56\\cdot56\\cdot9 = 115{,}605{,}504$.\n3. No storage: two reads per MAC plus the output writes, $2 \\cdot 115{,}605{,}504 + 200{,}704 = 231{,}411{,}712\\,\\mathrm{B}$, and $231{,}411{,}712 / 438{,}272 \\approx 528.0$.\n\nKey idea: the gap between these two numbers is the reuse the schedule can capture, and the schedule's job is to close it. The minimum is a floor that no schedule can beat, and reaching it needs enough on-chip storage to hold what each element needs between its first and last use.\n\nWatch out: if the on-chip buffer is too small to reach the floor, a real schedule lands somewhere in between, and finding a good one is the subject of the later units.",
+      "searchQuery": "algorithmic minimum DRAM traffic convolution layer naive schedule comparison",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5",
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016"
+      ],
+      "tags": [
+        "reuse",
+        "roofline"
+      ]
+    },
+    {
+      "id": "dataflow-reuse-roofline-problem",
+      "unit": "data-reuse-taxonomy",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "An accelerator peaks at $8\\,\\mathrm{TOPS}$ (int8) with $25.6\\,\\mathrm{GB/s}$ of DRAM bandwidth. A layer with $115{,}605{,}504$ MACs (two operations each) moves either its algorithmic minimum of $438{,}272\\,\\mathrm{B}$ or, with no on-chip storage, $231{,}411{,}712\\,\\mathrm{B}$. What does the roofline model give as attainable performance in each case?",
+      "body": "Minimum traffic: $8\\,\\mathrm{TOPS}$ (compute-bound, about $528$ ops/B). No on-chip storage: about $25.6\\,\\mathrm{GOPS}$ (memory-bound, about $1$ op/B), roughly $0.3\\%$ of peak.\n\nOutline:\n1. Ridge point: $8\\times10^{12} / 25.6\\times10^{9} = 312.5$ ops/B.\n2. Operations: $2 \\cdot 115{,}605{,}504 = 231{,}211{,}008$.\n3. Minimum traffic: intensity $231{,}211{,}008 / 438{,}272 = 527.6$ ops/B, above the ridge, so performance is capped by the $8\\,\\mathrm{TOPS}$ peak.\n4. No storage: intensity $231{,}211{,}008 / 231{,}411{,}712 \\approx 0.999$ ops/B, so performance is $25.6\\,\\mathrm{GB/s} \\times 0.999 \\approx 25.6\\,\\mathrm{GOPS}$.\n\nKey idea: intensity is limited by the tensor with the least reuse. With reuses $r_t = \\text{MACs} / |t|$ and 1 byte per element, ops/B $= 2 / \\sum_t 1/r_t$. Here $r_I = r_O = 576$ and $r_W = 3136$, so the harmonic combination is $527.6$.\n\nWatch out: this is the best case for a given amount of traffic. It says nothing about whether the compute array can be kept busy.",
+      "searchQuery": "roofline attainable performance operational intensity reuse per tensor ridge point",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5"
+      ],
+      "tags": [
+        "reuse",
+        "roofline"
+      ]
+    },
+    {
+      "id": "dataflow-energy-per-level-numbers",
+      "unit": "data-reuse-taxonomy",
+      "kind": "numbers",
+      "difficulty": 7,
+      "title": "In the Eyeriss paper's energy analysis (a commercial $65\\,\\mathrm{nm}$ process, 16-bit data), what does an access to each level cost relative to one MAC: register file (about $0.5\\,\\mathrm{kB}$ per PE), another PE across the array, the global buffer (over $100\\,\\mathrm{kB}$) and DRAM?",
+      "body": "$1\\times$ (register file), $2\\times$ (another PE), $6\\times$ (global buffer), $200\\times$ (DRAM), each relative to the energy of one MAC.\n\nWhy it matters: these ratios are the reason data reuse is a design topic. Fetching a word from DRAM costs as much as 200 MACs, so a value used only once from DRAM makes the arithmetic nearly free by comparison, and a value kept in a register file costs the same as the MAC that uses it.\n\nCross-check: Horowitz's $45\\,\\mathrm{nm}$ per-32-bit figures give a similar picture, with about $640\\,\\mathrm{pJ}$ for a DRAM read against $3.1 + 0.1 = 3.2\\,\\mathrm{pJ}$ for an integer multiply and add, which is $200\\times$.\n\nWatch out: the exact ratios depend on process, memory sizes and word width. Quote them with their conditions, and use them to rank schedules, not to predict joules.",
+      "searchQuery": "Eyeriss normalized energy cost register file buffer DRAM 200x MAC",
+      "refs": [
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016",
+        "Horowitz, Computing's Energy Problem, ISSCC 2014"
+      ],
+      "tags": [
+        "energy-model",
+        "reuse"
+      ]
+    },
+    {
+      "id": "dataflow-batching-for-filter-reuse-trade-off",
+      "unit": "data-reuse-taxonomy",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "To capture more filter reuse, should you raise the batch size $N$ of a fully connected layer?",
+      "body": "Yes when throughput or energy per inference matters and the added latency is acceptable (batched serving); no for a latency-bound, batch-1 pipeline, where each weight is fetched for a single input.\n\nWhy: a fully connected layer has no convolutional reuse, so each weight takes part in exactly $N$ MACs and weight traffic per input falls as $1/N$. For an 8-bit layer that is $2N$ operations per weight byte: $2$ ops/B at $N=1$ and $128$ ops/B at $N=64$.\n\nIn the Eyeriss analysis of AlexNet's fully connected layers, batch 1 left every dataflow dominated by DRAM reads of weights, and larger batches improved the energy efficiency of all of them through filter reuse.\n\nThe other side: waiting to fill a batch adds latency, and the activation storage grows in proportion to $N$, which an on-chip buffer or an MCU's SRAM may not afford.\n\nExample: a keyword spotter on a microcontroller handles one audio frame at a time, so its fully connected layers run at batch 1 and stay limited by weight traffic.",
+      "searchQuery": "batch size filter reuse fully connected layer weight traffic latency trade-off",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5",
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016"
+      ],
+      "tags": [
+        "reuse"
+      ]
+    },
+    {
+      "id": "dataflow-depthwise-vs-standard-intensity-trade-off",
+      "unit": "data-reuse-taxonomy",
+      "kind": "trade-off",
+      "difficulty": 7,
+      "title": "Replace a standard $3\\times3$ convolution ($C = M = 64$, $56\\times56$ output, 8-bit) with a depthwise $3\\times3$ plus a pointwise $1\\times1$, cutting MACs about $8\\times$. On an accelerator with $8\\,\\mathrm{TOPS}$ and $25.6\\,\\mathrm{GB/s}$, with each layer moving its minimum traffic and nothing fused, is the replacement faster?",
+      "body": "No: it is slightly slower (about $31.5\\,\\mu\\mathrm{s}$ against $28.9\\,\\mu\\mathrm{s}$), because both new layers are memory-bound; it wins only on a platform whose ridge point is below about $286$ ops/B, such as a CPU.\n\nOutline: operations per byte at minimum traffic are about $528$ (standard), $9.0$ (depthwise) and $63$ (pointwise), against a ridge point of $312.5$ ops/B.\n1. Standard: compute time $231.2\\,\\mathrm{Mops}/8\\,\\mathrm{TOPS} = 28.9\\,\\mu\\mathrm{s}$; traffic time $438{,}272\\,\\mathrm{B}/25.6\\,\\mathrm{GB/s} = 17.1\\,\\mu\\mathrm{s}$; so $28.9\\,\\mu\\mathrm{s}$.\n2. Depthwise: $401{,}984\\,\\mathrm{B}$ of traffic takes $15.7\\,\\mu\\mathrm{s}$, compute only $0.45\\,\\mu\\mathrm{s}$.\n3. Pointwise: $405{,}504\\,\\mathrm{B}$ takes $15.8\\,\\mu\\mathrm{s}$, compute $3.2\\,\\mu\\mathrm{s}$. Total $31.5\\,\\mu\\mathrm{s}$.\n\nThe other side: the new layers move $807{,}488\\,\\mathrm{B}$ whatever the peak, while the standard layer's compute time grows as the peak falls. The replacement therefore wins once the ridge point drops below $231{,}211{,}008 / 807{,}488 \\approx 286$ ops/B, and on a CPU or MCU that is compute-bound at every layer, time follows MACs and the full $8\\times$ cut shows.\n\nWatch out: fusing the two layers keeps the intermediate on chip and removes about half of the traffic, which is why fusion is applied to depthwise-separable blocks.",
+      "searchQuery": "depthwise separable convolution arithmetic intensity memory bound accelerator roofline",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5"
+      ],
+      "tags": [
+        "reuse",
+        "roofline"
+      ]
+    },
+    {
+      "id": "dataflow-eyeriss-isca-2016-landmark",
+      "unit": "data-reuse-taxonomy",
+      "kind": "landmark",
+      "difficulty": 7,
+      "title": "Which 2016 paper classified existing CNN dataflows by what stays in the PE, introduced the row-stationary dataflow, and built an energy-analysis framework over the storage hierarchy?",
+      "body": "Chen, Emer and Sze, \"Eyeriss: A Spatial Architecture for Energy-Efficient Dataflow for Convolutional Neural Networks\", ISCA 2016 (peer-reviewed).\n\nWhat it showed: the energy of a CNN accelerator is set mainly by data movement, which a dataflow decides. The paper (1) sorted existing designs into weight-stationary, output-stationary and no-local-reuse dataflows (the last keeps no data in the PE at all), (2) proposed row stationary, (3) built a framework that counts accesses per storage level and weights them by the per-level costs, and (4) compared dataflows under the same area and PE count.\n\nThe fabricated chip in the paper has 168 PEs and a $108\\,\\mathrm{kB}$ global buffer in a $65\\,\\mathrm{nm}$ process, with $0.5\\,\\mathrm{kB}$ of register file per PE.\n\nWhy it matters: it turned \"reuse\" into numbers a designer can compare, and its analysis is the ancestor of the cost models in later accelerator-modeling tools.\n\nWatch out: the dataflow comparison is a model-based study under assumptions (AlexNet shapes, 65 nm costs); the chip itself implements row stationary only.",
+      "searchQuery": "Eyeriss spatial architecture energy-efficient dataflow convolutional neural networks ISCA 2016",
+      "refs": [
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016",
+        "https://doi.org/10.1145/3007787.3001177"
+      ],
+      "tags": [
+        "reuse",
+        "dataflow"
+      ]
+    },
+    {
+      "id": "dataflow-weight-stationary-definition",
+      "unit": "stationary-dataflows",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define the **weight-stationary** dataflow: what stays in each PE, what moves, and which chip is the standard example?",
+      "body": "Each PE keeps one weight in local storage and uses it for many MACs while inputs stream past and partial sums move on; the matrix unit of Google's TPU v1 is the standard example.\n\nWeights are read from memory once and then reused $N \\cdot P \\cdot Q$ times (convolutional plus filter reuse). The cost moves to the other tensors: every input arrives anew and every partial sum is produced and passed on each cycle.\n\nExample: in the TPU v1 matrix unit, a $256 \\times 256$ array of 8-bit MACs, weights are loaded ahead of time, activations enter from one edge, and partial sums flow across the array to accumulators at its end.\n\nWatch out: when the reduction ($C \\cdot R \\cdot S$ terms) is longer than the array can add spatially, partial sums must be saved and reloaded between passes. The Eyeriss study found weight stationary handles large batches poorly for this reason, since the partial-sum storage grows with the batch.",
+      "searchQuery": "weight stationary dataflow TPU systolic array weights held in PE",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5",
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016",
+        "Jouppi et al., In-Datacenter Performance Analysis of a Tensor Processing Unit, ISCA 2017"
+      ],
+      "tags": [
+        "dataflow"
+      ]
+    },
+    {
+      "id": "dataflow-output-stationary-definition",
+      "unit": "stationary-dataflows",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define the **output-stationary** dataflow: what stays in each PE, what moves, and which chip is the standard example?",
+      "body": "Each PE keeps the running sum of one output in its register and finishes all $C \\cdot R \\cdot S$ accumulations for it before moving on, while weights and inputs stream in; ShiDianNao is the standard example.\n\nWhy: a partial sum is the one value that is both read and written on every MAC, so keeping it in a register turns its accumulation into the cheapest access (the register file, $1\\times$ a MAC in the Eyeriss cost table) and sends only the finished output outward.\n\nThe Eyeriss taxonomy splits output stationary by what the array covers at once: single or multiple output channels, single or multiple pixels of one output plane. These variants differ in whether the array also exploits convolutional reuse or input reuse across PEs.\n\nWatch out: weights and inputs now change every cycle, so their reuse has to come from sharing across PEs (multicast or neighbor forwarding), not from a local register.",
+      "searchQuery": "output stationary dataflow ShiDianNao partial sum stays in PE register",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5",
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016",
+        "Du et al., ShiDianNao, ISCA 2015"
+      ],
+      "tags": [
+        "dataflow"
+      ]
+    },
+    {
+      "id": "dataflow-row-stationary-definition",
+      "unit": "stationary-dataflows",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Describe the **row-stationary** dataflow of Eyeriss: what does each PE compute, and which three data types are reused in its register file?",
+      "body": "Each PE runs a 1-D convolution of one filter row with one input row, producing a row of partial sums, so filter weights, input pixels and partial sums are all reused inside its register file.\n\nThe 2-D convolution is cut into many such row primitives. Within a group of PEs, filter rows are reused horizontally across the group, input rows diagonally and partial-sum rows are added vertically. The paper calls such a group a logical PE set. It is $R$ PEs tall (the filter height) and as wide as the output height.\n\nThe logical array is usually much larger than the physical one, so it is folded: several primitives run on one PE, interleaved, and the passes run one after another with the global buffer holding what carries over.\n\nKey idea: no single data type is made stationary at the cost of the others. All three get the cheapest storage level.\n\nWatch out: row stationary needs flexible wiring and control for folding. It is a scheduling strategy as much as a fixed pipeline.",
+      "searchQuery": "row stationary dataflow Eyeriss 1D convolution primitive logical PE set",
+      "refs": [
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5"
+      ],
+      "tags": [
+        "dataflow"
+      ]
+    },
+    {
+      "id": "dataflow-no-local-reuse-concept",
+      "unit": "stationary-dataflows",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "What is a **no-local-reuse** (NLR) dataflow, and why would an accelerator such as DianNao choose it?",
+      "body": "PEs keep no data locally: every operand comes from the global buffer and reuse comes only from sharing across PEs (input multicast, adder-tree accumulation); dropping the register files frees area for a large buffer and dense arithmetic.\n\nWhy choose it: the PE array is then just multipliers and adders, so most of the area goes to the global buffer, which holds inputs and partial sums for reuse. The design is simple and the arithmetic dense.\n\nThe cost shows in the Eyeriss comparison: NLR had similar or lower DRAM traffic than row stationary, but it used no register file at all, so most accesses went to the global buffer at $6\\times$ a MAC instead of $1\\times$, and it lost on total energy.\n\nExample: in DianNao, each input value is broadcast to the multipliers of several output neurons, adder trees sum the products, and inputs, weights and outputs sit in separate on-chip buffers.\n\nWatch out: a dataflow can be sound for DRAM traffic and poor for energy. Judge it by the whole hierarchy.",
+      "searchQuery": "no local reuse dataflow DianNao adder tree global buffer energy",
+      "refs": [
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5",
+        "Chen et al., DianNao, ASPLOS 2014"
+      ],
+      "tags": [
+        "dataflow"
+      ]
+    },
+    {
+      "id": "dataflow-loop-order-spatial-unrolling-concept",
+      "unit": "stationary-dataflows",
+      "kind": "concept",
+      "difficulty": 8,
+      "title": "How is any dataflow expressed with loops, and how do you read from a loop nest which operand is stationary?",
+      "body": "A dataflow is a loop order plus a choice of which loops are unrolled across PEs (**spatial unrolling**); the operand not indexed by the innermost temporal loop (the innermost loop that runs over time, not across PEs) is unchanged from one iteration to the next, so it is the stationary one.\n\nTake $O[p] \\mathrel{+}= W[r]\\, I[p+r]$.\n- `for r { for p }` with $r$ unrolled over PEs: the innermost loop $p$ does not index $W[r]$, so each PE holds one weight: weight stationary.\n- `for p { for r }` with $p$ unrolled: the innermost loop $r$ does not index $O[p]$, so each PE holds one running sum: output stationary.\n\nIn the full convolution nest, an innermost loop over $m$ leaves the input unchanged: input stationary, the third classic type (SCNN, a sparse-CNN accelerator, is an example). An innermost loop over $c$, $r$ or $s$ leaves the output unchanged; over $n$, $p$ or $q$, the weight.\n\nKey idea: the projection tells you the answer. A tensor stays put under every loop whose rank it ignores.\n\nWatch out: a sliding window breaks the rule for inputs. $I[p+r]$ changes under an innermost loop over either $p$ or $r$, so only the loops over other ranks hold it still.",
+      "searchQuery": "dataflow loop order spatial unrolling stationary operand innermost loop",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5",
+        "Parashar et al., SCNN, ISCA 2017"
+      ],
+      "tags": [
+        "dataflow",
+        "loop-nests"
+      ]
+    },
+    {
+      "id": "dataflow-row-primitive-example",
+      "unit": "stationary-dataflows",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "A row-stationary PE convolves a filter row of $R = 3$ weights with an input row of 5 pixels (stride 1). How many MACs does it perform, how many partial sums does it produce, and how many times is each input pixel used?",
+      "body": "$9$ MACs producing $3$ partial sums; the five input pixels are used $1, 2, 3, 2, 1$ times.\n\nWrite the weights $w_0, w_1, w_2$ and the pixels $x_0,\\dots,x_4$. The outputs are\n- $y_0 = w_0x_0 + w_1x_1 + w_2x_2$\n- $y_1 = w_0x_1 + w_1x_2 + w_2x_3$\n- $y_2 = w_0x_2 + w_1x_3 + w_2x_4$\n\nEach weight is used $3$ times (once per output) and stays in the register file. Pixel $x_j$ is used by every output whose window contains it, giving $1, 2, 3, 2, 1$, which sums to $9$. All three partial sums are accumulated inside the PE.\n\nKey idea: the PE reads $3 + 5 = 8$ values from outside for $9$ MACs. For a row of $W$ pixels the ratio is $R(W-R+1)$ MACs per $R + W$ values, which grows with the row length; the PE also interleaves several filters and channels so the same stored values are reused again.\n\nWatch out: this tiny case shows the mechanism, not the savings. The reuse becomes large only for long rows and interleaved work.",
+      "searchQuery": "row stationary 1D convolution primitive example weights input pixels partial sums",
+      "refs": [
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016"
+      ],
+      "tags": [
+        "dataflow",
+        "reuse"
+      ]
+    },
+    {
+      "id": "dataflow-rs-energy-advantage-numbers",
+      "unit": "stationary-dataflows",
+      "kind": "numbers",
+      "difficulty": 7,
+      "title": "In the Eyeriss paper's AlexNet analysis (65 nm energy model; every dataflow given the same area and PE count), how much more energy-efficient is row stationary than the other dataflows on the CONV layers?",
+      "body": "$1.4\\times$ to $2.5\\times$ more energy-efficient than the other dataflows it compared (weight stationary, three output-stationary variants and no local reuse).\n\nConditions: the range covers the PE array sizes (256 to 1024) and batch sizes (1 to 64) the paper swept, on AlexNet's five CONV layers, using the per-level cost table ($1\\times$, $2\\times$, $6\\times$, $200\\times$ a MAC).\n\nWhy it wins: two of the three output-stationary variants and no local reuse reach DRAM traffic similar to or lower than row stationary, but output stationary uses the register file only for partial sums and no local reuse not at all, so they spend more at the array and buffer levels. Row stationary uses the register file for all three.\n\nIn the same analysis the CONV layers account for roughly $80\\%$ of AlexNet's total energy at batch 16.\n\nWatch out: this is a model-based comparison. It supports the ranking, not an exact factor for another network or process.",
+      "searchQuery": "row stationary 1.4x to 2.5x more energy efficient AlexNet dataflow comparison",
+      "refs": [
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016"
+      ],
+      "tags": [
+        "dataflow",
+        "energy-model"
+      ]
+    },
+    {
+      "id": "dataflow-ws-vs-os-psum-traffic-problem",
+      "unit": "stationary-dataflows",
+      "kind": "problem",
+      "difficulty": 8,
+      "title": "A $3\\times3$ convolution has $C = 64$ input channels. Design A (weight stationary): the 9 weights of one filter and one channel sit in 9 PEs whose products are added across the array; one pass handles one input channel, so each output's running sum is written to the global buffer after every pass and read back for the next. Design B (output stationary): each output's sum stays in one PE until all $C \\cdot R \\cdot S$ products are added. How many global-buffer accesses for partial sums does one output element cost in A and in B (count the final write as one access)?",
+      "body": "A: $127$ accesses ($64$ writes and $63$ reads); B: $1$ (a single write of the finished output).\n\nOutline:\n1. A needs one pass per input channel: $C = 64$ passes. Each pass ends with a write; every pass after the first starts with a read: $64 + 63 = 127$.\n2. B accumulates in the PE register across all $64 \\cdot 9 = 576$ products and writes once.\n3. With a buffer access costing $6\\times$ a MAC, A spends $127 \\cdot 6 = 762$ MAC-energies per output, or $762/576 = 1.32$ per MAC, just on partial sums. B spends $6$, or $0.010$ per MAC.\n\nKey idea: a partial sum that leaves the PE between uses is a read-modify-write on a costlier level. The longer the reduction relative to what the array adds at once, the more output stationary saves.\n\nWatch out: real weight-stationary chips cut this by placing a dedicated accumulator memory next to the array (as TPU v1 does), which is cheaper than a large shared buffer. The traffic remains the price of the dataflow.",
+      "searchQuery": "weight stationary versus output stationary partial sum buffer accesses per output",
+      "refs": [
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5"
+      ],
+      "tags": [
+        "dataflow",
+        "partial-sums"
+      ]
+    },
+    {
+      "id": "dataflow-ws-vs-os-layer-shape-trade-off",
+      "unit": "stationary-dataflows",
+      "kind": "trade-off",
+      "difficulty": 8,
+      "title": "Two $16\\times16$ arrays have fixed dataflows: one output stationary that spreads a $16\\times16$ block of output pixels over its PEs (the ShiDianNao style), one weight stationary that spreads input channels over its rows and output channels over its columns. At batch 1, which keeps more PEs busy on an early layer ($112\\times112$ output, $C = 3$, $M = 64$, $7\\times7$ kernel) and which on a late layer ($7\\times7$ output, $C = M = 512$, $3\\times3$ kernel)?",
+      "body": "Early layer: the output-stationary array ($100\\%$ of PEs busy against $18.75\\%$); late layer: the weight-stationary array ($100\\%$ against $19.1\\%$).\n\nWhy: an array can only spread the ranks it unrolls. The early layer has $112^2 = 12{,}544$ output pixels but only 3 input channels; the late layer has 512 channels each way but only 49 output pixels.\n\nNumbers:\n1. Output stationary, early: $112 = 7 \\cdot 16$ on each axis, so every pass fills all 256 PEs.\n2. Output stationary, late: a $7\\times7$ plane fills $49$ of $256$ PEs, $19.1\\%$.\n3. Weight stationary, early: $C = 3$ fills 3 of the 16 rows ($M = 64$ fills the columns), $18.75\\%$.\n4. Weight stationary, late: $512 = 32 \\cdot 16$ on both axes, so every pass is full.\n\nThe other side: the reuse each PE keeps points the opposite way. A weight-stationary PE holds a weight for $N \\cdot P \\cdot Q$ MACs, $12{,}544$ on the early layer but $49$ on the late one; an output-stationary PE holds a sum for $C \\cdot R \\cdot S$ MACs, $147$ early but $4608$ late. A chip that sees both extremes in one network is the case for flexible hardware, covered next.\n\nWatch out: busy PEs and energy can disagree. The right test counts the accesses at every level as well as the busy PEs, which the cost models later in this module provide.",
+      "searchQuery": "weight stationary versus output stationary early late layers PE utilization",
+      "refs": [
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5",
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016"
+      ],
+      "tags": [
+        "dataflow",
+        "reuse"
+      ]
+    },
+    {
+      "id": "dataflow-fixed-vs-flexible-dataflow-trade-off",
+      "unit": "stationary-dataflows",
+      "kind": "trade-off",
+      "difficulty": 8,
+      "title": "Should an accelerator hard-wire one way of spreading a layer's work over its PEs (like a weight-stationary systolic array) or make that assignment reconfigurable per layer (like Eyeriss, which re-folds its row-stationary dataflow for each layer's shape)?",
+      "body": "Hard-wire it when the workload is dominated by large dense matrix multiplies of a few shapes and peak throughput per area matters (data-center serving); make it reconfigurable when layer shapes vary widely (depthwise, $1\\times1$, large kernels, small planes) and energy per inference matters.\n\nWhy: a fixed array is simple and dense, with little control logic and minimal wiring, and it stays busy when the matrices are large. But a shape that does not fill the array, or has little of the reuse it is built for, leaves most PEs idle or the buffers thrashing.\n\nReconfiguring costs a configurable network, more control logic and per-layer configuration. The Eyeriss paper argues that because the layers of one network differ in shape, the hardware cannot be hardwired for certain shapes: the dataflow must be efficient for every shape, and the hardware programmable to map it.\n\nExample: TPU v1 chose a single fixed matrix unit for the large matrix products of data-center inference. Eyeriss keeps one dataflow, row stationary, and changes for each layer how the work is folded onto its PEs and spread across them.\n\nWatch out: flexibility only pays when software can find a good schedule for each layer shape. Otherwise the hardware's options go unused.",
+      "searchQuery": "fixed versus reconfigurable accelerator dataflow per layer trade-off Eyeriss TPU",
+      "refs": [
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 5"
+      ],
+      "tags": [
+        "dataflow"
+      ]
+    },
+    {
+      "id": "dataflow-rf-size-vs-buffer-trade-off",
+      "unit": "stationary-dataflows",
+      "kind": "trade-off",
+      "difficulty": 8,
+      "title": "Under a fixed silicon area, should a row-stationary-style array spend more area on per-PE register files or on the global buffer?",
+      "body": "A moderate register file: the register file costs more area per byte than a large buffer, so growing it shrinks the total on-chip storage or the PE count. The Eyeriss analysis fixed it at $512\\,\\mathrm{B}$ per PE, the size that gave the lowest energy in its AlexNet analysis.\n\nWhy larger helps: bytes in the register file are the cheapest to access ($1\\times$ a MAC against $6\\times$ for the buffer), so more of them capture more reuse locally. Why it saturates: once the register file holds all that the schedule can reuse locally, extra bytes only take area from the buffer and the PEs.\n\nMethod: the paper's baseline gives each dataflow the same area as $\\#\\mathrm{PE} \\times \\text{area}(512\\,\\mathrm{B}\\text{ RF}) + \\text{area}(\\#\\mathrm{PE} \\times 512\\,\\mathrm{B}\\text{ buffer})$, then sizes the buffer and register file inside it. The total bytes on chip differ between dataflows by up to $80\\,\\mathrm{kB}$ at 256 PEs.\n\nWatch out: the optimum depends on the layer shapes and the cost table. The result belongs to AlexNet and a 65 nm model, and another network or process can move it.",
+      "searchQuery": "register file size versus global buffer area trade-off Eyeriss row stationary 512 bytes",
+      "refs": [
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016"
+      ],
+      "tags": [
+        "dataflow",
+        "energy-model"
+      ]
+    },
+    {
+      "id": "dataflow-diannao-asplos-2014-landmark",
+      "unit": "stationary-dataflows",
+      "kind": "landmark",
+      "difficulty": 7,
+      "title": "Which 2014 accelerator, filed under no local reuse in the Eyeriss taxonomy, was designed around the memory behavior of neural networks and reached $452\\,\\mathrm{GOP/s}$ in $3.02\\,\\mathrm{mm^2}$ and $485\\,\\mathrm{mW}$ at $65\\,\\mathrm{nm}$?",
+      "body": "DianNao (Chen et al., \"DianNao: A Small-Footprint High-Throughput Accelerator for Ubiquitous Machine-Learning\", ASPLOS 2014, peer-reviewed).\n\nWhat it showed: a small accelerator with 16-bit fixed-point arithmetic, a block of multipliers with adder trees, and on-chip buffers sized for the networks' access patterns could deliver hundreds of GOP/s in a few mm$^2$ and under half a watt. The paper treats memory traffic, not arithmetic, as the thing to design around.\n\nWhy it matters: it started a line of accelerators (DaDianNao, ShiDianNao, and others) and gave later work, including the Eyeriss taxonomy, a concrete baseline. In that taxonomy its dataflow is no local reuse, with sharing across PEs and no register-file reuse.\n\nWatch out: the throughput and power in the abstract come from the paper's layout at 65 nm. Later designs and processes moved these numbers far, so quote them as a datapoint of the paper.",
+      "searchQuery": "DianNao ASPLOS 2014 small-footprint high-throughput accelerator machine learning",
+      "refs": [
+        "https://doi.org/10.1145/2541940.2541967",
+        "Chen et al., DianNao, ASPLOS 2014"
+      ],
+      "tags": [
+        "dataflow"
+      ]
+    },
+    {
+      "id": "dataflow-shidiannao-isca-2015-landmark",
+      "unit": "stationary-dataflows",
+      "kind": "landmark",
+      "difficulty": 7,
+      "title": "Which 2015 accelerator, an output-stationary design placed next to the image sensor, kept the CNN weights in on-chip SRAM to avoid DRAM, and reported $4.86\\,\\mathrm{mm^2}$ and $320\\,\\mathrm{mW}$ in a $65\\,\\mathrm{nm}$ layout?",
+      "body": "ShiDianNao (Du et al., \"ShiDianNao: Shifting Vision Processing Closer to the Sensor\", ISCA 2015, peer-reviewed).\n\nWhat it showed: because convolutional layers share weights, a small CNN's whole weight set fits in on-chip SRAM, removing DRAM accesses for weights. Putting the accelerator directly at the sensor also removes DRAM traffic for the input image. The abstract reports about $30\\times$ speed over a high-end GPU and about $60\\times$ better energy efficiency than the previous state-of-the-art accelerator.\n\nDataflow: output stationary. Each PE accumulates one output while weights and inputs are streamed and shared between PEs.\n\nWatch out: the design fits networks small enough for on-chip weights (vision at the sensor), not large models. The efficiency figure compares against an earlier accelerator; a later journal version of the work quotes a slightly different factor, so cite the ISCA abstract for the 60x claim.",
+      "searchQuery": "ShiDianNao ISCA 2015 shifting vision processing closer to the sensor output stationary",
+      "refs": [
+        "https://doi.org/10.1145/2749469.2750389",
+        "Du et al., ShiDianNao, ISCA 2015"
+      ],
+      "tags": [
+        "dataflow"
+      ]
+    },
+    {
+      "id": "dataflow-mapping-definition",
+      "unit": "mapping-representation",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define a **mapping** of a layer onto an accelerator.",
+      "body": "The complete schedule of a layer on a chip: for every rank at every memory level, its tiling factor, plus the loop order within each level and whether each loop is temporal or spatial (spread over parallel units).\n\nWritten as a multi-level loop nest: one block of loops per storage level (DRAM, global buffer, register file), plus a block of parallel loops wherever a level fans out to many units. The innermost block is what one PE does.\n\nA mapping is legal only if it respects the hardware. Every level's tiles must fit its size (the **capacity constraint**), and the spatial loops may not use more units than exist.\n\nKey idea: the mapping decides every access count, so it decides energy and latency. The same layer on the same chip can differ widely between mappings.\n\nWatch out: a dataflow name such as weight stationary fixes only which operand is held. Tile sizes, loop orders at each level and unrolling factors remain open, and two mappings of the same dataflow can have very different costs.",
+      "searchQuery": "mapping definition tiling factors loop order spatial temporal memory level accelerator",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 6",
+        "Chen et al., Eyeriss, ISCA 2016"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-mapspace-definition",
+      "unit": "mapping-representation",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "What is a **mapspace**, and which choices make it so large?",
+      "body": "The set of candidate mappings of a workload onto an architecture; it grows with the number of ways to factor each rank across levels, to order the loops within each level, and to choose which levels hold each tensor.\n\nIn Timeloop, a mapspace is built from three parts: the factorizations of every loop bound across the tiling levels, the loop permutations within each level, and the choices of which levels a tensor skips. The product of the three is the unconstrained mapspace.\n\nExample: a 7-loop nest with four tiling levels has $(7!)^4 \\approx 6.5 \\times 10^{14}$ loop orders alone, before multiplying by the factorizations and the bypass choices. Some orders are redundant (the order inside the innermost level does not matter), so tools prune.\n\nKey idea: constraints shrink the mapspace. Fixing a loop to be spatial, or a rank's factor to 1, removes whole families of mappings; this is how a named dataflow such as row stationary is written for a search tool.\n\nWatch out: the Timeloop paper calls these legal mappings, but it checks buffer capacity only after it samples a mapping and rejects the mapping if its tiles do not fit, so many points of a mapspace fail that check.",
+      "searchQuery": "mapspace definition legal mappings factorization permutation bypass Timeloop",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-tiling-factors-concept",
+      "unit": "mapping-representation",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "How do a rank's **tiling factors** at the different memory levels relate to its bound, and how is the original loop index rebuilt from them?",
+      "body": "The factors multiply to the bound, $P = P_3 P_2 P_1 P_0$, and the original index is rebuilt as $p = p_3\\,P_2P_1P_0 + p_2\\,P_1P_0 + p_1\\,P_0 + p_0$ (level 0 innermost).\n\nEach level gets its own loop over the rank with its own bound (the tiling factor, possibly 1). A rank's tile size at a level is the product of the factors at that level and all inner levels.\n\nExample: $P = 56$ split as $(P_3, P_2, P_1, P_0) = (2, 7, 2, 2)$, so $2 \\cdot 7 \\cdot 2 \\cdot 2 = 56$. The tile held at level 2 has $7 \\cdot 2 \\cdot 2 = 28$ rows. The iteration $(p_3, p_2, p_1, p_0) = (1, 3, 1, 0)$ computes row $p = 1\\cdot28 + 3\\cdot4 + 1\\cdot2 + 0 = 42$.\n\nKey idea: a mapping chooses these factors for all seven ranks of a convolution at every level. Tile sizes follow from the factors, and the tile sizes decide what has to fit in each buffer.\n\nWatch out: the factors must cover the bound, but need not divide it evenly; see imperfect factorization.",
+      "searchQuery": "tiling factors product equals loop bound index reconstruction multi-level mapping",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-imperfect-factorization-misconception",
+      "unit": "mapping-representation",
+      "kind": "misconception",
+      "difficulty": 7,
+      "title": "Why is this false: 'a tile size must divide the loop bound, so a dimension of 14 can only be tiled by 1, 2, 7 or 14'?",
+      "body": "With **imperfect factorization** the last tile may be partial (or the bound padded up), so any tile size is legal; the price is idle slots in the final iteration.\n\nExample: a bound of $14$ on a 4-wide array. Perfect factors of 14 that fit are 1 and 2, so at best 2 of 4 lanes work ($50\\%$). A tile of 4 takes $\\lceil 14/4 \\rceil = 4$ iterations, the last with 2 active lanes, and uses $14 / 16 = 87.5\\%$ of the lane-cycles.\n\nFor a tile of size $f$ on a bound $B$, the lane utilization is $B / (\\lceil B/f \\rceil \\cdot f)$.\n\nWhy it matters: when a bound is larger than the array width and has no divisor close to it (14 on 4 lanes, 13 on 8), a search limited to perfect factors misses the mappings that keep the array busy.\n\nWatch out: partial tiles complicate the cost model, because the last tile moves less data than the others. Tools differ in whether they enumerate such mappings.",
+      "searchQuery": "imperfect factorization tiling remainder tile PE utilization loop bound not divisible",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 6"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-tile-capacity-code",
+      "unit": "mapping-representation",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this program print? (Python 3.) It sizes the on-chip footprint of one convolution tile.\n\n```python\ndef tile_bytes(Pt, Qt, Mt, Ct, R, S, U, b=1):\n    ifm = ((Pt - 1) * U + R) * ((Qt - 1) * U + S) * Ct\n    w = Mt * Ct * R * S\n    ofm = Pt * Qt * Mt\n    return (ifm + w + ofm) * b\n\nprint(tile_bytes(8, 8, 16, 16, 3, 3, 1))\n```",
+      "body": "4928\n\nThe three terms are the input window $(7+3)\\cdot(7+3)\\cdot16 = 1600$, the weights $16\\cdot16\\cdot9 = 2304$ and the outputs $8\\cdot8\\cdot16 = 1024$, totalling $4928$ bytes at 1 byte per element.\n\nA tile fits a level if this footprint is at most the level's capacity: the **capacity constraint**. The input window is larger than the $8\\times8$ output tile because each output needs a kernel-sized neighborhood: $(P_t-1)U + R$ rows.\n\nWatch out: the outputs are partial sums, and with 8-bit operands they are typically 32-bit. Charging them at 4 bytes gives $1600 + 2304 + 4096 = 8000$ bytes, a $62\\%$ larger footprint, and a tile that looked safe can overflow the buffer.\n\nTip: adjacent tiles overlap in $R-U$ input rows, so a good mapping fetches only the new rows when it slides to the next tile.",
+      "answer": "4928",
+      "searchQuery": "convolution tile buffer footprint input halo weights outputs capacity constraint",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 6"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-imperfect-loop-code",
+      "unit": "mapping-representation",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this C program print? (It spreads a 1-D output of $P = 10$ positions over 4 PEs with a kernel of $R = 3$ taps; 32-bit `int`.)\n\n```c\n#include <stdio.h>\nenum { P = 10, R = 3, PES = 4 };\nint main(void) {\n  int macs = 0, idle = 0;\n  for (int p2 = 0; p2 < (P + PES - 1) / PES; p2++)\n    for (int p1 = 0; p1 < PES; p1++)\n      for (int r = 0; r < R; r++) {\n        if (p2 * PES + p1 < P) macs++;\n        else idle++;\n      }\n  printf(\"%d %d\\n\", macs, idle);\n}\n```",
+      "body": "30 6\n\nThe outer loop runs $\\lceil 10/4 \\rceil = 3$ times, giving $3 \\cdot 4 \\cdot 3 = 36$ PE-slots. Ten positions with 3 taps each give $30$ useful MACs, so the last iteration, in which only 2 of the 4 PEs have a valid position, leaves $2 \\cdot 3 = 6$ slots idle.\n\nThe loop bound $(P + \\text{PES} - 1)/\\text{PES}$ is the integer ceiling, and the guard `p2 * PES + p1 < P` skips positions past the end. This is imperfect factorization written out: $P = 10$ is covered by $3 \\times 4 = 12$ index slots.\n\nWatch out: without the guard the last iteration would count positions $10$ and $11$ as real work, and in real code it would read and write past the arrays, a classic off-by-one-tile bug. The utilization here is $30/36 = 83.3\\%$.",
+      "answer": "30 6",
+      "searchQuery": "tiling loop ceiling division guard idle PE slots imperfect factorization C",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-array-utilization-problem",
+      "unit": "mapping-representation",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "A $16\\times16$ PE array unrolls $C$ across its rows and $M$ across its columns, and every other loop is temporal. For a layer with $C = 24$ and $M = 40$, what fraction of PE-cycles do useful MACs?",
+      "body": "$62.5\\%$: $24/32 = 0.75$ on the rows times $40/48 \\approx 0.833$ on the columns.\n\nOutline:\n1. Rows: $C = 24$ on 16 rows needs $\\lceil 24/16 \\rceil = 2$ passes, of which the second is half empty: $24/32 = 0.75$.\n2. Columns: $M = 40$ on 16 columns needs $\\lceil 40/16 \\rceil = 3$ passes: $40/48 = 0.833$.\n3. The axes multiply: $0.75 \\cdot 0.833 = 0.625$.\n\nExample of a better assignment, if the layer has a $28\\times28$ output: let two ranks share each axis so that every factor divides its bound. Columns: $8$ output channels ($40 = 5 \\cdot 8$) times $2$ output columns ($28 = 14 \\cdot 2$), $8 \\cdot 2 = 16$. Rows: $4$ input channels ($24 = 6 \\cdot 4$) times $4$ output rows ($28 = 7 \\cdot 4$), $4 \\cdot 4 = 16$. Both axes are then exactly full, $100\\%$.\n\nKey idea: utilization is the product, over the two array axes, of the bound divided by the padded bound. Choose factors that divide, or that leave small remainders, which requires the network to support unrolling several ranks along one axis.\n\nWatch out: a layer with $C = 3$ on 16 rows would give $18.75\\%$, which is why first layers are a classic weak spot for arrays that unroll $C$.",
+      "searchQuery": "PE array utilization spatial unrolling channels rows columns remainder passes",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 6"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-tile-fit-problem",
+      "unit": "mapping-representation",
+      "kind": "problem",
+      "difficulty": 8,
+      "title": "A $128\\,\\mathrm{KiB}$ global buffer holds, for one tile, the input window, the weights and the partial sums of a $3\\times3$, stride-1 convolution. The tile has $14\\times14$ outputs, $C_t = 64$ input channels and $M_t$ output channels. Inputs and weights are 8-bit and double-buffered (two copies each); partial sums are 32-bit and single-buffered. What is the largest power-of-two $M_t$ that fits?",
+      "body": "$M_t = 32$ (using $94{,}720\\,\\mathrm{B}$); $M_t = 64$ would need $156{,}672\\,\\mathrm{B}$, more than the $131{,}072\\,\\mathrm{B}$ available.\n\nOutline:\n1. Input window: $(14-1+3)^2 \\cdot 64 = 16^2 \\cdot 64 = 16{,}384$ B per copy, $32{,}768$ B double-buffered.\n2. Weights: $M_t \\cdot 64 \\cdot 9 = 576\\,M_t$ B per copy, $1152\\,M_t$ double-buffered.\n3. Partial sums: $14 \\cdot 14 \\cdot 4\\,M_t = 784\\,M_t$ B.\n4. Total $32{,}768 + 1936\\,M_t \\le 131{,}072$, so $M_t \\le 98{,}304 / 1936 = 50.8$. The largest power of two is $32$: $32{,}768 + 61{,}952 = 94{,}720$.\n\nKey idea: the capacity constraint is linear in the tile sizes. Solve it for the one factor you want to grow, then round to a factor that suits the loop bound and the array.\n\nWatch out: dropping double buffering would free $16{,}384 + 576\\,M_t$ bytes, but then the fetch of the next tile can no longer overlap compute. The mapping and the buffer policy have to be chosen together.",
+      "searchQuery": "buffer capacity constraint tile size double buffering partial sums convolution mapping",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 6"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-maestro-directives-problem",
+      "unit": "mapping-representation",
+      "kind": "problem",
+      "difficulty": 8,
+      "title": "A 1-D convolution $O[x'] \\mathrel{+}= W[s]\\,I[x'+s]$ has $X' = 12$ outputs and $S = 6$ weights, and runs on 3 PEs under the data-centric directives below (outermost first; each map is (size, offset), in the style of the MAESTRO paper). Which operand stays unchanged in a PE, and how many time steps does the array take in total, where a time step is one round of every PE's current tile?\n\n```text\nTemporalMap(6,6) X'\nTemporalMap(6,6) S\nCluster(3)\nSpatialMap(2,2) X'\nTemporalMap(3,3) S\n```",
+      "body": "The output stays in the PE (output stationary), and the array takes $4$ time steps.\n\nReading the directives:\n1. Maps above `Cluster(3)` act across clusters of 3 PEs. With 3 PEs there is a single cluster, so the first two step the whole array: $6$ outputs and all $6$ weights at a time, so $12/6 \\cdot 6/6 = 2$ outer steps.\n2. Maps below `Cluster(3)` act on the PEs inside the cluster: `SpatialMap(2,2) X'` gives each PE $2$ outputs ($3 \\times 2 = 6$), and `TemporalMap(3,3) S` walks the 6 weights in chunks of 3, which is $2$ steps per outer step.\n3. Total: $2 \\cdot 2 = 4$ time steps. Each step, each PE does $2 \\cdot 3 = 6$ MACs, so $4 \\cdot 3 \\cdot 6 = 72 = 12 \\cdot 6$ MACs, which checks against the layer.\n4. The PE's $2$ outputs stay put while $S$ advances, so partial sums accumulate in place. Weights and input windows change every step.\n\nKey idea: a spatial map splits a dimension across PEs, a temporal map steps it over time, and the order of directives is the loop order. Data movement is read off the maps instead of being inferred from loops.\n\nWatch out: `size` is the chunk each PE holds, `offset` the shift between consecutive PEs or steps. An offset smaller than the size would make chunks overlap.",
+      "searchQuery": "MAESTRO data-centric directives SpatialMap TemporalMap Cluster output stationary example",
+      "refs": [
+        "Kwon et al., MAESTRO, MICRO 2019"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-perfect-vs-imperfect-search-trade-off",
+      "unit": "mapping-representation",
+      "kind": "trade-off",
+      "difficulty": 8,
+      "title": "When searching for mappings, should the mapspace allow imperfect factorization, or keep only tile sizes that divide each loop bound?",
+      "body": "Allow it when some bounds exceed the array width and have no divisor close to it (a prime such as 13 or 17) and utilization matters; keep perfect factors when the bounds factor well against the array and a small, fast search matters more.\n\nExample: a bound of $13$ on 8 lanes. Perfect factors that fit: only $1$, so one lane works ($12.5\\%$). An imperfect tile of $8$ takes $\\lceil 13/8 \\rceil = 2$ iterations at $13/16 = 81.25\\%$ utilization.\n\nThe other side: the mapspace grows, since every tile size from 1 up to the bound is now a candidate. The cost model also has to handle remainder tiles, whose access counts differ from the full tiles. And padded work burns energy on useless MACs unless the hardware gates it.\n\nTip: layer dimensions in CNNs are often powers of two times a few small primes (64, 56, 28, 14), so perfect factors cover many layers well: $56$ on 16 lanes uses a factor of $14$ at $87.5\\%$, as good as a padded tile of $16$. Primes such as 13 or 17 are where imperfect factorization pays.\n\nWatch out: judge the gain with the whole cost model, because a tile that raises utilization may also change buffer traffic.",
+      "searchQuery": "perfect versus imperfect factorization mapspace search utilization trade-off",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-loop-nest-vs-data-centric-trade-off",
+      "unit": "mapping-representation",
+      "kind": "trade-off",
+      "difficulty": 8,
+      "title": "To describe a mapping, should you use a loop nest (compute-centric) or data-centric directives such as MAESTRO's?",
+      "body": "A loop nest when the mapping must be executed, compiled or searched by a general tool, since it is familiar and mirrors code; data-centric directives when you want data placement and reuse explicit and the description compact.\n\nWhy: a loop nest leaves data movement implicit, to be derived from loop order and `parallel_for` annotations. MAESTRO's authors call it compute-centric. Data-centric directives make the movement a first-class object: which chunk of each dimension sits on which PE at each time step.\n\nSize of the description: the MAESTRO paper points out that Eyeriss v2 describes its dataflow as a 22-dimensional loop nest, and presents its directives as a concise way to specify dataflows.\n\nThe other side: the paper presents the directives as an intermediate representation that could be generated from a loop nest or written by hand, so the two notations complement each other. A loop nest also plugs into existing compilers and loop-transformation tools, which have no notion of directives.\n\nWatch out: neither notation says whether the mapping is good. They differ in how easily a human or a tool can see the reuse.",
+      "searchQuery": "loop nest compute-centric versus data-centric directives MAESTRO mapping notation",
+      "refs": [
+        "Kwon et al., MAESTRO, MICRO 2019"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-timeloop-ispass-2019-landmark",
+      "unit": "mapping-representation",
+      "kind": "landmark",
+      "difficulty": 7,
+      "title": "Which 2019 paper introduced a unified loop-nest mapping format, mapspace constraints that generalize named dataflows, and a mapper that searches the mapspace over a fast analytical model?",
+      "body": "Parashar et al., \"Timeloop: A Systematic Approach to DNN Accelerator Evaluation\", ISPASS 2019 (peer-reviewed).\n\nWhat it showed: Timeloop takes a workload's shape, an architecture specification (arithmetic units, storage levels with their instances, networks) and a set of mapspace constraints, and writes every mapping as a loop nest over the storage levels. Constraints fix loop bounds (factors), loop orders (permutations) and which levels a tensor bypasses, at chosen levels. The paper shows they are enough to describe Eyeriss's row-stationary dataflow, and treats named dataflows such as weight or output stationary as instances of such constraints.\n\nA model evaluates each mapping (energy, cycles, area), and a mapper samples the mapspace. At the time the paper used exhaustive search for small mapspaces and random sampling for large ones, with the energy-delay product (energy times delay) as the usual metric; more sophisticated search was left as future work.\n\nWhy it matters: it separated the architecture, the mapspace and the search, so one tool could compare very different designs.\n\nWatch out: this card is about the 2019 paper. Later versions of the tool and its successors add more mapper algorithms and features.",
+      "searchQuery": "Timeloop systematic approach DNN accelerator evaluation ISPASS 2019 mapper mapspace",
+      "refs": [
+        "https://people.csail.mit.edu/anurag_m/papers/2019.timeloop.ispass.pdf",
+        "Parashar et al., Timeloop, ISPASS 2019"
+      ],
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "dataflow-tile-fill-count-concept",
+      "unit": "analytical-cost-models",
+      "kind": "concept",
+      "difficulty": 7,
+      "title": "Given a loop nest, how many times is a tensor's tile refilled into a buffer from the level above, and which loops count?",
+      "body": "Once per iteration of the loops outside the buffer, counted from the outermost loop down to the innermost loop that indexes that tensor; loops that do not index it and sit inside that one add nothing, because the tile is unchanged.\n\nTraffic from the level above is then (number of fills) $\\times$ (tile size), and this is the **access count** of the upper level for that tensor.\n\nExample: a tiled matrix multiply with loops $m, k, n$ (outermost first) and tiles $T_m, T_k, T_n$ held in the buffer.\n- $A$ (indexed by $m, k$): the innermost loop that indexes it is $k$; $n$ lies inside it. Fills $= (M/T_m)(K/T_k)$, so traffic is $|A|$.\n- $B$ (indexed by $k, n$): the innermost indexing loop is $n$, so all three loops count. Traffic is $|B| \\cdot (M/T_m)$.\n- $C$ (indexed by $m, n$): innermost indexing loop $n$, so all three count. The partial sums are refilled $K/T_k$ times.\n\nKey idea: the loop order decides which tensor is read once and which is re-read, and choosing the innermost loop is choosing the stationary tensor.\n\nWatch out: the rule assumes the buffer keeps one tile per tensor. For sliding windows (inputs), only the new part of the next tile needs to be fetched, which tools track as a delta.",
+      "searchQuery": "tile fill count access count loop order buffer refill tensor stationary",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 6"
+      ],
+      "tags": [
+        "cost-model"
+      ]
+    },
+    {
+      "id": "dataflow-min-dram-not-min-energy-misconception",
+      "unit": "analytical-cost-models",
+      "kind": "misconception",
+      "difficulty": 8,
+      "title": "Why is this false: 'the mapping with the fewest DRAM accesses has the lowest energy'?",
+      "body": "Energy is a sum over every level, access count times cost; a mapping with equal or fewer DRAM accesses can still lose by sending most operands through the global buffer instead of cheap register files.\n\nEvidence: in the Eyeriss analysis, two of the three output-stationary variants and no local reuse had DRAM accesses similar to or lower than row stationary, and row stationary still had lower total energy because it served all three data types from the register file.\n\nIllustration (units of one MAC, buffer $6\\times$, register file $1\\times$, DRAM $200\\times$): mapping X has $1.0\\mathrm{M}$ DRAM and $20\\mathrm{M}$ buffer accesses: $200\\mathrm{M} + 120\\mathrm{M} = 320\\mathrm{M}$. Mapping Y has $1.2\\mathrm{M}$ DRAM, $2\\mathrm{M}$ buffer and $30\\mathrm{M}$ register-file accesses: $240\\mathrm{M} + 12\\mathrm{M} + 30\\mathrm{M} = 282\\mathrm{M}$. Y wins with $20\\%$ more DRAM traffic.\n\nKey idea: optimize the weighted sum, not one term. DRAM dominates when reuse is poor; once DRAM traffic is near its floor, the on-chip levels decide.\n\nWatch out: the inverse also holds. Fewer buffer accesses do not help if they cost extra DRAM traffic, since a DRAM access is worth about 33 buffer accesses.",
+      "searchQuery": "fewest DRAM accesses lowest energy misconception dataflow register file buffer weighted sum",
+      "refs": [
+        "Chen, Emer & Sze, Eyeriss, ISCA 2016",
+        "Parashar et al., Timeloop, ISPASS 2019"
+      ],
+      "tags": [
+        "cost-model",
+        "energy-model"
+      ]
+    },
+    {
+      "id": "dataflow-access-count-code",
+      "unit": "analytical-cost-models",
+      "kind": "code",
+      "difficulty": 7,
+      "title": "What does this program print? (Python 3.) It counts the words of tiles loaded into a buffer for $C = AB$ with loop order $m, k, n$, reloading a tile only when it changes.\n\n```python\nM, N, K, T = 8, 12, 8, 4\nreads_A = reads_B = 0\nlast_A = last_B = None\nfor m in range(0, M, T):\n    for k in range(0, K, T):\n        for n in range(0, N, T):\n            if (m, k) != last_A: reads_A += T * T; last_A = (m, k)\n            if (k, n) != last_B: reads_B += T * T; last_B = (k, n)\nprint(reads_A, reads_B)\n```",
+      "body": "64 192\n\n$A$'s tile $(m,k)$ stays the same while the innermost loop $n$ runs, so it loads once per $(m,k)$ pair: $2 \\cdot 2 = 4$ tiles of 16 words, $64$ words, which is $|A|$. $B$'s tile $(k,n)$ changes on every iteration (12 of them), so it loads $12 \\cdot 16 = 192$ words, which is $|B| \\cdot (M/T) = 96 \\cdot 2$.\n\nThis matches the rule: count the loops from the outermost down to the innermost one that indexes the tensor. $A$ stops at $k$, $B$ goes to $n$.\n\nTip: with the order $m, n, k$, $A$ and $B$ both load $192$ words, but a tile of $C$ is held across the innermost $k$ loop and written once ($|C| = 96$ words). The order trades read traffic of inputs against refills of partial sums.\n\nWatch out: the `last` variables stand for a buffer that keeps only the most recent tile of each tensor. A buffer that kept several tiles would load fewer words.",
+      "answer": "64 192",
+      "searchQuery": "tile load count loop order matrix multiply buffer reads python access count",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 6"
+      ],
+      "tags": [
+        "cost-model"
+      ]
+    },
+    {
+      "id": "dataflow-energy-formula",
+      "unit": "analytical-cost-models",
+      "kind": "formula",
+      "difficulty": 7,
+      "title": "Write the total energy of a mapping in an Accelergy/Timeloop-style analytical model.",
+      "body": "$E = e_{\\mathrm{MAC}}\\cdot\\#\\mathrm{MACs} + \\sum_{\\ell}\\sum_{t} a_{\\ell,t}\\, e_{\\ell}$, where $a_{\\ell,t}$ is the number of accesses of tensor $t$ at memory level $\\ell$ and $e_\\ell$ the **energy per access** of that level.\n\nWhy: the mapping fixes every access count, and each count is weighted by a per-access energy taken from an **energy reference table**. In Accelergy, a component's energy per action (read, write, idle, compute) is looked up from such a table, which its estimators fill in from the architecture description. Timeloop supplies the action counts.\n\nExample: with the Eyeriss costs relative to one MAC ($1, 2, 6, 200$ for register file, array, buffer, DRAM), a layer with $10^6$ MACs, $4\\cdot10^6$ register-file, $3\\cdot10^5$ buffer and $2\\cdot10^4$ DRAM accesses costs $10^6 + 4\\cdot10^6 + 1.8\\cdot10^6 + 4\\cdot10^6 = 1.08\\cdot10^7$ MAC-energies, of which DRAM is $37\\%$.\n\nWatch out: reads and writes differ in energy, a partial sum is a read plus a write, and a plain access-times-energy sum misses leakage and idle energy. A complete model adds terms for those.",
+      "searchQuery": "analytical energy model accesses times energy per access Accelergy energy reference table",
+      "refs": [
+        "Wu, Emer & Sze, Accelergy, ICCAD 2019",
+        "Parashar et al., Timeloop, ISPASS 2019"
+      ],
+      "tags": [
+        "cost-model",
+        "energy-model"
+      ]
+    },
+    {
+      "id": "dataflow-latency-formula",
+      "unit": "analytical-cost-models",
+      "kind": "formula",
+      "difficulty": 7,
+      "title": "Write the latency of a mapping in a Timeloop-style analytical model that assumes compute and data transfer overlap perfectly.",
+      "body": "$\\text{cycles} = \\max\\bigl(\\text{compute cycles},\\ \\max_{\\ell} \\lceil w_\\ell / b_\\ell \\rceil\\bigr)$, with compute cycles $= \\text{MACs} / (\\text{active PEs} \\times \\text{MACs per PE per cycle})$, $w_\\ell$ the words moved through level $\\ell$ and $b_\\ell$ its bandwidth in words per cycle.\n\nThe terms $\\lceil w_\\ell / b_\\ell \\rceil$ are the **bandwidth-limited cycles** of each level of the memory hierarchy. This is the roofline model applied at every level: the slowest resource sets the time.\n\nExample: $1000$ compute cycles, DRAM moving $2000$ words at $1$ word per cycle, buffer $500$ words at $4$ per cycle: the DRAM term is $2000$, so the layer is memory-bound at $2000$ cycles.\n\nWatch out: the max form assumes double buffering or similar overlap, and a throughput model that ignores fills and drains of pipelines. Active PEs enter the denominator, so poor spatial utilization shows up as a longer compute term.",
+      "searchQuery": "latency max compute cycles bandwidth limited cycles memory level roofline analytical model",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 6"
+      ],
+      "tags": [
+        "cost-model",
+        "roofline"
+      ]
+    },
+    {
+      "id": "dataflow-energy-naive-vs-tiled-problem",
+      "unit": "analytical-cost-models",
+      "kind": "problem",
+      "difficulty": 8,
+      "checkpoint": true,
+      "title": "Multiply two $32\\times32$ matrices of 32-bit integers ($32{,}768$ MACs). Use Horowitz's $45\\,\\mathrm{nm}$ figures: a MAC costs $3.2\\,\\mathrm{pJ}$ (multiply plus add), a read from a $32\\,\\mathrm{KB}$ SRAM $10\\,\\mathrm{pJ}$ and a DRAM access $640\\,\\mathrm{pJ}$ per word. Schedule N: every MAC reads both operands from DRAM, the sum is kept in a register, each output is written to DRAM once. Schedule T: $A$ and $B$ are read from DRAM once into the SRAM, every MAC reads both operands from SRAM, outputs are written to DRAM once. Ignoring SRAM writes and everything else, what is the energy ratio N : T?",
+      "body": "About $15.7\\times$ ($42.70\\,\\mu\\mathrm{J}$ for N against $2.73\\,\\mu\\mathrm{J}$ for T).\n\nOutline:\n1. Words: $A$ and $B$ are $1024$ words each, outputs $1024$. All fit in $32\\,\\mathrm{KB}$ ($4\\,\\mathrm{KiB}$ each for $A$ and $B$).\n2. N: operand reads $2 \\cdot 32{,}768 = 65{,}536$ DRAM accesses $= 41{,}943{,}040\\,\\mathrm{pJ}$; output writes $1024 \\cdot 640 = 655{,}360\\,\\mathrm{pJ}$; MACs $32{,}768 \\cdot 3.2 = 104{,}858\\,\\mathrm{pJ}$. Total $42{,}703{,}258\\,\\mathrm{pJ}$.\n3. T: DRAM reads of $A$ and $B$ $2048 \\cdot 640 = 1{,}310{,}720\\,\\mathrm{pJ}$; output writes $655{,}360\\,\\mathrm{pJ}$; SRAM operand reads $65{,}536 \\cdot 10 = 655{,}360\\,\\mathrm{pJ}$; MACs $104{,}858\\,\\mathrm{pJ}$. Total $2{,}726{,}298\\,\\mathrm{pJ}$.\n4. Ratio $42{,}703{,}258 / 2{,}726{,}298 \\approx 15.7$.\n\nKey idea: in T the arithmetic is only $3.8\\%$ of the energy, and the compulsory DRAM traffic (reading $A$, $B$ and writing the outputs) is $72\\%$. After good tiling, what remains is the floor set by the algorithm.\n\nWatch out: the SRAM writes ignored here are $2048 \\cdot 10 = 20{,}480\\,\\mathrm{pJ}$, under $1\\%$ of T, so the ignoring is safe at this size.",
+      "searchQuery": "energy comparison naive versus tiled matrix multiply DRAM SRAM MAC Horowitz pJ",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Horowitz, Computing's Energy Problem, ISSCC 2014"
+      ],
+      "tags": [
+        "cost-model",
+        "energy-model"
+      ]
+    },
+    {
+      "id": "dataflow-latency-bottleneck-problem",
+      "unit": "analytical-cost-models",
+      "kind": "problem",
+      "difficulty": 8,
+      "checkpoint": true,
+      "title": "A mapping of a $3\\times3$ layer ($C = M = 64$, $56\\times56$ output, $115{,}605{,}504$ MACs) runs on a $16\\times16$ PE array (256 MACs per cycle, all PEs busy). It moves $6\\,\\mathrm{MiB}$ over the DRAM interface at $16\\,\\mathrm{B}$ per cycle and $64\\,\\mathrm{MiB}$ between the global buffer and the array at $128\\,\\mathrm{B}$ per cycle. With perfect overlap, how many cycles does it take, and what limits it?",
+      "body": "$524{,}288$ cycles, limited by the bandwidth between the global buffer and the array (compute needs $451{,}584$ cycles and DRAM $393{,}216$).\n\nOutline:\n1. Compute: $115{,}605{,}504 / 256 = 451{,}584$ cycles.\n2. DRAM: $6 \\cdot 2^{20} = 6{,}291{,}456\\,\\mathrm{B}$ at $16\\,\\mathrm{B}$ per cycle is $393{,}216$ cycles.\n3. Buffer to array: $64 \\cdot 2^{20} = 67{,}108{,}864\\,\\mathrm{B}$ at $128\\,\\mathrm{B}$ per cycle is $524{,}288$ cycles.\n4. Latency is the maximum: $524{,}288$ cycles, so the array is busy $451{,}584 / 524{,}288 = 86\\%$ of the time.\n\nKey idea: cutting DRAM traffic would not help here. More register-file reuse, which reduces buffer-to-array words, would, until compute becomes the limit at $451{,}584$ cycles (DRAM alone would allow $393{,}216$).\n\nWatch out: the model says which resource limits the mapping. It does not account for stalls from bank conflicts or network contention that real hardware adds on top.",
+      "searchQuery": "latency bottleneck compute cycles DRAM bandwidth buffer bandwidth max perfect overlap problem",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 6"
+      ],
+      "tags": [
+        "cost-model",
+        "roofline"
+      ]
+    },
+    {
+      "id": "dataflow-timeloop-validation-numbers",
+      "unit": "analytical-cost-models",
+      "kind": "numbers",
+      "difficulty": 7,
+      "title": "How close did Timeloop's analytical model come to a detailed in-house simulator of an NVDLA-derived design, in energy on the 107 DeepBench workloads and in cycles on a set of synthetic workloads?",
+      "body": "Energy within $8\\%$ of the reference on all 107 workloads; cycle counts at $78\\%$ to $99\\%$ of the reference (mean $95\\%$).\n\nConditions: the ISPASS 2019 paper's validation against an in-house, weight-stationary design derived from NVDLA (NVIDIA's open-source accelerator design), with a detailed simulator of that design as the reference. Cycle accuracy is Timeloop's cycles divided by the reference cycles, measured on synthetic workloads. The paper also reproduces the published Eyeriss energy results for AlexNet.\n\nWhere the loss comes from: Timeloop uses a throughput-based model that assumes few pipeline stalls from fills and drains. Accuracy was $90\\%$ to $99\\%$ on all but six outliers; those, at $78\\%$ to $88\\%$, came from suboptimal address sequences in the reference hardware, which caused stalls the model does not see.\n\nWatch out: these numbers show the model tracks one design well. They are not a guarantee for a design with heavy control overhead, bank conflicts or contention on a network, which analytical models tend to miss.",
+      "searchQuery": "Timeloop validation NVDLA DeepBench energy within 8 percent cycle accuracy 95 percent",
+      "refs": [
+        "https://people.csail.mit.edu/anurag_m/papers/2019.timeloop.ispass.pdf",
+        "Parashar et al., Timeloop, ISPASS 2019"
+      ],
+      "tags": [
+        "cost-model"
+      ]
+    },
+    {
+      "id": "dataflow-analytical-vs-simulation-trade-off",
+      "unit": "analytical-cost-models",
+      "kind": "trade-off",
+      "difficulty": 8,
+      "title": "To evaluate millions of candidate mappings, should you use an analytical model or a cycle-accurate simulation?",
+      "body": "An analytical model for the search, because it evaluates a mapping in a fraction of the time; a cycle-accurate simulator, or RTL, for the final check of the few best candidates.\n\nWhy: an analytical model counts accesses from tile sizes and loop order and sums them, with no per-cycle state. A simulator replays every cycle, and its cost grows with the size of the layer. A search over a huge mapspace can only afford the first.\n\nWhat the model loses: control overheads (address generation, configuration), bank conflicts in banked buffers, contention on the on-chip network, and pipeline fills and drains. Its rankings are usually reliable, but its absolute numbers can be off.\n\nHow it is trusted: by validating it against RTL or silicon on sample designs and workloads, as Timeloop did against an in-house NVDLA-derived simulator and as Accelergy did against post-layout energy on Eyeriss.\n\nWatch out: if two top mappings differ by a few percent, the model cannot separate them. Re-check those with simulation before committing.",
+      "searchQuery": "analytical model versus cycle accurate simulation mapping search accuracy speed trade-off",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Wu, Emer & Sze, Accelergy, ICCAD 2019"
+      ],
+      "tags": [
+        "cost-model"
+      ]
+    },
+    {
+      "id": "dataflow-overlap-max-vs-sum-trade-off",
+      "unit": "analytical-cost-models",
+      "kind": "trade-off",
+      "difficulty": 8,
+      "title": "Should the model combine compute and data-transfer time with a max (perfect overlap) or with a sum (no overlap)?",
+      "body": "Use the max when the hardware double-buffers or otherwise decouples transfers from compute; use the sum, or something between, when loads block the array.\n\nExample: $100$ cycles of compute and $80$ cycles of transfer per tile. With overlap a tile takes $100$ cycles; without it, $180$. The wrong model is off by $80$ cycles per tile either way: the sum overstates an overlapped design by $80\\%$, and the max understates a blocking one by $44\\%$.\n\nHardware choices: double buffering overlaps at the cost of twice the buffer space for the tiles being filled. Buffets, the buffer idiom used in the NVDLA-derived design that Timeloop was validated against, overlap compute and transfer with little extra storage.\n\nWhy it matters: in Timeloop's validation, the workloads with the largest error were ones where stalls in the hardware broke the overlap the model assumes. A mismatch between assumption and hardware shows up directly in the error.\n\nWatch out: partial overlap is common, such as overlap in steady state but not at the first and last tile. Add the unhidden first fill and last drain to the max if tiles are few.",
+      "searchQuery": "perfect overlap compute transfer double buffering buffets latency model max versus sum",
+      "refs": [
+        "Parashar et al., Timeloop, ISPASS 2019",
+        "Sze et al., Efficient Processing of Deep Neural Networks, ch. 6"
+      ],
+      "tags": [
+        "cost-model"
+      ]
+    },
+    {
+      "id": "dataflow-accelergy-iccad-2019-landmark",
+      "unit": "analytical-cost-models",
+      "kind": "landmark",
+      "difficulty": 8,
+      "title": "Which 2019 paper estimated accelerator energy at the architecture level from a design description and counts of actions, and how accurate was it on Eyeriss?",
+      "body": "Wu, Emer and Sze, \"Accelergy: An Architecture-Level Energy Estimation Methodology for Accelerator Designs\", ICCAD 2019 (peer-reviewed): about $95\\%$ accuracy on Eyeriss, compared with post-layout energy.\n\nWhat it showed: energy can be estimated before RTL, from a description of the architecture's components and the counts of actions (reads, writes, computes) a workload performs, with per-action energies supplied by estimators. This separates the estimation of per-action energy from the counting of actions, so a tool such as Timeloop can provide the counts for any mapping.\n\nWhy it matters: earlier flows were either accurate but slow (post-layout, gate level) or fast but coarse. Accelergy gives component-level energy breakdowns quickly enough to sit inside design-space exploration.\n\nWatch out: the $95\\%$ is for total energy on one design, Eyeriss, against post-layout results. Accuracy for a different design depends on how well its components are covered by the estimators.",
+      "searchQuery": "Accelergy architecture-level energy estimation accelerator designs ICCAD 2019 Eyeriss 95 percent",
+      "refs": [
+        "https://doi.org/10.1109/ICCAD45719.2019.8942149",
+        "Wu, Emer & Sze, Accelergy, ICCAD 2019"
+      ],
+      "tags": [
+        "cost-model",
+        "energy-model"
+      ]
+    }
+  ]
+}

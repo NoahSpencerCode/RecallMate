@@ -1,0 +1,1312 @@
+{
+  "profession": "mathematics",
+  "module": "multivariable-calculus",
+  "tier": 2,
+  "cards": [
+    {
+      "id": "multivariable-cross-product-definition",
+      "unit": "vectors-lines-planes",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define the **cross product** $\\mathbf a\\times\\mathbf b$ of two vectors $\\mathbf a=(a_1,a_2,a_3)$ and $\\mathbf b=(b_1,b_2,b_3)$ in $\\mathbb R^3$ (vectors are columns, written as triples to save space).",
+      "body": "$\\mathbf a\\times\\mathbf b=(a_2b_3-a_3b_2,\\ a_3b_1-a_1b_3,\\ a_1b_2-a_2b_1)$: a vector perpendicular to both $\\mathbf a$ and $\\mathbf b$, of length $\\|\\mathbf a\\|\\|\\mathbf b\\|\\sin\\theta$, where $\\theta$ is the angle between them.\n\nThe formula is the determinant $\\det\\begin{pmatrix}\\mathbf i&\\mathbf j&\\mathbf k\\\\a_1&a_2&a_3\\\\b_1&b_2&b_3\\end{pmatrix}$ expanded along the first row, where $\\mathbf i,\\mathbf j,\\mathbf k$ are the unit vectors along the three axes. The direction follows the right-hand rule: curl the fingers of your right hand from $\\mathbf a$ toward $\\mathbf b$ and your thumb points along $\\mathbf a\\times\\mathbf b$.\n\nKey idea: $\\|\\mathbf a\\times\\mathbf b\\|$ is the area of the parallelogram spanned by $\\mathbf a$ and $\\mathbf b$, so the triangle with those two sides has area $\\tfrac12\\|\\mathbf a\\times\\mathbf b\\|$. It is $\\mathbf 0$ exactly when $\\mathbf a,\\mathbf b$ are parallel (or one is $\\mathbf 0$).\n\nWatch out: order matters, since $\\mathbf b\\times\\mathbf a=-(\\mathbf a\\times\\mathbf b)$. Unlike the dot product, the result is a vector, not a number.",
+      "searchQuery": "cross product definition vector perpendicular determinant",
+      "refs": [
+        "Stewart, Calculus ET 8e §12.4",
+        "MIT 18.02SC, Unit 1 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-plane-equation-normal",
+      "unit": "vectors-lines-planes",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **equation of the plane** through the point $P_0=(x_0,y_0,z_0)$ with **normal vector** $\\mathbf n=(a,b,c)\\ne\\mathbf 0$?",
+      "body": "$a(x-x_0)+b(y-y_0)+c(z-z_0)=0$, equivalently $ax+by+cz=d$ with $d=\\mathbf n\\cdot P_0=ax_0+by_0+cz_0$.\n\nA **normal vector** of a plane is any nonzero vector perpendicular to it.\n\nWhy: a point $P=(x,y,z)$ lies in the plane exactly when the vector $P-P_0$ lies in the plane, that is, when $\\mathbf n\\cdot(P-P_0)=0$. Expanding the dot product gives the equation.\n\nExample: the plane through $(1,2,3)$ with normal $(2,-1,4)$ is $2(x-1)-(y-2)+4(z-3)=0$, i.e. $2x-y+4z=12$.\n\nWatch out: the coefficients $(a,b,c)$ are the normal, not a point on the plane. Multiplying the whole equation by a nonzero constant gives the same plane with a parallel normal.",
+      "searchQuery": "equation of a plane normal vector point",
+      "refs": [
+        "Stewart, Calculus ET 8e §12.5",
+        "MIT 18.02SC, Unit 1 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-parametric-line",
+      "unit": "vectors-lines-planes",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How is a line in $\\mathbb R^3$ written as a **parametric line**?",
+      "body": "$\\mathbf r(t)=\\mathbf r_0+t\\,\\mathbf v$ for $t\\in\\mathbb R$, where $\\mathbf r_0$ is a point on the line and $\\mathbf v\\ne\\mathbf 0$ is a direction vector.\n\nIn coordinates, $x=x_0+tv_1$, $y=y_0+tv_2$, $z=z_0+tv_3$. Different choices of $\\mathbf r_0$ and of the scale of $\\mathbf v$ describe the same line.\n\nExample: the line through $(1,2,3)$ and $(4,0,5)$ has direction $(4,0,5)-(1,2,3)=(3,-2,2)$, so $\\mathbf r(t)=(1,2,3)+t(3,-2,2)$. At $t=1$ it reaches the second point.\n\nWhy: in space a line is the intersection of two planes, so describing it by equations needs two of them. One vector equation with a single parameter is simpler, and it also records how a point moves along the line.",
+      "searchQuery": "parametric equation line in space direction vector",
+      "refs": [
+        "Stewart, Calculus ET 8e §12.5",
+        "MIT 18.02SC, Unit 1 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-scalar-triple-product",
+      "unit": "vectors-lines-planes",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Express the **scalar triple product** $\\mathbf a\\cdot(\\mathbf b\\times\\mathbf c)$ as a determinant and say what its absolute value measures.",
+      "body": "$\\mathbf a\\cdot(\\mathbf b\\times\\mathbf c)=\\det\\begin{pmatrix}\\mathbf a&\\mathbf b&\\mathbf c\\end{pmatrix}$ (the $3\\times3$ matrix with columns $\\mathbf a,\\mathbf b,\\mathbf c$), and its absolute value is the volume of the parallelepiped spanned by $\\mathbf a,\\mathbf b,\\mathbf c$.\n\nWhy: the base spanned by $\\mathbf b,\\mathbf c$ has area $\\|\\mathbf b\\times\\mathbf c\\|$, and $\\mathbf b\\times\\mathbf c$ is perpendicular to the base. The height is the length of the projection of $\\mathbf a$ onto that direction, $\\|\\mathbf a\\|\\,|\\cos\\theta|$, so volume $=|\\mathbf a\\cdot(\\mathbf b\\times\\mathbf c)|$.\n\nExample: for $\\mathbf a=(1,0,0)$, $\\mathbf b=(1,2,0)$, $\\mathbf c=(1,1,3)$ the matrix is upper triangular with diagonal $1,2,3$, so the volume is $6$.\n\nTip: the triple product is $0$ exactly when the three vectors lie in one plane. It changes sign if you swap two of them.",
+      "searchQuery": "scalar triple product determinant volume parallelepiped",
+      "refs": [
+        "Stewart, Calculus ET 8e §12.4",
+        "MIT 18.02SC, Unit 1 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-point-plane-distance",
+      "unit": "vectors-lines-planes",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "What is the distance from the point $Q=(x_1,y_1,z_1)$ to the plane $ax+by+cz=d$?",
+      "body": "$\\dfrac{|ax_1+by_1+cz_1-d|}{\\sqrt{a^2+b^2+c^2}}$.\n\nWhy: pick any point $P_0$ on the plane. The distance is the length of the projection of $Q-P_0$ onto the normal $\\mathbf n=(a,b,c)$, namely $\\dfrac{|\\mathbf n\\cdot(Q-P_0)|}{\\|\\mathbf n\\|}$. Since $\\mathbf n\\cdot P_0=d$, the numerator is $|ax_1+by_1+cz_1-d|$.\n\nExample: the origin is at distance $\\dfrac{|0-6|}{\\sqrt{36+9+4}}=\\dfrac67$ from the plane $6x+3y+2z=6$.\n\nWatch out: the plane must be in the form $ax+by+cz=d$ before you substitute. The numerator is zero exactly when $Q$ is on the plane.",
+      "searchQuery": "distance from point to plane formula",
+      "refs": [
+        "Stewart, Calculus ET 8e §12.5",
+        "MIT 18.02SC, Unit 1 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-plane-through-three-points",
+      "unit": "vectors-lines-planes",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Find an equation of the plane through $P=(1,0,0)$, $Q=(0,2,0)$ and $R=(0,0,3)$, and the area of triangle $PQR$.",
+      "body": "$6x+3y+2z=6$, and the triangle has area $\\tfrac72$.\n\nTwo vectors in the plane are $\\overrightarrow{PQ}=(-1,2,0)$ and $\\overrightarrow{PR}=(-1,0,3)$. Their cross product is\n$\\overrightarrow{PQ}\\times\\overrightarrow{PR}=(2\\cdot3-0\\cdot0,\\ 0\\cdot(-1)-(-1)\\cdot3,\\ (-1)\\cdot0-2\\cdot(-1))=(6,3,2)$,\na normal vector of the plane.\n\nUsing $P$ as the base point, $6(x-1)+3y+2z=0$, which is $6x+3y+2z=6$. Check: $Q$ gives $6$ and $R$ gives $6$.\n\nThe area is $\\tfrac12\\|(6,3,2)\\|=\\tfrac12\\sqrt{36+9+4}=\\tfrac72$.\n\nTip: three points that are not on one line determine a plane. The cross product of two edge vectors supplies the normal.",
+      "searchQuery": "plane through three points cross product normal",
+      "refs": [
+        "Stewart, Calculus ET 8e §12.5",
+        "MIT 18.02SC, Unit 1 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-angle-between-planes",
+      "unit": "vectors-lines-planes",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Find the cosine of the acute angle between the planes $2x-y+2z=5$ and $x+2y-2z=1$.",
+      "body": "$\\tfrac49$\n\nThe angle between two planes is the angle between their normals, reduced to an acute angle. Here $\\mathbf n_1=(2,-1,2)$ and $\\mathbf n_2=(1,2,-2)$.\n\n- $\\mathbf n_1\\cdot\\mathbf n_2=2-2-4=-4$.\n- $\\|\\mathbf n_1\\|=\\sqrt{4+1+4}=3$ and $\\|\\mathbf n_2\\|=\\sqrt{1+4+4}=3$.\n- $\\cos\\theta=\\dfrac{|\\mathbf n_1\\cdot\\mathbf n_2|}{\\|\\mathbf n_1\\|\\|\\mathbf n_2\\|}=\\dfrac49$.\n\nWatch out: without the absolute value the dot product gives $-\\tfrac49$, an obtuse angle between the normals. Flipping a normal's direction does not change the plane, so the angle between planes is taken acute.",
+      "searchQuery": "angle between two planes normal vectors cosine",
+      "answer": "4/9",
+      "acceptedAnswers": [
+        "0.444",
+        "0.4444"
+      ],
+      "answerDisplay": "$\\tfrac49$",
+      "refs": [
+        "Stewart, Calculus ET 8e §12.5",
+        "MIT 18.02SC, Unit 1 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-linear-equation-not-a-line",
+      "unit": "vectors-lines-planes",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is the claim \"the equation $x+2y=3$ describes a line in $\\mathbb R^3$\" false?",
+      "body": "In $\\mathbb R^3$ it is a plane with normal vector $(1,2,0)$: the variable $z$ does not appear, so $z$ is free.\n\nEvery point $(x,y,z)$ with $x+2y=3$ is on it. It is the line $x+2y=3$ of the $xy$-plane slid along the whole $z$-axis, a flat sheet parallel to the $z$-axis.\n\nKey idea: one linear equation in three unknowns removes one degree of freedom and leaves a surface (two free parameters). A line needs two independent equations, for example two planes intersecting, or a parametric description.\n\nWatch out: the meaning of an equation depends on the space you are in. The same $x+2y=3$ is a line in $\\mathbb R^2$ and a plane in $\\mathbb R^3$.",
+      "searchQuery": "linear equation in three variables is a plane not a line",
+      "refs": [
+        "Stewart, Calculus ET 8e §12.5"
+      ]
+    },
+    {
+      "id": "multivariable-vector-valued-function",
+      "unit": "curves-and-motion",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define a **vector-valued function** $\\mathbf r(t)$ of one real variable and its derivative $\\mathbf r'(t)$.",
+      "body": "$\\mathbf r(t)=(x(t),y(t),z(t))$ assigns a vector to each real $t$, and $\\mathbf r'(t)=\\lim_{h\\to0}\\dfrac{\\mathbf r(t+h)-\\mathbf r(t)}{h}=(x'(t),y'(t),z'(t))$.\n\nAs $t$ varies, the tip of $\\mathbf r(t)$ traces a curve in space, the parametric curve you already know from the plane, now with three components.\n\nWhy: a limit of vectors exists when each component converges, so the limit above can be taken one component at a time. That is why you differentiate a vector function by differentiating each component.\n\nExample: for $\\mathbf r(t)=(t^2,\\sin t,e^{3t})$, $\\mathbf r'(t)=(2t,\\cos t,3e^{3t})$.\n\nWatch out: $\\mathbf r'(t)$ is a vector, not a number. When it is nonzero it is tangent to the curve at $\\mathbf r(t)$.",
+      "searchQuery": "vector valued function derivative component-wise",
+      "refs": [
+        "Stewart, Calculus ET 8e §13.1–13.2",
+        "MIT 18.02SC, Unit 1 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-velocity-acceleration-speed",
+      "unit": "curves-and-motion",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "A particle has position $\\mathbf r(t)$ at time $t$. Define its **velocity vector**, **acceleration vector** and **speed**.",
+      "body": "Velocity $\\mathbf v(t)=\\mathbf r'(t)$, acceleration $\\mathbf a(t)=\\mathbf r''(t)$, and speed $=\\|\\mathbf v(t)\\|=\\|\\mathbf r'(t)\\|$.\n\nThe velocity points along the direction of motion (tangent to the path) and the speed is its length. Acceleration is the rate of change of the velocity vector, so it records changes of direction as well as changes of speed.\n\nExample: for $\\mathbf r(t)=(t,t^2)$, $\\mathbf v=(1,2t)$, $\\mathbf a=(0,2)$, and the speed is $\\sqrt{1+4t^2}$.\n\nWatch out: speed is a nonnegative number, not a vector, and $\\mathbf a$ is the derivative of the velocity vector, not of the speed. A particle can have constant speed and still accelerate, if its direction changes.",
+      "searchQuery": "velocity acceleration speed vector position derivative",
+      "refs": [
+        "Stewart, Calculus ET 8e §13.1–13.4",
+        "MIT 18.02SC, Unit 1 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-arc-length-formula",
+      "unit": "curves-and-motion",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "What is the length of the curve $\\mathbf r(t)$, $a\\le t\\le b$, where $\\mathbf r'$ is continuous and the curve is traced once?",
+      "body": "$L=\\displaystyle\\int_a^b\\|\\mathbf r'(t)\\|\\,dt$, the integral of the speed.\n\nWhy: during a short time $\\Delta t$ the particle moves about $\\|\\mathbf r'(t)\\|\\,\\Delta t$ along the curve. Adding these pieces gives a Riemann sum, which converges to the integral. In the plane with $\\mathbf r=(t,f(t))$ this reduces to the arc length formula $\\int\\sqrt{1+f'(t)^2}\\,dt$ from calculus.\n\nExample: for $\\mathbf r(t)=(3t,4t)$, $0\\le t\\le 2$, the speed is $5$ and $L=10$, the straight-line distance from $(0,0)$ to $(6,8)$.\n\nWatch out: if the path traces part of the curve twice, the integral counts it twice, since it measures distance traveled. The length of a curve does not depend on how it is parametrized, as long as it is traced once.",
+      "searchQuery": "arc length vector function integral of speed formula",
+      "refs": [
+        "Stewart, Calculus ET 8e §13.1–13.4",
+        "MIT 18.02SC, Unit 1 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-helix-speed-length",
+      "unit": "curves-and-motion",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "For the helix $\\mathbf r(t)=(\\cos t,\\sin t,t)$, find the speed, and the length of the part with $0\\le t\\le 2\\pi$.",
+      "body": "The speed is $\\sqrt2$ at every time, so the length is $2\\sqrt2\\,\\pi$.\n\n$\\mathbf v(t)=(-\\sin t,\\cos t,1)$, so $\\|\\mathbf v\\|=\\sqrt{\\sin^2t+\\cos^2t+1}=\\sqrt2$. Then $L=\\int_0^{2\\pi}\\sqrt2\\,dt=2\\sqrt2\\,\\pi$.\n\nThe acceleration is $\\mathbf a(t)=(-\\cos t,-\\sin t,0)$, which is horizontal and perpendicular to $\\mathbf v$. The point circles the $z$-axis at unit speed in the horizontal plane while rising at a constant rate $1$.\n\nCheck: cut the cylinder along a vertical line and unroll it. One turn becomes a straight segment with horizontal leg $2\\pi$ (circumference) and vertical leg $2\\pi$ (rise), with length $\\sqrt{(2\\pi)^2+(2\\pi)^2}=2\\sqrt2\\,\\pi$.",
+      "searchQuery": "helix speed arc length one turn cos t sin t t",
+      "refs": [
+        "Stewart, Calculus ET 8e §13.1–13.4",
+        "MIT 18.02SC, Unit 1 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-circular-motion-acceleration",
+      "unit": "curves-and-motion",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A particle moves along $\\mathbf r(t)=(3\\cos 2t,\\ 3\\sin 2t)$. Find the magnitude of its acceleration (a number).",
+      "body": "$12$\n\nDifferentiate twice. $\\mathbf v=(-6\\sin2t,\\ 6\\cos2t)$, so the speed is $6$, constant. Then $\\mathbf a=(-12\\cos2t,\\ -12\\sin2t)=-4\\,\\mathbf r(t)$, so $\\|\\mathbf a\\|=12$.\n\nFor uniform circular motion with radius $R$ and angular speed $\\omega$, $\\mathbf r=(R\\cos\\omega t,R\\sin\\omega t)$, the speed is $R\\omega$ and $\\mathbf a=-\\omega^2\\mathbf r$. So $\\|\\mathbf a\\|=R\\omega^2=\\dfrac{(\\text{speed})^2}{R}$. Here $R=3$, $\\omega=2$, speed $6$: $\\dfrac{36}{3}=12$.\n\nKey idea: the acceleration points toward the center, perpendicular to the velocity. It changes the direction of motion but not the speed.",
+      "searchQuery": "uniform circular motion acceleration magnitude R omega squared",
+      "answer": "12",
+      "answerDisplay": "$12$",
+      "refs": [
+        "Stewart, Calculus ET 8e §13.1–13.4",
+        "MIT 18.02SC, Unit 1 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-speed-not-derivative-of-distance",
+      "unit": "curves-and-motion",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is the claim \"the speed of a moving point equals $\\frac{d}{dt}\\|\\mathbf r(t)\\|$\" false?",
+      "body": "Speed is $\\|\\mathbf r'(t)\\|$, the length of the velocity vector. The quantity $\\frac{d}{dt}\\|\\mathbf r(t)\\|$ only measures how fast the distance from the origin changes.\n\nExample: for $\\mathbf r(t)=(\\cos t,\\sin t)$, $\\|\\mathbf r(t)\\|=1$ for all $t$, so $\\frac{d}{dt}\\|\\mathbf r\\|=0$. But $\\mathbf r'=(-\\sin t,\\cos t)$ has length $1$: the point is moving at speed $1$ around the circle.\n\nThe two agree only when the motion is straight along a ray away from the origin (and the point is not at the origin). In general $\\left|\\frac{d}{dt}\\|\\mathbf r\\|\\right|\\le\\|\\mathbf r'\\|$.\n\nWatch out: the order of the operations matters. Differentiate first, then take the length of the vector.",
+      "searchQuery": "speed norm of velocity not derivative of norm of position",
+      "refs": [
+        "Stewart, Calculus ET 8e §13.1–13.4",
+        "MIT 18.02SC, Unit 1 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-partial-derivative-definition",
+      "unit": "partial-derivatives-and-differentiability",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define the **partial derivative** $\\dfrac{\\partial f}{\\partial x}$ of $f(x,y)$ at the point $(a,b)$.",
+      "body": "$f_x(a,b)=\\displaystyle\\lim_{h\\to0}\\frac{f(a+h,b)-f(a,b)}{h}$: the ordinary derivative in $x$ with $y$ held fixed at $b$.\n\nIt is the slope at $(a,b)$ of the curve cut from the graph by the vertical plane $y=b$. The partial derivative $f_y(a,b)=\\lim_{h\\to0}\\frac{f(a,b+h)-f(a,b)}{h}$ is defined the same way, moving in $y$.\n\nExample: for $f(x,y)=x^2y+\\sin y$, treat $y$ as a constant to get $f_x=2xy$, and treat $x$ as a constant to get $f_y=x^2+\\cos y$.\n\nWatch out: a partial derivative looks only along the coordinate directions. Its existence says nothing about what $f$ does along other directions.",
+      "searchQuery": "partial derivative definition limit hold y fixed",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.1–14.4",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-level-curves",
+      "unit": "partial-derivatives-and-differentiability",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is a **level curve** of $f(x,y)$, and what do closely spaced level curves tell you?",
+      "body": "The level curve at height $c$ is the set $\\{(x,y):f(x,y)=c\\}$. Where level curves for equally spaced values of $c$ are close together, $f$ changes quickly; where they are far apart, $f$ changes slowly.\n\nA map of level curves (a contour map) is the graph of $f$ viewed from above, like the contour lines on a hiking map.\n\nExample: for $f=x^2+y^2$ the level curves are circles of radius $\\sqrt c$ for $c>0$, and the spacing between circles for $c=1,2,3,\\dots$ shrinks as you go out, because $f$ grows faster there. For $f=xy$ they are hyperbolas for $c\\ne0$ and the two axes for $c=0$.\n\nWatch out: level curves of different heights never meet, since $f$ has only one value at each point. Where the curves for two heights seem to cross, one of the points would need two values.",
+      "searchQuery": "level curves contour map function of two variables",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.1–14.4",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-tangent-plane-example",
+      "unit": "partial-derivatives-and-differentiability",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Find the partial derivatives of $f(x,y)=x^2y$ at $(2,1)$ and the plane $z=f(2,1)+f_x(2,1)(x-2)+f_y(2,1)(y-1)$.",
+      "body": "$f_x(2,1)=4$, $f_y(2,1)=4$, and the plane is $z=4x+4y-8$.\n\nDifferentiate: $f_x=2xy$ and $f_y=x^2$. At $(2,1)$: $f=4$, $f_x=2\\cdot2\\cdot1=4$, $f_y=2^2=4$.\n\nThen $z=4+4(x-2)+4(y-1)=4x+4y-8$. This plane touches the graph at $(2,1,4)$ and has slope $4$ in the $x$-direction and slope $4$ in the $y$-direction there. When $f$ is differentiable (defined on the next cards) it is called the **tangent plane** of the graph.\n\nTip: use the plane to estimate values near the point: $f(2.1,\\,0.9)\\approx4(2.1)+4(0.9)-8=4.0$. The true value is $0.9\\cdot4.41=3.969$.",
+      "searchQuery": "tangent plane graph partial derivatives example x^2 y",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.1–14.4",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-differentiable-definition",
+      "unit": "partial-derivatives-and-differentiability",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define what it means for $f(x,y)$ to be **differentiable** at $(a,b)$.",
+      "body": "There are numbers $A,B$ with $\\displaystyle\\lim_{(h,k)\\to(0,0)}\\frac{\\left|f(a+h,b+k)-f(a,b)-Ah-Bk\\right|}{\\sqrt{h^2+k^2}}=0$; then necessarily $A=f_x(a,b)$ and $B=f_y(a,b)$.\n\nThis says $f(a+h,b+k)\\approx f(a,b)+f_x h+f_y k$, the **linear approximation**, with an error that is small even compared with the distance $\\sqrt{h^2+k^2}$ from $(a,b)$. The graph of the linear function is the **tangent plane** $z=f(a,b)+f_x(a,b)(x-a)+f_y(a,b)(y-b)$.\n\nWhy: this is the one-variable idea (the tangent line is the best linear fit) with a plane in place of a line. Letting $k=0$ shows that $A=f_x$, and letting $h=0$ shows $B=f_y$.\n\nKey idea: a differentiable function is continuous at the point, because the error term tends to $0$ as $(h,k)\\to(0,0)$.\n\nWatch out: the two partial derivatives existing is not enough for this definition to hold.",
+      "searchQuery": "differentiable function two variables linear approximation definition",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.1–14.4",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-clairaut-theorem",
+      "unit": "partial-derivatives-and-differentiability",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "State **Clairaut's theorem** on the mixed partial derivatives $f_{xy}$ and $f_{yx}$.",
+      "body": "If $f$ is defined on a disk around $(a,b)$ and $f_{xy}$ and $f_{yx}$ are both continuous on that disk, then $f_{xy}(a,b)=f_{yx}(a,b)$.\n\nHere $f_{xy}=(f_x)_y$ means differentiate in $x$ first, then in $y$. A function whose partial derivatives of order up to $2$ all exist and are continuous is called $C^2$, and for such functions the order of the two derivatives never matters.\n\nExample: for $f=x^3y^2+e^{xy}$, $f_x=3x^2y^2+ye^{xy}$ and $f_{xy}=6x^2y+e^{xy}+xye^{xy}$. Differentiating in the other order, $f_y=2x^3y+xe^{xy}$ and $f_{yx}=6x^2y+e^{xy}+xye^{xy}$, the same.\n\nWhy it matters: it cuts the work, since for a $C^2$ function in $n$ variables only $\\frac{n(n+1)}2$ of the $n^2$ second partials are distinct, and it makes the matrix of second partials symmetric.",
+      "searchQuery": "Clairaut theorem equality of mixed partial derivatives",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.1–14.4",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-c1-implies-differentiable",
+      "unit": "partial-derivatives-and-differentiability",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the theorem relating continuous partial derivatives to differentiability of $f(x,y)$.",
+      "body": "If the partial derivatives $f_x$ and $f_y$ exist on a disk around $(a,b)$ and are continuous at $(a,b)$, then $f$ is differentiable at $(a,b)$, and in particular $f$ is continuous there.\n\nKey idea of the proof: split $f(a+h,b+k)-f(a,b)$ into $[f(a+h,b+k)-f(a+h,b)]+[f(a+h,b)-f(a,b)]$. The mean value theorem in one variable turns the pieces into $f_y(a+h,b+\\theta k)\\,k$ and $f_x(a+\\theta' h,b)\\,h$ for some $\\theta,\\theta'\\in(0,1)$. Continuity of the partials at $(a,b)$ makes these differ from $f_y(a,b)k$ and $f_x(a,b)h$ by $o\\big(\\sqrt{h^2+k^2}\\big)$.\n\nWhy it matters: polynomials, exponentials, sines and compositions of them have continuous partials, so you can use tangent planes and the chain rule without checking the limit definition.\n\nWatch out: the converse is false. The function $(x^2+y^2)\\sin\\!\\big(1/\\sqrt{x^2+y^2}\\big)$, with value $0$ at the origin, is differentiable at $(0,0)$ but its partial derivatives are not continuous there.",
+      "searchQuery": "continuous partial derivatives imply differentiable theorem C1",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.1–14.4",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-limit-two-paths-problem",
+      "unit": "partial-derivatives-and-differentiability",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Show that $\\displaystyle\\lim_{(x,y)\\to(0,0)}\\frac{xy^2}{x^2+y^4}$ does not exist.",
+      "body": "Along the parabola $x=y^2$ the function is constantly $\\tfrac12$, but along every straight line through the origin it tends to $0$, so there is no limit.\n\n- Along the line $y=mx$ (and along $x=0$ and $y=0$): $\\dfrac{x\\cdot m^2x^2}{x^2+m^4x^4}=\\dfrac{m^2x}{1+m^4x^2}\\to0$ as $x\\to0$.\n- Along $x=y^2$, $y\\neq0$: $\\dfrac{y^2\\cdot y^2}{y^4+y^4}=\\dfrac12$ for every $y\\ne0$, so the limit along this path is $\\tfrac12$.\n\nTwo paths into $(0,0)$ with different limits mean that the two-variable limit does not exist.\n\nWatch out: checking only straight lines would wrongly suggest the limit is $0$. To prove that a limit exists you need an argument covering all approaches, such as the squeeze theorem. To show that it fails, one pair of bad paths is enough. Curved paths like $x=y^2$ are the usual ones to try.",
+      "searchQuery": "limit does not exist two variables paths x=y^2 xy^2/(x^2+y^4)",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.1–14.4",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-partials-without-continuity",
+      "unit": "partial-derivatives-and-differentiability",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give a function $f(x,y)$ with both partial derivatives existing at $(0,0)$ but $f$ not continuous there.",
+      "body": "$f(x,y)=\\dfrac{xy}{x^2+y^2}$ for $(x,y)\\ne(0,0)$ and $f(0,0)=0$.\n\nOn the axes $f$ is identically $0$: $f(x,0)=0$ and $f(0,y)=0$. So $f_x(0,0)=f_y(0,0)=0$, and both partial derivatives exist.\n\nBut along the line $y=x$, $f(x,x)=\\tfrac12$ for all $x\\ne0$, which does not tend to $f(0,0)=0$. So $f$ is not continuous at the origin, and therefore not differentiable there.\n\nKey idea: partial derivatives only see $f$ along the two axes. Continuity and differentiability depend on what happens in every direction, which is why the theorem about continuous partials needs continuity of $f_x$ and $f_y$ near the point.",
+      "searchQuery": "partial derivatives exist but function not continuous xy/(x^2+y^2)",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.1–14.4",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-mixed-partials-can-differ",
+      "unit": "partial-derivatives-and-differentiability",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is the claim \"the order of partial differentiation never matters\" false?",
+      "body": "Clairaut's theorem needs the mixed partials to be continuous. For $f=\\dfrac{xy(x^2-y^2)}{x^2+y^2}$ with $f(0,0)=0$, the two mixed partials at the origin are $-1$ and $1$.\n\nWrite $\\dfrac{\\partial^2f}{\\partial y\\,\\partial x}=\\dfrac{\\partial}{\\partial y}\\!\\left(\\dfrac{\\partial f}{\\partial x}\\right)$.\n\n- From the definition, $f_x(0,y)=\\lim_{h\\to0}\\frac{f(h,y)-0}{h}=\\lim_{h\\to0}\\frac{y(h^2-y^2)}{h^2+y^2}=-y$, so $\\dfrac{\\partial^2f}{\\partial y\\,\\partial x}(0,0)=-1$.\n- Similarly $f_y(x,0)=x$, so $\\dfrac{\\partial^2f}{\\partial x\\,\\partial y}(0,0)=1$.\n\nWatch out: for this $f$ the mixed partials exist at the origin but are discontinuous there, which is exactly what the hypothesis rules out. Polynomials, exponentials and sines and cosines are $C^2$ everywhere, so for them the order is free.",
+      "searchQuery": "mixed partial derivatives not equal counterexample Clairaut hypothesis",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.1–14.4",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-jacobian-matrix-definition",
+      "unit": "chain-rule-and-gradient",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **Jacobian matrix** $Df(\\mathbf a)$ of a differentiable map $f:\\mathbb R^n\\to\\mathbb R^m$.",
+      "body": "$Df(\\mathbf a)$ is the $m\\times n$ matrix with entries $\\dfrac{\\partial f_i}{\\partial x_j}(\\mathbf a)$ (row $i$, column $j$), and it satisfies $f(\\mathbf a+\\mathbf h)=f(\\mathbf a)+Df(\\mathbf a)\\,\\mathbf h+o(\\|\\mathbf h\\|)$.\n\nRow $i$ lists the partial derivatives of the $i$-th component function $f_i$. The matrix is the best linear approximation of $f$ near $\\mathbf a$, the multivariable version of the number $f'(a)$.\n\nExample: for $f(x,y)=(x^2y,\\ x+y,\\ e^{xy})$, a map $\\mathbb R^2\\to\\mathbb R^3$,\n$Df=\\begin{pmatrix}2xy&x^2\\\\1&1\\\\ye^{xy}&xe^{xy}\\end{pmatrix}$, a $3\\times2$ matrix.\n\nKey idea: when $m=1$ the matrix has a single row, and $n=m=1$ gives the $1\\times1$ matrix $(f'(a))$.",
+      "searchQuery": "Jacobian matrix definition derivative map R^n to R^m",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.5–14.6",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-gradient-definition",
+      "unit": "chain-rule-and-gradient",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **gradient** $\\nabla f(\\mathbf a)$ of a differentiable function $f:\\mathbb R^n\\to\\mathbb R$.",
+      "body": "$\\nabla f(\\mathbf a)=\\left(\\dfrac{\\partial f}{\\partial x_1}(\\mathbf a),\\dots,\\dfrac{\\partial f}{\\partial x_n}(\\mathbf a)\\right)$, the column vector of partial derivatives, so $Df(\\mathbf a)=\\nabla f(\\mathbf a)^{T}$.\n\nIn the linear approximation $f(\\mathbf a+\\mathbf h)\\approx f(\\mathbf a)+\\nabla f(\\mathbf a)\\cdot\\mathbf h$, the dot product with $\\nabla f$ turns a small displacement into the resulting change in $f$.\n\nExample: for $f(x,y)=x^2y-y^2$, $\\nabla f=(2xy,\\ x^2-2y)$. At $(2,1)$ it equals $(4,2)$.\n\nWatch out: the gradient is a vector, so it lives in the domain space, while $f(\\mathbf a)$ is a number. The Jacobian of a real-valued function is the transpose of the gradient (a row versus a column).",
+      "searchQuery": "gradient vector definition partial derivatives column vector",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.5–14.6",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-chain-rule-theorem",
+      "unit": "chain-rule-and-gradient",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **multivariable chain rule** for a composition $g\\circ f$ of maps between Euclidean spaces.",
+      "body": "If $f:\\mathbb R^n\\to\\mathbb R^m$ is differentiable at $\\mathbf a$ and $g:\\mathbb R^m\\to\\mathbb R^p$ is differentiable at $f(\\mathbf a)$, then $D(g\\circ f)(\\mathbf a)=Dg\\big(f(\\mathbf a)\\big)\\,Df(\\mathbf a)$, a product of Jacobian matrices.\n\nWhy: each map is replaced by its linear approximation, and composing linear maps multiplies their matrices. The sizes fit: $(p\\times m)(m\\times n)$ gives $p\\times n$.\n\nSpecial case: for $z=g(x,y)$ with $x=x(t)$, $y=y(t)$, the product of a row and a column gives $\\dfrac{dz}{dt}=\\dfrac{\\partial g}{\\partial x}\\dfrac{dx}{dt}+\\dfrac{\\partial g}{\\partial y}\\dfrac{dy}{dt}$.\n\nWatch out: evaluate the derivative of the outer map at the image point $f(\\mathbf a)$, not at $\\mathbf a$. The order of the matrices matters as well: outer on the left.",
+      "searchQuery": "multivariable chain rule Jacobian matrix product theorem",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.5–14.6",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-chain-rule-example",
+      "unit": "chain-rule-and-gradient",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Let $z=x^2y$ with $x=t^2$ and $y=t^3$. Find $\\dfrac{dz}{dt}$ with the chain rule and check by substituting.",
+      "body": "$\\dfrac{dz}{dt}=7t^6$\n\nChain rule: $\\dfrac{dz}{dt}=z_x\\,x'(t)+z_y\\,y'(t)=2xy\\cdot2t+x^2\\cdot3t^2$. Substitute $x=t^2$, $y=t^3$:\n$2t^2t^3\\cdot2t+t^4\\cdot3t^2=4t^6+3t^6=7t^6$.\n\nCheck: directly, $z=(t^2)^2\\cdot t^3=t^7$, and $\\dfrac{d}{dt}t^7=7t^6$.\n\nTip: write the chain rule as a sum with one term for each variable that depends on $t$. Each term is a partial derivative of the outer function times the derivative of the inner one. Substitute the formulas for $x(t),y(t)$ at the end.",
+      "searchQuery": "chain rule example z=x^2y x=t^2 y=t^3 dz/dt",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.5–14.6",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-directional-derivative-formula",
+      "unit": "chain-rule-and-gradient",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "How do you compute the **directional derivative** $D_{\\mathbf u}f(\\mathbf a)$ of a differentiable $f$ in the direction of a unit vector $\\mathbf u$?",
+      "body": "$D_{\\mathbf u}f(\\mathbf a)=\\nabla f(\\mathbf a)\\cdot\\mathbf u$, where $D_{\\mathbf u}f(\\mathbf a)=\\lim_{h\\to0}\\dfrac{f(\\mathbf a+h\\mathbf u)-f(\\mathbf a)}{h}$ and $\\|\\mathbf u\\|=1$.\n\nWhy: apply the chain rule to $h\\mapsto f(\\mathbf a+h\\mathbf u)$, whose derivative at $h=0$ is $\\nabla f(\\mathbf a)\\cdot\\mathbf u$.\n\nKey idea: writing $\\nabla f\\cdot\\mathbf u=\\|\\nabla f\\|\\cos\\theta$, with $\\theta$ the angle between $\\nabla f$ and $\\mathbf u$, shows that the rate of increase is largest, equal to $\\|\\nabla f\\|$, when $\\mathbf u$ points along $\\nabla f$. It is $0$ when $\\mathbf u\\perp\\nabla f$ and smallest, $-\\|\\nabla f\\|$, when $\\mathbf u$ points opposite.\n\nWatch out: $\\mathbf u$ must have length $1$. For a direction given by another vector $\\mathbf w$, first use $\\mathbf u=\\mathbf w/\\|\\mathbf w\\|$.",
+      "searchQuery": "directional derivative gradient dot unit vector formula",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.5–14.6",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-gradient-perpendicular-level-set",
+      "unit": "chain-rule-and-gradient",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "Why is the gradient $\\nabla f(\\mathbf a)\\ne\\mathbf 0$ perpendicular to the **level set** of $f$ through $\\mathbf a$?",
+      "body": "Along any curve $\\mathbf r(t)$ lying in the level set, $f(\\mathbf r(t))$ is constant, so the chain rule gives $\\nabla f\\cdot\\mathbf r'(t)=0$: the gradient is perpendicular to every tangent vector of the level set.\n\nThe **level set** of $f$ at height $c$ is $\\{\\mathbf x:f(\\mathbf x)=c\\}$: a level curve for two variables and a level surface for three.\n\nProof idea: differentiate $f(\\mathbf r(t))=c$ with respect to $t$. The left side becomes $\\nabla f(\\mathbf r(t))\\cdot\\mathbf r'(t)$ by the chain rule and the right side is $0$.\n\nWhy it matters: moving along a level set changes $f$ not at all, so the fastest change must be across it, in the perpendicular direction. This is why steepest ascent crosses contour lines at right angles.\n\nWatch out: this needs $\\nabla f\\ne\\mathbf 0$. At a point with $\\nabla f=\\mathbf 0$ the level set can have a corner or cross itself, and there is no normal direction.",
+      "searchQuery": "gradient perpendicular to level set proof chain rule",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.5–14.6",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-tangent-plane-level-surface",
+      "unit": "chain-rule-and-gradient",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Give the equation of the tangent plane to the level surface $F(x,y,z)=c$ at $P_0=(x_0,y_0,z_0)$, where $\\nabla F(P_0)\\ne\\mathbf 0$.",
+      "body": "$F_x(P_0)(x-x_0)+F_y(P_0)(y-y_0)+F_z(P_0)(z-z_0)=0$\n\nWhy: $\\nabla F(P_0)$ is perpendicular to the level surface, so it is a normal vector of the tangent plane. The equation is the plane through $P_0$ with that normal.\n\nExample: the sphere $x^2+y^2+z^2=14$ at $(1,2,3)$. Here $\\nabla F=(2x,2y,2z)=(2,4,6)$, so $2(x-1)+4(y-2)+6(z-3)=0$, i.e. $x+2y+3z=14$.\n\nKey idea: the graph $z=f(x,y)$ is the level set $F=0$ of $F(x,y,z)=f(x,y)-z$. Then $\\nabla F=(f_x,f_y,-1)$ and the formula gives $z-z_0=f_x(x-x_0)+f_y(y-y_0)$, the tangent plane from before.",
+      "searchQuery": "tangent plane to level surface gradient normal vector",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.5–14.6",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-directional-derivative-problem",
+      "unit": "chain-rule-and-gradient",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $f(x,y)=x^2y-y^2$. Find the directional derivative of $f$ at $(2,1)$ in the direction from $(2,1)$ toward $(5,5)$ (a number).",
+      "body": "$4$\n\n- $\\nabla f=(2xy,\\ x^2-2y)$, which at $(2,1)$ is $(4,2)$.\n- The direction vector is $(5,5)-(2,1)=(3,4)$, of length $5$, so the unit vector is $\\mathbf u=(\\tfrac35,\\tfrac45)$.\n- $D_{\\mathbf u}f(2,1)=(4,2)\\cdot(\\tfrac35,\\tfrac45)=\\tfrac{12+8}{5}=4$.\n\nInterpretation: moving toward $(5,5)$, $f$ increases at the rate of $4$ units of $f$ per unit of distance. The greatest possible rate at this point is $\\|\\nabla f\\|=\\sqrt{20}\\approx4.47$, in the direction $(4,2)/\\sqrt{20}$.\n\nWatch out: normalizing is the step that gets forgotten. Using $(3,4)$ directly would give $20$, five times too large.",
+      "searchQuery": "directional derivative problem toward a point unit vector gradient",
+      "answer": "4",
+      "answerDisplay": "$4$",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.5–14.6",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-gradient-not-toward-maximum",
+      "unit": "chain-rule-and-gradient",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is the claim \"$\\nabla f(P)$ points from $P$ toward the point where $f$ is largest\" false?",
+      "body": "The gradient gives the direction of steepest increase only locally, at $P$ itself. The route to the maximum can point somewhere else.\n\nExample: $f(x,y)=-x^2-10y^2$ has its maximum at $(0,0)$. At $P=(1,1)$ the gradient is $(-2,-20)$, which points almost straight in the $-y$ direction. The direction to the maximum is $(-1,-1)$. The level curves of $f$ are long thin ellipses, and the steepest way up is across them, not along the valley toward the center.\n\nKey idea: $\\nabla f(P)$ is built from first-order information at $P$ only. It is perpendicular to the level curve through $P$, and the maximum point does not need to lie on that perpendicular line.\n\nTip: this is why a climber who always steps along the local gradient must recompute the direction after every small step; the path bends and zigzags across the valley rather than heading straight for the peak.",
+      "searchQuery": "gradient direction not toward maximum steepest ascent local",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.5–14.6",
+        "Hubbard–Hubbard 5e, ch. 1",
+        "MIT 18.02SC, Unit 2 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-critical-point-definition",
+      "unit": "optimization-and-lagrange-multipliers",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define a **critical point** of a function $f$ of several variables, and say why such points matter.",
+      "body": "A critical point is a point $\\mathbf a$ in the interior of the domain where $\\nabla f(\\mathbf a)=\\mathbf 0$ or where some partial derivative does not exist. Every local maximum or minimum at an interior point is at a critical point.\n\nWhy: if $f$ has a local maximum at $\\mathbf a$, each one-variable slice $t\\mapsto f(\\mathbf a+t\\mathbf e_i)$ has a local maximum at $t=0$, so each partial derivative that exists there is $0$.\n\nWatch out: the converse fails. A critical point can be neither a maximum nor a minimum. A **saddle point** is a critical point where $f$ takes larger values at some nearby points and smaller values at others.\n\nExample: $f=x^2-y^2$ has $\\nabla f=(2x,-2y)=\\mathbf 0$ at the origin. Along the $x$-axis $f=x^2\\ge0$ and along the $y$-axis $f=-y^2\\le0$, so the origin is a saddle point.",
+      "searchQuery": "critical point several variables gradient zero saddle point definition",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.7–14.8",
+        "Hubbard–Hubbard 5e, ch. 3",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-hessian-matrix",
+      "unit": "optimization-and-lagrange-multipliers",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Define the **Hessian matrix** of $f(x,y)$ and the number $D$ used to classify critical points.",
+      "body": "$H=\\begin{pmatrix}f_{xx}&f_{xy}\\\\f_{yx}&f_{yy}\\end{pmatrix}$ and $D=\\det H=f_{xx}f_{yy}-f_{xy}^2$ (using $f_{xy}=f_{yx}$ for a $C^2$ function).\n\nFor $f:\\mathbb R^n\\to\\mathbb R$, the Hessian is the $n\\times n$ matrix of second partial derivatives $\\dfrac{\\partial^2f}{\\partial x_i\\,\\partial x_j}$. For a $C^2$ function it is symmetric, by Clairaut's theorem.\n\nWhy it matters: near a critical point $\\mathbf a$, Taylor's theorem gives $f(\\mathbf a+\\mathbf h)\\approx f(\\mathbf a)+\\tfrac12\\mathbf h^{T}H\\,\\mathbf h$, since the first-order term vanishes. The sign pattern of this quadratic expression in $\\mathbf h$ decides between a minimum, a maximum and a saddle, and $H$ is the matrix of that quadratic expression.\n\nExample: for $f=x^3-3xy+y^3$, $H=\\begin{pmatrix}6x&-3\\\\-3&6y\\end{pmatrix}$.",
+      "searchQuery": "Hessian matrix second partial derivatives determinant D definition",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.7–14.8",
+        "Hubbard–Hubbard 5e, ch. 3",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-second-derivative-test",
+      "unit": "optimization-and-lagrange-multipliers",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **second derivative test** for a critical point $(a,b)$ of a $C^2$ function $f(x,y)$, with $D=f_{xx}f_{yy}-f_{xy}^2$ evaluated at $(a,b)$.",
+      "body": "If $D>0$ and $f_{xx}>0$ then $(a,b)$ is a local minimum; if $D>0$ and $f_{xx}<0$, a local maximum; if $D<0$, a saddle point; if $D=0$, the test gives no information.\n\nWhy: the symmetric matrix $H$ has two real eigenvalues, with product $D$ and sum $f_{xx}+f_{yy}$. If $D>0$ they have the same sign: both positive (so $H$ is positive definite, and $f$ curves up in every direction) when $f_{xx}>0$, both negative when $f_{xx}<0$. If $D<0$ they have opposite signs, so $f$ curves up in one direction and down in another.\n\nWatch out: when $D=0$, higher-order terms decide. At the origin, $x^4+y^4$ has a minimum and $-x^4-y^4$ a maximum, while $x^3+y^3$ has neither, yet all three have $D=0$ there.\n\nTip: if $D>0$, $f_{xx}$ and $f_{yy}$ have the same sign, so you may use either one to tell a minimum from a maximum.",
+      "searchQuery": "second derivative test two variables D>0 f_xx classification theorem",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.7–14.8",
+        "Hubbard–Hubbard 5e, ch. 3",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-classify-critical-points-example",
+      "unit": "optimization-and-lagrange-multipliers",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Find and classify the critical points of $f(x,y)=x^3-3xy+y^3$.",
+      "body": "$(0,0)$ is a saddle point and $(1,1)$ is a local minimum.\n\nSet $f_x=3x^2-3y=0$ and $f_y=3y^2-3x=0$. The first gives $y=x^2$, and the second becomes $x^4=x$, so $x=0$ or $x=1$. The critical points are $(0,0)$ and $(1,1)$.\n\nThe second partials are $f_{xx}=6x$, $f_{yy}=6y$, $f_{xy}=-3$, so $D=36xy-9$.\n\n- At $(0,0)$: $D=-9<0$, a saddle point.\n- At $(1,1)$: $D=27>0$ and $f_{xx}=6>0$, a local minimum with $f(1,1)=-1$.\n\nWatch out: a local minimum need not be an absolute minimum. Here $f(x,0)=x^3\\to-\\infty$ as $x\\to-\\infty$, so $f$ has no absolute minimum on $\\mathbb R^2$.",
+      "searchQuery": "classify critical points x^3-3xy+y^3 saddle local minimum",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.7–14.8",
+        "Hubbard–Hubbard 5e, ch. 3",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-absolute-extrema-disk-problem",
+      "unit": "optimization-and-lagrange-multipliers",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the absolute maximum and minimum of $f(x,y)=x^2+y^2-2x$ on the disk $x^2+y^2\\le4$.",
+      "body": "Absolute maximum $8$ at $(-2,0)$ and absolute minimum $-1$ at $(1,0)$.\n\nThe disk is closed (it contains its boundary circle) and bounded (it fits in a larger disk) and $f$ is continuous, so both extremes exist, by the extreme value theorem for several variables. They occur at critical points inside or at points on the boundary.\n\n- Interior: $f_x=2x-2=0$ and $f_y=2y=0$ give $(1,0)$, with $f=-1$.\n- Boundary: on $x^2+y^2=4$, $f=4-2x$ with $-2\\le x\\le2$, which ranges from $0$ at $(2,0)$ to $8$ at $(-2,0)$.\n\nCompare the values $-1,\\ 0,\\ 8$: the smallest is $-1$ and the largest is $8$.\n\nTip: this is the closed interval method with the boundary now a curve. Treat the boundary as a one-variable problem, either by parametrizing it or by using Lagrange multipliers.",
+      "searchQuery": "absolute extrema closed bounded region disk critical points boundary",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.7–14.8",
+        "Hubbard–Hubbard 5e, ch. 3",
+        "MIT 18.02SC, Unit 2 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-lagrange-geometric-idea",
+      "unit": "optimization-and-lagrange-multipliers",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "Geometrically, why must $\\nabla f$ be parallel to $\\nabla g$ at an extreme point of $f$ on the **constraint** curve $g(x,y)=c$?",
+      "body": "At a constrained extremum the level curve of $f$ through the point is tangent to the constraint curve. Both gradients (taking $\\nabla g\\ne\\mathbf 0$) are perpendicular to that common tangent line, so they are parallel.\n\nA **constraint** is a condition $g(x,y)=c$ that the points under consideration must satisfy.\n\nWhy: suppose $\\nabla f$ had a nonzero component along the tangent direction of the constraint curve. Moving along the curve one way would increase $f$ and the other way would decrease $f$, so the point could not be a maximum or a minimum on the curve. So $\\nabla f$ has no tangent component and is perpendicular to the curve, as $\\nabla g$ is.\n\nPicture: to maximize $f$ on the curve, slide the level curves of $f$ upward until the last one that still touches the constraint curve. At that touching point, the two curves are tangent, rather than crossing.\n\nWatch out: parallel includes $\\nabla f=\\mathbf 0$, which is allowed, with $\\lambda=0$.",
+      "searchQuery": "Lagrange multipliers geometric meaning gradients parallel tangent level curve",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.7–14.8",
+        "Hubbard–Hubbard 5e, ch. 3",
+        "MIT 18.02SC, Unit 2 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-lagrange-multiplier-theorem",
+      "unit": "optimization-and-lagrange-multipliers",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **Lagrange multiplier** theorem for one constraint.",
+      "body": "Let $f$ and $g$ be $C^1$. If $f$ restricted to $\\{g=c\\}$ has a local maximum or minimum at $\\mathbf a$, and $\\nabla g(\\mathbf a)\\ne\\mathbf 0$, then there is a real number $\\lambda$ (the **Lagrange multiplier**) with $\\nabla f(\\mathbf a)=\\lambda\\,\\nabla g(\\mathbf a)$.\n\nMethod: solve the $n+1$ equations $\\nabla f=\\lambda\\nabla g$ and $g=c$ for the $n+1$ unknowns $x_1,\\dots,x_n,\\lambda$, then compare the values of $f$ at the solutions.\n\nExample: to maximize $xy$ on $x+y=2$, solve $(y,x)=\\lambda(1,1)$ and $x+y=2$. This gives $x=y=1$ and $\\lambda=1$, with $f=1$. Along the line, $xy=x(2-x)\\le1$, so this is the maximum.\n\nExtension: with two constraints $g=c$ and $h=d$, the condition becomes $\\nabla f=\\lambda\\nabla g+\\mu\\nabla h$, valid when $\\nabla g(\\mathbf a)$ and $\\nabla h(\\mathbf a)$ are linearly independent.\n\nWatch out: the hypothesis $\\nabla g\\ne\\mathbf 0$ matters. Points where it fails must be checked separately.",
+      "searchQuery": "Lagrange multiplier theorem gradient f equals lambda gradient g",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.7–14.8",
+        "Hubbard–Hubbard 5e, ch. 3",
+        "MIT 18.02SC, Unit 2 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-lagrange-candidates-misconception",
+      "unit": "optimization-and-lagrange-multipliers",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why does solving $\\nabla f=\\lambda\\nabla g$ and $g=c$ not, by itself, tell you the maximum and the minimum?",
+      "body": "The solutions are only candidates. Each could be a maximum, a minimum or neither on the constraint set, so you must compare the values of $f$ at all candidates, and know that the extremes exist.\n\nCompactness settles existence: if the constraint set is closed and bounded (such as a circle or a sphere) and $f$ is continuous, the maximum and minimum both exist, and the largest and smallest candidate values are them.\n\nExample: on the line $x+y=2$, $f=x^2+y^2$ has a single candidate $(1,1)$ with $f=2$. It is the minimum, and there is no maximum, because the line is unbounded and $f\\to\\infty$ along it.\n\nWatch out: also check points where $\\nabla g=\\mathbf 0$ on the constraint set (the theorem does not cover them), and include any boundary pieces of the region.",
+      "searchQuery": "Lagrange multipliers candidates compare values closed bounded extremes exist",
+      "refs": [
+        "Stewart, Calculus ET 8e §14.7–14.8",
+        "Hubbard–Hubbard 5e, ch. 3",
+        "MIT 18.02SC, Unit 2 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-two-constraints-problem",
+      "unit": "optimization-and-lagrange-multipliers",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the minimum of $f(x,y,z)=x^2+y^2+z^2$ subject to $x+y+z=1$ and $x-y+2z=2$, and the point where it occurs.",
+      "body": "The minimum is $\\tfrac57$, at $\\left(\\tfrac37,-\\tfrac17,\\tfrac57\\right)$.\n\nUse two multipliers: $\\nabla f=\\lambda\\nabla g+\\mu\\nabla h$, that is\n$2(x,y,z)=\\lambda(1,1,1)+\\mu(1,-1,2)$.\n\n- Components: $2x=\\lambda+\\mu$, $2y=\\lambda-\\mu$, $2z=\\lambda+2\\mu$.\n- Substitute into the constraints: $x+y+z=\\tfrac12(3\\lambda+2\\mu)=1$ and $x-y+2z=\\tfrac12(2\\mu+2\\lambda+4\\mu)=\\lambda+3\\mu=2$. So $3\\lambda+2\\mu=2$ and $\\lambda+3\\mu=2$, giving $\\lambda=\\tfrac27$ and $\\mu=\\tfrac47$.\n- Then $x=\\tfrac{3}{7}$, $y=-\\tfrac17$, $z=\\tfrac57$, and $f=\\tfrac{9+1+25}{49}=\\tfrac57$.\n\nWhy it is the minimum: the constraints describe a line, and $f$ is the squared distance from the origin, which grows without bound along the line. The only candidate is the closest point.\n\nCheck: $\\tfrac37-\\tfrac17+\\tfrac57=1$ and $\\tfrac37+\\tfrac17+\\tfrac{10}7=2$.",
+      "searchQuery": "minimize x^2+y^2+z^2 two constraints Lagrange multipliers closest point to line",
+      "checkpoint": true,
+      "refs": [
+        "Stewart, Calculus ET 8e §14.7–14.8",
+        "Hubbard–Hubbard 5e, ch. 3",
+        "MIT 18.02SC, Unit 2 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-double-integral-definition",
+      "unit": "multiple-integrals",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **double integral** $\\iint_R f\\,dA$ of a continuous function over a rectangle $R=[a,b]\\times[c,d]$.",
+      "body": "$\\iint_R f\\,dA=\\lim\\sum_{i,j}f(x_i^*,y_j^*)\\,\\Delta A$, the limit of Riemann sums over finer and finer grids of sub-rectangles of area $\\Delta A$, where $(x_i^*,y_j^*)$ is a sample point in each one.\n\nFor $f\\ge0$ it is the volume of the solid under the graph $z=f(x,y)$ and above $R$. For a general region $D$, set $f=0$ outside $D$ and integrate over a rectangle containing $D$.\n\nExample: with $f=1$ the integral is the area of the region, $\\iint_D 1\\,dA=\\text{area}(D)$.\n\nKey idea: the definition is the two-variable analogue of the Riemann sum for $\\int_a^b f\\,dx$, with strips replaced by little rectangles. Dividing by the area gives the average value of $f$ on $D$.",
+      "searchQuery": "double integral definition Riemann sum rectangle volume",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.1–15.8",
+        "MIT 18.02SC, Unit 3 Part A, Unit 4 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-double-integral-not-area",
+      "unit": "multiple-integrals",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is the claim \"$\\iint_D f\\,dA$ is the area of the region $D$\" false?",
+      "body": "The double integral is the signed volume between the graph of $f$ and the region $D$ (positive above the $xy$-plane, negative below). It equals the area of $D$ only when $f=1$.\n\nThe area of $D$ is $\\iint_D 1\\,dA$.\n\nExample: $\\iint_D 5\\,dA=5\\cdot\\text{area}(D)$, the volume of a slab of height $5$, and for a function that takes both signs, positive and negative parts partly cancel.\n\nWatch out: the same trap shows up in one variable. $\\int_a^b f\\,dx$ is a net signed area under the graph, not the length of $[a,b]$. In general, treat $f$ as a density: $\\iint_D f\\,dA$ adds up $f$ times area.",
+      "searchQuery": "double integral signed volume not area of region f equals 1",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.1–15.8",
+        "MIT 18.02SC, Unit 3 Part A, Unit 4 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-triple-integral-definition",
+      "unit": "multiple-integrals",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **triple integral** $\\iiint_E f\\,dV$ over a solid region $E\\subseteq\\mathbb R^3$.",
+      "body": "$\\iiint_E f\\,dV=\\lim\\sum f(x_i^*,y_j^*,z_k^*)\\,\\Delta V$, the limit of sums over finer and finer grids of small boxes of volume $\\Delta V$ filling $E$.\n\nWith $f=1$ it gives the volume of $E$. If $f$ is a density (mass per unit volume), $\\iiint_E f\\,dV$ is the total mass of $E$.\n\nExample: $\\iiint_E 1\\,dV$ for the box $E=[0,1]\\times[0,2]\\times[0,3]$ equals $1\\cdot2\\cdot3=6$.\n\nWatch out: the integral of $f$ over a solid is not the \"volume under a graph in four dimensions\". It is the accumulated total of $f$ over the solid, in the same way that a double integral accumulates $f$ over a planar region.",
+      "searchQuery": "triple integral definition volume mass density limit of sums",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.1–15.8",
+        "MIT 18.02SC, Unit 3 Part A, Unit 4 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-fubini-theorem",
+      "unit": "multiple-integrals",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Fubini's theorem** for a continuous function on a rectangle.",
+      "body": "If $f$ is continuous on $R=[a,b]\\times[c,d]$, then $\\displaystyle\\iint_R f\\,dA=\\int_a^b\\!\\Big(\\int_c^d f\\,dy\\Big)dx=\\int_c^d\\!\\Big(\\int_a^b f\\,dx\\Big)dy$.\n\nEach right-hand side is an **iterated integral**: compute the inner integral first, treating the outer variable as a constant, then integrate the result.\n\nExample: $\\iint_{[0,1]\\times[0,2]}xy^2\\,dA=\\int_0^1x\\,dx\\cdot\\int_0^2y^2\\,dy=\\tfrac12\\cdot\\tfrac83=\\tfrac43$.\n\nWhy it matters: it turns a double integral into two ordinary integrals, and either order may be chosen. For a region $D=\\{a\\le x\\le b,\\ g_1(x)\\le y\\le g_2(x)\\}$ the same idea gives $\\iint_D f\\,dA=\\int_a^b\\int_{g_1(x)}^{g_2(x)}f\\,dy\\,dx$.\n\nWatch out: the theorem is for continuous $f$. For general functions, the two iterated integrals can both exist and differ.",
+      "searchQuery": "Fubini theorem double integral iterated integral either order",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.1–15.8",
+        "MIT 18.02SC, Unit 3 Part A, Unit 4 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-reverse-order-problem",
+      "unit": "multiple-integrals",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\displaystyle\\int_0^1\\!\\!\\int_x^1 e^{y^2}\\,dy\\,dx$.",
+      "body": "$\\dfrac{e-1}{2}$\n\nThe inner integral $\\int e^{y^2}\\,dy$ has no elementary antiderivative, so reverse the order of integration.\n\n- The region is $0\\le x\\le1$, $x\\le y\\le1$. Equivalently it is the triangle $0\\le y\\le1$, $0\\le x\\le y$, bounded by the lines $x=0$, $y=1$ and $y=x$.\n- Then $\\int_0^1\\!\\!\\int_0^y e^{y^2}\\,dx\\,dy=\\int_0^1 y\\,e^{y^2}\\,dy=\\Big[\\tfrac12e^{y^2}\\Big]_0^1=\\dfrac{e-1}{2}$.\n\nTip: sketch the region first. Reversing the order means re-describing the same region with the roles of $x$ and $y$ swapped. The limits of the new inner variable come from the boundary curves of the sketch, not from the old integral signs.",
+      "searchQuery": "reverse order of integration e^{y^2} triangle region double integral",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.1–15.8",
+        "MIT 18.02SC, Unit 3 Part A, Unit 4 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-polar-integral-formula",
+      "unit": "multiple-integrals",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "How is $\\iint_D f(x,y)\\,dA$ rewritten in **polar coordinates**?",
+      "body": "$\\iint_D f\\,dA=\\iint f(r\\cos\\theta,\\ r\\sin\\theta)\\,r\\,dr\\,d\\theta$, with the limits describing $D$ in terms of $r$ and $\\theta$.\n\nWhy: a small polar rectangle between radii $r$ and $r+dr$ and angles $\\theta$ and $\\theta+d\\theta$ has sides $dr$ and $r\\,d\\theta$, so its area is about $r\\,dr\\,d\\theta$.\n\nExample: the disk $x^2+y^2\\le a^2$ is $0\\le r\\le a$, $0\\le\\theta\\le2\\pi$, and its area is $\\int_0^{2\\pi}\\!\\!\\int_0^a r\\,dr\\,d\\theta=\\pi a^2$.\n\nWatch out: the extra factor $r$ is required. Writing $dr\\,d\\theta$ alone forgets that a polar rectangle gets wider farther from the origin. Polar coordinates fit regions bounded by circles, arcs of circles or rays, and integrands containing $x^2+y^2$.",
+      "searchQuery": "polar coordinates double integral r dr dtheta formula",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.1–15.8",
+        "MIT 18.02SC, Unit 3 Part A, Unit 4 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-polar-gaussian-disk-example",
+      "unit": "multiple-integrals",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Evaluate $\\iint_D e^{-(x^2+y^2)}\\,dA$ over the unit disk $D=\\{x^2+y^2\\le1\\}$.",
+      "body": "$\\pi\\left(1-\\dfrac1e\\right)$\n\nIn polar coordinates $x^2+y^2=r^2$, so\n$\\int_0^{2\\pi}\\!\\!\\int_0^1 e^{-r^2}\\,r\\,dr\\,d\\theta=2\\pi\\Big[-\\tfrac12e^{-r^2}\\Big]_0^1=2\\pi\\cdot\\tfrac12\\left(1-e^{-1}\\right)=\\pi\\left(1-e^{-1}\\right)$.\n\nThe extra factor $r$ is what makes the substitution $u=r^2$ work. In Cartesian coordinates the same integral has no elementary antiderivative in either variable.\n\nWhy it matters: letting the disk radius grow to infinity gives $\\pi$, and since $\\iint e^{-(x^2+y^2)}dA=\\left(\\int e^{-x^2}dx\\right)^2$, this proves $\\int_{-\\infty}^{\\infty}e^{-x^2}dx=\\sqrt\\pi$.",
+      "searchQuery": "polar coordinates integral e^{-(x^2+y^2)} unit disk",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.1–15.8",
+        "MIT 18.02SC, Unit 3 Part A, Unit 4 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-spherical-coordinates-formula",
+      "unit": "multiple-integrals",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Define **spherical coordinates** $(\\rho,\\varphi,\\theta)$ and the volume element $dV$.",
+      "body": "$x=\\rho\\sin\\varphi\\cos\\theta$, $y=\\rho\\sin\\varphi\\sin\\theta$, $z=\\rho\\cos\\varphi$, and $dV=\\rho^2\\sin\\varphi\\,d\\rho\\,d\\varphi\\,d\\theta$, with $\\rho\\ge0$, $0\\le\\varphi\\le\\pi$, $0\\le\\theta<2\\pi$.\n\nHere $\\rho$ is the distance from the origin, $\\varphi$ is the angle from the positive $z$-axis, and $\\theta$ is the same angle around the $z$-axis as in polar coordinates.\n\nWhy: a small box has sides $d\\rho$ (radially), $\\rho\\,d\\varphi$ (along a meridian) and $\\rho\\sin\\varphi\\,d\\theta$ (along a circle of latitude, whose radius is $\\rho\\sin\\varphi$). Multiply the three.\n\nTip: use spherical coordinates for balls, spherical shells and cones about the $z$-axis, or integrands with $x^2+y^2+z^2$, which is just $\\rho^2$.\n\nWatch out: conventions vary. Many physics books swap the roles of $\\varphi$ and $\\theta$. The convention here is the one used in calculus texts.",
+      "searchQuery": "spherical coordinates volume element rho^2 sin phi",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.1–15.8",
+        "MIT 18.02SC, Unit 3 Part A, Unit 4 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-cylindrical-volume-problem",
+      "unit": "multiple-integrals",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use **cylindrical coordinates** to find the volume of the solid between the paraboloid $z=x^2+y^2$ and the plane $z=4$ (a number).",
+      "body": "$8\\pi$\n\nCylindrical coordinates $(r,\\theta,z)$ are polar coordinates in the $xy$-plane plus the height $z$, with $x=r\\cos\\theta$, $y=r\\sin\\theta$ and $dV=r\\,dz\\,dr\\,d\\theta$.\n\n- The paraboloid is $z=r^2$. The solid lies above it and below $z=4$, so $r^2\\le z\\le4$.\n- The paraboloid meets the plane where $r^2=4$, so $0\\le r\\le2$ and $0\\le\\theta\\le2\\pi$.\n- Volume $=\\int_0^{2\\pi}\\!\\!\\int_0^2\\!\\!\\int_{r^2}^4 r\\,dz\\,dr\\,d\\theta=2\\pi\\int_0^2(4-r^2)\\,r\\,dr=2\\pi\\Big[2r^2-\\tfrac{r^4}{4}\\Big]_0^2=2\\pi\\cdot4=8\\pi$.\n\nTip: cylindrical coordinates are the natural choice when the solid has symmetry around the $z$-axis, and they leave $z$ as an ordinary variable.",
+      "searchQuery": "volume between paraboloid and plane cylindrical coordinates triple integral",
+      "answer": "8*pi",
+      "answerDisplay": "$8\\pi$",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.1–15.8",
+        "MIT 18.02SC, Unit 3 Part A, Unit 4 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-spherical-ball-integral-problem",
+      "unit": "multiple-integrals",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\iiint_B (x^2+y^2+z^2)\\,dV$ over the ball $B$ of radius $a$ centered at the origin.",
+      "body": "$\\dfrac{4\\pi a^5}{5}$\n\nIn spherical coordinates the ball is $0\\le\\rho\\le a$, $0\\le\\varphi\\le\\pi$, $0\\le\\theta\\le2\\pi$, and the integrand is $\\rho^2$.\n\n$\\int_0^{2\\pi}\\!\\!\\int_0^{\\pi}\\!\\!\\int_0^a\\rho^2\\cdot\\rho^2\\sin\\varphi\\,d\\rho\\,d\\varphi\\,d\\theta=\\Big(\\int_0^a\\rho^4\\,d\\rho\\Big)\\Big(\\int_0^\\pi\\sin\\varphi\\,d\\varphi\\Big)\\Big(\\int_0^{2\\pi}d\\theta\\Big)=\\dfrac{a^5}{5}\\cdot2\\cdot2\\pi$.\n\nThe integrand and the region both depend only on $\\rho$, so the integral splits into three separate one-variable integrals.\n\nCheck: with the integrand $1$ the same setup gives $\\frac{a^3}{3}\\cdot2\\cdot2\\pi=\\frac{4\\pi a^3}{3}$, the volume of the ball.",
+      "searchQuery": "triple integral over ball spherical coordinates x^2+y^2+z^2",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.1–15.8",
+        "MIT 18.02SC, Unit 3 Part A, Unit 4 Part A"
+      ]
+    },
+    {
+      "id": "multivariable-jacobian-determinant-definition",
+      "unit": "change-of-variables-and-jacobians",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **Jacobian determinant** $\\dfrac{\\partial(x,y)}{\\partial(u,v)}$ of a **coordinate transformation** $T(u,v)=(x(u,v),\\,y(u,v))$.",
+      "body": "$\\dfrac{\\partial(x,y)}{\\partial(u,v)}=\\det\\begin{pmatrix}x_u&x_v\\\\y_u&y_v\\end{pmatrix}=x_uy_v-x_vy_u$, the determinant of the Jacobian matrix of $T$.\n\nA **coordinate transformation** is a map $T$ that gives each point of the $(u,v)$-plane new coordinates in the $(x,y)$-plane, usually one-to-one with a differentiable inverse.\n\nExample: for polar coordinates $x=r\\cos\\theta$, $y=r\\sin\\theta$,\n$\\dfrac{\\partial(x,y)}{\\partial(r,\\theta)}=\\det\\begin{pmatrix}\\cos\\theta&-r\\sin\\theta\\\\\\sin\\theta&r\\cos\\theta\\end{pmatrix}=r\\cos^2\\theta+r\\sin^2\\theta=r$.\n\nFor three variables $T(u,v,w)$ the Jacobian determinant is the determinant of the $3\\times3$ matrix of partial derivatives, with the same notation $\\dfrac{\\partial(x,y,z)}{\\partial(u,v,w)}$.",
+      "searchQuery": "Jacobian determinant definition coordinate transformation polar example r",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.9",
+        "Hubbard–Hubbard 5e, ch. 4"
+      ]
+    },
+    {
+      "id": "multivariable-area-scaling-factor",
+      "unit": "change-of-variables-and-jacobians",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "By what factor does a differentiable coordinate transformation $T(u,v)=(x,y)$ scale areas near the point $(u,v)$?",
+      "body": "By $\\left|\\dfrac{\\partial(x,y)}{\\partial(u,v)}\\right|$: a small region of area $\\Delta u\\,\\Delta v$ is sent to a region of area approximately $\\left|\\dfrac{\\partial(x,y)}{\\partial(u,v)}\\right|\\Delta u\\,\\Delta v$. This number is the **area scaling factor**.\n\nWhy: near a point, $T$ is well approximated by its linear map $DT$. The linear map with matrix $A$ sends the unit square to the parallelogram spanned by the columns of $A$, which has area $|\\det A|$ by the determinant-as-area fact from linear algebra.\n\nExample: $x=2u$, $y=3v$ stretches every area by $2\\cdot3=6$. Polar coordinates $(r,\\theta)$ scale area near radius $r$ by $r$, which is why $dA=r\\,dr\\,d\\theta$.\n\nWatch out: the factor generally changes from point to point. It is constant only for linear and affine maps.",
+      "searchQuery": "Jacobian determinant area scaling factor absolute value linear approximation",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.9",
+        "Hubbard–Hubbard 5e, ch. 4"
+      ]
+    },
+    {
+      "id": "multivariable-change-of-variables-theorem",
+      "unit": "change-of-variables-and-jacobians",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **change of variables formula** for double integrals.",
+      "body": "Let $T$ be a $C^1$ map from a region $S$ in the $(u,v)$-plane onto a region $R$ in the $(x,y)$-plane, one-to-one on the interior of $S$, with $\\dfrac{\\partial(x,y)}{\\partial(u,v)}\\ne0$ there, and $f$ continuous on $R$. Then\n$$\\iint_R f(x,y)\\,dA=\\iint_S f\\big(x(u,v),y(u,v)\\big)\\left|\\frac{\\partial(x,y)}{\\partial(u,v)}\\right|du\\,dv.$$\n\nWhy it matters: it is the substitution rule in two variables. The absolute value of the Jacobian determinant replaces $\\left|\\frac{dx}{du}\\right|$, and the substitution is useful when it simplifies either the integrand or the region.\n\nWatch out: use the absolute value, since areas are positive even when $T$ reverses orientation. The map must be one-to-one apart from the boundary, or regions get covered twice. The same formula holds in three variables with $\\partial(x,y,z)/\\partial(u,v,w)$.",
+      "searchQuery": "change of variables theorem double integral Jacobian absolute value",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.9",
+        "Hubbard–Hubbard 5e, ch. 4"
+      ]
+    },
+    {
+      "id": "multivariable-inverse-jacobian-reciprocal",
+      "unit": "change-of-variables-and-jacobians",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "How is $\\dfrac{\\partial(x,y)}{\\partial(u,v)}$ related to $\\dfrac{\\partial(u,v)}{\\partial(x,y)}$ for a coordinate transformation with a differentiable inverse?",
+      "body": "They are reciprocals: $\\dfrac{\\partial(x,y)}{\\partial(u,v)}=\\dfrac{1}{\\,\\partial(u,v)/\\partial(x,y)\\,}$, evaluated at corresponding points.\n\nWhy: by the chain rule, the Jacobian matrices of $T$ and of its inverse multiply to the identity matrix. The determinant of an inverse matrix is the reciprocal of the determinant.\n\nWhy it matters: often $u$ and $v$ are given as simple functions of $x$ and $y$, such as $u=x+y$, $v=x-y$, and solving for $x,y$ is extra work. Compute $\\partial(u,v)/\\partial(x,y)$ and invert the number.\n\nExample: for $u=x+y$ and $v=x-y$, $\\dfrac{\\partial(u,v)}{\\partial(x,y)}=\\det\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}=-2$, so $\\dfrac{\\partial(x,y)}{\\partial(u,v)}=-\\tfrac12$ and the area scaling factor is $\\tfrac12$.",
+      "searchQuery": "inverse Jacobian reciprocal partial(u,v)/partial(x,y) determinant",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.9",
+        "Hubbard–Hubbard 5e, ch. 4"
+      ]
+    },
+    {
+      "id": "multivariable-ellipse-area-example",
+      "unit": "change-of-variables-and-jacobians",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Use a change of variables to find the area of the ellipse $\\dfrac{x^2}{a^2}+\\dfrac{y^2}{b^2}\\le1$ ($a,b>0$).",
+      "body": "$\\pi ab$\n\nPut $x=au$, $y=bv$. The ellipse corresponds to the unit disk $u^2+v^2\\le1$, and $\\dfrac{\\partial(x,y)}{\\partial(u,v)}=\\det\\begin{pmatrix}a&0\\\\0&b\\end{pmatrix}=ab$.\n\nArea $=\\iint 1\\,dx\\,dy=\\iint_{u^2+v^2\\le1}ab\\,du\\,dv=ab\\cdot\\pi$.\n\nKey idea: the ellipse is a stretched unit circle, and the stretch multiplies all areas by the constant $ab$. For $a=b=r$ this recovers the area $\\pi r^2$ of a circle.\n\nTip: for elliptical regions $\\frac{x^2}{a^2}+\\frac{y^2}{b^2}\\le1$, the substitution $x=au$, $y=bv$ (or $x=ar\\cos\\theta$, $y=br\\sin\\theta$ with Jacobian $abr$) turns the region into a disk.",
+      "searchQuery": "area of ellipse change of variables pi a b Jacobian",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.9",
+        "Hubbard–Hubbard 5e, ch. 4"
+      ]
+    },
+    {
+      "id": "multivariable-parallelogram-region-problem",
+      "unit": "change-of-variables-and-jacobians",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $R$ be the square region bounded by $x+y=1$, $x+y=3$, $x-y=0$ and $x-y=2$. Evaluate $\\iint_R (x^2-y^2)\\,dA$ (a number).",
+      "body": "$4$\n\nPut $u=x+y$ and $v=x-y$. Then $R$ becomes the rectangle $1\\le u\\le3$, $0\\le v\\le2$, and $x^2-y^2=(x+y)(x-y)=uv$.\n\n- $\\dfrac{\\partial(u,v)}{\\partial(x,y)}=\\det\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}=-2$, so $\\left|\\dfrac{\\partial(x,y)}{\\partial(u,v)}\\right|=\\tfrac12$.\n- $\\iint_R(x^2-y^2)\\,dA=\\int_0^2\\!\\!\\int_1^3uv\\cdot\\tfrac12\\,du\\,dv=\\tfrac12\\Big(\\int_1^3u\\,du\\Big)\\Big(\\int_0^2v\\,dv\\Big)=\\tfrac12\\cdot4\\cdot2=4$.\n\nWhy this substitution: both the integrand and the sides of the region become simple in $(u,v)$, so the region turns into a rectangle with constant bounds.\n\nCheck: $R$ has side length $\\sqrt2$ in each direction (area $2$), and $\\tfrac12\\cdot(2\\cdot2)=2$ agrees.",
+      "searchQuery": "change of variables u=x+y v=x-y region integral x^2-y^2",
+      "answer": "4",
+      "answerDisplay": "$4$",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.9",
+        "Hubbard–Hubbard 5e, ch. 4"
+      ]
+    },
+    {
+      "id": "multivariable-ellipse-integral-problem",
+      "unit": "change-of-variables-and-jacobians",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Evaluate $\\iint_D x^2\\,dA$, where $D$ is the region $\\dfrac{x^2}{4}+\\dfrac{y^2}{9}\\le1$.",
+      "body": "$6\\pi$\n\nLet $x=2u$, $y=3v$. Then $D$ becomes the unit disk $u^2+v^2\\le1$, and $\\dfrac{\\partial(x,y)}{\\partial(u,v)}=2\\cdot3=6$.\n\n- $\\iint_D x^2\\,dA=\\iint_{u^2+v^2\\le1}(2u)^2\\cdot6\\,du\\,dv=24\\iint_{u^2+v^2\\le1}u^2\\,du\\,dv$.\n- In polar coordinates, $\\iint u^2\\,du\\,dv=\\int_0^{2\\pi}\\!\\!\\cos^2\\theta\\,d\\theta\\int_0^1r^3\\,dr=\\pi\\cdot\\tfrac14=\\tfrac\\pi4$.\n- The result is $24\\cdot\\tfrac\\pi4=6\\pi$.\n\nCheck: the area of $D$ is $6\\pi$, and the average of $x^2$ over an ellipse with half-width $2$ in the $x$-direction is $\\frac{2^2}{4}=1$, so the integral is $1\\cdot6\\pi$.\n\nTip: when the same region needs both an elliptical stretch and polar coordinates, apply the changes one after the other and multiply the Jacobian factors, $6\\cdot r$.",
+      "searchQuery": "integral over ellipse change of variables x=2u y=3v polar",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.9",
+        "Hubbard–Hubbard 5e, ch. 4"
+      ]
+    },
+    {
+      "id": "multivariable-jacobian-direction-misconception",
+      "unit": "change-of-variables-and-jacobians",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "In $\\iint_R f\\,dx\\,dy=\\iint_S\\dots\\,du\\,dv$, why is the factor $\\left|\\dfrac{\\partial(x,y)}{\\partial(u,v)}\\right|$ and not $\\left|\\dfrac{\\partial(u,v)}{\\partial(x,y)}\\right|$?",
+      "body": "Because the new integral is over $(u,v)$ and the factor must convert a small area $du\\,dv$ in the $(u,v)$-plane into the corresponding area in the $(x,y)$-plane, which is what $\\partial(x,y)/\\partial(u,v)$ does.\n\nThe other determinant scales areas in the opposite direction, from $(x,y)$ to $(u,v)$. Using it gives a factor that is the reciprocal of the right one.\n\nExample: with $x=2u$, $y=3v$, a $du\\,dv$ rectangle of area $1$ becomes a region of area $6$ in the $(x,y)$-plane, so the factor is $6=\\frac{\\partial(x,y)}{\\partial(u,v)}$. A wrong factor $\\frac16$ would give an answer $36$ times too small.\n\nTip: sanity check with $f=1$. The integral must reproduce the area of $R$.",
+      "searchQuery": "change of variables Jacobian direction x y over u v reciprocal mistake",
+      "refs": [
+        "Stewart, Calculus ET 8e §15.9",
+        "Hubbard–Hubbard 5e, ch. 4"
+      ]
+    },
+    {
+      "id": "multivariable-vector-field-definition",
+      "unit": "vector-fields-and-line-integrals",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define a **vector field** on a region of $\\mathbb R^2$ or $\\mathbb R^3$.",
+      "body": "A function $\\mathbf F$ that assigns a vector to each point of the region: $\\mathbf F(x,y)=(P(x,y),Q(x,y))$ in the plane, or $\\mathbf F(x,y,z)=(P,Q,R)$ in space.\n\nThink of an arrow attached to every point. Examples: the velocity of water in a river at each point, the gravitational force on a unit mass at each point, the wind at each location.\n\nExample: $\\mathbf F(x,y)=(-y,x)$ gives at $(1,0)$ the vector $(0,1)$ and at $(0,1)$ the vector $(-1,0)$. It is a counterclockwise rotation around the origin, with arrows that grow longer farther from the origin.\n\nKey idea: the gradient $\\nabla f$ of a function is a vector field, but not every vector field is a gradient field. Which ones are is the main question of this unit. The field is continuous, or $C^1$, when its component functions are.",
+      "searchQuery": "vector field definition components P Q R examples",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.1–16.3",
+        "MIT 18.02SC, Unit 3 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-line-integral-vector-field-formula",
+      "unit": "vector-fields-and-line-integrals",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Give the formula for the **line integral** of a vector field $\\mathbf F$ along a curve $C$ parametrized by $\\mathbf r(t)$, $a\\le t\\le b$, and say what it measures.",
+      "body": "$\\displaystyle\\int_C\\mathbf F\\cdot d\\mathbf r=\\int_a^b\\mathbf F\\big(\\mathbf r(t)\\big)\\cdot\\mathbf r'(t)\\,dt$, the **work** done by the force field $\\mathbf F$ on a particle moving along $C$.\n\nWhy: during a short time $dt$ the particle is displaced by $d\\mathbf r=\\mathbf r'(t)\\,dt$, and the work is the component of force along the motion, $\\mathbf F\\cdot d\\mathbf r$. Adding up all such pieces is the integral.\n\nExample: $\\mathbf F=(y,x)$ along $\\mathbf r(t)=(t,t^2)$, $0\\le t\\le1$: $\\mathbf F\\cdot\\mathbf r'=(t^2,t)\\cdot(1,2t)=3t^2$, so the integral is $1$.\n\nWatch out: reversing the direction of $C$ changes the sign of the integral. For a curve $C$ with $\\mathbf r(t)$ replaced by $\\mathbf r(a+b-t)$, $\\int_{-C}\\mathbf F\\cdot d\\mathbf r=-\\int_C\\mathbf F\\cdot d\\mathbf r$.",
+      "searchQuery": "line integral of vector field work formula F dot r prime",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.1–16.3",
+        "MIT 18.02SC, Unit 3 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-scalar-line-integral-example",
+      "unit": "vector-fields-and-line-integrals",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Evaluate the scalar line integral $\\int_C z\\,ds$, where $C$ is the helix $\\mathbf r(t)=(\\cos t,\\sin t,t)$, $0\\le t\\le2\\pi$.",
+      "body": "$2\\sqrt2\\,\\pi^2$\n\nFor a scalar function $f$, the line integral with respect to arc length is $\\int_C f\\,ds=\\int_a^b f(\\mathbf r(t))\\,\\|\\mathbf r'(t)\\|\\,dt$, where $ds=\\|\\mathbf r'(t)\\|\\,dt$ is a small piece of arc length.\n\nHere $\\|\\mathbf r'\\|=\\sqrt2$ and $f=z=t$, so $\\int_0^{2\\pi}t\\sqrt2\\,dt=\\sqrt2\\cdot\\dfrac{(2\\pi)^2}{2}=2\\sqrt2\\,\\pi^2$.\n\nInterpretation: with $f=1$ this gives the length of $C$. With $f$ a density along a wire, it gives the total mass of the wire.\n\nWatch out: this integral does not depend on the direction of travel, unlike $\\int_C\\mathbf F\\cdot d\\mathbf r$, which changes sign when the direction is reversed. The first adds up lengths and the second adds up components along the motion.",
+      "searchQuery": "scalar line integral arc length ds helix example",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.1–16.3",
+        "MIT 18.02SC, Unit 3 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-conservative-field-definition",
+      "unit": "vector-fields-and-line-integrals",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define a **conservative vector field** and its **potential function**.",
+      "body": "A vector field $\\mathbf F$ on a region $D$ is conservative if $\\mathbf F=\\nabla f$ for some $C^1$ function $f$ on $D$; such an $f$ is a potential function of $\\mathbf F$.\n\nOn a connected region a potential function is unique up to adding a constant, since two functions with the same gradient differ by a constant.\n\nExample: $\\mathbf F=(2x,2y)$ is conservative with potential $f=x^2+y^2$. The field $(-y,x)$ is not conservative on $\\mathbb R^2$.\n\nTest: if $\\mathbf F=(P,Q)$ is conservative with $C^1$ components, then $\\dfrac{\\partial P}{\\partial y}=\\dfrac{\\partial Q}{\\partial x}$, because both equal $f_{xy}=f_{yx}$ for the potential $f$. This condition is necessary, but, as a later card shows, it is not always sufficient.\n\nTip: to find a potential, integrate $P$ with respect to $x$ and add an unknown function $g(y)$. Then match $f_y=Q$ to find $g$.",
+      "searchQuery": "conservative vector field potential function definition gradient field",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.1–16.3",
+        "MIT 18.02SC, Unit 3 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-fundamental-theorem-line-integrals",
+      "unit": "vector-fields-and-line-integrals",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **fundamental theorem for line integrals**.",
+      "body": "If $f$ is $C^1$ on an open region containing a piecewise smooth curve $C$ from $A$ to $B$, then $\\displaystyle\\int_C\\nabla f\\cdot d\\mathbf r=f(B)-f(A)$.\n\nProof idea: if $C$ is $\\mathbf r(t)$, $a\\le t\\le b$, then by the chain rule $\\dfrac{d}{dt}f(\\mathbf r(t))=\\nabla f(\\mathbf r(t))\\cdot\\mathbf r'(t)$. Integrate over $[a,b]$ and apply the fundamental theorem of calculus: the result is $f(\\mathbf r(b))-f(\\mathbf r(a))$.\n\nWhy it matters: the work done by a conservative field depends only on the endpoints, not on the path. Along a closed curve it is $0$.\n\nExample: for $f=xy$, $\\nabla f=(y,x)$. The work from $(0,0)$ to $(2,3)$ along any curve is $f(2,3)-f(0,0)=6$.\n\nWatch out: the theorem needs $\\mathbf F$ to be a gradient on a region containing the whole curve.",
+      "searchQuery": "fundamental theorem for line integrals gradient endpoints potential",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.1–16.3",
+        "MIT 18.02SC, Unit 3 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-path-independence-theorem",
+      "unit": "vector-fields-and-line-integrals",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "For a continuous vector field $\\mathbf F$ on an open connected region $D$, which three statements are equivalent?",
+      "body": "(i) $\\int_C\\mathbf F\\cdot d\\mathbf r$ is **path independent** (it depends only on the endpoints of $C$); (ii) $\\oint_C\\mathbf F\\cdot d\\mathbf r=0$ for every closed piecewise smooth curve $C$ in $D$; (iii) $\\mathbf F$ is conservative on $D$.\n\nWhy: (i)$\\Leftrightarrow$(ii): a closed curve is two paths with the same endpoints, one of them reversed. (iii)$\\Rightarrow$(i): the fundamental theorem for line integrals. (i)$\\Rightarrow$(iii): fix a base point $A$ and define $f(X)$ as the integral of $\\mathbf F$ along any path from $A$ to $X$. Then one checks that $\\nabla f=\\mathbf F$.\n\nWhy it matters: it reduces \"is the work path independent?\" to the existence of a potential function, which you can test and compute.\n\nWatch out: the region must be open and connected, so that any two points can be joined by a path inside $D$.",
+      "searchQuery": "path independence conservative closed curve integral zero equivalent theorem",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.1–16.3",
+        "MIT 18.02SC, Unit 3 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-potential-function-problem",
+      "unit": "vector-fields-and-line-integrals",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Show that $\\mathbf F=(2xy,\\ x^2+3y^2)$ is conservative on $\\mathbb R^2$, find a potential function, and compute $\\int_C\\mathbf F\\cdot d\\mathbf r$ for any curve $C$ from $(0,0)$ to $(1,2)$ (a number).",
+      "body": "$10$ (potential function $f=x^2y+y^3$).\n\n- Test: $P=2xy$ and $Q=x^2+3y^2$ give $P_y=2x=Q_x$, and $\\mathbb R^2$ has no holes, so a potential exists.\n- Integrate $f_x=2xy$ in $x$: $f=x^2y+g(y)$. Then $f_y=x^2+g'(y)$ must equal $x^2+3y^2$, so $g'=3y^2$ and $g=y^3$. Hence $f=x^2y+y^3$.\n- By the fundamental theorem for line integrals, the integral is $f(1,2)-f(0,0)=(2+8)-0=10$.\n\nCheck: $\\nabla f=(2xy,\\ x^2+3y^2)=\\mathbf F$.\n\nTip: when $\\mathbf F$ is conservative, choose the easiest path (for example a segment along the axes) or skip paths altogether and use the potential. Any added constant cancels in $f(B)-f(A)$.",
+      "searchQuery": "find potential function conservative field line integral endpoints",
+      "answer": "10",
+      "answerDisplay": "$10$",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.1–16.3",
+        "MIT 18.02SC, Unit 3 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-path-dependence-rotation-problem",
+      "unit": "vector-fields-and-line-integrals",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "For $\\mathbf F=(-y,x)$, compute $\\int_C\\mathbf F\\cdot d\\mathbf r$ from $(1,0)$ to $(0,1)$ along (a) the straight segment and (b) the quarter of the unit circle. What does the result show?",
+      "body": "(a) $1$, (b) $\\tfrac\\pi2$; the work depends on the path, so $\\mathbf F$ is not conservative.\n\n- (a) $\\mathbf r(t)=(1-t,t)$, $0\\le t\\le1$, $\\mathbf r'=(-1,1)$ and $\\mathbf F(\\mathbf r(t))=(-t,1-t)$. So $\\mathbf F\\cdot\\mathbf r'=t+1-t=1$ and the integral is $1$.\n- (b) $\\mathbf r(t)=(\\cos t,\\sin t)$, $0\\le t\\le\\frac\\pi2$, $\\mathbf r'=(-\\sin t,\\cos t)$ and $\\mathbf F=(-\\sin t,\\cos t)$. So $\\mathbf F\\cdot\\mathbf r'=\\sin^2t+\\cos^2t=1$ and the integral is $\\frac\\pi2$.\n\nTwo paths between the same endpoints give different values, so by the path independence theorem $\\mathbf F$ is not conservative. Here $P_y=-1\\ne1=Q_x$, which fails the necessary condition.\n\nWatch out: one pair of paths with different values is enough to prove a field is not conservative. Equal values on two chosen paths prove nothing.",
+      "searchQuery": "path dependence work rotation field (-y,x) segment versus arc not conservative",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.1–16.3",
+        "MIT 18.02SC, Unit 3 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-curl-free-not-conservative-counterexample",
+      "unit": "vector-fields-and-line-integrals",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give a vector field on a region with a hole whose components satisfy $P_y=Q_x$ but which is not conservative.",
+      "body": "$\\mathbf F=\\left(\\dfrac{-y}{x^2+y^2},\\ \\dfrac{x}{x^2+y^2}\\right)$ on $\\mathbb R^2\\setminus\\{(0,0)\\}$.\n\nA direct computation gives $\\dfrac{\\partial Q}{\\partial x}=\\dfrac{y^2-x^2}{(x^2+y^2)^2}=\\dfrac{\\partial P}{\\partial y}$.\n\nBut on the unit circle $\\mathbf r(t)=(\\cos t,\\sin t)$, $0\\le t\\le2\\pi$, $\\mathbf F=(-\\sin t,\\cos t)=\\mathbf r'$, so $\\oint\\mathbf F\\cdot d\\mathbf r=\\int_0^{2\\pi}1\\,dt=2\\pi\\ne0$. By the path independence theorem, $\\mathbf F$ is not conservative.\n\nWhy: $\\mathbf F$ is the gradient of the angle $\\theta$ locally, but the angle cannot be defined as a single-valued function on the whole punctured plane, since it jumps by $2\\pi$ after going once around the origin.\n\nWatch out: the condition $P_y=Q_x$ is necessary for a conservative field, and it is sufficient on a region with no holes, such as all of $\\mathbb R^2$ or a disk. The hole is what breaks it.",
+      "searchQuery": "curl free field not conservative punctured plane -y/(x^2+y^2) x/(x^2+y^2)",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.1–16.3",
+        "MIT 18.02SC, Unit 3 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-circulation-and-flux-concept",
+      "unit": "greens-theorem",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "What are the **circulation** and the **flux** of a plane vector field $\\mathbf F=(P,Q)$ around a closed curve $C$ traversed counterclockwise?",
+      "body": "Circulation $=\\oint_C\\mathbf F\\cdot\\mathbf T\\,ds=\\oint_C P\\,dx+Q\\,dy$ (how much $\\mathbf F$ pushes along $C$); flux $=\\oint_C\\mathbf F\\cdot\\mathbf n\\,ds=\\oint_C P\\,dy-Q\\,dx$ (how much $\\mathbf F$ pushes outward across $C$).\n\nHere $\\mathbf T$ is the unit tangent vector and $\\mathbf n$ the outward unit normal. For a curve traversed counterclockwise, $\\mathbf n\\,ds=(dy,-dx)$.\n\nExample: for $\\mathbf F=(-y,x)$ on the unit circle, $\\mathbf F=\\mathbf T$ so the circulation is $2\\pi$. The field is tangent to the circle, so the flux is $0$. For $\\mathbf F=(x,y)$, $\\mathbf F=\\mathbf n$ on the unit circle, so the flux is $2\\pi$ and the circulation is $0$.\n\nKey idea: counterclockwise is the **positive orientation** of a boundary: walking along the curve, the region stays on your left.",
+      "searchQuery": "circulation flux plane vector field closed curve tangent normal",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.4",
+        "MIT 18.02SC, Unit 3 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-greens-theorem-circulation",
+      "unit": "greens-theorem",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Green's theorem** (circulation form).",
+      "body": "Let $D$ be a bounded region of the plane whose boundary $\\partial D$ is a union of piecewise smooth simple closed curves, positively oriented, and let $P,Q$ be $C^1$ on an open set containing $D$. Then $\\displaystyle\\oint_{\\partial D}P\\,dx+Q\\,dy=\\iint_D\\left(\\frac{\\partial Q}{\\partial x}-\\frac{\\partial P}{\\partial y}\\right)dA$.\n\nA simple closed curve is one that returns to its start and does not cross itself. **Positively oriented boundary**: the outer curve counterclockwise, any inner hole's curve clockwise, so $D$ is always on the left.\n\nKey idea: $\\partial Q/\\partial x-\\partial P/\\partial y$ is the circulation per unit area at a point. Adding up the tiny circulations around all small pieces of $D$, the contributions of interior edges cancel in pairs, leaving only the boundary.\n\nWatch out: both $P$ and $Q$ must be $C^1$ on all of $D$, not only on the boundary. A single point of $D$ where the field blows up breaks the theorem.",
+      "searchQuery": "Green's theorem circulation form statement positively oriented boundary",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.4",
+        "MIT 18.02SC, Unit 3 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-area-via-greens-theorem",
+      "unit": "greens-theorem",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Write the area of a region $D$ as a line integral around its positively oriented boundary.",
+      "body": "$\\text{Area}(D)=\\tfrac12\\oint_{\\partial D}(x\\,dy-y\\,dx)=\\oint_{\\partial D}x\\,dy=-\\oint_{\\partial D}y\\,dx$.\n\nWhy: apply Green's theorem with $(P,Q)=(-y,x)$, which gives $Q_x-P_y=2$, so $\\oint(-y\\,dx+x\\,dy)=2\\,\\text{Area}$. With $(0,x)$ the integrand is $1$, and with $(-y,0)$ it is also $1$.\n\nWhy it matters: the area of a region is computed from a parametrization of its boundary alone. A planimeter, a mechanical instrument for measuring area, is built on this idea.\n\nWatch out: the boundary must be traversed counterclockwise. If it is traversed clockwise, each formula gives the negative of the area.",
+      "searchQuery": "area as line integral Green's theorem 1/2 x dy minus y dx",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.4",
+        "MIT 18.02SC, Unit 3 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-ellipse-area-greens-example",
+      "unit": "greens-theorem",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Use $\\tfrac12\\oint(x\\,dy-y\\,dx)$ to find the area of the ellipse $x=a\\cos t$, $y=b\\sin t$, $0\\le t\\le2\\pi$.",
+      "body": "$\\pi ab$\n\nOn this parametrization, $dx=-a\\sin t\\,dt$ and $dy=b\\cos t\\,dt$, so\n$x\\,dy-y\\,dx=ab\\cos^2t\\,dt+ab\\sin^2t\\,dt=ab\\,dt$.\n\nThen $\\text{Area}=\\tfrac12\\int_0^{2\\pi}ab\\,dt=\\pi ab$.\n\nThe curve is traversed counterclockwise, since $t$ increasing moves from $(a,0)$ to $(0,b)$, so the sign is right. The same answer follows from the change of variables $x=au$, $y=bv$ in a double integral, with Jacobian $ab$.\n\nTip: for a parametrized closed curve, the integrand $x\\,y'-y\\,x'$ often simplifies a lot, as here.",
+      "searchQuery": "area of ellipse Green's theorem line integral parametrization",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.4",
+        "MIT 18.02SC, Unit 3 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-greens-theorem-triangle-problem",
+      "unit": "greens-theorem",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use Green's theorem to compute $\\oint_C y^2\\,dx+3x\\,dy$, where $C$ is the boundary of the triangle with vertices $(0,0)$, $(1,0)$, $(0,1)$, traversed counterclockwise (a number).",
+      "body": "$\\tfrac76$\n\nHere $P=y^2$ and $Q=3x$, so $Q_x-P_y=3-2y$. The triangle is $0\\le x\\le1$, $0\\le y\\le1-x$.\n\n$\\iint_D(3-2y)\\,dA=\\int_0^1\\!\\!\\int_0^{1-x}(3-2y)\\,dy\\,dx=\\int_0^1\\left[3(1-x)-(1-x)^2\\right]dx=\\tfrac32-\\tfrac13=\\tfrac76$.\n\nOrientation: counterclockwise along the triangle starting at the origin means the bottom edge goes right, the hypotenuse goes up and left, and the left edge goes down.\n\nWhy use the theorem: the direct computation needs three parametrized segments, while the double integral is one iterated integral over a region with simple limits.",
+      "searchQuery": "Green's theorem triangle line integral y^2 dx + 3x dy",
+      "answer": "7/6",
+      "acceptedAnswers": [
+        "1.1667",
+        "1.167"
+      ],
+      "answerDisplay": "$\\tfrac76$",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.4",
+        "MIT 18.02SC, Unit 3 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-greens-theorem-flux-form",
+      "unit": "greens-theorem",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the flux (divergence) form of Green's theorem for $\\mathbf F=(P,Q)$.",
+      "body": "Under the same hypotheses as the circulation form (with $\\mathbf n$ the outward unit normal), $\\displaystyle\\oint_{\\partial D}\\mathbf F\\cdot\\mathbf n\\,ds=\\iint_D\\left(\\frac{\\partial P}{\\partial x}+\\frac{\\partial Q}{\\partial y}\\right)dA$.\n\nThe integrand on the right is the **divergence** of $\\mathbf F$: the flux out of a small region, per unit area. So the net flux across the boundary equals the total of the sources inside.\n\nWhy: the flux is $\\oint P\\,dy-Q\\,dx$. This is the circulation of the rotated field $(-Q,P)$, and the circulation form of Green's theorem gives $\\iint\\left(\\frac{\\partial P}{\\partial x}-\\frac{\\partial(-Q)}{\\partial y}\\right)dA$.\n\nWatch out: this is the same theorem in different notation, not a new one. The condition that $\\mathbf F$ is $C^1$ on all of $D$ is again needed.",
+      "searchQuery": "Green's theorem flux form divergence outward normal",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.4",
+        "MIT 18.02SC, Unit 3 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-greens-flux-disk-problem",
+      "unit": "greens-theorem",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the outward flux of $\\mathbf F=(x^3,\\,y^3)$ across the unit circle (a number).",
+      "body": "$\\dfrac{3\\pi}{2}$\n\nBy the flux form of Green's theorem, flux $=\\iint_D(P_x+Q_y)\\,dA=\\iint_D(3x^2+3y^2)\\,dA$ over the unit disk $D$.\n\nIn polar coordinates: $\\int_0^{2\\pi}\\!\\!\\int_0^1 3r^2\\cdot r\\,dr\\,d\\theta=2\\pi\\cdot\\tfrac34=\\tfrac{3\\pi}{2}$.\n\nCheck by the definition: on the circle $\\mathbf n=(\\cos t,\\sin t)$, so $\\mathbf F\\cdot\\mathbf n=\\cos^4t+\\sin^4t$ and the flux is $\\int_0^{2\\pi}(\\cos^4t+\\sin^4t)\\,dt=2\\cdot\\tfrac{3\\pi}{4}=\\tfrac{3\\pi}{2}$.\n\nTip: the double integral is easier because the divergence $3(x^2+y^2)$ is a function of $r$ alone.",
+      "searchQuery": "outward flux across unit circle Green's theorem divergence x^3 y^3",
+      "answer": "3*pi/2",
+      "acceptedAnswers": [
+        "4.712"
+      ],
+      "answerDisplay": "$\\tfrac{3\\pi}{2}$",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.4",
+        "MIT 18.02SC, Unit 3 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-greens-theorem-punctured-plane-counterexample",
+      "unit": "greens-theorem",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Why does Green's theorem fail for $\\mathbf F=\\dfrac{(-y,\\,x)}{x^2+y^2}$ on the unit disk $D$?",
+      "body": "$\\mathbf F$ is not defined at the origin, which is inside $D$: $\\oint_{\\partial D}\\mathbf F\\cdot d\\mathbf r=2\\pi$, but $\\iint_D(Q_x-P_y)\\,dA$ would be $0$, since $Q_x-P_y=0$ everywhere $\\mathbf F$ is defined.\n\nOn the unit circle $\\mathbf F=(-\\sin t,\\cos t)=\\mathbf r'$, so the circulation is $2\\pi$. The theorem needs $P$ and $Q$ to be $C^1$ on all of $D$, and here the hypothesis fails at one point.\n\nThe punctured plane $\\mathbb R^2\\setminus\\{(0,0)\\}$ is not **simply connected**: a region is simply connected if it is connected and every closed curve in it can be shrunk to a point inside the region. A loop around the hole cannot be.\n\nKey idea: on a simply connected region, $Q_x=P_y$ for $C^1$ components does imply that $\\mathbf F$ is conservative, since Green's theorem then gives $0$ for every closed curve. The hole removes this. The $2\\pi$ is the \"winding\" of the curve around the missing point.",
+      "searchQuery": "Green's theorem fails punctured plane simply connected -y/(x^2+y^2) 2 pi",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.4",
+        "MIT 18.02SC, Unit 3 Part C"
+      ]
+    },
+    {
+      "id": "multivariable-parametric-surface-definition",
+      "unit": "surface-integrals-and-flux",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define a **parametric surface** and the vector $\\mathbf r_u\\times\\mathbf r_v$.",
+      "body": "A parametric surface is the image of $\\mathbf r(u,v)=(x(u,v),\\,y(u,v),\\,z(u,v))$ for $(u,v)$ in a region $D$ of the plane. The vectors $\\mathbf r_u=\\frac{\\partial\\mathbf r}{\\partial u}$ and $\\mathbf r_v=\\frac{\\partial\\mathbf r}{\\partial v}$ are tangent to the surface, and $\\mathbf r_u\\times\\mathbf r_v$ is normal to it, wherever it is nonzero.\n\nWhy: moving in $u$ with $v$ fixed traces a curve on the surface with tangent $\\mathbf r_u$, and likewise for $v$. The cross product of two tangent vectors is perpendicular to both, hence to the surface.\n\nExamples: a graph $z=g(x,y)$ is $\\mathbf r(x,y)=(x,y,g(x,y))$ with $\\mathbf r_x\\times\\mathbf r_y=(-g_x,-g_y,1)$. A sphere of radius $a$ is $\\mathbf r(\\varphi,\\theta)=(a\\sin\\varphi\\cos\\theta,\\ a\\sin\\varphi\\sin\\theta,\\ a\\cos\\varphi)$.\n\nKey idea: $\\|\\mathbf r_u\\times\\mathbf r_v\\|\\,du\\,dv$ is the area of the small patch, the parallelogram spanned by $\\mathbf r_u\\,du$ and $\\mathbf r_v\\,dv$.",
+      "searchQuery": "parametric surface definition r_u cross r_v normal vector",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.5–16.7",
+        "MIT 18.02SC, Unit 4 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-surface-integral-scalar-formula",
+      "unit": "surface-integrals-and-flux",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Give the formula for the **surface integral** $\\iint_S f\\,dS$ of a scalar function over a parametric surface $S$, and for the surface area.",
+      "body": "$\\iint_S f\\,dS=\\iint_D f\\big(\\mathbf r(u,v)\\big)\\,\\|\\mathbf r_u\\times\\mathbf r_v\\|\\,dA$, and the surface area is the case $f=1$: $\\text{Area}(S)=\\iint_D\\|\\mathbf r_u\\times\\mathbf r_v\\|\\,dA$.\n\nWhy: $dS=\\|\\mathbf r_u\\times\\mathbf r_v\\|\\,du\\,dv$ is the area of a small patch of the surface, the same role as $\\|\\mathbf r'(t)\\|\\,dt$ for the arc length of a curve.\n\nExample: for the graph $z=g(x,y)$ over $D$, $\\|\\mathbf r_x\\times\\mathbf r_y\\|=\\sqrt{1+g_x^2+g_y^2}$, so the area is $\\iint_D\\sqrt{1+g_x^2+g_y^2}\\,dA$.\n\nWatch out: the surface integral of a scalar does not depend on a choice of normal direction. It also does not depend on how the surface is parametrized, as long as $S$ is covered once.",
+      "searchQuery": "surface integral scalar function formula surface area cross product norm",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.5–16.7",
+        "MIT 18.02SC, Unit 4 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-sphere-surface-area-example",
+      "unit": "surface-integrals-and-flux",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Compute the surface area of the sphere of radius $a$ from the parametrization $\\mathbf r(\\varphi,\\theta)=(a\\sin\\varphi\\cos\\theta,\\ a\\sin\\varphi\\sin\\theta,\\ a\\cos\\varphi)$.",
+      "body": "$4\\pi a^2$\n\nThe tangent vectors are $\\mathbf r_\\varphi=(a\\cos\\varphi\\cos\\theta,\\ a\\cos\\varphi\\sin\\theta,\\ -a\\sin\\varphi)$ and $\\mathbf r_\\theta=(-a\\sin\\varphi\\sin\\theta,\\ a\\sin\\varphi\\cos\\theta,\\ 0)$.\n\nTheir cross product is $\\mathbf r_\\varphi\\times\\mathbf r_\\theta=a^2\\sin\\varphi\\,(\\sin\\varphi\\cos\\theta,\\ \\sin\\varphi\\sin\\theta,\\ \\cos\\varphi)$. The vector in parentheses is a unit vector, so $\\|\\mathbf r_\\varphi\\times\\mathbf r_\\theta\\|=a^2\\sin\\varphi$, since $\\sin\\varphi\\ge0$ for $0\\le\\varphi\\le\\pi$.\n\nArea $=\\int_0^{2\\pi}\\!\\!\\int_0^\\pi a^2\\sin\\varphi\\,d\\varphi\\,d\\theta=a^2\\cdot2\\cdot2\\pi=4\\pi a^2$.\n\nKey idea: the cross product $\\mathbf r_\\varphi\\times\\mathbf r_\\theta$ points in the direction of the outward normal, since the vector in parentheses is the position vector divided by $a$.",
+      "searchQuery": "surface area of a sphere parametrization r_phi cross r_theta 4 pi a^2",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.5–16.7",
+        "MIT 18.02SC, Unit 4 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-flux-orientation-definition",
+      "unit": "surface-integrals-and-flux",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define an **orientation** of a surface and the **flux** of a vector field $\\mathbf F$ through an oriented surface $S$.",
+      "body": "An orientation is a continuous choice of unit normal vector $\\mathbf n$ at every point of the surface. The flux of $\\mathbf F$ through the oriented surface $S$ is $\\displaystyle\\iint_S\\mathbf F\\cdot d\\mathbf S=\\iint_S\\mathbf F\\cdot\\mathbf n\\,dS$.\n\nThe flux measures how much of the field passes through $S$ in the direction of $\\mathbf n$ per unit time, as when $\\mathbf F$ is the velocity of a fluid with unit density.\n\nA surface that has two sides, such as a sphere or a graph, has exactly two orientations (a connected one has $\\mathbf n$ or $-\\mathbf n$). A closed surface is usually given the outward orientation, the way a sphere's outward normal points away from its center.\n\nWatch out: not every surface can be oriented. The Möbius strip has only one side, so no continuous choice of $\\mathbf n$ exists on it, and there is no flux through it.",
+      "searchQuery": "orientation of a surface flux integral definition unit normal",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.5–16.7",
+        "MIT 18.02SC, Unit 4 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-flux-parametrization-formula",
+      "unit": "surface-integrals-and-flux",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "How do you compute the flux $\\iint_S\\mathbf F\\cdot d\\mathbf S$ through a parametric surface $\\mathbf r(u,v)$, $(u,v)\\in D$, when $\\mathbf r_u\\times\\mathbf r_v$ gives the chosen orientation?",
+      "body": "$\\displaystyle\\iint_S\\mathbf F\\cdot d\\mathbf S=\\iint_D\\mathbf F\\big(\\mathbf r(u,v)\\big)\\cdot(\\mathbf r_u\\times\\mathbf r_v)\\,dA$.\n\nWhy: the unit normal is $\\mathbf n=\\dfrac{\\mathbf r_u\\times\\mathbf r_v}{\\|\\mathbf r_u\\times\\mathbf r_v\\|}$ and $dS=\\|\\mathbf r_u\\times\\mathbf r_v\\|\\,dA$. The two lengths cancel, so $\\mathbf F\\cdot\\mathbf n\\,dS=\\mathbf F\\cdot(\\mathbf r_u\\times\\mathbf r_v)\\,dA$.\n\nExample: for the upward-oriented graph $z=g(x,y)$, $\\mathbf r_x\\times\\mathbf r_y=(-g_x,-g_y,1)$, so with $\\mathbf F=(P,Q,R)$ the flux is $\\iint_D(-Pg_x-Qg_y+R)\\,dA$.\n\nWatch out: if $\\mathbf r_u\\times\\mathbf r_v$ points opposite to the orientation you were asked for, put a minus sign in front of the integral.",
+      "searchQuery": "flux through parametric surface formula F dot r_u cross r_v",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.5–16.7",
+        "MIT 18.02SC, Unit 4 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-flux-orientation-misconception",
+      "unit": "surface-integrals-and-flux",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is the claim \"the flux of $\\mathbf F$ through a surface does not depend on which way you orient it\" false?",
+      "body": "Reversing the orientation replaces $\\mathbf n$ by $-\\mathbf n$, which changes the sign of the flux: $\\iint_{-S}\\mathbf F\\cdot d\\mathbf S=-\\iint_S\\mathbf F\\cdot d\\mathbf S$.\n\nFlux counts field passing through the surface in the direction of $\\mathbf n$ as positive and passing the other way as negative.\n\nExample: take $\\mathbf F=(0,0,1)$ and the flat unit disk in the plane $z=0$. With the upward normal $\\mathbf n=(0,0,1)$ the flux is $\\pi$, and with the downward normal it is $-\\pi$.\n\nWatch out: the surface integral of a scalar function $f$, $\\iint_S f\\,dS$, does not depend on orientation. A flux integral does, so the problem must state the orientation (for example \"outward\" or \"upward\"), and your parametrization must match it.",
+      "searchQuery": "flux changes sign reversing orientation surface integral vector field",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.5–16.7",
+        "MIT 18.02SC, Unit 4 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-divergence-curl-concept",
+      "unit": "surface-integrals-and-flux",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "Define the **divergence** and **curl** of $\\mathbf F=(P,Q,R)$ and say what each measures.",
+      "body": "$\\operatorname{div}\\mathbf F=\\nabla\\cdot\\mathbf F=P_x+Q_y+R_z$ (a number: how strongly $\\mathbf F$ spreads out from a point), and $\\operatorname{curl}\\mathbf F=\\nabla\\times\\mathbf F=(R_y-Q_z,\\ P_z-R_x,\\ Q_x-P_y)$ (a vector: how $\\mathbf F$ rotates around a point).\n\nThe symbol $\\nabla=(\\partial_x,\\partial_y,\\partial_z)$ is treated like a vector. The curl is the formal determinant of $\\begin{pmatrix}\\mathbf i&\\mathbf j&\\mathbf k\\\\\\partial_x&\\partial_y&\\partial_z\\\\P&Q&R\\end{pmatrix}$.\n\nMeaning: if $\\mathbf F$ is the velocity of a fluid, $\\operatorname{div}\\mathbf F>0$ at a point where fluid is created or expanding, and $\\operatorname{div}\\mathbf F<0$ where it is compressing. The curl points along the axis about which a small paddle wheel would spin fastest, with length twice the angular speed.\n\nExample: for the rigid rotation $\\mathbf F=(-wy,\\,wx,\\,0)$, $\\operatorname{div}\\mathbf F=0$ and $\\operatorname{curl}\\mathbf F=(0,0,2w)$.",
+      "searchQuery": "divergence and curl definition meaning del operator vector field",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.5–16.7",
+        "MIT 18.02SC, Unit 4 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-paraboloid-flux-problem",
+      "unit": "surface-integrals-and-flux",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the flux of $\\mathbf F=(x,y,z)$ through the paraboloid $z=x^2+y^2$, $0\\le z\\le1$, oriented with the upward normal.",
+      "body": "$-\\dfrac\\pi2$\n\nParametrize by $\\mathbf r(x,y)=(x,y,x^2+y^2)$ over the unit disk $D$. The vector $\\mathbf r_x\\times\\mathbf r_y=(-2x,-2y,1)$ points upward (its $z$-component is positive), matching the orientation.\n\n- $\\mathbf F\\cdot(\\mathbf r_x\\times\\mathbf r_y)=(x,y,x^2+y^2)\\cdot(-2x,-2y,1)=-2x^2-2y^2+x^2+y^2=-(x^2+y^2)$.\n- Flux $=\\iint_D-(x^2+y^2)\\,dA=-\\int_0^{2\\pi}\\!\\!\\int_0^1r^2\\cdot r\\,dr\\,d\\theta=-\\dfrac\\pi2$.\n\nThe sign is negative because $\\mathbf F\\cdot(\\mathbf r_x\\times\\mathbf r_y)\\le0$ everywhere on the surface: the field crosses the bowl from its inner side to its outer side, against the chosen normal.\n\nTip: for a graph $z=g(x,y)$ the formula $\\iint(-Pg_x-Qg_y+R)\\,dA$ is quick, as here with $g_x=2x$, $g_y=2y$.",
+      "searchQuery": "flux through paraboloid upward normal F=(x,y,z) graph formula",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.5–16.7",
+        "MIT 18.02SC, Unit 4 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-sphere-flux-problem",
+      "unit": "surface-integrals-and-flux",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the flux of $\\mathbf F=(x,y,z)$ outward through the sphere $x^2+y^2+z^2=a^2$.",
+      "body": "$4\\pi a^3$\n\nOn the sphere $\\mathbf F$ is the position vector, which is perpendicular to the surface, so $\\mathbf F\\cdot\\mathbf n=\\|\\mathbf F\\|=a$ at every point (with $\\mathbf n$ outward).\n\nFlux $=\\iint_S a\\,dS=a\\cdot\\text{Area}=a\\cdot4\\pi a^2=4\\pi a^3$.\n\nWith the parametrization of the sphere, $\\mathbf r_\\varphi\\times\\mathbf r_\\theta=a\\sin\\varphi\\,\\mathbf r$ points outward, so $\\mathbf F\\cdot(\\mathbf r_\\varphi\\times\\mathbf r_\\theta)=a\\sin\\varphi\\,\\|\\mathbf r\\|^2=a^3\\sin\\varphi$, and $\\int_0^{2\\pi}\\!\\!\\int_0^\\pi a^3\\sin\\varphi\\,d\\varphi\\,d\\theta=4\\pi a^3$, the same value.\n\nKey idea: look for symmetry before parametrizing. When the field is perpendicular to the surface with constant length, the flux is that length times the area.",
+      "searchQuery": "flux of position vector through sphere outward 4 pi a^3",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.5–16.7",
+        "MIT 18.02SC, Unit 4 Part B"
+      ]
+    },
+    {
+      "id": "multivariable-stokes-theorem",
+      "unit": "stokes-and-divergence-theorems",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State **Stokes' theorem**, including how the boundary is oriented.",
+      "body": "Let $S$ be an oriented piecewise smooth surface in $\\mathbb R^3$ whose boundary $\\partial S$ is a piecewise smooth simple closed curve with the induced orientation, and let $\\mathbf F$ be $C^1$ on an open region containing $S$. Then $\\displaystyle\\oint_{\\partial S}\\mathbf F\\cdot d\\mathbf r=\\iint_S(\\nabla\\times\\mathbf F)\\cdot d\\mathbf S$.\n\n**Boundary orientation** (the right-hand rule): if you walk along $\\partial S$ with your head pointing in the direction of $\\mathbf n$, the surface is on your left. Equivalently, curl the fingers of your right hand along $\\partial S$ and your thumb gives $\\mathbf n$.\n\nKey idea: the curl measures circulation per unit area, so adding up the tiny circulations around small pieces of $S$ cancels the interior edges and leaves the circulation around the boundary. This is Green's theorem for a surface in space.\n\nWatch out: reversing the direction of travel on the boundary or the orientation of $S$ alone changes the sign of one side. The two orientations have to match.",
+      "searchQuery": "Stokes theorem statement boundary orientation right hand rule curl",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.8–16.9",
+        "MIT 18.02SC, Unit 4 Parts B–C",
+        "Hubbard–Hubbard 5e, ch. 6"
+      ]
+    },
+    {
+      "id": "multivariable-stokes-surface-swap-example",
+      "unit": "stokes-and-divergence-theorems",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "For $\\mathbf F=(-y,x,0)$ and the upper unit hemisphere $S$ ($x^2+y^2+z^2=1$, $z\\ge0$, outward normal), find $\\iint_S(\\nabla\\times\\mathbf F)\\cdot d\\mathbf S$ using Stokes' theorem.",
+      "body": "$2\\pi$\n\nThe boundary of $S$ is the unit circle in the $xy$-plane, oriented counterclockwise as seen from above, matching the outward (upward) normal. By Stokes' theorem the flux of the curl equals $\\oint\\mathbf F\\cdot d\\mathbf r$. On the circle, $\\mathbf F=\\mathbf r'$ for $\\mathbf r=(\\cos t,\\sin t,0)$, so $\\oint=\\int_0^{2\\pi}1\\,dt=2\\pi$.\n\nCheck with the curl: $\\nabla\\times\\mathbf F=(0,0,2)$, and on the sphere $\\mathbf n=(x,y,z)$, so $(\\nabla\\times\\mathbf F)\\cdot\\mathbf n=2z$. In spherical coordinates the integral is $\\int_0^{2\\pi}\\!\\!\\int_0^{\\pi/2}2\\cos\\varphi\\sin\\varphi\\,d\\varphi\\,d\\theta=2\\pi$.\n\nKey idea: any surface with the same boundary curve gives the same flux of a curl. The flat unit disk with the upward normal gives $\\iint 2\\,dA=2\\pi$ too, which is the easiest surface to use.",
+      "searchQuery": "Stokes theorem hemisphere versus disk same boundary flux of curl",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.8–16.9",
+        "MIT 18.02SC, Unit 4 Parts B–C",
+        "Hubbard–Hubbard 5e, ch. 6"
+      ]
+    },
+    {
+      "id": "multivariable-stokes-cylinder-plane-problem",
+      "unit": "stokes-and-divergence-theorems",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $C$ be the curve where the plane $x+z=2$ meets the cylinder $x^2+y^2=1$, oriented counterclockwise as seen from above. Use Stokes' theorem to compute $\\oint_C\\mathbf F\\cdot d\\mathbf r$ for $\\mathbf F=(z,\\ x^2,\\ y)$ (a number).",
+      "body": "$\\pi$\n\nFirst the curl: $\\nabla\\times\\mathbf F=(R_y-Q_z,\\ P_z-R_x,\\ Q_x-P_y)=(1-0,\\ 1-0,\\ 2x-0)=(1,1,2x)$.\n\nChoose $S$ as the part of the plane $z=2-x$ inside the cylinder, a graph over the unit disk $D$, with the upward normal (this matches the counterclockwise orientation seen from above).\n\n- With $g=2-x$, $\\mathbf r_x\\times\\mathbf r_y=(-g_x,-g_y,1)=(1,0,1)$.\n- $(\\nabla\\times\\mathbf F)\\cdot(1,0,1)=1+2x$.\n- $\\iint_D(1+2x)\\,dA=\\pi+2\\iint_Dx\\,dA=\\pi+0=\\pi$, since $x$ is an odd function on a disk centered at the origin.\n\nWhy use Stokes: the direct line integral over the tilted ellipse $C$ needs a parametrization $(\\cos t,\\sin t,2-\\cos t)$ and a messier integrand, while the surface integral is over a disk. (The direct computation also gives $\\pi$.)",
+      "searchQuery": "Stokes theorem line integral plane cylinder intersection curl problem",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.8–16.9",
+        "MIT 18.02SC, Unit 4 Parts B–C",
+        "Hubbard–Hubbard 5e, ch. 6"
+      ]
+    },
+    {
+      "id": "multivariable-divergence-theorem",
+      "unit": "stokes-and-divergence-theorems",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **divergence theorem** (**Gauss's theorem**).",
+      "body": "Let $E$ be a solid region in $\\mathbb R^3$ whose boundary is a **closed surface** $S$ (a surface with no edge, enclosing the region) that is piecewise smooth and oriented outward, and let $\\mathbf F$ be $C^1$ on an open region containing $E$. Then $\\displaystyle\\iint_S\\mathbf F\\cdot d\\mathbf S=\\iiint_E\\nabla\\cdot\\mathbf F\\,dV$.\n\nWhy it matters: the net flux out of a closed surface equals the total of the sources inside, because the divergence is the outflow per unit volume at each point. A difficult surface integral can become an easy volume integral, or the reverse.\n\nKey idea: divide $E$ into tiny boxes. The flux through the shared faces of neighboring boxes cancels, since the normals are opposite, so the sum of the box fluxes is the flux through $S$. The flux of each box is about $\\nabla\\cdot\\mathbf F$ times its volume.\n\nWatch out: $\\mathbf F$ must be $C^1$ at every point of $E$, with no singularities inside, and $S$ must be oriented outward.",
+      "searchQuery": "divergence theorem Gauss theorem statement closed surface outward flux",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.8–16.9",
+        "MIT 18.02SC, Unit 4 Parts B–C",
+        "Hubbard–Hubbard 5e, ch. 6"
+      ]
+    },
+    {
+      "id": "multivariable-divergence-theorem-sphere-problem",
+      "unit": "stokes-and-divergence-theorems",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Use the divergence theorem to find the outward flux of $\\mathbf F=(x^3,y^3,z^3)$ through the unit sphere (a number).",
+      "body": "$\\dfrac{12\\pi}{5}$\n\n$\\nabla\\cdot\\mathbf F=3x^2+3y^2+3z^2=3\\rho^2$. By the divergence theorem the flux is $\\iiint_B3\\rho^2\\,dV$ over the unit ball $B$.\n\nIn spherical coordinates: $\\int_0^{2\\pi}\\!\\!\\int_0^\\pi\\!\\!\\int_0^13\\rho^2\\cdot\\rho^2\\sin\\varphi\\,d\\rho\\,d\\varphi\\,d\\theta=3\\cdot\\tfrac15\\cdot2\\cdot2\\pi=\\dfrac{12\\pi}{5}$.\n\nWhy the theorem helps: the direct flux integral has the integrand $\\mathbf F\\cdot\\mathbf n=x^4+y^4+z^4$ on the sphere, which is much harder to integrate than the divergence $3\\rho^2$ over the ball.",
+      "searchQuery": "divergence theorem flux unit sphere x^3 y^3 z^3",
+      "answer": "12*pi/5",
+      "acceptedAnswers": [
+        "7.54"
+      ],
+      "answerDisplay": "$\\tfrac{12\\pi}{5}$",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.8–16.9",
+        "MIT 18.02SC, Unit 4 Parts B–C",
+        "Hubbard–Hubbard 5e, ch. 6"
+      ]
+    },
+    {
+      "id": "multivariable-volume-by-flux-formula",
+      "unit": "stokes-and-divergence-theorems",
+      "kind": "formula",
+      "difficulty": 4,
+      "title": "Write the volume of a solid $E$ with outward-oriented closed boundary surface $S$ as a flux integral.",
+      "body": "$\\text{Vol}(E)=\\tfrac13\\iint_S(x,y,z)\\cdot d\\mathbf S$.\n\nWhy: the field $\\mathbf F=(x,y,z)$ has $\\nabla\\cdot\\mathbf F=1+1+1=3$, so the divergence theorem gives $\\iint_S\\mathbf F\\cdot d\\mathbf S=\\iiint_E3\\,dV=3\\,\\text{Vol}(E)$.\n\nExample: for a ball of radius $a$, $\\mathbf F\\cdot\\mathbf n=a$ on the sphere, so the flux is $a\\cdot4\\pi a^2$, and $\\text{Vol}=\\tfrac13\\cdot4\\pi a^3$, the familiar formula.\n\nKey idea: this is the three-dimensional counterpart of the formula $\\text{Area}=\\tfrac12\\oint(x\\,dy-y\\,dx)$ from Green's theorem. A boundary integral determines the size of the region inside.\n\nWatch out: this needs $S$ to be the entire boundary of $E$, oriented outward.",
+      "searchQuery": "volume as flux integral divergence theorem one third x y z",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.8–16.9",
+        "MIT 18.02SC, Unit 4 Parts B–C",
+        "Hubbard–Hubbard 5e, ch. 6"
+      ]
+    },
+    {
+      "id": "multivariable-closing-surface-flux-problem",
+      "unit": "stokes-and-divergence-theorems",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Find the outward flux of $\\mathbf F=(x,y,z^2)$ through the curved part $S$ of the upper hemisphere $x^2+y^2+z^2=1$, $z\\ge0$ (a number).",
+      "body": "$\\dfrac{11\\pi}{6}$\n\n$S$ is not closed, so close it with the flat disk $D$: $x^2+y^2\\le1$, $z=0$. Together they bound the upper half-ball $E$, and the divergence theorem applies with outward normals.\n\n- $\\nabla\\cdot\\mathbf F=1+1+2z=2+2z$.\n- $\\iiint_E(2+2z)\\,dV=2\\cdot\\tfrac{2\\pi}{3}+2\\iiint_Ez\\,dV$. The half-ball has volume $\\tfrac{2\\pi}{3}$, and in spherical coordinates $\\iiint_Ez\\,dV=\\int_0^{2\\pi}\\!\\!\\int_0^{\\pi/2}\\!\\!\\int_0^1\\rho\\cos\\varphi\\,\\rho^2\\sin\\varphi\\,d\\rho\\,d\\varphi\\,d\\theta=\\tfrac14\\cdot\\tfrac12\\cdot2\\pi=\\tfrac\\pi4$. So the total is $\\tfrac{4\\pi}{3}+\\tfrac\\pi2=\\tfrac{11\\pi}{6}$.\n- On $D$ the outward normal is $-\\mathbf k$ and $\\mathbf F\\cdot(-\\mathbf k)=-z^2=0$, so the flux through $D$ is $0$.\n\nTherefore flux through $S$ = total $-$ flux through $D$ $=\\tfrac{11\\pi}{6}$.\n\nTip: when a surface is open, adding a simple cap surface (where the field is easy to integrate) lets you use the divergence theorem.",
+      "searchQuery": "flux through open surface hemisphere close with disk divergence theorem",
+      "checkpoint": true,
+      "refs": [
+        "Stewart, Calculus ET 8e §16.8–16.9",
+        "MIT 18.02SC, Unit 4 Parts B–C",
+        "Hubbard–Hubbard 5e, ch. 6"
+      ]
+    },
+    {
+      "id": "multivariable-curl-grad-div-curl-identities",
+      "unit": "stokes-and-divergence-theorems",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the identities for $\\nabla\\times(\\nabla f)$ and $\\nabla\\cdot(\\nabla\\times\\mathbf F)$ when $f$ and $\\mathbf F$ are $C^2$.",
+      "body": "$\\nabla\\times(\\nabla f)=\\mathbf 0$ and $\\nabla\\cdot(\\nabla\\times\\mathbf F)=0$.\n\nWhy: the components of $\\nabla\\times(\\nabla f)$ are differences of mixed partials like $f_{zy}-f_{yz}$, which vanish by Clairaut's theorem for $C^2$ functions. In $\\nabla\\cdot(\\nabla\\times\\mathbf F)$ the six second partials of the components of $\\mathbf F$ cancel in pairs for the same reason.\n\nWhy it matters: the first identity shows that a conservative field in space has curl $\\mathbf 0$ (the necessary condition from earlier). The second implies, with the divergence theorem, that the flux of a curl through any closed surface is $0$.\n\nExample: for $f=xyz$, $\\nabla f=(yz,xz,xy)$ and the curl is $(x-x,\\ y-y,\\ z-z)=\\mathbf 0$.\n\nWatch out: the second identity does not say that a field with zero divergence is the curl of something on every region, and the first identity does not make every curl-free field a gradient when the region has holes.",
+      "searchQuery": "curl of gradient zero divergence of curl zero identities",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.8–16.9",
+        "MIT 18.02SC, Unit 4 Parts B–C",
+        "Hubbard–Hubbard 5e, ch. 6"
+      ]
+    },
+    {
+      "id": "multivariable-divergence-theorem-singularity-misconception",
+      "unit": "stokes-and-divergence-theorems",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is the claim \"if $\\nabla\\cdot\\mathbf F=0$ wherever $\\mathbf F$ is defined, then the flux of $\\mathbf F$ through every closed surface is $0$\" false?",
+      "body": "The divergence theorem needs $\\mathbf F$ to be $C^1$ inside the whole solid. A singular point inside can carry flux. Example: $\\mathbf F=\\dfrac{(x,y,z)}{(x^2+y^2+z^2)^{3/2}}$ has $\\nabla\\cdot\\mathbf F=0$ everywhere except the origin, yet its outward flux through every sphere centered at the origin is $4\\pi$.\n\nOn the sphere of radius $a$, $\\mathbf F\\cdot\\mathbf n=\\dfrac{a}{a^3}=\\dfrac1{a^2}$, and the flux is $\\dfrac{1}{a^2}\\cdot4\\pi a^2=4\\pi$, for every $a$.\n\nKey idea: the origin is a source of strength $4\\pi$ that the divergence formula does not see, because $\\mathbf F$ is not defined there. A closed surface that does not enclose the origin has flux $0$ by the divergence theorem.\n\nWatch out: the same pattern appears in the plane, where $\\mathbf F=\\dfrac{(-y,x)}{x^2+y^2}$ has zero curl away from the origin but circulation $2\\pi$ around it.",
+      "searchQuery": "divergence theorem singularity inverse square field flux 4 pi zero divergence",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.8–16.9",
+        "MIT 18.02SC, Unit 4 Parts B–C",
+        "Hubbard–Hubbard 5e, ch. 6"
+      ]
+    },
+    {
+      "id": "multivariable-fundamental-pattern-concept",
+      "unit": "stokes-and-divergence-theorems",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "How do the fundamental theorem of calculus and the theorems of Green, Stokes and Gauss share one pattern?",
+      "body": "In each, the integral of a derivative of $\\mathbf F$ over a region equals the integral of $\\mathbf F$ itself over the boundary of that region.\n\n- Fundamental theorem of calculus: $\\int_a^bf'(x)\\,dx=f(b)-f(a)$. The boundary of $[a,b]$ is the two endpoints.\n- Green's theorem: $\\iint_D(Q_x-P_y)\\,dA=\\oint_{\\partial D}P\\,dx+Q\\,dy$. The region is flat, and the boundary is a curve.\n- Stokes' theorem: $\\iint_S(\\nabla\\times\\mathbf F)\\cdot d\\mathbf S=\\oint_{\\partial S}\\mathbf F\\cdot d\\mathbf r$. The region is a surface, and the boundary is a curve.\n- Divergence theorem: $\\iiint_E\\nabla\\cdot\\mathbf F\\,dV=\\iint_{\\partial E}\\mathbf F\\cdot d\\mathbf S$. The region is a solid, and the boundary is a surface.\n\nWhy it matters: in each case the boundary orientation must match the region's orientation. Cancellation across interior pieces is the reason all four hold.\n\nKey idea: all four are special cases of one theorem about differential forms, $\\int_M d\\omega=\\int_{\\partial M}\\omega$, which is developed in later courses.",
+      "searchQuery": "fundamental theorem of calculus Green Stokes divergence theorem unified pattern boundary",
+      "refs": [
+        "Stewart, Calculus ET 8e §16.8–16.9",
+        "MIT 18.02SC, Unit 4 Parts B–C",
+        "Hubbard–Hubbard 5e, ch. 6"
+      ]
+    }
+  ]
+}

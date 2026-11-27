@@ -1,0 +1,48 @@
+{
+  "module": "c-1",
+  "checker": "claude (independent checker)",
+  "verdicts": [
+    {
+      "id": "c-signed-unsigned-compare",
+      "verdict": "fixed",
+      "note": "Wrong flag: -Wall alone does not warn about sign comparison in C; -Wextra does (tested with clang)."
+    },
+    {
+      "id": "c-assign-vs-compare-bug",
+      "verdict": "fixed",
+      "note": "Warning wording is clang-specific; made compiler-neutral."
+    },
+    {
+      "id": "c-array-to-function-code",
+      "verdict": "fixed",
+      "note": "Overgeneral: strings are arrays whose length is found from the terminator."
+    },
+    {
+      "id": "c-strlen-sizeof-code",
+      "verdict": "fixed",
+      "note": "Unclear sentence about when sizeof and strlen differ."
+    },
+    {
+      "id": "c-include-guard",
+      "verdict": "fixed",
+      "note": "Used struct, which is not taught in this module."
+    },
+    {
+      "id": "c-decode-compiler-errors-code",
+      "verdict": "fixed",
+      "note": "Title asked two questions (fix first, and message families) but the answer addressed one; retitled to one question."
+    },
+    {
+      "id": "c-addresssanitizer-code",
+      "verdict": "fixed",
+      "note": "Vague and misleading remark about 3-looking values."
+    }
+  ],
+  "summary": {
+    "reviewed": 75,
+    "ok": 68,
+    "fixed": 7,
+    "dropped": 0,
+    "added": 0
+  }
+}

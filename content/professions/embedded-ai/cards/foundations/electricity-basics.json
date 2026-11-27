@@ -1,0 +1,733 @@
+{
+  "profession": "embedded-ai",
+  "module": "electricity-basics",
+  "tier": 0,
+  "cards": [
+    {
+      "id": "electricity-electric-charge",
+      "unit": "charge-current-voltage",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is **electric charge**, and what are its two kinds?",
+      "body": "A property of matter that makes it push or pull on other charged matter; it comes in two kinds, positive and negative.\n\nLike charges repel each other and opposite charges attract. Matter is made of atoms, which contain tiny particles: electrons carry negative charge and protons carry positive charge. Most objects hold equal amounts of both, so they are neutral overall.\n\nExample: Rub a balloon on your hair. Electrons move from the hair to the balloon, so the balloon ends up negative and the hair positive. The hair lifts toward the balloon because opposite charges attract.\n\nKey idea: Electronics is the craft of controlling how charge moves.",
+      "searchQuery": "electric charge positive negative attract repel",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-coulomb",
+      "unit": "charge-current-voltage",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **coulomb** (C), the unit of electric charge, in terms of electrons?",
+      "body": "The unit of charge; $1\\,\\mathrm{C}$ is the charge of about $6.24 \\times 10^{18}$ electrons.\n\nWhy: One electron carries a charge of size $1.602 \\times 10^{-19}\\,\\mathrm{C}$. Dividing $1$ by that number gives about $6.24 \\times 10^{18}$ electrons per coulomb.\n\nTip: Static charge, like the charge on a rubbed balloon, is only a tiny fraction of a coulomb. Charge flowing through a wire adds up quickly, though: $1\\,\\mathrm{A}$ moves $1\\,\\mathrm{C}$ past a point every second.",
+      "searchQuery": "coulomb unit of charge electrons 6.24e18",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-current-ampere",
+      "unit": "charge-current-voltage",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is **current**, and what does 1 **ampere** (A) mean?",
+      "body": "Current is the rate at which charge flows, $I = Q/t$; $1\\,\\mathrm{A} = 1\\,\\mathrm{C/s}$.\n\nHere $Q$ is the charge in coulombs that passes a point in the wire and $t$ is the time in seconds. If the flow is not steady, $Q/t$ gives the average current over that time. People often say \"amp\" for ampere.\n\nExample: If $3\\,\\mathrm{C}$ passes a point in $2\\,\\mathrm{s}$, the current is $3/2 = 1.5\\,\\mathrm{A}$.\n\nWatch out: Current is a rate, like speed. It tells you how much charge passes per second, not how much has passed in total.",
+      "searchQuery": "current definition ampere coulomb per second",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §9.1"
+      ]
+    },
+    {
+      "id": "electricity-voltage-volt",
+      "unit": "charge-current-voltage",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is **voltage** (potential difference), and what does 1 **volt** (V) mean?",
+      "body": "Voltage is the energy per unit charge between two points; $1\\,\\mathrm{V} = 1\\,\\mathrm{J/C}$.\n\nIt tells you how much energy each coulomb gains or loses when it moves from one point to the other.\n\nExample: A $9\\,\\mathrm{V}$ battery gives every coulomb that moves through it $9\\,\\mathrm{J}$. The charge then hands that energy to whatever is in the loop, such as a lamp.\n\nWatch out: Voltage always exists between two points. \"The voltage at a point\" really means the voltage between that point and an agreed reference point.",
+      "searchQuery": "voltage potential difference volt joule per coulomb",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-charge-from-current",
+      "unit": "charge-current-voltage",
+      "kind": "example",
+      "difficulty": 1,
+      "title": "A sensor draws a steady $20\\,\\mathrm{mA}$ for one minute. How much charge flows through it?",
+      "body": "$1.2\\,\\mathrm{C}$\n\nRearrange $I = Q/t$ into $Q = I \\cdot t$. Convert to base units first: $20\\,\\mathrm{mA} = 0.020\\,\\mathrm{A}$ and one minute is $60\\,\\mathrm{s}$, so $Q = 0.020 \\times 60 = 1.2\\,\\mathrm{C}$. That is about $1.2 \\times 6.24 \\times 10^{18} \\approx 7.5 \\times 10^{18}$ electrons.\n\nKey idea: Current multiplied by time is charge. The same idea later turns a battery's milliamp-hours into a running time.\n\nWatch out: Convert milliamps to amps and minutes to seconds before multiplying. Skipping the first step makes the answer $1000$ times too big.",
+      "searchQuery": "charge equals current times time worked example",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-water-pipe-analogy",
+      "unit": "charge-current-voltage",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "In the water-pipe analogy, what do voltage and current correspond to, and how does a break in a wire differ from a cut pipe?",
+      "body": "Voltage is like the water pressure difference and current like the flow rate; but a cut pipe spills water, while a break in a wire spills no charge and stops the current everywhere in the loop.\n\nA pump (the battery) creates a pressure difference (voltage), water moves through the pipe (current), and a narrow pipe holds the flow back (resistance, coming up next). More pressure gives more flow.\n\nWatch out: Charge only moves around a complete, unbroken loop, called a **circuit**. That is why one break stops the current everywhere, not just at the gap.\n\nTip: Use the analogy for intuition and use the units (V, A, C) for numbers.",
+      "searchQuery": "water pipe analogy voltage current electricity",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-ground-reference",
+      "unit": "charge-current-voltage",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "What is **ground** in a circuit, and why do we need a 0 V reference?",
+      "body": "Ground is the point chosen as $0\\,\\mathrm{V}$; every other voltage in the circuit is measured relative to it.\n\nVoltage only exists between two points. Naming one point $0\\,\\mathrm{V}$ lets us say \"this wire is at $5\\,\\mathrm{V}$\" and mean \"$5\\,\\mathrm{V}$ above ground\".\n\nExample: In a battery-powered gadget, ground is usually the battery's negative terminal, the − end where wires connect. A wire at $3.3\\,\\mathrm{V}$ is then $3.3\\,\\mathrm{V}$ above that terminal.\n\nWatch out: Which point you call ground is a convention. Picking a different point changes the voltage labels, but not the currents or the voltage between any two points.",
+      "searchQuery": "ground 0 V reference point circuit",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-current-not-used-up",
+      "unit": "charge-current-voltage",
+      "kind": "misconception",
+      "difficulty": 1,
+      "title": "Why is it false that a lamp “uses up” current, so less current returns to the battery than left it?",
+      "body": "False: the same current flows through every part of a single loop; charge passes through the lamp and gives up energy there, but no charge is used up.\n\nWhy: In a steady circuit, charge can't vanish or pile up, so the same number of coulombs per second pass every point of a single loop. What changes along the loop is the energy each coulomb carries.\n\nExample: In a closed water loop with a water wheel, the same amount of water per second reaches the wheel and leaves it. The water just arrives with higher pressure than it leaves.\n\nKey idea: Current is conserved around a single loop; energy is what gets used.",
+      "searchQuery": "current used up lamp misconception same current loop",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-conventional-current",
+      "unit": "charge-current-voltage",
+      "kind": "misconception",
+      "difficulty": 1,
+      "title": "Why is it false that the current arrow on a circuit diagram points the way electrons move?",
+      "body": "False: **conventional current** is the direction positive charge would move, from + to − through the circuit outside the battery, which is opposite to the way electrons move in a metal wire.\n\nThe convention was set before electrons were discovered. Positive charge moving one way has the same effect on a circuit as negative charge moving the other way, so the math works either way. Inside the battery, conventional current continues from − back to +, completing the loop.\n\nTip: Almost every formula, diagram and textbook in electronics uses conventional current. Follow the current from the + terminal, around the loop, back to the − terminal, and forget the electrons.",
+      "searchQuery": "conventional current direction electron flow opposite",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §9.1"
+      ]
+    },
+    {
+      "id": "electricity-resistance-ohm",
+      "unit": "resistance-ohms-law",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is **resistance**, and what unit measures it?",
+      "body": "How strongly a part opposes current; measured in ohms ($\\Omega$), where $1\\,\\Omega = 1\\,\\mathrm{V/A}$.\n\nFor the same voltage, more resistance means less current. One ohm lets $1\\,\\mathrm{A}$ flow when $1\\,\\mathrm{V}$ is applied.\n\nA **conductor**, such as copper, is a material that lets charge move through it easily, so a copper wire has very low resistance. An **insulator**, such as rubber, plastic or air, lets almost no charge through, so its resistance is extremely high.\n\nTip: Larger values use prefixes: $1\\,\\mathrm{k\\Omega} = 1000\\,\\Omega$ and $1\\,\\mathrm{M\\Omega} = 10^6\\,\\Omega$.",
+      "searchQuery": "resistance definition ohm conductor insulator",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §9.3"
+      ]
+    },
+    {
+      "id": "electricity-resistor-part",
+      "unit": "resistance-ohms-law",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **resistor**?",
+      "body": "A two-terminal part built to have a specific, steady resistance, used to control how much current flows.\n\nResistors come in values from fractions of an ohm to many megohms. On resistors with wire legs, the value is usually shown as colored bands.\n\nExample: Putting a $330\\,\\Omega$ resistor in a loop with a battery limits the current; the larger the resistance, the smaller the current.\n\nWatch out: A fixed resistor has no polarity. It works the same whichever way round you connect it.",
+      "searchQuery": "resistor definition fixed resistance part current limit",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ]
+    },
+    {
+      "id": "electricity-ohms-law",
+      "unit": "resistance-ohms-law",
+      "kind": "formula",
+      "difficulty": 1,
+      "title": "State **Ohm's law** relating voltage, current and resistance.",
+      "body": "$V = I \\cdot R$, where $R$ stays constant for a given resistor; $V$ in volts, $I$ in amps, $R$ in ohms.\n\nRearranged: $I = V/R$ and $R = V/I$. Pick the form that has your unknown alone on the left.\n\nKey idea: $R = V/I$ is just what resistance means. Ohm's law adds that for a resistor this ratio stays the same whatever the voltage (at a steady temperature), so the current is proportional to the voltage. Some parts break this rule, as a later card shows.\n\nTip: Volts, kilohms and milliamps fit together: $1\\,\\mathrm{k\\Omega} \\times 1\\,\\mathrm{mA} = 1\\,\\mathrm{V}$. Use this to skip the conversion to base units.",
+      "searchQuery": "Ohm's law V equals I R formula",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §9.4"
+      ]
+    },
+    {
+      "id": "electricity-ohms-law-proportional",
+      "unit": "resistance-ohms-law",
+      "kind": "example",
+      "difficulty": 1,
+      "title": "A resistor carries $2\\,\\mathrm{mA}$ when $2\\,\\mathrm{V}$ is across it. Assuming it follows Ohm's law, what current flows at $6\\,\\mathrm{V}$?",
+      "body": "$6\\,\\mathrm{mA}$\n\nThe resistance is $R = V/I = 2\\,\\mathrm{V} / 2\\,\\mathrm{mA} = 1\\,\\mathrm{k\\Omega}$. At $6\\,\\mathrm{V}$, $I = 6\\,\\mathrm{V} / 1\\,\\mathrm{k\\Omega} = 6\\,\\mathrm{mA}$.\n\nKey idea: For a resistor, current is proportional to voltage. Triple the voltage and the current triples.\n\nTip: You can skip the resistance. The voltage tripled, so the current triples to $6\\,\\mathrm{mA}$.",
+      "searchQuery": "Ohm's law current proportional to voltage example",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §9.4"
+      ]
+    },
+    {
+      "id": "electricity-open-short-circuit",
+      "unit": "resistance-ohms-law",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What are an **open circuit** and a **short circuit**, and why can a short damage the supply?",
+      "body": "An open circuit has a break, so no current flows; a short circuit is a near-zero-resistance path that lets current bypass parts, and one straight across the supply draws a huge current that overheats the wires and the supply.\n\nThe **supply** is the battery or other source that powers the circuit. An open circuit has an air gap, and air is an insulator. In a short across the supply, $I = V/R$ with $R$ close to zero gives a very large current, limited only by the supply itself and the wires, which heat up and can be damaged.\n\nExample: A loose wire leaves the loop open, so the lamp stays off. A stray wire laid straight across a battery's terminals is a short: the wire and the battery get hot, and with a big battery, such as a car battery, the wire can get hot enough to start a fire.\n\nWatch out: A short around a part also starves that part. The current takes the easy path and the part gets almost none.",
+      "searchQuery": "open circuit short circuit difference damage supply",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-led-not-ohmic",
+      "unit": "resistance-ohms-law",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that an LED behaves like a fixed resistance, so its current is always its voltage divided by a constant?",
+      "body": "False: connected the right way round, an LED passes almost no current until its voltage nears a threshold, then the current rises very steeply, so $V/I$ is not constant.\n\nA **diode** is a part that lets current flow easily in one direction only. An **LED** is a light-emitting diode. A typical red LED needs about $2\\,\\mathrm{V}$ to pass its usual working current of about $20\\,\\mathrm{mA}$; half a volt less, it passes almost nothing.\n\nWhy: Above the threshold a small voltage increase causes a large current increase. Connected straight to a supply such as $5\\,\\mathrm{V}$, an LED can draw so much current that it burns out.\n\nTip: Ohm's law still holds for a resistor placed in the same loop. Use that resistor to set the current through the LED.",
+      "searchQuery": "LED diode not obey Ohm's law threshold voltage",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ]
+    },
+    {
+      "id": "electricity-problem-current-250-ohm",
+      "unit": "resistance-ohms-law",
+      "kind": "problem",
+      "difficulty": 1,
+      "title": "A $250\\,\\Omega$ resistor has $5\\,\\mathrm{V}$ across it. How many milliamps flow through it? (Give the number only.)",
+      "body": "$20\\,\\mathrm{mA}$\n\nUse $I = V/R = 5\\,\\mathrm{V} / 250\\,\\Omega = 0.02\\,\\mathrm{A}$. Multiply by $1000$ to get $20\\,\\mathrm{mA}$.\n\nWatch out: Amps times 1000 is milliamps. $0.02\\,\\mathrm{A}$ is $20\\,\\mathrm{mA}$, not $2\\,\\mathrm{mA}$.",
+      "searchQuery": "current through 250 ohm resistor 5 volts",
+      "answer": "20",
+      "acceptedAnswers": [
+        "20 mA"
+      ],
+      "answerDisplay": "$20\\,\\mathrm{mA}$",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-problem-current-10k",
+      "unit": "resistance-ohms-law",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A $3.3\\,\\mathrm{V}$ supply is connected across a $10\\,\\mathrm{k\\Omega}$ resistor. What current flows, in microamps?",
+      "body": "$330\\,\\mu\\mathrm{A}$\n\n$I = V/R = 3.3\\,\\mathrm{V} / 10\\,000\\,\\Omega = 0.00033\\,\\mathrm{A}$. Since $1\\,\\mathrm{A} = 10^6\\,\\mu\\mathrm{A}$, that is $330\\,\\mu\\mathrm{A}$.\n\nTip: With kilohms and volts the answer comes out in milliamps: $3.3 / 10 = 0.33\\,\\mathrm{mA}$. Convert to microamps by multiplying by $1000$.",
+      "searchQuery": "3.3 volts 10 kilohm resistor current microamps",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-problem-resistance-from-vi",
+      "unit": "resistance-ohms-law",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A resistor passes $40\\,\\mathrm{mA}$ when $12\\,\\mathrm{V}$ is across it. What is its resistance in ohms? (Give the number only.)",
+      "body": "$300\\,\\Omega$\n\nUse $R = V/I = 12\\,\\mathrm{V} / 0.040\\,\\mathrm{A} = 300\\,\\Omega$.\n\nCheck: $300\\,\\Omega \\times 0.040\\,\\mathrm{A} = 12\\,\\mathrm{V}$, which matches.\n\nWatch out: Divide by $0.040\\,\\mathrm{A}$, not $40$. Using $40$ gives $0.3\\,\\Omega$, which is wrong by a factor of 1000.",
+      "searchQuery": "resistance from voltage and current 12 V 40 mA",
+      "answer": "300",
+      "acceptedAnswers": [
+        "300 ohm",
+        "300 ohms",
+        "300 Ω"
+      ],
+      "answerDisplay": "$300\\,\\Omega$",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-power-watt",
+      "unit": "power-and-energy",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is **electrical power**, and what does 1 **watt** (W) mean?",
+      "body": "Power is the rate at which energy is transferred; $1\\,\\mathrm{W} = 1\\,\\mathrm{J/s}$.\n\nA device that uses $60\\,\\mathrm{W}$ converts $60\\,\\mathrm{J}$ of electrical energy every second into light, heat, motion or similar.\n\nWatch out: Power is a rate, not an amount of energy. Higher power drains the same battery faster.",
+      "searchQuery": "electrical power watt joule per second definition",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §9.5"
+      ]
+    },
+    {
+      "id": "electricity-power-vi",
+      "unit": "power-and-energy",
+      "kind": "formula",
+      "difficulty": 1,
+      "title": "How do you calculate electrical power from voltage and current?",
+      "body": "$P = V \\cdot I$ (watts = volts × amps).\n\nWhy: Voltage is energy per coulomb ($\\mathrm{J/C}$) and current is coulombs per second ($\\mathrm{C/s}$). Multiplying them gives joules per second, which is watts.\n\nExample: A $12\\,\\mathrm{V}$ motor drawing $2\\,\\mathrm{A}$ uses $12 \\times 2 = 24\\,\\mathrm{W}$.",
+      "searchQuery": "power formula P equals V times I watts",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §9.5"
+      ]
+    },
+    {
+      "id": "electricity-power-vs-energy",
+      "unit": "power-and-energy",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "What is the difference between power and **energy**, and how are they linked?",
+      "body": "Power is the rate (W = J/s); energy is the total amount transferred, $E = P \\cdot t$ for a steady power, measured in joules or **watt-hours** (Wh).\n\nOne watt-hour is the energy used by $1\\,\\mathrm{W}$ running for one hour: $1\\,\\mathrm{W} \\times 3600\\,\\mathrm{s} = 3600\\,\\mathrm{J}$.\n\nExample: A $5\\,\\mathrm{W}$ device running for $3\\,\\mathrm{h}$ uses $15\\,\\mathrm{Wh}$.\n\nWatch out: \"Watts per hour\" is a common error. Power is already a rate, so energy is watts times hours, written Wh.",
+      "searchQuery": "power versus energy watt hour joule 3600",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §9.5"
+      ]
+    },
+    {
+      "id": "electricity-power-i2r-v2r",
+      "unit": "power-and-energy",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Using Ohm's law, write the power dissipated in a resistor using only $I$ and $R$, and using only $V$ and $R$.",
+      "body": "$P = I^2 R$ (no $V$ needed) and $P = V^2 / R$ (no $I$ needed).\n\nSubstitute $V = IR$ into $P = VI$ to get $P = I^2 R$. Substitute $I = V/R$ to get $P = V^2/R$.\n\n**Power dissipation** is the electrical power a part turns into heat. A resistor turns all of its $V \\cdot I$ into heat.\n\nExample: A $100\\,\\Omega$ resistor across $12\\,\\mathrm{V}$ dissipates $12^2/100 = 1.44\\,\\mathrm{W}$.\n\nWatch out: Current and voltage are squared. In the same resistor, doubling the current quadruples the heat.",
+      "searchQuery": "power I squared R V squared over R dissipation",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §9.5"
+      ]
+    },
+    {
+      "id": "electricity-power-rating",
+      "unit": "power-and-energy",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a resistor's **power rating**, and how much margin should you leave?",
+      "body": "The maximum power it can dissipate continuously without overheating; choose a rating comfortably above the calculated dissipation, such as double.\n\nCommon ratings are $1/8$, $1/4$, $1/2$, $1$ and $2\\,\\mathrm{W}$. A bigger rating usually means a physically bigger resistor. The rating assumes the resistor can shed its heat into cool air; inside a hot case it can safely handle less.\n\nWatch out: The rating is a limit, not what the resistor uses. A $1/4\\,\\mathrm{W}$ resistor dissipates only what its voltage and current dictate.\n\nTip: Compute $P$ first, then pick the next standard rating that gives about $2\\times$ headroom (spare margin).",
+      "searchQuery": "resistor power rating watt margin overheating",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ]
+    },
+    {
+      "id": "electricity-problem-power-150ma",
+      "unit": "power-and-energy",
+      "kind": "problem",
+      "difficulty": 1,
+      "title": "A device draws $150\\,\\mathrm{mA}$ from a $3.3\\,\\mathrm{V}$ supply. What power does it use, in milliwatts? (Give the number only.)",
+      "body": "$495\\,\\mathrm{mW}$\n\n$P = V \\cdot I = 3.3\\,\\mathrm{V} \\times 0.150\\,\\mathrm{A} = 0.495\\,\\mathrm{W} = 495\\,\\mathrm{mW}$.\n\nTip: Volts times milliamps gives milliwatts directly: $3.3 \\times 150 = 495$.",
+      "searchQuery": "power 3.3 V 150 mA milliwatts",
+      "answer": "495",
+      "acceptedAnswers": [
+        "495 mW"
+      ],
+      "answerDisplay": "$495\\,\\mathrm{mW}$",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-problem-wh-to-joules",
+      "unit": "power-and-energy",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "How many joules are in $2.5\\,\\mathrm{Wh}$? (Give the number only.)",
+      "body": "$9000\\,\\mathrm{J}$\n\nUse $1\\,\\mathrm{Wh} = 3600\\,\\mathrm{J}$, so $2.5 \\times 3600 = 9000\\,\\mathrm{J}$.\n\nWhy: One watt-hour is $1\\,\\mathrm{J/s}$ for $3600\\,\\mathrm{s}$, which is $3600\\,\\mathrm{J}$.\n\nWatch out: Going from joules to watt-hours means dividing by $3600$.",
+      "searchQuery": "convert watt hours to joules 3600",
+      "answer": "9000",
+      "acceptedAnswers": [
+        "9000 J"
+      ],
+      "answerDisplay": "$9000\\,\\mathrm{J}$",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-problem-resistor-rating",
+      "unit": "power-and-energy",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A $330\\,\\Omega$ resistor will have $12\\,\\mathrm{V}$ across it. How much power does it dissipate, and which standard rating should you use from $1/8$, $1/4$, $1/2$, $1$ and $2\\,\\mathrm{W}$, leaving about double headroom?",
+      "body": "About $0.44\\,\\mathrm{W}$, so use a $1\\,\\mathrm{W}$ resistor.\n\n$P = V^2/R = 144/330 \\approx 0.436\\,\\mathrm{W}$. Double headroom means a rating of at least about $0.87\\,\\mathrm{W}$, and the smallest standard rating above that is $1\\,\\mathrm{W}$.\n\nWatch out: A $1/4\\,\\mathrm{W}$ resistor would be overloaded and could burn out. A $1/2\\,\\mathrm{W}$ one would be within its rating but run hot, with almost no margin.",
+      "searchQuery": "resistor power dissipation 330 ohm 12 V rating choice",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2"
+      ]
+    },
+    {
+      "id": "electricity-series-circuit",
+      "unit": "series-parallel",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **series circuit**?",
+      "body": "A circuit whose parts are connected end to end in a single chain, so the same current flows through each of them.\n\nThere is only one path for the charge to follow, so every part sees the same current.\n\nExample: A battery, a switch and a resistor wired one after another in one loop form a series circuit.\n\nWatch out: A break anywhere in a series chain stops the current in every part. Old strings of lights failed this way when one bulb burned out.",
+      "searchQuery": "series circuit definition single path same current",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.2"
+      ]
+    },
+    {
+      "id": "electricity-parallel-circuit",
+      "unit": "series-parallel",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is a **parallel circuit**, and what are **nodes** and **branches**?",
+      "body": "A circuit whose parts each connect across the same two nodes, each on its own branch; a node is a point where parts connect, and a branch is a path between two nodes that holds one part.\n\nEvery point joined by plain wire, with no part in between, counts as the same **node**. So however many junctions the wiring has, a parallel circuit has just two nodes, and every **branch** runs from one to the other. Current can take any branch.\n\nKey idea: Each part in parallel is connected straight across the same two nodes, so each gets the full voltage between them.\n\nWatch out: A break in one branch leaves the other branches working.",
+      "searchQuery": "parallel circuit definition node branch",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.2"
+      ]
+    },
+    {
+      "id": "electricity-same-current-same-voltage",
+      "unit": "series-parallel",
+      "kind": "concept",
+      "difficulty": 1,
+      "title": "Which quantity is the same for every part in series, and which is the same for every part in parallel?",
+      "body": "Series parts share the same current; parallel parts share the same voltage.\n\nIn series the voltage divides. Each part's share is its **voltage drop**, the voltage across it, and the drops add up to the voltage across the whole chain (the supply voltage, when the chain is the only loop).\n\nIn parallel the current divides among the branches. Such a split is a **current divider**, and the branch currents add up to the total. The branch with the lowest resistance takes the biggest share.\n\nMnemonic: Series: same current. Parallel: same voltage.",
+      "searchQuery": "series same current parallel same voltage drop current divider",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.2"
+      ]
+    },
+    {
+      "id": "electricity-series-resistance-sum",
+      "unit": "series-parallel",
+      "kind": "example",
+      "difficulty": 1,
+      "title": "Resistors of $1\\,\\mathrm{k\\Omega}$, $2.2\\,\\mathrm{k\\Omega}$ and $4.7\\,\\mathrm{k\\Omega}$ are connected in series. What is the **equivalent resistance**?",
+      "body": "$7.9\\,\\mathrm{k\\Omega}$\n\nThe equivalent resistance is the single resistor that would draw the same current from the same supply. In series, resistances add: $1 + 2.2 + 4.7 = 7.9\\,\\mathrm{k\\Omega}$.\n\nWhy: The same current passes through all three, and each one adds its own voltage drop. The total voltage over the current ($V/I$) is the sum.\n\nKey idea: A series total is always larger than the biggest resistor in the chain.",
+      "searchQuery": "series resistors add equivalent resistance example",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.2"
+      ]
+    },
+    {
+      "id": "electricity-equivalent-resistance-parallel",
+      "unit": "series-parallel",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Give the **equivalent resistance** of two resistors $R_1$ and $R_2$ in parallel (the product-over-sum form).",
+      "body": "$R_{\\mathrm{eq}} = \\dfrac{R_1 R_2}{R_1 + R_2}$, from $\\dfrac{1}{R_{\\mathrm{eq}}} = \\dfrac{1}{R_1} + \\dfrac{1}{R_2}$.\n\nIn parallel the equivalent resistance is always smaller than the smallest resistor, because adding a branch gives the current another path.\n\nTip: Two equal resistors in parallel give half the value: $R_{\\mathrm{eq}} = R/2$.\n\nWatch out: The product-over-sum shortcut works for two resistors only. For three or more, add the reciprocals.",
+      "searchQuery": "parallel resistance formula product over sum equivalent",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.2"
+      ]
+    },
+    {
+      "id": "electricity-household-parallel",
+      "unit": "series-parallel",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why are household loads such as lamps and kettles wired in parallel rather than in series?",
+      "body": "Parallel gives every load the full supply voltage, and one load switching off doesn't affect the others.\n\nA **load** is anything that draws power from the supply, such as a lamp or a kettle. Each appliance is designed for the supply voltage. In series they would share that voltage and each get less. Switching one off would also break the loop for all of them.\n\nExample: Turn off your lamp and the fridge keeps running, since each is on its own branch.\n\nWatch out: More loads in parallel means more total current from the supply, because each branch adds its own current.",
+      "searchQuery": "household appliances wired in parallel not series why",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.2"
+      ]
+    },
+    {
+      "id": "electricity-problem-series-drop",
+      "unit": "series-parallel",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A $9\\,\\mathrm{V}$ supply drives a $1\\,\\mathrm{k\\Omega}$ resistor and a $2\\,\\mathrm{k\\Omega}$ resistor in series. What is the voltage drop across the $2\\,\\mathrm{k\\Omega}$ resistor, in volts? (Give the number only.)",
+      "body": "$6\\,\\mathrm{V}$\n\nThe total resistance is $3\\,\\mathrm{k\\Omega}$, so the current is $9\\,\\mathrm{V}/3\\,\\mathrm{k\\Omega} = 3\\,\\mathrm{mA}$. The drop across $2\\,\\mathrm{k\\Omega}$ is $3\\,\\mathrm{mA} \\times 2\\,\\mathrm{k\\Omega} = 6\\,\\mathrm{V}$.\n\nCheck: The other drop is $3\\,\\mathrm{mA} \\times 1\\,\\mathrm{k\\Omega} = 3\\,\\mathrm{V}$, and $3 + 6 = 9\\,\\mathrm{V}$.\n\nKey idea: In series the drops share the supply in proportion to the resistances: $2/3$ of $9\\,\\mathrm{V}$ is $6\\,\\mathrm{V}$.",
+      "searchQuery": "series resistors voltage drop 9 V 1k 2k",
+      "checkpoint": true,
+      "answer": "6",
+      "acceptedAnswers": [
+        "6 V"
+      ],
+      "answerDisplay": "$6\\,\\mathrm{V}$",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.2"
+      ]
+    },
+    {
+      "id": "electricity-problem-parallel-resistance",
+      "unit": "series-parallel",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A $6\\,\\mathrm{k\\Omega}$ resistor and a $3\\,\\mathrm{k\\Omega}$ resistor are connected in parallel. What is the equivalent resistance, in kilohms? (Give the number only.)",
+      "body": "$2\\,\\mathrm{k\\Omega}$\n\nProduct over sum: $\\dfrac{6 \\times 3}{6 + 3} = \\dfrac{18}{9} = 2\\,\\mathrm{k\\Omega}$.\n\nCheck: The result is smaller than the smaller resistor ($3\\,\\mathrm{k\\Omega}$), as it must be in parallel.",
+      "searchQuery": "parallel resistors 6k 3k equivalent resistance",
+      "answer": "2",
+      "acceptedAnswers": [
+        "2 kohm",
+        "2k",
+        "2 kΩ"
+      ],
+      "answerDisplay": "$2\\,\\mathrm{k\\Omega}$",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.2"
+      ]
+    },
+    {
+      "id": "electricity-problem-current-divider",
+      "unit": "series-parallel",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A total of $12\\,\\mathrm{mA}$ enters a parallel pair of a $1\\,\\mathrm{k\\Omega}$ and a $3\\,\\mathrm{k\\Omega}$ resistor. What current flows in each?",
+      "body": "$9\\,\\mathrm{mA}$ in the $1\\,\\mathrm{k\\Omega}$ resistor and $3\\,\\mathrm{mA}$ in the $3\\,\\mathrm{k\\Omega}$ resistor.\n\nBranch currents split in inverse proportion to resistance, so the ratio is $3:1$. Of the $12\\,\\mathrm{mA}$, three quarters ($9\\,\\mathrm{mA}$) take the smaller resistor.\n\nCheck: Both branches have $9\\,\\mathrm{V}$ across them: $9\\,\\mathrm{mA} \\times 1\\,\\mathrm{k\\Omega} = 9\\,\\mathrm{V}$ and $3\\,\\mathrm{mA} \\times 3\\,\\mathrm{k\\Omega} = 9\\,\\mathrm{V}$. They match, as parallel branches must.",
+      "searchQuery": "current divider parallel 12 mA 1k 3k branch currents",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 2",
+        "OpenStax University Physics Vol. 2 §10.2"
+      ]
+    },
+    {
+      "id": "electricity-cell-vs-battery",
+      "unit": "dc-sources-batteries",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is the difference between a **cell** and a **battery**?",
+      "body": "A cell is a single unit that turns stored chemical energy into electrical energy; a battery is strictly a group of cells connected together.\n\nEveryday speech calls a single AA cell a \"battery\". A 9 V battery is really several small cells in series inside one case.\n\nKey idea: A cell's voltage is set by its chemistry. Wiring cells together raises the total voltage or the total charge they can deliver, as later cards show.",
+      "searchQuery": "cell versus battery difference group of cells",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ]
+    },
+    {
+      "id": "electricity-capacity-mah",
+      "unit": "dc-sources-batteries",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a battery's **capacity** in mAh?",
+      "body": "The amount of charge the battery can deliver, in milliamp-hours; $1000\\,\\mathrm{mAh} = 1\\,\\mathrm{Ah} = 3600\\,\\mathrm{C}$.\n\nA $1000\\,\\mathrm{mAh}$ cell can ideally supply $1000\\,\\mathrm{mA}$ for one hour, or $100\\,\\mathrm{mA}$ for ten hours.\n\nWhy: Charge is current times time, $Q = I \\cdot t$, and one amp for one hour is $3600\\,\\mathrm{C}$.\n\nWatch out: Real capacity depends on the load current, the temperature, the cell's age and how low a voltage your device can still run on. The label is measured under the maker's gentle test conditions, so real devices often get less.",
+      "searchQuery": "battery capacity mAh milliamp hour charge definition",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ]
+    },
+    {
+      "id": "electricity-wh-from-mah",
+      "unit": "dc-sources-batteries",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "How do you convert a battery's capacity in mAh to stored energy in Wh?",
+      "body": "$E\\,(\\mathrm{Wh}) = \\dfrac{\\mathrm{mAh} \\times V}{1000}$, using the cell's nominal voltage $V$, the typical voltage printed on its label.\n\nWhy: Energy is charge times voltage. One amp-hour at $V$ volts is $3600 \\cdot V$ joules, and that equals $V$ watt-hours. Using the nominal voltage makes the result an estimate, because the real voltage drifts as the cell drains.\n\nExample: A $2000\\,\\mathrm{mAh}$ cell at $3.7\\,\\mathrm{V}$ stores $2000 \\times 3.7 / 1000 = 7.4\\,\\mathrm{Wh}$.\n\nTip: Compare batteries of different voltages in Wh, not mAh. Two batteries with the same mAh but different voltages hold different energy.",
+      "searchQuery": "convert mAh to Wh formula battery energy voltage",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ]
+    },
+    {
+      "id": "electricity-nominal-voltage-discharge-curve",
+      "unit": "dc-sources-batteries",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that a battery stays at its labeled voltage until it is empty?",
+      "body": "False: the label is the **nominal voltage**, a typical value, and the real voltage slides down along the **discharge curve** as the cell drains.\n\nThe discharge curve is a graph of cell voltage against how much charge has been drawn.\n\nExample: A fresh alkaline AA cell (the common disposable kind) measures about $1.5$ to $1.6\\,\\mathrm{V}$ and falls gradually to about $1\\,\\mathrm{V}$ or below as it empties.\n\nTip: A device has to work over the whole range of voltages, not just the label value.",
+      "searchQuery": "nominal voltage discharge curve battery voltage drops",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ]
+    },
+    {
+      "id": "electricity-numbers-cr2032",
+      "unit": "dc-sources-batteries",
+      "kind": "numbers",
+      "difficulty": 2,
+      "title": "What are the nominal voltage and typical capacity of a CR2032 **coin cell**?",
+      "body": "$3\\,\\mathrm{V}$ nominal and about $225\\,\\mathrm{mAh}$, rated at a light load of about $0.2\\,\\mathrm{mA}$ down to $2.0\\,\\mathrm{V}$ at room temperature.\n\nA **coin cell** is a small, flat, round cell. The CR2032 is the common non-rechargeable lithium one, and its name encodes its size: $20\\,\\mathrm{mm}$ across and $3.2\\,\\mathrm{mm}$ thick. Its energy is about $225 \\times 3/1000 \\approx 0.68\\,\\mathrm{Wh}$.\n\nWatch out: Coin cells are meant for tiny currents. At tens of milliamps the voltage sags a lot and the cell delivers far less than its rated capacity. Makers' ratings vary a little by brand (roughly $210$ to $240\\,\\mathrm{mAh}$).",
+      "searchQuery": "CR2032 coin cell 3 V 225 mAh capacity",
+      "asOf": "2026-11-26",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "https://energy.panasonic.com/dam/master/pdf/en/datasheet/lithium/CR2032_Datasheet_EN.pdf"
+      ]
+    },
+    {
+      "id": "electricity-numbers-li-ion",
+      "unit": "dc-sources-batteries",
+      "kind": "numbers",
+      "difficulty": 2,
+      "title": "What is the nominal voltage of a typical **lithium-ion (Li-ion)** cell, and what are its full and empty voltages?",
+      "body": "$3.6$ to $3.7\\,\\mathrm{V}$ nominal; about $4.2\\,\\mathrm{V}$ when full and roughly $3.0\\,\\mathrm{V}$ when considered empty.\n\nA Li-ion cell is a rechargeable cell that stores energy by moving lithium ions (electrically charged lithium atoms) between its two electrodes, the conducting plates inside it. Unlike an alkaline AA, it can be recharged hundreds of times. These figures are for the most common cobalt- and nickel-based types.\n\nWatch out: Not every lithium-ion chemistry matches them. Lithium iron phosphate (LiFePO4) cells, also lithium-ion, are about $3.2\\,\\mathrm{V}$ nominal and $3.65\\,\\mathrm{V}$ full. Li-ion cells also need protection from overcharge and from being drained too far.",
+      "searchQuery": "lithium ion cell nominal voltage 3.7 V 4.2 V full",
+      "asOf": "2026-11-26",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3",
+        "https://batteryuniversity.com/article/bu-216-summary-table-of-lithium-based-batteries"
+      ]
+    },
+    {
+      "id": "electricity-internal-resistance-sag",
+      "unit": "dc-sources-batteries",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What is a cell's **internal resistance**, and why does its voltage sag under heavy load?",
+      "body": "Internal resistance is the small resistance inside the cell itself; the load current flows through it and drops some of the voltage, so the terminal voltage sags.\n\nThink of the cell as a perfect voltage source, one that always gives the same voltage, with a small resistor in series. The drop across that resistor is $I \\times R_{\\mathrm{internal}}$.\n\nExample: Suppose a cell is $1.5\\,\\mathrm{V}$ with no load and has $0.5\\,\\Omega$ internal resistance. Drawing $1\\,\\mathrm{A}$ drops $0.5\\,\\mathrm{V}$ inside it, so the output is $1.0\\,\\mathrm{V}$.\n\nWatch out: Internal resistance rises as a cell drains, and it is much larger in coin cells than in AA cells: about $0.2\\,\\Omega$ for a fresh alkaline AA, but roughly $10$ to $20\\,\\Omega$ for a fresh CR2032. Heavy loads can make a nearly full coin cell look empty.",
+      "searchQuery": "battery internal resistance voltage sag under load",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ]
+    },
+    {
+      "id": "electricity-cells-series-parallel",
+      "unit": "dc-sources-batteries",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What happens to voltage and capacity when identical cells are wired in series, and when they are wired in parallel?",
+      "body": "Series adds the voltages and keeps the capacity of one cell; parallel keeps the voltage and adds the capacities.\n\nExample: Four $1.5\\,\\mathrm{V}$ AA cells in series give $6\\,\\mathrm{V}$ with the capacity of one cell. Two $3.7\\,\\mathrm{V}$ Li-ion cells in parallel give $3.7\\,\\mathrm{V}$ with double the mAh.\n\nWatch out: Only connect cells that match in type and charge level. Mismatched cells can push current into each other or be overdrained.",
+      "searchQuery": "battery cells in series parallel voltage capacity",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ]
+    },
+    {
+      "id": "electricity-problem-runtime",
+      "unit": "dc-sources-batteries",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A device averages $120\\,\\mathrm{mA}$ from a $2400\\,\\mathrm{mAh}$ battery, and you only count on $80\\%$ of the rated capacity. How many hours will it run? (Give the number only.)",
+      "body": "$16\\,\\mathrm{h}$\n\nUsable capacity is $0.8 \\times 2400 = 1920\\,\\mathrm{mAh}$. Runtime is capacity divided by current: $1920/120 = 16\\,\\mathrm{h}$.\n\nWhy: The ideal runtime without a margin is $2400/120 = 20\\,\\mathrm{h}$. Real batteries deliver less than their label under load, age and cold.\n\nTip: Always apply a margin to a runtime estimate. Counting on $70\\%$ to $80\\%$ of the rated capacity is a common planning choice.",
+      "searchQuery": "battery runtime capacity divided by current margin",
+      "checkpoint": true,
+      "answer": "16",
+      "acceptedAnswers": [
+        "16 h",
+        "16 hours"
+      ],
+      "answerDisplay": "$16\\,\\mathrm{h}$",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ]
+    },
+    {
+      "id": "electricity-problem-c-rate",
+      "unit": "dc-sources-batteries",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A battery's **C-rate** is its discharge current divided by its capacity (in matching units), so $1\\mathrm{C}$ means the current in amps equals the capacity in Ah. What C-rate is a $500\\,\\mathrm{mA}$ draw from a $2000\\,\\mathrm{mAh}$ cell?",
+      "body": "$0.25\\mathrm{C}$\n\n$500\\,\\mathrm{mA} / 2000\\,\\mathrm{mAh} = 0.25$ per hour, which is written $0.25\\mathrm{C}$. This C has nothing to do with coulombs. At that rate an ideal cell would last $1/0.25 = 4\\,\\mathrm{h}$.\n\nWhy: C-rate lets you compare loads across batteries of different sizes. Ideally, $1\\mathrm{C}$ drains the cell in one hour and $2\\mathrm{C}$ in half an hour.\n\nWatch out: Higher C-rates make internal resistance matter more, so the voltage sags more and less capacity is delivered.",
+      "searchQuery": "battery C-rate discharge current capacity 0.25C",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 3"
+      ]
+    },
+    {
+      "id": "electricity-schematic-symbols",
+      "unit": "measuring-circuits",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **schematic**, and what are **circuit symbols**?",
+      "body": "A schematic is a drawing that shows how parts connect; circuit symbols are the standard little shapes that stand for each part.\n\nLines are wires. A dot where lines meet means they are joined; lines that cross without a dot are not. Common symbols: a cell is a long and a short parallel line (the long one is +), and a battery is drawn the same way or as several such pairs; a resistor is a zigzag or a small rectangle; a switch is a gap with a lever; an LED is a triangle pointing at a bar with two small arrows leaving it; and ground is a stack of shortening horizontal lines.\n\nKey idea: A schematic shows connections, not where the parts physically sit.",
+      "searchQuery": "schematic circuit symbols battery resistor LED switch ground",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 7"
+      ]
+    },
+    {
+      "id": "electricity-breadboard-power-rail",
+      "unit": "measuring-circuits",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **breadboard**, and what is a **power rail**?",
+      "body": "A breadboard is a reusable board of spring-clip holes for building circuits without soldering (joining parts with melted metal); a power rail is a long strip of linked holes along its edge for supply and ground.\n\nYou push part legs and wires into the holes. Metal strips under the board link certain holes together.\n\nTip: By convention the red rail is for the positive supply and the blue (or black) rail is for ground.",
+      "searchQuery": "breadboard definition power rail solderless prototyping",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 7"
+      ]
+    },
+    {
+      "id": "electricity-multimeter",
+      "unit": "measuring-circuits",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **multimeter**?",
+      "body": "An instrument, often handheld, that measures voltage, current and resistance, and usually has a continuity setting that beeps when two points are connected.\n\nA dial selects what to measure, and two **probes** (insulated test leads with metal tips) plug into labeled sockets. The black probe usually goes in the COM socket and the red probe in the socket for what you measure.\n\nWatch out: Set the dial and the sockets for the right quantity before you touch the probes to a circuit. A wrong setting gives nonsense readings and can damage the meter.",
+      "searchQuery": "multimeter definition measures voltage current resistance",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 7"
+      ]
+    },
+    {
+      "id": "electricity-read-schematic-example",
+      "unit": "measuring-circuits",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "A schematic shows: battery + → switch → resistor → LED → battery −. Describe the circuit and what happens when the switch opens.",
+      "body": "It is a series circuit: one loop with the battery, switch, resistor and LED in a chain; opening the switch (turning it off) breaks the loop, so the current stops and the LED goes out.\n\nFollow the line from the battery's + side, through the switch and resistor, through the LED, and back to the − side. That is the path of conventional current.\n\nWhy: The resistor limits the current so the LED is not overloaded. The switch opens or closes the loop: an open switch is off and a closed one is on, the reverse of a water tap.\n\nTip: To read a schematic, trace one wire at a time from + to − and name each part you pass.",
+      "searchQuery": "reading schematic battery switch resistor LED loop",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 7"
+      ]
+    },
+    {
+      "id": "electricity-breadboard-connected-holes",
+      "unit": "measuring-circuits",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "On a typical breadboard, which holes are connected to each other?",
+      "body": "The five holes of each short row on one side of the center gap are connected, and each power rail is connected along its length.\n\nThe center gap splits the board into two halves with no link between them. This is why a chip (a small package of circuitry with two rows of metal legs, called pins) can straddle the gap without its pins on opposite sides being joined.\n\nWatch out: On some full-size boards each power rail is split in the middle. Check the board's layout, or bridge the break with a jumper wire (a short wire for linking holes).",
+      "searchQuery": "breadboard which holes connected row strip centre gap rails",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 7"
+      ]
+    },
+    {
+      "id": "electricity-voltmeter-ammeter",
+      "unit": "measuring-circuits",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How do you connect a **voltmeter** and an **ammeter** to measure a part's voltage and current?",
+      "body": "Connect a voltmeter across the part (in parallel); connect an ammeter in the path of the current (in series), by breaking the loop and putting the meter in the gap.\n\nA voltmeter is any meter that measures voltage, such as a multimeter on its voltage setting. It has very high resistance, so it takes almost no current from the circuit. An ammeter is any meter that measures current, such as a multimeter on a current setting. It has very low resistance, so it hardly changes the current it measures.\n\nMnemonic: Voltage is measured across; current is measured through.",
+      "searchQuery": "voltmeter in parallel ammeter in series how to connect",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 7",
+        "OpenStax University Physics Vol. 2 §10.4"
+      ]
+    },
+    {
+      "id": "electricity-continuity-test-example",
+      "unit": "measuring-circuits",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "How can you use a multimeter's **continuity test** to check whether a jumper wire is unbroken?",
+      "body": "Switch to continuity mode and touch one probe to each end of the wire; a beep means there is a low-resistance path, so the wire is intact.\n\nA continuity test checks whether two points are connected by a low-resistance path. The meter beeps when the resistance is below a threshold, typically some tens of ohms (it varies by meter).\n\nTip: No beep on a wire you expected to conduct means a break inside it or a poor contact. The same test finds which breadboard holes are joined.\n\nWatch out: Do the test with the circuit powered off.",
+      "searchQuery": "continuity test multimeter beep check wire unbroken",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 7"
+      ]
+    },
+    {
+      "id": "electricity-ammeter-across-supply",
+      "unit": "measuring-circuits",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that you can safely connect a multimeter in current mode straight across a battery to see how much current it gives?",
+      "body": "False: in current mode the meter has almost no resistance, so across a supply it forms a short circuit, and the huge current usually blows the meter's fuse.\n\nA **fuse** is a thin metal link that melts, breaking the circuit, when too much current flows. By Ohm's law $I = V/R$, so a tiny $R$ means a huge current, and the fuse inside the meter gives way before the meter is damaged.\n\nExample: On its milliamp socket, a meter placed straight across a $9\\,\\mathrm{V}$ battery asks for far more current than its fuse allows, and the fuse opens.\n\nWatch out: Many cheap meters have no fuse at all on their $10\\,\\mathrm{A}$ socket, so a short through it can damage the meter or overheat the battery. Leaving the red probe in a current socket and then measuring a voltage causes the same short.\n\nTo measure current, put the meter in series with a load, so the load limits the current.",
+      "searchQuery": "ammeter across battery blows fuse short circuit multimeter",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 7",
+        "OpenStax University Physics Vol. 2 §10.4"
+      ]
+    },
+    {
+      "id": "electricity-rails-not-powered",
+      "unit": "measuring-circuits",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that a breadboard's red and blue rails are powered automatically?",
+      "body": "False: the rails are just linked strips of metal, and they carry voltage only after you wire a supply to them.\n\nThe red and blue colors are a convention that tells you which rail to connect to + and which to ground. Nothing inside the board supplies any voltage.\n\nWatch out: The rail pairs along the two long edges are not connected to each other. Wire the supply to every rail you use.",
+      "searchQuery": "breadboard rails not powered automatically red blue",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 7"
+      ]
+    },
+    {
+      "id": "electricity-resistance-power-off",
+      "unit": "measuring-circuits",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that you can measure a resistor's value with a multimeter while the circuit is powered and the resistor is still wired in?",
+      "body": "False: the meter measures resistance by sending its own small current, so other power sources spoil the reading and other parts in parallel change it.\n\nTurn the power off first. If the resistor is still connected to other parts, you read the equivalent resistance of everything in parallel with it.\n\nExample: A $10\\,\\mathrm{k\\Omega}$ resistor in parallel with a $10\\,\\mathrm{k\\Omega}$ path measures about $5\\,\\mathrm{k\\Omega}$.\n\nTip: Lift one leg of the part out of the circuit to measure it alone.",
+      "searchQuery": "measure resistance power off multimeter in circuit wrong reading",
+      "refs": [
+        "Scherz & Monk, Practical Electronics for Inventors 4e, ch. 7"
+      ]
+    }
+  ]
+}

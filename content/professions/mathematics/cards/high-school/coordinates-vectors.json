@@ -1,0 +1,388 @@
+{
+  "profession": "mathematics",
+  "module": "coordinates-vectors",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "coordinates-distance-formula",
+      "unit": "distance-midpoint-and-circles",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "State the **distance formula** for the distance $d$ between $(x_1, y_1)$ and $(x_2, y_2)$.",
+      "body": "$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$\n\nWhy: The horizontal gap $|x_2 - x_1|$ and the vertical gap $|y_2 - y_1|$ are the legs of a right triangle whose hypotenuse is the segment, so the Pythagorean theorem gives the length.\n\nExample: From $(1, 2)$ to $(4, 6)$ the legs are $3$ and $4$, so $d = \\sqrt{9 + 16} = 5$.\n\nWatch out: Square each gap first, then add, then take the root. The order of subtraction doesn't matter because the gaps are squared.",
+      "searchQuery": "distance formula between two points coordinate plane",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'The Conic Sections' (Circles)",
+        "Lang, Basic Mathematics, ch. 8"
+      ]
+    },
+    {
+      "id": "coordinates-midpoint-formula",
+      "unit": "distance-midpoint-and-circles",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "State the **midpoint formula** for the segment from $(x_1, y_1)$ to $(x_2, y_2)$.",
+      "body": "$\\left(\\dfrac{x_1 + x_2}{2},\\ \\dfrac{y_1 + y_2}{2}\\right)$\n\nWhy: The midpoint is halfway along each axis separately, so each coordinate is the average of the endpoints' coordinates.\n\nExample: The midpoint of $(-2, 5)$ and $(6, 1)$ is $\\left(\\frac{-2+6}{2}, \\frac{5+1}{2}\\right) = (2, 3)$.\n\nTip: If you know the midpoint $M$ and one endpoint $P$, the other endpoint is $2M - P$ in each coordinate. Here $2(2, 3) - (-2, 5) = (6, 1)$.",
+      "searchQuery": "midpoint formula average of coordinates segment",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'The Conic Sections' (Circles)",
+        "Lang, Basic Mathematics, ch. 8"
+      ]
+    },
+    {
+      "id": "coordinates-circle-equation",
+      "unit": "distance-midpoint-and-circles",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "Write the **equation of a circle** with center $(h, k)$ and radius $r > 0$.",
+      "body": "$(x - h)^2 + (y - k)^2 = r^2$\n\nA circle is the set of all points at distance $r$ from the center, so this is the distance formula with the root cleared by squaring.\n\nKey idea: A point $(x, y)$ is on the circle exactly when $\\sqrt{(x - h)^2 + (y - k)^2} = r$.\n\nExample: Center $(3, -2)$ and radius $5$ give $(x - 3)^2 + (y + 2)^2 = 25$.\n\nWatch out: The signs in the brackets are the opposite of the center's coordinates: $y + 2$ means $k = -2$.",
+      "searchQuery": "equation of a circle center radius standard form",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'The Conic Sections' (Circles)"
+      ]
+    },
+    {
+      "id": "coordinates-general-circle-equation-trap",
+      "unit": "distance-midpoint-and-circles",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that every equation $x^2 + y^2 + Dx + Ey + F = 0$ describes a circle?",
+      "body": "Completing the square gives $\\left(x + \\frac{D}{2}\\right)^2 + \\left(y + \\frac{E}{2}\\right)^2 = \\frac{D^2 + E^2}{4} - F$, and the right side can be $0$ (a single point) or negative (no points at all); it is a circle only when it is positive.\n\nKey idea: Complete the square in $x$ and in $y$, then read the right side as $r^2$. It must be positive to be a squared radius.\n\nExample: $x^2 + y^2 - 6x + 4y + 13 = 0$ becomes $(x - 3)^2 + (y + 2)^2 = 0$, which is only the point $(3, -2)$. And $x^2 + y^2 + 1 = 0$ has no points with real coordinates.\n\nWatch out: When it is a circle, the center is $\\left(-\\frac{D}{2}, -\\frac{E}{2}\\right)$. Divide the coefficients by $2$ before squaring when you complete the square.",
+      "searchQuery": "general form circle equation completing the square degenerate point",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'The Conic Sections' (Circles)"
+      ]
+    },
+    {
+      "id": "coordinates-parallelogram-diagonals-proof",
+      "unit": "distance-midpoint-and-circles",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "A **coordinate proof** places a figure on axes and uses algebra. Place parallelogram $ABCD$ with $A = (0, 0)$, $B = (a, 0)$ and $D = (b, c)$, where $a > 0$ and $c \\neq 0$. Find $C$, then show that the diagonals $AC$ and $BD$ have the same midpoint.",
+      "body": "$C = (a + b,\\ c)$, and both diagonals have midpoint $\\left(\\frac{a+b}{2}, \\frac{c}{2}\\right)$, so they bisect each other.\n\nKey idea: Choose the axes so that the coordinates are as simple as possible, while keeping the figure general.\n\n1. Side $DC$ is parallel to $AB$, which lies along the $x$-axis, so $C$ has the same $y$-coordinate as $D$, namely $c$.\n2. Side $BC$ is parallel and equal to $AD$. To get from $A$ to $D$ you move $b$ across and $c$ up, so from $B$ you reach $C = (a + b, c)$.\n3. Midpoint of $AC$: $\\left(\\frac{0 + a + b}{2}, \\frac{0 + c}{2}\\right)$.\n4. Midpoint of $BD$: $\\left(\\frac{a + b}{2}, \\frac{0 + c}{2}\\right)$. The two are equal.\n\nWhy it works: Any parallelogram can be moved by a rigid motion so that $A$ is at the origin and $AB$ lies along the positive $x$-axis, so $a$, $b$ and $c$ cover every case.",
+      "searchQuery": "coordinate proof diagonals of parallelogram bisect each other",
+      "checkpoint": false,
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'The Conic Sections'",
+        "Lang, Basic Mathematics, ch. 8"
+      ]
+    },
+    {
+      "id": "coordinates-parabola-focus-directrix",
+      "unit": "conic-sections",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "Define a **parabola** by a **focus** and a **directrix**.",
+      "body": "The set of all points in the plane equally far from a fixed point (the **focus**) and a fixed line (the **directrix**) that does not pass through it.\n\nThe parabola, the circle, the ellipse and the hyperbola are the **conic sections**: the curves you get when a plane slices a double cone.\n\nExample: Take focus $(0, 1)$ and directrix $y = -1$. A point $(x, y)$ is on the parabola when $\\sqrt{x^2 + (y - 1)^2} = |y + 1|$. Squaring gives $x^2 + y^2 - 2y + 1 = y^2 + 2y + 1$, so $x^2 = 4y$, the familiar $y = \\frac{x^2}{4}$.\n\nWatch out: The vertex sits halfway between the focus and the directrix, here at $(0, 0)$. If the focus were on the line, the points equidistant from both would form a line, not a parabola.",
+      "searchQuery": "parabola focus directrix definition conic section",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'The Conic Sections'",
+        "Lang, Basic Mathematics, ch. 12"
+      ]
+    },
+    {
+      "id": "coordinates-ellipse-standard-form",
+      "unit": "conic-sections",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Give the standard form of the **ellipse** centered at the origin with $a > b > 0$, and the location of its foci.",
+      "body": "$\\dfrac{x^2}{a^2} + \\dfrac{y^2}{b^2} = 1$, with foci $(\\pm c, 0)$ where $c^2 = a^2 - b^2$.\n\nAn ellipse is the set of points whose distances to two fixed points (the **foci**) add up to a constant, and that constant is $2a$.\n\nWhy: At the vertex $(a, 0)$ the distances to the foci are $a - c$ and $a + c$, which add to $2a$.\n\nThe **eccentricity** $e = \\frac{c}{a}$ measures how stretched the ellipse is: $0 < e < 1$ when $a > b$, and the closer to $1$, the flatter. The limiting case $e = 0$ ($a = b$, so the two foci coincide) is a circle.\n\nExample: $\\frac{x^2}{25} + \\frac{y^2}{9} = 1$ has $a = 5$, $b = 3$, $c = 4$, foci $(\\pm 4, 0)$ and $e = \\frac{4}{5}$.\n\nWatch out: $a^2$ is the larger denominator, not the one under $x^2$. If the larger one sits under $y^2$, the long axis is vertical and the foci are on the $y$-axis.",
+      "searchQuery": "ellipse standard form foci eccentricity c squared a squared minus b squared",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'The Conic Sections'",
+        "Lang, Basic Mathematics, ch. 12"
+      ]
+    },
+    {
+      "id": "coordinates-hyperbola-foci-asymptotes",
+      "unit": "conic-sections",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "For the **hyperbola** $\\dfrac{x^2}{9} - \\dfrac{y^2}{16} = 1$, find the vertices, the foci and the asymptotes.",
+      "body": "Vertices $(\\pm 3, 0)$, foci $(\\pm 5, 0)$, asymptotes $y = \\pm\\frac{4}{3}x$.\n\nFor $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$ the vertices are $(\\pm a, 0)$, the foci are $(\\pm c, 0)$ with $c^2 = a^2 + b^2$, and the asymptotes are $y = \\pm\\frac{b}{a}x$. Here $a = 3$, $b = 4$, so $c^2 = 25$.\n\nA hyperbola is the set of points where the difference of the distances to the two foci has a constant size, $2a = 6$. At the vertex $(3, 0)$ the distances to the foci are $2$ and $8$, and $8 - 2 = 6$.\n\nThe eccentricity $e = \\frac{c}{a} = \\frac{5}{3}$ is greater than $1$, as it is for every hyperbola.\n\nTip: To get the asymptotes, replace the $1$ on the right by $0$: $\\frac{x^2}{9} - \\frac{y^2}{16} = 0$ gives $y = \\pm\\frac{4}{3}x$.",
+      "searchQuery": "hyperbola vertices foci asymptotes x^2/a^2 - y^2/b^2 = 1",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'The Conic Sections'"
+      ]
+    },
+    {
+      "id": "coordinates-ellipse-from-foci-and-sum",
+      "unit": "conic-sections",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "An ellipse has foci $(\\pm 3, 0)$, and the distances from each of its points to the two foci add up to $10$. Find its equation.",
+      "body": "$\\dfrac{x^2}{25} + \\dfrac{y^2}{16} = 1$\n\nKey idea: The constant sum is $2a$, and the foci give $c$; then $b^2 = a^2 - c^2$.\n\n1. $2a = 10$, so $a = 5$.\n2. The foci are $(\\pm c, 0)$ with $c = 3$.\n3. $b^2 = a^2 - c^2 = 25 - 9 = 16$.\n4. Equation: $\\frac{x^2}{25} + \\frac{y^2}{16} = 1$.\n\nCheck: The point $(0, 4)$ is on it, and its distance to each focus is $\\sqrt{9 + 16} = 5$, giving $5 + 5 = 10$.",
+      "searchQuery": "ellipse equation from foci and constant sum of distances",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'The Conic Sections'"
+      ]
+    },
+    {
+      "id": "coordinates-classify-conic-complete-square",
+      "unit": "conic-sections",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Complete the square to identify the conic $9x^2 + 4y^2 - 18x + 16y - 11 = 0$ and find its center.",
+      "body": "An ellipse centered at $(1, -2)$, namely $\\dfrac{(x - 1)^2}{4} + \\dfrac{(y + 2)^2}{9} = 1$.\n\n1. Group: $9(x^2 - 2x) + 4(y^2 + 4y) = 11$.\n2. Complete both squares, adding $9 \\cdot 1$ and $4 \\cdot 4$ to the right: $9(x - 1)^2 + 4(y + 2)^2 = 11 + 9 + 16 = 36$.\n3. Divide by $36$: $\\frac{(x - 1)^2}{4} + \\frac{(y + 2)^2}{9} = 1$.\n\nThe larger denominator, $9$, is under $y$, so the long axis is vertical.\n\nTip: Without an $xy$ term, look at the signs of the $x^2$ and $y^2$ coefficients. The same sign gives an ellipse (a circle if they are equal), opposite signs give a hyperbola, and only one squared variable gives a parabola. Degenerate cases (a point, nothing, crossing lines) can still occur.\n\nCheck: $(1, 1)$ should satisfy the original equation: $9 + 4 - 18 + 16 - 11 = 0$.",
+      "searchQuery": "identify conic section from equation complete the square ellipse center",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'The Conic Sections'"
+      ]
+    },
+    {
+      "id": "coordinates-hyperbola-asymptote-never-touched",
+      "unit": "conic-sections",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that the branches of $\\dfrac{x^2}{a^2} - \\dfrac{y^2}{b^2} = 1$ eventually touch their asymptotes $y = \\pm\\dfrac{b}{a}x$?",
+      "body": "The curve never meets them: substituting $y = \\pm\\frac{b}{a}x$ into the equation gives $0 = 1$, so the branches only get arbitrarily close.\n\nWhy: With $y = \\frac{b}{a}x$, the left side becomes $\\frac{x^2}{a^2} - \\frac{x^2}{a^2} = 0$, which can never equal $1$.\n\nThe vertical gap between the upper right branch $y = \\frac{b}{a}\\sqrt{x^2 - a^2}$ and the asymptote is $\\frac{b}{a}\\left(x - \\sqrt{x^2 - a^2}\\right) = \\frac{b}{a}\\cdot\\frac{a^2}{x + \\sqrt{x^2 - a^2}}$, which shrinks toward $0$ as $x$ grows but is never $0$.\n\nWatch out: The asymptotes are guide lines for the end behavior, not part of the curve. Draw them dashed, and sketch each branch bending toward them without touching.",
+      "searchQuery": "hyperbola asymptotes never touched curve approaches",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'The Conic Sections'"
+      ]
+    },
+    {
+      "id": "coordinates-vector-definition",
+      "unit": "vectors-and-dot-product",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **vector** in the plane, and what are its **components**?",
+      "body": "A quantity with both size and direction, drawn as an arrow and written as a column $\\vec{v} = \\begin{pmatrix} v_1 \\\\ v_2 \\end{pmatrix}$, where $v_1$ and $v_2$ (the **components**) are the horizontal and vertical change from tail to head.\n\nOnly the change matters, not where the arrow starts: the arrow from $(1, 2)$ to $(4, 6)$ is the vector $\\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$, and so is the arrow from $(0, 0)$ to $(3, 4)$.\n\nA plain number with no direction, such as a temperature or a speed, is called a **scalar**.\n\nExample: A velocity of $3$ units east and $4$ units north per second is the vector $\\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$; the speed alone is a scalar.\n\nWatch out: Do not confuse the vector $\\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$ with the point $(3, 4)$. The point is a location; the vector is a displacement, and equals the arrow from the origin to that point.",
+      "searchQuery": "what is a vector components column notation",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Geometric Applications of Trigonometry' (Vectors)",
+        "Lang, Basic Mathematics, ch. 9"
+      ]
+    },
+    {
+      "id": "coordinates-vector-addition-scaling",
+      "unit": "vectors-and-dot-product",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "How do you **add** two vectors and **multiply a vector by a scalar**, in components and geometrically?",
+      "body": "Component by component: $\\vec{u} + \\vec{v} = \\begin{pmatrix} u_1 + v_1 \\\\ u_2 + v_2 \\end{pmatrix}$ and $c\\vec{v} = \\begin{pmatrix} cv_1 \\\\ cv_2 \\end{pmatrix}$. Geometrically, put the tail of $\\vec{v}$ at the head of $\\vec{u}$ to add, and a scalar $c$ stretches the arrow by the factor $|c|$, reversing it when $c < 0$.\n\nExample: $\\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix} + \\begin{pmatrix} 2 \\\\ -1 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ 2 \\end{pmatrix}$ and $-2\\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix} = \\begin{pmatrix} -2 \\\\ -6 \\end{pmatrix}$.\n\nTip: The difference $\\vec{u} - \\vec{v}$ is the arrow from the head of $\\vec{v}$ to the head of $\\vec{u}$ when both start at the same point.",
+      "searchQuery": "vector addition scalar multiplication components tip to tail",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Geometric Applications of Trigonometry' (Vectors)",
+        "Lang, Basic Mathematics, ch. 9"
+      ]
+    },
+    {
+      "id": "coordinates-magnitude-unit-vector",
+      "unit": "vectors-and-dot-product",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Give the formulas for the **magnitude** of $\\vec{v} = \\begin{pmatrix} v_1 \\\\ v_2 \\end{pmatrix}$ and for the **unit vector** pointing the same way.",
+      "body": "$\\|\\vec{v}\\| = \\sqrt{v_1^2 + v_2^2}$, and the unit vector is $\\dfrac{1}{\\|\\vec{v}\\|}\\vec{v}$ (for $\\vec{v} \\neq \\vec{0}$).\n\nWhy: The magnitude is the arrow's length, which is the distance formula from tail to head. A **unit vector** has magnitude $1$; dividing by the magnitude shrinks the arrow to length $1$ without turning it.\n\nExample: For $\\vec{v} = \\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$, $\\|\\vec{v}\\| = 5$ and the unit vector is $\\begin{pmatrix} 3/5 \\\\ 4/5 \\end{pmatrix}$, whose length is $\\sqrt{\\frac{9}{25} + \\frac{16}{25}} = 1$.\n\nWatch out: The zero vector has no direction, so it has no unit vector.",
+      "searchQuery": "vector magnitude formula unit vector normalize",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Geometric Applications of Trigonometry' (Vectors)"
+      ]
+    },
+    {
+      "id": "coordinates-dot-product-formulas",
+      "unit": "vectors-and-dot-product",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Give both formulas for the **dot product** $\\vec{u} \\cdot \\vec{v}$ of two plane vectors.",
+      "body": "$\\vec{u} \\cdot \\vec{v} = u_1 v_1 + u_2 v_2 = \\|\\vec{u}\\|\\,\\|\\vec{v}\\|\\cos\\theta$, where $\\theta \\in [0, \\pi]$ is the angle between the vectors.\n\nThe result is a scalar, not a vector.\n\nWhy: Apply the law of cosines to the triangle with sides $\\vec{u}$, $\\vec{v}$ and $\\vec{u} - \\vec{v}$: $\\|\\vec{u} - \\vec{v}\\|^2 = \\|\\vec{u}\\|^2 + \\|\\vec{v}\\|^2 - 2\\|\\vec{u}\\|\\|\\vec{v}\\|\\cos\\theta$. Expanding the left side in components gives $\\|\\vec{u}\\|^2 + \\|\\vec{v}\\|^2 - 2(u_1 v_1 + u_2 v_2)$, so the two expressions agree.\n\nExample: $\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} \\cdot \\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix} = 3 + 8 = 11$.\n\nTip: Use the component formula to compute, and the cosine formula to read off the angle: $\\cos\\theta = \\dfrac{\\vec{u} \\cdot \\vec{v}}{\\|\\vec{u}\\|\\,\\|\\vec{v}\\|}$.",
+      "searchQuery": "dot product formula components cosine of angle",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Geometric Applications of Trigonometry' (The Dot Product)",
+        "Lang, Basic Mathematics, ch. 9"
+      ]
+    },
+    {
+      "id": "coordinates-dot-zero-orthogonal",
+      "unit": "vectors-and-dot-product",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that $\\vec{u} \\cdot \\vec{v} = 0$ forces $\\vec{u}$ or $\\vec{v}$ to be the zero vector?",
+      "body": "A zero dot product means the vectors are **orthogonal** (perpendicular), or one of them is zero: for nonzero vectors, $\\cos\\theta = 0$ gives $\\theta = 90^\\circ$.\n\nExample: $\\begin{pmatrix} 2 \\\\ 3 \\end{pmatrix} \\cdot \\begin{pmatrix} -3 \\\\ 2 \\end{pmatrix} = -6 + 6 = 0$, yet neither vector is zero. They are perpendicular.\n\nWhy: The rule \"a product is $0$ only if a factor is $0$\" holds for numbers, but the dot product adds two products, and they can cancel.\n\nTip: This is the vector version of perpendicular slopes. The directions $\\begin{pmatrix} 1 \\\\ m \\end{pmatrix}$ and $\\begin{pmatrix} 1 \\\\ -1/m \\end{pmatrix}$ have dot product $1 - 1 = 0$.",
+      "searchQuery": "dot product zero orthogonal vectors perpendicular",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Geometric Applications of Trigonometry' (The Dot Product)"
+      ]
+    },
+    {
+      "id": "coordinates-angle-between-vectors",
+      "unit": "vectors-and-dot-product",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Find the angle in degrees between $\\vec{u} = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}$ and $\\vec{v} = \\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix}$.",
+      "body": "$45^\\circ$\n\n1. $\\vec{u} \\cdot \\vec{v} = 2 \\cdot 1 + 1 \\cdot 3 = 5$.\n2. $\\|\\vec{u}\\| = \\sqrt{5}$ and $\\|\\vec{v}\\| = \\sqrt{10}$, so $\\|\\vec{u}\\|\\|\\vec{v}\\| = \\sqrt{50} = 5\\sqrt{2}$.\n3. $\\cos\\theta = \\frac{5}{5\\sqrt{2}} = \\frac{1}{\\sqrt{2}}$.\n4. The principal value of $\\arccos\\frac{1}{\\sqrt{2}}$ is $45^\\circ$, and it is the right one because the angle between vectors always lies in $[0^\\circ, 180^\\circ]$.\n\nCheck: The slopes are $\\frac{1}{2}$ and $3$, and $\\arctan 3 - \\arctan\\frac{1}{2} \\approx 71.57^\\circ - 26.57^\\circ = 45^\\circ$.",
+      "searchQuery": "angle between two vectors dot product arccos",
+      "answer": "45",
+      "acceptedAnswers": [
+        "45 degrees",
+        "45°",
+        "45deg"
+      ],
+      "answerDisplay": "$45^\\circ$",
+      "checkpoint": true,
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Geometric Applications of Trigonometry' (The Dot Product)"
+      ]
+    },
+    {
+      "id": "coordinates-vector-projection",
+      "unit": "vectors-and-dot-product",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Compute the **projection** of $\\vec{u} = \\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$ onto $\\vec{v} = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$.",
+      "body": "$\\dfrac{\\vec{u} \\cdot \\vec{v}}{\\vec{v} \\cdot \\vec{v}}\\,\\vec{v} = \\dfrac{11}{5}\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} = \\begin{pmatrix} 11/5 \\\\ 22/5 \\end{pmatrix}$\n\nThe projection of $\\vec{u}$ onto $\\vec{v}$ is the vector along $\\vec{v}$ that is the \"shadow\" of $\\vec{u}$: the part of $\\vec{u}$ pointing in $\\vec{v}$'s direction.\n\n1. $\\vec{u} \\cdot \\vec{v} = 3 + 8 = 11$ and $\\vec{v} \\cdot \\vec{v} = 1 + 4 = 5$.\n2. Scale $\\vec{v}$ by $\\frac{11}{5}$.\n\nCheck: The leftover $\\vec{u} - \\text{proj} = \\begin{pmatrix} 4/5 \\\\ -2/5 \\end{pmatrix}$ should be orthogonal to $\\vec{v}$: $\\frac{4}{5} - \\frac{4}{5} = 0$.\n\nWatch out: Divide by $\\vec{v} \\cdot \\vec{v}$, the length squared of the vector you project onto, not by $\\vec{u} \\cdot \\vec{v}$ or by $\\|\\vec{u}\\|$. Swapping the roles of $\\vec{u}$ and $\\vec{v}$ gives a different vector.",
+      "searchQuery": "vector projection formula projecting u onto v",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Geometric Applications of Trigonometry' (The Dot Product)",
+        "Lang, Basic Mathematics, ch. 9"
+      ]
+    },
+    {
+      "id": "coordinates-matrix-product-rule",
+      "unit": "matrices-and-transformations",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define the **matrix product** $AB$ of two $2 \\times 2$ matrices.",
+      "body": "The entry in row $i$, column $j$ of $AB$ is the dot product of row $i$ of $A$ with column $j$ of $B$.\n\nA **matrix** is a rectangular array of numbers. Adding matrices and scaling them work entry by entry, but the product does not.\n\n$$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}\\begin{pmatrix} e & f \\\\ g & h \\end{pmatrix} = \\begin{pmatrix} ae + bg & af + bh \\\\ ce + dg & cf + dh \\end{pmatrix}$$\n\nExample: $\\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix} = \\begin{pmatrix} 2 & 1 \\\\ 4 & 3 \\end{pmatrix}$. The product swapped the columns of the left matrix.\n\nTip: A column vector is a $2 \\times 1$ matrix, and the same rule gives $A\\vec{x}$: each entry is a row of $A$ dotted with $\\vec{x}$.\n\nWatch out: It is not entrywise multiplication, which would give $\\begin{pmatrix} 0 & 2 \\\\ 3 & 0 \\end{pmatrix}$ here.",
+      "searchQuery": "matrix multiplication rule row times column 2x2",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Systems of Equations and Matrices' (Matrix Arithmetic)"
+      ]
+    },
+    {
+      "id": "coordinates-rotation-matrix-columns",
+      "unit": "matrices-and-transformations",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "What does multiplying by $R = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$ do to the points of the plane?",
+      "body": "It rotates the plane by $90^\\circ$ counterclockwise about the origin.\n\nKey idea: The columns of a $2 \\times 2$ matrix are the images of $\\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$ and $\\begin{pmatrix} 0 \\\\ 1 \\end{pmatrix}$. Here $R\\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 1 \\end{pmatrix}$ and $R\\begin{pmatrix} 0 \\\\ 1 \\end{pmatrix} = \\begin{pmatrix} -1 \\\\ 0 \\end{pmatrix}$: each axis direction turns a quarter turn to the left.\n\nExample: $R\\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix} = \\begin{pmatrix} -1 \\\\ 2 \\end{pmatrix}$. It has the same length, and the dot product of the two is $-2 + 2 = 0$.\n\nTip: Rotation by $\\theta$ has columns $\\begin{pmatrix} \\cos\\theta \\\\ \\sin\\theta \\end{pmatrix}$ and $\\begin{pmatrix} -\\sin\\theta \\\\ \\cos\\theta \\end{pmatrix}$; at $\\theta = 90^\\circ$ this is $R$. Reflection in the $x$-axis is $\\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$, and scaling by $k$ is $\\begin{pmatrix} k & 0 \\\\ 0 & k \\end{pmatrix}$.",
+      "searchQuery": "matrix as transformation rotation 90 degrees columns images",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Systems of Equations and Matrices' (Matrix Arithmetic)"
+      ]
+    },
+    {
+      "id": "coordinates-determinant-area-factor",
+      "unit": "matrices-and-transformations",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What does the **determinant** $ad - bc$ of $\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$ say about the transformation it defines?",
+      "body": "Its absolute value is the factor by which areas are scaled; the sign is negative when the plane is flipped over (as in a reflection); and $0$ means the plane is squashed onto a line or a point.\n\nWhy: The columns $\\begin{pmatrix} a \\\\ c \\end{pmatrix}$ and $\\begin{pmatrix} b \\\\ d \\end{pmatrix}$ are the sides of the image of the unit square, a parallelogram with area $|ad - bc|$.\n\nExample: $\\begin{pmatrix} 2 & 0 \\\\ 0 & 3 \\end{pmatrix}$ has determinant $6$ and turns the unit square into a $2 \\times 3$ rectangle of area $6$. The reflection $\\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$ has determinant $-1$: area is kept, orientation is reversed.\n\nWatch out: A determinant of $0$ is bad news for undoing the transformation, since many points land on the same spot.",
+      "searchQuery": "determinant 2x2 area scaling factor orientation",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Systems of Equations and Matrices' (Determinants and Cramer's Rule)",
+        "Lang, Basic Mathematics, ch. 17"
+      ]
+    },
+    {
+      "id": "coordinates-inverse-matrix-2x2",
+      "unit": "matrices-and-transformations",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Give the **inverse matrix** of $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$ and say when it exists.",
+      "body": "$A^{-1} = \\dfrac{1}{ad - bc}\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$, which exists exactly when $ad - bc \\neq 0$.\n\nThe inverse undoes $A$: $AA^{-1} = A^{-1}A = I$, where the **identity matrix** $I = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$ leaves every vector unchanged. If the determinant is $0$, $A$ squashes the plane and nothing can undo it.\n\nExample: To solve $A\\vec{x} = \\vec{b}$ for $2x + y = 5$, $x + y = 3$, take $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 1 \\end{pmatrix}$, with determinant $1$ and $A^{-1} = \\begin{pmatrix} 1 & -1 \\\\ -1 & 2 \\end{pmatrix}$. Then $\\vec{x} = A^{-1}\\vec{b} = \\begin{pmatrix} 5 - 3 \\\\ -5 + 6 \\end{pmatrix} = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}$.\n\nTip: Swap the diagonal entries, negate the off-diagonal ones, then divide by the determinant.",
+      "searchQuery": "2x2 inverse matrix formula determinant solve linear system",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Systems of Equations and Matrices' (Matrix Inverses)",
+        "Lang, Basic Mathematics, ch. 17"
+      ]
+    },
+    {
+      "id": "coordinates-matrix-product-not-commutative",
+      "unit": "matrices-and-transformations",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that $AB = BA$ for all $2 \\times 2$ matrices $A$ and $B$?",
+      "body": "Matrix multiplication is not commutative: the order matters, because $AB$ means \"apply $B$ first, then $A$\".\n\nExample: With $A = \\begin{pmatrix} 1 & 1 \\\\ 0 & 1 \\end{pmatrix}$ and $B = \\begin{pmatrix} 1 & 0 \\\\ 1 & 1 \\end{pmatrix}$, $AB = \\begin{pmatrix} 2 & 1 \\\\ 1 & 1 \\end{pmatrix}$ but $BA = \\begin{pmatrix} 1 & 1 \\\\ 1 & 2 \\end{pmatrix}$.\n\nWhy: Doing one transformation and then another usually gives a different result in the other order, just as putting on socks and then shoes differs from shoes and then socks.\n\nWatch out: This changes ordinary algebra. $(A + B)^2$ is $A^2 + AB + BA + B^2$, not $A^2 + 2AB + B^2$ unless $AB = BA$.",
+      "searchQuery": "matrix multiplication not commutative AB not equal BA",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Systems of Equations and Matrices' (Matrix Arithmetic)"
+      ]
+    },
+    {
+      "id": "coordinates-parametric-curve-definition",
+      "unit": "parametric-and-polar-curves",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **parametric curve**, and what is its **parameter**?",
+      "body": "A curve given by $x = f(t)$, $y = g(t)$: as the parameter $t$ runs over an interval, the point $(f(t), g(t))$ traces the curve.\n\nOften $t$ is time, so the equations record where a moving point is and when, not only the path it follows.\n\nExample: $x = 1 + 2t$, $y = 3 - t$ is the straight line through $(1, 3)$ with slope $-\\frac{1}{2}$, traced left to right as $t$ increases. The equations $x = 2t$, $y = 4t^2$ and $x = t$, $y = t^2$ trace the same parabola at different speeds.\n\nWatch out: The same shape has many parametrizations, so the equations carry extra information: direction, speed and how many times the curve is traced.",
+      "searchQuery": "parametric equations curve parameter t definition",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Polar Coordinates and Parametric Equations'"
+      ]
+    },
+    {
+      "id": "coordinates-polar-coordinates-definition",
+      "unit": "parametric-and-polar-curves",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What do the **polar coordinates** $(r, \\theta)$ of a point mean?",
+      "body": "Start at the **pole** (the origin), face the direction at angle $\\theta$ counterclockwise from the positive $x$-axis, and walk a distance $r$, backward if $r < 0$.\n\nExample: $\\left(2, \\frac{\\pi}{2}\\right)$ is the point $(0, 2)$, and $(3, \\pi)$ is $(-3, 0)$.\n\nWhy: This replaces \"how far right and how far up\" by \"how far and in which direction\". It suits shapes that are described by distance from a center, such as circles and spirals.\n\nTip: Angles are in radians unless a degree sign is shown.",
+      "searchQuery": "polar coordinates r theta pole definition",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Polar Coordinates and Parametric Equations'"
+      ]
+    },
+    {
+      "id": "coordinates-polar-many-representations",
+      "unit": "parametric-and-polar-curves",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why does a single point have infinitely many polar coordinate pairs?",
+      "body": "Adding a full turn to $\\theta$ gives the same direction, and a negative $r$ with $\\theta + \\pi$ gives the same point, so $(r, \\theta) = (r, \\theta + 2\\pi k) = (-r, \\theta + \\pi + 2\\pi k)$ for every integer $k$.\n\nExample: $\\left(2, \\frac{\\pi}{6}\\right) = \\left(2, \\frac{13\\pi}{6}\\right) = \\left(-2, \\frac{7\\pi}{6}\\right)$. In the last pair, you face $\\frac{7\\pi}{6}$ and walk backward $2$ units, ending in the direction $\\frac{\\pi}{6}$.\n\nWatch out: The pole has $r = 0$ with any $\\theta$. When a unique pair is wanted, the usual rule is $r \\ge 0$ and $0 \\le \\theta < 2\\pi$.",
+      "searchQuery": "polar coordinates multiple representations same point negative r",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Polar Coordinates and Parametric Equations'"
+      ]
+    },
+    {
+      "id": "coordinates-polar-rectangular-conversion",
+      "unit": "parametric-and-polar-curves",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Give the formulas that convert polar coordinates $(r, \\theta)$ to rectangular $(x, y)$, and that give $r$ from $(x, y)$.",
+      "body": "$x = r\\cos\\theta$, $y = r\\sin\\theta$, and $r^2 = x^2 + y^2$.\n\nWhy: In the right triangle with hypotenuse $r$ and angle $\\theta$, $x$ is the adjacent side and $y$ the opposite side; then the Pythagorean theorem gives $r^2$.\n\nExample: $\\left(4, \\frac{\\pi}{3}\\right)$ has $x = 4 \\cdot \\frac{1}{2} = 2$ and $y = 4 \\cdot \\frac{\\sqrt{3}}{2} = 2\\sqrt{3}$.\n\nTip: A **polar equation** relates $r$ and $\\theta$. To convert one, multiply by $r$ to create $r\\cos\\theta$: $r = 2\\cos\\theta$ becomes $r^2 = 2r\\cos\\theta$, so $x^2 + y^2 = 2x$, a circle with center $(1, 0)$ and radius $1$.",
+      "searchQuery": "convert polar to rectangular coordinates x = r cos theta",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Polar Coordinates and Parametric Equations'"
+      ]
+    },
+    {
+      "id": "coordinates-cardioid-sketch",
+      "unit": "parametric-and-polar-curves",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Describe the graph of the polar equation $r = 1 + \\cos\\theta$.",
+      "body": "A **cardioid**: a heart-shaped curve symmetric about the $x$-axis, with a point (cusp) at the pole and its far point at $(2, 0)$.\n\nKey idea: Track $r$ as $\\theta$ goes around.\n\n- $\\theta = 0$: $r = 2$, the point $(2, 0)$.\n- $\\theta = \\frac{\\pi}{2}$: $r = 1$, the point $(0, 1)$.\n- $\\theta = \\pi$: $r = 0$, back at the pole.\n- Then $\\theta$ from $\\pi$ to $2\\pi$ mirrors the top half, because $\\cos(2\\pi - \\theta) = \\cos\\theta$.\n\nIn rectangular form it is $(x^2 + y^2 - x)^2 = x^2 + y^2$.\n\nTip: A rose $r = \\cos(n\\theta)$ has $n$ petals when $n$ is odd and $2n$ petals when $n$ is even.",
+      "searchQuery": "cardioid polar equation r = 1 + cos theta graph",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Polar Coordinates and Parametric Equations'"
+      ]
+    },
+    {
+      "id": "coordinates-eliminate-parameter-cos-2t",
+      "unit": "parametric-and-polar-curves",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A point moves with $x = \\cos t$, $y = \\cos 2t$ for all real $t$. Eliminate $t$ and say which part of the resulting curve it traces.",
+      "body": "$y = 2x^2 - 1$ for $-1 \\le x \\le 1$: the arc of that parabola between $(-1, 1)$ and $(1, 1)$, traced back and forth.\n\n1. The double-angle formula gives $\\cos 2t = 2\\cos^2 t - 1$.\n2. Substitute $x = \\cos t$: $y = 2x^2 - 1$.\n3. Since $-1 \\le \\cos t \\le 1$, only the values $-1 \\le x \\le 1$ occur, so the whole parabola is not traced.\n\nWatch out: Eliminating the parameter can produce a larger curve than the one actually traced. Always carry over the range that $x$ and $y$ can take.\n\nCheck: At $t = 0$ the point is $(1, 1)$, at $t = \\frac{\\pi}{2}$ it is $(0, -1)$ and at $t = \\pi$ it is $(-1, 1)$, all on $y = 2x^2 - 1$. After that it retraces the path in reverse.",
+      "searchQuery": "eliminate the parameter x = cos t y = cos 2t",
+      "checkpoint": true,
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Polar Coordinates and Parametric Equations'"
+      ]
+    },
+    {
+      "id": "coordinates-polar-angle-arctan-trap",
+      "unit": "parametric-and-polar-curves",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that $\\theta = \\arctan\\!\\left(\\dfrac{y}{x}\\right)$ always gives the polar angle of the point $(x, y)$?",
+      "body": "$\\arctan$ returns angles only in $\\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$, which are points with $x > 0$; for $x < 0$ you must add $\\pi$ (or $180^\\circ$) to land in the right quadrant.\n\nExample: For $(-1, 1)$, $\\arctan\\frac{1}{-1} = -\\frac{\\pi}{4}$, which points at $(1, -1)$ in the fourth quadrant. The correct angle is $-\\frac{\\pi}{4} + \\pi = \\frac{3\\pi}{4}$.\n\nWhy: The ratio $\\frac{y}{x}$ is the same for opposite points, $(x, y)$ and $(-x, -y)$, so it cannot tell them apart.\n\nWatch out: If $x = 0$ the ratio is undefined; the angle is $\\frac{\\pi}{2}$ for $y > 0$ and $-\\frac{\\pi}{2}$ for $y < 0$.\n\nTip: Sketch the point first to see which quadrant it is in.",
+      "searchQuery": "polar angle arctan quadrant error converting rectangular to polar",
+      "refs": [
+        "Stitz–Zeager, Precalculus 4i, ch. 'Polar Coordinates and Parametric Equations'"
+      ]
+    }
+  ]
+}

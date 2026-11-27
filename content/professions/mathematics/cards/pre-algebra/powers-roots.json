@@ -1,0 +1,254 @@
+{
+  "profession": "mathematics",
+  "module": "powers-roots",
+  "tier": 0,
+  "cards": [
+    {
+      "id": "powers-base-exponent-meaning",
+      "unit": "exponent-laws",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What does $a^n$ mean, and what are the **base**, the **exponent** and the **power**?",
+      "body": "$a^n$ means $n$ copies of $a$ multiplied together: $a$ is the base, $n$ is the exponent, and the result is a power of $a$.\n\nThe base is the number being multiplied. The exponent is the small raised number that counts how many copies. The whole expression, and its value, is called a power.\n\nExample: $2^5 = 2\\cdot2\\cdot2\\cdot2\\cdot2 = 32$, and $10^3 = 10\\cdot10\\cdot10 = 1000$. Also $a^1 = a$.\n\nWatch out: $2^5$ is not $2\\times5$. The exponent counts copies; it is not a multiplier.",
+      "searchQuery": "base exponent power meaning repeated multiplication",
+      "refs": [
+        "AoPS Prealgebra, ch. 2 (Exponents)"
+      ]
+    },
+    {
+      "id": "powers-product-quotient-rule",
+      "unit": "exponent-laws",
+      "kind": "formula",
+      "difficulty": 1,
+      "title": "Same-base rules: simplify $a^m\\cdot a^n$ and, for $m>n$, $\\dfrac{a^m}{a^n}$ (with $a\\neq0$).",
+      "body": "$a^m\\cdot a^n = a^{m+n}$ and $\\dfrac{a^m}{a^n} = a^{m-n}$\n\nWhen the base is the same, multiplying powers adds the exponents and dividing subtracts them.\n\nWhy: $2^3\\cdot2^4 = (2\\cdot2\\cdot2)(2\\cdot2\\cdot2\\cdot2)$ is seven 2s in a row, so $2^7 = 128$. For division, cancel matching copies: $\\frac{3^5}{3^2} = 3^3 = 27$.\n\nWatch out: this only works for the same base. $2^3\\cdot3^2 = 72$, which is not $6^5 = 7776$.",
+      "searchQuery": "product rule quotient rule exponents same base",
+      "refs": [
+        "AoPS Prealgebra, ch. 2 (Exponents)",
+        "Gelfand–Shen, Algebra, §16"
+      ]
+    },
+    {
+      "id": "powers-power-of-a-power",
+      "unit": "exponent-laws",
+      "kind": "formula",
+      "difficulty": 1,
+      "title": "Power-of-a-power rule: simplify $(a^m)^n$.",
+      "body": "$(a^m)^n = a^{mn}$\n\nRaising a power to another power multiplies the exponents.\n\nWhy: $(2^3)^2 = 2^3\\cdot2^3 = 2^{3+3} = 2^6$. That is $8^2 = 64 = 2^6$.\n\nWatch out: do not mix this up with $a^m\\cdot a^n = a^{m+n}$. Power of a power multiplies; same-base product adds.",
+      "searchQuery": "power of a power rule exponents multiply",
+      "refs": [
+        "AoPS Prealgebra, ch. 2 (Exponents)",
+        "Gelfand–Shen, Algebra, §16"
+      ]
+    },
+    {
+      "id": "powers-zero-negative-from-quotient",
+      "unit": "exponent-laws",
+      "kind": "problem",
+      "difficulty": 1,
+      "title": "Using $\\dfrac{a^m}{a^n}=a^{m-n}$, decide what $4^0$ must equal, and what $2^{-3}$ must equal.",
+      "body": "$4^0 = 1$ and $2^{-3} = \\dfrac{1}{8}$\n\nKey idea: we want the quotient rule to keep working when the exponent reaches zero or goes negative. That forces the values.\n\nZero exponent: $\\frac{4^2}{4^2} = 1$, since any nonzero number divided by itself is 1. The rule gives $4^{2-2} = 4^0$. So $4^0 = 1$. The same argument shows $a^0 = 1$ for any $a\\neq0$.\n\nNegative exponent: $\\frac{2^2}{2^5} = \\frac{4}{32} = \\frac{1}{8}$, while the rule gives $2^{2-5} = 2^{-3}$. So $2^{-3} = \\frac{1}{8} = \\frac{1}{2^3}$. In general $a^{-n} = \\dfrac{1}{a^n}$.\n\nWatch out: a negative exponent does not make the answer negative; it makes it the reciprocal.",
+      "searchQuery": "zero exponent negative exponent quotient rule why",
+      "refs": [
+        "AoPS Prealgebra, ch. 2 (Exponents)",
+        "Gelfand–Shen, Algebra, §18"
+      ]
+    },
+    {
+      "id": "powers-negative-three-squared",
+      "unit": "exponent-laws",
+      "kind": "misconception",
+      "difficulty": 1,
+      "title": "Why is it false that $-3^2 = 9$? What is $-3^2$, and what is $(-3)^2$?",
+      "body": "$-3^2 = -9$, because the exponent applies only to 3; $(-3)^2 = 9$.\n\nBy the order of operations, powers come before the minus sign. So $-3^2$ means $-(3\\cdot3) = -9$.\n\nWith grouping symbols the base is $-3$ itself: $(-3)^2 = (-3)(-3) = 9$, since a negative times a negative is positive.\n\nTip: read $-3^2$ as \"the opposite of $3^2$\". The exponent touches only what is directly beside it.",
+      "searchQuery": "negative three squared minus 9 order of operations",
+      "refs": [
+        "AoPS Prealgebra, ch. 2 (Exponents)"
+      ]
+    },
+    {
+      "id": "roots-principal-square-root",
+      "unit": "square-roots",
+      "kind": "definition",
+      "difficulty": 1,
+      "title": "What is $\\sqrt{n}$ for $n\\ge0$? Name the symbol, the idea of a **perfect square**, and the **principal** root.",
+      "body": "$\\sqrt{n}$ is the nonnegative number whose square is $n$ (the principal square root); the symbol $\\sqrt{\\ \\ }$ is called a radical.\n\nA square root of $n$ is any number that multiplies by itself to give $n$. The number 9 has two: $3$ and $-3$, since $3\\cdot3 = 9$ and $(-3)(-3) = 9$. The radical sign always means the nonnegative one, the **principal square root**.\n\nA **perfect square** is a whole number that is the square of a whole number: $1, 4, 9, 16, 25, \\dots$ Their square roots are whole numbers.\n\nExample: $\\sqrt{49} = 7$ and $\\sqrt{0} = 0$.\n\nWatch out: $\\sqrt{9} = 3$, not $\\pm3$. Solving $x^2 = 9$ gives both $3$ and $-3$, but the symbol $\\sqrt{9}$ means just $3$.",
+      "searchQuery": "principal square root radical perfect square definition",
+      "refs": [
+        "AoPS Prealgebra, ch. 9 (Square Roots)"
+      ]
+    },
+    {
+      "id": "roots-product-quotient-rule",
+      "unit": "square-roots",
+      "kind": "formula",
+      "difficulty": 1,
+      "title": "For $a,b\\ge0$, what is $\\sqrt{a}\\cdot\\sqrt{b}$? And what is $\\dfrac{\\sqrt{a}}{\\sqrt{b}}$ when $b>0$?",
+      "body": "$\\sqrt{a}\\cdot\\sqrt{b} = \\sqrt{ab}$ and $\\dfrac{\\sqrt{a}}{\\sqrt{b}} = \\sqrt{\\dfrac{a}{b}}$\n\nWhy: square the left side. $(\\sqrt{a}\\sqrt{b})^2 = \\sqrt{a}^{\\,2}\\sqrt{b}^{\\,2} = ab$, and $\\sqrt{ab}$ is the nonnegative number whose square is $ab$.\n\nExample: $\\sqrt{2}\\cdot\\sqrt{8} = \\sqrt{16} = 4$, and $\\dfrac{\\sqrt{50}}{\\sqrt{2}} = \\sqrt{25} = 5$.\n\nWatch out: there is no such rule for sums. $\\sqrt{9+16} = \\sqrt{25} = 5$, which is not $\\sqrt{9}+\\sqrt{16} = 7$.",
+      "searchQuery": "product rule quotient rule square roots",
+      "refs": [
+        "AoPS Prealgebra, ch. 9 (Square Roots)"
+      ]
+    },
+    {
+      "id": "roots-simplify-sqrt-72",
+      "unit": "square-roots",
+      "kind": "example",
+      "difficulty": 1,
+      "title": "Example: simplify $\\sqrt{72}$ by pulling out a perfect square.",
+      "body": "$\\sqrt{72} = 6\\sqrt{2}$\n\nFind the largest perfect square that divides 72. It is 36, and $72 = 36\\cdot2$. Then split with the product rule: $\\sqrt{72} = \\sqrt{36}\\cdot\\sqrt{2} = 6\\sqrt{2}$.\n\nCheck: $\\sqrt{2}\\approx1.414$, so $6\\sqrt{2}\\approx8.485$, and $8.485^2$ is about 72.\n\nTip: if you spot a smaller square first, such as 4, you still get there: $\\sqrt{72} = 2\\sqrt{18} = 2\\cdot3\\sqrt{2}$. Keep going until no perfect square (other than 1) divides the number under the radical.",
+      "searchQuery": "simplify square root 72 perfect square factor",
+      "refs": [
+        "AoPS Prealgebra, ch. 9 (Square Roots)"
+      ]
+    },
+    {
+      "id": "roots-between-consecutive-integers",
+      "unit": "square-roots",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Between which two consecutive integers does $\\sqrt{90}$ lie?",
+      "body": "Between 9 and 10\n\nKey idea: square the whole numbers near 90 and see which perfect squares trap it.\n\nSince $9^2 = 81$ and $10^2 = 100$, we have $81 < 90 < 100$. Taking square roots keeps the order, so $9 < \\sqrt{90} < 10$.\n\nFor a finer guess: 90 is 9 above 81 and 10 below 100, so $\\sqrt{90}$ is a little under 9.5. Indeed $9.5^2 = 90.25$.\n\nWatch out: do not halve. $\\sqrt{90}$ is not near 45; a square root of a number above 1 is much smaller than the number.",
+      "searchQuery": "estimate square root between consecutive integers perfect squares",
+      "refs": [
+        "AoPS Prealgebra, ch. 9 (Square Roots)"
+      ]
+    },
+    {
+      "id": "roots-sqrt-two-is-irrational",
+      "unit": "square-roots",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "A calculator shows $\\sqrt{2} = 1.41421356\\ldots$ Why is it false that $\\sqrt{2}$ equals some decimal that ends or repeats?",
+      "body": "$\\sqrt{2}$ is an irrational number: it cannot be written as a fraction of two integers, so its decimal never ends and never repeats.\n\nAn **irrational number** is a real number that is not a fraction $\\frac{p}{q}$ with integers $p,q$ and $q\\neq0$. Every terminating or repeating decimal is such a fraction, so $1.41421356$ is only an approximation.\n\nWhy: suppose $\\sqrt{2} = \\frac{p}{q}$ in lowest terms. Then $p^2 = 2q^2$, so $p^2$ is even, so $p$ is even, say $p = 2k$. Then $4k^2 = 2q^2$, so $q^2 = 2k^2$ and $q$ is even too. Both are even, which contradicts lowest terms.\n\nThe same fact holds for the square root of any whole number that is not a perfect square: $\\sqrt{3}$, $\\sqrt{5}$, $\\sqrt{10}$ are all irrational.",
+      "searchQuery": "square root of 2 irrational proof decimal never repeats",
+      "refs": [
+        "AoPS Prealgebra, ch. 9 (Square Roots)"
+      ]
+    },
+    {
+      "id": "sci-notation-form",
+      "unit": "scientific-notation",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What form does a number in **scientific notation** take? Name the **coefficient** and the **power of ten**.",
+      "body": "$a\\times10^{n}$, where the coefficient $a$ satisfies $1\\le a<10$ and $n$ is an integer.\n\nThe number $a$ is the coefficient; $10^n$ is the power of ten. The exponent $n$ tells you how many places the decimal point moves.\n\nExample: $83{,}000{,}000 = 8.3\\times10^{7}$ (point moved 7 places left). And $0.00047 = 4.7\\times10^{-4}$ (point moved 4 places right), since $10^{-4} = \\frac{1}{10^4} = 0.0001$.\n\nWatch out: $30\\times10^{4}$ and $0.3\\times10^{6}$ both equal 300,000 but are not in scientific notation, because the coefficient is not between 1 and 10. The correct form is $3\\times10^{5}$.",
+      "searchQuery": "scientific notation form coefficient power of ten",
+      "refs": [
+        "Gelfand–Shen, Algebra, §17",
+        "AoPS Prealgebra, ch. 2 (Exponents)"
+      ]
+    },
+    {
+      "id": "sci-notation-multiply-divide",
+      "unit": "scientific-notation",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "How do you multiply $(a\\times10^m)(b\\times10^n)$ in scientific notation?",
+      "body": "$(a\\times10^m)(b\\times10^n) = (ab)\\times10^{m+n}$; to divide, divide the coefficients and subtract the exponents.\n\nWhy: multiplication can be reordered, so multiply the coefficients and the powers of ten separately, then use $10^m\\cdot10^n = 10^{m+n}$.\n\nExample: $(2\\times10^3)(3\\times10^4) = 6\\times10^7$, which is $2000\\cdot30000 = 60{,}000{,}000$.\n\nWatch out: if $ab\\ge10$, fix the coefficient afterward. $(4\\times10^3)(5\\times10^2) = 20\\times10^5 = 2\\times10^6$.",
+      "searchQuery": "multiply divide scientific notation exponents rule",
+      "refs": [
+        "Gelfand–Shen, Algebra, §§17, 19",
+        "AoPS Prealgebra, ch. 2 (Exponents)"
+      ]
+    },
+    {
+      "id": "sci-notation-orders-of-magnitude",
+      "unit": "scientific-notation",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Example: by how many **orders of magnitude** is $2\\times10^{7}$ larger than $3\\times10^{3}$?",
+      "body": "4 orders of magnitude (the exponents differ by $7-3=4$).\n\nAn **order of magnitude** is one factor of ten. A quick way to compare sizes: write each number in scientific notation and subtract the exponents.\n\nHere 4 orders means roughly $10^4 = 10{,}000$ times bigger. The exact ratio is $\\frac{2\\times10^7}{3\\times10^3}\\approx6.7\\times10^3$, the same ballpark.\n\nWatch out: this is a rough size comparison. A number like $9\\times10^3$ is closer to $10^4$ than to $10^3$, so compare exponents only when the coefficients are of similar size.",
+      "searchQuery": "orders of magnitude compare scientific notation exponents",
+      "refs": [
+        "Gelfand–Shen, Algebra, §17"
+      ]
+    },
+    {
+      "id": "sci-notation-mixed-product-quotient",
+      "unit": "scientific-notation",
+      "kind": "problem",
+      "difficulty": 2,
+      "checkpoint": true,
+      "title": "Compute $\\dfrac{(8\\times10^{6})(5\\times10^{-9})}{2\\times10^{3}}$ and give the answer in scientific notation.",
+      "body": "$2\\times10^{-5}$\n\nWork the top first. Multiply coefficients and add exponents: $8\\cdot5 = 40$ and $6+(-9) = -3$, so the top is $40\\times10^{-3}$. Fix the coefficient: $4\\times10^{-2}$.\n\nNow divide by $2\\times10^{3}$: coefficients $\\frac{4}{2} = 2$, exponents $-2-3 = -5$. The result is $2\\times10^{-5}$.\n\nCheck: $8{,}000{,}000\\cdot0.000000005 = 0.04$, and $0.04\\div2000 = 0.00002 = 2\\times10^{-5}$.\n\nWatch out: when dividing, subtract the exponents with their signs: $-2-3=-5$, not $-1$. Write the subtraction out rather than doing it in your head.",
+      "searchQuery": "scientific notation multiply divide worked problem",
+      "refs": [
+        "AoPS Prealgebra, ch. 2 (Exponents)"
+      ]
+    },
+    {
+      "id": "sci-notation-negative-exponent-not-negative",
+      "unit": "scientific-notation",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that $2.5\\times10^{-3}$ is a negative number?",
+      "body": "A negative exponent makes the number small, not negative: $2.5\\times10^{-3} = 0.0025$.\n\nThe exponent only says which way the decimal point moves. A negative exponent means divide by a power of ten: $10^{-3} = \\frac{1}{1000}$, so the number is a tiny positive amount.\n\nThe sign of the whole number is the sign of the coefficient. $-2.5\\times10^{3} = -2500$ is negative, and $-2.5\\times10^{-3} = -0.0025$ is negative and small.\n\nTip: positive exponent means a big number, negative exponent means a small one (between 0 and 1 in size), and the sign out front is separate.",
+      "searchQuery": "negative exponent scientific notation small number not negative",
+      "refs": [
+        "Gelfand–Shen, Algebra, §19"
+      ]
+    },
+    {
+      "id": "estimate-significant-figure",
+      "unit": "estimation-and-magnitude",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **significant figure**, and how do you count them in $0.0072$ and $3.05$?",
+      "body": "A significant figure is a digit that carries information about the size of a number, counted from the first nonzero digit on the left. So $0.0072$ has 2 and $3.05$ has 3.\n\nZeros before the first nonzero digit only mark the place value, so they do not count. A zero between nonzero digits does count.\n\nExample: rounding $4{,}862$ to 2 significant figures gives $4{,}900$; to 1 significant figure it gives $5{,}000$.\n\nWatch out: the two leading zeros in $0.0072$ are place-holders. Writing it as $7.2\\times10^{-3}$ shows the 2 digits that matter.",
+      "searchQuery": "significant figures counting rounding definition",
+      "refs": [
+        "AoPS Prealgebra §6.2 (Rounding)"
+      ]
+    },
+    {
+      "id": "estimate-fermi-estimate",
+      "unit": "estimation-and-magnitude",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What is an **estimate**, and what is a **Fermi estimate**?",
+      "body": "A Fermi estimate is a quick estimate made by splitting an unknown quantity into factors you can guess, rounding each, and multiplying.\n\nAn **estimate** is a rough answer that is close enough to be useful. A **Fermi estimate** aims for the right order of magnitude (within a factor of about ten), not the right digits. It is named after the physicist Enrico Fermi, who was known for such back-of-the-envelope answers.\n\nSteps:\n1. Break the question into factors you can reason about.\n2. Round each factor to one significant figure.\n3. Multiply, using powers of ten for the zeros.\n\nKey idea: guesses that are too high and too low tend to partly cancel, so the product is often close.",
+      "searchQuery": "Fermi estimate method order of magnitude rough factors",
+      "refs": [
+        "AoPS Prealgebra, ch. 15 (Problem-Solving Strategies)"
+      ]
+    },
+    {
+      "id": "estimate-minutes-in-a-year",
+      "unit": "estimation-and-magnitude",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Example: estimate the number of minutes in a year, $60\\times24\\times365$, by rounding each factor to one significant figure.",
+      "body": "$60\\times20\\times400 = 480{,}000\\approx5\\times10^{5}$ minutes (exact: $525{,}600$).\n\nA year has 365 days, each day 24 hours, each hour 60 minutes. Round 24 to 20 and 365 to 400, keep 60.\n\nMultiply the easy numbers: $6\\cdot2\\cdot4 = 48$, then add the four zeros (one from 60, one from 20, two from 400): $480{,}000$.\n\nThe estimate is within about 10% of the exact value, plenty for a sense of size.\n\nTip: rounding one factor up and another down, as here, helps the errors cancel.",
+      "searchQuery": "estimate minutes in a year round one significant figure",
+      "refs": [
+        "AoPS Prealgebra §6.2 (Rounding)"
+      ]
+    },
+    {
+      "id": "estimate-product-one-sig-fig",
+      "unit": "estimation-and-magnitude",
+      "kind": "problem",
+      "difficulty": 2,
+      "checkpoint": true,
+      "title": "Estimate $4{,}870\\times0.0212$ by rounding each number to one significant figure.",
+      "body": "$5000\\times0.02 = 100$ (exact: about $103.2$).\n\nRound $4{,}870$ to $5{,}000$ and $0.0212$ to $0.02$. Then $5000\\times0.02 = 100$: $5000\\times2 = 10{,}000$, and $0.02$ is $2$ hundredths, so divide by 100.\n\nThe exact value is $4870\\times0.0212 = 103.244$, so the estimate is off by only about 3%.\n\nWhy it matters: an estimate gives the right size, so a slipped decimal point shows up at once.\n\nTip: in scientific notation this is $(5\\times10^3)(2\\times10^{-2}) = 10\\times10^{1} = 100$.",
+      "searchQuery": "estimate product round one significant figure 4870 times 0.0212",
+      "refs": [
+        "AoPS Prealgebra §6.2 (Rounding)"
+      ]
+    },
+    {
+      "id": "estimate-calculator-needs-reasonableness-check",
+      "unit": "estimation-and-magnitude",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that a calculator answer needs no **reasonableness check**?",
+      "body": "A slipped key or misplaced decimal point still gives a confident-looking number; a quick estimate of the expected size catches it.\n\nA **reasonableness check** asks: is this answer about the right size, and in the right units?\n\nExample: you compute $38\\times0.52$ but type $5.2$. The calculator shows $197.6$. A rough check, $40\\times0.5 = 20$, says the answer should be near 20, not near 200. The true value is $19.76$.\n\nAlso check units: an area should be in square units, and a person's walking speed of $50\\,\\mathrm{m/s}$ is unreasonable.\n\nTip: make the estimate before you press the keys, so the check is not influenced by the displayed number.",
+      "searchQuery": "reasonableness check estimate calculator error decimal",
+      "refs": [
+        "AoPS Prealgebra, ch. 15 (Problem-Solving Strategies)"
+      ]
+    }
+  ]
+}

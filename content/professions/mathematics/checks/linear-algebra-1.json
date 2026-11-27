@@ -1,0 +1,28 @@
+{
+  "module": "linear-algebra-1",
+  "checker": "independent checker (Claude)",
+  "summary": {
+    "reviewed": 85,
+    "ok": 82,
+    "fixed": 3,
+    "dropped": 0,
+    "added": 0
+  },
+  "verdicts": [
+    {
+      "id": "linalg-linear-combination",
+      "verdict": "fixed",
+      "note": "Overstatement: scaling and adding are the basic operations, not the only things you can do with vectors (e.g. dot product)."
+    },
+    {
+      "id": "linalg-inverse-matrix-definition",
+      "verdict": "fixed",
+      "note": "Missing condition: n pivots only if row exchanges are allowed; a matrix like [[0,1],[1,0]] is invertible but has a zero first pivot without exchanging."
+    },
+    {
+      "id": "linalg-positive-definite-tests",
+      "verdict": "fixed",
+      "note": "Clarity: of the 'four equivalent conditions' one is the definition itself; now said explicitly."
+    }
+  ]
+}

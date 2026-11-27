@@ -1,0 +1,519 @@
+{
+  "profession": "mathematics",
+  "module": "trigonometry",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "trig-opposite-adjacent-sides",
+      "unit": "right-triangle-trigonometry",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "In a right triangle, what do the **opposite side** and the **adjacent side** of an acute angle $\\theta$ mean?",
+      "body": "The opposite side is the leg across from $\\theta$ (it does not touch $\\theta$); the adjacent side is the leg that touches $\\theta$ (the hypotenuse is the other side that touches it).\n\nThe hypotenuse is always the side across from the right angle, and it is the longest side. The two legs take the names opposite and adjacent only once you pick an angle.\n\nExample: in a triangle with legs $3$ and $4$ and hypotenuse $5$, stand at the angle whose far leg is $3$. Then $3$ is opposite and $4$ is adjacent.\n\nWatch out: the names belong to the pair (side, angle), not to the side. At the other acute angle the same two legs swap roles.",
+      "searchQuery": "opposite adjacent hypotenuse sides right triangle angle",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (trigonometric ratios in a triangle)"
+      ]
+    },
+    {
+      "id": "trig-sine-cosine-tangent-ratios",
+      "unit": "right-triangle-trigonometry",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "Define $\\sin\\theta$, $\\cos\\theta$ and $\\tan\\theta$ for an acute angle $\\theta$ of a right triangle.",
+      "body": "$\\sin\\theta=\\dfrac{\\text{opposite}}{\\text{hypotenuse}}$, $\\cos\\theta=\\dfrac{\\text{adjacent}}{\\text{hypotenuse}}$, $\\tan\\theta=\\dfrac{\\text{opposite}}{\\text{adjacent}}$.\n\nThese three ratios of side lengths are the **sine**, **cosine** and **tangent** of the angle. Dividing sine by cosine gives the tangent: $\\tan\\theta=\\dfrac{\\sin\\theta}{\\cos\\theta}$.\n\nExample: in the $3$-$4$-$5$ triangle, for the angle opposite the side $3$: $\\sin\\theta=\\tfrac35$, $\\cos\\theta=\\tfrac45$, $\\tan\\theta=\\tfrac34$.\n\nMnemonic: SOH-CAH-TOA: Sine is Opposite over Hypotenuse, Cosine is Adjacent over Hypotenuse, Tangent is Opposite over Adjacent.",
+      "searchQuery": "sine cosine tangent definition right triangle SOH CAH TOA",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (trigonometric ratios in a triangle)",
+        "Jacobs, Geometry 3e, ch. 11"
+      ]
+    },
+    {
+      "id": "trig-ratios-depend-only-on-angle",
+      "unit": "right-triangle-trigonometry",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why does $\\sin\\theta$ depend only on the angle $\\theta$, and not on how big the right triangle is?",
+      "body": "Any two right triangles with the same acute angle $\\theta$ are similar (AA), so their corresponding sides are in the same ratios.\n\nWhy: both triangles have a right angle and an angle $\\theta$, so AA similarity applies. Similar triangles have proportional sides, so $\\frac{\\text{opposite}}{\\text{hypotenuse}}$ is the same in both. The same argument works for cosine and tangent.\n\nKey idea: because each ratio is fixed by the angle alone, one value per angle can be tabulated, which is what calculators do. A big triangle and a small one with the same angle give the same sine.",
+      "searchQuery": "why sine depends only on angle similar right triangles",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (trigonometric ratios in a triangle)"
+      ]
+    },
+    {
+      "id": "trig-special-angle-values",
+      "unit": "right-triangle-trigonometry",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Give the exact values of $\\sin 30^\\circ$, $\\sin 45^\\circ$ and $\\sin 60^\\circ$.",
+      "body": "$\\sin 30^\\circ=\\tfrac12$, $\\sin 45^\\circ=\\tfrac{\\sqrt2}{2}$, $\\sin 60^\\circ=\\tfrac{\\sqrt3}{2}$.\n\nWhy: these **special angles** come from two triangles you already know. A $45^\\circ$-$45^\\circ$-$90^\\circ$ triangle with legs $1$ has hypotenuse $\\sqrt2$. Cutting an equilateral triangle of side $2$ in half gives a $30^\\circ$-$60^\\circ$-$90^\\circ$ triangle with sides $1$, $\\sqrt3$, $2$.\n\nCosine reads the same list backwards: $\\cos 30^\\circ=\\tfrac{\\sqrt3}{2}$, $\\cos 45^\\circ=\\tfrac{\\sqrt2}{2}$, $\\cos 60^\\circ=\\tfrac12$. Tangent is their quotient: $\\tan 30^\\circ=\\tfrac{\\sqrt3}{3}$, $\\tan 45^\\circ=1$, $\\tan 60^\\circ=\\sqrt3$.\n\nMnemonic: the sines are $\\tfrac{\\sqrt1}{2},\\tfrac{\\sqrt2}{2},\\tfrac{\\sqrt3}{2}$ for $30^\\circ,45^\\circ,60^\\circ$.",
+      "searchQuery": "exact values sin 30 45 60 special angles",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (trigonometric ratios in a triangle)",
+        "Jacobs, Geometry 3e, ch. 11"
+      ]
+    },
+    {
+      "id": "trig-solve-right-triangle-two-sides",
+      "unit": "right-triangle-trigonometry",
+      "kind": "example",
+      "difficulty": 2,
+      "title": "Solve the right triangle with legs $5$ and $12$: find the hypotenuse and both acute angles (to the nearest $0.1^\\circ$).",
+      "body": "Hypotenuse $13$; the acute angles are about $22.6^\\circ$ (opposite the leg $5$) and $67.4^\\circ$.\n\nStep 1: the Pythagorean theorem gives $c=\\sqrt{5^2+12^2}=13$.\n\nStep 2: for the angle $A$ opposite the leg $5$, $\\tan A=\\tfrac{5}{12}$. The calculator's inverse tangent key ($\\tan^{-1}$) gives $A\\approx 22.6^\\circ$.\n\nStep 3: the angles of a triangle add to $180^\\circ$, so the other acute angle is $90^\\circ-22.6^\\circ\\approx 67.4^\\circ$.\n\nTip: check with a second ratio: $\\sin A=\\tfrac{5}{13}\\approx0.385$, and $\\sin 22.6^\\circ\\approx0.384$. Use the given sides in step 2, not the computed hypotenuse, so a slip in one step cannot spoil the next.",
+      "searchQuery": "solve right triangle two legs find angles inverse tangent",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (trigonometric ratios in a triangle)"
+      ]
+    },
+    {
+      "id": "trig-angle-of-depression-problem",
+      "unit": "right-triangle-trigonometry",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "From the top of a cliff $80\\ \\mathrm{m}$ above the sea, the angle of depression to a boat is $25^\\circ$. How far is the boat from the foot of the cliff, to the nearest $0.1\\ \\mathrm{m}$?",
+      "body": "$\\approx 171.6\\ \\mathrm{m}$\n\nSetup: the **angle of depression** is measured down from the horizontal to the line of sight; the **angle of elevation** is measured up from the horizontal. Looking down from the cliff or up from the boat, the two angles are equal, because they are alternate interior angles between two horizontal lines.\n\nSolution: in the right triangle formed by the cliff, the sea and the line of sight, the angle at the boat is $25^\\circ$. The cliff is opposite it and the distance $d$ is adjacent, so $\\tan 25^\\circ=\\dfrac{80}{d}$.\n\nThen $d=\\dfrac{80}{\\tan 25^\\circ}\\approx\\dfrac{80}{0.4663}\\approx171.6\\ \\mathrm{m}$.\n\nWatch out: the angle of depression is not measured from the cliff face. Using $\\tan 25^\\circ=\\tfrac{d}{80}$ would give a wrong $37.3\\ \\mathrm{m}$.",
+      "searchQuery": "angle of depression cliff boat distance tangent problem",
+      "answer": "171.6",
+      "acceptedAnswers": [
+        "171.56",
+        "171.6 m"
+      ],
+      "answerDisplay": "$\\approx 171.6\\ \\mathrm{m}$",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Applications of the Trigonometric Functions)"
+      ]
+    },
+    {
+      "id": "trig-sine-not-proportional-to-angle",
+      "unit": "right-triangle-trigonometry",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that $\\sin 60^\\circ = 2\\sin 30^\\circ$, that is, that doubling an angle doubles its sine?",
+      "body": "Sine is not proportional to the angle: $\\sin 30^\\circ=\\tfrac12$ but $\\sin 60^\\circ=\\tfrac{\\sqrt3}{2}\\approx0.866$, not $1$.\n\nWhy: in a right triangle the opposite leg is shorter than the hypotenuse, so the sine of an acute angle is always less than $1$. If $\\sin 60^\\circ$ were $1$, a leg would be as long as the hypotenuse, which is impossible.\n\nKey idea: sine grows quickly for small angles and flattens out as the angle gets larger. The same warning applies to cosine and tangent: none of these ratios scales with the angle.",
+      "searchQuery": "sin 60 not twice sin 30 sine not proportional angle",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (trigonometric ratios in a triangle)"
+      ]
+    },
+    {
+      "id": "trig-radian-definition",
+      "unit": "radians-and-unit-circle",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **radian**, and how is **arc length** $s$ related to the central angle $\\theta$ (in radians) on a circle of radius $r$?",
+      "body": "One radian is the central angle that cuts off an arc as long as the radius; in general $\\theta=\\dfrac{s}{r}$, so $s=r\\theta$.\n\nThe arc length $s$ is the length of the curved piece of the circle. An angle's radian measure is the ratio of arc length to radius, so it needs no unit.\n\nWhy: a full turn cuts off the whole circumference $2\\pi r$, so a full turn is $2\\pi$ radians. Therefore $\\pi$ radians $=180^\\circ$ and $1$ radian $\\approx 57.3^\\circ$.\n\nExample: $60^\\circ=60\\cdot\\dfrac{\\pi}{180}=\\dfrac{\\pi}{3}$ radians; $\\dfrac{3\\pi}{4}$ radians $=\\dfrac{3\\pi}{4}\\cdot\\dfrac{180}{\\pi}=135^\\circ$.",
+      "searchQuery": "radian definition arc length equals radius times angle",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (radian measure)",
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Radian Measure of Angles)"
+      ]
+    },
+    {
+      "id": "trig-unit-circle-definition",
+      "unit": "radians-and-unit-circle",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "On the **unit circle**, how are $\\cos\\theta$ and $\\sin\\theta$ defined for any angle $\\theta$?",
+      "body": "$(\\cos\\theta,\\sin\\theta)$ is the point where the ray at angle $\\theta$ from the positive $x$-axis meets the circle $x^2+y^2=1$.\n\nThe unit circle has radius $1$ and is centered at the origin. Angles are measured counterclockwise from the positive $x$-axis; negative angles turn clockwise. The ray at angle $\\theta$ is the terminal side of the angle, and the four quarters of the plane, counted counterclockwise from the positive $x$-axis, are quadrants I to IV. The tangent is $\\tan\\theta=\\dfrac{\\sin\\theta}{\\cos\\theta}$ wherever $\\cos\\theta\\neq0$.\n\nWhy it matches the triangle definition: for an acute $\\theta$, the point and the $x$-axis form a right triangle with hypotenuse $1$, adjacent side $\\cos\\theta$ and opposite side $\\sin\\theta$.\n\nExample: at $\\theta=\\pi$ the point is $(-1,0)$, so $\\cos\\pi=-1$ and $\\sin\\pi=0$.",
+      "searchQuery": "unit circle definition cosine sine coordinates any angle",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (radian measure)",
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Circular Functions)"
+      ]
+    },
+    {
+      "id": "trig-coterminal-angles-period",
+      "unit": "radians-and-unit-circle",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why do $\\sin(\\theta+2\\pi)=\\sin\\theta$ and $\\cos(\\theta+2\\pi)=\\cos\\theta$, and what is the **period** of sine and cosine?",
+      "body": "Adding $2\\pi$ is one full turn and lands on the same point of the unit circle, so sine and cosine repeat every $2\\pi$: their period is $2\\pi$.\n\nAngles that differ by a whole number of full turns are **coterminal angles**: they end on the same ray, so they have the same sine and cosine. In symbols, $\\sin(\\theta+2\\pi n)=\\sin\\theta$ for every integer $n$.\n\nThe **period** of a function $f$ is the smallest positive $p$ with $f(x+p)=f(x)$ for all $x$ in its domain.\n\nWatch out: tangent repeats sooner, with period $\\pi$. Half a turn sends $(x,y)$ to $(-x,-y)$, which flips both signs but keeps the quotient $\\tfrac{y}{x}$.",
+      "searchQuery": "period of sine cosine 2 pi coterminal angles",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (radian measure)",
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Circular Functions)"
+      ]
+    },
+    {
+      "id": "trig-sector-area-formula",
+      "unit": "radians-and-unit-circle",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "What is the area of a sector of radius $r$ with central angle $\\theta$ in radians?",
+      "body": "$A=\\tfrac12 r^2\\theta$\n\nWhy: the sector is the fraction $\\dfrac{\\theta}{2\\pi}$ of the whole disk, so $A=\\dfrac{\\theta}{2\\pi}\\cdot\\pi r^2=\\tfrac12r^2\\theta$.\n\nExample: $r=4$ and $\\theta=\\tfrac{\\pi}{2}$ give $A=\\tfrac12\\cdot16\\cdot\\tfrac{\\pi}{2}=4\\pi$, which is a quarter of the disk's $16\\pi$.\n\nWatch out: $\\theta$ must be in radians. With degrees the formula is $A=\\dfrac{\\theta}{360}\\pi r^2$.",
+      "searchQuery": "sector area formula one half r squared theta radians",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (radian measure)"
+      ]
+    },
+    {
+      "id": "trig-reference-angle-tan-example",
+      "unit": "radians-and-unit-circle",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Use coterminal angles, the **reference angle** and quadrant signs to find the exact value of $\\tan\\left(-\\dfrac{7\\pi}{6}\\right)$.",
+      "body": "$-\\dfrac{\\sqrt3}{3}$\n\nStep 1: add $2\\pi$ to get a coterminal angle in $[0,2\\pi)$: $-\\dfrac{7\\pi}{6}+2\\pi=\\dfrac{5\\pi}{6}$. This ends in the second quadrant.\n\nStep 2: the reference angle is the acute angle between the terminal side and the $x$-axis: $\\pi-\\dfrac{5\\pi}{6}=\\dfrac{\\pi}{6}$. The values at the original angle equal those at the reference angle, up to sign.\n\nStep 3: $\\tan\\dfrac{\\pi}{6}=\\dfrac{\\sqrt3}{3}$. In the second quadrant $x<0$ and $y>0$, so the quotient $\\tfrac{y}{x}$ is negative.\n\nSigns by quadrant: sine is positive in I and II, cosine in I and IV, tangent in I and III.",
+      "searchQuery": "tan of negative 7pi over 6 reference angle quadrant signs",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Circular Functions)"
+      ]
+    },
+    {
+      "id": "trig-sector-arc-and-area-problem",
+      "unit": "radians-and-unit-circle",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A sector of a circle of radius $6\\ \\mathrm{cm}$ has central angle $150^\\circ$. Find its arc length and its area.",
+      "body": "$s=5\\pi\\ \\mathrm{cm}\\approx15.71\\ \\mathrm{cm}$ and $A=15\\pi\\ \\mathrm{cm^2}\\approx47.12\\ \\mathrm{cm^2}$.\n\nStep 1: convert to radians: $150^\\circ=150\\cdot\\dfrac{\\pi}{180}=\\dfrac{5\\pi}{6}$.\n\nStep 2: arc length $s=r\\theta=6\\cdot\\dfrac{5\\pi}{6}=5\\pi$.\n\nStep 3: area $A=\\tfrac12r^2\\theta=\\tfrac12\\cdot36\\cdot\\dfrac{5\\pi}{6}=15\\pi$.\n\nCheck: the sector is $\\dfrac{150}{360}$ of the full circle, so its area is $\\dfrac{5}{12}\\cdot\\pi\\cdot36=15\\pi$ and its arc is $\\dfrac{5}{12}\\cdot12\\pi=5\\pi$.",
+      "searchQuery": "sector arc length area radius 6 central angle 150 degrees",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Radian Measure of Angles)"
+      ]
+    },
+    {
+      "id": "trig-calculator-radian-mode-misconception",
+      "unit": "radians-and-unit-circle",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that $\\sin 30=\\tfrac12$ when the $30$ has no degree sign?",
+      "body": "A bare number inside a trigonometric function means radians, and $30$ radians is not $30^\\circ$: $\\sin 30\\approx-0.988$. The value $\\tfrac12$ belongs to $30^\\circ=\\tfrac{\\pi}{6}$ radians.\n\nWhy: $30$ radians is about $4.77$ full turns. Subtract $4\\cdot2\\pi\\approx25.13$ and you get an angle of about $4.87$ radians, roughly $279^\\circ$, whose sine is close to $-1$.\n\nWatch out: on a calculator, check the angle mode (DEG or RAD) before every trigonometry problem. Write $\\sin x$ with $x$ in radians, and put the $^\\circ$ sign on any angle in degrees.",
+      "searchQuery": "sin 30 radians versus degrees calculator mode mistake",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Radian Measure of Angles)"
+      ]
+    },
+    {
+      "id": "trig-amplitude-and-midline",
+      "unit": "trig-graphs",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "For a wave with maximum value $M$ and minimum value $m$, define its **midline** and its **amplitude**.",
+      "body": "The midline is the horizontal line $y=\\dfrac{M+m}{2}$ halfway between the extremes, and the amplitude is $\\dfrac{M-m}{2}$, the distance from the midline up to a peak.\n\nFor $y=\\sin x$ and $y=\\cos x$ we have $M=1$ and $m=-1$, so the midline is $y=0$ and the amplitude is $1$. The sine wave starts on the midline, rises to $1$ at $x=\\tfrac{\\pi}{2}$, returns at $x=\\pi$, dips to $-1$ at $x=\\tfrac{3\\pi}{2}$ and is back at $x=2\\pi$. The cosine wave is the same curve starting at its peak.\n\nExample: a temperature that swings between $4^\\circ\\mathrm{C}$ and $22^\\circ\\mathrm{C}$ has midline $13^\\circ\\mathrm{C}$ and amplitude $9^\\circ\\mathrm{C}$.\n\nWatch out: amplitude is the distance from the midline to a peak, not the full peak-to-trough height, and it is never negative.",
+      "searchQuery": "amplitude midline definition sine wave maximum minimum",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (graphs of trigonometric functions)",
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Graphs of Sine and Cosine)"
+      ]
+    },
+    {
+      "id": "trig-sinusoid-phase-shift",
+      "unit": "trig-graphs",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **sinusoid**, and what is its **phase shift** in $y=A\\sin(B(x-C))+D$?",
+      "body": "A sinusoid is a sine wave that has been stretched and moved, with equation $y=A\\sin(B(x-C))+D$ (cosine works too); the phase shift is $C$, the horizontal shift to the right (to the left if $C<0$).\n\nThese are the graph transformations you know: $A$ stretches vertically (and flips the wave if negative), $B$ squeezes horizontally by the factor $|B|$ (a stretch when $|B|<1$), $C$ shifts right, and $D$ shifts up so that the midline becomes $y=D$.\n\nExample: $y=3\\sin\\big(2(x-\\tfrac{\\pi}{4})\\big)+1$ has amplitude $3$ and midline $y=1$, and its wave starts at $x=\\tfrac{\\pi}{4}$ instead of $x=0$.\n\nKey idea: cosine is a shifted sine, since $\\cos x=\\sin\\big(x+\\tfrac{\\pi}{2}\\big)$, so cosine curves are sinusoids too. The shift is not unique: any whole number of periods added to $C$ gives the same graph.",
+      "searchQuery": "sinusoid phase shift A sin B x minus C plus D",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (graphs of trigonometric functions)",
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Graphs of Sine and Cosine)"
+      ]
+    },
+    {
+      "id": "trig-period-of-scaled-trig-functions",
+      "unit": "trig-graphs",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "For $B\\neq0$, what are the periods of $y=A\\sin(Bx)$, $y=A\\cos(Bx)$ and $y=A\\tan(Bx)$?",
+      "body": "Sine and cosine: $\\dfrac{2\\pi}{|B|}$. Tangent: $\\dfrac{\\pi}{|B|}$.\n\nWhy: $Bx$ completes one cycle of $2\\pi$ when $x$ moves by $\\dfrac{2\\pi}{|B|}$. Multiplying $x$ by $B$ squeezes the graph horizontally by the factor $|B|$. For tangent the basic period is $\\pi$.\n\nExample: $y=\\sin(3x)$ has period $\\dfrac{2\\pi}{3}$, and $y=\\cos(\\pi x)$ has period $2$.\n\nWatch out: the amplitude $A$, the phase shift $C$ and the midline shift $D$ do not change the period. Only $B$ does.",
+      "searchQuery": "period of sin Bx cos Bx tan Bx formula",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Graphs of Sine and Cosine)"
+      ]
+    },
+    {
+      "id": "trig-tangent-graph-zeros-asymptotes",
+      "unit": "trig-graphs",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Where are the zeros and the vertical asymptotes of $y=\\tan x$, and why do they occur there?",
+      "body": "Zeros at $x=n\\pi$ and vertical asymptotes at $x=\\dfrac{\\pi}{2}+n\\pi$, for every integer $n$, because $\\tan x=\\dfrac{\\sin x}{\\cos x}$.\n\nA quotient is zero when its numerator is zero and the denominator is not: $\\sin x=0$ at $x=n\\pi$. It blows up where the denominator is zero and the numerator is not: $\\cos x=0$ at $x=\\tfrac{\\pi}{2}+n\\pi$, where $\\sin x=\\pm1$.\n\nExample: just left of $\\tfrac{\\pi}{2}$, $\\sin x\\approx1$ and $\\cos x$ is a tiny positive number, so $\\tan x$ is huge and positive. Just right of $\\tfrac{\\pi}{2}$, $\\cos x$ is a tiny negative number and $\\tan x$ is huge and negative.\n\nSo between consecutive asymptotes the graph climbs from $-\\infty$ to $\\infty$ through a zero. The period is $\\pi$ and the range is all of $\\mathbb{R}$.",
+      "searchQuery": "tangent graph vertical asymptotes zeros pi over 2",
+      "refs": [
+        "Gelfand-Saul, Trigonometry (graphs of trigonometric functions)"
+      ]
+    },
+    {
+      "id": "trig-tide-model-problem",
+      "unit": "trig-graphs",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "At a harbor, high tide of $3.8\\ \\mathrm{m}$ occurs at $t=2$ hours after midnight, and the next low tide, of $0.2\\ \\mathrm{m}$, is $6$ hours later. Model the height $h(t)$ by a cosine sinusoid and find $h(5)$.",
+      "body": "$h(t)=1.8\\cos\\!\\big(\\tfrac{\\pi}{6}(t-2)\\big)+2$ (meters), and $h(5)=2\\ \\mathrm{m}$.\n\nStep 1: the midline is halfway between the extremes: $D=\\dfrac{3.8+0.2}{2}=2$. The amplitude is $A=\\dfrac{3.8-0.2}{2}=1.8$.\n\nStep 2: high tide to low tide is half a period, so the period is $12$ hours and $B=\\dfrac{2\\pi}{12}=\\dfrac{\\pi}{6}$.\n\nStep 3: a cosine starts at its peak, so shift it to put the peak at $t=2$: $C=2$.\n\nCheck: $h(8)=1.8\\cos\\pi+2=0.2$, the low tide. And $h(5)=1.8\\cos\\dfrac{\\pi}{2}+2=2$, halfway between, as expected midway through the fall.",
+      "searchQuery": "tide height model cosine sinusoid fit high low tide",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Applications of Sine and Cosine Functions)"
+      ]
+    },
+    {
+      "id": "trig-phase-shift-factor-misconception",
+      "unit": "trig-graphs",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that $y=\\sin(2x-\\pi)$ has a phase shift of $\\pi$?",
+      "body": "Factor out the multiplier first: $\\sin(2x-\\pi)=\\sin\\big(2(x-\\tfrac{\\pi}{2})\\big)$, so the shift is $\\tfrac{\\pi}{2}$ to the right.\n\nThe phase shift is the $C$ in $B(x-C)$, which is the constant divided by $B$: here $\\dfrac{\\pi}{2}$.\n\nCheck: the wave starts its rising cycle where the inside equals $0$: $2x-\\pi=0$ gives $x=\\tfrac{\\pi}{2}$, not $\\pi$.\n\nWatch out: the horizontal squeeze by $B$ also squeezes the shift. A shift of $\\pi$ in the picture would need $\\sin(2x-2\\pi)$.",
+      "searchQuery": "phase shift sin 2x minus pi factor out B horizontal shift",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Foundations of Trigonometry (Graphs of Sine and Cosine)"
+      ]
+    },
+    {
+      "id": "trig-pythagorean-identity",
+      "unit": "trig-identities",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why does the **Pythagorean identity** $\\sin^2\\theta+\\cos^2\\theta=1$ hold for every angle $\\theta$?",
+      "body": "The point $(\\cos\\theta,\\sin\\theta)$ lies on the unit circle $x^2+y^2=1$, so $\\cos^2\\theta+\\sin^2\\theta=1$.\n\nHere $\\sin^2\\theta$ means $(\\sin\\theta)^2$. The identity is just the equation of the unit circle read at the point for the angle $\\theta$, so it holds for every angle, not only acute ones.\n\nKey idea: divide both sides by $\\cos^2\\theta$ (where $\\cos\\theta\\neq0$) to get $1+\\tan^2\\theta=\\sec^2\\theta$, where the **secant** is $\\sec\\theta=\\dfrac{1}{\\cos\\theta}$.\n\nTip: given one of $\\sin\\theta$ or $\\cos\\theta$, this identity gives the other up to a sign. Use the quadrant to choose the sign.",
+      "searchQuery": "Pythagorean identity sin squared plus cos squared equals 1 unit circle",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (Pythagorean Identities)",
+        "Gelfand-Saul, Trigonometry (trigonometric identities)"
+      ]
+    },
+    {
+      "id": "trig-angle-addition-sine-cosine",
+      "unit": "trig-identities",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **angle addition formulas** for $\\sin(\\alpha+\\beta)$ and $\\cos(\\alpha+\\beta)$.",
+      "body": "For all real $\\alpha,\\beta$: $\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta$ and $\\cos(\\alpha+\\beta)=\\cos\\alpha\\cos\\beta-\\sin\\alpha\\sin\\beta$.\n\nKey idea: rotate the point $(\\cos\\beta,\\sin\\beta)$ about the origin by $\\alpha$. A rotation by $\\alpha$ sends $(1,0)$ to $(\\cos\\alpha,\\sin\\alpha)$ and, being a rigid motion that keeps right angles, sends $(0,1)$ to $(-\\sin\\alpha,\\cos\\alpha)$. It also preserves sums and scalings of the two steps, so $(x,y)$ goes to $x(\\cos\\alpha,\\sin\\alpha)+y(-\\sin\\alpha,\\cos\\alpha)$. With $(x,y)=(\\cos\\beta,\\sin\\beta)$ this is $(\\cos\\alpha\\cos\\beta-\\sin\\alpha\\sin\\beta,\\ \\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta)$. The result is the point at angle $\\alpha+\\beta$, which reads off both formulas.\n\nWhy it matters: the double-angle, half-angle and tangent formulas all follow from these two. Replacing $\\beta$ by $-\\beta$ gives the subtraction versions, and the subtraction versions with $\\alpha=\\tfrac{\\pi}{2}$ give the **cofunction identities** $\\sin\\big(\\tfrac{\\pi}{2}-\\beta\\big)=\\cos\\beta$ and $\\cos\\big(\\tfrac{\\pi}{2}-\\beta\\big)=\\sin\\beta$.\n\nWatch out: $\\sin(\\alpha+\\beta)$ is not $\\sin\\alpha+\\sin\\beta$, and the cosine formula has a minus sign between its products.",
+      "searchQuery": "angle addition formulas sin(a+b) cos(a+b) statement",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (More Identities)",
+        "Gelfand-Saul, Trigonometry (addition formulas)"
+      ]
+    },
+    {
+      "id": "trig-tangent-addition-formula",
+      "unit": "trig-identities",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the angle addition formula for $\\tan(\\alpha+\\beta)$.",
+      "body": "$\\tan(\\alpha+\\beta)=\\dfrac{\\tan\\alpha+\\tan\\beta}{1-\\tan\\alpha\\tan\\beta}$\n\nIt holds whenever $\\tan\\alpha$, $\\tan\\beta$ and $\\tan(\\alpha+\\beta)$ are all defined.\n\nWhy: write $\\tan(\\alpha+\\beta)=\\dfrac{\\sin(\\alpha+\\beta)}{\\cos(\\alpha+\\beta)}$, expand with the addition formulas, then divide the top and bottom by $\\cos\\alpha\\cos\\beta$.\n\nExample: $\\tan75^\\circ=\\tan(45^\\circ+30^\\circ)=\\dfrac{1+\\tfrac{\\sqrt3}{3}}{1-\\tfrac{\\sqrt3}{3}}=\\dfrac{3+\\sqrt3}{3-\\sqrt3}=2+\\sqrt3$.\n\nWatch out: the denominator has a minus sign, the opposite of the numerator's plus.",
+      "searchQuery": "tangent addition formula tan(a+b) derivation",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (More Identities)",
+        "Gelfand-Saul, Trigonometry (addition formulas)"
+      ]
+    },
+    {
+      "id": "trig-double-angle-formulas",
+      "unit": "trig-identities",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the **double-angle formulas** for $\\sin2\\theta$ and $\\cos2\\theta$, including all three forms of $\\cos2\\theta$.",
+      "body": "$\\sin2\\theta=2\\sin\\theta\\cos\\theta$ and $\\cos2\\theta=\\cos^2\\theta-\\sin^2\\theta=2\\cos^2\\theta-1=1-2\\sin^2\\theta$.\n\nWhy: put $\\alpha=\\beta=\\theta$ in the addition formulas. The second and third forms of the cosine come from replacing $\\sin^2\\theta$ by $1-\\cos^2\\theta$, or $\\cos^2\\theta$ by $1-\\sin^2\\theta$, in the first.\n\nExample: at $\\theta=30^\\circ$, $\\cos60^\\circ=\\tfrac34-\\tfrac14=\\tfrac12$, and $2\\cos^2 30^\\circ-1=\\tfrac32-1=\\tfrac12$.\n\nTip: choose the form that matches what you know: use $2\\cos^2\\theta-1$ if you have cosine, and $1-2\\sin^2\\theta$ if you have sine.",
+      "searchQuery": "double angle formulas sin 2 theta cos 2 theta three forms",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (More Identities)",
+        "Gelfand-Saul, Trigonometry (trigonometric identities)"
+      ]
+    },
+    {
+      "id": "trig-half-angle-formulas",
+      "unit": "trig-identities",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the **half-angle formulas** for $\\sin\\dfrac{\\theta}{2}$ and $\\cos\\dfrac{\\theta}{2}$.",
+      "body": "$\\sin\\dfrac{\\theta}{2}=\\pm\\sqrt{\\dfrac{1-\\cos\\theta}{2}}$ and $\\cos\\dfrac{\\theta}{2}=\\pm\\sqrt{\\dfrac{1+\\cos\\theta}{2}}$, with the sign set by the quadrant of $\\dfrac{\\theta}{2}$.\n\nWhy: write the double-angle formula $\\cos2u=1-2\\sin^2u$ with $u=\\tfrac{\\theta}{2}$ and solve for $\\sin^2u$; likewise $\\cos2u=2\\cos^2u-1$ gives $\\cos^2u$.\n\nExample: $\\cos22.5^\\circ=\\sqrt{\\dfrac{1+\\cos45^\\circ}{2}}=\\sqrt{\\dfrac{2+\\sqrt2}{4}}=\\dfrac{\\sqrt{2+\\sqrt2}}{2}\\approx0.924$. The sign is $+$ because $22.5^\\circ$ is in the first quadrant.\n\nWatch out: the sign comes from the quadrant of $\\tfrac{\\theta}{2}$, not of $\\theta$.",
+      "searchQuery": "half angle formulas sin theta over 2 cos theta over 2",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (More Identities)",
+        "Gelfand-Saul, Trigonometry (trigonometric identities)"
+      ]
+    },
+    {
+      "id": "trig-cos-105-addition-example",
+      "unit": "trig-identities",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Use an addition formula to find the exact value of $\\cos105^\\circ$.",
+      "body": "$\\dfrac{\\sqrt2-\\sqrt6}{4}$\n\nStep 1: split into special angles: $105^\\circ=60^\\circ+45^\\circ$.\n\nStep 2: apply the cosine addition formula: $\\cos105^\\circ=\\cos60^\\circ\\cos45^\\circ-\\sin60^\\circ\\sin45^\\circ=\\tfrac12\\cdot\\tfrac{\\sqrt2}{2}-\\tfrac{\\sqrt3}{2}\\cdot\\tfrac{\\sqrt2}{2}=\\tfrac{\\sqrt2-\\sqrt6}{4}$.\n\nCheck: $\\dfrac{1.414-2.449}{4}\\approx-0.259$. That is negative, as it must be, because $105^\\circ$ lies in the second quadrant where cosine is negative.",
+      "searchQuery": "exact value cos 105 degrees addition formula",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (More Identities)"
+      ]
+    },
+    {
+      "id": "trig-prove-identity-double-angle-problem",
+      "unit": "trig-identities",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Prove the identity $\\dfrac{1-\\cos2\\theta}{\\sin2\\theta}=\\tan\\theta$ for every $\\theta$ at which both sides are defined.",
+      "body": "Rewrite the numerator as $2\\sin^2\\theta$ and the denominator as $2\\sin\\theta\\cos\\theta$, then cancel.\n\nProof: start from the left side and use double-angle formulas.\n\n1. $1-\\cos2\\theta=1-(1-2\\sin^2\\theta)=2\\sin^2\\theta$.\n2. $\\sin2\\theta=2\\sin\\theta\\cos\\theta$.\n3. So the left side is $\\dfrac{2\\sin^2\\theta}{2\\sin\\theta\\cos\\theta}=\\dfrac{\\sin\\theta}{\\cos\\theta}=\\tan\\theta$.\n\nThe cancellation of $2\\sin\\theta$ is allowed because $\\sin2\\theta\\neq0$ forces $\\sin\\theta\\neq0$.\n\nTip: when proving an identity, work on one side only and move toward the other side. Rewriting everything in sines and cosines, or choosing the double-angle form that cancels, are the usual first moves.",
+      "searchQuery": "prove trig identity 1 minus cos 2 theta over sin 2 theta equals tan theta",
+      "checkpoint": true,
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (More Identities)",
+        "Gelfand-Saul, Trigonometry (trigonometric identities)"
+      ]
+    },
+    {
+      "id": "trig-sine-square-root-sign-misconception",
+      "unit": "trig-identities",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that $\\sin\\theta=\\sqrt{1-\\cos^2\\theta}$ for every angle $\\theta$?",
+      "body": "Solving $\\sin^2\\theta+\\cos^2\\theta=1$ gives $\\sin\\theta=\\pm\\sqrt{1-\\cos^2\\theta}$, and the square root is never negative, so the formula fails whenever $\\sin\\theta<0$.\n\nExample: take $\\theta=-\\tfrac{\\pi}{6}$. Then $\\sin\\theta=-\\tfrac12$ and $\\cos\\theta=\\tfrac{\\sqrt3}{2}$, but $\\sqrt{1-\\tfrac34}=\\tfrac12$.\n\nWhy: $\\sqrt{\\ }$ always returns the non-negative root, while sine takes both signs. In fact $\\sqrt{1-\\cos^2\\theta}=|\\sin\\theta|$.\n\nTip: after taking a square root in a trigonometric problem, decide the sign from the quadrant of the angle.",
+      "searchQuery": "sin theta equals square root 1 minus cos squared sign error",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (Pythagorean Identities)"
+      ]
+    },
+    {
+      "id": "trig-law-of-sines",
+      "unit": "laws-of-sines-and-cosines",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **law of sines** for an **oblique triangle** $ABC$ with sides $a,b,c$ opposite the angles $A,B,C$.",
+      "body": "$\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}$, and this common value is $2R$, where $R$ is the circumradius, the radius of the circle through $A$, $B$ and $C$ (centered at the circumcenter).\n\nAn oblique triangle is any triangle without a right angle; the law holds for every triangle, right ones included.\n\nKey idea: drop the altitude $h$ from $C$ to the line $AB$. Then $h=b\\sin A$ and $h=a\\sin B$, so $b\\sin A=a\\sin B$, which gives $\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}$. The other pair follows the same way.\n\nWhy it matters: it solves a triangle when you know a side and its opposite angle, for example two angles and one side.\n\nWatch out: you need one matched pair (a side and its opposite angle) to start.",
+      "searchQuery": "law of sines statement oblique triangle circumradius",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Geometric Applications of Trigonometry (Law of Sines)",
+        "Gelfand-Saul, Trigonometry (trigonometric ratios in a triangle)"
+      ]
+    },
+    {
+      "id": "trig-law-of-cosines",
+      "unit": "laws-of-sines-and-cosines",
+      "kind": "theorem",
+      "difficulty": 3,
+      "title": "State the **law of cosines** for a triangle $ABC$ with sides $a,b,c$ opposite $A,B,C$, solved for $c^2$.",
+      "body": "$c^2=a^2+b^2-2ab\\cos C$\n\nIt holds for every triangle, and the other two sides have the same form with the letters rotated.\n\nKey idea: place $C$ at the origin with $B=(a,0)$, so that $A=(b\\cos C,\\,b\\sin C)$. Then $c^2=|AB|^2=(b\\cos C-a)^2+(b\\sin C)^2=b^2-2ab\\cos C+a^2$, using $\\sin^2C+\\cos^2C=1$.\n\nWhy it matters: for $C=90^\\circ$ the last term vanishes and you get the Pythagorean theorem. In general it solves a triangle from two sides and the included angle (SAS), and from three sides (SSS): $\\cos C=\\dfrac{a^2+b^2-c^2}{2ab}$.\n\nTip: a negative value of $\\cos C$ means $C$ is obtuse.",
+      "searchQuery": "law of cosines statement c squared a squared plus b squared",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Geometric Applications of Trigonometry (Law of Cosines)",
+        "Gelfand-Saul, Trigonometry (trigonometric ratios in a triangle)"
+      ]
+    },
+    {
+      "id": "trig-triangle-area-half-ab-sin-c",
+      "unit": "laws-of-sines-and-cosines",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "Give the area of triangle $ABC$ in terms of two sides $a$, $b$ and the angle $C$ between them.",
+      "body": "$\\text{Area}=\\tfrac12ab\\sin C$\n\nWhy: take $a$ as the base. The height from $A$ to the line $BC$ is $h=b\\sin C$, so the area is $\\tfrac12\\cdot a\\cdot b\\sin C$.\n\nExample: sides $7$ and $10$ with an included angle of $30^\\circ$ give $\\tfrac12\\cdot7\\cdot10\\cdot\\tfrac12=17.5$.\n\nWatch out: the angle must lie between the two sides. If $C$ is obtuse, $\\sin C$ is still positive, so the formula works unchanged.",
+      "searchQuery": "triangle area one half a b sin C formula",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Geometric Applications of Trigonometry (Law of Sines)"
+      ]
+    },
+    {
+      "id": "trig-solve-sas-triangle-example",
+      "unit": "laws-of-sines-and-cosines",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Solve triangle $ABC$ with $a=8$, $b=11$ and $C=40^\\circ$ (sides to $0.01$, angles to $0.1^\\circ$).",
+      "body": "$c\\approx7.08$, $A\\approx46.5^\\circ$, $B\\approx93.5^\\circ$.\n\nStep 1: law of cosines for the third side: $c^2=64+121-2\\cdot8\\cdot11\\cos40^\\circ\\approx185-134.82=50.18$, so $c\\approx7.08$.\n\nStep 2: law of sines for the angle opposite the shorter given side: $\\sin A=\\dfrac{8\\sin40^\\circ}{7.08}\\approx0.726$, so $A\\approx46.5^\\circ$.\n\nStep 3: $B=180^\\circ-40^\\circ-46.5^\\circ\\approx93.5^\\circ$.\n\nWatch out: do not find $B$ with the law of sines. $\\sin B\\approx0.998$ gives $B\\approx86.5^\\circ$, but $B$ is obtuse here, and the calculator returns only the acute angle. The smaller of the two remaining angles is always acute, so find that one first.",
+      "searchQuery": "solve triangle SAS law of cosines then law of sines example",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Geometric Applications of Trigonometry (Law of Cosines)"
+      ]
+    },
+    {
+      "id": "trig-asa-distance-problem",
+      "unit": "laws-of-sines-and-cosines",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Points $A$ and $B$ on level ground are $120\\ \\mathrm{m}$ apart. A tree $T$ across a river is seen with $\\angle TAB=48^\\circ$ and $\\angle TBA=67^\\circ$. How far is the tree from $A$, to the nearest meter?",
+      "body": "$AT\\approx122\\ \\mathrm{m}$\n\nStep 1: the angle at the tree is $\\angle ATB=180^\\circ-48^\\circ-67^\\circ=65^\\circ$.\n\nStep 2: the side $AT$ is opposite the angle at $B$, and the known side $AB$ is opposite the angle at $T$. The law of sines gives $\\dfrac{AT}{\\sin67^\\circ}=\\dfrac{120}{\\sin65^\\circ}$.\n\nStep 3: $AT=\\dfrac{120\\sin67^\\circ}{\\sin65^\\circ}\\approx\\dfrac{120\\cdot0.9205}{0.9063}\\approx121.9\\approx122\\ \\mathrm{m}$.\n\nTip: this is how surveyors find a distance they cannot measure directly: measure a baseline and two angles. Find the third angle first, since the law of sines needs a side and its opposite angle.",
+      "searchQuery": "surveying distance across river law of sines ASA problem",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Geometric Applications of Trigonometry (Law of Sines)"
+      ]
+    },
+    {
+      "id": "trig-ssa-ambiguous-case-misconception",
+      "unit": "laws-of-sines-and-cosines",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that two sides and a non-included angle (SSA) always determine exactly one triangle?",
+      "body": "SSA can give zero, one or two triangles, which is called the **ambiguous case**: it depends on how the side opposite the given angle compares with $h=b\\sin A$.\n\nSuppose $A$ (acute), $b$ and the side $a$ opposite $A$ are given, and $h=b\\sin A$:\n- $a<h$: no triangle, since the side cannot reach the base.\n- $a=h$: one right triangle.\n- $h<a<b$: two triangles.\n- $a\\ge b$: one triangle.\n\nExample: $A=30^\\circ$, $b=10$, $a=7$ gives $h=5$, so there are two triangles. The law of sines gives $\\sin B=\\dfrac{10\\sin30^\\circ}{7}\\approx0.714$, so $B\\approx45.6^\\circ$ or $B\\approx134.4^\\circ$, and both leave a positive angle $C$ ($104.4^\\circ$ or $15.6^\\circ$).\n\nWhy: $\\sin B$ has two solutions between $0^\\circ$ and $180^\\circ$, namely $B$ and $180^\\circ-B$.",
+      "searchQuery": "ambiguous case SSA zero one two triangles law of sines",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Geometric Applications of Trigonometry (Law of Sines)"
+      ]
+    },
+    {
+      "id": "trig-arcsine-definition",
+      "unit": "inverse-trig-functions",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define **arcsine**: what angle is $\\arcsin x$, and what are its domain and range?",
+      "body": "$\\arcsin x$ is the unique angle $y\\in\\left[-\\tfrac{\\pi}{2},\\tfrac{\\pi}{2}\\right]$ with $\\sin y=x$; its domain is $[-1,1]$ and its range is $\\left[-\\tfrac{\\pi}{2},\\tfrac{\\pi}{2}\\right]$.\n\nIt is the inverse of sine restricted to $\\left[-\\tfrac{\\pi}{2},\\tfrac{\\pi}{2}\\right]$, where sine is increasing and one-to-one. The single answer returned is called the **principal value**.\n\nExample: $\\arcsin\\tfrac12=\\tfrac{\\pi}{6}$ and $\\arcsin(-1)=-\\tfrac{\\pi}{2}$. Another angle with sine $\\tfrac12$, such as $\\tfrac{5\\pi}{6}$, is not the principal value.\n\nWatch out: $\\arcsin x$ (also written $\\sin^{-1}x$) is an angle, not the reciprocal $\\dfrac{1}{\\sin x}$.",
+      "searchQuery": "arcsine definition domain range principal value",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (Inverse Circular Functions)",
+        "Gelfand-Saul, Trigonometry (inverse functions and trigonometric equations)"
+      ]
+    },
+    {
+      "id": "trig-arccosine-definition",
+      "unit": "inverse-trig-functions",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "Define **arccosine**: what angle is $\\arccos x$, and what are its domain and range?",
+      "body": "$\\arccos x$ is the unique angle $y\\in[0,\\pi]$ with $\\cos y=x$; its domain is $[-1,1]$ and its range is $[0,\\pi]$.\n\nIt is the inverse of cosine restricted to $[0,\\pi]$, where cosine falls from $1$ to $-1$ and is one-to-one. The interval $\\left[-\\tfrac{\\pi}{2},\\tfrac{\\pi}{2}\\right]$ would not work, because cosine there goes up and then down and repeats values.\n\nExample: $\\arccos\\left(-\\tfrac12\\right)=\\tfrac{2\\pi}{3}$ and $\\arccos0=\\tfrac{\\pi}{2}$.\n\nWatch out: the range of arccosine is $[0,\\pi]$, so its output can be in the second quadrant but never negative.",
+      "searchQuery": "arccosine definition domain range 0 to pi",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (Inverse Circular Functions)",
+        "Gelfand-Saul, Trigonometry (inverse functions and trigonometric equations)"
+      ]
+    },
+    {
+      "id": "trig-why-restrict-domain-arctan",
+      "unit": "inverse-trig-functions",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why must sine, cosine and tangent be restricted before they have inverses, and what are the domain and range of $\\arctan$ (the **arctangent**)?",
+      "body": "They repeat their values, so they fail the horizontal line test; each is cut to one piece where it is one-to-one. $\\arctan x$ has domain $\\mathbb{R}$ and range $\\left(-\\tfrac{\\pi}{2},\\tfrac{\\pi}{2}\\right)$.\n\nWhy: a function has an inverse only if it is one-to-one. Sine, cosine and tangent each take every value infinitely often, so we keep one stretch on which every value occurs exactly once. This choice defines the principal values.\n\nKey idea: tangent is increasing on $\\left(-\\tfrac{\\pi}{2},\\tfrac{\\pi}{2}\\right)$ and takes every real value there, so the arctangent accepts every real number. Its graph has horizontal asymptotes $y=\\pm\\tfrac{\\pi}{2}$, and for example $\\arctan1=\\tfrac{\\pi}{4}$.",
+      "searchQuery": "why restrict domain inverse trig arctan range one-to-one",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (Inverse Circular Functions)",
+        "Gelfand-Saul, Trigonometry (inverse functions and trigonometric equations)"
+      ]
+    },
+    {
+      "id": "trig-cos-arcsin-example",
+      "unit": "inverse-trig-functions",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Find the exact value of $\\cos\\left(\\arcsin\\left(-\\tfrac{5}{13}\\right)\\right)$.",
+      "body": "12/13\n\nLet $y=\\arcsin\\left(-\\tfrac{5}{13}\\right)$. Then $y$ lies in $\\left[-\\tfrac{\\pi}{2},\\tfrac{\\pi}{2}\\right]$ and $\\sin y=-\\tfrac{5}{13}$.\n\nStep 1: by the Pythagorean identity, $\\cos^2y=1-\\tfrac{25}{169}=\\tfrac{144}{169}$, so $\\cos y=\\pm\\tfrac{12}{13}$.\n\nStep 2: choose the sign from the range. On $\\left[-\\tfrac{\\pi}{2},\\tfrac{\\pi}{2}\\right]$ cosine is never negative, so $\\cos y=+\\tfrac{12}{13}$.\n\nTip: a $5$-$12$-$13$ triangle gives the same numbers. Always take the sign from the range of the inverse function.",
+      "searchQuery": "cos of arcsin negative 5/13 exact value",
+      "answer": "12/13",
+      "acceptedAnswers": [
+        "0.9231"
+      ],
+      "answerDisplay": "$\\dfrac{12}{13}$",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (Inverse Circular Functions)"
+      ]
+    },
+    {
+      "id": "trig-general-solution-quadratic-in-sine-problem",
+      "unit": "inverse-trig-functions",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Find the **general solution** of $2\\sin^2x-\\sin x-1=0$, that is, all real solutions.",
+      "body": "$x=\\dfrac{\\pi}{2}+2\\pi n$, $x=\\dfrac{7\\pi}{6}+2\\pi n$ or $x=\\dfrac{11\\pi}{6}+2\\pi n$, for $n\\in\\mathbb{Z}$.\n\nStep 1: treat $\\sin x$ as the unknown and factor: $2\\sin^2x-\\sin x-1=(2\\sin x+1)(\\sin x-1)=0$.\n\nStep 2: so $\\sin x=-\\tfrac12$ or $\\sin x=1$.\n\nStep 3: on one turn, $\\sin x=1$ at $x=\\tfrac{\\pi}{2}$, and $\\sin x=-\\tfrac12$ at $x=\\tfrac{7\\pi}{6}$ and $x=\\tfrac{11\\pi}{6}$ (reference angle $\\tfrac{\\pi}{6}$ in the third and fourth quadrants).\n\nStep 4: sine has period $2\\pi$, so add $2\\pi n$ with $n\\in\\mathbb{Z}$ to each.\n\nWatch out: $\\arcsin\\left(-\\tfrac12\\right)=-\\tfrac{\\pi}{6}$ gives only one solution per turn. The second solution, $\\pi-\\left(-\\tfrac{\\pi}{6}\\right)=\\tfrac{7\\pi}{6}$, comes from the symmetry of the circle.",
+      "searchQuery": "general solution trig equation 2 sin squared x minus sin x minus 1",
+      "checkpoint": true,
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (Equations and Inequalities)",
+        "Gelfand-Saul, Trigonometry (inverse functions and trigonometric equations)"
+      ]
+    },
+    {
+      "id": "trig-arcsin-sin-misconception",
+      "unit": "inverse-trig-functions",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that $\\arcsin(\\sin x)=x$ for every real $x$?",
+      "body": "$\\arcsin(\\sin x)=x$ only when $x\\in\\left[-\\tfrac{\\pi}{2},\\tfrac{\\pi}{2}\\right]$; for other $x$ it returns the angle in that interval with the same sine.\n\nExample: $x=\\tfrac{5\\pi}{6}$ has $\\sin x=\\tfrac12$, and $\\arcsin\\tfrac12=\\tfrac{\\pi}{6}$, not $\\tfrac{5\\pi}{6}$. Likewise $\\arcsin(\\sin2\\pi)=\\arcsin0=0$.\n\nWhy: sine is not one-to-one on $\\mathbb{R}$, and arcsine undoes only the restricted piece. The undoing in the other order does work: $\\sin(\\arcsin x)=x$ for every $x\\in[-1,1]$.\n\nTip: to simplify $\\arcsin(\\sin x)$ for a given $x$, find the angle in $\\left[-\\tfrac{\\pi}{2},\\tfrac{\\pi}{2}\\right]$ with the same sine, using the reference angle and periodicity.",
+      "searchQuery": "arcsin of sin x not equal x restricted domain",
+      "refs": [
+        "Stitz-Zeager, Precalculus 4i, Analytical Trigonometry (Inverse Circular Functions)"
+      ]
+    }
+  ]
+}

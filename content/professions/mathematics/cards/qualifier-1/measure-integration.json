@@ -1,0 +1,1120 @@
+{
+  "profession": "mathematics",
+  "module": "measure-integration",
+  "tier": 5,
+  "partial": true,
+  "cards": [
+    {
+      "id": "measure-sigma-algebra-definition",
+      "unit": "outer-measure-caratheodory",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define a **σ-algebra** on a set $X$.",
+      "body": "A family $\\mathcal{M}$ of subsets of $X$ with $X\\in\\mathcal{M}$, closed under complements and under countable unions.\n\nClosure then gives $\\emptyset\\in\\mathcal{M}$, countable intersections (De Morgan) and differences. A pair $(X,\\mathcal{M})$ is a measurable space and the members of $\\mathcal{M}$ are the measurable sets.\n\nKey idea: an intersection of σ-algebras is a σ-algebra, so every family $\\mathcal{E}$ lies in a smallest σ-algebra, the one **generated** by $\\mathcal{E}$, written $\\sigma(\\mathcal{E})$. Most constructions in this module name a generating family and never list the sets.\n\nWatch out: an algebra (closed under complements and finite unions only) is weaker. The finite disjoint unions of intervals $(a,b]$ with $-\\infty\\le a<b\\le\\infty$ (reading $(a,\\infty]$ as $(a,\\infty)$) form an algebra on $\\mathbb{R}$, but $(0,1)=\\bigcup_n(0,1-\\tfrac1n]$ is a countable union of members that is not a member.",
+      "searchQuery": "sigma-algebra definition measurable space",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-measure-definition",
+      "unit": "outer-measure-caratheodory",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define a **measure** on a measurable space $(X,\\mathcal{M})$.",
+      "body": "A map $\\mu:\\mathcal{M}\\to[0,\\infty]$ with $\\mu(\\emptyset)=0$ and $\\mu\\big(\\bigsqcup_j E_j\\big)=\\sum_j\\mu(E_j)$ for every sequence of pairwise disjoint $E_j\\in\\mathcal{M}$.\n\nThe triple $(X,\\mathcal{M},\\mu)$ is a measure space. Monotonicity, finite additivity and countable subadditivity $\\mu(\\bigcup E_j)\\le\\sum\\mu(E_j)$ follow. A probability space is the case $\\mu(X)=1$.\n\nExample: counting measure ($\\mu(E)$ is the number of elements of $E$, and $\\infty$ if $E$ is infinite), and the Dirac measure $\\delta_x(E)=1$ if $x\\in E$ and $0$ otherwise.\n\nWatch out: the additivity must be countable. Finite additivity alone is much weaker. No finitely additive $\\mu$ on all subsets of $\\mathbb{N}$ with $\\mu(\\mathbb{N})=1$ and $\\mu(\\{k\\})=0$ for all $k$ can be countably additive, because $\\mathbb{N}=\\bigsqcup_k\\{k\\}$ would give $1=0$.",
+      "searchQuery": "measure definition countable additivity",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-continuity-below-above",
+      "unit": "outer-measure-caratheodory",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State **continuity from below** and **continuity from above** for a measure $\\mu$ on $(X,\\mathcal{M})$, including the finiteness hypothesis in the second.",
+      "body": "If $E_1\\subseteq E_2\\subseteq\\cdots$ in $\\mathcal{M}$ then $\\mu(\\bigcup_jE_j)=\\lim_n\\mu(E_n)$; if $E_1\\supseteq E_2\\supseteq\\cdots$ in $\\mathcal{M}$ and $\\mu(E_1)<\\infty$ then $\\mu(\\bigcap_jE_j)=\\lim_n\\mu(E_n)$.\n\nKey idea: the first is countable additivity in disguise; the second follows from the first by taking complements inside $E_1$.\n\nWatch out: finiteness is needed. On $\\mathbb{Z}_{>0}$ with counting measure, $E_n=\\{n,n+1,\\dots\\}$ decreases to $\\emptyset$, yet $\\mu(E_n)=\\infty$ for every $n$. It suffices that $\\mu(E_N)<\\infty$ for some $N$.\n\nTip: in probability this is the statement $P(A_n)\\to P(\\bigcap A_j)$ for decreasing events, which is always available because $P$ is finite.",
+      "searchQuery": "continuity of measure from below from above",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-continuity-proof-idea",
+      "unit": "outer-measure-caratheodory",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline the proof of continuity of a measure from below and from above.",
+      "body": "Disjointify to get continuity from below from countable additivity, then apply it to the increasing sets $E_1\\setminus E_n$ to get continuity from above.\n\n1. Set $F_1=E_1$ and $F_j=E_j\\setminus E_{j-1}$. These are disjoint members of $\\mathcal{M}$ with $\\bigsqcup_{j\\le n}F_j=E_n$ and $\\bigsqcup_jF_j=\\bigcup_jE_j$.\n2. Countable additivity: $\\mu(\\bigcup E_j)=\\sum_j\\mu(F_j)=\\lim_n\\sum_{j\\le n}\\mu(F_j)=\\lim_n\\mu(E_n)$.\n3. For decreasing $E_n$ put $G_n=E_1\\setminus E_n$, an increasing sequence with union $E_1\\setminus\\bigcap_jE_j$.\n4. Since $\\mu(E_1)<\\infty$, $\\mu(G_n)=\\mu(E_1)-\\mu(E_n)$ and $\\mu(E_1\\setminus\\bigcap E_j)=\\mu(E_1)-\\mu(\\bigcap E_j)$.\n5. Apply step 2 to $G_n$ and cancel the finite number $\\mu(E_1)$.\n\nWatch out: step 4 is the only place finiteness is used. If $\\mu(E_1)=\\infty$ the subtraction is meaningless.",
+      "searchQuery": "proof continuity of measures disjointification",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-outer-measure-definition",
+      "unit": "outer-measure-caratheodory",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define an **outer measure** on a set $X$.",
+      "body": "A map $\\mu^*:\\mathcal{P}(X)\\to[0,\\infty]$ with $\\mu^*(\\emptyset)=0$, monotone ($A\\subseteq B\\Rightarrow\\mu^*(A)\\le\\mu^*(B)$), and countably subadditive ($\\mu^*(\\bigcup_jA_j)\\le\\sum_j\\mu^*(A_j)$).\n\nIt is defined on every subset, but only subadditive, so it is not yet a measure.\n\nExample: let $\\mathcal{E}$ be a family of subsets containing $\\emptyset$ and $X$, and $\\rho:\\mathcal{E}\\to[0,\\infty]$ with $\\rho(\\emptyset)=0$. Then $\\mu^*(A)=\\inf\\{\\sum_j\\rho(E_j):E_j\\in\\mathcal{E},\\,A\\subseteq\\bigcup_jE_j\\}$ is an outer measure. This \"cover and add up\" recipe produces Lebesgue measure, product measures and the extension of a premeasure.\n\nWhy: Carathéodory's theorem (below) cuts an outer measure down to a σ-algebra on which it is genuinely additive.",
+      "searchQuery": "outer measure definition subadditive monotone",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-caratheodory-measurable-definition",
+      "unit": "outer-measure-caratheodory",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define when $E\\subseteq X$ is **Carathéodory measurable** (μ*-measurable) for an outer measure $\\mu^*$ on $X$.",
+      "body": "$\\mu^*(A)=\\mu^*(A\\cap E)+\\mu^*(A\\cap E^c)$ for every subset $A\\subseteq X$.\n\nSubadditivity already gives $\\le$, so only $\\ge$ needs checking, and only for $\\mu^*(A)<\\infty$ (otherwise it is automatic). The sets $A$ are called test sets and are completely arbitrary subsets of $X$, not required to be measurable.\n\nExample: if $\\mu^*(E)=0$ then $E$ is measurable: $\\mu^*(A\\cap E)=0$ and $\\mu^*(A\\cap E^c)\\le\\mu^*(A)$.\n\nWhy: the definition asks that $E$ cut every set additively. It involves no topology and no geometry, which is what lets one construction serve every setting.\n\nWatch out: the test sets must range over all subsets. Restricting them to subsets of $E$ makes the condition empty: then $A\\cap E=A$ and $A\\cap E^c=\\emptyset$, so every $E$ would pass.",
+      "searchQuery": "Caratheodory measurable set definition outer measure",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-caratheodory-theorem",
+      "unit": "outer-measure-caratheodory",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State **Carathéodory's theorem** for an outer measure $\\mu^*$ on $X$. (A measure is **complete** if every subset of a measurable set of measure $0$ is measurable.)",
+      "body": "The μ*-measurable sets form a σ-algebra $\\mathcal{M}$, and $\\mu^*|_{\\mathcal{M}}$ is a complete measure.\n\nCompleteness is immediate: if $\\mu^*(N)=0$ and $B\\subseteq N$ then $\\mu^*(B)=0$ by monotonicity, so $B$ is measurable by the example on the previous definition.\n\nWhy it matters: every outer measure becomes a measure on a σ-algebra with no further work, which is how Lebesgue, Lebesgue–Stieltjes and product measures are built.\n\nWatch out: $\\mu^*$ itself is not additive on all of $\\mathcal{P}(X)$ in general. For Lebesgue outer measure on $\\mathbb{R}$ the σ-algebra $\\mathcal{M}$ is a proper subset of $\\mathcal{P}(\\mathbb{R})$ (a later card).",
+      "searchQuery": "Caratheodory theorem outer measure sigma-algebra complete measure",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-caratheodory-proof-idea",
+      "unit": "outer-measure-caratheodory",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline the proof of Carathéodory's theorem: why are the μ*-measurable sets a σ-algebra with $\\mu^*$ countably additive on them?",
+      "body": "Use the test-set identity to get an algebra and finite additivity, then pass to countable disjoint unions with one limiting inequality.\n\n1. Complements: the definition is symmetric in $E$ and $E^c$.\n2. Unions: for measurable $E,F$ and any test set $A$, split $A$ by $E$ and then $A\\cap E^c$ by $F$. Since $A\\cap(E\\cup F)=(A\\cap E)\\cup(A\\cap E^c\\cap F)$, subadditivity gives $\\mu^*(A)\\ge\\mu^*(A\\cap(E\\cup F))+\\mu^*(A\\cap(E\\cup F)^c)$. So the measurable sets form an algebra.\n3. Additivity with test sets: for disjoint measurable $E_1,\\dots,E_n$, $\\mu^*(A\\cap\\bigsqcup_{j\\le n}E_j)=\\sum_{j\\le n}\\mu^*(A\\cap E_j)$ (test with $E_n$ and induct).\n4. Let $E=\\bigsqcup_jE_j$ and $G_n=\\bigsqcup_{j\\le n}E_j$. Then $\\mu^*(A)=\\mu^*(A\\cap G_n)+\\mu^*(A\\cap G_n^c)\\ge\\sum_{j\\le n}\\mu^*(A\\cap E_j)+\\mu^*(A\\cap E^c)$. Let $n\\to\\infty$ and use countable subadditivity: $\\mu^*(A)\\ge\\mu^*(A\\cap E)+\\mu^*(A\\cap E^c)$.\n5. Taking $A=E$ in step 4 gives countable additivity. Any countable union becomes a disjoint one by disjointifying within the algebra.\n\nKey idea: the test set $A$ is arbitrary, which lets you transport additivity through the intersections in steps 3 and 4.",
+      "searchQuery": "Caratheodory theorem proof test set additivity",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-completion-of-measure-example",
+      "unit": "outer-measure-caratheodory",
+      "kind": "example",
+      "difficulty": 6,
+      "title": "The **completion** of $(X,\\mathcal{M},\\mu)$ adds every subset of a null set to the σ-algebra. Let $\\mathcal{M}$ be the countable–cocountable σ-algebra of $\\mathbb{R}$ (sets $E$ with $E$ or $E^c$ countable) and $\\mu=\\delta_0$ the Dirac measure at $0$. Which sets are measurable in the completion?",
+      "body": "Every subset of $\\mathbb{R}$, with $\\bar\\mu(A)=1$ if $0\\in A$ and $\\bar\\mu(A)=0$ otherwise.\n\nGeneral description: $\\overline{\\mathcal{M}}=\\{E\\cup F:E\\in\\mathcal{M},\\ F\\subseteq N\\text{ for some }N\\in\\mathcal{M}\\text{ with }\\mu(N)=0\\}$ and $\\bar\\mu(E\\cup F)=\\mu(E)$. This is a σ-algebra, $\\bar\\mu$ is well defined and complete, and it is the smallest complete extension of $\\mu$.\n\nComputation: $\\mathbb{R}\\setminus\\{0\\}$ is cocountable, so it lies in $\\mathcal{M}$ and has $\\delta_0$-measure $0$. Hence every subset of it is in $\\overline{\\mathcal{M}}$. Any $A\\subseteq\\mathbb{R}$ is $(A\\setminus\\{0\\})\\cup(A\\cap\\{0\\})$ and $\\{0\\}\\in\\mathcal{M}$, so $A\\in\\overline{\\mathcal{M}}$.\n\nWatch out: completing enlarges the σ-algebra but never changes the value on an old set. For length measure on the Borel sets of $\\mathbb{R}$ the completion is the Lebesgue σ-algebra of the next unit.",
+      "searchQuery": "completion of a measure null sets complete measure",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-outer-measure-countable-cocountable",
+      "unit": "outer-measure-caratheodory",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "Let $X$ be uncountable and define $\\mu^*(A)=0$ if $A$ is countable and $\\mu^*(A)=1$ otherwise. Show that $\\mu^*$ is an outer measure, find all μ*-measurable sets, and describe the resulting measure.",
+      "body": "The measurable sets are exactly the countable and cocountable sets, and $\\mu$ is $0$ on countable sets and $1$ on cocountable sets.\n\nOuter measure: $\\mu^*(\\emptyset)=0$ and monotonicity are clear. For subadditivity, if every $A_j$ is countable so is $\\bigcup A_j$ and both sides are $0$; otherwise some $A_j$ is uncountable, the right side is at least $1$ and the left side is at most $1$.\n\nCountable or cocountable sets are measurable: let $E$ be countable and $A$ any set. If $A$ is countable, all three terms are $0$. If $A$ is uncountable then $A\\cap E^c$ is uncountable, so $\\mu^*(A)=1=0+1$. The cocountable case is the same with $E$ and $E^c$ exchanged.\n\nNo other set is measurable: if $E$ and $E^c$ are both uncountable, test with $A=X$: $\\mu^*(X)=1$ but $\\mu^*(X\\cap E)+\\mu^*(X\\cap E^c)=2$.\n\nThe measure is complete, since subsets of null (countable) sets are countable. Watch out: the answer needs $X$ uncountable. For countable $X$ the outer measure is identically $0$ and every set is measurable.",
+      "searchQuery": "countable cocountable outer measure Caratheodory measurable sets",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-caratheodory-hahn-extension-theorem",
+      "unit": "outer-measure-caratheodory",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State the **Carathéodory–Hahn extension theorem**. Let $\\mu_0$ be a **premeasure** on an algebra $\\mathcal{A}$ of subsets of $X$ (so $\\mu_0:\\mathcal{A}\\to[0,\\infty]$, $\\mu_0(\\emptyset)=0$, and $\\mu_0(\\bigsqcup A_j)=\\sum\\mu_0(A_j)$ whenever the $A_j\\in\\mathcal{A}$ are disjoint and $\\bigsqcup A_j\\in\\mathcal{A}$). What measure extends it, and when is the extension unique?",
+      "body": "With $\\mu^*(E)=\\inf\\{\\sum_j\\mu_0(A_j):A_j\\in\\mathcal{A},\\,E\\subseteq\\bigcup_jA_j\\}$, the restriction of $\\mu^*$ to $\\sigma(\\mathcal{A})$ is a measure extending $\\mu_0$, and it is the only extension if $\\mu_0$ is σ-finite.\n\nσ-finite means $X=\\bigcup_jA_j$ with $A_j\\in\\mathcal{A}$ and $\\mu_0(A_j)<\\infty$.\n\nWhy: three facts are checked. $\\mu^*$ is an outer measure (the cover-and-add recipe); every $A\\in\\mathcal{A}$ is μ*-measurable; $\\mu^*=\\mu_0$ on $\\mathcal{A}$. Only the last uses countable additivity of $\\mu_0$. Then Carathéodory's theorem gives $\\sigma(\\mathcal{A})\\subseteq\\mathcal{M}$.\n\nWatch out: σ-finiteness cannot be dropped. On $\\mathbb{Q}$, let $\\mathcal{A}$ be the finite unions of sets $\\mathbb{Q}\\cap(a,b]$ with $-\\infty\\le a<b\\le\\infty$, and $\\mu_0(A)=\\infty$ for $A\\ne\\emptyset$. This is a premeasure, $\\sigma(\\mathcal{A})=\\mathcal{P}(\\mathbb{Q})$, and both counting measure and twice counting measure extend it.",
+      "searchQuery": "Caratheodory Hahn extension theorem premeasure sigma-finite unique",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-extension-uniqueness-proof-idea",
+      "unit": "outer-measure-caratheodory",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline why the extension in the Carathéodory–Hahn theorem is unique when $\\mu_0$ is σ-finite.",
+      "body": "Any other extension $\\nu$ satisfies $\\nu\\le\\mu$ on $\\sigma(\\mathcal{A})$ with equality when $\\mu(E)<\\infty$, and σ-finiteness lets the finite case cover everything.\n\nLet $\\mu$ be the extension from the theorem and $\\nu$ another measure on $\\sigma(\\mathcal{A})$ with $\\nu=\\mu_0$ on $\\mathcal{A}$.\n\n1. If $E\\subseteq\\bigcup A_j$ with $A_j\\in\\mathcal{A}$, then $\\nu(E)\\le\\sum\\nu(A_j)=\\sum\\mu_0(A_j)$. Taking the infimum over covers, $\\nu(E)\\le\\mu(E)$.\n2. Suppose $\\mu(E)<\\infty$ and $\\varepsilon>0$. Choose a cover with $\\sum\\mu_0(A_j)<\\mu(E)+\\varepsilon$ and put $A=\\bigcup A_j$. The sets $\\bigcup_{j\\le n}A_j\\in\\mathcal{A}$ increase to $A$, and $\\mu=\\nu$ on them, so continuity from below gives $\\mu(A)=\\nu(A)<\\mu(E)+\\varepsilon$.\n3. By step 1, $\\nu(A\\setminus E)\\le\\mu(A\\setminus E)$. All quantities are finite, so $\\nu(E)=\\nu(A)-\\nu(A\\setminus E)\\ge\\mu(A)-\\mu(A\\setminus E)=\\mu(E)$. Hence $\\nu(E)=\\mu(E)$.\n4. By σ-finiteness write $X=\\bigsqcup B_j$ with $B_j\\in\\mathcal{A}$ and $\\mu_0(B_j)<\\infty$. For any $E$, $\\mu(E)=\\sum\\mu(E\\cap B_j)=\\sum\\nu(E\\cap B_j)=\\nu(E)$.\n\nWatch out: step 3 subtracts, which is why the finiteness in step 2 matters.",
+      "searchQuery": "uniqueness of extension of premeasure sigma-finite proof",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-lebesgue-stieltjes-premeasure-problem",
+      "unit": "outer-measure-caratheodory",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "Let $F:\\mathbb{R}\\to\\mathbb{R}$ be increasing (nondecreasing) and right-continuous. On the algebra $\\mathcal{A}$ of finite disjoint unions of intervals $(a,b]$ with $-\\infty\\le a<b\\le\\infty$ (read $(a,\\infty]$ as $(a,\\infty)$), set $\\mu_0(\\bigsqcup(a_i,b_i])=\\sum(F(b_i)-F(a_i))$, with $F(\\pm\\infty)=\\lim_{x\\to\\pm\\infty}F(x)$. Show that $\\mu_0$ is a premeasure, say where right-continuity is used, and conclude that a **Lebesgue–Stieltjes measure** $\\mu_F$ with $\\mu_F((a,b])=F(b)-F(a)$ exists and is unique.",
+      "body": "The key case is $(a,b]=\\bigsqcup_j(a_j,b_j]$ with $a,b$ finite: right-continuity plus compactness give $F(b)-F(a)\\le\\sum_j(F(b_j)-F(a_j))$, and monotonicity gives $\\ge$.\n\nReduction: finite additivity and independence of the decomposition come from sorting endpoints. To prove countable additivity it is enough to treat one interval split into countably many (intersect the pieces of a finite union with each interval). Unbounded intervals follow by letting $a\\to-\\infty$, $b\\to\\infty$ in the bounded case.\n\n($\\ge$) For each $N$, the first $N$ pieces are disjoint subintervals of $(a,b]$, so $\\sum_{j\\le N}(F(b_j)-F(a_j))\\le F(b)-F(a)$ because $F$ is increasing.\n\n($\\le$) Fix $\\varepsilon>0$. Right-continuity at $a$ gives $a'\\in(a,b)$ with $F(a')-F(a)<\\varepsilon$. Right-continuity at $b_j$ gives $\\delta_j>0$ with $F(b_j+\\delta_j)-F(b_j)<\\varepsilon2^{-j}$. The open intervals $(a_j,b_j+\\delta_j)$ cover the compact set $[a',b]$, so finitely many do. Finite subadditivity of $F$-length gives $F(b)-F(a')\\le\\sum_{\\text{finite}}(F(b_j+\\delta_j)-F(a_j))\\le\\sum_j(F(b_j)-F(a_j))+\\varepsilon$. Hence $F(b)-F(a)\\le\\sum_j(F(b_j)-F(a_j))+2\\varepsilon$.\n\nConclusion: Carathéodory–Hahn gives $\\mu_F$ on the σ-algebra generated by the intervals $(a,b]$. It is unique because $\\mathbb{R}=\\bigsqcup_n(n,n+1]$ makes $\\mu_0$ σ-finite.\n\nWatch out: without right-continuity the formula fails. For the indicator $F=\\chi_{(0,\\infty)}$ ($1$ for $x>0$, $0$ for $x\\le0$) one would need $\\mu((0,\\tfrac1n])=1$ for all $n$ yet $\\mu(\\emptyset)=0$.",
+      "searchQuery": "Lebesgue Stieltjes measure premeasure right-continuous construction",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-lebesgue-stieltjes-floor-example",
+      "unit": "outer-measure-caratheodory",
+      "kind": "example",
+      "difficulty": 6,
+      "title": "For an increasing right-continuous $F:\\mathbb{R}\\to\\mathbb{R}$, the **Lebesgue–Stieltjes measure** $\\mu_F$ is the unique measure on the σ-algebra generated by the intervals $(a,b]$ with $\\mu_F((a,b])=F(b)-F(a)$. What is $\\mu_F$ for $F(x)=\\lfloor x\\rfloor$?",
+      "body": "Counting measure on $\\mathbb{Z}$: $\\mu_F(E)=|E\\cap\\mathbb{Z}|$.\n\nCheck: $\\mu_F((a,b])=\\lfloor b\\rfloor-\\lfloor a\\rfloor$ is the number of integers in $(a,b]$, and counting measure on $\\mathbb{Z}$ has the same values on these intervals, so uniqueness identifies them.\n\nKey idea: single points carry the jumps. Since $\\{x\\}=\\bigcap_n(x-\\tfrac1n,x]$ and the measures are finite, continuity from above gives $\\mu_F(\\{x\\})=F(x)-\\lim_{t\\uparrow x}F(t)$. A continuous $F$ gives a measure with no point masses.\n\nFurther cases: $F(x)=x$ gives length measure; the indicator $F=\\chi_{[0,\\infty)}$ ($1$ for $x\\ge0$, $0$ for $x<0$) gives $\\delta_0$.\n\nWatch out: right-continuity is a normalization. A left-continuous $F$ with the same jumps does not satisfy $\\mu((a,b])=F(b)-F(a)$ at jump points; replace it by its right-continuous version $F(x^+)$ first.",
+      "searchQuery": "Lebesgue Stieltjes measure floor function counting measure integers",
+      "refs": [
+        "Folland, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-lebesgue-measure-definition",
+      "unit": "lebesgue-measure",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define **Lebesgue measure** on $\\mathbb{R}^n$ through an outer measure.",
+      "body": "$m^*(E)=\\inf\\{\\sum_j|Q_j|:E\\subseteq\\bigcup_jQ_j\\}$ over countable covers by closed boxes $Q_j$, where $|Q|$ is the product of the side lengths; $m$ is $m^*$ restricted to the Carathéodory measurable (\"Lebesgue measurable\") sets.\n\nThis is the cover-and-add recipe with boxes and their volumes. By Carathéodory's theorem the Lebesgue measurable sets form a σ-algebra and $m$ is a complete measure. Boxes are measurable and $m(Q)=|Q|$; the latter needs a compactness argument.\n\nOn $\\mathbb{R}$ this is the completion of the Lebesgue–Stieltjes measure for $F(x)=x$.\n\nWatch out: $m^*$ is defined for every subset and is countably additive on the measurable sets, but not on all of $\\mathcal{P}(\\mathbb{R}^n)$. The Vitali set (below) shows the σ-algebra is a proper subset of $\\mathcal{P}(\\mathbb{R}^n)$.",
+      "searchQuery": "Lebesgue measure definition outer measure boxes",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-borel-sigma-algebra",
+      "unit": "lebesgue-measure",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define the **Borel σ-algebra** of a topological space $X$.",
+      "body": "The smallest σ-algebra containing all open subsets of $X$ (equivalently, all closed subsets).\n\nIts members are the Borel sets. On $\\mathbb{R}$ it is generated by the open intervals, by the rays $(a,\\infty)$, or by the intervals $(a,b]$, since every open set is a countable union of intervals with rational endpoints. It contains all countable unions of closed sets ($F_\\sigma$) and countable intersections of open sets ($G_\\delta$).\n\nWhy it matters: Borel sets are the sets one can write down by countable operations. Every Borel set is Lebesgue measurable, and a Lebesgue measurable set is a Borel set plus a subset of a null Borel set (regularity, next).\n\nWatch out: Borel is strictly smaller than Lebesgue measurable (see the counterexample below), so \"Borel measurable\" and \"Lebesgue measurable\" function are different notions.",
+      "searchQuery": "Borel sigma-algebra generated by open sets",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-lebesgue-regularity-theorem",
+      "unit": "lebesgue-measure",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State the **regularity** theorem for Lebesgue measure $m$ on $\\mathbb{R}^n$.",
+      "body": "For every Lebesgue measurable $E$: $m(E)=\\inf\\{m(U):U\\supseteq E\\text{ open}\\}=\\sup\\{m(K):K\\subseteq E\\text{ compact}\\}$.\n\nEquivalent forms: for every $\\varepsilon>0$ there are an open $U\\supseteq E$ with $m(U\\setminus E)<\\varepsilon$ and a closed $F\\subseteq E$ with $m(E\\setminus F)<\\varepsilon$. Hence every measurable set is a $G_\\delta$ set minus a null set, and an $F_\\sigma$ set plus a null set.\n\nWhy it matters: it reduces questions about measurable sets to open and compact sets, where one can use geometry and compactness (Steinhaus's theorem, density of continuous functions).\n\nWatch out: outer regularity is essentially the definition of $m^*$, but inner regularity genuinely needs measurability. For a non-measurable set the supremum over compact subsets and the infimum over open supersets can differ.",
+      "searchQuery": "Lebesgue measure regularity open supersets compact subsets",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-lebesgue-regularity-proof-idea",
+      "unit": "lebesgue-measure",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline the proof of regularity of Lebesgue measure.",
+      "body": "Fatten a near-optimal box cover into an open set, then apply that to the complement for the inner approximation.\n\n1. Outer: if $m(E)<\\infty$, cover $E$ by boxes $Q_j$ with $\\sum|Q_j|<m(E)+\\varepsilon/2$, and enlarge each to an open box $Q_j^\\circ\\supseteq Q_j$ with $|Q_j^\\circ|<|Q_j|+\\varepsilon2^{-j-1}$. Then $U=\\bigcup Q_j^\\circ$ is open, $E\\subseteq U$ and $m(U)<m(E)+\\varepsilon$. For measurable $E$ of finite measure subtraction gives $m(U\\setminus E)<\\varepsilon$.\n2. For $m(E)=\\infty$, split $E$ into the pieces $E_k=E\\cap\\{k-1\\le|x|<k\\}$, choose $U_k\\supseteq E_k$ open with $m(U_k\\setminus E_k)<\\varepsilon2^{-k}$, and take $U=\\bigcup U_k$.\n3. Inner: apply step 2 to $E^c$ to get an open $V\\supseteq E^c$ with $m(V\\setminus E^c)<\\varepsilon$. Then $F=V^c$ is closed, $F\\subseteq E$ and $m(E\\setminus F)=m(V\\setminus E^c)<\\varepsilon$.\n4. Compact: $K_k=F\\cap\\{|x|\\le k\\}$ is compact and $m(K_k)\\to m(F)$ by continuity from below. Applying this to the pieces $E\\cap\\{|x|\\le k\\}$ gives $\\sup m(K)=m(E)$ even when $m(E)=\\infty$.\n\nKey idea: measurability enters only through the subtraction $m(U\\setminus E)=m(U)-m(E)$ in step 1; step 3 reuses that step for the measurable set $E^c$.",
+      "searchQuery": "regularity Lebesgue measure proof open box cover",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-lebesgue-translation-dilation",
+      "unit": "lebesgue-measure",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State how Lebesgue measure on $\\mathbb{R}^n$ behaves under translations and dilations (**translation invariance** and scaling).",
+      "body": "If $E$ is Lebesgue measurable, $x\\in\\mathbb{R}^n$ and $c\\in\\mathbb{R}$, then $E+x$ and $cE$ are measurable, $m(E+x)=m(E)$ and $m(cE)=|c|^n\\,m(E)$.\n\nKey idea: translation maps boxes to boxes of equal volume and a dilation by $c$ maps boxes to boxes of volume $|c|^n|Q|$. So $m^*(A+x)=m^*(A)$ and $m^*(cA)=|c|^nm^*(A)$ for every set $A$, and the Carathéodory test condition transfers.\n\nExample: doubling all lengths in the plane multiplies area by $4$.\n\nWatch out: the exponent is $n$, not $1$. Also $c=0$ is allowed with the convention $0\\cdot\\infty=0$, since $0E$ is a point.\n\nWhy it matters: translation invariance, together with finiteness on bounded sets, characterizes $m$ up to a constant (used for linear maps below).",
+      "searchQuery": "Lebesgue measure translation invariance scaling",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-lebesgue-linear-maps",
+      "unit": "lebesgue-measure",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "How does Lebesgue measure on $\\mathbb{R}^n$ change under a linear map $T:\\mathbb{R}^n\\to\\mathbb{R}^n$?",
+      "body": "$T(E)$ is measurable and $m(T(E))=|\\det T|\\,m(E)$ for every Lebesgue measurable $E\\subseteq\\mathbb{R}^n$.\n\nFor singular $T$ the image lies in a proper subspace, which is a null set, so both sides are $0$. For invertible $T$ this is the volume-scaling meaning of the determinant, now valid for all measurable sets and not only boxes.\n\nExample: rotations and reflections preserve $m$, and $\\operatorname{diag}(c,\\dots,c)$ recovers $m(cE)=|c|^nm(E)$.\n\nWatch out: linearity (or affineness) is essential. A general homeomorphism can send a Lebesgue measurable set, even a null set, to a non-measurable one. For nonlinear $C^1$ maps one needs the pointwise Jacobian, which is the change of variables formula in a later unit.",
+      "searchQuery": "Lebesgue measure linear transformation determinant scaling",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-lebesgue-linear-proof-idea",
+      "unit": "lebesgue-measure",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline the proof that $m(T(E))=|\\det T|\\,m(E)$ for an invertible linear map $T$.",
+      "body": "The set function $E\\mapsto m(T(E))$ is a translation-invariant Borel measure, so it is a constant multiple of $m$, and the constant is the volume of the image of the unit cube.\n\n1. $T$ is a homeomorphism, so $\\nu(E)=m(T(E))$ is defined on Borel sets, is a measure, and is finite on bounded sets.\n2. $\\nu(E+x)=m(T(E)+Tx)=\\nu(E)$, so $\\nu$ is translation invariant.\n3. Let $Q=[0,1)^n$ and $c=\\nu(Q)$. Splitting $Q$ into $2^{nk}$ translates of $2^{-k}Q$ gives $\\nu(2^{-k}Q)=c\\,2^{-nk}$, the same as $c\\,m$. So $\\nu=c\\,m$ on half-open dyadic cubes, hence (by countable additivity) on the algebra of finite disjoint unions of half-open boxes whose endpoints are dyadic rationals or $\\pm\\infty$; these generate the Borel sets, so uniqueness in the extension theorem (σ-finite case) gives $\\nu=c\\,m$ on Borel sets.\n4. $c=m(T(Q))$, the volume of a parallelepiped, which is $|\\det T|$.\n5. Lebesgue measurable sets are Borel sets modulo subsets of Borel null sets; $T$ and $T^{-1}$ preserve null Borel sets by step 4, so the formula passes to Lebesgue measurable $E$.\n\nWatch out: step 3 needs finiteness on bounded sets, which is why one cannot argue the same way for infinite translation-invariant measures such as counting measure on the Borel sets of $\\mathbb{R}$, which is translation invariant but not a multiple of $m$.",
+      "searchQuery": "proof linear map Lebesgue measure determinant translation invariant",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-vitali-set",
+      "unit": "lebesgue-measure",
+      "kind": "counterexample",
+      "difficulty": 6,
+      "title": "Exhibit a subset of $[0,1]$ that is not Lebesgue measurable (a **Vitali set**), and say what axiom the construction needs.",
+      "body": "A Vitali set $V\\subseteq[0,1]$: a set containing exactly one point from each coset $x+\\mathbb{Q}$ of $\\mathbb{Q}$ in $\\mathbb{R}$; choosing it needs the axiom of choice.\n\nWhy it is non-measurable: the translates $V+q$, $q\\in\\mathbb{Q}\\cap[-1,1]$, are pairwise disjoint (a common point would give two representatives of one coset), and $[0,1]\\subseteq\\bigcup_q(V+q)\\subseteq[-1,2]$. If $V$ were measurable, translation invariance and countable additivity would give $1\\le\\sum_qm(V)\\le3$. An infinite sum of one number $m(V)$ is $0$ or $\\infty$, contradiction.\n\nRole of choice: Solovay (1970) showed that if ZFC with an inaccessible cardinal is consistent, so is ZF plus dependent choice in which every set of reals is Lebesgue measurable. So some form of choice is genuinely needed.\n\nWatch out: the same argument shows no translation-invariant, countably additive measure on all subsets of $\\mathbb{R}$ can give $[0,1]$ the value $1$.",
+      "searchQuery": "Vitali set non-measurable axiom of choice",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-cantor-set-null-uncountable",
+      "unit": "lebesgue-measure",
+      "kind": "example",
+      "difficulty": 6,
+      "title": "Show that the middle-thirds **Cantor set** $C\\subseteq[0,1]$ is uncountable but has Lebesgue measure $0$.",
+      "body": "$C=\\bigcap_kC_k$ with $m(C_k)=(2/3)^k\\to0$, while ternary expansions using only the digits $0$ and $2$ give a bijection from $\\{0,2\\}^{\\mathbb{Z}_{>0}}$ onto $C$.\n\nHere $C_k$ is the union of $2^k$ closed intervals of length $3^{-k}$ left after $k$ rounds of deleting open middle thirds. Since $C\\subseteq C_k$, $m(C)\\le(2/3)^k$ for every $k$, so $m(C)=0$.\n\nPoints of $C$ are exactly $x=\\sum_{k\\ge1}a_k3^{-k}$ with every $a_k\\in\\{0,2\\}$; distinct digit sequences give distinct points. Diagonalization shows $\\{0,2\\}^{\\mathbb{Z}_{>0}}$ is uncountable.\n\nWatch out: null does not mean countable. $C$ is also closed and nowhere dense, so measure zero, uncountability and \"small\" in the topological sense all coexist. Next card: nowhere dense does not force measure zero.",
+      "searchQuery": "Cantor set measure zero uncountable ternary",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-fat-cantor-set",
+      "unit": "lebesgue-measure",
+      "kind": "example",
+      "difficulty": 6,
+      "title": "Construct a **fat Cantor set**: a closed, nowhere dense subset of $[0,1]$ with positive Lebesgue measure.",
+      "body": "Fix $\\alpha\\in(0,1)$; at stage $k$ delete from each of the $2^{k-1}$ surviving intervals an open middle interval of length $\\alpha3^{-k}$. The limit $K_\\alpha$ has $m(K_\\alpha)=1-\\alpha$.\n\nTotal length removed: $\\sum_{k\\ge1}2^{k-1}\\alpha3^{-k}=\\alpha$, so $m(K_\\alpha)=1-\\alpha>0$ by continuity from above. The deletions fit: after $k-1$ stages each surviving interval has length $\\big(1-\\alpha+\\alpha(2/3)^{k-1}\\big)/2^{k-1}$, which exceeds $\\alpha3^{-k}$.\n\n$K_\\alpha$ is closed, since its complement is a union of open intervals. It has empty interior: after $k$ stages every surviving interval has length at most $2^{-k}$, so $K_\\alpha$ contains no interval.\n\nKey idea: $[0,1]\\setminus K_\\alpha$ is open and dense yet has measure only $\\alpha$, which can be arbitrarily small.\n\nWatch out: nowhere dense and measure zero are independent properties.",
+      "searchQuery": "fat Cantor set positive measure nowhere dense Smith-Volterra-Cantor",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-positive-measure-nonmeasurable-subset",
+      "unit": "lebesgue-measure",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "Show that every Lebesgue measurable $E\\subseteq\\mathbb{R}$ with $m(E)>0$ contains a non-measurable subset.",
+      "body": "Intersect $E$ with the rational translates of a Vitali set $V\\subseteq[0,1]$; if all pieces were measurable one would be a measurable subset of $V$ of positive measure, which is impossible.\n\nThe sets $V+q$, $q\\in\\mathbb{Q}$, are disjoint and cover $\\mathbb{R}$ (every $x$ differs by a rational from its coset's representative), so $E=\\bigsqcup_q E\\cap(V+q)$, a countable union.\n\nSuppose every piece is measurable. Since $m(E)>0$, countable additivity gives $q$ with $m(E\\cap(V+q))>0$. Then $W=(E-q)\\cap V\\subseteq V$ is measurable with $m(W)>0$.\n\nBut any measurable $W\\subseteq V$ is null: the translates $W+r$, $r\\in\\mathbb{Q}\\cap[0,1]$, are disjoint subsets of $[0,2]$, so $\\sum_rm(W)\\le2$ forces $m(W)=0$. Contradiction.\n\nWatch out: the proof names no explicit set. It rests on the Vitali set, hence on the axiom of choice. Next card uses this result to get a measurable set that is not Borel.",
+      "searchQuery": "positive measure set contains nonmeasurable subset Vitali",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-lebesgue-not-borel-set",
+      "unit": "lebesgue-measure",
+      "kind": "counterexample",
+      "difficulty": 6,
+      "title": "Exhibit a Lebesgue measurable subset of $\\mathbb{R}$ that is not a Borel set.",
+      "body": "Let $c$ be the Cantor function and $\\psi(x)=x+c(x)$. If $N\\subseteq\\psi(C)$ is non-measurable, then $B=\\psi^{-1}(N)\\subseteq C$ is Lebesgue measurable (it is null) but not Borel.\n\nHere $c:[0,1]\\to[0,1]$ is the Cantor function: $c\\big(\\sum_ka_k3^{-k}\\big)=\\sum_k\\tfrac{a_k}{2}2^{-k}$ for points of $C$ (digits $a_k\\in\\{0,2\\}$), and $c$ is constant on each interval removed in building $C$, whose two endpoints get the same value. It is continuous and nondecreasing, with $c(0)=0$ and $c(1)=1$. Then $\\psi:[0,1]\\to[0,2]$ is a strictly increasing continuous bijection, hence a homeomorphism.\n\nMeasure of $\\psi(C)$: on each removed interval $c$ is constant, so $\\psi$ maps it to an interval of the same length. Thus $\\psi([0,1]\\setminus C)$ has measure $1$, and $m(\\psi(C))=2-1=1$. By the previous card $\\psi(C)$ contains a non-measurable $N$.\n\n$B$ is a subset of the null set $C$, so measurable by completeness. If $B$ were Borel, then $N=\\psi(B)=(\\psi^{-1})^{-1}(B)$ would be the preimage of a Borel set under a continuous map, so Borel and hence measurable, a contradiction.\n\nWatch out: counting also shows the gap. There are only $\\mathfrak{c}$ Borel sets, but all $2^{\\mathfrak{c}}$ subsets of the null set $C$ are Lebesgue measurable.",
+      "searchQuery": "Lebesgue measurable not Borel Cantor function homeomorphism",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-steinhaus-difference-set",
+      "unit": "lebesgue-measure",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "(Steinhaus) Let $E\\subseteq\\mathbb{R}$ be Lebesgue measurable with $m(E)>0$. Show that $E-E=\\{x-y:x,y\\in E\\}$ contains an open interval around $0$.",
+      "body": "Pick a compact $K\\subseteq E$ and an open $U\\supseteq K$ with $0<m(K)$ and $m(U)<2m(K)$; then $K-K\\supseteq(-\\delta,\\delta)$ where $\\delta=\\operatorname{dist}(K,U^c)$.\n\n1. By inner regularity there is a compact $K\\subseteq E$ with $0<m(K)<\\infty$. By outer regularity there is an open $U\\supseteq K$ with $m(U)<2m(K)$ (possible because $m(K)>0$ is finite).\n2. $U\\ne\\mathbb{R}$ since $m(U)<\\infty$. $K$ is compact and $U^c$ closed and disjoint from it, so $\\delta=\\operatorname{dist}(K,U^c)>0$.\n3. For $|x|<\\delta$, $K+x\\subseteq U$.\n4. If $K\\cap(K+x)=\\emptyset$, then $K\\cup(K+x)\\subseteq U$ would be a disjoint union of measure $2m(K)$ by translation invariance, contradicting $m(U)<2m(K)$.\n5. So some $k=k'+x$ with $k,k'\\in K$, i.e. $x=k-k'\\in K-K\\subseteq E-E$.\n\nWhy it matters: it is the key step in showing that a measurable additive function $f:\\mathbb{R}\\to\\mathbb{R}$ is linear. Watch out: the converse is false. $C$ is null, yet $C-C=[-1,1]$ for the Cantor set.",
+      "searchQuery": "Steinhaus theorem difference set contains interval positive measure",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-uniform-lower-density-full-measure",
+      "unit": "lebesgue-measure",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "Let $E\\subseteq\\mathbb{R}$ be measurable and suppose there is $\\alpha\\in(0,1]$ such that $m(E\\cap I)\\ge\\alpha\\,m(I)$ for every interval $I$. Show that $m(E^c)=0$.",
+      "body": "Suppose $A=E^c\\cap(-N,N)$ has positive measure; cover it by an open set $U$ that is only slightly larger, and compare $m(E\\cap U)$ with $m(U\\setminus A)$.\n\n1. If $m(E^c)>0$, then $m(A)>0$ for some $N$, and $m(A)<\\infty$.\n2. By outer regularity pick an open $U\\supseteq A$ with $m(U)<m(A)/(1-\\alpha)$ when $\\alpha<1$ (any finite-measure $U$ if $\\alpha=1$).\n3. An open set of finite measure is a disjoint countable union of bounded open intervals $I_k$. By hypothesis $m(E\\cap U)=\\sum_km(E\\cap I_k)\\ge\\alpha\\sum_km(I_k)=\\alpha\\,m(U)$.\n4. $E\\cap U\\subseteq U\\setminus A$ since $A\\cap E=\\emptyset$, so $m(U)-m(A)\\ge\\alpha\\,m(U)$, i.e. $m(A)\\le(1-\\alpha)m(U)$.\n5. If $\\alpha<1$ this gives $m(A)<m(A)$; if $\\alpha=1$ it gives $m(A)\\le0$. Either way a contradiction.\n\nWatch out: the density must be uniform over all intervals. For $E=\\mathbb{R}\\setminus K$ with $K$ a fat Cantor set, $E$ is open and dense, so $m(E\\cap I)>0$ for every interval $I$, yet $m(E^c)>0$; the ratios $m(E\\cap I)/m(I)$ are not bounded below.",
+      "searchQuery": "density argument full measure open set decomposition intervals",
+      "refs": [
+        "Folland, Real Analysis ch. 1–2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-measurable-function-definition",
+      "unit": "measurable-functions-littlewood",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define a **measurable function** $f:X\\to\\overline{\\mathbb{R}}$ on a measurable space $(X,\\mathcal{M})$, where $\\overline{\\mathbb{R}}=[-\\infty,\\infty]$, and state the one-family test.",
+      "body": "$f^{-1}(B)\\in\\mathcal{M}$ for every Borel set $B\\subseteq\\overline{\\mathbb{R}}$; equivalently $\\{f>a\\}\\in\\mathcal{M}$ for every $a\\in\\mathbb{R}$.\n\nWhy the test works: the family of sets $B$ with $f^{-1}(B)\\in\\mathcal{M}$ is a σ-algebra, because preimages commute with complements and unions. So it suffices to check it on a generating family such as the rays $(a,\\infty]$.\n\nConsequences: sums and products of finite-valued measurable functions, $\\sup$, $\\inf$, $\\limsup$, $\\liminf$ of sequences, and pointwise limits are measurable. A Lebesgue measurable function is one measurable for the Lebesgue σ-algebra on the domain. A complex-valued $f$ is measurable when $\\operatorname{Re}f$ and $\\operatorname{Im}f$ are.\n\nWatch out: the target carries the Borel σ-algebra, not the Lebesgue one. Preimages of Borel sets must be measurable; preimages of Lebesgue measurable sets need not be (see the composition counterexample below).",
+      "searchQuery": "measurable function definition preimage Borel set",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-simple-function-definition",
+      "unit": "measurable-functions-littlewood",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define a **simple function** on a measurable space $(X,\\mathcal{M})$. (Write $\\chi_E$ for the indicator function of $E$: $1$ on $E$, $0$ off $E$.)",
+      "body": "A measurable function with finitely many real values; equivalently $\\varphi=\\sum_{j=1}^Na_j\\chi_{E_j}$ with $a_j\\in\\mathbb{R}$ and $E_j\\in\\mathcal{M}$.\n\nThe canonical form uses the distinct values $a_j$ and the disjoint sets $E_j=\\varphi^{-1}(a_j)$. Sums and products of simple functions are simple.\n\nWhy: simple functions are the building blocks of integration. For $a_j\\ge0$ the integral of $\\sum a_j\\chi_{E_j}$ is defined as $\\sum a_j\\mu(E_j)$ (with $0\\cdot\\infty=0$), and everything else is approximated from them.\n\nWatch out: simple is not the same as a step function. $\\chi_{\\mathbb{Q}}$ is simple (two values, measurable sets) but not Riemann integrable.",
+      "searchQuery": "simple function definition finitely many values indicator",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-simple-function-approximation-proof-idea",
+      "unit": "measurable-functions-littlewood",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline why every measurable $f:X\\to[0,\\infty]$ is an increasing pointwise limit of simple functions, and what changes for signed $f$.",
+      "body": "Take $\\varphi_n=\\min\\{n,\\,2^{-n}\\lfloor2^nf\\rfloor\\}$: simple, increasing in $n$, converging to $f$ pointwise.\n\n1. $\\varphi_n$ takes only the values $k2^{-n}$ with $0\\le k\\le n2^n$, and its level sets $\\{k2^{-n}\\le f<(k+1)2^{-n}\\}$ and $\\{f\\ge n\\}$ are measurable. So $\\varphi_n$ is simple.\n2. $\\varphi_n\\le\\varphi_{n+1}$: $\\lfloor2t\\rfloor\\ge2\\lfloor t\\rfloor$ gives $2^{-n-1}\\lfloor2^{n+1}f\\rfloor\\ge2^{-n}\\lfloor2^nf\\rfloor$, and the cap $n$ rises to $n+1$.\n3. If $f(x)<\\infty$ and $n>f(x)$ then $0\\le f(x)-\\varphi_n(x)<2^{-n}$. If $f(x)=\\infty$ then $\\varphi_n(x)=n\\to\\infty$.\n4. If $f$ is bounded the convergence is uniform: $\\sup|f-\\varphi_n|\\le2^{-n}$ for large $n$.\n5. For signed $f=f^+-f^-$, where $f^+=\\max(f,0)$ and $f^-=\\max(-f,0)$, use $\\varphi_n^+-\\varphi_n^-$, built from the approximations of $f^+$ and $f^-$. It converges to $f$ and satisfies $|\\cdot|\\le|f|$.\n\nWhy it matters: to prove a statement about measurable functions it is often enough to prove it for indicators, then simple functions, then pass to limits (monotone convergence).",
+      "searchQuery": "measurable function limit of simple functions approximation proof",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-continuous-after-measurable-example",
+      "unit": "measurable-functions-littlewood",
+      "kind": "example",
+      "difficulty": 6,
+      "title": "If $f:X\\to\\mathbb{R}$ is measurable and $g:\\mathbb{R}\\to\\mathbb{R}$ is continuous, why is $g\\circ f$ measurable (for instance $|f|$, $f^2$, $e^f$)?",
+      "body": "$(g\\circ f)^{-1}(B)=f^{-1}(g^{-1}(B))$, and $g^{-1}(B)$ is a Borel set when $g$ is continuous.\n\nFor open $B$, $g^{-1}(B)$ is open. The family of $B$ with $g^{-1}(B)$ Borel is a σ-algebra containing the open sets, hence contains all Borel sets. So $f^{-1}(g^{-1}(B))\\in\\mathcal{M}$.\n\nThe same proof works for any Borel measurable $g$, e.g. $g=\\chi_{[0,\\infty)}$, $g(t)=\\max(t,0)$ or $\\operatorname{sgn}$.\n\nWatch out: $g$ must be Borel measurable. A Lebesgue measurable $g$ is not enough, and the composition in the other order can fail; see the next card.",
+      "searchQuery": "composition continuous function measurable function measurable",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-measurable-after-continuous-fails",
+      "unit": "measurable-functions-littlewood",
+      "kind": "counterexample",
+      "difficulty": 6,
+      "title": "Give a continuous $f:[0,2]\\to[0,1]$ and a Lebesgue measurable $g:[0,1]\\to\\mathbb{R}$ such that $g\\circ f$ is not Lebesgue measurable. (Use the homeomorphism $\\psi(x)=x+c(x)$ from the card on a measurable non-Borel set.)",
+      "body": "$f=\\psi^{-1}:[0,2]\\to[0,1]$ and $g=\\chi_B$ with $B\\subseteq C$ Lebesgue measurable but not Borel; then $g\\circ f=\\chi_{\\psi(B)}$ and $\\psi(B)=N$ is non-measurable.\n\n$f$ is continuous because $\\psi$ is a homeomorphism. $B=\\psi^{-1}(N)$ lies in the null Cantor set, so $g=\\chi_B$ is Lebesgue measurable. And $(g\\circ f)^{-1}(\\{1\\})=f^{-1}(B)=\\psi(B)=N$, a non-measurable set.\n\nWhy it matters: Lebesgue measurable functions are not closed under composition with continuous maps on the inside. Preimages of Lebesgue measurable sets under a continuous map need not be measurable.\n\nTip: the safe statement is \"Borel measurable after anything measurable\", i.e. $g$ Borel and $f$ Lebesgue measurable gives $g\\circ f$ Lebesgue measurable.",
+      "searchQuery": "Lebesgue measurable composition continuous fails counterexample",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-egorov-theorem",
+      "unit": "measurable-functions-littlewood",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State **Egorov's theorem**.",
+      "body": "If $\\mu(E)<\\infty$ and $f_n,f:E\\to\\mathbb{C}$ are measurable with $f_n\\to f$ a.e. on $E$, then for every $\\varepsilon>0$ there is a measurable $A\\subseteq E$ with $\\mu(E\\setminus A)<\\varepsilon$ and $f_n\\to f$ uniformly on $A$.\n\nThis is Littlewood's third principle: every convergent sequence of measurable functions is nearly uniformly convergent. Pointwise convergence becomes uniform after discarding a set of arbitrarily small measure.\n\nExample: $f_n(x)=x^n$ on $[0,1]$ converges pointwise to $0$ for $x<1$ but not uniformly. Removing $(1-\\varepsilon,1]$ restores uniform convergence on $[0,1-\\varepsilon]$.\n\nWatch out: the finite measure hypothesis is essential (next problem), and the exceptional set depends on $\\varepsilon$ and cannot in general be taken to be null.",
+      "searchQuery": "Egorov theorem almost uniform convergence finite measure",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-egorov-proof-idea",
+      "unit": "measurable-functions-littlewood",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline the proof of Egorov's theorem.",
+      "body": "Measure the sets where all later terms are uniformly $1/k$-close to $f$; they increase to almost everything, so choose indices with leftover measure $\\varepsilon2^{-k}$ and intersect.\n\n1. Discard a null set so that $f_n\\to f$ everywhere on $E$.\n2. For $k,n\\ge1$ let $E_n^k=\\{x\\in E:|f_j(x)-f(x)|<1/k\\text{ for all }j\\ge n\\}$. These are measurable and increase in $n$ with union $E$.\n3. Since $\\mu(E)<\\infty$, continuity from below gives $\\mu(E\\setminus E_n^k)\\to0$ as $n\\to\\infty$. Choose $n_k$ with $\\mu(E\\setminus E_{n_k}^k)<\\varepsilon2^{-k}$.\n4. Let $A=\\bigcap_kE_{n_k}^k$. Then $\\mu(E\\setminus A)<\\sum_k\\varepsilon2^{-k}=\\varepsilon$.\n5. For $x\\in A$ and $j\\ge n_k$ we have $|f_j(x)-f(x)|<1/k$, uniformly in $x\\in A$.\n\nWhere finiteness enters: step 3. Without $\\mu(E)<\\infty$ the sets $E\\setminus E_n^k$ can decrease to $\\emptyset$ while all having infinite measure.",
+      "searchQuery": "Egorov theorem proof uniform convergence outside small set",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-egorov-fails-infinite-measure",
+      "unit": "measurable-functions-littlewood",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "Show that Egorov's conclusion fails on $\\mathbb{R}$ with Lebesgue measure: find measurable $f_n\\to0$ everywhere such that no measurable $A$ with $m(\\mathbb{R}\\setminus A)<1$ has $f_n\\to0$ uniformly on $A$.",
+      "body": "Take $f_n=\\chi_{[n,n+1]}$.\n\nPointwise: for any fixed $x$, $f_n(x)=0$ as soon as $n>x$, so $f_n\\to0$ everywhere.\n\nNo good $A$: suppose $m(\\mathbb{R}\\setminus A)<1$. For each $n$, $m(A\\cap[n,n+1])\\ge1-m(A^c)>0$, so $A$ contains a point $x_n\\in[n,n+1]$ and $\\sup_A|f_n|\\ge f_n(x_n)=1$. Hence $\\sup_A|f_n|\\ne0$ along the whole sequence and the convergence on $A$ is not uniform.\n\nWhy it fails: mass travels off to infinity, where there is infinite measure to hide in. Egorov's proof needs the sets $E\\setminus E_n^k$ to shrink in measure, which requires finiteness.\n\nTip: applying Egorov separately on each interval $[k,k+1]$ with tolerance $\\varepsilon2^{-k}$ gives almost uniform convergence on each bounded piece, but the union of the good sets does not converge uniformly.",
+      "searchQuery": "Egorov theorem fails infinite measure characteristic function example",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-lusin-theorem",
+      "unit": "measurable-functions-littlewood",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State **Lusin's theorem** for Lebesgue measure.",
+      "body": "If $E\\subseteq\\mathbb{R}^n$ is Lebesgue measurable and $f:E\\to\\mathbb{R}$ is measurable and finite-valued, then for every $\\varepsilon>0$ there is a closed $F\\subseteq E$ with $m(E\\setminus F)<\\varepsilon$ such that $f|_F$ is continuous.\n\nThis is Littlewood's second principle: every measurable function is nearly continuous. Together with regularity (every measurable set is nearly a finite union of boxes) and Egorov, these are **Littlewood's three principles**.\n\nKey idea of the proof (for $m(E)<\\infty$): approximate $f$ by simple functions. Inner regularity gives compact pieces on which each simple function is locally constant, hence continuous. Egorov, which needs the finite measure, gives a large closed set where the simple functions converge uniformly, and a uniform limit of continuous functions is continuous. For $m(E)=\\infty$, apply this to the bounded pieces $E\\cap\\{k-1<|x|<k\\}$ with tolerance $\\varepsilon2^{-k}$ and take the union of the closed sets.\n\nWatch out: continuity of $f|_F$ is not continuity of $f$ at points of $F$. Cover $\\mathbb{Q}$ by open intervals of total length $<\\varepsilon$ and let $F$ be the closed complement. Then $\\chi_{\\mathbb{Q}}|_F\\equiv0$ is continuous, but $\\chi_{\\mathbb{Q}}$ is discontinuous at every point.",
+      "searchQuery": "Lusin theorem measurable function nearly continuous Littlewood principles",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-convergence-in-measure-subsequence-theorem",
+      "unit": "measurable-functions-littlewood",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "Define **convergence in measure** for measurable $f_n,f$ on $(X,\\mathcal{M},\\mu)$, and state what it implies about subsequences.",
+      "body": "$f_n\\to f$ in measure means $\\mu(\\{|f_n-f|\\ge\\varepsilon\\})\\to0$ for every $\\varepsilon>0$; then some subsequence $f_{n_k}\\to f$ almost everywhere.\n\nProof: choose $n_1<n_2<\\cdots$ with $\\mu(E_k)<2^{-k}$, $E_k=\\{|f_{n_k}-f|\\ge2^{-k}\\}$. Put $G_j=\\bigcup_{k\\ge j}E_k$, so $\\mu(G_j)<2^{1-j}$. Off $G_j$ we have $|f_{n_k}-f|<2^{-k}$ for all $k\\ge j$. The set $\\bigcap_jG_j$ has measure $0$ by continuity from above, and off it $f_{n_k}\\to f$.\n\nWhy: a.e. convergence on a finite measure space implies convergence in measure (Egorov), but not conversely. Convergence in measure is the right notion in probability, where it is convergence in probability.\n\nWatch out: the whole sequence need not converge a.e. (typewriter sequence next). On infinite measure spaces a.e. convergence does not even imply convergence in measure: $\\chi_{[n,n+1]}\\to0$ everywhere, yet $m(\\{\\chi_{[n,n+1]}\\ge1\\})=1$.",
+      "searchQuery": "convergence in measure almost everywhere subsequence theorem",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-typewriter-sequence",
+      "unit": "measurable-functions-littlewood",
+      "kind": "counterexample",
+      "difficulty": 6,
+      "title": "Give measurable functions on $[0,1)$ that converge to $0$ in measure but converge at no point.",
+      "body": "The **typewriter sequence**: for $n=2^k+j$ with $0\\le j<2^k$, let $f_n=\\chi_{[j2^{-k},(j+1)2^{-k})}$.\n\nConvergence in measure: $m(\\{f_n\\ne0\\})=2^{-k}\\to0$.\n\nNo pointwise convergence: for each $k$ the intervals for $j=0,\\dots,2^k-1$ tile $[0,1)$, so every $x$ lies in exactly one of them. Hence $f_n(x)=1$ for infinitely many $n$ and $f_n(x)=0$ for infinitely many $n$, and $\\lim f_n(x)$ exists for no $x$.\n\nA subsequence does converge, as the theorem promises: $f_{2^k}=\\chi_{[0,2^{-k})}\\to0$ at every $x>0$.\n\nWatch out: $\\|f_n\\|_p=2^{-k/p}\\to0$ for every $1\\le p<\\infty$. So $L^p$ convergence, like convergence in measure, does not imply a.e. convergence of the full sequence.",
+      "searchQuery": "typewriter sequence convergence in measure not almost everywhere",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-limits-in-measure-and-ae-agree",
+      "unit": "measurable-functions-littlewood",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "Let $f_n\\to f$ in measure and $f_n\\to g$ almost everywhere on $(X,\\mathcal{M},\\mu)$, all functions measurable. Show that $f=g$ a.e.",
+      "body": "Extract a subsequence converging a.e. to $f$; it also converges a.e. to $g$, so $f=g$ a.e.\n\n1. Convergence in measure gives $f_{n_k}\\to f$ a.e. (theorem above); let $N_1$ be the exceptional null set.\n2. A subsequence of an a.e. convergent sequence converges a.e. to the same limit: $f_{n_k}\\to g$ off a null set $N_2$.\n3. Off $N_1\\cup N_2$ (null), $f_{n_k}(x)$ has the two limits $f(x)$ and $g(x)$, which must be equal.\n\nWatch out: do not try to compare directly. The inclusion $\\{|f-g|\\ge2\\varepsilon\\}\\subseteq\\{|f_n-f|\\ge\\varepsilon\\}\\cup\\{|f_n-g|\\ge\\varepsilon\\}$ is correct, but $\\mu(|f_n-g|\\ge\\varepsilon)$ need not tend to $0$, because a.e. convergence does not give convergence in measure on infinite measure spaces. The subsequence route works on every measure space.\n\nTip: the same argument shows limits in measure are unique a.e.",
+      "searchQuery": "convergence in measure and almost everywhere limits equal",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 1"
+      ]
+    },
+    {
+      "id": "measure-integral-nonnegative-definition",
+      "unit": "convergence-theorems",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define the **Lebesgue integral** $\\int f\\,d\\mu$ of a measurable $f:X\\to[0,\\infty]$.",
+      "body": "$\\int f\\,d\\mu=\\sup\\{\\int\\varphi\\,d\\mu:\\varphi\\text{ simple},\\ 0\\le\\varphi\\le f\\}$, where $\\int\\sum_ja_j\\chi_{E_j}\\,d\\mu=\\sum_ja_j\\,\\mu(E_j)$ (canonical form, $0\\cdot\\infty=0$).\n\nThe value may be $\\infty$. The integral is monotone and additive on nonnegative functions, and $\\int_Ef\\,d\\mu$ means $\\int f\\chi_E\\,d\\mu$.\n\nWhy it differs from Riemann: Riemann sums slice the domain, Lebesgue sums slice the range, adding up value times the measure of the set where the function takes that value. This is what makes limit theorems possible.\n\nWatch out: the convention $0\\cdot\\infty=0$ matters. The zero function has integral $0$ on a space of infinite measure.",
+      "searchQuery": "Lebesgue integral definition nonnegative function supremum simple functions",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-integrable-function-definition",
+      "unit": "convergence-theorems",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define when a measurable function $f$ is **integrable** on $(X,\\mathcal{M},\\mu)$ and what $\\int f\\,d\\mu$ then means.",
+      "body": "$f$ is integrable ($f\\in L^1(\\mu)$) when $\\int|f|\\,d\\mu<\\infty$; then $\\int f=\\int f^+-\\int f^-$ for real $f$, and $\\int f=\\int\\operatorname{Re}f+i\\int\\operatorname{Im}f$ for complex $f$.\n\nHere $f^+=\\max(f,0)$ and $f^-=\\max(-f,0)$, so $f=f^+-f^-$ and $|f|=f^++f^-$. The integral is linear on $L^1$ and $|\\int f|\\le\\int|f|$.\n\nWatch out: absolute integrability is required. $\\int_0^\\infty\\frac{\\sin x}{x}\\,dx$ exists as an improper Riemann integral but $\\frac{\\sin x}{x}$ is not Lebesgue integrable, since $\\int_0^\\infty\\frac{|\\sin x|}{x}\\,dx=\\infty$.\n\nWatch out: if $\\int f^+=\\int f^-=\\infty$ the integral is undefined, not $0$.",
+      "searchQuery": "integrable function definition L1 absolute integrability",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-monotone-convergence-theorem-integral",
+      "unit": "convergence-theorems",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State the **monotone convergence theorem** for the Lebesgue integral.",
+      "body": "If $f_n:X\\to[0,\\infty]$ are measurable, $f_1\\le f_2\\le\\cdots$ and $f_n\\to f$ pointwise, then $\\int f_n\\,d\\mu\\to\\int f\\,d\\mu$ (as numbers in $[0,\\infty]$).\n\nNo finiteness is assumed. Corollary: for measurable $g_n\\ge0$, $\\int\\sum_ng_n=\\sum_n\\int g_n$, with no convergence check needed.\n\nWatch out: monotonicity upward is essential. The decreasing version needs $\\int f_1<\\infty$: $f_n=\\chi_{[n,\\infty)}$ decreases to $0$ but $\\int f_n=\\infty$ for every $n$.\n\nWatch out: this is the integral version of the earlier theorem on monotone bounded sequences of numbers, not the same statement.",
+      "searchQuery": "monotone convergence theorem Lebesgue integral statement",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-monotone-convergence-proof-idea",
+      "unit": "convergence-theorems",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline the proof of the monotone convergence theorem.",
+      "body": "The easy inequality is monotonicity; for the other, compare $f_n$ with a fraction $c\\varphi$ of any simple $\\varphi\\le f$ on sets that exhaust $X$.\n\n1. $f_n\\le f$ gives $\\int f_n\\le\\int f$, so $\\lim\\int f_n\\le\\int f$ (the limit exists since $\\int f_n$ increases).\n2. Fix a simple $\\varphi$ with $0\\le\\varphi\\le f$ and $c\\in(0,1)$, and let $E_n=\\{f_n\\ge c\\varphi\\}$.\n3. $E_n$ increases to $X$: where $\\varphi(x)=0$ we have $x\\in E_1$; where $\\varphi(x)>0$, $f(x)\\ge\\varphi(x)>c\\varphi(x)$, so $f_n(x)>c\\varphi(x)$ for large $n$.\n4. $\\int f_n\\ge\\int_{E_n}f_n\\ge c\\int_{E_n}\\varphi$. The map $E\\mapsto\\int_E\\varphi=\\sum a_j\\mu(E\\cap E_j)$ is a measure, so continuity from below gives $\\int_{E_n}\\varphi\\to\\int\\varphi$.\n5. Hence $\\lim\\int f_n\\ge c\\int\\varphi$. Let $c\\to1$ and take the supremum over $\\varphi$.\n\nKey idea: the factor $c<1$ is needed because $f_n\\ge\\varphi$ may fail on the set where $f=\\varphi$.",
+      "searchQuery": "proof monotone convergence theorem simple function exhaust",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-sophomores-dream-series",
+      "unit": "convergence-theorems",
+      "kind": "example",
+      "difficulty": 6,
+      "title": "Use the monotone convergence theorem to show $\\int_0^1x^{-x}\\,dx=\\sum_{n\\ge1}n^{-n}$.",
+      "body": "Expand $x^{-x}=e^{-x\\log x}=\\sum_{n\\ge0}\\frac{(-x\\log x)^n}{n!}$, whose terms are all $\\ge0$ on $(0,1)$, integrate termwise by monotone convergence, and use $\\int_0^1x^n(-\\log x)^n\\,dx=\\frac{n!}{(n+1)^{n+1}}$.\n\nEach term gives $\\frac1{n!}\\cdot\\frac{n!}{(n+1)^{n+1}}=(n+1)^{-(n+1)}$, so the sum over $n\\ge0$ is $\\sum_{m\\ge1}m^{-m}\\approx1.2913$.\n\nThe integral formula: substitute $x=e^{-u}$ to get $\\int_0^\\infty u^ne^{-(n+1)u}\\,du=n!/(n+1)^{n+1}$.\n\nWhy it works: $-x\\log x\\ge0$ on $(0,1)$, so every partial sum is a nonnegative increasing sequence of functions. Monotone convergence needs no domination or convergence test.\n\nWatch out: this interchange of sum and integral would need a separate justification for series with signs.",
+      "searchQuery": "integral x to the minus x series sum n to the minus n monotone convergence",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-fatou-lemma",
+      "unit": "convergence-theorems",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State **Fatou's lemma**.",
+      "body": "For measurable $f_n:X\\to[0,\\infty]$: $\\int\\liminf_nf_n\\,d\\mu\\le\\liminf_n\\int f_n\\,d\\mu$.\n\nIt needs only nonnegativity, no integrability and no convergence. Useful corollary: if $f_n\\to f$ a.e. and $\\int f_n\\le M$ for all $n$, then $\\int f\\le M$, so $f$ is integrable when $M<\\infty$.\n\nWatch out: the inequality can be strict. $f_n=n\\chi_{(0,1/n)}$ has $\\liminf f_n=0$ but $\\int f_n=1$.\n\nWatch out: nonnegativity (or a common integrable lower bound) is needed. With $f_n=-\\chi_{[n,n+1]}$, $\\int\\liminf f_n=0$ is not $\\le\\liminf\\int f_n=-1$.",
+      "searchQuery": "Fatou lemma statement liminf integral inequality",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-fatou-proof-idea",
+      "unit": "convergence-theorems",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline the proof of Fatou's lemma from the monotone convergence theorem.",
+      "body": "The infima $g_k=\\inf_{n\\ge k}f_n$ increase to $\\liminf f_n$; apply monotone convergence to them.\n\n1. $g_k$ is measurable, $0\\le g_k\\le g_{k+1}$, and $g_k\\to\\liminf_nf_n$ pointwise.\n2. For every $n\\ge k$, $g_k\\le f_n$, so $\\int g_k\\le\\int f_n$. Hence $\\int g_k\\le\\inf_{n\\ge k}\\int f_n$.\n3. Let $k\\to\\infty$. The left side tends to $\\int\\liminf f_n$ by monotone convergence, and the right side to $\\liminf\\int f_n$.\n\nKey idea: the inequality is lost in step 2, where an infimum of integrals replaces an integral of an infimum, and $\\int\\inf\\le\\inf\\int$ always.",
+      "searchQuery": "proof Fatou lemma from monotone convergence infimum",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-dominated-convergence-theorem",
+      "unit": "convergence-theorems",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State the **dominated convergence theorem**.",
+      "body": "If $f_n$ are measurable, $f_n\\to f$ a.e., and $|f_n|\\le g$ a.e. for one integrable $g$, then $f$ is integrable, $\\int|f_n-f|\\,d\\mu\\to0$, and in particular $\\int f_n\\to\\int f$.\n\nThe single dominating function $g$ must not depend on $n$. The $L^1$ statement follows by applying the theorem to $|f_n-f|\\le2g$.\n\nWhy it matters: it is the standard license for exchanging a limit with an integral, used for continuity and differentiability of parameter integrals and for most limits in qualifying exams.\n\nTip: the same conclusion holds if $f_n\\to f$ in measure instead of a.e., by the subsequence theorem.\n\nWatch out: domination is sufficient, not necessary. For $f_n=\\tfrac1n\\chi_{[n,n+1]}$ ($n\\ge1$), $\\int|f_n|=\\tfrac1n\\to0$, yet any $g$ with $g\\ge f_n$ for all $n$ has $\\int g\\ge\\sum_n\\tfrac1n=\\infty$. Nor is a.e. convergence necessary: the typewriter sequence converges to $0$ in $L^1$ but converges at no point. The counterexample cards after the proof show what fails when domination is lost.",
+      "searchQuery": "dominated convergence theorem statement integrable dominating function",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "measure-dominated-convergence-proof-idea",
+      "unit": "convergence-theorems",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline the proof of the dominated convergence theorem from Fatou's lemma.",
+      "body": "Apply Fatou to $g+f_n\\ge0$ and $g-f_n\\ge0$ to squeeze $\\int f$ between $\\limsup\\int f_n$ and $\\liminf\\int f_n$.\n\n1. $|f|\\le g$ a.e., so $f$ is integrable.\n2. Fatou on $g+f_n$: $\\int g+\\int f\\le\\liminf\\int(g+f_n)=\\int g+\\liminf\\int f_n$. Subtract the finite $\\int g$: $\\int f\\le\\liminf\\int f_n$.\n3. Fatou on $g-f_n$: $\\int g-\\int f\\le\\liminf\\int(g-f_n)=\\int g-\\limsup\\int f_n$, so $\\limsup\\int f_n\\le\\int f$.\n4. Hence $\\int f_n\\to\\int f$.\n5. For the $L^1$ statement apply Fatou to $h_n=2g-|f_n-f|\\ge0$, which tends to $2g$ a.e.: $\\int2g\\le\\int2g-\\limsup\\int|f_n-f|$, so $\\limsup\\int|f_n-f|\\le0$.\n\nWatch out: integrability of $g$ is what allows the subtraction in steps 2 and 3.",
+      "searchQuery": "proof dominated convergence from Fatou lemma",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-concentrating-spike-counterexample",
+      "unit": "convergence-theorems",
+      "kind": "counterexample",
+      "difficulty": 6,
+      "title": "Show that dominated convergence fails for $f_n=n\\chi_{(0,1/n)}$ on $[0,1]$: what are $\\int f_n$ and $\\int\\lim f_n$, and which hypothesis breaks?",
+      "body": "$\\int f_n=1$ for every $n$ but $f_n\\to0$ pointwise, so $\\int\\lim f_n=0$; no integrable $g$ dominates all $f_n$.\n\nPointwise: for $x\\in(0,1]$, $f_n(x)=0$ once $n\\ge1/x$.\n\nNo domination: $\\sup_nf_n(x)=n$ for the largest $n<1/x$, which is at least $1/x-1$, and $\\int_0^1(1/x-1)\\,dx=\\infty$. Any dominating $g$ would have to be at least this supremum.\n\nThis sequence also gives the strict case of Fatou: $\\int\\liminf f_n=0<1=\\liminf\\int f_n$. Mass concentrates at the point $0$ and disappears in the pointwise limit.\n\nWatch out: a bound $\\sup_n\\int f_n<\\infty$ does not prevent this. The mass where $f_n$ is large never shrinks: $\\int_{\\{f_n>M\\}}f_n=1$ for every $n>M$.",
+      "searchQuery": "dominated convergence fails n times indicator 0 1/n",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-escaping-mass-counterexample",
+      "unit": "convergence-theorems",
+      "kind": "counterexample",
+      "difficulty": 6,
+      "title": "Show that dominated convergence fails for $f_n=\\chi_{[n,n+1]}$ on $\\mathbb{R}$: what are $\\int f_n$ and $\\int\\lim f_n$, and which hypothesis breaks?",
+      "body": "$\\int f_n=1$ for every $n$ but $f_n\\to0$ pointwise everywhere, so $\\int\\lim f_n=0$; no integrable $g$ dominates, since $\\sup_nf_n=\\chi_{[0,\\infty)}$ has infinite integral.\n\nMass escapes to infinity instead of concentrating at a point, so this is the second way integrals can leak.\n\nThe convergence is only pointwise: $m(\\{f_n\\ge1\\})=1$ for every $n$, so $f_n\\not\\to0$ in measure, and $\\sup|f_n|=1$, so not uniformly either.\n\nTip: on a finite measure space this particular failure cannot occur for uniformly bounded sequences. That is the bounded convergence theorem, the case of the dominating function $g\\equiv M$.\n\nWatch out: the three phenomena are distinct. Concentration (previous card) and escape to infinity (this card) both violate domination, while the typewriter sequence shows moving bumps can still converge in $L^1$.",
+      "searchQuery": "dominated convergence fails indicator n to n+1 mass escapes infinity",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-limit-integral-one-minus-x-over-n",
+      "unit": "convergence-theorems",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "Find $\\lim_{n\\to\\infty}\\int_0^n\\left(1-\\frac xn\\right)^ne^{x/2}\\,dx$.",
+      "body": "$2$\n\nWrite the integral as $\\int_0^\\infty\\chi_{[0,n]}(x)\\,(1-x/n)^n\\,e^{x/2}\\,dx$, so the domain no longer depends on $n$.\n\nPointwise limit: $(1-x/n)^n\\to e^{-x}$, so the integrand tends to $e^{-x}e^{x/2}=e^{-x/2}$.\n\nDomination: for $0\\le x\\le n$, $0\\le1-x/n\\le e^{-x/n}$, hence $0\\le(1-x/n)^n\\le e^{-x}$ and the integrand is at most $e^{-x/2}$, which is integrable on $(0,\\infty)$.\n\nBy dominated convergence the limit is $\\int_0^\\infty e^{-x/2}\\,dx=2$.\n\nWatch out: the integrals live on varying domains, so extend by $0$ first. And the bound $1-t\\le e^{-t}$ is what produces the dominating function.",
+      "searchQuery": "limit integral 1 - x/n to the n e^{x/2} dominated convergence",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ],
+      "answer": "2"
+    },
+    {
+      "id": "measure-limit-integral-approximate-identity",
+      "unit": "convergence-theorems",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "Let $f:[0,1]\\to\\mathbb{R}$ be continuous. Find $\\lim_{n\\to\\infty}\\int_0^1\\frac{n\\,f(x)}{1+n^2x^2}\\,dx$.",
+      "body": "$\\frac{\\pi}{2}f(0)$\n\nSubstitute $u=nx$: the integral equals $\\int_0^n\\frac{f(u/n)}{1+u^2}\\,du=\\int_0^\\infty\\chi_{[0,n]}(u)\\,\\frac{f(u/n)}{1+u^2}\\,du$.\n\nPointwise limit: $f(u/n)\\to f(0)$ by continuity at $0$, so the integrand tends to $f(0)/(1+u^2)$.\n\nDomination: $f$ is continuous on $[0,1]$, hence bounded by some $M$, and the integrand is at most $M/(1+u^2)$, which is integrable.\n\nSo the limit is $f(0)\\int_0^\\infty\\frac{du}{1+u^2}=\\frac\\pi2f(0)$.\n\nWatch out: in the original variable the integrand tends to $0$ for every $x>0$, so naive domination fails; the spike at $0$ carries the whole limit. The kernel $\\frac{n}{1+n^2x^2}$ has total mass $\\arctan n\\to\\pi/2$ on $[0,1]$, not $1$.",
+      "searchQuery": "limit integral n f(x)/(1+n^2 x^2) pi/2 f(0) dominated convergence",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-differentiate-under-integral-sign-problem",
+      "unit": "convergence-theorems",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Let $F(t)=\\int_{\\mathbb{R}}e^{-x^2}\\cos(tx)\\,dx$. Show that $F$ is differentiable and $F'(t)=-\\frac t2F(t)$.",
+      "body": "Differentiate under the integral using the dominating function $|x|e^{-x^2}$, then integrate by parts: $F'(t)=-\\frac t2F(t)$.\n\nGeneral criterion: if $f(\\cdot,t)$ is integrable for each $t$ in an open interval, $\\partial_tf(x,t)$ exists everywhere, and $|\\partial_tf(x,t)|\\le g(x)$ with $g$ integrable, then $F(t)=\\int f(x,t)\\,dx$ is differentiable and $F'(t)=\\int\\partial_tf(x,t)\\,dx$. Proof: by the mean value theorem each difference quotient $\\frac{f(x,t+h)-f(x,t)}{h}$ is bounded by $g(x)$, so dominated convergence applies as $h\\to0$ along any sequence.\n\nHere $\\partial_t\\big(e^{-x^2}\\cos(tx)\\big)=-xe^{-x^2}\\sin(tx)$, bounded by $|x|e^{-x^2}$, integrable and independent of $t$. So $F'(t)=-\\int xe^{-x^2}\\sin(tx)\\,dx$.\n\nIntegrate by parts with $dv=xe^{-x^2}dx$, $v=-\\frac12e^{-x^2}$: the boundary terms vanish and $\\int xe^{-x^2}\\sin(tx)\\,dx=\\frac t2\\int e^{-x^2}\\cos(tx)\\,dx=\\frac t2F(t)$.\n\nConsequence: $F(t)=F(0)e^{-t^2/4}$, a Gaussian again.\n\nWatch out: one integrable $g$ must bound $|\\partial_tf(x,t)|$ for all $t$ near the point at once. A separate integrable bound for each fixed $t$ is not enough.",
+      "searchQuery": "differentiation under the integral sign Gaussian cosine dominated convergence",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-gamma-function-continuity-problem",
+      "unit": "convergence-theorems",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "For $s>0$ let $\\Gamma(s)=\\int_0^\\infty x^{s-1}e^{-x}\\,dx$. Show that $\\Gamma(s)$ is finite for every $s>0$ and that $\\Gamma$ is continuous on $(0,\\infty)$.",
+      "body": "On each interval $[a,b]\\subseteq(0,\\infty)$ the integrand is dominated by $(x^{a-1}+x^{b-1})e^{-x}$, which is integrable: this gives finiteness, and dominated convergence gives continuity.\n\nDomination: for $s\\in[a,b]$, if $0<x\\le1$ then $x^{s-1}\\le x^{a-1}$, and if $x\\ge1$ then $x^{s-1}\\le x^{b-1}$. So $x^{s-1}\\le x^{a-1}+x^{b-1}$ for all $x>0$.\n\nIntegrability: $\\int_0^1x^{a-1}\\,dx=1/a<\\infty$ and $\\int_1^\\infty x^{b-1}e^{-x}\\,dx<\\infty$ since $e^{-x}$ beats any power; the other two pieces are bounded by the same kind of integrals.\n\nContinuity: if $s_k\\to s$ in $(0,\\infty)$, choose $[a,b]$ containing all of them and apply dominated convergence to $x^{s_k-1}e^{-x}\\to x^{s-1}e^{-x}$.\n\nTip: continuity is a local property, so local domination is all one needs. No single dominating function works on all of $(0,\\infty)$.\n\nWhy it matters: this $\\Gamma$ satisfies $\\Gamma(s+1)=s\\Gamma(s)$ by integration by parts and $\\Gamma(n+1)=n!$.",
+      "searchQuery": "Gamma function continuity dominated convergence locally dominated",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-uniform-integrability-definition",
+      "unit": "convergence-theorems",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define **uniform integrability** of a family $\\mathcal{F}$ of measurable functions on a finite measure space $(X,\\mathcal{M},\\mu)$.",
+      "body": "$\\lim_{M\\to\\infty}\\ \\sup_{f\\in\\mathcal{F}}\\int_{\\{|f|>M\\}}|f|\\,d\\mu=0$.\n\nEquivalent on a finite measure space: $\\sup_{f}\\int|f|\\,d\\mu<\\infty$, and for every $\\varepsilon>0$ there is $\\delta>0$ with $\\int_E|f|\\,d\\mu<\\varepsilon$ for all $f\\in\\mathcal{F}$ whenever $\\mu(E)<\\delta$.\n\nExamples: a family dominated by one integrable $g$ is uniformly integrable. A family bounded in $L^p$ for some $p>1$ is too, since $\\int_{\\{|f|>M\\}}|f|\\le M^{1-p}\\int|f|^p$.\n\nWatch out: $L^1$ boundedness alone is not enough. $f_n=n\\chi_{(0,1/n)}$ has $\\int f_n=1$ for all $n$ yet $\\int_{\\{f_n>M\\}}f_n=1$ for $n>M$. The mass sits on ever smaller sets.",
+      "searchQuery": "uniform integrability definition finite measure tail condition",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-vitali-convergence-theorem",
+      "unit": "convergence-theorems",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State the **Vitali convergence theorem** on a finite measure space.",
+      "body": "If $\\mu(X)<\\infty$, $f_n\\to f$ a.e. (or in measure) and $(f_n)$ is uniformly integrable, then $f\\in L^1$ and $\\int|f_n-f|\\,d\\mu\\to0$. Conversely $L^1$ convergence implies convergence in measure and uniform integrability.\n\nSo on a finite measure space, $f_n\\to f$ in $L^1$ if and only if $f_n\\to f$ in measure and $(f_n)$ is uniformly integrable. With a.e. convergence the condition is only sufficient: the typewriter sequence converges in $L^1$ but at no point. Dominated convergence is the special case where one integrable $g$ dominates all $f_n$.\n\nWhy it works: $f\\in L^1$ by Fatou, since uniform integrability bounds $\\int|f_n|$. Truncate at height $M$ with $T_M(t)=\\max(-M,\\min(t,M))$. Then $|f_n-f|\\le|f_n-T_Mf_n|+|T_Mf_n-T_Mf|+|T_Mf-f|$. The first and third terms have integrals at most $\\int_{\\{|f_n|>M\\}}|f_n|$ and $\\int_{\\{|f|>M\\}}|f|$, small for large $M$. The middle term tends to $0$ in $L^1$ by dominated convergence with the constant bound $2M$.\n\nWatch out: finite measure matters. $\\chi_{[n,n+1]}$ satisfies the tail condition for $M\\ge1$ yet does not converge in $L^1$; on infinite measure spaces one needs an extra tightness condition.",
+      "searchQuery": "Vitali convergence theorem uniform integrability L1 convergence",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-lebesgue-criterion-riemann-integrability",
+      "unit": "convergence-theorems",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Prove the **Lebesgue criterion for Riemann integrability**: a bounded $f:[a,b]\\to\\mathbb{R}$ is Riemann integrable iff it is continuous almost everywhere, and then the Riemann and Lebesgue integrals agree.",
+      "body": "Along the dyadic partitions the upper and lower step functions converge to $\\bar U$ and $\\underline L$ with $\\bar U-\\underline L$ equal to the oscillation of $f$ at each non-dyadic point; dominated convergence turns Riemann integrability into $\\bar U=\\underline L$ a.e.\n\n1. Let $P_k$ divide $[a,b]$ into $2^k$ equal intervals. Let $U_k$ and $L_k$ be the step functions equal on each open piece to the sup and inf of $f$ over the closed piece. Then $L_k\\le f\\le U_k$ off the partition points, $U_k$ decreases to some $\\bar U$, $L_k$ increases to some $\\underline L$, and $\\int U_k$, $\\int L_k$ are the upper and lower Darboux sums of $P_k$.\n2. All functions are bounded by $\\sup|f|$ on a finite measure space, so dominated convergence gives $\\int\\bar U=\\lim\\int U_k$ and $\\int\\underline L=\\lim\\int L_k$. Upper and lower sums converge to the upper and lower integrals as the mesh tends to $0$, so these limits are the upper and lower integrals.\n3. So $f$ is Riemann integrable iff $\\int(\\bar U-\\underline L)=0$, iff $\\bar U=\\underline L$ a.e. (the integrand is $\\ge0$).\n4. At a non-dyadic $x$, the pieces containing $x$ are small intervals with $x$ inside, so $\\bar U(x)-\\underline L(x)=\\lim_k\\operatorname{osc}_{I_k(x)}f=\\omega_f(x)$, where $\\operatorname{osc}_If=\\sup_If-\\inf_If$ and the oscillation of $f$ at $x$ is $\\omega_f(x)=\\lim_{\\delta\\to0}\\operatorname{osc}_{(x-\\delta,x+\\delta)}f$. And $\\omega_f(x)=0$ iff $f$ is continuous at $x$.\n5. Dyadic points are countable, hence null. So $f$ is Riemann integrable iff $\\omega_f=0$ a.e., i.e. $f$ is continuous a.e.\n6. In that case $f=\\bar U$ a.e., so $f$ is Lebesgue measurable (the Lebesgue σ-algebra is complete) and $\\int f\\,dm=\\int\\bar U=\\lim U(P_k)$, the Riemann integral.\n\nWatch out: step 4 uses that $x$ is not a partition point, so shrinking pieces around $x$ eventually sit inside any given neighborhood and contain a neighborhood of $x$ in their interior.",
+      "searchQuery": "Lebesgue criterion Riemann integrable continuous almost everywhere proof oscillation",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-product-sigma-algebra-definition",
+      "unit": "product-measures-fubini",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define the **product σ-algebra** $\\mathcal{M}\\otimes\\mathcal{N}$ on $X\\times Y$.",
+      "body": "The σ-algebra generated by the measurable rectangles $A\\times B$ with $A\\in\\mathcal{M}$, $B\\in\\mathcal{N}$.\n\nEquivalently, the smallest σ-algebra making both coordinate projections measurable. For Borel σ-algebras of second countable spaces such as $\\mathbb{R}^n$ and $\\mathbb{R}^k$, $\\mathcal{B}_{\\mathbb{R}^n}\\otimes\\mathcal{B}_{\\mathbb{R}^k}=\\mathcal{B}_{\\mathbb{R}^{n+k}}$.\n\nKey idea: sections of product-measurable sets are measurable, so $E_x=\\{y:(x,y)\\in E\\}\\in\\mathcal{N}$ for every $x$ and $E\\in\\mathcal{M}\\otimes\\mathcal{N}$. The sets with this property form a σ-algebra containing the rectangles.\n\nWatch out: the product of Lebesgue σ-algebras is not complete and is strictly smaller than the Lebesgue σ-algebra of $\\mathbb{R}^{n+k}$. If $A\\subseteq\\mathbb{R}$ is non-measurable, then $A\\times\\{0\\}$ is a subset of a null set but its section at $y=0$ is $A$, so it is not in the product.",
+      "searchQuery": "product sigma-algebra generated by measurable rectangles",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-product-measure-definition",
+      "unit": "product-measures-fubini",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "What is the **product measure** $\\mu\\times\\nu$ of σ-finite measure spaces $(X,\\mathcal{M},\\mu)$ and $(Y,\\mathcal{N},\\nu)$?",
+      "body": "The unique measure on $\\mathcal{M}\\otimes\\mathcal{N}$ with $(\\mu\\times\\nu)(A\\times B)=\\mu(A)\\,\\nu(B)$ for all measurable rectangles (with $0\\cdot\\infty=0$).\n\nExistence: the Carathéodory–Hahn theorem applied to the premeasure on finite disjoint unions of rectangles (next card). Uniqueness: that premeasure is σ-finite when $\\mu,\\nu$ are. Then $(\\mu\\times\\nu)(E)=\\int\\nu(E_x)\\,d\\mu(x)=\\int\\mu(E^y)\\,d\\nu(y)$.\n\nExample: Lebesgue measure on $\\mathbb{R}^{n+k}$ restricted to Borel sets is $m_n\\times m_k$; its completion is the Lebesgue measure.\n\nWatch out: σ-finiteness cannot be dropped. For Lebesgue measure times counting measure on $[0,1]$ there are two different measures that agree on rectangles (see the diagonal counterexample).",
+      "searchQuery": "product measure definition sigma-finite measurable rectangles unique",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-product-premeasure-proof-idea",
+      "unit": "product-measures-fubini",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline why $\\mu_0(\\bigsqcup_iA_i\\times B_i)=\\sum_i\\mu(A_i)\\nu(B_i)$ is a premeasure on the algebra of finite disjoint unions of measurable rectangles (the existence step for product measures).",
+      "body": "Countable additivity on a single rectangle follows from the monotone convergence theorem applied twice: integrate in $y$, then in $x$.\n\n1. Rectangles are closed under intersection, and $(A\\times B)^c=(A^c\\times Y)\\sqcup(A\\times B^c)$. So finite disjoint unions of rectangles form an algebra, and $\\mu_0$ is well defined and finitely additive by passing to a common refinement.\n2. Suppose $A\\times B=\\bigsqcup_jA_j\\times B_j$ (countably many, disjoint). Pointwise, $\\chi_A(x)\\chi_B(y)=\\sum_j\\chi_{A_j}(x)\\chi_{B_j}(y)$.\n3. Fix $x$ and integrate in $y$. Monotone convergence for series of nonnegative functions gives $\\chi_A(x)\\,\\nu(B)=\\sum_j\\chi_{A_j}(x)\\,\\nu(B_j)$.\n4. Integrate in $x$ and use monotone convergence again: $\\mu(A)\\nu(B)=\\sum_j\\mu(A_j)\\nu(B_j)$.\n5. A countable decomposition of a finite union of rectangles reduces to this case by intersecting with each rectangle.\n\nKey idea: countable additivity is hidden in the monotone convergence theorem. No topology or compactness is needed here, unlike for Lebesgue–Stieltjes measures.",
+      "searchQuery": "product measure premeasure proof rectangles monotone convergence",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-iterated-integral-sections-definition",
+      "unit": "product-measures-fubini",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "For $f:X\\times Y\\to\\overline{\\mathbb{R}}$ define the sections $f_x$, $f^y$ and the **iterated integral** $\\int\\!\\!\\int f\\,d\\nu\\,d\\mu$, and say when it makes sense.",
+      "body": "$f_x(y)=f(x,y)$ and $f^y(x)=f(x,y)$; the iterated integral is $\\int_X\\Big(\\int_Yf_x\\,d\\nu\\Big)\\,d\\mu(x)$, defined when each $f_x$ is measurable, $x\\mapsto\\int f_x\\,d\\nu$ is measurable, and both integrals exist (e.g. $f\\ge0$, or integrable integrands).\n\nThe inner integral is taken first, in the variable written closest to the integrand. For $\\mathcal{M}\\otimes\\mathcal{N}$-measurable $f$ every section is measurable, as for sets. Measurability of $x\\mapsto\\int f_x\\,d\\nu$ is part of Tonelli's theorem and needs σ-finiteness.\n\nWhy it matters: the two orders $\\int\\!\\!\\int f\\,d\\nu\\,d\\mu$ and $\\int\\!\\!\\int f\\,d\\mu\\,d\\nu$ are different expressions; Tonelli and Fubini are the conditions under which they agree with the integral over $X\\times Y$.\n\nTip: always state which variable is inner. Counterexamples below show both orders can exist and differ.",
+      "searchQuery": "iterated integral sections definition measurable inner integral",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-tonelli-theorem",
+      "unit": "product-measures-fubini",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State **Tonelli's theorem**.",
+      "body": "Let $(X,\\mathcal{M},\\mu)$, $(Y,\\mathcal{N},\\nu)$ be σ-finite and $f:X\\times Y\\to[0,\\infty]$ be $\\mathcal{M}\\otimes\\mathcal{N}$-measurable. Then $x\\mapsto\\int f_x\\,d\\nu$ and $y\\mapsto\\int f^y\\,d\\mu$ are measurable and $\\int f\\,d(\\mu\\times\\nu)=\\int\\!\\!\\int f\\,d\\nu\\,d\\mu=\\int\\!\\!\\int f\\,d\\mu\\,d\\nu$.\n\nNo integrability is assumed; all three values may be $\\infty$. It is the license to exchange the order of any nonnegative iterated integral.\n\nTip: the standard routine is to apply Tonelli to $|f|$ first. If the result is finite, $f$ is integrable and Fubini applies.\n\nWatch out: σ-finiteness and product measurability are both essential. Lebesgue times counting measure fails Tonelli for the diagonal indicator (a card below), and $f$ measurable only with respect to a completed product needs the completed version of the theorem.",
+      "searchQuery": "Tonelli theorem statement nonnegative sigma-finite iterated integrals",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-tonelli-proof-idea",
+      "unit": "product-measures-fubini",
+      "kind": "proof-idea",
+      "difficulty": 7,
+      "title": "Outline the proof of Tonelli's theorem.",
+      "body": "Prove it for indicators of rectangles, extend to all product-measurable sets for finite measures by a monotone class argument, then to σ-finite measures and nonnegative functions by monotone convergence.\n\n1. Finite measures: let $\\mathcal{H}$ be the sets $E\\in\\mathcal{M}\\otimes\\mathcal{N}$ for which $x\\mapsto\\nu(E_x)$ and $y\\mapsto\\mu(E^y)$ are measurable and $\\int\\nu(E_x)\\,d\\mu=\\int\\mu(E^y)\\,d\\nu$.\n2. Rectangles are in $\\mathcal{H}$ trivially, so finite disjoint unions of rectangles are in $\\mathcal{H}$ by additivity: $\\mathcal{H}$ contains the algebra.\n3. $\\mathcal{H}$ is a monotone class (closed under increasing unions and decreasing intersections): for increasing unions use monotone convergence, for decreasing intersections use dominated convergence (the dominating function is the constant bound $\\nu(Y)$, which is where finiteness is used). By the monotone class theorem, the monotone class generated by an algebra is the σ-algebra it generates, so $\\mathcal{H}=\\mathcal{M}\\otimes\\mathcal{N}$.\n4. σ-finite: take increasing $X_k\\uparrow X$, $Y_k\\uparrow Y$ of finite measure, apply step 3 to $E\\cap(X_k\\times Y_k)$ and let $k\\to\\infty$ by monotone convergence.\n5. Nonnegative $f$: true for $\\chi_E$, hence for simple functions by linearity, hence for all $f\\ge0$ by monotone convergence and the approximation by simple functions.\n\nFubini follows: split $f\\in L^1$ into the positive and negative parts of its real and imaginary parts, each of finite integral.",
+      "searchQuery": "Tonelli theorem proof monotone class rectangles",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-fubini-theorem",
+      "unit": "product-measures-fubini",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State **Fubini's theorem**.",
+      "body": "Let $(X,\\mathcal{M},\\mu)$, $(Y,\\mathcal{N},\\nu)$ be σ-finite and $f\\in L^1(\\mu\\times\\nu)$. Then $f_x\\in L^1(\\nu)$ for a.e. $x$ and $f^y\\in L^1(\\mu)$ for a.e. $y$, the a.e.-defined functions $x\\mapsto\\int f_x\\,d\\nu$ and $y\\mapsto\\int f^y\\,d\\mu$ are integrable, and $\\int f\\,d(\\mu\\times\\nu)=\\int\\!\\!\\int f\\,d\\nu\\,d\\mu=\\int\\!\\!\\int f\\,d\\mu\\,d\\nu$.\n\nHypothesis in practice: show $\\int|f|\\,d(\\mu\\times\\nu)<\\infty$ by applying Tonelli to $|f|$ and computing one iterated integral of $|f|$.\n\nWatch out: if $f$ is not integrable, both iterated integrals may exist yet differ; a double series and $\\frac{x^2-y^2}{(x^2+y^2)^2}$ on $(0,1)^2$ follow. Without σ-finiteness even a nonnegative $f$ can give unequal iterated integrals, as the diagonal for Lebesgue times counting measure shows.\n\nWatch out: the inner integral exists only for a.e. $x$, so the outer integral is of an a.e.-defined function.",
+      "searchQuery": "Fubini theorem statement integrable function product measure",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ],
+      "checkpoint": true
+    },
+    {
+      "id": "measure-region-under-graph-area",
+      "unit": "product-measures-fubini",
+      "kind": "example",
+      "difficulty": 6,
+      "title": "Use Tonelli to compute the area $(m\\times m)(R_f)$ of $R_f=\\{(x,y):0\\le y<f(x)\\}$ for a Borel measurable $f:\\mathbb{R}\\to[0,\\infty)$.",
+      "body": "$\\int f\\,dm$ (possibly $\\infty$).\n\n$R_f$ is product-measurable: it is $\\{(x,y):y\\ge0\\}\\cap\\{(x,y):f(x)-y>0\\}$ and $(x,y)\\mapsto f(x)-y$ is measurable on the product.\n\nSlice by $x$: the section $(R_f)_x=[0,f(x))$ has length $f(x)$. Tonelli gives $(m\\times m)(R_f)=\\int m((R_f)_x)\\,dm(x)=\\int f\\,dm$.\n\nSlicing the other way, $(R_f)^y=\\{x:f(x)>y\\}$, gives the equality $\\int f\\,dm=\\int_0^\\infty m(\\{f>y\\})\\,dy$, the first case of the layer-cake formula.\n\nWhy: this is the Lebesgue-integral version of \"the integral is the area under the graph\", which in Riemann theory is a definition.",
+      "searchQuery": "area under graph Lebesgue integral Tonelli region",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-tonelli-fails-diagonal",
+      "unit": "product-measures-fubini",
+      "kind": "counterexample",
+      "difficulty": 6,
+      "title": "Show that Tonelli fails for Lebesgue measure $m$ on $[0,1]$ times counting measure $c$ on $[0,1]$ (both on the Borel sets), using the diagonal $D=\\{(x,x)\\}$.",
+      "body": "$\\int\\!\\!\\int\\chi_D\\,dc\\,dm=1$ but $\\int\\!\\!\\int\\chi_D\\,dm\\,dc=0$; counting measure on $[0,1]$ is not σ-finite.\n\n$D$ is closed, hence Borel in $[0,1]^2$, and the Borel σ-algebra of the square is $\\mathcal{B}\\otimes\\mathcal{B}$.\n\nInner counting: the section $D_x=\\{x\\}$ has $c(D_x)=1$, so $\\int c(D_x)\\,dm(x)=\\int1\\,dm=1$.\n\nInner Lebesgue: the section $D^y=\\{y\\}$ has $m(D^y)=0$, so $\\int m(D^y)\\,dc(y)=0$.\n\nNot σ-finite: a countable union of finite sets is countable, but $[0,1]$ is not.\n\nWhy it matters: without σ-finiteness the product measure is not unique. $E\\mapsto\\sum_{y\\in[0,1]}m(E^y)$ is a measure on $\\mathcal{B}\\otimes\\mathcal{B}$ that gives every rectangle $m(A)c(B)$ but gives $D$ the value $0$, while the Carathéodory–Hahn extension of the rectangle premeasure gives $D$ the value $\\infty$.",
+      "searchQuery": "Tonelli fails Lebesgue counting measure diagonal not sigma-finite",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-fubini-fails-nonintegrable-kernel",
+      "unit": "product-measures-fubini",
+      "kind": "counterexample",
+      "difficulty": 6,
+      "title": "For $f(x,y)=\\dfrac{x^2-y^2}{(x^2+y^2)^2}$ on $(0,1)^2$, compute the two iterated integrals and explain the discrepancy.",
+      "body": "$\\int_0^1\\!\\!\\int_0^1f\\,dy\\,dx=\\pi/4$ and $\\int_0^1\\!\\!\\int_0^1f\\,dx\\,dy=-\\pi/4$, because $f\\notin L^1((0,1)^2)$.\n\nSince $\\frac{\\partial}{\\partial y}\\frac{y}{x^2+y^2}=\\frac{x^2-y^2}{(x^2+y^2)^2}$, the inner integral is $\\int_0^1f\\,dy=\\frac1{1+x^2}$, and $\\int_0^1\\frac{dx}{1+x^2}=\\frac\\pi4$.\n\n$f$ is antisymmetric, $f(y,x)=-f(x,y)$, so the other order gives $-\\pi/4$.\n\nNot integrable: on $\\{0<y<x\\}$ we have $f>0$ and $\\int_0^xf\\,dy=\\frac1{2x}$, so by Tonelli $\\int_{\\{y<x\\}}f=\\int_0^1\\frac1{2x}\\,dx=\\infty$. Hence $\\int|f|=\\infty$.\n\nWatch out: each iterated integral exists as an honest number; the failure is only that Fubini's hypothesis $\\int|f|<\\infty$ is false.",
+      "searchQuery": "Fubini fails x^2-y^2 over x^2+y^2 squared iterated integrals pi/4",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-fubini-fails-double-series",
+      "unit": "product-measures-fubini",
+      "kind": "counterexample",
+      "difficulty": 6,
+      "title": "Give a double sequence $a_{mn}$ ($m,n\\ge1$) for which $R=\\sum_m\\big(\\sum_na_{mn}\\big)$ and $S=\\sum_n\\big(\\sum_ma_{mn}\\big)$ both converge but differ.",
+      "body": "$a_{nn}=1$, $a_{n+1,n}=-1$ for $n\\ge1$, all other entries $0$: then $R=1$ and $S=0$.\n\nFor $R$ (sum over $n$ first, row by row): row $1$ contains only $a_{11}=1$, and row $m\\ge2$ contains $a_{mm}=1$ and $a_{m,m-1}=-1$, summing to $0$. So $R=1$.\n\nFor $S$ (sum over $m$ first, column by column): column $n$ contains $a_{nn}=1$ and $a_{n+1,n}=-1$, summing to $0$. So $S=0$.\n\nFubini for counting measure on $\\mathbb{Z}_{>0}^2$ requires $\\sum_{m,n}|a_{mn}|<\\infty$; here the sum of absolute values is $\\infty$.\n\nWatch out: this is the discrete form of the earlier phenomenon. Nonnegative terms (Tonelli) always allow exchange, and absolutely summable terms (Fubini) do too, but conditional convergence does not.",
+      "searchQuery": "double series unequal iterated sums counterexample Fubini",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-gaussian-integral-fubini",
+      "unit": "product-measures-fubini",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "Prove $\\int_{\\mathbb{R}}e^{-x^2}\\,dx=\\sqrt\\pi$ using only Tonelli's theorem and one-variable substitution (no polar coordinates).",
+      "body": "With $I=\\int_0^\\infty e^{-x^2}\\,dx$, substituting $y=xt$ turns $I^2$ into $\\int_0^\\infty\\!\\!\\int_0^\\infty xe^{-x^2(1+t^2)}\\,dt\\,dx$, and Tonelli gives $\\pi/4$.\n\n1. $I<\\infty$ since $e^{-x^2}\\le e^{-x}$ for $x\\ge1$.\n2. $I^2=\\int_0^\\infty e^{-x^2}\\Big(\\int_0^\\infty e^{-y^2}\\,dy\\Big)dx$.\n3. For fixed $x>0$ substitute $y=xt$: $\\int_0^\\infty e^{-y^2}\\,dy=x\\int_0^\\infty e^{-x^2t^2}\\,dt$. So $I^2=\\int_0^\\infty\\!\\!\\int_0^\\infty xe^{-x^2(1+t^2)}\\,dt\\,dx$.\n4. The integrand is nonnegative, so Tonelli lets us integrate in $x$ first: $\\int_0^\\infty xe^{-ax^2}\\,dx=\\frac1{2a}$ with $a=1+t^2$.\n5. Hence $I^2=\\int_0^\\infty\\frac{dt}{2(1+t^2)}=\\frac\\pi4$, $I=\\frac{\\sqrt\\pi}2$, and by evenness $\\int_{\\mathbb{R}}e^{-x^2}\\,dx=2I=\\sqrt\\pi$.\n\nWhy it works: the substitution turns a product of two independent integrals into an iterated integral whose inner and outer variables can be swapped, and the swapped inner integral is elementary.",
+      "searchQuery": "Gaussian integral proof Tonelli substitution sqrt pi",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-layer-cake-formula",
+      "unit": "product-measures-fubini",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "Prove the **layer-cake formula**: for σ-finite $(X,\\mathcal{M},\\mu)$, measurable $f$ and $0<p<\\infty$, $\\int|f|^p\\,d\\mu=p\\int_0^\\infty t^{p-1}\\,\\mu(\\{|f|>t\\})\\,dt$.",
+      "body": "Write $|f(x)|^p=\\int_0^{|f(x)|}pt^{p-1}\\,dt=\\int_0^\\infty pt^{p-1}\\chi_{\\{|f|>t\\}}(x)\\,dt$ and swap the two integrals with Tonelli.\n\n1. $(x,t)\\mapsto\\chi_{\\{|f(x)|>t\\}}$ is the indicator of $\\{(x,t):|f(x)|-t>0\\}$, which is $\\mathcal{M}\\otimes\\mathcal{B}$-measurable. So $(x,t)\\mapsto pt^{p-1}\\chi_{\\{|f(x)|>t\\}}$ is a nonnegative measurable function on $X\\times(0,\\infty)$.\n2. Both factors, $\\mu$ and Lebesgue measure on $(0,\\infty)$, are σ-finite, so Tonelli applies.\n3. $\\int|f|^p\\,d\\mu=\\int_X\\int_0^\\infty pt^{p-1}\\chi_{\\{|f|>t\\}}\\,dt\\,d\\mu=\\int_0^\\infty pt^{p-1}\\mu(\\{|f|>t\\})\\,dt$. Both sides may be $\\infty$.\n\nApplication: for a random variable $X\\ge0$, $E[X^p]=\\int_0^\\infty pt^{p-1}P(X>t)\\,dt$, and for $p=1$ $E[X]=\\int_0^\\infty P(X>t)\\,dt$.\n\nTip: if $\\int|f|^p<\\infty$ then $\\{f\\ne0\\}$ is automatically σ-finite, since $\\{|f|>1/k\\}$ has finite measure by Chebyshev's inequality, so the σ-finiteness hypothesis on $X$ can be dropped in that case.",
+      "searchQuery": "layer cake formula integral of f^p distribution function Tonelli",
+      "refs": [
+        "Folland, Real Analysis ch. 6"
+      ]
+    },
+    {
+      "id": "measure-convolution-l1-inequality",
+      "unit": "product-measures-fubini",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Let $f,g\\in L^1(\\mathbb{R}^n)$. Show that $f*g(x)=\\int f(x-y)g(y)\\,dy$ converges absolutely for a.e. $x$, defines an $L^1$ function, and $\\|f*g\\|_1\\le\\|f\\|_1\\|g\\|_1$.",
+      "body": "Apply Tonelli to $|f(x-y)g(y)|$ on $\\mathbb{R}^n\\times\\mathbb{R}^n$ to get $\\iint=\\|f\\|_1\\|g\\|_1<\\infty$, then Fubini.\n\n1. Measurability: replace $f,g$ by Borel functions equal to them a.e. (this changes no value of $f*g$: for each fixed $x$, the map $y\\mapsto x-y$ sends null sets to null sets). Then $(x,y)\\mapsto f(x-y)g(y)$ is Borel on $\\mathbb{R}^{2n}$.\n2. Tonelli: $\\int\\!\\!\\int|f(x-y)|\\,|g(y)|\\,dx\\,dy=\\int|g(y)|\\Big(\\int|f(x-y)|\\,dx\\Big)dy=\\|f\\|_1\\|g\\|_1$, using translation invariance of $m$ for the inner integral.\n3. So $(x,y)\\mapsto f(x-y)g(y)$ is in $L^1(\\mathbb{R}^{2n})$. By Fubini, for a.e. $x$ the function $y\\mapsto f(x-y)g(y)$ is integrable, so $f*g(x)$ is defined, and $f*g\\in L^1$.\n4. $\\|f*g\\|_1=\\int\\big|\\int f(x-y)g(y)\\,dy\\big|\\,dx\\le\\int\\!\\!\\int|f(x-y)||g(y)|\\,dy\\,dx=\\|f\\|_1\\|g\\|_1$.\n\nWatch out: $f*g(x)$ is defined only for a.e. $x$, not everywhere. Equality $\\|f*g\\|_1=\\|f\\|_1\\|g\\|_1$ holds when $f,g\\ge0$.",
+      "searchQuery": "convolution L1 functions defined almost everywhere norm inequality Fubini",
+      "refs": [
+        "Folland, Real Analysis ch. 8",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-minkowski-integral-inequality",
+      "unit": "product-measures-fubini",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Prove **Minkowski's integral inequality**: for σ-finite $(X,\\mu)$, $(Y,\\nu)$, $1\\le p<\\infty$ and measurable $F\\ge0$ on $X\\times Y$, $\\Big\\|\\int_YF(\\cdot,y)\\,d\\nu(y)\\Big\\|_{L^p(\\mu)}\\le\\int_Y\\|F(\\cdot,y)\\|_{L^p(\\mu)}\\,d\\nu(y)$.",
+      "body": "Write $G(x)=\\int F(x,y)\\,d\\nu(y)$; for $p>1$ expand $\\|G\\|_p^p=\\int G^{p-1}G\\,d\\mu$, swap with Tonelli, and apply Hölder in $x$.\n\n1. For $p=1$ the inequality is an equality, by Tonelli.\n2. Let $p>1$, $p'=p/(p-1)$, and assume first $0<\\|G\\|_p<\\infty$. Then $\\|G\\|_p^p=\\int G^{p-1}\\Big(\\int F(x,y)\\,d\\nu(y)\\Big)d\\mu(x)=\\int\\Big(\\int F(x,y)G(x)^{p-1}\\,d\\mu(x)\\Big)d\\nu(y)$ by Tonelli.\n3. Hölder in $x$ for each fixed $y$: $\\int F(x,y)G(x)^{p-1}\\,d\\mu\\le\\|F(\\cdot,y)\\|_p\\,\\|G^{p-1}\\|_{p'}=\\|F(\\cdot,y)\\|_p\\,\\|G\\|_p^{p-1}$, since $(p-1)p'=p$.\n4. Hence $\\|G\\|_p^p\\le\\|G\\|_p^{p-1}\\int\\|F(\\cdot,y)\\|_p\\,d\\nu(y)$. Divide by $\\|G\\|_p^{p-1}$.\n5. In general, replace $F$ by $F_k=\\min(F,k)\\chi_{X_k\\times Y_k}$ with $X_k,Y_k$ of finite measure increasing to $X,Y$. Then $G_k$ is bounded with finite-measure support, so $\\|G_k\\|_p<\\infty$. Apply steps 1–4 and let $k\\to\\infty$ by monotone convergence.\n\nWhy it matters: it is the continuous version of the triangle inequality $\\|\\sum f_j\\|_p\\le\\sum\\|f_j\\|_p$, used for Young's inequality and for estimating averages.",
+      "searchQuery": "Minkowski integral inequality proof Tonelli Holder",
+      "refs": [
+        "Folland, Real Analysis ch. 6"
+      ]
+    },
+    {
+      "id": "measure-beta-gamma-identity-problem",
+      "unit": "product-measures-fubini",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "For $a,b>0$ let $\\Gamma(s)=\\int_0^\\infty x^{s-1}e^{-x}\\,dx$ and $B(a,b)=\\int_0^1t^{a-1}(1-t)^{b-1}\\,dt$. Show that $\\Gamma(a)\\Gamma(b)=\\Gamma(a+b)\\,B(a,b)$.",
+      "body": "Write $\\Gamma(a)\\Gamma(b)$ as a double integral, substitute $u=x+y$ in the inner integral, swap with Tonelli over the region $0<x<u$, then set $x=ut$.\n\n1. By Tonelli, $\\Gamma(a)\\Gamma(b)=\\int_0^\\infty\\!\\!\\int_0^\\infty x^{a-1}y^{b-1}e^{-x-y}\\,dy\\,dx$.\n2. For fixed $x$, put $y=u-x$ in the inner integral: $\\int_x^\\infty(u-x)^{b-1}e^{-u}\\,du$.\n3. All integrands are nonnegative, so Tonelli on $\\{0<x<u\\}$ gives $\\Gamma(a)\\Gamma(b)=\\int_0^\\infty e^{-u}\\Big(\\int_0^ux^{a-1}(u-x)^{b-1}\\,dx\\Big)du$.\n4. In the inner integral let $x=ut$: it equals $u^{a+b-1}B(a,b)$.\n5. Therefore $\\Gamma(a)\\Gamma(b)=B(a,b)\\int_0^\\infty u^{a+b-1}e^{-u}\\,du=B(a,b)\\Gamma(a+b)$.\n\nTip: with $a=b=\\frac12$ and $t=\\sin^2\\theta$, $B(\\frac12,\\frac12)=\\pi$ and $\\Gamma(1)=1$, so $\\Gamma(\\tfrac12)^2=\\pi$, i.e. $\\Gamma(\\tfrac12)=\\sqrt\\pi$, matching the Gaussian integral.\n\nWatch out: no change-of-variables theorem in the plane is needed. The shear $(x,y)\\mapsto(x,x+y)$ is handled by a one-variable substitution inside Tonelli.",
+      "searchQuery": "Beta function Gamma function identity Tonelli proof",
+      "refs": [
+        "Folland, Real Analysis ch. 2",
+        "Stein–Shakarchi, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-locally-compact-hausdorff-definition",
+      "unit": "change-of-variables-regularity",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define a **locally compact Hausdorff space**.",
+      "body": "A Hausdorff space in which every point has an open neighborhood with compact closure.\n\nExamples: $\\mathbb{R}^n$, manifolds, discrete spaces, and open or closed subsets of compact Hausdorff spaces. Non-examples: $\\mathbb{Q}$ (compact subsets of $\\mathbb{Q}$ have empty interior) and any infinite-dimensional normed vector space (closed balls are not compact).\n\nWhy it matters: the one-point compactification of such a space is compact Hausdorff, hence normal, so Urysohn's lemma produces many continuous functions with compact support (the support of $f$ is the closure of $\\{f\\ne0\\}$). They form the space $C_c(X)$, through which Radon measures are studied.\n\nWatch out: the Hausdorff axiom is part of the definition. Without it, different standard definitions of \"locally compact\" disagree.",
+      "searchQuery": "locally compact Hausdorff space definition compact neighborhood",
+      "refs": [
+        "Folland, Real Analysis ch. 4"
+      ]
+    },
+    {
+      "id": "measure-regular-borel-measure-definition",
+      "unit": "change-of-variables-regularity",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define a **regular Borel measure** on a topological space $X$.",
+      "body": "A measure on the Borel σ-algebra such that for every Borel $E$: $\\mu(E)=\\inf\\{\\mu(U):U\\supseteq E\\text{ open}\\}$ (outer regular) and $\\mu(E)=\\sup\\{\\mu(K):K\\subseteq E\\text{ compact}\\}$ (inner regular).\n\nExample: Lebesgue measure on $\\mathbb{R}^n$ restricted to Borel sets, and every Dirac measure on a Hausdorff space.\n\nNon-example: counting measure on $\\mathbb{R}$. It is inner regular (finite subsets are compact), but not outer regular: a finite set $E$ has $\\mu(E)=|E|$ while every open $U\\supseteq E$ is infinite, so the infimum is $\\infty$.\n\nWatch out: some authors use closed sets instead of compact sets for inner regularity. On metric spaces every finite Borel measure has the closed version (a card below), but compact inner regularity needs more, for instance a complete separable metric space (Ulam).",
+      "searchQuery": "regular Borel measure outer regular inner regular definition",
+      "refs": [
+        "Folland, Real Analysis ch. 2 and ch. 7",
+        "Stein–Shakarchi, Real Analysis ch. 6"
+      ]
+    },
+    {
+      "id": "measure-radon-measure-definition",
+      "unit": "change-of-variables-regularity",
+      "kind": "definition",
+      "difficulty": 6,
+      "title": "Define a **Radon measure** on a locally compact Hausdorff space $X$.",
+      "body": "A Borel measure that is finite on compact sets, outer regular on every Borel set, and inner regular (by compact sets) on every open set.\n\nConsequence: a Radon measure is inner regular on all of its σ-finite sets, in particular on every Borel set of finite measure. Examples: Lebesgue measure on $\\mathbb{R}^n$, Lebesgue–Stieltjes measures $\\mu_F$ on $\\mathbb{R}$, Dirac measures, and counting measure on a discrete space. On a second countable locally compact Hausdorff space, every Borel measure finite on compact sets is Radon.\n\nWhy it matters: for a Radon measure $C_c(X)$ is dense in $L^1$, and Radon measures correspond exactly to the positive linear functionals on $C_c(X)$ (the Riesz representation theorem for measures, not the Hilbert space one).\n\nWatch out: outside the second countable case, regularity can fail for Borel measures finite on compact sets, so it must be assumed.",
+      "searchQuery": "Radon measure definition locally compact Hausdorff finite on compact sets",
+      "refs": [
+        "Folland, Real Analysis ch. 7"
+      ]
+    },
+    {
+      "id": "measure-borel-measure-metric-space-regularity",
+      "unit": "change-of-variables-regularity",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State the **regularity theorem** for finite Borel measures on a metric space $(X,d)$.",
+      "body": "If $\\mu$ is a finite Borel measure on a metric space, then for every Borel set $E$ and $\\varepsilon>0$ there are a closed $F$ and an open $U$ with $F\\subseteq E\\subseteq U$ and $\\mu(U\\setminus F)<\\varepsilon$.\n\nSo $\\mu(E)=\\inf\\{\\mu(U):U\\supseteq E\\text{ open}\\}=\\sup\\{\\mu(F):F\\subseteq E\\text{ closed}\\}$.\n\nWhy it matters: a finite Borel measure on a metric space is determined by its values on open (or closed) sets, which underlies weak convergence of probability measures.\n\nWatch out: finiteness is essential. Counting measure on $\\mathbb{R}$ is a Borel measure that is not outer regular. Also the compact version needs more: a finite Borel measure on a complete separable metric space is inner regular by compact sets (Ulam), but not on every metric space.",
+      "searchQuery": "finite Borel measure metric space closed regular theorem",
+      "refs": [
+        "Folland, Real Analysis ch. 2 and ch. 7",
+        "Stein–Shakarchi, Real Analysis ch. 6",
+        "Billingsley, Convergence of Probability Measures §1"
+      ]
+    },
+    {
+      "id": "measure-metric-regularity-proof-idea",
+      "unit": "change-of-variables-regularity",
+      "kind": "proof-idea",
+      "difficulty": 6,
+      "title": "Outline the proof that a finite Borel measure on a metric space is regular (open outer, closed inner).",
+      "body": "Show that the family of Borel sets that can be squeezed between a closed and an open set up to $\\varepsilon$ is a σ-algebra containing the closed sets.\n\n1. Let $\\mathcal{G}$ be the Borel sets $E$ such that for every $\\varepsilon>0$ there are closed $F\\subseteq E\\subseteq U$ open with $\\mu(U\\setminus F)<\\varepsilon$.\n2. Closed sets are in $\\mathcal{G}$: for closed $F$ let $U_k=\\{x:d(x,F)<1/k\\}$. These are open and decrease to $F$ because $F$ is closed. Since $\\mu$ is finite, continuity from above gives $\\mu(U_k\\setminus F)\\to0$.\n3. $\\mathcal{G}$ is closed under complements: if $F\\subseteq E\\subseteq U$ then $U^c\\subseteq E^c\\subseteq F^c$, with $U^c$ closed, $F^c$ open and $F^c\\setminus U^c=U\\setminus F$.\n4. Countable unions: let $E=\\bigcup E_j$ with $F_j\\subseteq E_j\\subseteq U_j$ and $\\mu(U_j\\setminus F_j)<\\varepsilon2^{-j-1}$. Then $U=\\bigcup U_j$ is open and $\\mu(U\\setminus\\bigcup F_j)<\\varepsilon/2$. By continuity from below, $F=\\bigcup_{j\\le N}F_j$ (closed) satisfies $\\mu(U\\setminus F)<\\varepsilon$ for large $N$.\n5. So $\\mathcal{G}$ is a σ-algebra containing the closed sets, hence all Borel sets.\n\nWhere the metric is used: step 2, closed sets are $G_\\delta$. In a general topological space a closed set need not be a countable intersection of open sets.",
+      "searchQuery": "proof regularity finite Borel measure metric space closed set G delta",
+      "refs": [
+        "Folland, Real Analysis ch. 2 and ch. 7",
+        "Stein–Shakarchi, Real Analysis ch. 6"
+      ]
+    },
+    {
+      "id": "measure-change-of-variables-theorem",
+      "unit": "change-of-variables-regularity",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State the **change of variables formula** for Lebesgue integrals on open subsets of $\\mathbb{R}^n$.",
+      "body": "If $\\Omega\\subseteq\\mathbb{R}^n$ is open and $G:\\Omega\\to G(\\Omega)$ is a $C^1$ diffeomorphism onto an open set, then $\\int_{G(\\Omega)}f\\,dm=\\int_\\Omega(f\\circ G)\\,|\\det DG|\\,dm$ for every measurable $f\\ge0$ and every $f\\in L^1(G(\\Omega))$.\n\nHere $\\det DG$ is the Jacobian determinant. The factor $|\\det DG(x)|$ is the local volume scaling of the linear map $DG(x)$.\n\nTip: it is enough that $G$ is an injective $C^1$ map with $\\det DG\\ne0$ everywhere; the inverse function theorem then makes $G$ a diffeomorphism onto an open set. The formula also survives if injectivity or invertibility fails only on a null set, which is how polar coordinates are used.\n\nWatch out: the absolute value of the determinant, not the determinant. If $G$ is not injective the right side counts multiplicity.",
+      "searchQuery": "change of variables formula Lebesgue integral diffeomorphism Jacobian determinant",
+      "refs": [
+        "Folland, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-change-of-variables-proof-idea",
+      "unit": "change-of-variables-regularity",
+      "kind": "proof-idea",
+      "difficulty": 7,
+      "title": "Outline the proof of the change of variables formula.",
+      "body": "Linear case, then a cube-by-cube estimate with the derivative frozen, giving one inequality for all $f\\ge0$; applying it to $G^{-1}$ gives equality.\n\n1. Linear $G$: $m(G(E))=|\\det G|\\,m(E)$.\n2. Cube estimate: if $Q\\subseteq\\Omega$ is a closed cube (sup norm) and $\\|DG\\|\\le M$ on $Q$, the mean value inequality puts $G(Q)$ in a cube of side $M\\cdot$side$(Q)$, so $m(G(Q))\\le M^nm(Q)$.\n3. Freeze the derivative: cut $Q$ into tiny cubes $Q_j$ with centers $y_j$. By uniform continuity of $DG$ on $Q$, $H_j=DG(y_j)^{-1}\\circ G$ has $\\|DH_j\\|\\le1+\\varepsilon$ on $Q_j$. Then $m(G(Q_j))=|\\det DG(y_j)|\\,m(H_j(Q_j))\\le(1+\\varepsilon)^n|\\det DG(y_j)|\\,m(Q_j)$.\n4. Summing and using continuity of $|\\det DG|$: $m(G(Q))\\le\\int_Q|\\det DG|$.\n5. Every open $U\\subseteq\\Omega$ is a countable union of non-overlapping dyadic cubes, giving $m(G(U))\\le\\int_U|\\det DG|$. Regularity extends this to Borel sets, then simple functions, then $f\\ge0$ by monotone convergence: $\\int_{G(\\Omega)}f\\le\\int_\\Omega(f\\circ G)|\\det DG|$.\n6. Apply the inequality to $G^{-1}$ and to the function $(f\\circ G)|\\det DG|$. Since $\\det D(G^{-1})(G(x))\\cdot\\det DG(x)=1$, this gives the reverse inequality. The $L^1$ case follows by splitting.\n\nKey idea: the freezing in step 3 is the same trick as the derivative approximating a function by a linear map, upgraded to volumes.",
+      "searchQuery": "proof change of variables formula linear case cubes derivative frozen",
+      "refs": [
+        "Folland, Real Analysis ch. 2"
+      ]
+    },
+    {
+      "id": "measure-polar-coordinates-theorem",
+      "unit": "change-of-variables-regularity",
+      "kind": "theorem",
+      "difficulty": 6,
+      "title": "State the **polar coordinates** formula on $\\mathbb{R}^n$ ($n\\ge2$), where **surface measure** $\\sigma$ on $S^{n-1}$ is defined by $\\sigma(E)=n\\,m(\\{rx':0<r\\le1,\\ x'\\in E\\})$ for Borel $E\\subseteq S^{n-1}$.",
+      "body": "For Borel measurable $f\\ge0$ (or integrable $f$): $\\int_{\\mathbb{R}^n}f(x)\\,dx=\\int_0^\\infty\\!\\!\\int_{S^{n-1}}f(rx')\\,r^{n-1}\\,d\\sigma(x')\\,dr$.\n\nFor a radial function $f(x)=f_0(|x|)$ this reads $\\int_{\\mathbb{R}^n}f_0(|x|)\\,dx=\\sigma(S^{n-1})\\int_0^\\infty f_0(r)\\,r^{n-1}\\,dr$.\n\nWhy: the map $x\\mapsto(|x|,x/|x|)$ carries $m$ on $\\mathbb{R}^n\\setminus\\{0\\}$ to the product of $r^{n-1}\\,dr$ and $\\sigma$. The factor $r^{n-1}$ comes from the scaling $m(cE)=c^nm(E)$, and the constant is the definition of $\\sigma$.\n\nCheck: for $n=2$, $\\sigma$ is arc length and $\\sigma(S^1)=2\\cdot\\pi=2\\pi$. In general $\\sigma(S^{n-1})=n\\,m(B)$ for the unit ball $B$.\n\nWatch out: this $\\sigma$ is defined through volumes of cones, so no differential geometry is used.",
+      "searchQuery": "polar coordinates integration Rn surface measure sphere radial function",
+      "refs": [
+        "Folland, Real Analysis ch. 2 and ch. 7",
+        "Stein–Shakarchi, Real Analysis ch. 6"
+      ]
+    },
+    {
+      "id": "measure-unit-ball-volume-formula",
+      "unit": "change-of-variables-regularity",
+      "kind": "formula",
+      "difficulty": 6,
+      "title": "What is the volume $\\omega_n$ of the unit ball of $\\mathbb{R}^n$, in terms of the Gamma function $\\Gamma(s)=\\int_0^\\infty x^{s-1}e^{-x}\\,dx$?",
+      "body": "$\\omega_n=\\dfrac{\\pi^{n/2}}{\\Gamma\\!\\left(\\frac n2+1\\right)}$\n\nDerivation: $\\int_{\\mathbb{R}^n}e^{-|x|^2}\\,dx=\\big(\\int_{\\mathbb{R}}e^{-t^2}dt\\big)^n=\\pi^{n/2}$ by Tonelli. In polar coordinates the same integral is $\\sigma(S^{n-1})\\int_0^\\infty e^{-r^2}r^{n-1}\\,dr=\\sigma(S^{n-1})\\cdot\\frac12\\Gamma(\\frac n2)$ (substitute $s=r^2$). So $\\sigma(S^{n-1})=\\frac{2\\pi^{n/2}}{\\Gamma(n/2)}$, and $\\omega_n=\\sigma(S^{n-1})/n=\\frac{\\pi^{n/2}}{\\Gamma(n/2+1)}$ using $\\frac n2\\Gamma(\\frac n2)=\\Gamma(\\frac n2+1)$.\n\nChecks: $\\omega_1=2$, $\\omega_2=\\pi$, $\\omega_3=\\frac{4\\pi}3$, $\\omega_4=\\frac{\\pi^2}2$.\n\nWatch out: $\\omega_n$ is not monotone in $n$. It peaks at $n=5$ ($\\omega_5=\\frac{8\\pi^2}{15}\\approx5.26$) and then tends to $0$ faster than any exponential.",
+      "searchQuery": "volume of unit ball in R^n formula pi^(n/2) Gamma",
+      "refs": [
+        "Folland, Real Analysis ch. 2 and ch. 7",
+        "Stein–Shakarchi, Real Analysis ch. 6"
+      ]
+    },
+    {
+      "id": "measure-gaussian-quadratic-form-integral",
+      "unit": "change-of-variables-regularity",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "Compute $\\int_{\\mathbb{R}^2}e^{-(x^2+xy+y^2)}\\,dx\\,dy$ exactly.",
+      "body": "$\\dfrac{2\\pi}{\\sqrt3}$\n\nWrite $x^2+xy+y^2=v^{\\mathsf T}Av$ with $A=\\begin{pmatrix}1&1/2\\\\1/2&1\\end{pmatrix}$, symmetric positive definite with $\\det A=\\tfrac34$.\n\nLet $u=A^{1/2}v$, a linear change of variables with $|\\det A^{1/2}|=\\sqrt{\\det A}=\\frac{\\sqrt3}2$. Then $dv=\\frac{2}{\\sqrt3}\\,du$ and the integral is $\\frac2{\\sqrt3}\\int_{\\mathbb{R}^2}e^{-|u|^2}\\,du=\\frac2{\\sqrt3}\\,\\pi=\\frac{2\\pi}{\\sqrt3}$.\n\nGeneral formula: $\\int_{\\mathbb{R}^n}e^{-v^{\\mathsf T}Av}\\,dv=\\pi^{n/2}/\\sqrt{\\det A}$ for positive definite $A$.\n\nCheck by completing the square: $x^2+xy+y^2=(x+\\frac y2)^2+\\frac34y^2$, so the integral is $\\sqrt\\pi\\cdot\\sqrt{\\frac{4\\pi}3}=\\frac{2\\pi}{\\sqrt3}$.\n\nWatch out: the Jacobian enters inverted. The variable $u$ is the one that is rescaled, so $dv=|\\det A^{1/2}|^{-1}du$.",
+      "searchQuery": "integral exp(-(x^2+xy+y^2)) over plane change of variables positive definite",
+      "refs": [
+        "Folland, Real Analysis ch. 2 and ch. 7",
+        "Stein–Shakarchi, Real Analysis ch. 6"
+      ],
+      "answer": "2pi/sqrt(3)",
+      "acceptedAnswers": [
+        "2pi/sqrt3",
+        "(2pi)/sqrt(3)",
+        "(2pi)/sqrt3",
+        "2sqrt(3)pi/3",
+        "2sqrt3pi/3",
+        "2pisqrt(3)/3",
+        "2pisqrt3/3"
+      ],
+      "answerDisplay": "$\\dfrac{2\\pi}{\\sqrt3}$"
+    },
+    {
+      "id": "measure-power-function-integrability-polar",
+      "unit": "change-of-variables-regularity",
+      "kind": "problem",
+      "difficulty": 6,
+      "title": "For which $a>0$ is $|x|^{-a}$ integrable over $\\{|x|<1\\}\\subseteq\\mathbb{R}^n$, and for which over $\\{|x|>1\\}$?",
+      "body": "Integrable near $0$ iff $a<n$, and integrable near $\\infty$ iff $a>n$; so $|x|^{-a}$ is never integrable on all of $\\mathbb{R}^n$.\n\nBy polar coordinates, $\\int_{|x|<1}|x|^{-a}\\,dx=\\sigma(S^{n-1})\\int_0^1r^{n-1-a}\\,dr$, finite iff $n-1-a>-1$, i.e. $a<n$, and then equal to $\\frac{\\sigma(S^{n-1})}{n-a}$.\n\nLikewise $\\int_{|x|>1}|x|^{-a}\\,dx=\\sigma(S^{n-1})\\int_1^\\infty r^{n-1-a}\\,dr$, finite iff $n-1-a<-1$, i.e. $a>n$, and then equal to $\\frac{\\sigma(S^{n-1})}{a-n}$.\n\nTip: the same method decides integrability of $|x|^{-a}(1+|x|)^{-b}$: it needs $a<n$ for the singularity at $0$ and $a+b>n$ at infinity.\n\nWatch out: at $a=n$ both ends diverge logarithmically, which is the borderline case in many qualifying exam problems.",
+      "searchQuery": "integrability of |x|^-a in R^n polar coordinates a<n a>n",
+      "refs": [
+        "Folland, Real Analysis ch. 2 and ch. 7",
+        "Stein–Shakarchi, Real Analysis ch. 6"
+      ]
+    },
+    {
+      "id": "measure-compact-support-dense-l1-radon",
+      "unit": "change-of-variables-regularity",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Let $\\mu$ be a Radon measure on a locally compact Hausdorff space $X$. Show that $C_c(X)$, the compactly supported continuous functions, is dense in $L^1(\\mu)$.",
+      "body": "Reduce to indicators of sets of finite measure, sandwich $E$ between a compact $K$ and an open $U$ with $\\mu(U\\setminus K)<\\varepsilon$, and insert an Urysohn function $\\varphi$ with $\\chi_K\\le\\varphi\\le\\chi_U$.\n\n1. Simple functions $\\sum a_j\\chi_{E_j}$ with $\\mu(E_j)<\\infty$ are dense in $L^1(\\mu)$ (simple approximation plus dominated convergence). So it suffices to approximate $\\chi_E$ with $\\mu(E)<\\infty$.\n2. Outer regularity gives an open $U_1\\supseteq E$ with $\\mu(U_1)<\\mu(E)+\\varepsilon$, so $\\mu(U_1\\setminus E)<\\varepsilon$, and then an open $U_2\\supseteq U_1\\setminus E$ with $\\mu(U_2)<\\varepsilon$.\n3. Inner regularity on the open set $U_1$ gives a compact $K'\\subseteq U_1$ with $\\mu(U_1\\setminus K')<\\varepsilon$. Let $K=K'\\setminus U_2$. It is compact, and $K\\subseteq U_1\\setminus U_2\\subseteq E$. Also $\\mu(E\\setminus K)\\le\\mu(U_1\\setminus K')+\\mu(U_2)<2\\varepsilon$.\n4. The Urysohn lemma for locally compact Hausdorff spaces (apply it in the one-point compactification) gives $\\varphi\\in C_c(X)$ with $0\\le\\varphi\\le1$, $\\varphi=1$ on $K$ and $\\operatorname{supp}\\varphi\\subseteq U_1$.\n5. $|\\chi_E-\\varphi|$ vanishes on $K$ and outside $U_1$, and is at most $1$ elsewhere. So $\\|\\chi_E-\\varphi\\|_1\\le\\mu(U_1\\setminus K)<2\\varepsilon$.\n\nWatch out: both regularity properties are used. Without outer regularity one cannot control $\\mu(U\\setminus E)$, and without inner regularity one has no compact $K$.",
+      "searchQuery": "compactly supported continuous functions dense L1 Radon measure Urysohn",
+      "refs": [
+        "Folland, Real Analysis ch. 7"
+      ]
+    }
+  ]
+}

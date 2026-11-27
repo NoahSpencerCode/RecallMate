@@ -1,0 +1,1222 @@
+{
+  "profession": "embedded-ai",
+  "module": "computer-organization",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "computer-stored-program-computer",
+      "unit": "stored-program-isa",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is a **stored-program computer**?",
+      "body": "A computer that keeps its program in memory as numbers, in the same way it keeps its data.\n\nInstead of being rewired for each job, the machine reads its instructions from memory one after another. To change what it does, you change the numbers in memory, not the hardware.\n\nWhy it matters: This is why firmware can be updated. A new program is just new bytes written into the chip's flash memory, and a program can be loaded, copied and checked like any other data.\n\nExample: Flashing new firmware onto a microcontroller writes the new program's bytes into its flash. The processor itself is unchanged.",
+      "searchQuery": "stored-program computer definition program in memory",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §2.1–2.3",
+        "Arm Education, Introduction to Microprocessors (Introduction to the CPU)"
+      ]
+    },
+    {
+      "id": "computer-isa-definition",
+      "unit": "stored-program-isa",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is an **instruction set architecture** (ISA)?",
+      "body": "The contract between hardware and software: the instructions, registers and memory behavior that a program can rely on, without knowing how the chip is built inside.\n\nCompilers target the ISA and chip designers implement it. Any processor that implements the same RISC-V base ISA can run the same machine code, whether it is a tiny slow core or a large fast one.\n\nWhy it matters: The contract lets software and hardware change independently. A faster chip that implements the same ISA runs old programs unchanged.\n\nWatch out: The ISA says what each instruction does, not how fast it runs or how the chip is built. How a particular chip implements the ISA is called its **microarchitecture**.",
+      "searchQuery": "instruction set architecture ISA contract hardware software",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., §2.1–2.3"
+      ]
+    },
+    {
+      "id": "computer-program-counter",
+      "unit": "stored-program-isa",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is the **program counter** (PC)?",
+      "body": "A register that holds the address of the next instruction to run.\n\nAfter each instruction the PC normally moves on to the following one. In RISC-V's base integer ISA (RV32I, named on a later card) every instruction is 4 bytes long, so the PC advances by 4. Branches and jumps work by writing a different address into the PC.\n\nExample: If the PC holds `0x00000100`, the instruction at that address runs next and the PC then becomes `0x00000104`.\n\nWatch out: In RISC-V the PC is not one of the 32 general registers x0 to x31, so ordinary instructions cannot name it as an operand.",
+      "searchQuery": "program counter PC register address next instruction",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., §2.1–2.3"
+      ]
+    },
+    {
+      "id": "computer-fetch-decode-execute",
+      "unit": "stored-program-isa",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What happens in the **fetch–decode–execute cycle**, and which parts of the processor take part?",
+      "body": "Fetch the instruction at the address in the PC, decode it, execute it using the register file, ALU and memory, then update the PC and repeat.\n\n- Fetch: the PC addresses memory and the instruction word comes back.\n- Decode: work out which operation is requested and which registers it names.\n- Execute: the **register file** (the small, fast set of registers) supplies operands, the ALU computes, memory is read or written by loads and stores, and the result is written back to a register.\n\nKey idea: A processor is a machine that repeats this one loop for as long as it has power. A program is only a long list of things for the loop to do.\n\nWhy it matters: Every later topic, pipelines and caches included, is a way to run this same loop faster.",
+      "searchQuery": "fetch decode execute cycle processor PC register file ALU",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Arm Education, Introduction to Microprocessors (The Fetch-Decode-Execute Cycle)"
+      ]
+    },
+    {
+      "id": "computer-rv32i-overview",
+      "unit": "stored-program-isa",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "What is **RV32I**, and how many integer registers does it give a program?",
+      "body": "RISC-V's base integer instruction set with 32-bit registers: 32 integer registers, x0 to x31, each 32 bits wide.\n\nThe name reads RV (RISC-V), 32 (register width in bits) and I (integer). It has a few dozen simple instructions: arithmetic, logic, shifts, loads and stores, branches and jumps. It has no multiply or divide; those come from the optional M extension.\n\nWhy it matters: RV32I is small enough to implement in a very small chip and still complete enough to run compiled C.\n\nExample: The register file holds $32 \\times 32 = 1024$ bits, which is 128 bytes.",
+      "searchQuery": "RV32I base integer instruction set 32 registers x0 x31",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., §2.1–2.3"
+      ]
+    },
+    {
+      "id": "computer-x0-misconception",
+      "unit": "stored-program-isa",
+      "kind": "misconception",
+      "difficulty": 2,
+      "title": "Why is it false that you can keep a value in register `x0`, as you can in `x5`?",
+      "body": "`x0` is hard-wired to zero: reading it always gives 0 and writing to it is ignored.\n\nExample: After `addi x0, x0, 5` (add 5 to x0 and write the sum to x0), register `x0` still holds 0. The instruction `add x9, x0, x6` (x9 = x0 + x6) copies x6 into x9, because adding zero changes nothing.\n\nWhy: A constant zero is very useful. It lets one `add` or `addi` do the work of a move or of loading a small constant, lets you compare against zero, and lets you throw a result away by writing it to `x0`. It also costs no storage, so only 31 registers are real storage.\n\nWatch out: Count only x1 to x31 when you plan how many values fit in registers.",
+      "searchQuery": "RISC-V x0 zero register hard-wired writes ignored",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., §2.1–2.3"
+      ]
+    },
+    {
+      "id": "computer-code-trace-first-program",
+      "unit": "stored-program-isa",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "In RISC-V, `addi rd, rs1, imm` adds the constant `imm` to register `rs1`, `add rd, rs1, rs2` adds two registers, and `sub rd, rs1, rs2` computes rs1 − rs2. All registers start at 0. What do x7 and x8 hold afterwards?\n\n```asm\naddi x5, x0, 6\naddi x6, x0, 7\nadd  x7, x5, x6\nsub  x8, x7, x5\n```",
+      "body": "x7 = 13 and x8 = 7.\n\nTrace it line by line. `addi x5, x0, 6` adds 6 to zero, so x5 = 6. Likewise x6 = 7. Then x7 = 6 + 7 = 13, and x8 = 13 − 6 = 7.\n\nKey idea: The 6 and 7 are **immediates**: constants stored inside the instruction itself. Adding one to `x0` is how RISC-V puts a small constant into a register.\n\nWatch out: `sub` subtracts its third operand from its second, so `sub x8, x7, x5` is x7 − x5, not x5 − x7.",
+      "searchQuery": "RISC-V addi add sub trace registers immediate",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6"
+      ]
+    },
+    {
+      "id": "computer-code-compiler-assembler-chain",
+      "unit": "stored-program-isa",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "A toolchain turns one C statement into the three forms below. Which tool produces line 2 from line 1, and which produces line 3 from line 2?\n\n```asm\n1.  y = x + 5;\n2.  addi x5, x6, 5\n3.  0x00530293\n```",
+      "body": "The compiler turns line 1 into line 2; the assembler turns line 2 into line 3, which is machine code.\n\nThe compiler chooses instructions and registers (here it kept y in x5 and x as x6). Line 2 is assembly text, which people can read. The **assembler** translates that text, almost mechanically, into the bits the processor executes. Those bits are called **machine code**; line 3 shows one 32-bit instruction in hexadecimal.\n\nWhy: Seeing all three forms explains why you read assembly to check what the compiler did, and why a disassembler can turn machine code back into text.\n\nWatch out: People often say \"compile\" for the whole chain. The linker then joins the object files into an executable.",
+      "searchQuery": "compiler assembler machine code C to assembly RISC-V addi",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "MIT 6.191 (Fall 2026), L10 Compilers and RISC-V Assembly"
+      ]
+    },
+    {
+      "id": "computer-trade-off-risc-vs-cisc",
+      "unit": "stored-program-isa",
+      "kind": "trade-off",
+      "difficulty": 2,
+      "title": "You must choose an instruction-set style for a tiny, low-power microcontroller core. **RISC** (few, simple, equal-length instructions) or **CISC** (many, complex, variable-length instructions)?",
+      "body": "RISC: simple, regular instructions keep the decoder and the whole core small, cheap and easy to speed up, at the price of somewhat more instructions per program.\n\nRISC stands for reduced instruction set computer; RISC-V and Arm are RISC-style. Most RISC instructions do one small thing, and arithmetic works only on registers.\n\nThe other side: **CISC** (complex instruction set computer, x86 being the best known) lets one instruction do more, such as read memory and add in one step. Programs need fewer, denser instructions, but instruction lengths vary and decoding is harder.\n\nWatch out: The comparison depends on conditions. Large modern x86 chips translate their complex instructions into simple internal steps, so the gap that matters is mostly in small, low-power cores.",
+      "searchQuery": "RISC vs CISC trade-off microcontroller instruction set",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §2.1–2.3",
+        "Harris & Harris, DDCA RISC-V ed., ch. 6"
+      ]
+    },
+    {
+      "id": "computer-assembly-language",
+      "unit": "riscv-assembly-basics",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is **assembly language**?",
+      "body": "A human-readable text form of machine code: one line per instruction, written as a short name (the mnemonic) followed by its operands.\n\nExample: `add x7, x5, x6` means \"put x5 + x6 into x7\". For most arithmetic instructions the first operand is the destination and the sources follow.\n\nLabels such as `loop:` name addresses so you never count bytes by hand, and a `#` starts a comment.\n\nWhy it matters: Assembly is the lowest level people can comfortably read, and it is what you inspect to see what the compiler produced.\n\nWatch out: Assembly belongs to one ISA. RISC-V and Arm assembly look different even for the same C code.",
+      "searchQuery": "assembly language mnemonic operands label RISC-V",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-byte-addressing-effective-address",
+      "unit": "riscv-assembly-basics",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "RISC-V memory is **byte addressed**. How is the **effective address** of `lw x5, 8(x10)` computed, and how far apart are consecutive 32-bit words?",
+      "body": "Effective address = x10 + 8 (base register plus offset), and consecutive 32-bit words are 4 bytes apart.\n\nByte addressing means each address names one byte. A word is 4 bytes, so word number $k$ of an array that starts at address $b$ is at $b + 4k$. The offset is a signed 12-bit immediate.\n\nExample: With x10 = `0x1000`, `lw x5, 8(x10)` reads the 4 bytes at `0x1008` to `0x100B`, which is the third word.\n\nWatch out: The load reads address x10 + 8. It does not read address 8, and it does not multiply anything by 4. Word loads expect an address that is a multiple of 4 (alignment); an unaligned one may fault or run slowly.",
+      "searchQuery": "byte addressing effective address base plus offset lw RISC-V",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-logic-ops",
+      "unit": "riscv-assembly-basics",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "All registers start at 0. What do x7 and x8 hold afterwards, as decimal numbers?\n\n```asm\naddi x5, x0, 12\naddi x6, x0, 10\nand  x7, x5, x6\nor   x8, x5, x6\n```",
+      "body": "x7 = 8 and x8 = 14.\n\nWrite the values in binary: $12 = 1100_2$ and $10 = 1010_2$. A bit of `and` is 1 only where both inputs have a 1: $1000_2 = 8$. A bit of `or` is 1 where either has a 1: $1110_2 = 14$.\n\nWhy: `and`, `or` and `xor` work on every bit independently, exactly like `&`, `|` and `^` in C. `andi`, `ori` and `xori` do the same with an immediate.\n\nWatch out: These are bitwise operations, not the logical `&&` and `||` of C.",
+      "searchQuery": "RISC-V and or bitwise instructions example binary",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-shifts",
+      "unit": "riscv-assembly-basics",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "x5 starts at −16. What do x6, x7 and x8 hold afterwards?\n\n```asm\naddi x5, x0, -16\nslli x6, x5, 2\nsrai x7, x5, 2\nsrli x8, x5, 28\n```",
+      "body": "x6 = −64, x7 = −4, x8 = 15.\n\n−16 is `0xFFFFFFF0` in 32-bit two's complement. `slli` shifts left by 2, which multiplies by 4: −64. `srai` is an arithmetic shift right, which copies the sign bit into the vacated bits: −4. `srli` is a logical shift right, which fills with zeros: `0xFFFFFFF0 >> 28 = 0xF = 15`.\n\nWhy it matters: A left shift by $k$ multiplies by $2^k$, which is how compilers scale array indexes.\n\nWatch out: Use `srai` for signed values and `srli` for unsigned ones. A logical shift of a negative number gives a large positive number.",
+      "searchQuery": "RISC-V slli srai srli shift example negative",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-lw-sw-trace",
+      "unit": "riscv-assembly-basics",
+      "kind": "code",
+      "difficulty": 2,
+      "title": "Memory holds the 32-bit word 30 at address `0x1004` and the word 12 at `0x1008`, and x10 = `0x1000`. After this code runs, which address holds which value?\n\n```asm\nlw  x5, 4(x10)\nlw  x6, 8(x10)\nadd x7, x5, x6\nsw  x7, 12(x10)\n```",
+      "body": "The word at address `0x100C` becomes 42.\n\n**Load word** (`lw`) copies 4 bytes from memory into a register; **store word** (`sw`) copies a register into 4 bytes of memory. The effective addresses are `0x1004`, `0x1008` and `0x100C`. The two loads fetch 30 and 12, `add` makes 42, and `sw` writes it.\n\nExample: In C this is `p[3] = p[1] + p[2];` with `int *p = (int *)0x1000;`.\n\nKey idea: Arithmetic happens only on registers. Memory is touched only by loads and stores.\n\nWatch out: In `sw x7, 12(x10)` the register is the value being stored. In `lw` the register is the destination.",
+      "searchQuery": "RISC-V lw sw load store word trace effective address",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-lb-lbu",
+      "unit": "riscv-assembly-basics",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "The byte at address `0x2000` is `0xF0` and x10 = `0x2000`. What do x5 and x6 hold afterwards, as 32-bit hex?\n\n```asm\nlb  x5, 0(x10)\nlbu x6, 0(x10)\n```",
+      "body": "x5 = `0xFFFFFFF0` and x6 = `0x000000F0`.\n\n`lb` loads a byte and sign-extends it: bit 7 is copied into the upper 24 bits, so `0xF0` becomes −16. `lbu` (load byte unsigned) zero-extends it, giving 240.\n\nWhy it matters: Use `lb` for `int8_t` and signed char data, and `lbu` for `uint8_t` data such as sensor bytes. Picking the wrong one turns 240 into −16.\n\nWatch out: There is a `sb` (store byte) that writes the low 8 bits, but no `sbu`: a store needs no extension.",
+      "searchQuery": "RISC-V lb lbu load byte sign extension zero extension",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-pseudo-instruction",
+      "unit": "riscv-assembly-basics",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **pseudo-instruction**, and what do `li`, `mv` and `j` expand to?",
+      "body": "An assembler shorthand that expands to one or more real instructions: `li x5, 100` is `addi x5, x0, 100`, `mv x5, x6` is `addi x5, x6, 0`, and `j label` is `jal x0, label`.\n\n`jal` jumps to a label and saves the return address in its first register; using `x0` throws that address away, so it is a plain jump. Other examples are `nop` (`addi x0, x0, 0`) and `ret` (a return from a function, covered in the function-call unit).\n\nWhy it matters: Pseudo-instructions keep assembly readable while the processor only needs the small real set.\n\nWatch out: A disassembler may show the real instruction rather than your pseudo name, and instruction counts always count real instructions. A large `li` can expand to two instructions.",
+      "searchQuery": "RISC-V pseudo-instruction li mv j expansion addi jal",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-if-else-branch",
+      "unit": "riscv-assembly-basics",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Fill in the blank so the code does `if (a == b) c = 1; else c = 2;` with `a` in x5, `b` in x6 and `c` in x7.\n\n```asm\n       ____ x5, x6, Lelse\n       addi x7, x0, 1\n       j    Lend\nLelse: addi x7, x0, 2\nLend:  # code continues\n```",
+      "body": "`bne`\n\nA **branch** instruction tests a condition and, if it is true, jumps to a label; otherwise execution falls through to the next instruction. RISC-V has `beq`, `bne`, `blt`, `bge`, `bltu` and `bgeu`.\n\nTo skip the \"then\" part when `a != b`, the code must test the opposite of the C condition. The `j Lend` is a **jump**, which always goes to its target; it keeps the \"then\" part from running into the \"else\" part.\n\nWatch out: Compilers usually invert the C condition, so `if (a == b)` becomes `bne`. Leaving out `j Lend` makes the code run both branches.",
+      "searchQuery": "RISC-V branch bne beq if else translation",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-loop-sum",
+      "unit": "riscv-assembly-basics",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "x5 holds n = 4. What is in x6 when execution reaches `done`?\n\n```asm\n      addi x6, x0, 0\n      addi x7, x0, 1\nloop: blt  x5, x7, done\n      add  x6, x6, x7\n      addi x7, x7, 1\n      j    loop\ndone:\n```",
+      "body": "10, which is 1 + 2 + 3 + 4.\n\nThis is `s = 0; for (i = 1; i <= n; i++) s += i;`. The `blt x5, x7, done` instruction branches when x5 < x7, that is when n < i, so the loop exits once i exceeds n. The `j loop` at the bottom is an unconditional jump back to the test.\n\nExample: For n = 4 the body runs for i = 1, 2, 3, 4 and the `blt` test runs 5 times.\n\nWatch out: The exit test is the opposite of the loop condition `i <= n`, which is why it reads n < i. Swapping the operands would exit at once.",
+      "searchQuery": "RISC-V loop blt jump sum 1 to n assembly",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-array-index",
+      "unit": "riscv-assembly-basics",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "`a` is an `int` array (32-bit) whose base address is in x10, and `i` is in x11. Fill in the blank so x12 gets `a[i]`.\n\n```asm\nslli x5, x11, ___\nadd  x5, x10, x5\nlw   x12, 0(x5)\n```",
+      "body": "2\n\nShifting left by 2 multiplies `i` by 4, the size of an `int`. The effective address is base + 4i, so `a[i]` is the word at that address.\n\nExample: With x10 = `0x1000` and i = 3, the address is $0x1000 + 12 = 0x100C$.\n\nTip: The offset field can hold constants, so `a[i + 1]` is `lw x12, 4(x5)` with the same address calculation.\n\nWatch out: The shift depends on the element size: 0 for bytes, 1 for 16-bit values, 2 for 32-bit values, 3 for 8-byte values. Forgetting to scale reads the element at byte offset i, not at index i.",
+      "searchQuery": "RISC-V array a[i] slli add lw address calculation",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-problem-count-negatives",
+      "unit": "riscv-assembly-basics",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "x10 = `0x1000` holds the base of an `int` array {5, −2, 7, −9, 0} and x11 = 5 is its length. The program counts the negative elements in x6. What is x6 at `done`, and how many instructions execute from the first line up to and including the branch to `done`?\n\n```asm\n      addi x6, x0, 0\n      addi x7, x0, 0\nloop: bge  x7, x11, done\n      slli x5, x7, 2\n      add  x5, x10, x5\n      lw   x8, 0(x5)\n      bge  x8, x0, skip\n      addi x6, x6, 1\nskip: addi x7, x7, 1\n      j    loop\ndone:\n```",
+      "body": "x6 = 2, and 40 instructions execute.\n\nThe C version is `count = 0; for (i = 0; i < n; i++) if (a[i] < 0) count++;`. The `bge x8, x0, skip` branch skips the increment when the element is not negative, so 5, 7 and 0 are skipped and −2 and −9 are counted. Zero is not negative, so it is not counted.\n\nCounting instructions: 2 setup instructions. A non-negative element runs 7 (`bge`, `slli`, `add`, `lw`, `bge`, `addi`, `j`), and a negative one runs 8 because of the extra `addi`. That is $2 + 3 \\times 7 + 2 \\times 8 = 39$, plus the final `bge` that exits, giving 40.\n\nWhy it matters: The instruction count is the first factor of the performance equation in a later unit.",
+      "searchQuery": "RISC-V assembly count negative array loop trace instruction count",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-calling-convention-abi",
+      "unit": "procedures-calling-convention",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **calling convention**, and how does it relate to the **application binary interface** (ABI)?",
+      "body": "A calling convention is the agreed set of rules for passing arguments, returning results and preserving registers across a function call. It is the core of the ABI, the binary-level contract between separately compiled pieces of code.\n\nIn the RISC-V integer convention the first arguments go in `a0` to `a7` (x10 to x17), the result comes back in `a0` (and `a1`), `ra` is x1, `sp` is x2, `t0` to `t6` are temporaries and `s0` to `s11` are saved registers.\n\nWhy it matters: Code compiled separately, by different compilers or written by hand, can only call each other if everyone follows the same rules.\n\nWatch out: Names like `a0` come from the ABI. The hardware only knows x10.",
+      "searchQuery": "calling convention ABI RISC-V a0 a7 ra sp registers",
+      "refs": [
+        "RISC-V ELF psABI specification (integer calling convention)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-caller-saved-registers",
+      "unit": "procedures-calling-convention",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **caller-saved register** in the RISC-V calling convention, and which registers are they?",
+      "body": "A register that a called function may overwrite freely, so the caller must save any value it still needs before making the call. In RISC-V these are `a0` to `a7`, `t0` to `t6` and `ra`.\n\nExample: A function keeps a count in `t0` and then calls `f`. After `f` returns, `t0` may hold anything. The caller must store it on the stack before the call, or keep it in an s register.\n\nKey idea: Caller-saved means \"don't count on it surviving a call\".\n\nTip: Use t registers for short-lived values that are not needed across a call, since they cost nothing to use.",
+      "searchQuery": "caller-saved registers RISC-V t0 t6 a0 a7 ra",
+      "refs": [
+        "RISC-V ELF psABI specification (integer calling convention)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-callee-saved-registers",
+      "unit": "procedures-calling-convention",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **callee-saved register** in the RISC-V calling convention, and which registers are they?",
+      "body": "A register that a called function must return exactly as it found it. In RISC-V these are `s0` to `s11` and `sp`.\n\nA function that wants to use `s0` must save the old value when it starts, usually on the stack, and restore it before returning.\n\nExample: A loop in a caller keeps its counter in `s1` across many calls. It needs no saving around each call, because every callee that uses `s1` restores it.\n\nWatch out: Choose by lifetime. A value needed after a call belongs in an s register (callee-saved) or on the stack; a short temporary belongs in a t register.",
+      "searchQuery": "callee-saved registers RISC-V s0 s11 sp restore",
+      "refs": [
+        "RISC-V ELF psABI specification (integer calling convention)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-jal-jalr-ra",
+      "unit": "procedures-calling-convention",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How do `jal` and `jalr` implement a function call and return, and what does the **return address** register `ra` hold?",
+      "body": "`jal ra, f` saves the address of the next instruction in `ra` and jumps to `f`; `jalr x0, 0(ra)` (written `ret`) jumps back to the address in `ra`.\n\nExample: A `jal ra, func` at address `0x100` with `func` at `0x200` sets `ra = 0x104` and the PC to `0x200`. The later `ret` sets the PC to `0x104`.\n\n`jalr rd, offset(rs1)` jumps to the address in `rs1` plus the offset, so it can also jump through a function pointer. Writing `x0` as the destination throws the link away.\n\nWatch out: There is only one `ra`. A function that calls another function overwrites its own return address unless it saves `ra` first.",
+      "searchQuery": "RISC-V jal jalr ra return address function call ret",
+      "refs": [
+        "RISC-V ELF psABI specification (integer calling convention)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-clobbered-temp",
+      "unit": "procedures-calling-convention",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This fragment sits inside a function that has already saved its own `ra`. Why can it compute the wrong sum if `f` is compiled separately and uses `t0` internally?\n\n```asm\n    li   t0, 5\n    jal  ra, f\n    add  a0, a0, t0    # f's result + 5\n```",
+      "body": "`t0` is caller-saved, so `f` may overwrite it; the caller must save it before the call and restore it after.\n\nA fix that follows the convention:\n\n```asm\n    li   t0, 5\n    addi sp, sp, -16\n    sw   t0, 12(sp)\n    jal  ra, f\n    lw   t0, 12(sp)\n    addi sp, sp, 16\n    add  a0, a0, t0\n```\n\nKeeping the 5 in `s1` instead also works, but then the function must save and restore `s1` for its own caller.\n\nWatch out: The bug depends on the body of `f`. It can pass tests while `f` is tiny and break when `f` is rewritten to use more temporaries.",
+      "searchQuery": "RISC-V caller-saved t0 clobbered across call bug fix stack",
+      "refs": [
+        "RISC-V ELF psABI specification (integer calling convention)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-max-leaf",
+      "unit": "procedures-calling-convention",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "A caller puts −3 in `a0` and −8 in `a1`, then runs `jal ra, max2`. What is in `a0` when `max2` returns? (`max2` is a **leaf function**: it calls no other function.)\n\n```asm\nmax2: bge a0, a1, done\n      mv  a0, a1\ndone: ret\n```",
+      "body": "−3\n\nThe arguments arrive in `a0` and `a1` and the result leaves in `a0`. `bge` compares as signed numbers, −3 ≥ −8 is true, so it skips the `mv` and `a0` still holds −3. In C this is `int max2(int a, int b) { return a >= b ? a : b; }`.\n\nWhy: A leaf function needs no stack frame. It never overwrites `ra`, because it makes no call, and it uses no s registers, so it can end with a bare `ret`.\n\nWatch out: `ret` is only the pseudo-instruction `jalr x0, 0(ra)`; it jumps to wherever `ra` points.",
+      "searchQuery": "RISC-V leaf function max2 a0 a1 return value ret",
+      "refs": [
+        "RISC-V ELF psABI specification (integer calling convention)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-save-ra",
+      "unit": "procedures-calling-convention",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This function calls `helper`. Fill in the blank so that `twice_plus` returns to its own caller.\n\n```asm\ntwice_plus:\n    addi sp, sp, -16\n    sw   ____, 12(sp)\n    jal  ra, helper\n    addi a0, a0, 1\n    lw   ra, 12(sp)\n    addi sp, sp, 16\n    ret\n```",
+      "body": "`ra`\n\n`jal ra, helper` overwrites `ra` with the address after the call. If `ra` is not saved in that slot, the `lw ra, 12(sp)` reloads whatever garbage was there, so `ret` jumps to a wrong address. (With no save and no reload at all, `ret` would jump back to the instruction after the `jal` and loop forever.)\n\nThe first two lines are the **prologue**: they move the **stack pointer** `sp` down (the stack grows toward lower addresses) to make a frame, and save registers in it. The last three lines are the **epilogue**: they restore `ra`, move `sp` back up and return.\n\nExample: The C source is `int twice_plus(int x) { return helper(x) + 1; }`.\n\nWatch out: The RISC-V ABI keeps `sp` a multiple of 16, which is why a one-word save still takes a 16-byte frame.",
+      "searchQuery": "RISC-V prologue epilogue save ra stack pointer frame",
+      "refs": [
+        "RISC-V ELF psABI specification (integer calling convention)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-save-s0-frame",
+      "unit": "procedures-calling-convention",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "This function keeps its argument in `s0` across a call to `g`. What number goes in both blanks so the stack stays 16-byte aligned?\n\n```asm\nf:  addi sp, sp, -____\n    sw   ra, 12(sp)\n    sw   s0, 8(sp)\n    mv   s0, a0\n    jal  ra, g\n    add  a0, a0, s0\n    lw   s0, 8(sp)\n    lw   ra, 12(sp)\n    addi sp, sp, ____\n    ret\n```",
+      "body": "16 in both places.\n\nTwo saved words need only 8 bytes, but the frame size is rounded up to a multiple of 16, and the offsets 12 and 8 must lie inside the frame. The epilogue undoes the prologue: it restores `s0` and `ra`, then moves `sp` back by the same amount.\n\nWhy: `f` computes `g(x) + x`, so `x` must survive the call to `g`. A callee-saved register holds it, and because `f` uses `s0`, it must restore the caller's `s0` before returning.\n\nWatch out: Using different amounts in the two blanks leaves `sp` wrong after return, and the caller's own stack data is then corrupted.",
+      "searchQuery": "RISC-V stack frame s0 saved register 16 byte alignment epilogue",
+      "refs": [
+        "RISC-V ELF psABI specification (integer calling convention)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-code-recursion-stack",
+      "unit": "procedures-calling-convention",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "`sum(n)` returns n + (n−1) + … + 0. It is called with n = 3 and `sp` = `0x8000`. What is `sp` while `sum(0)` is running, and how many frames are on the stack?\n\n```asm\nsum:  beqz a0, base\n      addi sp, sp, -16\n      sw   ra, 12(sp)\n      sw   a0, 8(sp)\n      addi a0, a0, -1\n      jal  ra, sum\n      lw   t0, 8(sp)\n      add  a0, a0, t0\n      lw   ra, 12(sp)\n      addi sp, sp, 16\nbase: ret\n```",
+      "body": "`sp` = `0x7FD0`, with 3 frames on the stack (for n = 3, 2 and 1).\n\n`beqz a0, base` is the pseudo-instruction for `beq a0, x0, base`. `sum(0)` takes the early exit before the prologue, so it pushes nothing. Each of the other three calls pushes 16 bytes: $3 \\times 16 = 48 = 0x30$, and $0x8000 - 0x30 = 0x7FD0$.\n\nWhy it matters: Each active call keeps a frame holding its saved `ra`, saved registers and locals, just like a C stack frame. Stack use grows in proportion to the recursion depth, here 16 bytes per level.\n\nWatch out: On a microcontroller with a few KiB of stack, a recursion depth of 1000 needs 16,000 bytes and overflows the stack.",
+      "searchQuery": "RISC-V recursion stack frames sp depth sum example",
+      "refs": [
+        "RISC-V ELF psABI specification (integer calling convention)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 6",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 2"
+      ]
+    },
+    {
+      "id": "computer-instruction-formats",
+      "unit": "instruction-encoding",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is an **instruction format**, and what are RV32I's six formats called?",
+      "body": "The layout of an instruction's 32 bits into fields. RV32I has six formats: R, I, S, B, U and J.\n\nThe R-type layout, from bit 31 down, is `funct7` (7 bits), `rs2` (5), `rs1` (5), `funct3` (3), `rd` (5) and `opcode` (7). The **opcode** selects the instruction family; `funct3` and `funct7` pick the exact operation within it; `rd` is the destination register and `rs1` and `rs2` are the source registers.\n\nExample: `sub x4, x5, x6` encodes as `0x40628233`.\n\nWhich format is used for what: R for register-to-register arithmetic, I for immediates, loads and `jalr`, S for stores, B for branches, U for `lui` and `auipc`, J for `jal`.",
+      "searchQuery": "RISC-V instruction formats R I S B U J fields opcode funct3",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6 and Appendix B",
+        "Patterson & Hennessy, COD RISC-V ed., §2.5"
+      ]
+    },
+    {
+      "id": "computer-rvc-compressed",
+      "unit": "instruction-encoding",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are **compressed instructions** (RVC) in RISC-V?",
+      "body": "16-bit encodings of the most common instructions, from the C extension, mixed freely with 32-bit ones to make programs smaller.\n\nThe processor tells them apart by the lowest two bits: `11` means a 32-bit instruction, while `00`, `01` and `10` mean a 16-bit one. The assembler or compiler picks them automatically, for example with `-march=rv32imc`.\n\nWhy it matters: Smaller code needs less flash and uses the instruction fetch bandwidth better. The RISC-V designers estimate that 50 to 60 percent of the instructions in a typical program can use the 16-bit forms, which cuts code size by about 25 to 30 percent.\n\nWatch out: Programmers see no change: same registers, same behavior. A compressed instruction is only a shorter spelling, so the PC can advance by 2 or by 4.",
+      "searchQuery": "RISC-V compressed instructions RVC 16-bit C extension",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6 and Appendix B",
+        "RISC-V Unprivileged ISA, 'C' extension"
+      ]
+    },
+    {
+      "id": "computer-regfields-same-position",
+      "unit": "instruction-encoding",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why does RISC-V keep the register fields `rs1`, `rs2` and `rd` in the same bit positions in every format that has them?",
+      "body": "So the hardware can start reading the register file immediately, before it has finished working out which instruction it is.\n\nThe fields never move: `rs1` is bits 19 to 15, `rs2` is bits 24 to 20 and `rd` is bits 11 to 7. Those bits can be wired straight to the register file while the opcode is still being decoded.\n\nThe cost is that the immediate bits end up scattered around the remaining places, which is why the S and B formats split their immediates.\n\nExample: In `add x7, x5, x6` (`0x006283B3`) and in `sw x7, 12(x10)` the `rs1` and `rs2` bits sit in the same slots.\n\nWatch out: U and J formats have no `rs1` or `rs2`, so those bits carry immediate bits instead; only `rd` stays at bits 11 to 7.",
+      "searchQuery": "RISC-V register fields same bit positions rs1 rs2 rd decode",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6 and Appendix B",
+        "Patterson & Hennessy, COD RISC-V ed., §2.5"
+      ]
+    },
+    {
+      "id": "computer-code-encode-lw",
+      "unit": "instruction-encoding",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Encode `lw x6, 8(x5)` as a 32-bit hex word. `lw` is I-type with opcode `0000011` and `funct3` = `010`.\n\n```asm\nlw x6, 8(x5)\n```",
+      "body": "`0x0082A303`\n\nI-type layout: `imm[11:0]` | `rs1` | `funct3` | `rd` | `opcode`. Here imm = 8 = `000000001000`, rs1 = 5 = `00101`, funct3 = `010`, rd = 6 = `00110` and opcode = `0000011`.\n\nJoined: `0000 0000 1000 0010 1010 0011 0000 0011`, which is `0x0082A303`.\n\nTip: Build the word as an integer: `(imm << 20) | (rs1 << 15) | (funct3 << 12) | (rd << 7) | opcode`.",
+      "searchQuery": "encode lw x6 8(x5) RISC-V hex machine code I-type",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6 and Appendix B",
+        "Patterson & Hennessy, COD RISC-V ed., §2.5"
+      ]
+    },
+    {
+      "id": "computer-code-decode-addi",
+      "unit": "instruction-encoding",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Decode the word `0xFFD30293` into assembly. Opcode `0010011` is the I-type arithmetic family, and with `funct3` = `000` it is `addi`.\n\n```asm\n0xFFD30293\n```",
+      "body": "`addi x5, x6, -3`\n\nIn binary the word is `1111 1111 1101 0011 0000 0010 1001 0011`. Bits 31 to 20 hold the immediate `111111111101`, bits 19 to 15 hold `rs1` = `00110` = 6, bits 14 to 12 hold `funct3` = `000`, bits 11 to 7 hold `rd` = `00101` = 5, and bits 6 to 0 are the opcode.\n\nKey idea: The 12-bit immediate is **sign-extended** to 32 bits: its top bit is copied upward. `111111111101` is −3, and a 12-bit immediate can span −2048 to 2047.\n\nWatch out: Reading the immediate as the unsigned 4093 gives the wrong instruction.",
+      "searchQuery": "decode 0xFFD30293 RISC-V addi negative immediate sign extension",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6 and Appendix B",
+        "Patterson & Hennessy, COD RISC-V ed., §2.5"
+      ]
+    },
+    {
+      "id": "computer-problem-encode-sw",
+      "unit": "instruction-encoding",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Encode `sw x6, 8(x5)` as a hex word. `sw` is S-type with opcode `0100011` and `funct3` = `010`. Where do the immediate bits go?\n\n```asm\nsw x6, 8(x5)\n```",
+      "body": "`0x0062A423`, with the immediate split into `imm[11:5]` (bits 31 to 25) and `imm[4:0]` (bits 11 to 7).\n\nS-type layout: `imm[11:5]` | `rs2` | `rs1` | `funct3` | `imm[4:0]` | `opcode`. With imm = 8, `imm[11:5]` = `0000000` and `imm[4:0]` = `01000`. The stored register x6 is `rs2` = `00110`, and the base x5 is `rs1` = `00101`.\n\nJoined: `0000 0000 0110 0010 1010 0100 0010 0011` = `0x0062A423`.\n\nWhy: The split keeps `rs1` and `rs2` in their usual places, since a store has no `rd` to fill the bits 11 to 7.\n\nWatch out: Compare `lw x6, 8(x5)` = `0x0082A303`. The same register numbers appear, but x6 is `rd` there and `rs2` here.",
+      "searchQuery": "encode sw x6 8(x5) S-type split immediate RISC-V hex",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6 and Appendix B",
+        "Patterson & Hennessy, COD RISC-V ed., §2.5"
+      ]
+    },
+    {
+      "id": "computer-problem-li-lui-addi",
+      "unit": "instruction-encoding",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A 12-bit immediate can't hold `0x12345FFF`. Which two real instructions does `li x5, 0x12345FFF` expand to, and why is the `lui` immediate `0x12346` and not `0x12345`?",
+      "body": "`lui x5, 0x12346` followed by `addi x5, x5, -1`.\n\n`lui` (load upper immediate, U-type) puts a 20-bit immediate in the upper 20 bits and zeros in the lower 12, so x5 = `0x12346000`. The `addi` immediate is sign-extended: the low 12 bits `0xFFF` are read as −1, not +4095. So $0x12346000 + (-1) = 0x12345FFF$.\n\nRule: the upper part is $(\\text{value} + 0x800) \\gg 12$, which rounds up whenever bit 11 of the value is set.\n\nWatch out: `addi x5, x0, 2048` is not encodable, since 2048 is outside −2048 to 2047. `li x5, 2048` becomes `lui x5, 1` then `addi x5, x5, -2048`.",
+      "searchQuery": "RISC-V li lui addi 32-bit constant sign extension adjust",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 6 and Appendix B",
+        "Patterson & Hennessy, COD RISC-V ed., §2.5"
+      ]
+    },
+    {
+      "id": "computer-cpi-definition",
+      "unit": "performance-iron-law",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **cycles per instruction** (CPI)?",
+      "body": "The average number of clock cycles a processor needs to complete one instruction: total cycles divided by instructions executed.\n\nExample: A program that takes 1,200 cycles to execute 1,000 instructions has CPI = 1.2.\n\nA single-cycle design has CPI = 1 by construction. Stalls push CPI above 1, and a processor that finishes several instructions per cycle has CPI below 1.\n\nWatch out: CPI depends on the program as well as the chip, because loads, branches and other instructions cost different numbers of cycles. Always say which program a CPI was measured on.",
+      "searchQuery": "cycles per instruction CPI definition average clock cycles",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., ch. 1 (performance)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 7"
+      ]
+    },
+    {
+      "id": "computer-clock-period-frequency",
+      "unit": "performance-iron-law",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "How are the **clock period** and the **clock frequency** of a processor related?",
+      "body": "$T_{clk} = 1/f$: the period is the time of one clock cycle, and the frequency is the number of cycles per second.\n\nExample: At 100 MHz the period is 10 ns. At 2 GHz it is 0.5 ns, which is 500 ps.\n\nWhy it matters: The period must be at least as long as the slowest path between flip-flops (the critical path). A faster clock therefore means shortening the longest path.\n\nWatch out: Keep units consistent. Convert MHz to Hz, or ns to s, before dividing.",
+      "searchQuery": "clock period frequency relation T = 1/f processor",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., ch. 1 (performance)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 7"
+      ]
+    },
+    {
+      "id": "computer-iron-law-formula",
+      "unit": "performance-iron-law",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the **Iron Law of performance** for the execution time of a program.",
+      "body": "$T = \\mathrm{IC} \\times \\mathrm{CPI} \\times T_{clk}$, which is instructions executed times cycles per instruction times seconds per cycle.\n\nThe units cancel: instructions × (cycles/instruction) × (seconds/cycle) = seconds. Equivalently $T = \\mathrm{IC} \\times \\mathrm{CPI} / f$.\n\nExample: 2,000,000 instructions at CPI 1.5 and 100 MHz take $2\\times10^6 \\times 1.5 / 10^8 = 0.03$ s, which is 30 ms.\n\nKey idea: Every speedup must lower at least one of the three factors. If one factor improves while another gets worse, only the product tells you the result.",
+      "searchQuery": "iron law of performance execution time instruction count CPI clock period",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., ch. 1 (performance)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 7"
+      ]
+    },
+    {
+      "id": "computer-iron-law-levers",
+      "unit": "performance-iron-law",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Which factor of the Iron Law does each layer mostly control: the compiler and ISA, the microarchitecture, and the circuit technology?",
+      "body": "The compiler and ISA mainly set the instruction count, the microarchitecture mainly sets CPI, and circuit design and process technology mainly set the clock period.\n\nExample: Compiling with optimization usually lowers the instruction count. A better memory system lowers CPI by cutting stalls. A newer manufacturing process shortens the period.\n\nWatch out: The factors interact. Splitting the work into shorter steps shortens the clock period but can add stall cycles, which raises CPI a little. A design is better only if the product of the three gets smaller.",
+      "searchQuery": "iron law instruction count CPI clock period compiler microarchitecture technology",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., ch. 1 (performance)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 7"
+      ]
+    },
+    {
+      "id": "computer-clock-rate-misconception",
+      "unit": "performance-iron-law",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that a processor with a higher clock frequency, or a higher MIPS rating, always runs the same program faster?",
+      "body": "Because time is IC × CPI × $T_{clk}$: a higher clock can come with a higher CPI or more instructions, and MIPS ignores how much work each instruction does.\n\nMIPS means millions of instructions per second, which is $f / (\\mathrm{CPI} \\times 10^6)$. It counts instructions, but the same program needs different numbers of instructions on different ISAs and compilers.\n\nExample: A core with no hardware multiply may need dozens of simple instructions for one multiplication. Its MIPS rating can look as good as a core with a multiply instruction while it takes much longer on multiply-heavy code.\n\nTip: Compare processors by the measured execution time of your own workload.",
+      "searchQuery": "clock frequency MIPS misleading performance comparison processors",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., ch. 1 (performance)"
+      ]
+    },
+    {
+      "id": "computer-problem-compare-cores",
+      "unit": "performance-iron-law",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Core X runs at 120 MHz with CPI 1.5 on a program. Core Y runs at 100 MHz with CPI 1.1 on the same program. Both execute the same 2,000,000 instructions. Which is faster, and by what factor?",
+      "body": "Y is faster: 22 ms against 25 ms, a speedup of about 1.14.\n\nUse the Iron Law. $T_X = 2\\times10^6 \\times 1.5 / (120\\times10^6) = 25$ ms. $T_Y = 2\\times10^6 \\times 1.1 / (100\\times10^6) = 22$ ms.\n\nThe **speedup** of Y over X is $T_X / T_Y = 25/22 \\approx 1.14$. A speedup above 1 means the new design is faster.\n\nKey idea: Y has the lower clock yet wins, because its lower CPI more than makes up for the slower clock.",
+      "searchQuery": "compare two cores clock frequency CPI speedup execution time problem",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., ch. 1 (performance)"
+      ]
+    },
+    {
+      "id": "computer-amdahl-law-formula",
+      "unit": "performance-iron-law",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State **Amdahl's law**: if a fraction $p$ of the original execution time is sped up by a factor $s$, what is the overall speedup?",
+      "body": "$S = \\dfrac{1}{(1-p) + p/s}$\n\nThe new time, as a fraction of the old, is the untouched part $(1-p)$ plus the improved part $p/s$. Speedup is old time divided by new time.\n\nAs $s \\to \\infty$ the speedup approaches $1/(1-p)$. With $p = 0.8$ the ceiling is 5, however fast the improved part becomes.\n\nWatch out: $p$ is the fraction of run time, not of the lines of code or of the instructions, so profile first.\n\nKey idea: Improving one part makes the rest the bottleneck.",
+      "searchQuery": "Amdahl's law speedup formula fraction improved",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., ch. 1 (performance)"
+      ]
+    },
+    {
+      "id": "computer-problem-amdahl",
+      "unit": "performance-iron-law",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Profiling shows that 40% of an embedded program's run time is spent in one routine. A hardware accelerator makes that routine 10 times faster. What is the overall speedup, and what is the best speedup possible however fast the accelerator is?",
+      "body": "About 1.56 overall, and at most about 1.67.\n\nHere $p = 0.4$ and $s = 10$, so $S = 1/(0.6 + 0.4/10) = 1/0.64 = 1.5625$. The ceiling comes from letting $s \\to \\infty$: $1/(1-p) = 1/0.6 \\approx 1.67$.\n\nWhy it matters: A 10-times faster routine gives only a 56% faster program, because 60% of the time is untouched.\n\nTip: To get a bigger gain, find where the remaining 60% goes and attack that.",
+      "searchQuery": "Amdahl's law problem 40 percent routine 10x accelerator speedup limit",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., ch. 1 (performance)"
+      ]
+    },
+    {
+      "id": "computer-datapath-definition",
+      "unit": "single-cycle-datapath",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the **datapath** of a processor?",
+      "body": "The hardware that moves and transforms data for instructions: the PC, instruction memory, register file, ALU, data memory, and the multiplexers and wires that join them.\n\nThe **instruction memory** holds the program and the **data memory** holds variables. Textbook designs draw them as two blocks so an instruction can be fetched and data accessed in the same cycle; real chips often reach one memory through separate caches or paths.\n\nKey idea: The datapath is the muscle and the control unit, on the next card, is the brain that steers it.\n\nExample: For `add`, data flows from the register file through the ALU and back to the register file. For `lw` it also passes through data memory.",
+      "searchQuery": "processor datapath definition PC register file ALU data memory",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., §4.1–4.4",
+        "MIT 6.191 (Fall 2026), L11 Single Cycle Processor"
+      ]
+    },
+    {
+      "id": "computer-control-unit-signals",
+      "unit": "single-cycle-datapath",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What do the **control unit** and its **control signals** (RegWrite, MemWrite, ALUSrc, ResultSrc, Branch) do in a single-cycle RISC-V processor?",
+      "body": "The control unit reads the instruction's opcode and funct fields and sets control signals that steer the datapath's multiplexers and enable its writes.\n\n- `RegWrite`: write the result into the register file at the clock edge.\n- `MemWrite`: write a register value into data memory.\n- `ALUSrc`: the ALU's second operand comes from a register (0) or from the immediate (1).\n- `ResultSrc`: what goes back to the register file, the ALU result or the data read from memory.\n- `Branch`: this is a branch, so the PC takes the branch target if the ALU says the condition holds.\n\nWhy it matters: Each instruction type is just a different setting of these signals. The control unit is plain combinational logic of the opcode.",
+      "searchQuery": "control unit control signals RegWrite MemWrite ALUSrc ResultSrc Branch",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., §4.1–4.4",
+        "MIT 6.191 (Fall 2026), L11 Single Cycle Processor"
+      ]
+    },
+    {
+      "id": "computer-immediate-extender",
+      "unit": "single-cycle-datapath",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does the **immediate extender** do in the datapath?",
+      "body": "It picks the immediate bits out of the instruction according to its format and sign-extends them to 32 bits for the ALU or the PC.\n\nThe immediate bits sit in different places in the I, S, B, U and J formats, so a control signal (often called `ImmSrc`) tells the extender which format to use. Sign extension copies the sign bit, bit 31 of the instruction, into the upper bits.\n\nExample: The 12-bit immediate of `addi x5, x6, -3` is `0xFFD`. The extender turns it into `0xFFFFFFFD`.\n\nWatch out: Branch and jump immediates have an implicit bit 0 equal to 0, since targets are multiples of 2, and the extender inserts it.",
+      "searchQuery": "immediate extender sign extension datapath ImmSrc RISC-V",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., §4.1–4.4"
+      ]
+    },
+    {
+      "id": "computer-register-file-ports",
+      "unit": "single-cycle-datapath",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How does the **register file** of a single-cycle RISC-V core read and write registers in one cycle?",
+      "body": "It has two read ports that act like combinational logic, always showing the registers named by `rs1` and `rs2`, and one write port that stores the new value of `rd` on the clock edge when `RegWrite` is 1.\n\nReads are not clocked: put the register numbers in and the values come out after a delay. Writes happen only at the clock edge, at the end of the cycle.\n\nExample: `add x5, x5, x6` reads the old x5 and x6, the ALU adds them during the cycle, and the clock edge then stores the sum in x5.\n\nWhy it matters: Two read ports are needed because most instructions have two source operands. Register x0 is wired so that it always reads 0 and ignores writes.",
+      "searchQuery": "register file two read ports one write port clock edge RegWrite",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., §4.1–4.4"
+      ]
+    },
+    {
+      "id": "computer-slowest-instruction-clock",
+      "unit": "single-cycle-datapath",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "In a **single-cycle processor**, why does the slowest instruction (usually `lw`) set the clock period for every instruction?",
+      "body": "Every instruction gets exactly one clock cycle, so the period must cover the longest path through the datapath, which is the path of `lw`.\n\nA single-cycle processor finishes each instruction in one cycle, so its CPI is 1. The `lw` path runs through instruction memory, register file, ALU, data memory and back to the register file. `add` and `beq` skip data memory but still wait for the same long clock.\n\nWhy it matters: The slack of fast instructions is wasted. This is the main motivation for pipelining, which lets the clock follow a short stage instead of the whole instruction.\n\nKey idea: This is the critical path rule from digital logic applied to a whole processor.",
+      "searchQuery": "single-cycle processor slowest instruction lw clock period critical path",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., §4.1–4.4",
+        "MIT 6.191 (Fall 2026), L11 Single Cycle Processor"
+      ]
+    },
+    {
+      "id": "computer-example-lw-datapath",
+      "unit": "single-cycle-datapath",
+      "kind": "example",
+      "difficulty": 3,
+      "title": "Trace `lw x6, 8(x5)` through the single-cycle datapath. What values do RegWrite, ALUSrc, MemWrite, ResultSrc and Branch need?",
+      "body": "RegWrite = 1, ALUSrc = 1 (immediate), MemWrite = 0, ResultSrc = memory data, Branch = 0.\n\n1. The PC addresses instruction memory, which returns the instruction.\n2. The register file reads x5, and the immediate extender produces 8.\n3. The ALU adds them, because `ALUSrc` = 1 chooses the immediate; the sum is the effective address.\n4. Data memory is read at that address, since `MemWrite` = 0.\n5. `ResultSrc` selects the memory data, and `RegWrite` = 1 stores it in x6 at the clock edge. `Branch` = 0, so the PC becomes PC + 4.\n\nWatch out: For `sw` the settings change: `RegWrite` = 0 and `MemWrite` = 1, and nothing is written back.",
+      "searchQuery": "lw through single-cycle datapath control signals trace",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., §4.1–4.4",
+        "MIT 6.191 (Fall 2026), L11 Single Cycle Processor"
+      ]
+    },
+    {
+      "id": "computer-problem-single-cycle-period",
+      "unit": "single-cycle-datapath",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "In a single-cycle core built in an imaginary technology, the delays are: PC register clock-to-Q 30 ps, instruction memory read 250 ps, register file read 100 ps, ALU 120 ps, data memory read 250 ps, result multiplexer 30 ps, register file setup 20 ps. Ignore the small ALUSrc multiplexer and immediate extender. Find the delay of the `lw` path and of the `add` path, and the maximum clock frequency.",
+      "body": "`lw` takes 800 ps and `add` takes 550 ps, so the period is 800 ps and $f_{max} = 1.25$ GHz.\n\n`lw` passes every block: $30 + 250 + 100 + 120 + 250 + 30 + 20 = 800$ ps. `add` skips data memory: $30 + 250 + 100 + 120 + 30 + 20 = 550$ ps. The clock must fit the longest, and $1/800\\,\\mathrm{ps} = 1.25$ GHz.\n\nWhy it matters: `add` wastes 250 ps in every cycle. Even if only one instruction in a hundred is a `lw`, every instruction still takes 800 ps.\n\nWatch out: Add only the blocks along one path, not every block in the processor.",
+      "searchQuery": "single-cycle clock period critical path lw add delay maximum frequency problem",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., §4.1–4.4"
+      ]
+    },
+    {
+      "id": "computer-trade-off-single-cycle-vs-pipelined",
+      "unit": "single-cycle-datapath",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A tiny always-on sensor controller needs only a few MHz and must be as small as possible. A **single-cycle** or a **pipelined** core?",
+      "body": "Single-cycle: at a slow clock its long period does not matter, and it needs the least logic, the least verification effort and no hazard handling.\n\nThe other side: Pipelining raises the clock rate and throughput by 2 to 3 times in the examples of the next unit, which matters once the workload needs more instructions per second than the long period allows.\n\nWhy: Pipeline registers add area and power, and hazards add control logic. If the required instruction rate is modest, that cost buys nothing.\n\nWatch out: The answer holds only under these conditions. If the core must meet deadlines at a high instruction rate, the single-cycle period becomes the bottleneck and pipelining wins.",
+      "searchQuery": "single-cycle vs pipelined processor trade-off small low power core",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., §4.1–4.4"
+      ]
+    },
+    {
+      "id": "computer-pipeline-definition",
+      "unit": "pipelining-hazards",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **pipeline** in a processor, and what are the five classic stages of a RISC-V pipeline?",
+      "body": "A pipeline splits instruction execution into **stages** so that several instructions are in progress at once, one per stage. The five stages are IF (instruction fetch), ID (decode and register read), EX (execute), MEM (memory access) and WB (write back).\n\nExample: While instruction 1 is in EX, instruction 2 is in ID and instruction 3 is in IF.\n\nRegisters between the stages hold each instruction's values as it moves along, and every stage does its work in one clock cycle.\n\nKey idea: It is an assembly line. Each instruction still visits every station, but all the stations are busy at the same time.",
+      "searchQuery": "processor pipeline five stages IF ID EX MEM WB",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 4 (pipelining sections)",
+        "MIT 6.191 (Fall 2026), L14–L15 Pipelined Processors",
+        "Arm Education, Computer Architecture Essentials on Arm (Pipelining)"
+      ]
+    },
+    {
+      "id": "computer-throughput-vs-latency",
+      "unit": "pipelining-hazards",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why does pipelining raise **throughput** but not the **latency** of a single instruction?",
+      "body": "Each instruction still passes through all the stages, so its latency stays the same or grows slightly, but a new instruction finishes every cycle, so more instructions finish per second.\n\nThroughput is instructions completed per second; latency is the time one instruction takes from start to finish.\n\nExample: Suppose the single-cycle core takes 800 ps per instruction. A five-stage version with a 300 ps clock needs $5 \\times 300 = 1500$ ps for one instruction, which is worse, yet it finishes one instruction every 300 ps instead of every 800 ps.\n\nWatch out: Pipelining speeds up a long stream of instructions. It does nothing for one lone instruction.",
+      "searchQuery": "pipelining throughput latency instruction difference",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 4 (pipelining sections)",
+        "MIT 6.191 (Fall 2026), L14–L15 Pipelined Processors"
+      ]
+    },
+    {
+      "id": "computer-hazard-three-kinds",
+      "unit": "pipelining-hazards",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a pipeline **hazard**, and what are the three kinds?",
+      "body": "A situation where the next instruction cannot safely go ahead in its normal cycle. The kinds are structural (a resource conflict), data (a result is not ready yet) and control (the next instruction is not yet known).\n\n- Structural: two instructions need the same hardware in the same cycle, such as one memory used for both fetch and data access.\n- Data: `sub x6, x5, x9` right after `add x5, x7, x8` needs x5 before `add` has written it.\n- Control: after a branch, the pipeline does not yet know which instruction to fetch.\n\nWhy it matters: Hazards are why a real pipeline's CPI is above 1. The fixes are stalling, forwarding and branch prediction.",
+      "searchQuery": "pipeline hazards structural data control definition",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 4 (pipelining sections)",
+        "MIT 6.191 (Fall 2026), L14–L15 Pipelined Processors"
+      ]
+    },
+    {
+      "id": "computer-forwarding-definition",
+      "unit": "pipelining-hazards",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **forwarding** (bypassing) in a pipeline?",
+      "body": "Sending an instruction's result straight from the pipeline register where it has just been produced to the input of a later instruction's EX stage, without waiting for it to be written back to the register file.\n\nWithout forwarding, an instruction right behind an `add` that needs its result would wait 2 cycles, since the register file is written in WB. With forwarding the sum, ready at the end of EX, is needed only at the start of the next instruction's EX, so there is no stall.\n\nThe hardware is a multiplexer at each ALU input and comparators that check whether a source register matches an older instruction's destination.\n\nWhy it matters: Forwarding keeps CPI near 1 for back-to-back dependent ALU instructions.",
+      "searchQuery": "pipeline forwarding bypassing data hazard definition",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 4 (pipelining sections)",
+        "MIT 6.191 (Fall 2026), L14–L15 Pipelined Processors"
+      ]
+    },
+    {
+      "id": "computer-load-use-stall",
+      "unit": "pipelining-hazards",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why can't forwarding remove every data hazard? What is a **load-use hazard**, and what does the pipeline do about it?",
+      "body": "A load's data is not available until the end of MEM, too late for the next instruction's EX in the following cycle, so the pipeline inserts one **stall** (a **bubble**) even with forwarding.\n\nA stall holds the dependent instruction and those behind it for one cycle while an empty slot passes down the pipeline. After the stall the loaded value is forwarded.\n\nExample: `lw x5, 0(x10)` followed by `add x6, x5, x7` costs one stall. If an independent instruction sits between them, the stall disappears.\n\nTip: Compilers schedule an independent instruction after each load to hide this stall.",
+      "searchQuery": "load-use hazard stall bubble forwarding pipeline",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 4 (pipelining sections)",
+        "MIT 6.191 (Fall 2026), L14–L15 Pipelined Processors"
+      ]
+    },
+    {
+      "id": "computer-code-find-dependencies",
+      "unit": "pipelining-hazards",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Which pairs of instructions have a data hazard (a later instruction reads a register an earlier one writes), and how many stall cycles does a five-stage pipeline with full forwarding need?\n\n```asm\nadd x5, x6, x7\nsub x8, x5, x9\nand x10, x5, x8\nor  x11, x12, x13\n```",
+      "body": "`sub` depends on `add` (x5), and `and` depends on `add` (x5) and on `sub` (x8); `or` is independent. With forwarding there are no stalls.\n\nAll three dependences are on ALU results, which can be forwarded from the end of EX or MEM to the next EX, so no cycle is lost. Without forwarding, `sub` would have to wait 2 cycles for `add` to reach WB.\n\nWatch out: A dependence only matters while the two instructions overlap in the pipeline. An instruction three or more places after the writer finds the value already in the register file.",
+      "searchQuery": "RISC-V pipeline data dependences forwarding no stalls example",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 4 (pipelining sections)",
+        "MIT 6.191 (Fall 2026), L14–L15 Pipelined Processors"
+      ]
+    },
+    {
+      "id": "computer-code-load-use-cycles",
+      "unit": "pipelining-hazards",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "On a classic five-stage pipeline with full forwarding, how many clock cycles pass from the first instruction's fetch (cycle 1) until the last instruction finishes write-back?\n\n```asm\nlw  x5, 0(x10)\nadd x6, x5, x7\nsub x8, x6, x9\n```",
+      "body": "8 cycles: 7 for three independent instructions ($3 + 4$), plus 1 stall for the load-use hazard.\n\n```text\n      1  2  3  4  5  6  7  8\nlw    IF ID EX ME WB\nadd      IF ID ID EX ME WB\nsub         IF IF ID EX ME WB\n```\n\n`add` needs x5 in its EX stage, but `lw` only produces it at the end of ME in cycle 4, so `add` repeats ID in cycle 4 and executes in cycle 5. `sub` is held in IF for the same cycle. `sub` gets x6 forwarded from `add`'s EX, so no further stall occurs.\n\nKey idea: Without the hazard the last write-back would be in cycle 7.",
+      "searchQuery": "pipeline load-use stall cycle count lw add sub forwarding",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 4 (pipelining sections)",
+        "MIT 6.191 (Fall 2026), L14–L15 Pipelined Processors"
+      ]
+    },
+    {
+      "id": "computer-trade-off-branch-prediction",
+      "unit": "pipelining-hazards",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "A branch's outcome is not known until EX, so the pipeline must guess. For a small low-power core with a short pipeline, is **static** prediction (a fixed rule such as \"backward branches taken, forward branches not taken\") or **dynamic** prediction (a table of past outcomes) the better choice?",
+      "body": "Static: its rule is nearly free in area and power, and a wrong guess on a short pipeline costs only a cycle or two. Dynamic prediction wins when the pipeline is deep and each misprediction is expensive.\n\n**Branch prediction** guesses the outcome and fetches along the guessed path. A right guess costs nothing. A wrong guess forces a **pipeline flush**: the wrongly fetched instructions are discarded and fetch restarts. In a classic five-stage pipeline that resolves branches in EX, the penalty is 2 cycles.\n\nWhy: The static rule works because loop branches jump backward and are usually taken. A dynamic predictor needs storage, update logic and power, which is a poor deal when the penalty is small.",
+      "searchQuery": "static vs dynamic branch prediction trade-off pipeline flush penalty",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 4 (pipelining sections)",
+        "Arm Education, Computer Architecture Essentials on Arm (Handling Branches)"
+      ]
+    },
+    {
+      "id": "computer-problem-effective-cpi",
+      "unit": "pipelining-hazards",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A five-stage pipeline has an ideal CPI of 1. In one program 25% of instructions are loads, and 40% of loads are followed immediately by an instruction that uses the loaded value (1 stall each). 20% of instructions are branches, 30% of branches are mispredicted, and each misprediction costs a 2-cycle flush. What is the effective CPI?",
+      "body": "1.22\n\nEffective CPI is the ideal CPI plus the average stall cycles per instruction:\n\n$\\mathrm{CPI} = 1 + 0.25 \\times 0.40 \\times 1 + 0.20 \\times 0.30 \\times 2 = 1 + 0.10 + 0.12 = 1.22$\n\nLoad-use stalls add 0.10 cycles per instruction and branch flushes add 0.12.\n\nWhy it matters: This feeds the Iron Law: with the same instruction count and clock, the program runs 22% slower than the ideal pipeline.\n\nWatch out: Weight each penalty by how often the event happens per instruction. Do not apply the stall to all loads or all branches.",
+      "searchQuery": "effective CPI pipeline stalls load-use branch misprediction calculation",
+      "checkpoint": true,
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 4 (pipelining sections)"
+      ]
+    },
+    {
+      "id": "computer-problem-pipeline-clock-speedup",
+      "unit": "pipelining-hazards",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A single-cycle core has an 800 ps period. Split into five pipeline stages, the stage delays are IF 250 ps, ID 100 ps, EX 120 ps, MEM 250 ps and WB 30 ps, and each pipeline register adds 50 ps (clock-to-Q plus setup). What clock period does the pipeline need, and what is the ideal speedup in throughput?",
+      "body": "300 ps, which gives an ideal speedup of $800/300 \\approx 2.67$, far below 5.\n\nThe clock must fit the slowest stage plus the register overhead: $250 + 50 = 300$ ps.\n\nWhy it is not 5: The stages are unbalanced, with 250 ps against 30 ps, and the pipeline registers add 50 ps to every cycle. Five-fold speedup would need five perfectly equal stages and no overhead.\n\nWatch out: Stalls lower the gain further. At the effective CPI of 1.22 from the previous problem, the speedup is $800/(300 \\times 1.22) \\approx 2.2$.",
+      "searchQuery": "pipeline clock period slowest stage register overhead speedup single-cycle",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 4 (pipelining sections)",
+        "MIT 6.191 (Fall 2026), L14–L15 Pipelined Processors"
+      ]
+    },
+    {
+      "id": "computer-trade-off-pipeline-depth",
+      "unit": "pipelining-hazards",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "You choose a pipeline depth for a battery-powered microcontroller core that runs branchy control code at modest clock rates. A **shallow** pipeline (2 to 3 stages) or a **deep** one (8 or more stages)?",
+      "body": "Shallow: branches and stalls cost only a cycle or two, the core stays small and low-power, and the clock is often limited by flash and SRAM speed anyway.\n\nThe other side: A deep pipeline cuts each stage's delay, so the clock can be faster, but it needs more pipeline registers (area and power), more forwarding paths, and a larger flush penalty on every misprediction.\n\nExample: Arm's Cortex-M0+, aimed at minimal power and area, uses a two-stage pipeline.\n\nWatch out: Deep pipelines win when peak performance matters most and the branch predictor is good. The choice depends on the conditions.",
+      "searchQuery": "shallow vs deep pipeline trade-off microcontroller power Cortex-M0+",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 7",
+        "Patterson & Hennessy, COD RISC-V ed., ch. 4 (pipelining sections)",
+        "Arm Education, Computer Architecture Essentials on Arm (Pipelining)",
+        "https://developerhelp.microchip.com/xwiki/bin/view/products/mcu-mpu/32bit-mcu/sam/arm-cortex-m0/pipeline"
+      ]
+    },
+    {
+      "id": "computer-locality-definition",
+      "unit": "memory-hierarchy-caches",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are **temporal locality** and **spatial locality**?",
+      "body": "Temporal locality: an item used recently is likely to be used again soon. Spatial locality: items near a recently used address are likely to be used soon.\n\nExample: A loop counter and an accumulator show temporal locality, since they are touched on every iteration. Scanning an array in order shows spatial locality.\n\nWhy it matters: Caches exploit both. They keep recently used data (temporal) and fetch a whole line at a time (spatial), so most accesses find their data nearby.\n\nWatch out: Chasing the pointers of a linked list scatters accesses across memory and has poor spatial locality.",
+      "searchQuery": "temporal locality spatial locality definition cache",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §5.1–5.4",
+        "CS:APP 3e, §6.2 Locality"
+      ]
+    },
+    {
+      "id": "computer-numbers-memory-access-times",
+      "unit": "memory-hierarchy-caches",
+      "kind": "numbers",
+      "difficulty": 3,
+      "title": "Roughly how long does one access take at each level of a typical processor's memory hierarchy: L1 cache, DRAM, SSD (flash) and spinning disk?",
+      "body": "About 1 ns for an L1 SRAM cache, 50 to 100 ns for DRAM, 10 to 100 µs for an SSD and several ms for a spinning disk.\n\nEach step down the **memory hierarchy** is slower by roughly 50 to 1000 times, and also larger and cheaper per byte. (SRAM is the fast memory used for caches; DRAM is the denser, slower main memory.) Locality is what lets the whole hierarchy behave like a large and fast memory.\n\nExample: Energy follows the same pattern. Horowitz (ISSCC 2014, 45 nm) gives about 5 pJ for a 32-bit read from an 8 KB SRAM and about 640 pJ for a DRAM read, roughly 130 times more.\n\nWatch out: These are order-of-magnitude figures for desktop-class systems. A microcontroller reads its on-chip SRAM in about one cycle, and its flash may need extra wait states at high clock rates.",
+      "searchQuery": "memory hierarchy access times L1 DRAM SSD disk nanoseconds",
+      "refs": [
+        "CS:APP 3e, §6.3 The Memory Hierarchy",
+        "Horowitz, 'Computing's Energy Problem (and what we can do about it)', ISSCC 2014"
+      ],
+      "asOf": "2026-11-26"
+    },
+    {
+      "id": "computer-cache-line-hit-miss",
+      "unit": "memory-hierarchy-caches",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **cache line** (block), and what are a **cache hit** and a **cache miss**?",
+      "body": "A cache line is the fixed-size chunk of memory (commonly 32 or 64 bytes) that moves in and out of a cache as one unit. A hit finds the requested data in the cache; a miss does not, and the whole line must be fetched from the next level.\n\nThe miss rate is misses divided by accesses, and the hit rate is 1 minus the miss rate.\n\nExample: A 64-byte line holds 16 four-byte ints. Reading `a[0]` misses and brings in the line, and `a[1]` to `a[15]` then hit.\n\nWhy it matters: Fetching whole lines is how a cache turns spatial locality into hits.",
+      "searchQuery": "cache line block hit miss definition miss rate",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §5.1–5.4",
+        "CS:APP 3e, §6.4 Cache Memories",
+        "Harris & Harris, DDCA RISC-V ed., ch. 8"
+      ]
+    },
+    {
+      "id": "computer-direct-mapped-cache",
+      "unit": "memory-hierarchy-caches",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **direct-mapped cache**?",
+      "body": "A cache where each memory line can be stored in exactly one cache line, chosen by the address: index = block number mod number of cache lines.\n\nThe block number is the address divided by the line size. A lookup checks only one place, so it is simple, fast and cheap.\n\nExample: A cache with 4 lines of 16 bytes sends addresses `0x00` and `0x40` to the same line, because $\\lfloor 0x40/16 \\rfloor = 4$ and $4 \\bmod 4 = 0$.\n\nWatch out: Two frequently used blocks that map to the same line keep evicting each other, even while other lines sit empty.",
+      "searchQuery": "direct-mapped cache definition index block number mod lines",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §5.1–5.4",
+        "CS:APP 3e, §6.4 Cache Memories",
+        "Harris & Harris, DDCA RISC-V ed., ch. 8"
+      ]
+    },
+    {
+      "id": "computer-tag-index-offset",
+      "unit": "memory-hierarchy-caches",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "How is a memory address split into **tag**, **index** and **offset** for a cache, and what does each field do?",
+      "body": "The offset (low bits) picks the byte within the line, the index (middle bits) picks the cache line or set, and the tag (high bits) is stored with the line and compared to check that it holds the right data.\n\nOffset bits = $\\log_2$(line size in bytes), index bits = $\\log_2$(number of sets), and the tag is the rest of the address.\n\nA lookup uses the index to find the line, compares the stored tag with the address's tag, and checks the line's valid bit, which says the line holds real data. A match is a hit and returns the byte at the offset.\n\nWatch out: Tags and valid bits are extra storage. They are not counted in the cache's quoted data capacity.",
+      "searchQuery": "cache address tag index offset fields lookup valid bit",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §5.1–5.4",
+        "CS:APP 3e, §6.4 Cache Memories",
+        "Harris & Harris, DDCA RISC-V ed., ch. 8",
+        "MIT 6.191 (Fall 2026), L13 Caches"
+      ]
+    },
+    {
+      "id": "computer-problem-address-split",
+      "unit": "memory-hierarchy-caches",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A direct-mapped cache holds 8 KiB of data in 32-byte lines. For 32-bit addresses, how many bits are offset, index and tag, and what are the fields of address `0x00012345`?",
+      "body": "Offset 5 bits, index 8 bits, tag 19 bits; `0x00012345` has tag 9, index `0x1A` (26) and offset 5.\n\nThe offset is $\\log_2 32 = 5$ bits. The cache has $8192/32 = 256$ lines, so the index is 8 bits. The tag is $32 - 8 - 5 = 19$ bits.\n\nFor `0x12345`: the offset is the low 5 bits, $0x45 \\,\\&\\, 0x1F = 5$. The index is $(0x12345 \\gg 5) \\,\\&\\, 0xFF = 0x91A \\,\\&\\, 0xFF = 0x1A$. The tag is $0x12345 \\gg 13 = 9$.\n\nTip: Shift right by the offset bits first, then mask off the index bits, and shift right by offset plus index bits for the tag.",
+      "searchQuery": "cache address split tag index offset 8 KiB direct-mapped 32-byte lines",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §5.1–5.4",
+        "CS:APP 3e, §6.4 Cache Memories",
+        "Harris & Harris, DDCA RISC-V ed., ch. 8"
+      ]
+    },
+    {
+      "id": "computer-amat-formula",
+      "unit": "memory-hierarchy-caches",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "State the formula for **average memory access time** (AMAT).",
+      "body": "$\\mathrm{AMAT} = t_{hit} + m \\times t_{penalty}$: the hit time plus the miss rate times the miss penalty.\n\nHere $m$ is the miss rate as a fraction and $t_{penalty}$ is the extra time to fetch from the next level on a miss. Use one unit, such as cycles, for all three.\n\nExample: A 1-cycle hit time, a 5% miss rate and a 100-cycle penalty give $1 + 0.05 \\times 100 = 6$ cycles.\n\nWatch out: Every access pays the hit time, so a change that lowers the miss rate but slows the hit time can make AMAT worse.",
+      "searchQuery": "average memory access time AMAT formula hit time miss rate penalty",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §5.1–5.4",
+        "CS:APP 3e, §6.4 Cache Memories",
+        "Harris & Harris, DDCA RISC-V ed., ch. 8"
+      ]
+    },
+    {
+      "id": "computer-trade-off-direct-vs-set-associative",
+      "unit": "memory-hierarchy-caches",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "A small embedded cache has room for a fixed number of lines. Which is usually the better design for general code: **direct-mapped**, or **2- to 4-way set-associative**?",
+      "body": "Set-associative (2 to 4 ways) usually wins on miss rate for general code because it avoids most conflict misses; direct-mapped wins when the fastest hit time, smallest area and lowest power matter most.\n\nIn a **set-associative cache** an address maps to one set, and the set holds several lines (ways). The line can be in any way, and the tags of all ways are compared at once. When a full set takes a new line, **LRU replacement** evicts the least recently used one.\n\nMisses come in three kinds: compulsory (first touch), capacity (the working set exceeds the cache) and conflict (too many blocks map to one set). More ways remove more conflict misses; a fully associative cache has none.\n\nWatch out: The gain shrinks quickly beyond about 4 ways, while the comparison hardware keeps growing.",
+      "searchQuery": "direct-mapped vs set-associative cache trade-off LRU conflict misses",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §5.1–5.4",
+        "CS:APP 3e, §6.4 Cache Memories",
+        "Harris & Harris, DDCA RISC-V ed., ch. 8"
+      ]
+    },
+    {
+      "id": "computer-problem-direct-mapped-trace",
+      "unit": "memory-hierarchy-caches",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A direct-mapped cache has 4 lines of 16 bytes and starts empty. The byte addresses `0x00, 0x04, 0x40, 0x44, 0x00, 0x04, 0x10, 0x14` are read in that order. What is the hit rate, and what kind of miss is the fifth access?",
+      "body": "The hit rate is 50% (accesses 2, 4, 6 and 8 hit), and the fifth access is a conflict miss.\n\nThe index is $(\\text{address} \\gg 4) \\,\\&\\, 3$. `0x00` and `0x40` both map to line 0. Access 1 (`0x00`) is a compulsory miss. Access 2 hits, since it is in the same 16-byte line. Access 3 (`0x40`) is a compulsory miss and evicts `0x00`'s line. Access 4 hits. Access 5 (`0x00`) misses again because its line was evicted, although lines 2 and 3 are empty: a conflict miss. Access 6 hits. Access 7 (`0x10`, line 1) is a compulsory miss and access 8 hits.\n\nWhy it matters: A 2-way cache of the same size would keep both `0x00` and `0x40` in one set. It would have only 3 misses, a 62.5% hit rate.",
+      "searchQuery": "direct-mapped cache trace hit rate conflict miss 4 lines 16 bytes",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §5.1–5.4",
+        "CS:APP 3e, §6.4 Cache Memories",
+        "Harris & Harris, DDCA RISC-V ed., ch. 8"
+      ]
+    },
+    {
+      "id": "computer-problem-amat-compare",
+      "unit": "memory-hierarchy-caches",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Design A is an L1 cache with a 1-cycle hit time and a 4% miss rate. Design B is a cache twice as large, with a 2-cycle hit time and a 3% miss rate. The miss penalty is 60 cycles for both. Which has the lower AMAT, and what is each?",
+      "body": "Design A: $1 + 0.04 \\times 60 = 3.4$ cycles, which beats design B: $2 + 0.03 \\times 60 = 3.8$ cycles.\n\nThe bigger cache saves $0.01 \\times 60 = 0.6$ cycles of miss time but costs 1 extra cycle on every access, hit or miss.\n\nKey idea: Design B would only win if its miss rate were below $(3.4 - 2)/60 \\approx 2.3\\%$.\n\nWatch out: Compare AMAT, not miss rate alone. A lower miss rate does not help if it comes with a slower hit.",
+      "searchQuery": "AMAT comparison two cache designs hit time miss rate problem",
+      "checkpoint": true,
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §5.1–5.4",
+        "CS:APP 3e, §6.4 Cache Memories",
+        "Harris & Harris, DDCA RISC-V ed., ch. 8"
+      ]
+    },
+    {
+      "id": "computer-trade-off-write-policy",
+      "unit": "memory-hierarchy-caches",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "A store hits in the cache. Should the cache send the write on to memory at once (**write-through**), or mark the line as modified and write it back only when the line is evicted (**write-back**)? Choose for data that is written repeatedly, such as a loop updating the same variables.",
+      "body": "Write-back: repeated stores to the same line cost one memory write at eviction instead of one per store, which saves memory bandwidth and energy.\n\nWrite-back needs a dirty bit per line, and evicting a dirty line writes the whole line to memory. Until then memory is stale.\n\nThe other side: **Write-through** is simpler and keeps memory always up to date, which suits data that other masters read, such as a DMA engine (a peripheral that copies memory without the CPU) or another core, without cache maintenance. It is usually paired with a write buffer so the processor does not wait.\n\nWatch out: With write-back, a DMA engine reading a buffer can see stale data unless software first cleans the cache.",
+      "searchQuery": "write-back vs write-through cache trade-off dirty bit DMA",
+      "refs": [
+        "Patterson & Hennessy, COD RISC-V ed., §5.1–5.4",
+        "CS:APP 3e, §6.4 Cache Memories",
+        "Harris & Harris, DDCA RISC-V ed., ch. 8"
+      ]
+    },
+    {
+      "id": "computer-row-major-order-layout",
+      "unit": "cache-friendly-code",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "In C, how is a 2-D array `int a[R][C]` laid out in memory (**row-major order**), and what is the address of `a[i][j]`?",
+      "body": "Row by row: all of row 0, then row 1, and so on. The address of `a[i][j]` is base + $(i \\cdot C + j) \\times$ `sizeof(int)`.\n\nExample: In `int a[3][4]` with 4-byte ints, `a[1][0]` is 16 bytes after `a[0][0]`, directly after `a[0][3]`.\n\nWhy it matters: Neighbors along a row are neighbors in memory. Neighbors down a column are $C$ elements apart.\n\nWatch out: Fortran and MATLAB store arrays column by column. NumPy arrays default to the same row-major order as C.",
+      "searchQuery": "C 2D array row-major order memory layout address a[i][j]",
+      "refs": [
+        "CS:APP 3e, §6.5 Writing Cache-Friendly Code",
+        "CS:APP 3e, §3.8 Array Allocation and Access"
+      ]
+    },
+    {
+      "id": "computer-stride-and-misses",
+      "unit": "cache-friendly-code",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is the **stride** of a memory access pattern, and how does it set the fraction of accesses that miss the cache?",
+      "body": "Stride is the distance in bytes between consecutive accesses. With line size $L$ and stride $s < L$, about $s/L$ of the accesses miss; once $s \\ge L$ every access touches a new line.\n\nExample: With 64-byte lines and 4-byte ints, a stride of one element (4 bytes) misses 1 access in 16, which is 6.25%. A stride of 16 elements (64 bytes) misses every time.\n\nKey idea: Stride 1 is the best pattern, since every byte of each fetched line gets used.\n\nWatch out: This estimate assumes lines are not reused before eviction, which holds when the data is larger than the cache.",
+      "searchQuery": "stride cache misses spatial locality line size fraction miss",
+      "refs": [
+        "CS:APP 3e, §6.5 Writing Cache-Friendly Code",
+        "CS:APP 3e, §6.6 Putting It Together: The Impact of Caches on Program Performance"
+      ]
+    },
+    {
+      "id": "computer-code-row-vs-column-sum",
+      "unit": "cache-friendly-code",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "On a core with a 16 KiB data cache and 64-byte lines (32-bit `int`), which function is faster, and roughly what fraction of its accesses to `a` miss?\n\n```c\n#define N 512\nstatic int a[N][N];\n\nlong sum_rows(void) {\n    long s = 0;\n    for (int i = 0; i < N; i++) for (int j = 0; j < N; j++) s += a[i][j];\n    return s;\n}\nlong sum_cols(void) {\n    long s = 0;\n    for (int j = 0; j < N; j++) for (int i = 0; i < N; i++) s += a[i][j];\n    return s;\n}\n```",
+      "body": "`sum_rows` is faster: about 1 miss in 16 accesses (6%), against nearly every access missing in `sum_cols`.\n\nIn `sum_rows` the inner loop moves 4 bytes at a time, so one 64-byte line serves 16 accesses. In `sum_cols` the inner loop jumps $512 \\times 4 = 2048$ bytes, a new line every time. A column touches 512 lines, 32 KiB, which exceeds the 16 KiB cache, so those lines are evicted before the next column could reuse them.\n\nWhy it matters: Both versions execute the same instructions. The difference is all in CPI, through miss stalls.\n\nExample: On one laptop with N = 4096 the column version ran about 6 to 12 times slower. Your numbers will differ.",
+      "searchQuery": "row-major vs column-major traversal C cache misses 2D array sum",
+      "refs": [
+        "CS:APP 3e, §6.5 Writing Cache-Friendly Code",
+        "CS:APP 3e, §6.6 Putting It Together: The Impact of Caches on Program Performance"
+      ]
+    },
+    {
+      "id": "computer-code-loop-interchange",
+      "unit": "cache-friendly-code",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Rewrite this loop nest with **loop interchange** so the inner loop has stride 1, and explain why that is legal.\n\n```c\nfor (int j = 0; j < N; j++)\n    for (int i = 0; i < N; i++)\n        a[i][j] *= 2;\n```",
+      "body": "Swap the two loops, with `for i` outside and `for j` inside. It is legal because each element is updated independently, so the order of the iterations does not change the result.\n\n```c\nfor (int i = 0; i < N; i++)\n    for (int j = 0; j < N; j++)\n        a[i][j] *= 2;\n```\n\nThe inner loop now walks along a row, one element at a time (4 bytes apart if `a` holds `int`), instead of down a column.\n\nWatch out: Interchange is not always legal. If one iteration uses a value written by another, such as `a[i][j] = a[i-1][j+1] + 1`, changing the order changes the answer. Some compilers interchange loops at high optimization levels, but do not count on it.",
+      "searchQuery": "loop interchange C 2D array stride 1 cache friendly rewrite",
+      "refs": [
+        "CS:APP 3e, §6.5 Writing Cache-Friendly Code",
+        "CS:APP 3e, §6.6 Putting It Together: The Impact of Caches on Program Performance"
+      ]
+    },
+    {
+      "id": "computer-code-loop-tiling-transpose",
+      "unit": "cache-friendly-code",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "Transposing with `b[j][i] = a[i][j]` makes one of the two arrays strided. `a` and `b` are N×N arrays of 32-bit ints. Fill in the largest power of two `B` for which one B×B tile of `a` and one B×B tile of `b` fit together in a 16 KiB cache.\n\n```c\n#define N 1024\n#define B ____\nfor (int ii = 0; ii < N; ii += B)\n  for (int jj = 0; jj < N; jj += B)\n    for (int i = ii; i < ii + B; i++)\n      for (int j = jj; j < jj + B; j++)\n        b[j][i] = a[i][j];\n```",
+      "body": "32. Two 32×32 tiles use $2 \\times 4$ KiB = 8 KiB, while 64 would need $2 \\times 16$ KiB = 32 KiB.\n\n**Loop tiling** (blocking) works on the matrix in B×B blocks. While a block is processed, the lines it touches stay in the cache and are reused, instead of being evicted before the strided side comes back to them. Interchange cannot help here, because either `a` or `b` is always accessed down a column.\n\nWatch out: With a power-of-two N and a low-associativity cache, a tile's rows can collide in the same sets. Padding the arrays or using a smaller B can help.\n\nTip: Measure. On one laptop with large caches, the tiled and plain versions ran at about the same speed at N = 1024.",
+      "searchQuery": "loop tiling blocking matrix transpose tile size cache C",
+      "refs": [
+        "CS:APP 3e, §6.5 Writing Cache-Friendly Code",
+        "CS:APP 3e, §6.6 Putting It Together: The Impact of Caches on Program Performance"
+      ]
+    },
+    {
+      "id": "computer-code-timing-experiment",
+      "unit": "cache-friendly-code",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "This benchmark of a column-order sum can print `0 ms` when compiled with optimization. Why, and what is the fix?\n\n```c\n#include <stdio.h>\n#include <time.h>\n#define N 2048\nstatic int a[N][N];\nint main(void) {\n    clock_t t0 = clock();\n    long s = 0;\n    for (int j = 0; j < N; j++)\n        for (int i = 0; i < N; i++) s += a[i][j];\n    printf(\"%ld ms\\n\", (long)((clock() - t0) * 1000 / CLOCKS_PER_SEC));\n}\n```",
+      "body": "Make the data real and use the result: `a` is never written, so the compiler sees an all-zero array and a constant sum and deletes the loop.\n\n```c\n// the fix: fill the array at run time, time the loop, print s\nfor (int i = 0; i < N; i++)\n    for (int j = 0; j < N; j++) a[i][j] = i ^ j;\n// ...timed loop as before, then: printf(\"%ld\\n\", s);\n```\n\nWatch out: Printing `s` alone is not enough here. With the all-zero array the compiler still folds the sum to 0 and drops the loop, and a `volatile` sink has the same problem. We checked this: `-O2` still printed `0 ms`.\n\nExample: With `-O2` the original program printed `0 ms` on one Mac laptop. With `-O0` it printed a real time, but unoptimized code does not represent the build you ship.\n\nTip: A trustworthy timing experiment also uses an array much larger than the cache, repeats the run and reports the minimum or median, changes only the layout between versions, and uses a hardware cycle counter where the core has one (for example `mcycle` on RISC-V). Always time the same build flags you will deploy.",
+      "searchQuery": "benchmark timing experiment compiler removes loop unused result volatile",
+      "refs": [
+        "CS:APP 3e, §6.6 Putting It Together: The Impact of Caches on Program Performance"
+      ]
+    },
+    {
+      "id": "computer-trade-off-aos-vs-soa",
+      "unit": "cache-friendly-code",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "A loop updates only the `x` field of 100,000 sample records. Each record has four 32-bit fields `x, y, z, t`. Is an **array of structs** (AoS) or a **struct of arrays** (SoA) the better layout?",
+      "body": "SoA: the loop reads one contiguous array of `x` values, so every byte of each cache line fetched is used. With AoS, only 4 of every 16 bytes of `x` data are used.\n\nAoS is `struct P { float x, y, z, t; } p[N];`, so `p[i].x` has a stride of 16 bytes and three quarters of each fetched line is wasted. SoA is `float x[N], y[N], z[N], t[N];`, so `x[i]` has stride 4 bytes.\n\nThe other side: AoS is better when code uses all fields of one record together, because one cache line then holds the whole record, and it suits random access by record or sorting whole records.\n\nTip: SoA also suits vector instructions, which like contiguous data.",
+      "searchQuery": "array of structs vs struct of arrays AoS SoA cache trade-off",
+      "refs": [
+        "CS:APP 3e, §6.5 Writing Cache-Friendly Code",
+        "CS:APP 3e, §6.6 Putting It Together: The Impact of Caches on Program Performance"
+      ]
+    },
+    {
+      "id": "computer-virtual-vs-physical-address",
+      "unit": "virtual-memory",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is the difference between a **virtual address** and a **physical address**, and what hardware translates one into the other?",
+      "body": "A virtual address is what a program uses; a physical address is the actual location in memory. The **memory management unit** (MMU) translates virtual to physical on every access.\n\nEach process gets its own virtual address space, which can start at 0 and can be larger than the installed memory. The operating system controls the mapping.\n\nExample: Two programs may both use virtual address `0x10000`, and the MMU sends them to different physical addresses.\n\nWatch out: On a system with an MMU, the pointer values a C program prints are virtual addresses. On a microcontroller with no MMU, a pointer is the physical address.",
+      "searchQuery": "virtual address physical address MMU translation definition",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 8",
+        "Patterson & Hennessy, COD RISC-V ed., §5.7",
+        "CS:APP 3e, §9.1–9.6",
+        "MIT 6.191 (Fall 2026), L17–L18 Virtual Memory"
+      ]
+    },
+    {
+      "id": "computer-page-table-pte",
+      "unit": "virtual-memory",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are a **page**, a **page table** and a **page table entry** (PTE)?",
+      "body": "A page is a fixed-size block of memory (commonly 4 KiB) that is the unit of translation. The page table maps each virtual page number to a physical page, and each of its entries, a PTE, also holds a valid bit and permission bits.\n\nA virtual address splits into a page number and a page offset. Translation replaces the page number and leaves the offset unchanged. With 4 KiB pages the offset is 12 bits.\n\nExample: In a 32-bit address `0x00003ABC`, the page number is 3 and the offset is `0xABC`.\n\nWhy it matters: If the PTE's valid bit is 0, the access causes a page fault, covered on a later card.",
+      "searchQuery": "page table page table entry PTE page number offset 4 KiB",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 8",
+        "Patterson & Hennessy, COD RISC-V ed., §5.7",
+        "CS:APP 3e, §9.1–9.6",
+        "MIT 6.191 (Fall 2026), L17–L18 Virtual Memory"
+      ]
+    },
+    {
+      "id": "computer-tlb-definition",
+      "unit": "virtual-memory",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a **translation lookaside buffer** (TLB), and why is it needed?",
+      "body": "A small, fast cache of recent virtual-to-physical page translations, so most accesses avoid reading the page table in memory.\n\nWithout it, every load or store would need extra memory reads to find its PTE, one for each level of the page table. On a TLB hit the translation takes about a cycle. On a TLB miss, hardware or the operating system walks the page table and then fills the TLB.\n\nWatch out: A TLB miss is not a page fault. A TLB miss only means the translation was not cached, and the page may be in memory. A page fault means there is no valid mapping.",
+      "searchQuery": "translation lookaside buffer TLB cache page translations miss",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 8",
+        "Patterson & Hennessy, COD RISC-V ed., §5.7",
+        "CS:APP 3e, §9.1–9.6",
+        "MIT 6.191 (Fall 2026), L17–L18 Virtual Memory"
+      ]
+    },
+    {
+      "id": "computer-vm-benefits",
+      "unit": "virtual-memory",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What three things does virtual memory give an operating system?",
+      "body": "Isolation (each process sees only its own address space), protection (permissions on each page, such as read-only or no-execute) and demand paging (pages are loaded only when first touched, so programs can use more memory than is installed).\n\nExample: Address 0 is normally left unmapped. A null-pointer dereference then hits an invalid page, the hardware faults, and the program ends with a segmentation fault.\n\nKey idea: The extra layer of indirection between addresses a program uses and addresses memory uses is what makes all three possible.",
+      "searchQuery": "virtual memory benefits isolation protection demand paging",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 8",
+        "Patterson & Hennessy, COD RISC-V ed., §5.7",
+        "CS:APP 3e, §9.1–9.6",
+        "MIT 6.191 (Fall 2026), L17–L18 Virtual Memory"
+      ]
+    },
+    {
+      "id": "computer-page-fault-cost",
+      "unit": "virtual-memory",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "What happens on a **page fault**, and why is it so much more expensive than a TLB miss?",
+      "body": "The access hits a page with no valid mapping, the CPU traps (jumps) into operating-system code, and the OS either fixes the mapping (possibly reading the page from storage) or ends the process, and then the instruction is retried.\n\nA TLB miss costs a few memory reads. A page fault runs operating-system code and may wait for storage: tens of microseconds for an SSD or milliseconds for a spinning disk, against about 100 ns for DRAM.\n\nCauses: first touch of a page (demand paging), a page that was swapped out, a write to a read-only page, or an invalid address (which becomes a segmentation fault).\n\nWatch out: The delay of a page fault is unpredictable, so systems with hard deadlines avoid demand paging.",
+      "searchQuery": "page fault cost operating system trap TLB miss difference",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 8",
+        "Patterson & Hennessy, COD RISC-V ed., §5.7",
+        "CS:APP 3e, §9.1–9.6",
+        "MIT 6.191 (Fall 2026), L17–L18 Virtual Memory"
+      ]
+    },
+    {
+      "id": "computer-code-fork-same-address",
+      "unit": "virtual-memory",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "On a POSIX system with an MMU, what do the two printed lines show?\n\n```c\n#include <stdio.h>\n#include <sys/wait.h>\n#include <unistd.h>\nint main(void) {\n    int x = 1;\n    pid_t pid = fork();\n    if (pid == 0) x = 2;\n    else wait(NULL);\n    printf(\"%s: &x=%p x=%d\\n\", pid == 0 ? \"child\" : \"parent\", (void *)&x, x);\n    return 0;\n}\n```",
+      "body": "Both lines print the same address, but the child prints `x=2` and the parent prints `x=1`.\n\n`fork` gives the child a copy of the parent's address space, so `&x` is the same virtual address in both. When the child writes to `x`, the OS gives it its own physical page, so the two variables live at different physical addresses behind one virtual address.\n\nExample: The parent waits, so the child's line prints first. The actual address changes from run to run, but it is equal on the two lines.\n\nWatch out: Equal pointer values in two processes do not mean the same memory.",
+      "searchQuery": "fork same virtual address different values copy on write C",
+      "refs": [
+        "CS:APP 3e, §9.1–9.6",
+        "MIT 6.191 (Fall 2026), L17–L18 Virtual Memory"
+      ]
+    },
+    {
+      "id": "computer-code-translate-address",
+      "unit": "virtual-memory",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "Fill in the blank. This toy MMU uses a single-level table of 4 KiB pages, and each table entry is just the physical page number. With `pt[3] = 7`, what does `translate(pt, 0x3ABC)` return?\n\n```c\nuint32_t translate(const uint32_t *pt, uint32_t va) {\n    uint32_t vpn = va >> 12;\n    uint32_t ppn = pt[vpn];\n    return (ppn << ____) | (va & 0xFFF);\n}\n```",
+      "body": "12 in the blank, and the call returns `0x00007ABC`.\n\nA 4 KiB page has a 12-bit offset. Here `vpn` = `0x3ABC >> 12` = 3, the offset is `0xABC`, and `pt[3]` = 7, so the result is `(7 << 12) | 0xABC` = `0x7000 | 0xABC` = `0x7ABC`.\n\nKey idea: Translation replaces the page number and keeps the offset, so it only needs a table lookup, a shift and an OR.\n\nWatch out: Real PTEs hold flag bits too. Hardware checks the valid and permission bits, and masks them off before using the physical page number.",
+      "searchQuery": "virtual to physical address translation C code page table 4 KiB shift",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 8",
+        "Patterson & Hennessy, COD RISC-V ed., §5.7",
+        "CS:APP 3e, §9.1–9.6"
+      ]
+    },
+    {
+      "id": "computer-problem-page-table-size",
+      "unit": "virtual-memory",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "A 32-bit system uses 4 KiB pages and 4-byte PTEs, with one flat page table per process. How big is one process's page table, and how does a two-level table avoid that cost?",
+      "body": "$2^{20}$ entries × 4 B = 4 MiB per process; a two-level table allocates second-level tables only for the parts of the address space actually in use.\n\nThe page offset takes 12 bits, so the page number has $32 - 12 = 20$ bits, giving $2^{20} = 1{,}048{,}576$ entries. At 4 bytes each that is 4 MiB, even for a tiny process, and 40 MiB for ten processes.\n\nA two-level table splits the 20 bits into 10 + 10. The top 10 bits index a first-level table, whose entries point to second-level tables of 1024 entries (4 KiB each, exactly one page). A process uses a few regions (code, data, heap, stack), so most second-level tables never exist.\n\nExample: RISC-V's Sv32 scheme uses this 10 + 10 + 12 split.",
+      "searchQuery": "page table size 32-bit 4 KiB pages two-level page table",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 8",
+        "Patterson & Hennessy, COD RISC-V ed., §5.7",
+        "CS:APP 3e, §9.1–9.6",
+        "MIT 6.191 (Fall 2026), L17–L18 Virtual Memory"
+      ]
+    },
+    {
+      "id": "computer-trade-off-mmu-vs-mpu",
+      "unit": "virtual-memory",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "A battery-powered microcontroller runs a hard real-time control loop and must stop a faulty task from overwriting the kernel's memory. Use an **MMU** or an **MPU**?",
+      "body": "An MPU: the **memory protection unit** enforces access permissions on a few memory regions without translating addresses, so timing stays predictable and area and power stay small.\n\nAn MPU holds a small number of configurable regions, each with a base, a size and permissions, commonly 8 or 16 on Arm Cortex-M cores. An access that breaks the rules causes a fault. There are no page tables, no TLB misses and no page faults, so every access takes a fixed time. This is why most microcontrollers have no MMU, only an optional MPU.\n\nThe other side: Without an MMU there are no separate address spaces and no demand paging, and every task must be linked at its own physical addresses. A general-purpose OS such as Linux needs an MMU.",
+      "searchQuery": "MMU vs MPU microcontroller memory protection unit real-time trade-off",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 8",
+        "Armv7-M Architecture Reference Manual, Protected Memory System Architecture (PMSAv7)"
+      ]
+    }
+  ]
+}

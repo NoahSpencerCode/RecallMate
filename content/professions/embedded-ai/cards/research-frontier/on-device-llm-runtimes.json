@@ -1,0 +1,893 @@
+{
+  "profession": "embedded-ai",
+  "module": "on-device-llm-runtimes",
+  "tier": 8,
+  "cards": [
+    {
+      "id": "on-prefill-definition",
+      "unit": "prefill-decode-memory-wall",
+      "kind": "definition",
+      "difficulty": 9,
+      "title": "Define **prefill** in LLM inference: what is processed, what shape of computation it is, and what usually limits it?",
+      "body": "Prefill processes all $n$ prompt tokens in parallel to build the KV cache and the first logits; it is matrix–matrix work and usually compute-bound.\n\nWhy: Each weight fetched from memory is reused for all $n$ tokens, so the work per weight byte grows with $n$. Prefill costs about $2N\\,n$ FLOPs for $N$ parameters (the $\\approx 2N$ per token rule), so a 3B model on a 512-token prompt needs about $3.1\\times10^{12}$ FLOPs, roughly 0.6 s at 5 TFLOP/s of sustained compute.\n\nKey idea: Prefill is compute-bound only once $n$ is large enough that its operations per weight byte exceed the device's ridge point. On a phone NPU whose ridge point is a few hundred ops per byte, an 8-token prompt is still memory-bound.\n\nWatch out: Prefill time grows with prompt length (about linearly at first, then faster as attention's quadratic term takes over), so it sets the time to first token. Decode speed tells you nothing about it.",
+      "searchQuery": "prefill LLM inference compute-bound prompt processing",
+      "tags": [
+        "memory-bound",
+        "roofline"
+      ],
+      "refs": [
+        "MIT 6.5940 (Fall 2026), L13",
+        "Pope et al., Efficiently Scaling Transformer Inference, MLSys 2023"
+      ]
+    },
+    {
+      "id": "on-ttft-tpot-latency",
+      "unit": "prefill-decode-memory-wall",
+      "kind": "definition",
+      "difficulty": 9,
+      "title": "Define **time to first token (TTFT)** and **time per output token (TPOT)**, and write a request's end-to-end latency in terms of them for $n_{out}$ output tokens.",
+      "body": "TTFT is the delay from request to the first output token (about the prefill time); TPOT is the average gap between later tokens; latency $\\approx \\mathrm{TTFT} + (n_{out}-1)\\,\\mathrm{TPOT}$.\n\nExample: A 1,000-token prompt prefilled at 250 tokens/s gives TTFT $=4\\,\\mathrm{s}$. Decoding at 20 tokens/s gives TPOT $=50\\,\\mathrm{ms}$. A 200-token reply then takes $4 + 199\\times0.05 \\approx 13.95\\,\\mathrm{s}$.\n\nWhy: The two metrics map onto the two phases. TTFT is set by prefill speed (compute-bound), TPOT by decode speed (memory-bound), so a runtime can be fast on one and slow on the other.\n\nWatch out: A single \"tokens/s\" figure hides which phase it measures. Decode tokens/s equals $1/\\mathrm{TPOT}$; dividing output tokens by total time blends both phases and depends on prompt length.",
+      "searchQuery": "time to first token time per output token latency formula LLM",
+      "tags": [
+        "memory-bound"
+      ],
+      "refs": [
+        "MIT 6.5940 (Fall 2026), L13"
+      ]
+    },
+    {
+      "id": "on-decode-memory-bound-concept",
+      "unit": "prefill-decode-memory-wall",
+      "kind": "concept",
+      "difficulty": 9,
+      "title": "Why is single-stream decode memory-bound on a phone SoC even when its NPU is rated at tens of TOPS?",
+      "body": "Each decoded token multiplies every weight matrix by one vector, so each weight fetched is used in just one MAC: 1–4 operations per byte (FP16 down to 4-bit weights), far below the ridge point.\n\nExample: Take an NPU rated at 20 TOPS with 60 GB/s of DRAM bandwidth. Its ridge point is $20\\times10^{12}/60\\times10^{9}\\approx 333$ ops per byte. FP16 weights give $2/2 = 1$ op per byte, and 4-bit weights give $2/0.5 = 4$ ops per byte, about 1% of what the compute units could use.\n\nKey idea: Decode speed is set by bytes moved per token and memory bandwidth, not by TOPS. That is why cutting weight bits (weight-only 4-bit quantization) raises tokens/s even though it adds dequantization work.\n\nWatch out: Peak TOPS is a prefill and batching number. Quoting it for generation speed is the classic vendor-claim error.",
+      "searchQuery": "why LLM decode memory-bound GEMV arithmetic intensity roofline",
+      "tags": [
+        "memory-bound",
+        "roofline"
+      ],
+      "refs": [
+        "MIT 6.5940 (Fall 2026), L13",
+        "Pope et al., Efficiently Scaling Transformer Inference, MLSys 2023"
+      ]
+    },
+    {
+      "id": "on-decode-ceiling-formula",
+      "unit": "prefill-decode-memory-wall",
+      "kind": "formula",
+      "difficulty": 9,
+      "title": "Write the memory-bandwidth ceiling on single-stream decode throughput, in terms of sustained bandwidth $\\mathrm{BW}$ and the bytes read per generated token.",
+      "body": "$$\\text{tokens/s} \\lesssim \\frac{\\mathrm{BW}}{B_{\\text{weights}} + B_{\\text{KV}}(n)}$$ with $B_{\\text{weights}}$ the weight bytes read per token and $B_{\\text{KV}}(n)$ the KV-cache bytes read at context length $n$.\n\nExample: A 3B-parameter model at 4 bits per weight has $B_{\\text{weights}}\\approx 1.5\\,\\mathrm{GB}$. On $60\\,\\mathrm{GB/s}$ of LPDDR the ceiling is $60/1.5 = 40$ tokens/s.\n\nWhy: Every token reads the whole set of weights (dense model) and the whole KV cache once, and compute hides under that traffic. The bound is the roofline's slanted part for intensity of a few ops per byte.\n\nWatch out: Use sustained bandwidth, not the datasheet peak, and remember the CPU, GPU and display share it. For a model that runs only some of its weights per token (a mixture of experts), count only the bytes it actually reads. The ceiling is an upper bound, never a prediction.",
+      "searchQuery": "decode tokens per second memory bandwidth bytes per token ceiling",
+      "tags": [
+        "memory-bound",
+        "roofline"
+      ],
+      "refs": [
+        "MIT 6.5940 (Fall 2026), L13",
+        "Pope et al., Efficiently Scaling Transformer Inference, MLSys 2023"
+      ]
+    },
+    {
+      "id": "on-kv-cache-bytes-formula",
+      "unit": "prefill-decode-memory-wall",
+      "kind": "formula",
+      "difficulty": 9,
+      "title": "Give the KV-cache size in bytes for one sequence of $n$ tokens, with $L$ layers, $H_{kv}$ KV heads, head dimension $d_h$ and $b$ bytes per element, and say how grouped-query attention changes it.",
+      "body": "$$\\text{KV bytes} = 2\\,L\\,H_{kv}\\,d_h\\,n\\,b$$ where the 2 counts keys and values; GQA shrinks $H_{kv}$ from the number of query heads $H$ to $H/g$ for $g$ query heads per KV head.\n\nExample: With $L=32$, $H_{kv}=8$, $d_h=128$ and FP16 ($b=2$), each token costs $2\\cdot32\\cdot8\\cdot128\\cdot2 = 131{,}072\\,\\mathrm{B} = 128\\,\\mathrm{KiB}$, so 4,096 tokens take $512\\,\\mathrm{MiB}$.\n\nWhy: GQA is a pure KV saver. It leaves the query heads, and therefore the attention FLOPs, unchanged, but divides KV memory and per-token KV traffic by $g$. Multi-query attention is the extreme $H_{kv}=1$.\n\nWatch out: The formula is per sequence; multiply by the number of concurrent sequences. Quantizing the cache changes $b$: 1 byte at 8 bits, 0.5 at 4 bits, plus the scale overhead.",
+      "searchQuery": "KV cache size formula layers KV heads head dimension grouped-query attention",
+      "tags": [
+        "kv-cache"
+      ],
+      "refs": [
+        "Ainslie et al., GQA, EMNLP 2023",
+        "MIT 6.5940 (Fall 2026), L13"
+      ]
+    },
+    {
+      "id": "on-decode-ceiling-problem",
+      "unit": "prefill-decode-memory-wall",
+      "kind": "problem",
+      "difficulty": 9,
+      "title": "A dense 8.0B-parameter model has 32 layers, 8 KV heads and head dimension 128, with an FP16 KV cache. Its weights are 4-bit integers in groups of 32, each group with one FP16 scale (no zero-point). Sustained memory bandwidth is $100\\,\\mathrm{GB/s}$ ($1\\,\\mathrm{GB}=10^9\\,\\mathrm{B}$). Estimate the decode ceiling in tokens/s at a context of 4,096 tokens, counting only weight and KV bytes read per token.",
+      "body": "About $19.9$ tokens/s.\n\nSteps:\n1. Bits per weight $=4 + 16/32 = 4.5$, so weight bytes $=8.0\\times10^9\\times4.5/8 = 4.5\\times10^9\\,\\mathrm{B}$.\n2. KV bytes per token of context $=2\\cdot32\\cdot8\\cdot128\\cdot2 = 131{,}072\\,\\mathrm{B}$; at 4,096 tokens that is $536.9\\times10^6\\,\\mathrm{B}$.\n3. Bytes per generated token $\\approx 5.037\\times10^9\\,\\mathrm{B}$, so the ceiling is $100/5.037 \\approx 19.9$ tokens/s.\n\nWatch out: Forgetting the scale overhead gives $100/4.537\\approx 22.0$, forgetting the KV cache gives $100/4.5\\approx 22.2$, and forgetting both gives $25$. At 32,768 tokens the KV read grows to $4.29\\,\\mathrm{GB}$ and the ceiling falls to $100/8.80\\approx 11.4$ tokens/s: long context taxes every token.\n\nTip: The input embedding table is read one row per token, but the output projection is read in full, so a careful count reads slightly fewer bytes than the parameter count suggests.",
+      "searchQuery": "decode ceiling tokens per second 4-bit weights KV cache bandwidth problem",
+      "checkpoint": true,
+      "tags": [
+        "memory-bound",
+        "kv-cache"
+      ],
+      "refs": [
+        "MIT 6.5940 (Fall 2026), L13"
+      ]
+    },
+    {
+      "id": "on-kv-size-gqa-problem",
+      "unit": "prefill-decode-memory-wall",
+      "kind": "problem",
+      "difficulty": 9,
+      "title": "A decoder has 28 layers, 24 query heads, 8 KV heads and head dimension 128, with an FP16 KV cache. Find (a) the KV bytes per token, (b) the KV bytes at 8,192 tokens, and (c) the factor by which GQA saves memory compared with giving every query head its own KV head.",
+      "body": "(a) $114{,}688\\,\\mathrm{B}$ ($112\\,\\mathrm{KiB}$) per token; (b) $939{,}524{,}096\\,\\mathrm{B}\\approx0.94\\,\\mathrm{GB}$; (c) $3\\times$.\n\nSteps:\n1. Per token: $2\\cdot28\\cdot8\\cdot128\\cdot2 = 114{,}688\\,\\mathrm{B}$.\n2. At $n=8{,}192$: $114{,}688\\times8{,}192 = 939{,}524{,}096\\,\\mathrm{B}$.\n3. With 24 KV heads the cache is $24/8=3$ times larger, $2.82\\,\\mathrm{GB}$.\n\nWhy: GQA groups $g=24/8=3$ query heads onto one KV head, so only the KV cache shrinks; query projections, attention FLOPs and the quality-critical number of query heads stay the same.\n\nWatch out: The saving applies to the cache and to the KV bytes read per decoded token, not to the weights. The key and value projection matrices shrink slightly, but that is a small part of the parameters.",
+      "searchQuery": "grouped-query attention KV cache savings calculation 8 KV heads 24 query heads",
+      "tags": [
+        "kv-cache"
+      ],
+      "refs": [
+        "Ainslie et al., GQA, EMNLP 2023"
+      ]
+    },
+    {
+      "id": "on-lpddr5x-bandwidth-numbers",
+      "unit": "prefill-decode-memory-wall",
+      "kind": "numbers",
+      "difficulty": 9,
+      "title": "A 64-bit-wide LPDDR5X interface runs at 8,533 MT/s per pin. What is its peak bandwidth in GB/s ($1\\,\\mathrm{GB}=10^9\\,\\mathrm{B}$), to one decimal place?",
+      "body": "$68.3\\,\\mathrm{GB/s}$\n\nSteps: $8{,}533\\times10^6\\ \\text{transfers/s}\\times 64\\ \\text{bits}/8 = 68.26\\times10^9\\,\\mathrm{B/s}$.\n\nExample: A 4-bit 3B model (1.5 GB per token) would peak at $68.3/1.5\\approx 45$ tokens/s on this interface, compared with $40$ at a sustained $60\\,\\mathrm{GB/s}$.\n\nWatch out: This is the peak at the pin rate. Sustained bandwidth is lower, and the CPU, GPU, NPU and camera pipeline share it, so decode ceilings should use a measured figure. Phone parts may also run the memory below its top speed grade.",
+      "searchQuery": "LPDDR5X 8533 MT/s 64-bit bandwidth GB/s",
+      "answer": "68.3",
+      "acceptedAnswers": [
+        "68.26",
+        "68.3 GB/s"
+      ],
+      "asOf": "2026-11-24",
+      "tags": [
+        "memory-bound"
+      ],
+      "refs": [
+        "JEDEC LPDDR5/LPDDR5X standard (JESD209-5)"
+      ]
+    },
+    {
+      "id": "on-batch-crossover-problem",
+      "unit": "prefill-decode-memory-wall",
+      "kind": "problem",
+      "difficulty": 9,
+      "title": "An NPU peaks at 20 TOPS and has $60\\,\\mathrm{GB/s}$ of memory bandwidth. A decode step serves a batch of $B$ independent sequences; weights are 4-bit and read once per step regardless of $B$, each token does 2 operations per weight, and KV traffic, activations and dequantization are ignored. What is the smallest integer batch size at which the step becomes compute-bound?",
+      "body": "84\n\nSteps:\n1. Ridge point $=20\\times10^{12}/60\\times10^{9}\\approx 333.3$ ops per byte.\n2. Each weight is 0.5 B and does $2B$ operations, so intensity $=2B/0.5 = 4B$ ops per byte.\n3. $4B \\ge 333.3 \\Rightarrow B\\ge 83.3$, so $B=84$.\n\nKey idea: Below the crossover, a step takes about the time to read the weights once, so aggregate throughput grows in proportion to $B$ while per-user TPOT stays flat. That is why servers batch.\n\nWatch out: Each sequence also reads its own KV cache, which is not shared. Those bytes grow with $B$, so for a model with $N$ weights the intensity levels off near $2N$ divided by one sequence's KV bytes, and with long contexts the ridge may never be reached.",
+      "searchQuery": "batch size compute-bound crossover decode roofline ridge point 4-bit weights",
+      "answer": "84",
+      "tags": [
+        "roofline",
+        "memory-bound"
+      ],
+      "refs": [
+        "MIT 6.5940 (Fall 2026), L13"
+      ]
+    },
+    {
+      "id": "on-batching-device-trade-off",
+      "unit": "prefill-decode-memory-wall",
+      "kind": "trade-off",
+      "difficulty": 9,
+      "title": "Should a single-user on-device runtime batch decode steps the way a datacenter server does?",
+      "body": "No. Servers win by amortizing each weight read over many users' tokens; a one-user device has batch 1, so extra tokens per weight read must come from speculation or parallel sequences.\n\nWhy: At batch 1 a decode step moves all the weights to produce one token. A server fills the step with tokens from many requests (continuous batching: finished requests leave and new ones join between steps), which multiplies throughput until the ridge point. A phone has one conversation, and waiting to collect a batch only adds latency.\n\nThe other side: Batching still pays on device when several sequences exist anyway: parallel samples, beam search, or a laptop or board serving several local apps. Past the ridge point, per-user TPOT worsens as batch grows.\n\nTip: For a single stream the analogue of batching is speculative decoding, which verifies several drafted tokens of one sequence in one weight pass.",
+      "searchQuery": "batching LLM decode server vs single user on-device memory-bound",
+      "tags": [
+        "memory-bound"
+      ],
+      "refs": [
+        "mlsysbook.ai Vol. II, ch. 10 (Serving at Scale)"
+      ]
+    },
+    {
+      "id": "on-paged-attention-block-table",
+      "unit": "kv-cache-management",
+      "kind": "concept",
+      "difficulty": 9,
+      "title": "How does **PagedAttention** store a sequence's KV cache, and what does the **block table** do?",
+      "body": "It splits the KV cache into fixed-size blocks (for example 16 tokens) allocated on demand anywhere in memory; a per-sequence block table maps logical block numbers to physical blocks, like a page table.\n\nWhy: Earlier servers reserved one contiguous slab per request sized for its maximum length, which wasted memory twice: space reserved but never used, and gaps between slabs. Equal-size blocks removed external fragmentation, and allocating a block only when the previous one fills leaves less than one block of waste per sequence. The attention kernel reads keys and values through the table.\n\nExample: Two requests that start with the same system prompt can point their tables at the same physical blocks, with a reference count. If one sequence must write into a shared block, the system copies that block first (copy-on-write) so the other sequence is untouched.\n\nWatch out: The big wins came from many concurrent requests of unknown length. On a one-user phone the useful parts are prefix sharing and not reserving the maximum context up front.",
+      "searchQuery": "PagedAttention block table KV cache fixed-size blocks virtual memory",
+      "tags": [
+        "kv-cache"
+      ],
+      "refs": [
+        "Kwon et al., PagedAttention, SOSP 2023 (arXiv:2309.06180)"
+      ]
+    },
+    {
+      "id": "on-attention-sink-sliding-window",
+      "unit": "kv-cache-management",
+      "kind": "concept",
+      "difficulty": 9,
+      "title": "What is an **attention sink**, and why does evicting old tokens from a sliding window fail unless the first few tokens are kept?",
+      "body": "In a model trained with full attention, the first few tokens receive a large share of attention weight whatever their meaning, so evicting them from a sliding window wrecks the softmax; keep roughly four initial tokens plus the most recent window.\n\nWhy: Softmax weights must sum to 1, so a head with nothing relevant to read still has to put its weight somewhere. Initial tokens are visible to every later token in a causal model, so training makes them the dump. Remove them and the mass lands on unrelated tokens, and perplexity jumps.\n\nKey idea: **Sliding-window attention** lets each token see only the last $W$ tokens, bounding the cache at $W$ entries per layer. StreamingLLM adds the sink tokens, so the cache holds a fixed number of entries ($4+W$) however long the stream runs, and it assigns positions by place in the cache. The failure is specific to windowing a model at inference time; models trained with sliding-window layers, such as Gemma 3's local layers, learn to work within their window.\n\nWatch out: This bounds memory and keeps text fluent; it does not give the model memory of evicted facts. A question about something outside the window is still unanswerable.",
+      "searchQuery": "attention sink StreamingLLM sliding window KV cache initial tokens",
+      "tags": [
+        "kv-cache"
+      ],
+      "refs": [
+        "Xiao et al., Efficient Streaming Language Models with Attention Sinks, ICLR 2024 (arXiv:2309.17453)",
+        "Gemma Team, Gemma 3 Technical Report, arXiv:2503.19786",
+        "MIT 6.5940 (Fall 2026), L15"
+      ]
+    },
+    {
+      "id": "on-kv-bits-per-element-formula",
+      "unit": "kv-cache-management",
+      "kind": "formula",
+      "difficulty": 9,
+      "title": "Group-wise **KV-cache quantization** stores $b$-bit codes with one FP16 scale per group of $g$ elements and no zero-point. What is the effective number of bits per element, and the compression versus FP16?",
+      "body": "$b + 16/g$ bits per element, giving a compression of $16/(b+16/g)$ versus FP16.\n\nExample: For $b=4$ and $g=32$, the cost is $4.5$ bits, a $3.56\\times$ reduction. With $g=128$ it is $4.125$ bits ($3.88\\times$). If each group also stores an FP16 zero-point, the overhead doubles to $32/g$.\n\nWhy: Fine groups follow local ranges and cost accuracy less, but every group pays its scale. Both effects belong in the memory estimate, and the same arithmetic applies to weight-only quantization.\n\nWatch out: The cache grows by one token per step, so the new entries are quantized on the fly, and some schemes keep a short recent stretch in higher precision. Attention then dequantizes inside the kernel, which costs compute.",
+      "searchQuery": "KV cache quantization effective bits per element group size scale overhead",
+      "tags": [
+        "kv-cache"
+      ],
+      "refs": [
+        "MIT 6.5940 (Fall 2026), L13"
+      ]
+    },
+    {
+      "id": "on-kv-sharing-quant-problem",
+      "unit": "kv-cache-management",
+      "kind": "problem",
+      "difficulty": 9,
+      "title": "A model has 24 layers, 4 KV heads and head dimension 128. At 16,384 tokens, its FP16 KV cache is the baseline. (i) The last 9 layers reuse the K and V of earlier layers (cross-layer KV sharing), so they store none. (ii) The remaining cache is quantized to 4-bit codes with one FP16 scale per 32 elements. Give the cache size in MiB for the baseline, after (i), and after (i)+(ii), and the total reduction.",
+      "body": "768 MiB, then 480 MiB, then 135 MiB: an 82.4% reduction.\n\nSteps:\n1. Baseline: $2\\cdot24\\cdot4\\cdot128\\cdot16{,}384\\cdot2 = 805{,}306{,}368\\,\\mathrm{B} = 768\\,\\mathrm{MiB}$.\n2. Sharing: only $15/24$ of the layers own a cache, so $768\\times15/24 = 480\\,\\mathrm{MiB}$ (a 37.5% saving).\n3. 4-bit with scales: $4+16/32=4.5$ bits, a factor $4.5/16$, so $480\\times0.28125 = 135\\,\\mathrm{MiB}$.\n4. Total: $135/768 = 0.176$, a reduction of $82.4\\%$.\n\nExample: Apple's 2025 report says its on-device model reuses the first block's KV cache in the second block, cutting KV memory by 37.5%. This is the same fraction as 9 of 24 layers.\n\nWatch out: The savings multiply, but quality losses do not simply add: shared layers see another layer's keys, and low-bit keys feed an exponential. Each step needs its own accuracy check.",
+      "searchQuery": "cross-layer KV sharing KV cache quantization memory calculation",
+      "tags": [
+        "kv-cache"
+      ],
+      "refs": [
+        "Apple, Apple Intelligence Foundation Language Models Tech Report 2025 (arXiv:2507.13575), §2.1"
+      ]
+    },
+    {
+      "id": "on-kv-quantization-trade-off",
+      "unit": "kv-cache-management",
+      "kind": "trade-off",
+      "difficulty": 9,
+      "title": "On a phone running long contexts, when does 4-bit **KV-cache quantization** beat 8-bit?",
+      "body": "When KV memory or KV read traffic is the binding limit (long context, tight RAM) and a small quality loss is acceptable; 8-bit is near-lossless and the safe default when memory allows.\n\nExample: Using the 8B model from the decode-ceiling problem at 32,768 tokens, an FP16 KV cache is $4.29\\,\\mathrm{GB}$ and the ceiling is $11.4$ tokens/s. An 8-bit cache with one FP16 scale per 32 elements (8.5 bits) is $2.28\\,\\mathrm{GB}$, about $14.7$ tokens/s; a 4-bit cache with the same scales (4.5 bits) is $1.21\\,\\mathrm{GB}$, about $17.5$ tokens/s. At 4,096 tokens the FP16 cache is only about 11% of the traffic, so the gain is small.\n\nThe other side: Keys are the delicate half: attention logits depend on them through an exponential, and a few channels have large outliers. 4-bit codes can cost accuracy on tasks that retrieve exact details from the context, and attention has to dequantize inside the kernel.\n\nTip: Measure on your own long-context task before choosing. Short chats gain nothing from 4-bit KV.",
+      "searchQuery": "KV cache quantization 4-bit vs 8-bit long context decode speed trade-off",
+      "tags": [
+        "kv-cache",
+        "quantization"
+      ],
+      "refs": [
+        "MIT 6.5940 (Fall 2026), L13 and L15"
+      ]
+    },
+    {
+      "id": "on-prompt-caching-trade-off",
+      "unit": "kv-cache-management",
+      "kind": "trade-off",
+      "difficulty": 9,
+      "title": "When is **prompt caching** (keeping the KV cache of a fixed prompt prefix for reuse) worth its memory on a device?",
+      "body": "When many requests share the same prefix (system prompt, document, chat history): reuse skips its prefill and cuts TTFT, at the price of storing its KV, and it works only for an exact token-for-token prefix.\n\nExample: A 2,000-token prefix on the 28-layer, 8-KV-head model costs $114{,}688\\times2{,}000 = 229\\,\\mathrm{MB}$ of KV. Re-prefilling at 250 tokens/s takes 8 s. Reloading the saved cache from flash at $1\\,\\mathrm{GB/s}$ takes about 0.23 s, so saving it to storage is far faster than recomputing and frees the RAM between uses.\n\nThe other side: A prefix used once is pure cost. The cache is valid only for the same model, weights and quantization, and every prefix token must match. Any edit inside the prefix invalidates everything after it, and rotary encodings are baked into the cached keys, so the prefix must sit at the same positions.\n\nWatch out: Held in RAM, the cache competes with the context budget for live conversations.",
+      "searchQuery": "prompt caching KV cache prefix reuse TTFT on-device llama.cpp",
+      "tags": [
+        "kv-cache"
+      ],
+      "refs": [
+        "MIT 6.5940 (Fall 2026), L15"
+      ]
+    },
+    {
+      "id": "on-context-vs-memory-trade-off",
+      "unit": "kv-cache-management",
+      "kind": "trade-off",
+      "difficulty": 9,
+      "title": "How should an on-device runtime choose its maximum **context length** given limited device memory?",
+      "body": "Cap the context so weights, KV cache at that length, and activations fit the app's memory budget with headroom; extend it only by cutting KV bytes per token, never by trusting the advertised context length.\n\nExample: For the 28-layer, 8-KV-head model (112 KiB per token in FP16), a 128k context ($131{,}072$ tokens) needs $14\\,\\mathrm{GiB}$ of KV alone. If the app can spare $2\\,\\mathrm{GiB}$, the cap is $2\\times2^{30}/114{,}688\\approx18{,}700$ tokens.\n\nThe other side: Four levers raise the usable length: more GQA, KV quantization, KV sharing across layers, and sliding-window layers. Gemma 3 mixes local layers (1,024-token window) with global ones at about 5 to 1, so most layers cache only their window.\n\nWatch out: Going over the budget gets the app killed by the OS's memory pressure handling. Decode also slows with length, since every token reads the whole cache.",
+      "searchQuery": "context length vs device memory KV cache budget phone sliding window layers",
+      "tags": [
+        "kv-cache"
+      ],
+      "refs": [
+        "Gemma Team, Gemma 3 Technical Report, arXiv:2503.19786",
+        "MIT 6.5940 (Fall 2026), L15"
+      ]
+    },
+    {
+      "id": "on-pagedattention-landmark",
+      "unit": "kv-cache-management",
+      "kind": "landmark",
+      "difficulty": 9,
+      "title": "Who introduced PagedAttention, when, and what did they show?",
+      "body": "Kwon et al., SOSP 2023: PagedAttention and the vLLM server raised LLM serving throughput 2–4× at the same latency versus FasterTransformer and Orca, by nearly eliminating KV-cache waste.\n\nWhy: The paper treats the KV cache like OS virtual memory. Blocks remove fragmentation and over-reservation, which lets the server fit larger batches in the same GPU memory, and block sharing makes parallel sampling and beam search cheaper.\n\nKey idea: The gain grew with longer sequences, larger models and more complex decoding, because those are the cases where KV memory dominates.\n\nWatch out: The 2–4× is a datacenter-serving result at high request concurrency. Do not carry it over to a single-user phone, where the batch is one. Status: peer-reviewed (SOSP 2023).",
+      "searchQuery": "PagedAttention vLLM SOSP 2023 throughput 2-4x Kwon",
+      "refs": [
+        "https://arxiv.org/abs/2309.06180",
+        "Kwon et al., Efficient Memory Management for Large Language Model Serving with PagedAttention, SOSP 2023"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-flashattention-tiling-concept",
+      "unit": "flashattention-io-aware",
+      "kind": "concept",
+      "difficulty": 9,
+      "title": "How does **FlashAttention** compute exact attention without ever writing the $N\\times N$ score matrix to off-chip memory?",
+      "body": "It tiles Q, K and V into blocks that fit in on-chip memory and, for each block, computes scores, softmax and the product with V on chip, merging blocks with an online softmax; only Q, K, V and the output cross the off-chip boundary.\n\nWhy: Standard attention is bandwidth-bound: it writes the scores $S=QK^\\top$ and probabilities $P$ (each $N^2$ elements) to off-chip memory and reads them back, while the arithmetic is cheap. Fusing the steps keeps $S$ and $P$ in SRAM, so the $N^2$ intermediates never leave the chip; the remaining traffic is Q, K, V and the output, some of them re-read once per tile.\n\nKey idea: This is **IO-aware attention**: the FLOP count is the same, but the memory traffic across the memory hierarchy is much lower. For training, the backward pass recomputes score blocks from saved softmax statistics instead of storing $S$ or $P$.\n\nWatch out: It is exact, not an approximation. The output matches standard attention up to floating-point rounding.",
+      "searchQuery": "FlashAttention tiling on-chip SRAM exact attention IO-aware",
+      "tags": [
+        "roofline"
+      ],
+      "refs": [
+        "Dao et al., FlashAttention, NeurIPS 2022",
+        "MIT 6.5940 (Fall 2026), L15"
+      ]
+    },
+    {
+      "id": "on-online-softmax-update-concept",
+      "unit": "flashattention-io-aware",
+      "kind": "concept",
+      "difficulty": 9,
+      "title": "State the **online softmax** update that lets FlashAttention process keys tile by tile.",
+      "body": "Keep a running max $m$, denominator $\\ell$ and unnormalized output $o$; for each new tile rescale the old $\\ell$ and $o$ by $e^{m-m'}$, add the tile's terms, and output $o/\\ell$ at the end.\n\nSteps: for a tile of scores $t$ with values $v$, set $m'=\\max(m,\\max t)$. Then $\\ell' = e^{m-m'}\\ell + \\sum e^{t-m'}$ and $o' = e^{m-m'}o + \\sum e^{t-m'}v$.\n\nWhy: Each stored term has the form $e^{s-m}$. Multiplying by $e^{m-m'}$ turns it into $e^{s-m'}$ exactly, so after the last tile the sums equal the numerator and denominator of the safe softmax over all keys. Nothing is approximated; only the order of accumulation changes.\n\nWatch out: The original FlashAttention renormalized $o$ by $\\ell$ after every tile; FlashAttention-2 keeps $o$ unnormalized, as above, and divides once at the end, which removes some non-matmul FLOPs.",
+      "searchQuery": "online softmax running max rescale FlashAttention update",
+      "tags": [
+        "roofline"
+      ],
+      "refs": [
+        "Dao et al., FlashAttention, NeurIPS 2022",
+        "Dao, FlashAttention-2, arXiv:2307.08691"
+      ]
+    },
+    {
+      "id": "on-online-softmax-code",
+      "unit": "flashattention-io-aware",
+      "kind": "code",
+      "difficulty": 9,
+      "title": "What does this print? (Python 3 with NumPy; the first value is the tiled result, the second the direct softmax-weighted average.)\n\n```python\nimport numpy as np\ns = np.array([1.0, 3.0, 2.0, 5.0])      # scores for one query\nv = np.array([10.0, 20.0, 30.0, 40.0])  # one value per key\nm, l, o = -np.inf, 0.0, 0.0\nfor i in range(0, 4, 2):                # two tiles of two keys\n    t = s[i:i+2]\n    m2 = max(m, t.max())\n    a = np.exp(m - m2)\n    p = np.exp(t - m2)\n    l = l * a + p.sum()\n    o = o * a + p @ v[i:i+2]\n    m = m2\ne = np.exp(s - s.max())\nprint(round(o / l, 3), round(float(e @ v / e.sum()), 3))\n```",
+      "body": "36.881 36.881\n\nWhy: The first tile starts from $m=-\\infty$, so the old state is scaled by $e^{-\\infty}=0$ and is discarded. After tile 2 the running max is 5. The weights are $e^{s-5}=(0.018,0.135,0.050,1)$, summing to $1.203$, and the numerator is $44.38$, so $44.38/1.203\\approx36.88$.\n\nKey idea: The two values agree because the rescale by $e^{m-m'}$ re-expresses the old partial sums relative to the new maximum. The tiled loop never held all four scores at once, which is the point on a device with small SRAM.\n\nWatch out: Skipping the rescale of $\\ell$ and $o$ (using only the new tile's max) gives a wrong answer whenever a later tile has a larger score.",
+      "searchQuery": "online softmax tiled attention Python code NumPy rescale running max",
+      "tags": [
+        "roofline"
+      ],
+      "refs": [
+        "Dao et al., FlashAttention, NeurIPS 2022"
+      ]
+    },
+    {
+      "id": "on-attention-traffic-numbers",
+      "unit": "flashattention-io-aware",
+      "kind": "numbers",
+      "difficulty": 9,
+      "title": "One attention head with $N=4096$, $d=64$, FP16. Naive attention writes $S$ and reads it for the softmax, then writes $P$ and reads it for the product with V ($4N^2$ elements), plus Q, K, V and the output. A FlashAttention-style kernel uses query tiles of 128 rows and re-reads K and V once per query tile. Estimate the off-chip bytes of each, ignoring the causal mask.",
+      "body": "Naive $\\approx 136\\,\\mathrm{MB}$ ($134\\,\\mathrm{MB}$ for $S$ and $P$ plus $2.1\\,\\mathrm{MB}$ for Q, K, V, O); tiled $\\approx 35\\,\\mathrm{MB}$, about $4\\times$ less.\n\nSteps:\n1. Naive: $4N^2\\cdot2 = 4\\cdot16.78\\times10^6\\cdot2 = 134.2\\times10^6\\,\\mathrm{B}$, plus $4Nd\\cdot2 = 2.1\\times10^6\\,\\mathrm{B}$.\n2. Tiled: Q read once and O written once ($2\\times0.52\\,\\mathrm{MB}$) plus K and V re-read $4096/128=32$ times at $1.05\\,\\mathrm{MB}$ each, $33.6\\,\\mathrm{MB}$; total $34.6\\,\\mathrm{MB}$.\n\nKey idea: Re-reading dominates, so traffic is about $2N^2d\\,b/B_r$ for query tile height $B_r$, and the ratio to naive is about $2B_r/d$. Larger tiles need more on-chip memory: the paper shows traffic scales as $N^2d^2/M$ for $M$ elements of SRAM.\n\nWatch out: This counts one head and one layer; multiply by heads and layers. A causal mask roughly halves the useful work.",
+      "searchQuery": "FlashAttention HBM traffic naive attention N squared bytes sequence length 4096 head dimension 64",
+      "tags": [
+        "roofline"
+      ],
+      "refs": [
+        "Dao et al., FlashAttention, NeurIPS 2022 (IO complexity analysis)"
+      ]
+    },
+    {
+      "id": "on-io-aware-attention-device-trade-off",
+      "unit": "flashattention-io-aware",
+      "kind": "trade-off",
+      "difficulty": 9,
+      "title": "On a phone GPU or NPU, when does an IO-aware attention kernel pay off?",
+      "body": "In prefill with long prompts, where the $N\\times N$ intermediates dominate off-chip traffic; in short-context decode it gives little, because the score vector is tiny and the KV read is linear and unavoidable.\n\nExample: At $N=4096$ the score and probability traffic per head is about $134\\,\\mathrm{MB}$ (previous numbers). At $N=32{,}768$ one head's FP16 score matrix is $2.1\\,\\mathrm{GB}$, so a naive kernel would need gigabytes of scratch memory for a single head. In decode at context $n$, the scores are just $n$ values per head, and the KV read of $2nd\\,b$ bytes per KV head is needed whatever the kernel.\n\nThe other side: Small prompts (a few hundred tokens) gain little. A mobile NPU may not expose a fused attention operation or enough SRAM for large tiles, and its compiler may fall back to naive attention. A DRAM read costs about 640 pJ per 32-bit word against roughly 5–10 pJ for SRAM (Horowitz, 45 nm), so avoided traffic also saves energy.\n\nTip: Check whether your runtime's attention operator is actually fused on the delegate you target.",
+      "searchQuery": "IO-aware attention mobile GPU NPU prefill long prompts decode short context",
+      "tags": [
+        "roofline",
+        "memory-bound"
+      ],
+      "refs": [
+        "MIT 6.5940 (Fall 2026), L15"
+      ]
+    },
+    {
+      "id": "on-split-kv-decoding-trade-off",
+      "unit": "flashattention-io-aware",
+      "kind": "trade-off",
+      "difficulty": 9,
+      "title": "Why split the KV sequence across parallel workers for single-token decode (**split-KV decoding**), and when does it hurt?",
+      "body": "At batch 1 there are only $H$ query rows to parallelize over, so most cores idle; splitting keys and values into chunks processed in parallel and merged exactly restores parallelism, winning at long context and small batch.\n\nWhy: A prefill kernel parallelizes over query tiles, batch and heads. A decode step has one query per head, so with $H=24$ it may launch 24 workers on a GPU with many more cores. Each worker handles a chunk of keys and values and writes its partial output with its log-sum-exp; a reduction combines the chunks with the same rescaling as online softmax.\n\nThe other side: At short context, or at large batch where the GPU is already full, the extra partial results and reduction step add overhead for no occupancy gain. The number of splits should grow with context length and shrink with batch size.\n\nExample: The Flash-Decoding post reports up to 8× faster end-to-end generation for very long sequences (a 34B model on an A100). Mobile GPUs have fewer cores, so the effect starts at smaller scales; measure it.",
+      "searchQuery": "split-KV decoding Flash-Decoding parallelize over keys values batch 1 long context",
+      "tags": [
+        "memory-bound"
+      ],
+      "refs": [
+        "Dao, Haziza, Massa, Sizov, Flash-Decoding for long-context inference, 2023, https://crfm.stanford.edu/2023/10/12/flashdecoding.html"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-flashattention-landmark",
+      "unit": "flashattention-io-aware",
+      "kind": "landmark",
+      "difficulty": 9,
+      "title": "What did Dao et al. show in the 2022 FlashAttention paper, and where was it published?",
+      "body": "FlashAttention (Dao, Fu, Ermon, Rudra and Ré, NeurIPS 2022) is an exact attention algorithm that needs $\\Theta(N^2d^2/M)$ off-chip accesses for SRAM size $M$, against $\\Theta(Nd+N^2)$ for standard attention, and runs faster in wall-clock time.\n\nWhy: The paper's key point was that attention was limited by memory traffic rather than FLOPs, and it proved the access count is optimal over a range of $M$. Reported gains include a 15% end-to-end speedup on BERT-large at sequence length 512 (against the MLPerf 1.1 record setting) and 3× on GPT-2 at length 1K.\n\nKey idea: Memory-efficient attention also made longer contexts feasible, because the activation memory for attention is linear in $N$.\n\nStatus: peer-reviewed (NeurIPS 2022). The speedup numbers are for GPUs (A100 class) and do not transfer directly to phones.",
+      "searchQuery": "FlashAttention paper Dao Fu Ermon Rudra Re NeurIPS 2022 IO complexity",
+      "refs": [
+        "https://arxiv.org/abs/2205.14135",
+        "https://proceedings.neurips.cc/paper_files/paper/2022/hash/67d57c32e20fd0a7a302cb81d36e40d5-Abstract-Conference.html"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-flashattention2-landmark",
+      "unit": "flashattention-io-aware",
+      "kind": "landmark",
+      "difficulty": 9,
+      "title": "What did FlashAttention-2 (Dao, 2023) change, and what speed did it report?",
+      "body": "FlashAttention-2 reports about 2× the speed of FlashAttention, reaching 50–73% of A100 peak FLOPs/s, by cutting non-matmul FLOPs, parallelizing over sequence length, and splitting work between warps differently.\n\nWhy: FlashAttention reached only 25–40% of peak because tensor-core matmuls are far faster than the scalar work around them (exponentials, rescaling). The three changes shrink the scalar share, keep more of the GPU busy when batch×heads is small (long sequences), and avoid shared-memory traffic between warps.\n\nExample: End-to-end GPT-style training reached 225 TFLOPs/s per A100 (72% model FLOPs utilization).\n\nStatus: peer-reviewed (ICLR 2024; arXiv July 2023); the figures are A100 numbers. On mobile GPUs and NPUs the same ideas apply, but the ceiling and tile sizes depend on their on-chip memory.",
+      "searchQuery": "FlashAttention-2 Dao 2023 2x speedup work partitioning A100 FLOPs utilization",
+      "refs": [
+        "https://arxiv.org/abs/2307.08691",
+        "Dao, FlashAttention-2, ICLR 2024 (https://iclr.cc/virtual/2024/poster/17889)"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-draft-and-verify-concept",
+      "unit": "speculative-decoding",
+      "kind": "concept",
+      "difficulty": 9,
+      "title": "How does **speculative decoding** work, and why can it speed up memory-bound decode?",
+      "body": "A cheap **draft model** proposes $\\gamma$ tokens one by one; the **target model** scores all of them in a single parallel pass and keeps the longest accepted prefix plus one token of its own, so every pass yields at least one token.\n\nWhy: Decode is memory-bound, so a pass over $\\gamma+1$ positions reads the target's weights once, at nearly the cost of a pass over one position. If the draft guesses well, one weight read produces several tokens. An accept-or-resample rule, covered in later cards, keeps the output distribution exactly the target's.\n\nExample: With $\\gamma=4$ the target checks the 4 drafted tokens and also produces a fifth, bonus distribution, so a fully accepted round yields 5 tokens for one target pass. Rejected positions are discarded together with their KV entries.\n\nWatch out: It saves target passes, not FLOPs: wasted draft tokens cost compute. It helps only when spare compute exists (batch 1, memory-bound); in a compute-bound regime it can slow things down.",
+      "searchQuery": "speculative decoding draft model target model verify parallel pass",
+      "tags": [
+        "memory-bound"
+      ],
+      "refs": [
+        "Leviathan, Kalman & Matias, ICML 2023 (arXiv:2211.17192)",
+        "MIT 6.5940 (Fall 2026), L13"
+      ]
+    },
+    {
+      "id": "on-leviathan-landmark",
+      "unit": "speculative-decoding",
+      "kind": "landmark",
+      "difficulty": 9,
+      "title": "Who proposed speculative decoding, when, and with what reported speedup?",
+      "body": "Leviathan, Kalman and Matias (Google Research), arXiv 2022 and ICML 2023: speculative decoding made T5-XXL inference about 2×–3× faster with identical outputs, with no retraining and no architecture change.\n\nWhy: The paper's point was that hard language-modeling steps are mixed with easy ones, so an approximation model can often guess the next tokens, and the large model only has to verify them in parallel using compute that was idle.\n\nKey idea: The acceptance rule makes the output distribution exactly the target's, so unlike distillation or quantization it adds no quality risk, only speed risk when the draft is poor.\n\nStatus: peer-reviewed (ICML 2023, oral). The speedups were measured on T5-family models on accelerators; on-device gains depend on the draft's cost and acceptance rate.",
+      "searchQuery": "Leviathan Kalman Matias speculative decoding ICML 2023 2x 3x T5-XXL",
+      "refs": [
+        "https://arxiv.org/abs/2211.17192"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-expected-tokens-formula",
+      "unit": "speculative-decoding",
+      "kind": "formula",
+      "difficulty": 9,
+      "title": "With drafting depth $\\gamma$ and acceptance rate $\\alpha<1$ (each drafted token accepted independently with probability $\\alpha$), how many tokens does one target pass yield in expectation, and what is the wall-clock speedup if a draft step costs $c$ times a target step?",
+      "body": "$\\dfrac{1-\\alpha^{\\gamma+1}}{1-\\alpha}$ tokens per target pass; speedup $\\dfrac{1-\\alpha^{\\gamma+1}}{(1-\\alpha)(\\gamma c+1)}$.\n\nWhy: The **acceptance rate** $\\alpha$ is the chance a drafted token is accepted. The pass yields $1+X$ tokens, where $X$ is the number accepted, and $P(X\\ge i)=\\alpha^i$ for $i\\le\\gamma$. So the expectation is $\\sum_{i=0}^{\\gamma}\\alpha^i$, which sums to the formula. Each round costs $\\gamma$ draft steps and one target step, hence the denominator $\\gamma c+1$.\n\nExample: $\\alpha=0.8$, $\\gamma=4$: $(1-0.8^5)/0.2 = 3.36$ tokens per pass. With $c=0.1$ the speedup is $3.36/1.4 = 2.4$.\n\nWatch out: The limits are $1$ token at $\\alpha=0$ and $\\gamma+1$ as $\\alpha\\to1$. The speedup formula assumes the target pass over $\\gamma+1$ positions costs the same as over one (ample compute); the i.i.d. assumption is an idealization, since real acceptance varies with the text.",
+      "searchQuery": "speculative decoding expected tokens per pass acceptance rate gamma formula speedup",
+      "tags": [
+        "memory-bound"
+      ],
+      "refs": [
+        "Leviathan, Kalman & Matias, ICML 2023 (arXiv:2211.17192), §3.1"
+      ]
+    },
+    {
+      "id": "on-speculative-accept-code",
+      "unit": "speculative-decoding",
+      "kind": "code",
+      "difficulty": 9,
+      "title": "A target distribution $p$ and a draft distribution $q$ over three tokens. What does this print, and what does the last value mean? (Python 3 with NumPy.)\n\n```python\nimport numpy as np\np = np.array([0.5, 0.3, 0.2])   # target distribution\nq = np.array([0.2, 0.5, 0.3])   # draft distribution\naccept = np.minimum(1.0, p / q)\nresid = np.maximum(p - q, 0.0)\nresid /= resid.sum()\nalpha = float((q * accept).sum())\nprint(accept.round(2).tolist(), resid.tolist(), round(alpha, 2))\n```",
+      "body": "[1.0, 0.6, 0.67] [1.0, 0.0, 0.0] 0.7: the per-token acceptance probabilities, the residual distribution to resample from after a rejection, and the acceptance rate $\\alpha=\\sum_x\\min(p,q)$.\n\nWhy: Token 0 is under-proposed ($q<p$), so it is always accepted. Tokens 1 and 2 are over-proposed, so they are accepted with probability $p/q$ ($0.6$ and $0.67$). After a rejection, the only token with leftover target mass is token 0, so the residual is $(1,0,0)$.\n\nCheck: The rejection probability is $1-0.7=0.3$. The chance of emitting token 0 is $0.2\\cdot1+0.3\\cdot1=0.5=p_0$; token 1: $0.5\\cdot0.6=0.3=p_1$; token 2: $0.3\\cdot\\tfrac23=0.2=p_2$.\n\nWatch out: The draft's token is sampled from $q$ first and then tested with a uniform random number. Dividing by $q(x)$ is safe because a token with $q(x)=0$ is never drafted. $p$ must be the target's distribution after temperature and top-p, and $q$ the distribution the draft actually sampled from; matching their sampling settings raises acceptance.",
+      "searchQuery": "speculative sampling acceptance min(1 p/q) residual distribution code",
+      "refs": [
+        "Leviathan, Kalman & Matias, ICML 2023 (arXiv:2211.17192), §2.3",
+        "Chen et al., arXiv:2302.01318"
+      ]
+    },
+    {
+      "id": "on-chen-speculative-sampling-landmark",
+      "unit": "speculative-decoding",
+      "kind": "landmark",
+      "difficulty": 9,
+      "title": "What did Chen et al. (DeepMind, 2023) contribute alongside Leviathan et al., and what speedup did they report?",
+      "body": "Chen, Borgeaud, Irving, Lespiau, Sifre and Jumper (DeepMind), arXiv Feb 2023, independently proposed **speculative sampling** (a modified rejection-sampling rule) and reported a 2–2.5× decoding speedup on Chinchilla 70B in a distributed setup, with no change to the model or sample quality.\n\nWhy: It is the same draft-and-verify idea reached concurrently. The accept-or-resample rule is the one that makes the output distribution exactly the target's, and the result was shown at a scale (70B) where weights are spread over several accelerators, so reading them dominates the step time.\n\nWatch out: This is an arXiv preprint, not a peer-reviewed paper, and the figures are for a multi-accelerator server. The two papers are usually cited together; the ICML 2023 paper has the formula for expected tokens and the speedup analysis.",
+      "searchQuery": "Chen speculative sampling DeepMind 2023 Chinchilla 70B 2-2.5x decoding speedup",
+      "refs": [
+        "https://arxiv.org/abs/2302.01318"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-speculative-exactness-proof-idea",
+      "unit": "speculative-decoding",
+      "kind": "proof-idea",
+      "difficulty": 10,
+      "title": "Why does speculative sampling reproduce the target distribution $p$ exactly, for any draft distribution $q$?",
+      "body": "Per position, the accept path contributes $\\min(p,q)(x)$ and the rejection path contributes the rejection mass times a residual that is $\\max(0,p-q)(x)$ divided by that same mass, so the two add up to $p(x)$.\n\nSteps:\n1. Draw $x\\sim q$ and accept with probability $\\min(1,p(x)/q(x))$. The chance of emitting $x$ by acceptance is $q(x)\\min(1,p(x)/q(x))=\\min(p(x),q(x))$.\n2. The total rejection probability is $1-\\sum_x\\min(p,q)=\\sum_x\\max(0,p(x)-q(x))$, since $p(x)=\\min(p,q)+\\max(0,p-q)$ and $\\sum p=1$. Call it $\\rho$.\n3. After a rejection, resample from the residual $\\max(0,p-q)/\\rho$, whose normalizer is exactly $\\rho$.\n4. Add the paths: $\\min(p,q)(x)+\\rho\\cdot\\max(0,p(x)-q(x))/\\rho = p(x)$.\n5. Apply this left to right, conditioning each position on the accepted prefix. Each emitted token then has the target's conditional distribution, so the whole sequence has the target's joint distribution. If all $\\gamma$ drafts pass, the bonus token comes directly from the target.\n\nWatch out: The guarantee is in distribution. GPU kernels may give slightly different logits for a batched verification pass than for single-token steps, so the outputs need not be bit-identical to non-speculative decoding. If $\\rho=0$ then $p=q$ and every draft is accepted.",
+      "searchQuery": "speculative sampling proof exact target distribution rejection residual max(0 p-q)",
+      "refs": [
+        "Leviathan, Kalman & Matias, ICML 2023 (arXiv:2211.17192), §2.3"
+      ]
+    },
+    {
+      "id": "on-draft-memory-speedup-trade-off",
+      "unit": "speculative-decoding",
+      "kind": "trade-off",
+      "difficulty": 10,
+      "title": "A device decodes a 1.5 GB target model, and speculation uses $\\gamma=4$. Draft A has 0.15 GB and acceptance rate $\\alpha=0.6$; draft B has 0.45 GB and $\\alpha=0.8$. Memory-bound decode means a draft step costs about its weight bytes relative to the target: $c=0.1$ and $c=0.3$. Which draft is better under tight memory, and what is the trade-off?",
+      "body": "Draft A: about $1.65\\times$ for $+0.15\\,\\mathrm{GB}$, against about $1.53\\times$ for $+0.45\\,\\mathrm{GB}$ with draft B, so the small draft wins on both speed and memory: B's higher acceptance does not pay for its three-times-costlier steps.\n\nSteps: Speedup is $(1-\\alpha^{\\gamma+1})/((1-\\alpha)(\\gamma c+1))$. Draft A: $(1-0.6^5)/0.4=2.31$ tokens per pass, divided by $1.4$, gives $1.65$. Draft B: $3.36/2.2=1.53$.\n\nThe other side: A larger draft raises $\\alpha$ but its step costs more, and it brings its own KV cache. A better-matched draft (higher $\\alpha$) can win if it stays cheap, and the best $\\gamma$ differs per draft: A peaks near $\\gamma=3$ (1.67), B near $\\gamma=3$ (1.55).\n\nWatch out: Measured $c$ includes launch overheads, so tiny drafts cost more than their bytes suggest. MLPerf Inference v6.1 (Sep 2026) allows speculative decoding in the interactive scenario of two of its benchmarks, GPT-OSS-120B among them, so compare tokens/s across submissions only when you know whether it was on.",
+      "searchQuery": "speculative decoding draft model size memory trade-off speedup on-device",
+      "checkpoint": true,
+      "asOf": "2026-09-16",
+      "tags": [
+        "memory-bound"
+      ],
+      "refs": [
+        "Leviathan, Kalman & Matias, ICML 2023 (arXiv:2211.17192), §3.1",
+        "MLCommons, MLPerf Inference v6.1 results announcement, 16 Sep 2026, https://mlcommons.org/2026/09/mlperf-inference-v6-1-results/"
+      ]
+    },
+    {
+      "id": "on-self-speculation-matformer-trade-off",
+      "unit": "speculative-decoding",
+      "kind": "trade-off",
+      "difficulty": 10,
+      "title": "When does **self-speculation** with a nested sub-model of the target (MatFormer-style) beat a separate draft model on device?",
+      "body": "When memory is the limit and you control training: a nested sub-model reuses a subset of the target's weights, so it adds no second model and, trained jointly with the target, tends to agree with it; a separate draft needs no retraining but costs its own memory and must share the target's tokenizer.\n\nWhy: **Self-speculation** drafts with the model itself, for example a smaller sub-network or early exit. MatFormer trains FFN blocks of several widths nested inside each other, so smaller models sit inside larger ones, and the paper reports that pairing speculative decoding with the extracted submodels reduces latency. Google's Gemma 3n documentation says its E4B model contains the parameters of the E2B model.\n\nThe other side: The draft pass still reads its share of the weights, so $c$ is about the fraction read (for example 0.5), far above a tiny external draft's. The method needs a model trained with nesting, such as Gemma 3n; an ordinary checkpoint has no nested sub-model to extract. A separate small draft from the same family works with an existing target without retraining.\n\nTip: Compare $c$ and $\\alpha$ together with the speedup formula, not parameter counts.",
+      "searchQuery": "self-speculation MatFormer nested submodel speculative decoding Gemma 3n",
+      "tags": [
+        "memory-bound"
+      ],
+      "refs": [
+        "Devvrit et al., MatFormer: Nested Transformer for Elastic Inference, NeurIPS 2024 (arXiv:2310.07707)",
+        "Gemma 3n model overview, https://gemma.ai/models/gemma-3n/"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-llama-cpp-ggml-definition",
+      "unit": "llama-cpp-and-gguf",
+      "kind": "definition",
+      "difficulty": 9,
+      "title": "What is **llama.cpp**, and what role does **ggml** play in it?",
+      "body": "llama.cpp is a C/C++ LLM inference runtime built on ggml, a C tensor library that supplies the compute graph, quantized kernels, and CPU (SIMD), Metal, CUDA and Vulkan backends.\n\nWhy: Writing the runtime in plain C/C++ with few dependencies lets it build for a laptop, phone, Raspberry Pi or server from one source tree. ggml builds a graph per step and a scheduler places operations on backends, so a model can be split between CPU and GPU layer by layer (`-ngl` sets how many layers go to the GPU).\n\nExample: The project ships tools on top of the library: `llama-cli` for chat, `llama-server` for an HTTP server with an OpenAI-style API, `llama-quantize` for converting weight types, and `llama-bench` for speed tests.\n\nWatch out: ggml is a separate library (it also serves other projects), and a new model architecture must have its graph implemented in C++ before llama.cpp can run it.",
+      "searchQuery": "llama.cpp ggml C++ LLM inference CPU Metal CUDA Vulkan backends",
+      "refs": [
+        "llama.cpp repository (github.com/ggml-org/llama.cpp)"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-gguf-file-layout-definition",
+      "unit": "llama-cpp-and-gguf",
+      "kind": "definition",
+      "difficulty": 9,
+      "title": "Describe the layout of a **GGUF** file.",
+      "body": "The magic bytes `GGUF`, a version (3), a tensor count and metadata count, typed key–value metadata, a tensor-info table, then tensor data aligned to a boundary (default 32 bytes).\n\nWhy: One file is self-contained: the metadata holds the architecture name, hyperparameters and the tokenizer, and each tensor-info entry gives a name, dimensions, a type (F16, Q4_K, and so on) and an offset into the data section. Counts and lengths are 64-bit; files are little-endian unless a big-endian file is written (version 3 added that).\n\nKey idea: The alignment (key `general.alignment`, a multiple of 8, default 32) makes every tensor start at an aligned address inside the data section, so the file can be memory-mapped and read in place.\n\nWatch out: Version 3 is a layout version, not a quantization version. Version 2 widened counts from 32 to 64 bits. A reader must check the magic and version before trusting the counts.",
+      "searchQuery": "GGUF file format magic version metadata key-value tensor info alignment",
+      "refs": [
+        "GGUF specification, github.com/ggml-org/ggml (docs/gguf.md)"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-gguf-landmark",
+      "unit": "llama-cpp-and-gguf",
+      "kind": "landmark",
+      "difficulty": 9,
+      "title": "When and why did llama.cpp move from its earlier GGML-family model files to GGUF?",
+      "body": "In August 2023 the llama.cpp project introduced GGUF to replace its earlier GGML-family formats, using extensible typed key–value metadata so new hyperparameters or architectures no longer broke old files.\n\nWhy: The earlier formats stored hyperparameters as a fixed, untyped list with no architecture field, so adding a parameter changed the layout and invalidated files. GGUF's keyed metadata lets readers skip keys they do not know and lets one file carry the tokenizer.\n\nExample: A runtime can read `general.architecture` first and decide which graph to build, then find the tensors by name in the tensor-info table.\n\nStatus: a project specification, maintained in the ggml repository; the current spec is at version 3. Old GGML-era files are no longer loaded by current llama.cpp.",
+      "searchQuery": "GGUF introduced August 2023 replaces GGML llama.cpp file format",
+      "refs": [
+        "https://github.com/ggml-org/ggml/blob/master/docs/gguf.md"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-gguf-mmap-concept",
+      "unit": "llama-cpp-and-gguf",
+      "kind": "concept",
+      "difficulty": 9,
+      "title": "How does **memory-mapped weight** loading of a GGUF file work, and what does it buy on a device?",
+      "body": "The runtime maps the file into its address space and the OS pages weights in on demand from its file cache, so tensors are used in place with no copy into private memory, near-instant start and sharing between processes.\n\nWhy: The aligned tensor offsets in the file mean each tensor's address inside the mapping is aligned for SIMD loads. Pages that are never touched are never read, and clean file-backed pages can be dropped by the OS and re-read when memory runs short.\n\nWatch out: The first token pays the page faults, so TTFT includes storage reads on a cold start. If the weights do not fit in RAM, every decode step re-reads pages: $1.5\\,\\mathrm{GB}$ of weights at a storage speed of $1\\,\\mathrm{GB/s}$ means seconds per token, so throughput collapses rather than degrading gently.\n\nTip: `--no-mmap` loads the file into private memory, and `--mlock` asks the OS to keep the pages resident. A GPU backend still copies the weights into device memory unless memory is unified.",
+      "searchQuery": "memory-mapped weights mmap GGUF llama.cpp page cache startup no-mmap mlock",
+      "refs": [
+        "GGUF specification, github.com/ggml-org/ggml (docs/gguf.md)"
+      ],
+      "asOf": "2026-11-24",
+      "tags": [
+        "memory-bound"
+      ]
+    },
+    {
+      "id": "on-gguf-header-code",
+      "unit": "llama-cpp-and-gguf",
+      "kind": "code",
+      "difficulty": 9,
+      "title": "What does this print? (Python 3; the header layout follows the GGUF version 3 specification.)\n\n```python\nimport struct\nraw = b\"GGUF\" + struct.pack(\"<IQQ\", 3, 291, 26)\nmagic, ver, n_t, n_kv = struct.unpack(\"<4sIQQ\", raw[:24])\nprint(magic, ver, n_t, n_kv, len(raw))\n```",
+      "body": "b'GGUF' 3 291 26 24\n\nWhy: The header is the 4 magic bytes, a `uint32` version, a `uint64` tensor count and a `uint64` metadata-entry count: $4+4+8+8=24$ bytes. The `<` in the format string means little-endian with no padding, so there are no alignment gaps.\n\nExample: A reader first compares the magic (as bytes `GGUF`, or as the little-endian integer `0x46554747`), then the version, then reads counts of the width that version defines. Version 1 used 32-bit counts.\n\nWatch out: Without `<`, Python's native mode would pad between the `I` and the first `Q` and give a wrong layout. After the header come the metadata entries, then the tensor-info table.",
+      "searchQuery": "GGUF header parse struct unpack magic version tensor count Python",
+      "refs": [
+        "GGUF specification, github.com/ggml-org/ggml (docs/gguf.md)"
+      ]
+    },
+    {
+      "id": "on-gguf-alignment-code",
+      "unit": "llama-cpp-and-gguf",
+      "kind": "code",
+      "difficulty": 9,
+      "title": "What does this print? It uses the GGUF padding rule (the default alignment is 32; `general.alignment` may override it).\n\n```python\ndef align_offset(x, a=32):\n    return x + (a - x % a) % a\n\nprint(align_offset(1000), align_offset(1024), align_offset(1025, 64))\n```",
+      "body": "1024 1024 1088\n\nSteps:\n1. $1000 \\bmod 32 = 8$, so $(32-8)\\bmod32=24$ and $1000+24=1024$.\n2. $1024 \\bmod 32 = 0$; the outer `% a` turns the would-be full 32 bytes of padding into 0, so it stays 1024.\n3. $1025 \\bmod 64 = 1$, so pad $63$ and get $1088$.\n\nWhy: After the tensor-info table the file is zero-padded to the alignment, which fixes where the data section starts. Each tensor's stored offset is relative to the data section and is itself a multiple of the alignment, so tensors are padded to the alignment between each other.\n\nWatch out: Forgetting the outer modulo adds a full block of padding to already-aligned positions, and the file offsets no longer match the specification.",
+      "searchQuery": "GGUF alignment padding align_offset 32 bytes tensor data offset",
+      "refs": [
+        "GGUF specification, github.com/ggml-org/ggml (docs/gguf.md)"
+      ]
+    },
+    {
+      "id": "on-gguf-quant-type-trade-off",
+      "unit": "llama-cpp-and-gguf",
+      "kind": "trade-off",
+      "difficulty": 10,
+      "title": "For a phone with a fixed RAM budget, how do the GGUF weight types differ (legacy Q4_0 and Q8_0, K-quants, IQ quants, ternary TQ types), and which should you pick when?",
+      "body": "Default to a K-quant (the Q4_K or Q5_K families) for quality per byte; use legacy Q4_0 or Q8_0 for the simplest, fastest dequantization; use IQ types when memory forces you below about 4 bits per weight; use TQ1_0 or TQ2_0 only for ternary-trained models.\n\nWhy: Legacy types use blocks of 32 weights with one FP16 scale: Q4_0 is 18 B per block (4.5 bits per weight) and Q8_0 is 34 B (8.5). **K-quants** use super-blocks of 256 weights with quantized sub-block scales: Q4_K is 4.5 bits per weight, Q6_K 6.5625, Q2_K 2.625. **IQ quants** replace uniform levels with lookup grids to get better quality at 1–4 bits, benefit from an importance matrix (calibration statistics), and cost more CPU time per weight. TQ1_0 (1.6875 bits) and TQ2_0 (2.0625) store ternary weights.\n\nKey idea: Decode speed follows bytes read, so types with equal bits per weight differ in quality and dequantization cost, not in memory traffic: Q4_0 and Q4_K are both 4.5 bits.\n\nWatch out: File types ending `_S` or `_M` mix tensor types, so their size is not the nominal one. The type list also has MXFP4 (4.25 bits: 32 values and one 8-bit scale) and NVFP4 entries.",
+      "searchQuery": "GGUF quantization types Q4_0 Q4_K IQ TQ1_0 bits per weight choose",
+      "refs": [
+        "GGUF specification, github.com/ggml-org/ggml (docs/gguf.md)",
+        "llama.cpp repository (github.com/ggml-org/llama.cpp)"
+      ],
+      "asOf": "2026-11-24",
+      "tags": [
+        "quantization"
+      ]
+    },
+    {
+      "id": "on-k-quants-landmark",
+      "unit": "llama-cpp-and-gguf",
+      "kind": "landmark",
+      "difficulty": 10,
+      "title": "What did llama.cpp's k-quants pull request (#1684) introduce?",
+      "body": "The k-quants: 2- to 6-bit block quantization types (Q2_K to Q6_K) with 256-weight super-blocks and quantized sub-block scales, merged in June 2023 and written mainly by Iwan Kawrakow, giving better quality per bit than the legacy block types.\n\nWhy: A legacy block pays one FP16 scale per 32 weights. A K-quant groups sub-blocks inside a 256-weight super-block, stores their scales (and minimums for Q4_K) in few bits, and shares one super-block scale, so small groups follow local ranges cheaply. Q4_K has 8 sub-blocks of 32 with 6-bit scales and minimums (144 B per 256 weights = 4.5 bits); Q6_K has 16 sub-blocks of 16 with 8-bit scales (210 B = 6.5625 bits).\n\nKey idea: The format is a case of group-wise quantization, tuned so the dot product with 8-bit activations is fast on SIMD.\n\nStatus: an open-source project change, not a paper, merged on 5 June 2023 (commit title \"ggml : add SOTA 2,3,4,5,6 bit k-quantizations\").",
+      "searchQuery": "llama.cpp k-quants pull request 1684 Q4_K Q6_K super-block",
+      "refs": [
+        "https://github.com/ggml-org/llama.cpp/pull/1684"
+      ],
+      "asOf": "2026-11-24",
+      "tags": [
+        "quantization"
+      ]
+    },
+    {
+      "id": "on-llama-bench-latency-code",
+      "unit": "llama-cpp-and-gguf",
+      "kind": "code",
+      "difficulty": 10,
+      "title": "`llama-bench` reports `pp512 = 400` and `tg128 = 25` tokens/s for a model. What does this snippet print for a 2,000-token prompt and a 300-token reply?\n\n```python\npp, tg = 400.0, 25.0   # tokens/s: llama-bench pp512 and tg128\nprompt, reply = 2000, 300\nttft = prompt / pp     # prefill also yields the first reply token\ntotal = ttft + (reply - 1) / tg\nprint(ttft, total)\n```",
+      "body": "5.0 16.96\n\nWhy: `llama-bench` reports prompt processing (prefill, test `pp512`: a 512-token prompt) and text generation (decode, test `tg128`: 128 generated tokens) separately, since they often differ by an order of magnitude or more. Defaults are `-p 512`, `-n 128`, 5 repetitions (`-r`), and `-ngl` sets GPU layers. The output lists mean tokens per second with a standard deviation.\n\nExample: TTFT is $2000/400 = 5$ s, and prefill already yields the first reply token. The other 299 tokens take $299/25 = 11.96$ s at a TPOT of 40 ms, so the total is $16.96$ s, which is $\\mathrm{TTFT}+(n_{out}-1)\\,\\mathrm{TPOT}$.\n\nWatch out: `pp512` is measured from an empty context and `tg128` early in generation. A 2,000-token prompt is prefilled against a growing cache, and the real TPOT rises as the KV cache grows, so treat the estimate as optimistic.",
+      "searchQuery": "llama-bench pp512 tg128 prompt processing token generation tokens per second",
+      "refs": [
+        "llama.cpp repository (github.com/ggml-org/llama.cpp), tools/llama-bench"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-mlc-llm-mlcengine-definition",
+      "unit": "compiled-and-framework-runtimes",
+      "kind": "definition",
+      "difficulty": 9,
+      "title": "What are **MLC LLM** and **MLCEngine**?",
+      "body": "MLC LLM is a compiler-based LLM deployment stack built on Apache TVM; MLCEngine is its runtime engine, exposing an OpenAI-style chat-completions API over the compiled model, in Python and as a REST server.\n\nWhy: The same compiled-model workflow targets CUDA, Vulkan, Metal, iOS, Android and, through WebGPU, browsers, so one model definition serves many devices if it fits their memory and compute.\n\nExample: `mlc_llm serve HF://mlc-ai/Llama-3-8B-Instruct-q4f16_1-MLC` starts a local server whose `POST /v1/chat/completions` accepts the same JSON as OpenAI's API. In Python, `engine.chat.completions.create(messages=..., model=..., stream=True)` follows the same design, and `AsyncMLCEngine` handles concurrent requests.\n\nWatch out: A pre-converted model on Hugging Face (`HF://mlc-ai/...`) fixes the quantization scheme, and the model library must be compiled (or JIT-compiled) for that scheme and your target; a different architecture needs a supported model definition in MLC's flow.",
+      "searchQuery": "MLC LLM MLCEngine TVM OpenAI-style API compiled deployment",
+      "refs": [
+        "MLC LLM documentation: Introduction (llm.mlc.ai/docs)"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-webllm-definition",
+      "unit": "compiled-and-framework-runtimes",
+      "kind": "definition",
+      "difficulty": 9,
+      "title": "What is **WebLLM**, and how fast is it relative to native inference?",
+      "body": "WebLLM is the in-browser LLM engine of the MLC project: JavaScript with WebGPU kernels compiled by TVM and a WebAssembly runtime, with an OpenAI-style API and no server; its paper reports retaining up to 80% of native performance on the same device.\n\nWhy: WebGPU gives browser pages access to the local GPU. The model is compiled ahead of time to WebGPU kernels and a `.wasm` library, then weights are downloaded and cached by the browser, so prompts never leave the machine.\n\nWatch out: The 80% is an upper figure (\"up to\") from the authors' own comparison, not a promise for every model and GPU. Browsers cap GPU buffer sizes and need WebGPU support, which limits model size.\n\nStatus: arXiv preprint (Ruan et al., arXiv:2412.15803, 2024), written by the MLC team with collaborators.",
+      "searchQuery": "WebLLM in-browser LLM inference WebGPU MLC 80% native performance",
+      "refs": [
+        "https://arxiv.org/abs/2412.15803",
+        "MLC LLM documentation: Introduction (llm.mlc.ai/docs)"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-mlc-compile-target-concept",
+      "unit": "compiled-and-framework-runtimes",
+      "kind": "concept",
+      "difficulty": 9,
+      "title": "Why does MLC LLM compile a model library per target, and when is the `compile` step optional?",
+      "body": "TVM generates fused kernels specialized to each backend, so the model library is target-specific (`.so`, `.dylib`, `.dll`, `.wasm` or a `.tar` for iPhone and Android); on desktops it may be skipped and JIT-compiled on first launch.\n\nWhy: A compiler can choose tile sizes, layouts and fusions for the exact model and backend (Vulkan, Metal, CUDA, WebGPU), whereas a hand-written kernel library has a fixed set of kernels that people write and tune for each backend. The price is a build step per model, per quantization and per target.\n\nExample: A phone app bundles the compiled library for its target, and a web app ships the `.wasm`. A developer trying a model on a laptop can run `mlc_llm chat` and let the library compile on first use, then reuse the cached copy.\n\nWatch out: Changing the quantization scheme or the target means recompiling; the weights and the library must match.",
+      "searchQuery": "MLC LLM compile model library target TVM JIT wasm iOS Android",
+      "refs": [
+        "MLC LLM documentation: Introduction (llm.mlc.ai/docs)"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-mlc-workflow-code",
+      "unit": "compiled-and-framework-runtimes",
+      "kind": "code",
+      "difficulty": 9,
+      "title": "Fill in the blank command. MLC LLM prepares a local model in three steps: config, weights, library. Which `mlc_llm` subcommand belongs on line 2?\n\n```sh\nmlc_llm gen_config ./Phi-2 --quantization q4f16_1 --conv-template phi-2 -o ./dist/phi-2-q4f16_1\nmlc_llm ________ ./Phi-2 --quantization q4f16_1 -o ./dist/phi-2-q4f16_1\nmlc_llm compile ./dist/phi-2-q4f16_1 -o ./dist/phi-2-q4f16_1-vulkan.so\n```",
+      "body": "`convert_weight`\n\nWhy: `gen_config` writes the model's configuration and chat template (`--conv-template`) into the output directory; `convert_weight` quantizes the original weights to the chosen scheme and writes them to the same directory; `compile` builds the target library. The same `--quantization` code appears in the first two because the config records how the weights are stored.\n\nExample: `q4f16_1` is a 4-bit weight, FP16 compute scheme; `q0f16` means no quantization. At run time, the engine receives the output directory and, optionally, the compiled library via `--model-lib`.\n\nWatch out: Skipping `gen_config` or mixing quantization codes between steps gives a model directory whose config does not describe its weights.",
+      "searchQuery": "mlc_llm gen_config convert_weight compile workflow command",
+      "refs": [
+        "MLC LLM documentation: Introduction (llm.mlc.ai/docs)"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-executorch-export-code",
+      "unit": "compiled-and-framework-runtimes",
+      "kind": "code",
+      "difficulty": 9,
+      "title": "In this Hugging Face optimum-executorch export, which flag chooses the backend, and what does `8da4w` mean?\n\n```sh\noptimum-cli export executorch \\\n    --model \"HuggingFaceTB/SmolLM2-135M-Instruct\" \\\n    --task \"text-generation\" \\\n    --recipe \"xnnpack\" \\\n    --use_custom_sdpa --use_custom_kv_cache \\\n    --qlinear 8da4w --qembedding 8w \\\n    --output_dir=\"hf_smollm2\"\n```",
+      "body": "`--recipe xnnpack` selects the XNNPACK CPU backend; `8da4w` means 8-bit dynamic activations with 4-bit weights.\n\nWhy: The command exports the Hugging Face model through PyTorch export, lowers it to the chosen backend and writes a `.pte` file (the ExecuTorch program) into the output directory. `--qlinear 8da4w` quantizes the linear layers, `--qembedding 8w` stores the embeddings as 8-bit weights, and the `custom_sdpa` and custom KV-cache options swap in optimized attention and cache operators.\n\nExample: A Python route does the same with `ExecuTorchModelForCausalLM.from_pretrained(model_id, recipe=\"xnnpack\", ...)` and then `.text_generation(tokenizer=..., prompt=..., max_seq_len=...)`.\n\nWatch out: Other recipes target other backends (the README mentions Core ML for Apple devices); a `.pte` exported for one backend does not run on another.",
+      "searchQuery": "optimum-executorch export xnnpack 8da4w qlinear text-generation pte",
+      "refs": [
+        "optimum-executorch README, github.com/huggingface/optimum-executorch"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-litert-rename-landmark",
+      "unit": "compiled-and-framework-runtimes",
+      "kind": "landmark",
+      "difficulty": 9,
+      "title": "What did Google announce on 4 September 2024 about TensorFlow Lite?",
+      "body": "TensorFlow Lite was renamed LiteRT (Lite Runtime), keeping the `.tflite` format and APIs; the new name reflects that it already ran models authored in PyTorch, JAX and Keras, not only TensorFlow.\n\nWhy: The rename marked a multi-framework on-device runtime. Package users were told to switch to the new LiteRT packages on Maven, PyPI and CocoaPods, and the docs moved to ai.google.dev/edge/litert. The post promised later updates with GPU and NPU acceleration across platforms.\n\nWatch out: At the announcement the only change was the name, and apps already shipping with TensorFlow Lite were not affected. LiteRT-LM, the LLM layer, builds on this runtime.\n\nStatus: Google AI Edge team announcement (vendor blog).",
+      "searchQuery": "TensorFlow Lite renamed LiteRT September 2024 Google AI Edge",
+      "refs": [
+        "https://developers.googleblog.com/en/tensorflow-lite-is-now-litert/",
+        "Google AI Edge Team, TensorFlow Lite is now LiteRT, Google Developers Blog, 4 Sep 2024"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-executorch-1-0-landmark",
+      "unit": "compiled-and-framework-runtimes",
+      "kind": "landmark",
+      "difficulty": 10,
+      "title": "What did the ExecuTorch 1.0 release (PyTorch blog, October 2025) deliver?",
+      "body": "A stable 1.0 of the PyTorch-native edge runtime (export to a `.pte` file), with XNNPACK (with Arm KleidiAI), Core ML, Qualcomm AI Engine and Arm Ethos-U backends promoted to production-ready, and LLM and multimodal export through Hugging Face optimum-executorch.\n\nWhy: The pitch is to deploy a PyTorch model without rewriting it in another format or in C++, which avoids conversion mismatches. 1.0 added backends (Arm VGF, NXP eIQ Neutron, Samsung Exynos NPU and GPU, Intel OpenVINO), listed Vulkan GPU among its backends, and validated text LLMs plus multimodal ones such as Voxtral and Gemma 3.\n\nWatch out: Backend maturity differs: some backends (Cadence DSP, MediaTek NPU, Apple MPS) were still alpha or beta. \"Production-ready\" is the project's own classification.\n\nStatus: vendor blog (PyTorch Foundation), asOf October 2025; check release notes for current state.",
+      "searchQuery": "ExecuTorch 1.0 release October 2025 backends production-ready XNNPACK Core ML Qualcomm",
+      "refs": [
+        "https://pytorch.org/blog/introducing-executorch-1-0/",
+        "PyTorch, Introducing ExecuTorch 1.0, PyTorch blog, Oct 2025"
+      ],
+      "asOf": "2025-10-24"
+    },
+    {
+      "id": "on-litert-lm-landmark",
+      "unit": "compiled-and-framework-runtimes",
+      "kind": "landmark",
+      "difficulty": 10,
+      "title": "What is **LiteRT-LM**, and where does Google say it is used?",
+      "body": "LiteRT-LM is Google AI Edge's open-source LLM inference framework layered on LiteRT, with `.litertlm` model bundles and GPU and NPU acceleration across Android, iOS, web, desktop and IoT such as Raspberry Pi; it powers on-device GenAI in Chrome, Chromebook Plus and Pixel Watch.\n\nWhy: The README calls it a production-ready orchestration layer for running LLMs with LiteRT. The `.litertlm` bundle carries metadata the runtime reads, for example to resolve NPU execution flags, and a CLI (`litert-lm run ... --backend=gpu`) runs models pulled from Hugging Face. Supported families include Gemma, Llama, Phi-4 and Qwen.\n\nWatch out: This is a vendor description from the project's README (a vendor claim), and the model and backend support list changes by release.\n\nStatus: open source, active development. Google described its production use in a Developers Blog post on 24 September 2025, which also opened a preview of the engine's C++ interface; asOf November 2026.",
+      "searchQuery": "LiteRT-LM Google AI Edge litertlm bundle GPU NPU Chrome Pixel Watch",
+      "refs": [
+        "https://github.com/google-ai-edge/LiteRT-LM",
+        "LiteRT-LM repository README (github.com/google-ai-edge/LiteRT-LM)",
+        "Google Developers Blog, On-device GenAI in Chrome, Chromebook Plus, and Pixel Watch with LiteRT-LM, 24 Sep 2025, https://developers.googleblog.com/en/on-device-genai-in-chrome-chromebook-plus-and-pixel-watch-with-litert-lm/"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-runtime-choice-trade-off",
+      "unit": "compiled-and-framework-runtimes",
+      "kind": "trade-off",
+      "difficulty": 10,
+      "title": "Choosing among llama.cpp, ExecuTorch, LiteRT-LM and MLC LLM for a target device: which wins under what conditions?",
+      "body": "No single winner: llama.cpp for the widest model coverage and quickest start on CPU, Metal, CUDA and Vulkan; ExecuTorch for PyTorch-exported models with vendor NPU delegates; LiteRT-LM for Google-stack Android and web with GPU and NPU; MLC LLM for WebGPU and compiled GPU kernels.\n\nKey idea: Decide by three questions: does the runtime have a backend for your chip (backend coverage), does it support your model (model coverage), and how much work gets it into your app (integration effort)?\n\nExample: A hobbyist swapping GGUF files on a laptop picks llama.cpp. A team shipping a fine-tuned PyTorch model to a phone with a Qualcomm NPU looks at ExecuTorch. A browser demo is a natural fit for WebLLM's WebGPU path, though LiteRT-LM also targets the web.\n\nWatch out: The backend and model lists change quickly, and a model's architecture must be supported by each framework's converter or implementation. Benchmark your own model on your own device; as of the 2026 READMEs, claims of coverage are vendor statements.",
+      "searchQuery": "choose LLM runtime llama.cpp ExecuTorch LiteRT-LM MLC LLM backend coverage",
+      "asOf": "2026-11-24",
+      "refs": [
+        "llama.cpp, ExecuTorch, LiteRT-LM and MLC LLM project documentation"
+      ]
+    },
+    {
+      "id": "on-compiled-vs-kernel-library-trade-off",
+      "unit": "compiled-and-framework-runtimes",
+      "kind": "trade-off",
+      "difficulty": 10,
+      "title": "When does an ahead-of-time compiled runtime (MLC LLM, ExecuTorch `.pte`) beat a hand-written kernel library runtime (llama.cpp), and when does it lose?",
+      "body": "Compiled runtimes win when you ship one fixed model to a known target and want fused, target-tuned kernels and planned memory; a kernel-library runtime wins on flexibility: swap any supported file at run time, with no per-model, per-device build.\n\nWhy: A compiler specializes shapes, layouts and fusion for the exact model and backend, and can plan memory ahead of time. The costs are a build pipeline, one artifact per model, quantization and target, and an export step that can fail on unsupported operators.\n\nThe other side: A kernel library ships tuned kernels for every quantization type and runs a new GGUF file immediately, but each new architecture needs hand-written graph code, and every target needs its kernels maintained by hand. ExecuTorch's answer is to export the PyTorch graph directly, reducing the mismatch from rewriting a model by hand.\n\nTip: If the model changes weekly, prefer the flexible runtime; if it ships once a year in a billion-device app, compile.",
+      "searchQuery": "ahead-of-time compiled LLM runtime vs kernel library llama.cpp MLC ExecuTorch trade-off",
+      "refs": [
+        "PyTorch, Introducing ExecuTorch 1.0, PyTorch blog, Oct 2025",
+        "MLC LLM documentation: Introduction (llm.mlc.ai/docs)"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-bitnet-cpp-overview-concept",
+      "unit": "bitnet-cpp-lut-kernels",
+      "kind": "concept",
+      "difficulty": 10,
+      "title": "What is **bitnet.cpp**, and which kernels does it ship?",
+      "body": "Microsoft's inference framework for ternary (1.58-bit) LLMs on CPUs (v1.0, Oct 2024): the I2_S kernel (2-bit packed weights, multiply–add), lookup-table kernels TL1 (Arm) and TL2 (x86), and a GPU kernel added in May 2025.\n\nWhy: Ternary weights $\\{-1,0,+1\\}$ need $\\log_2 3\\approx1.58$ bits, but ordinary integer hardware wants byte-aligned data. The **I2_S kernel** stores each weight in 2 bits and expands to int8 for a standard multiply-add dot product. **TL1** packs two weights into a 4-bit index into a 9-entry table; **TL2** packs three weights into a 5-bit index (a sign bit plus 4 bits), about 1.67 bits per weight.\n\nExample: Per the project's support table, TL1 runs on Arm only, TL2 on x86 only and I2_S on both. The setup script `setup_env.py` takes the kernel as `-q i2_s` or `-q tl1` on Arm, and `-q i2_s` or `-q tl2` on x86.\n\nWatch out: The kernels need a model trained or converted to ternary weights (for example BitNet b1.58 2B4T); an ordinary FP16 model cannot be run through them without losing accuracy.",
+      "searchQuery": "bitnet.cpp kernels I2_S TL1 TL2 ternary 1.58-bit inference Microsoft",
+      "refs": [
+        "bitnet.cpp repository (github.com/microsoft/BitNet)",
+        "Wang et al., arXiv:2502.11880, 2025"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-lut-gemv-concept",
+      "unit": "bitnet-cpp-lut-kernels",
+      "kind": "concept",
+      "difficulty": 10,
+      "title": "Explain the **lookup-table (LUT) GEMV** idea for ternary weights with group size $g$.",
+      "body": "For each group of $g$ activations, precompute the partial sum for all $3^g$ ternary weight patterns once; then every output row replaces $g$ multiply–adds with one table lookup indexed by its packed weights.\n\nWhy: In decode, one activation vector multiplies a matrix with thousands of output rows. Building the tables costs about $3^g$ entries per group, paid once; each row then needs $K/g$ lookups instead of $K$ multiply–adds, so the table cost is amortized when the number of rows $M$ is much larger than $3^g$.\n\nExample: With $g=2$ the table for activations $(x_0,x_1)$ has 9 entries, $w_0x_0+w_1x_1$ for each $(w_0,w_1)\\in\\{-1,0,1\\}^2$. Mirror consolidation halves it, because the entry for $-w$ is the negation of the entry for $w$.\n\nWatch out: A SIMD table lookup instruction indexes 16 one-byte entries, which is why $g$ stops at 3 with mirroring (14 entries); $g=4$ would need 41 entries even with mirroring. Tables must stay in registers or L1, and a wider lookup wastes the advantage.",
+      "searchQuery": "lookup table LUT GEMV ternary weights group size precompute partial sums",
+      "refs": [
+        "Wang et al., Bitnet.cpp: Efficient Edge Inference for Ternary LLMs, arXiv:2502.11880, 2025"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-ternary-pack-code",
+      "unit": "bitnet-cpp-lut-kernels",
+      "kind": "code",
+      "difficulty": 10,
+      "title": "What does this print? It packs ternary weights into 2-bit codes (this is an illustration of the idea, not bitnet.cpp's exact I2_S byte layout).\n\n```python\nw = [1, -1, 0, 1, -1, -1, 0, 0]\npacked = []\nfor i in range(0, len(w), 4):\n    b = 0\n    for j, v in enumerate(w[i:i+4]):\n        b |= (v + 1) << (2 * j)\n    packed.append(b)\nprint(packed, [hex(b) for b in packed])\n```",
+      "body": "[146, 80] ['0x92', '0x50']\n\nSteps: Each weight $w\\in\\{-1,0,1\\}$ becomes the code $w+1\\in\\{0,1,2\\}$ in 2 bits, and 4 codes share a byte with weight $j$ at bit position $2j$.\n1. $(1,-1,0,1)\\to$ codes $(2,0,1,2)$: $2 + 0\\cdot4 + 1\\cdot16 + 2\\cdot64 = 146 = \\texttt{0x92}$.\n2. $(-1,-1,0,0)\\to(0,0,1,1)$: $16+64 = 80 = \\texttt{0x50}$.\n\nWhy: Four weights per byte means 2 bits per weight, 8× smaller than FP16. The theoretical minimum is $\\log_2 3\\approx1.585$ bits; packing five ternary values per byte ($3^5=243\\le256$) reaches 1.6 bits, and llama.cpp's TQ1_0 type uses that idea at 1.6875 bits including scales.\n\nWatch out: Code 3 is unused, which wastes 25% of the 2-bit space; that is the price of a layout a SIMD unit can unpack cheaply.",
+      "searchQuery": "ternary weight packing 2-bit codes four weights per byte Python bit shift",
+      "refs": [
+        "Wang et al., arXiv:2410.16144, 2024",
+        "GGUF specification, github.com/ggml-org/ggml (docs/gguf.md)"
+      ]
+    },
+    {
+      "id": "on-lut-gemv-code",
+      "unit": "bitnet-cpp-lut-kernels",
+      "kind": "code",
+      "difficulty": 10,
+      "title": "What does this print? It computes one ternary dot product through per-group lookup tables (Python 3).\n\n```python\nimport itertools\nw = [1, -1, 0, 1, 1, -1]            # ternary weights, one row\nx = [3, 5, 2, 7, 4, 1]              # activations\npats = list(itertools.product((-1, 0, 1), repeat=2))\ny = 0\nfor g in range(0, 6, 2):            # groups of 2\n    lut = {p: p[0]*x[g] + p[1]*x[g+1] for p in pats}   # 9 entries\n    y += lut[(w[g], w[g+1])]\nprint(y, sum(a*b for a, b in zip(w, x)))\n```",
+      "body": "8 8\n\nSteps: Group 1 has weights $(1,-1)$ on $(3,5)$, so the lookup gives $-2$. Group 2 has $(0,1)$ on $(2,7)$, giving $7$. Group 3 has $(1,-1)$ on $(4,1)$, giving $3$. The sum is $8$, equal to the direct dot product.\n\nWhy: The table for each group holds every possible answer, and the packed weights select one. The lookup replaces two multiply–adds by one indexed read.\n\nWatch out: With a single row this saves nothing, since building 9 entries per group costs more than two multiply–adds. The tables pay off only when reused across the many rows of the same matrix, which is the case in a transformer's decode step. Real kernels also hold the sums as int16, or requantize them to int8, which changes whether results are bit-exact.",
+      "searchQuery": "lookup table ternary dot product Python code group of 2 weights 9 entries",
+      "refs": [
+        "Wang et al., Bitnet.cpp: Efficient Edge Inference for Ternary LLMs, arXiv:2502.11880, 2025"
+      ]
+    },
+    {
+      "id": "on-i2s-vs-tl-trade-off",
+      "unit": "bitnet-cpp-lut-kernels",
+      "kind": "trade-off",
+      "difficulty": 10,
+      "title": "In bitnet.cpp, when should you choose the I2_S kernel over the lookup-table kernels TL1 and TL2?",
+      "body": "Choose I2_S (2-bit weights, int8 multiply–add) when enough threads are available; choose the lookup-table kernel (TL1 on Arm, TL2 on x86) for large models on few threads or when memory is tight, checking whether its table sums stay int16 (lossless) or are requantized to int8 (slightly lossy).\n\nWhy: The Oct 2024 report advises I2_S with sufficient threads, TL1 for large models with limited threads, and TL2 where memory or bandwidth is limited, since TL2 stores 1.67 bits per weight against 2 (about 1/6 smaller). The 2025 paper notes that the `_0` TL variants requantize sums to int8 and are not lossless; the `_1` variants and I2_S are.\n\nExample: In the 2025 paper's 100B speed test, TL2_0 beat I2_S by about 15% on an Apple M2 Ultra (7.45 against 6.50 tokens/s) but by only about 2% on an Intel i7-13700H (1.69 against 1.65), so smaller weights did not bring a proportional speedup on the laptop.\n\nWatch out: Perplexity differences were tiny (11.30 against 11.29 on WikiText2), so \"slightly lossy\" is a statement about bit-exactness, not necessarily quality.",
+      "searchQuery": "bitnet.cpp I2_S vs TL1 TL2 kernel choice lossless bandwidth threads",
+      "refs": [
+        "Wang et al., 1-bit AI Infra: Part 1.1, Fast and Lossless BitNet b1.58 Inference on CPUs, arXiv:2410.16144, 2024",
+        "Wang et al., Bitnet.cpp: Efficient Edge Inference for Ternary LLMs, ACL 2025 (arXiv:2502.11880)",
+        "bitnet.cpp repository (github.com/microsoft/BitNet)"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-bitnet-1bit-infra-landmark",
+      "unit": "bitnet-cpp-lut-kernels",
+      "kind": "landmark",
+      "difficulty": 10,
+      "title": "What CPU speed and energy results did Microsoft report for bitnet.cpp, and how should they be qualified?",
+      "body": "Reported: 1.37–5.07× faster with 55.4–70.0% less energy on Arm, and 2.37–6.17× faster with 71.9–82.2% less on x86, against llama.cpp, plus a 100B ternary model at about 5–7 tokens/s on one CPU; these are vendor-run preprint numbers on two machines.\n\nWhy: The report (Wang et al., arXiv:2410.16144, Oct 2024) measured an Apple M2 Ultra and an Intel i7-13700H against llama.cpp. The ranges span model sizes with unlimited threads; 2-thread runs differ (up to 6.46× on x86).\n\nWatch out:\n- Only the M2 Ultra run (6.58 tokens/s) reached 5–7 tokens/s for 100B; the Intel run gave 1.70, and the 2-thread runs at most 1.27.\n- The 100B and other large models were dummy configurations for speed tests, not trained models.\n- Losslessness was tested on a 700M model with 1,000 prompts: bitnet.cpp's kernels matched FP32 output exactly in all cases, llama.cpp's ternary types in 1.4%.\n\nStatus: arXiv preprint, authors are from the vendor; asOf November 2026.",
+      "searchQuery": "bitnet.cpp 1-bit AI Infra Part 1.1 speedup energy x86 ARM 100B model tokens per second",
+      "refs": [
+        "https://arxiv.org/abs/2410.16144",
+        "Wang et al., 1-bit AI Infra: Part 1.1, Fast and Lossless BitNet b1.58 Inference on CPUs, arXiv:2410.16144, 2024"
+      ],
+      "asOf": "2026-11-24"
+    },
+    {
+      "id": "on-bitnet-edge-inference-landmark",
+      "unit": "bitnet-cpp-lut-kernels",
+      "kind": "landmark",
+      "difficulty": 10,
+      "title": "What did the paper Bitnet.cpp: Efficient Edge Inference for Ternary LLMs (2025) add, and what did it claim?",
+      "body": "It presented the element-wise lookup table (ELUT) design behind the TL1 and TL2 kernels and the lossless I2_S kernel, already shipped in bitnet.cpp, reporting up to 6.25× over a full-precision baseline and up to 2.32× over low-bit baselines; arXiv Feb 2025, published at ACL 2025.\n\nWhy: Earlier lookup-table methods (T-MAC) index tables with bit planes, which wastes space for ternary weights. An element-wise table has $3^g$ entries for ternary weights, and mirror consolidation halves it, which lets $g$ reach 3 within a 16-entry SIMD lookup (TL2, 1.67 bits per weight).\n\nExample: Baselines were llama.cpp Float16 (lossless reference), Q4_0 (quality), TQ1_0 and TQ2_0 (ternary types) and T-MAC's 2-bit kernel, on an Apple M2 Ultra and an Intel i7-13700H. TL2_0's best gains over T-MAC were 2.32× on Intel and 1.19× on Apple.\n\nWatch out: \"Up to\" figures pick the best model size and baseline pairing. The authors attribute TL2_0's larger lead on the Intel laptop to memory bandwidth (under 100 GB/s against over 800 GB/s on the M2 Ultra), so the gains depend on the machine.\n\nStatus: peer-reviewed (ACL 2025, long paper), written by the vendor's researchers.",
+      "searchQuery": "Bitnet.cpp efficient edge inference ternary LLMs ELUT TL2 I2_S 6.25x",
+      "refs": [
+        "https://arxiv.org/abs/2502.11880",
+        "https://aclanthology.org/2025.acl-long.457",
+        "Wang et al., Bitnet.cpp: Efficient Edge Inference for Ternary LLMs, ACL 2025 (arXiv:2502.11880)"
+      ],
+      "asOf": "2026-11-24"
+    }
+  ]
+}

@@ -1,0 +1,970 @@
+{
+  "profession": "mathematics",
+  "module": "real-analysis-1",
+  "tier": 3,
+  "partial": true,
+  "cards": [
+    {
+      "id": "real-ordered-field",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is an **ordered field**?",
+      "body": "A field $F$ with a relation $<$ such that exactly one of $x<y$, $x=y$, $y<x$ holds, $<$ is transitive, $x<y \\Rightarrow x+z<y+z$, and $0<x,\\ 0<y \\Rightarrow 0<xy$.\n\nA **field** is a set with addition and multiplication that are associative and commutative, have identities $0 \\ne 1$, give every element an additive inverse and every nonzero element a multiplicative inverse, and obey the distributive law.\n\nExample: $\\mathbb{Q}$ and $\\mathbb{R}$ are ordered fields. $\\mathbb{C}$ is a field but cannot be ordered: in an ordered field every nonzero square is positive, so both $1=1^2$ and $-1=i^2$ would be positive, which is impossible.\n\nWhy: These few rules are enough to prove every familiar manipulation of inequalities, such as $x^2>0$ for $x\\ne 0$ and the fact that multiplying by a negative number reverses an inequality.",
+      "searchQuery": "ordered field axioms definition",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1",
+        "Rudin, PMA 3e, ch. 1"
+      ]
+    },
+    {
+      "id": "real-supremum-definition",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **supremum** of a set $A \\subseteq \\mathbb{R}$. (An upper bound of $A$ is a number $u$ with $a \\le u$ for every $a \\in A$.)",
+      "body": "The least upper bound: $s=\\sup A$ means $s$ is an upper bound of $A$ and $s \\le u$ for every upper bound $u$ of $A$.\n\nExample: $\\sup [0,1)=1$ and $\\sup [0,1]=1$. For $A=\\{1-\\tfrac1n : n\\in\\mathbb{Z}_{>0}\\}$ we get $\\sup A = 1$, and $1\\notin A$.\n\nWatch out: The supremum need not belong to $A$. When it does, it is the largest element (the maximum) of $A$.\n\nKey idea: Two least upper bounds would each be $\\le$ the other, so a set has at most one supremum, which is why we say *the* supremum.",
+      "searchQuery": "supremum least upper bound definition real numbers",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1",
+        "Rudin, PMA 3e, ch. 1"
+      ]
+    },
+    {
+      "id": "real-infimum-definition",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **infimum** of a set $A \\subseteq \\mathbb{R}$. (A lower bound of $A$ is a number $l$ with $l \\le a$ for every $a \\in A$.)",
+      "body": "The greatest lower bound: $i=\\inf A$ means $i$ is a lower bound of $A$ and $l \\le i$ for every lower bound $l$ of $A$.\n\nExample: $\\inf\\{1/n : n\\in\\mathbb{Z}_{>0}\\}=0$, and $0$ is not in the set.\n\nKey idea: $\\inf A = -\\sup(-A)$, where $-A=\\{-a : a\\in A\\}$. Negating flips every inequality, so each statement about suprema has a mirror statement about infima.",
+      "searchQuery": "infimum greatest lower bound definition",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1",
+        "Rudin, PMA 3e, ch. 1"
+      ]
+    },
+    {
+      "id": "real-least-upper-bound-property",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "State the **least upper bound property** of $\\mathbb{R}$.",
+      "body": "Every nonempty subset of $\\mathbb{R}$ that is bounded above has a supremum in $\\mathbb{R}$.\n\n\"Bounded above\" means it has some upper bound. Together with the ordered field axioms, this one property pins down $\\mathbb{R}$: any two ordered fields that have it are isomorphic.\n\nWatch out: Both hypotheses are needed. The empty set has every real number as an upper bound, so there is no least one. $\\mathbb{Z}_{>0}$ has no upper bound at all.\n\nTip: Applying the property to $-A$ gives the mirror version: every nonempty set that is bounded below has an infimum.",
+      "searchQuery": "least upper bound property completeness axiom real numbers",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1",
+        "Rudin, PMA 3e, ch. 1"
+      ]
+    },
+    {
+      "id": "real-rationals-not-complete",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "$\\mathbb{Q}$ is an ordered field. Exhibit a nonempty subset of $\\mathbb{Q}$ that is bounded above but has no least upper bound in $\\mathbb{Q}$.",
+      "body": "$A=\\{q\\in\\mathbb{Q} : q>0,\\ q^2<2\\}$, which is bounded above by $2$ but has no least upper bound in $\\mathbb{Q}$.\n\nSuppose $r\\in\\mathbb{Q}$, $r>0$, is an upper bound. Since $\\sqrt2$ is irrational, $r^2\\ne 2$. Define $r'=\\dfrac{2r+2}{r+2}$. Then $r'-r=\\dfrac{2-r^2}{r+2}$ and $r'^2-2=\\dfrac{2(r^2-2)}{(r+2)^2}$.\n\nIf $r^2<2$, then $r'>r$ and $r'^2<2$, so $r'\\in A$ and $r$ was not an upper bound. If $r^2>2$, then $0<r'<r$ and $r'^2>2$, so $r'$ is a smaller upper bound. Either way $r$ is not the least upper bound.\n\nWhy: In $\\mathbb{R}$ the same set has supremum $\\sqrt2$. $\\mathbb{Q}$ has gaps exactly where irrational numbers sit.",
+      "searchQuery": "rational numbers not complete no least upper bound sqrt 2",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1",
+        "Rudin, PMA 3e, ch. 1"
+      ]
+    },
+    {
+      "id": "real-archimedean-property",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **Archimedean property** of $\\mathbb{R}$.",
+      "body": "For every real number $x$ there is a positive integer $n$ with $n>x$.\n\nEquivalent forms: for every $\\varepsilon>0$ there is $n\\in\\mathbb{Z}_{>0}$ with $\\tfrac1n<\\varepsilon$; and for $a,b>0$ some $n$ has $na>b$.\n\nWhy: It says $\\mathbb{R}$ has no infinitely large or infinitely small positive elements. This is what makes $\\varepsilon$–$N$ arguments such as \"choose $N>1/\\varepsilon$\" possible.\n\nWatch out: It is a theorem about $\\mathbb{R}$, not an ordered field axiom. Some ordered fields, such as rational functions in a variable $t$ ordered by size for large $t$, contain an element larger than every integer.",
+      "searchQuery": "Archimedean property real numbers theorem",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1",
+        "Rudin, PMA 3e, ch. 1 (Theorem 1.20)"
+      ]
+    },
+    {
+      "id": "real-archimedean-proof-idea",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "proof-idea",
+      "difficulty": 4,
+      "title": "Sketch the proof of the Archimedean property from the least upper bound property.",
+      "body": "Assume $\\mathbb{Z}_{>0}$ is bounded above, take its supremum $s$, and find a positive integer $m>s-1$, so that $m+1>s$.\n\n1. Suppose some $x$ is an upper bound of $\\mathbb{Z}_{>0}$. The set is nonempty, so $s=\\sup \\mathbb{Z}_{>0}$ exists.\n2. The number $s-1$ is smaller than the least upper bound, so it is not an upper bound. Hence some positive integer $m$ has $m>s-1$.\n3. Then $m+1>s$, and $m+1$ is a positive integer. This contradicts $s$ being an upper bound.\n\nKey idea: A set of integers that had a supremum would have to reach within $1$ of it, and then one more step would pass it.",
+      "searchQuery": "proof Archimedean property supremum contradiction",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1",
+        "Rudin, PMA 3e, ch. 1"
+      ]
+    },
+    {
+      "id": "real-density-of-rationals",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **density of $\\mathbb{Q}$ in $\\mathbb{R}$** and give the key idea of its proof.",
+      "body": "If $a<b$ are real numbers, there is a rational number $q$ with $a<q<b$.\n\nKey idea: By the Archimedean property pick $n\\in\\mathbb{Z}_{>0}$ with $\\tfrac1n<b-a$, so $n(b-a)>1$. Take the integer $m$ with $na<m\\le na+1$ (the first integer above $na$). Then $na<m\\le na+1<nb$, so $q=m/n$ satisfies $a<q<b$.\n\nTip: Irrational numbers are dense too. Apply the theorem to $a-\\sqrt2<b-\\sqrt2$ to get a rational $q$ in that interval, then $q+\\sqrt2$ is irrational and lies in $(a,b)$.",
+      "searchQuery": "density of rationals in reals theorem proof",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1",
+        "Rudin, PMA 3e, ch. 1 (Theorem 1.20)"
+      ]
+    },
+    {
+      "id": "real-nested-interval-property",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **nested interval property** of $\\mathbb{R}$.",
+      "body": "If $I_n=[a_n,b_n]$ for $n\\in\\mathbb{Z}_{>0}$ are closed bounded intervals with $I_{n+1}\\subseteq I_n$ for every $n$, then $\\bigcap_{n} I_n\\neq\\emptyset$.\n\nKey idea: Every $a_n\\le b_m$, for all $n,m$ (compare both with $a_{\\max(n,m)}$ and $b_{\\max(n,m)}$). So each $b_m$ is an upper bound of $\\{a_n\\}$. Let $s=\\sup\\{a_n\\}$. Then $a_m\\le s\\le b_m$ for every $m$, so $s\\in\\bigcap I_n$.\n\nWatch out: Both \"closed\" and \"bounded\" matter. The intervals $(0,\\tfrac1n)$ and $[n,\\infty)$ are nested, but their intersections are empty.",
+      "searchQuery": "nested interval property real numbers",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1",
+        "Rudin, PMA 3e, ch. 1"
+      ]
+    },
+    {
+      "id": "real-uncountable-nested-intervals",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "proof-idea",
+      "difficulty": 4,
+      "title": "Outline a proof that $\\mathbb{R}$ is uncountable using the nested interval property.",
+      "body": "Given any list $x_1,x_2,\\dots$ of real numbers, build nested closed intervals $I_n$ with $x_n\\notin I_n$; a point in their intersection is missing from the list.\n\n1. Let $I_1$ be a closed interval of length $1$ that does not contain $x_1$, for instance $[x_1+1,x_1+2]$.\n2. Given $I_n$, cut it into three closed thirds. The point $x_{n+1}$ lies in at most two of them, so choose a third that avoids it and call it $I_{n+1}$.\n3. The nested interval property gives a real number $x\\in\\bigcap_n I_n$.\n4. For every $n$, $x\\in I_n$ but $x_n\\notin I_n$, so $x\\neq x_n$. The list omits $x$.\n\nKey idea: A shrinking sequence of intervals traps a point that dodges each listed number in turn. Every list of reals is incomplete, so no list can hold all of $\\mathbb{R}$.",
+      "searchQuery": "R uncountable proof nested interval property Cantor",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1"
+      ]
+    },
+    {
+      "id": "real-problem-sup-inf-compute",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $A=\\{(-1)^n+\\tfrac1n : n\\in\\mathbb{Z}_{>0}\\}$. Find $\\sup A$ and $\\inf A$, and say whether each belongs to $A$.",
+      "body": "$\\sup A=\\tfrac32$, attained at $n=2$; $\\inf A=-1$, not attained.\n\nSplit by parity. For even $n$ the terms are $1+\\tfrac1n$, which decrease from $\\tfrac32$ toward $1$. For odd $n$ the terms are $-1+\\tfrac1n$, which are at most $0$ and decrease toward $-1$.\n\nSupremum: every term is $\\le\\tfrac32$ (even terms $\\le \\tfrac32$, odd terms $\\le 0$), and $\\tfrac32=a_2\\in A$, so $\\sup A=\\max A=\\tfrac32$.\n\nInfimum: even terms are $>1$ and odd terms are $>-1$, so $-1$ is a lower bound. For any $\\varepsilon>0$ the Archimedean property gives an odd $n>1/\\varepsilon$, whose term is below $-1+\\varepsilon$. So no number above $-1$ is a lower bound, and $\\inf A=-1$. It is not attained since every term exceeds $-1$.\n\nWatch out: Reading the limit of the odd terms ($-1$) as the infimum is only right because they approach it from above and nothing else goes lower.",
+      "searchQuery": "supremum infimum of set (-1)^n + 1/n",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1"
+      ]
+    },
+    {
+      "id": "real-problem-sup-of-sum",
+      "unit": "ordered-fields-and-completeness",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $A,B\\subseteq\\mathbb{R}$ be nonempty and bounded above, and let $A+B=\\{a+b : a\\in A,\\ b\\in B\\}$. Prove $\\sup(A+B)=\\sup A+\\sup B$.",
+      "body": "Key move: $\\le$ is immediate; for $\\ge$, use the $\\varepsilon$-characterization of the supremum with $\\varepsilon/2$ for each set.\n\nLemma ($\\varepsilon$-characterization): if $u$ is an upper bound of $A$, then $u=\\sup A$ if and only if for every $\\varepsilon>0$ there is $a\\in A$ with $a>u-\\varepsilon$. (Otherwise $u-\\varepsilon$ would be a smaller upper bound.)\n\n1. Let $s=\\sup A$ and $t=\\sup B$. Every $a+b\\le s+t$, so $A+B$ is nonempty and bounded above and $\\sup(A+B)$ exists, with $\\sup(A+B)\\le s+t$.\n2. Fix $\\varepsilon>0$. Choose $a>s-\\varepsilon/2$ and $b>t-\\varepsilon/2$. Then $a+b>s+t-\\varepsilon$.\n3. So $s+t-\\varepsilon$ is not an upper bound of $A+B$, for every $\\varepsilon>0$. Hence $\\sup(A+B)\\ge s+t$.\n\nWatch out: Using $\\varepsilon$ for both choices gives $a+b>s+t-2\\varepsilon$, which is also fine but easy to botch. Splitting $\\varepsilon/2$ keeps the final bound clean.",
+      "searchQuery": "supremum of sum of sets epsilon characterization proof",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 1"
+      ]
+    },
+    {
+      "id": "real-sequence-limit-epsilon-n",
+      "unit": "sequences-and-limits",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "State the $\\varepsilon$–$N$ definition of $a_n\\to L$ for a real sequence $(a_n)$.",
+      "body": "$a_n\\to L$ means: for every $\\varepsilon>0$ there is $N\\in\\mathbb{N}$ such that $|a_n-L|<\\varepsilon$ for all $n\\ge N$.\n\nThe quantifier order matters: $N$ is chosen after $\\varepsilon$ and may depend on it, but one $N$ must work for every $n\\ge N$ at once.\n\nExample: $a_n=\\tfrac1n$ tends to $0$. Given $\\varepsilon>0$, the Archimedean property gives $N>1/\\varepsilon$, and then $n\\ge N$ implies $|\\tfrac1n-0|\\le\\tfrac1N<\\varepsilon$.\n\nKey idea: A limit, when it exists, is unique. If $a_n\\to L$ and $a_n\\to L'$, choose $n$ beyond both thresholds for $\\varepsilon=|L-L'|/2$ and the triangle inequality forces $L=L'$.",
+      "searchQuery": "epsilon N definition limit of a sequence",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-cauchy-sequence-definition",
+      "unit": "sequences-and-limits",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define a **Cauchy sequence** of real numbers.",
+      "body": "$(a_n)$ is Cauchy if for every $\\varepsilon>0$ there is $N$ such that $|a_m-a_n|<\\varepsilon$ for all $m,n\\ge N$.\n\nThe terms eventually bunch together, with no limit named in advance. Compare with convergence, where the terms bunch around a given number $L$.\n\nKey idea: Every convergent sequence is Cauchy. If $a_n\\to L$, choose $N$ with $|a_n-L|<\\varepsilon/2$ for $n\\ge N$; then $|a_m-a_n|\\le|a_m-L|+|L-a_n|<\\varepsilon$.\n\nWatch out: The condition must hold for all pairs $m,n\\ge N$, not only neighbors $a_n,a_{n+1}$.",
+      "searchQuery": "Cauchy sequence definition real numbers",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-subsequence-definition",
+      "unit": "sequences-and-limits",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a **subsequence** of $(a_n)$, and what happens to its limit if $a_n\\to L$?",
+      "body": "A subsequence is $(a_{n_k})_{k\\ge1}$ with indices $n_1<n_2<n_3<\\cdots$; if $a_n\\to L$, every subsequence also tends to $L$.\n\nWhy the limit carries over: strictly increasing indices satisfy $n_k\\ge k$. So once $n\\ge N$ implies $|a_n-L|<\\varepsilon$, every $k\\ge N$ has $n_k\\ge N$ and $|a_{n_k}-L|<\\varepsilon$.\n\nExample: $a_n=(-1)^n$ has the constant subsequences $a_{2k}=1$ and $a_{2k+1}=-1$.\n\nTip: Two subsequences with different limits prove that a sequence diverges.",
+      "searchQuery": "subsequence definition real sequence limit",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-limsup-liminf-example",
+      "unit": "sequences-and-limits",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "For a bounded sequence, set $\\limsup a_n=\\lim_{n\\to\\infty}\\sup\\{a_k:k\\ge n\\}$ and $\\liminf a_n=\\lim_{n\\to\\infty}\\inf\\{a_k:k\\ge n\\}$. Compute both for $a_n=(-1)^n\\left(1+\\tfrac1n\\right)$.",
+      "body": "$\\limsup a_n=1$ and $\\liminf a_n=-1$.\n\nEven $n$ give $1+\\tfrac1n$, decreasing to $1$. Odd $n$ give $-(1+\\tfrac1n)$, increasing to $-1$. The tail supremum $\\sup\\{a_k:k\\ge n\\}$ is the first even term at or after $n$, which tends to $1$. The tail infimum is the first odd term at or after $n$, which tends to $-1$.\n\nWhy the limits exist: tail suprema decrease as $n$ grows and tail infima increase, and both are bounded, so the monotone convergence theorem applies.\n\nKey idea: $\\limsup$ is the largest limit of any subsequence and $\\liminf$ the smallest. A bounded sequence converges exactly when the two agree.",
+      "searchQuery": "limit superior limit inferior example (-1)^n (1+1/n)",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-monotone-convergence-theorem",
+      "unit": "sequences-and-limits",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **monotone convergence theorem** for real sequences.",
+      "body": "A monotone real sequence that is bounded converges; an increasing sequence bounded above converges to $\\sup\\{a_n\\}$ (a decreasing one bounded below to $\\inf\\{a_n\\}$).\n\nKey idea: Let $s=\\sup\\{a_n\\}$ for an increasing sequence. Given $\\varepsilon>0$, $s-\\varepsilon$ is not an upper bound, so some $a_N>s-\\varepsilon$. For $n\\ge N$, $s-\\varepsilon<a_N\\le a_n\\le s$, so $|a_n-s|<\\varepsilon$.\n\nWhy it matters: it proves that a limit exists without knowing its value. It is equivalent to the least upper bound property.\n\nWatch out: It fails in $\\mathbb{Q}$. The decimal truncations $1,\\ 1.4,\\ 1.41,\\dots$ of $\\sqrt2$ increase and are bounded in $\\mathbb{Q}$ but have no limit there.",
+      "searchQuery": "monotone convergence theorem bounded monotone sequence converges proof",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-bolzano-weierstrass",
+      "unit": "sequences-and-limits",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **Bolzano–Weierstrass theorem** for real sequences.",
+      "body": "Every bounded sequence of real numbers has a convergent subsequence.\n\nWhy it matters: it is the engine of compactness. The extreme value theorem, the Heine–Borel theorem and uniform continuity on closed intervals all rest on extracting convergent subsequences.\n\nWatch out: Boundedness is essential ($a_n=n$ has no convergent subsequence). Also the sequence itself need not converge: $(-1)^n$ is bounded, yet only its subsequences do.\n\nTip: The subsequence's limit is not unique across choices. Different subsequences of $(-1)^n$ give limits $1$ and $-1$.",
+      "searchQuery": "Bolzano-Weierstrass theorem bounded sequence convergent subsequence",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-cauchy-criterion-sequences",
+      "unit": "sequences-and-limits",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **Cauchy criterion** for sequences of real numbers.",
+      "body": "A sequence of real numbers converges if and only if it is Cauchy.\n\n\"Converges $\\Rightarrow$ Cauchy\" holds in any setting (triangle inequality). The converse is where completeness enters.\n\nWhy it matters: you can prove that a limit exists by controlling the distance between terms, without guessing the limit. This is how limits of iterative processes are shown to exist.\n\nWatch out: The converse fails in $\\mathbb{Q}$: the truncations of $\\sqrt2$ are a Cauchy sequence of rationals with no rational limit.",
+      "searchQuery": "Cauchy criterion convergence real sequence theorem",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-bw-monotone-subsequence-idea",
+      "unit": "sequences-and-limits",
+      "kind": "proof-idea",
+      "difficulty": 4,
+      "title": "Sketch the proof of Bolzano–Weierstrass by extracting a monotone subsequence.",
+      "body": "Every real sequence has a monotone subsequence; if the sequence is bounded, that subsequence converges by the monotone convergence theorem.\n\nCall an index $m$ a \"peak\" if $a_m\\ge a_n$ for all $n>m$.\n\n1. If there are infinitely many peaks $p_1<p_2<\\cdots$, then $a_{p_1}\\ge a_{p_2}\\ge\\cdots$, a decreasing subsequence.\n2. If there are finitely many, start at $n_1$ beyond the last peak. Since $n_1$ is not a peak, some $n_2>n_1$ has $a_{n_2}>a_{n_1}$. Again $n_2$ is not a peak, so continue: $a_{n_1}<a_{n_2}<\\cdots$.\n3. A bounded monotone subsequence converges.\n\nKey idea: either terms keep dominating everything after them, or from some point each term is beaten later.",
+      "searchQuery": "Bolzano-Weierstrass proof monotone subsequence peak",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-cauchy-implies-convergent-idea",
+      "unit": "sequences-and-limits",
+      "kind": "proof-idea",
+      "difficulty": 4,
+      "title": "Sketch why a Cauchy sequence of real numbers converges.",
+      "body": "Show it is bounded, extract a convergent subsequence by Bolzano–Weierstrass, and show the whole sequence goes to the same limit.\n\n1. Take $\\varepsilon=1$: there is $N$ with $|a_n-a_N|<1$ for $n\\ge N$, so the sequence is bounded by $\\max\\{|a_1|,\\dots,|a_{N-1}|,|a_N|+1\\}$.\n2. By Bolzano–Weierstrass, some subsequence $a_{n_k}\\to L$.\n3. Given $\\varepsilon>0$, choose $N$ with $|a_m-a_n|<\\varepsilon/2$ for $m,n\\ge N$, then $k$ with $n_k\\ge N$ and $|a_{n_k}-L|<\\varepsilon/2$.\n4. For $n\\ge N$: $|a_n-L|\\le|a_n-a_{n_k}|+|a_{n_k}-L|<\\varepsilon$.\n\nKey idea: A Cauchy sequence with one convergent subsequence has nowhere else to go.",
+      "searchQuery": "Cauchy sequence converges proof bounded subsequence",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-increments-to-zero-not-cauchy",
+      "unit": "sequences-and-limits",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give a real sequence with $a_{n+1}-a_n\\to0$ that does not converge.",
+      "body": "$a_n=\\sqrt n$.\n\nThe gaps shrink: $\\sqrt{n+1}-\\sqrt n=\\dfrac{1}{\\sqrt{n+1}+\\sqrt n}\\to0$. But $\\sqrt n$ is unbounded, and convergent sequences are bounded, so it diverges. By the Cauchy criterion it is not Cauchy: terms far apart, such as $\\sqrt{n}$ and $\\sqrt{4n}=2\\sqrt n$, differ by $\\sqrt n$.\n\nWatch out: Neighbors getting close is far weaker than the Cauchy condition, which constrains all pairs $m,n\\ge N$. The partial sums $1+\\tfrac12+\\cdots+\\tfrac1n$ are another example, with increments $\\tfrac1{n+1}\\to0$.",
+      "searchQuery": "increments tend to zero sequence diverges sqrt n not Cauchy",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-problem-epsilon-n-proof",
+      "unit": "sequences-and-limits",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Prove from the definition that $\\dfrac{3n+1}{n+2}\\to3$ as $n\\to\\infty$ ($n\\ge1$): find $N$ in terms of $\\varepsilon$.",
+      "body": "Any $N>5/\\varepsilon$ works, because $\\left|\\dfrac{3n+1}{n+2}-3\\right|=\\dfrac{5}{n+2}$.\n\nScratch work: $\\dfrac{3n+1}{n+2}-3=\\dfrac{3n+1-3n-6}{n+2}=\\dfrac{-5}{n+2}$, so the distance is $\\dfrac5{n+2}<\\dfrac5n$.\n\nProof: given $\\varepsilon>0$, choose $N\\in\\mathbb{Z}_{>0}$ with $N>5/\\varepsilon$ (Archimedean property). For $n\\ge N$, $\\left|a_n-3\\right|<\\dfrac5n\\le\\dfrac5N<\\varepsilon$.\n\nTip: Simplify $|a_n-L|$ first, bound it by something simpler that is clearly small (here $5/n$), then solve for $n$. You only need a valid $N$, not the best one.",
+      "searchQuery": "epsilon N proof limit (3n+1)/(n+2) equals 3",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-problem-recursive-sequence-limit",
+      "unit": "sequences-and-limits",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $a_1=\\sqrt2$ and $a_{n+1}=\\sqrt{2+a_n}$. Show that $(a_n)$ converges and find its limit $L$ (give $L$).",
+      "body": "$L=2$\n\nShow it is increasing and bounded above by $2$, then apply the monotone convergence theorem.\n\n1. Bounded: $a_1=\\sqrt2<2$. If $a_n<2$ then $a_{n+1}=\\sqrt{2+a_n}<\\sqrt4=2$.\n2. Increasing: $a_1=\\sqrt2<\\sqrt{2+\\sqrt2}=a_2$. If $a_n<a_{n+1}$ then $a_{n+1}=\\sqrt{2+a_n}<\\sqrt{2+a_{n+1}}=a_{n+2}$.\n3. So $a_n\\to L$. Pass to the limit in $a_{n+1}^2=2+a_n$ to get $L^2=2+L$, so $(L-2)(L+1)=0$. Since $L\\ge0$, $L=2$.\n\nWatch out: Computing the limit by \"assume it exists\" is circular. The monotone convergence theorem is what proves existence first.",
+      "searchQuery": "limit recursive sequence sqrt(2 + a_n) monotone convergence",
+      "answer": "2",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-problem-limsup-liminf-equal",
+      "unit": "sequences-and-limits",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $(a_n)$ be a bounded real sequence with $\\limsup a_n=\\liminf a_n=L$. Prove that $a_n\\to L$.",
+      "body": "Key move: squeeze $a_n$ between its tail infimum and tail supremum, which both tend to $L$.\n\nLet $s_n=\\sup\\{a_k:k\\ge n\\}$ and $t_n=\\inf\\{a_k:k\\ge n\\}$. For every $n$, $a_n$ belongs to its own tail, so\n$$t_n\\le a_n\\le s_n.$$\n\nBy hypothesis $s_n\\to L$ and $t_n\\to L$. Given $\\varepsilon>0$ choose $N$ so that $L-\\varepsilon<t_n$ and $s_n<L+\\varepsilon$ for $n\\ge N$. Then $L-\\varepsilon<a_n<L+\\varepsilon$ for $n\\ge N$, so $a_n\\to L$.\n\nWhy it matters: it gives a test for convergence that needs no limit in advance. Conversely, if $a_n\\to L$ then $\\limsup=\\liminf=L$, so a bounded sequence converges exactly when $\\limsup=\\liminf$.",
+      "searchQuery": "limsup equals liminf implies convergence proof squeeze",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-series-cauchy-criterion",
+      "unit": "series-of-real-numbers",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **Cauchy criterion for series**.",
+      "body": "$\\sum a_n$ converges if and only if for every $\\varepsilon>0$ there is $N$ such that $|a_{m+1}+a_{m+2}+\\cdots+a_n|<\\varepsilon$ whenever $n>m\\ge N$.\n\nIt is the Cauchy criterion for sequences applied to the partial sums $s_n$, since $s_n-s_m=a_{m+1}+\\cdots+a_n$.\n\nWhy it matters: it gives three quick facts. Taking $n=m+1$ shows $a_n\\to0$ for any convergent series. Since $\\left|\\sum_{k=m+1}^n a_k\\right|\\le\\sum_{k=m+1}^n|a_k|$, absolute convergence implies convergence. And the comparison test follows by the same estimate.\n\nWatch out: $a_n\\to0$ is necessary, not sufficient. The harmonic series $\\sum\\tfrac1n$ fails the criterion even though its terms tend to $0$: $\\tfrac1{m+1}+\\cdots+\\tfrac1{2m}\\ge\\tfrac12$.",
+      "searchQuery": "Cauchy criterion for series convergence statement",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-root-test-limsup",
+      "unit": "series-of-real-numbers",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **root test** for $\\sum a_n$ using $\\alpha=\\limsup_{n\\to\\infty}|a_n|^{1/n}$.",
+      "body": "If $\\alpha<1$ the series converges absolutely; if $\\alpha>1$ it diverges; if $\\alpha=1$ the test says nothing.\n\nKey idea ($\\alpha<1$): pick $\\beta$ with $\\alpha<\\beta<1$. Eventually $|a_n|^{1/n}<\\beta$, i.e. $|a_n|<\\beta^n$, and the geometric series $\\sum\\beta^n$ dominates. Key idea ($\\alpha>1$): $|a_n|^{1/n}>1$ for infinitely many $n$, so $|a_n|>1$ infinitely often and $a_n\\not\\to0$.\n\nWhy $\\limsup$: the ordinary limit of $|a_n|^{1/n}$ may not exist, but the $\\limsup$ always does (it may be $\\infty$), so the test never fails to apply.\n\nWatch out: $\\alpha=1$ is genuinely inconclusive. $\\sum\\tfrac1n$ diverges and $\\sum\\tfrac1{n^2}$ converges, and both have $\\alpha=1$.",
+      "searchQuery": "root test limsup Cauchy convergence series",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-problem-root-vs-ratio",
+      "unit": "series-of-real-numbers",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Let $a_n=2^{-n}$ for even $n$ and $a_n=3^{-n}$ for odd $n$ ($n\\ge1$). Decide whether $\\sum a_n$ converges, and explain why the ratios $|a_{n+1}/a_n|$ do not settle it.",
+      "body": "It converges: the root test gives $\\alpha=\\limsup|a_n|^{1/n}=\\tfrac12<1$, while the ratios swing between $0$ and $\\infty$.\n\nRoots: for even $n$, $|a_n|^{1/n}=\\tfrac12$; for odd $n$, $\\tfrac13$. The $\\limsup$ is $\\tfrac12$.\n\nRatios: from odd $n$ to even $n+1$, $\\dfrac{a_{n+1}}{a_n}=\\dfrac{2^{-(n+1)}}{3^{-n}}=\\dfrac12\\left(\\dfrac32\\right)^n\\to\\infty$. From even $n$ to odd $n+1$, $\\dfrac{a_{n+1}}{a_n}=\\dfrac13\\left(\\dfrac23\\right)^n\\to0$. The ratios are neither eventually below a constant $<1$ nor eventually $\\ge1$, so the ratio test is silent.\n\nTip: Whenever the ratio test works, the root test works too, since $\\limsup|a_n|^{1/n}\\le\\limsup|a_{n+1}/a_n|$. The reverse is false, as this series shows. (Here a comparison with $\\sum 2^{-n}$ also works.)",
+      "searchQuery": "root test succeeds ratio test fails series example",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-rearrangement-definition",
+      "unit": "series-of-real-numbers",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "What is a **rearrangement** of a series $\\sum a_n$?",
+      "body": "A series $\\sum a_{\\sigma(n)}$, where $\\sigma:\\mathbb{Z}_{>0}\\to\\mathbb{Z}_{>0}$ is a bijection: the same terms, each used exactly once, in a new order.\n\nFor a finite sum the order never matters (commutative law). An infinite sum is the limit of its partial sums, and reordering changes which partial sums occur, so convergence and the value can change.\n\nExample: $1+\\tfrac12+\\tfrac13+\\tfrac14+\\cdots$ with each pair of neighbors swapped, $\\tfrac12+1+\\tfrac14+\\tfrac13+\\cdots$, is a rearrangement given by $\\sigma(2k-1)=2k$, $\\sigma(2k)=2k-1$.\n\nWatch out: A rearrangement is not a subsequence. A subsequence may skip terms; a rearrangement must use all of them.",
+      "searchQuery": "rearrangement of a series bijection definition",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-absolute-convergence-rearrangement-idea",
+      "unit": "series-of-real-numbers",
+      "kind": "proof-idea",
+      "difficulty": 5,
+      "title": "Sketch why, if $\\sum|a_n|$ converges, every rearrangement $\\sum a_{\\sigma(n)}$ converges to the same sum $S=\\sum a_n$.",
+      "body": "A fixed finite block of terms captures almost all of the sum, and a tail of absolute values is small whatever order it is taken in.\n\n1. Fix $\\varepsilon>0$. Choose $N$ with $\\sum_{n>N}|a_n|<\\varepsilon$. Then $\\left|S-\\sum_{n\\le N}a_n\\right|\\le\\varepsilon$.\n2. Choose $M$ so that $\\{\\sigma(1),\\dots,\\sigma(M)\\}\\supseteq\\{1,\\dots,N\\}$.\n3. For $m\\ge M$, the partial sum $\\sum_{k\\le m}a_{\\sigma(k)}$ contains $a_1,\\dots,a_N$ plus some distinct terms with indices $>N$. So it differs from $\\sum_{n\\le N}a_n$ by at most $\\sum_{n>N}|a_n|<\\varepsilon$.\n4. By the triangle inequality, $\\left|\\sum_{k\\le m}a_{\\sigma(k)}-S\\right|<2\\varepsilon$ for all $m\\ge M$.\n\nKey idea: absolute convergence makes the tail negligible in every ordering.",
+      "searchQuery": "absolutely convergent series rearrangement same sum proof",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-riemann-rearrangement-theorem",
+      "unit": "series-of-real-numbers",
+      "kind": "theorem",
+      "difficulty": 5,
+      "title": "State the **Riemann rearrangement theorem**.",
+      "body": "If $\\sum a_n$ converges conditionally, then for every real number $\\alpha$ there is a rearrangement of the series that converges to $\\alpha$; there are also rearrangements that diverge to $+\\infty$, ones that diverge to $-\\infty$, and ones that oscillate.\n\nThe reason: a conditionally convergent series has terms tending to $0$, and its positive terms alone sum to $+\\infty$ while its negative terms alone sum to $-\\infty$. The value depends entirely on how the two infinite supplies are interleaved.\n\nWhy it matters: it shows \"convergent\" and \"absolutely convergent\" differ in kind, not degree. Absolute convergence is the condition under which an infinite sum behaves like a finite one.\n\nWatch out: it needs conditional convergence. For an absolutely convergent series every rearrangement has the same sum.",
+      "searchQuery": "Riemann rearrangement theorem conditionally convergent any sum",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-riemann-rearrangement-proof-idea",
+      "unit": "series-of-real-numbers",
+      "kind": "proof-idea",
+      "difficulty": 5,
+      "title": "Sketch how to rearrange a conditionally convergent series to converge to a target $\\alpha\\in\\mathbb{R}$.",
+      "body": "Greedily add positive terms until the sum passes $\\alpha$, then negative terms until it falls below $\\alpha$, and repeat; the overshoots shrink because the terms tend to $0$.\n\n1. If both the positive terms and the negative terms had finite sums, the series would converge absolutely. If only one did, the series would diverge. So both sums are infinite.\n2. Add the unused positive terms, in their original order, until the partial sum first exceeds $\\alpha$.\n3. Then add unused negative terms, in order, until the partial sum first drops below $\\alpha$. Repeat forever.\n4. Each stage is possible because both supplies are infinite, and every term is eventually used, so the result is a rearrangement. Whenever the partial sum crosses $\\alpha$, it exceeds or undershoots by at most the size of the last term, which tends to $0$. So the partial sums converge to $\\alpha$.\n\nTip: the same greedy idea with different targets gives divergence to $\\pm\\infty$.",
+      "searchQuery": "Riemann rearrangement proof greedy conditionally convergent",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-alternating-harmonic-rearrangement",
+      "unit": "series-of-real-numbers",
+      "kind": "counterexample",
+      "difficulty": 5,
+      "title": "The alternating harmonic series $1-\\tfrac12+\\tfrac13-\\tfrac14+\\cdots$ converges to $\\log2$. Give a rearrangement with a different sum.",
+      "body": "Take two positive terms, then one negative term, repeatedly: $1+\\tfrac13-\\tfrac12+\\tfrac15+\\tfrac17-\\tfrac14+\\cdots=\\tfrac32\\log2$.\n\nLet $H_n=1+\\tfrac12+\\cdots+\\tfrac1n$. After $3m$ terms the partial sum is $\\sum_{j=1}^{2m}\\tfrac1{2j-1}-\\sum_{j=1}^{m}\\tfrac1{2j}=\\left(H_{4m}-\\tfrac12H_{2m}\\right)-\\tfrac12H_m$.\n\nSince $H_n=\\log n+\\gamma+o(1)$ for a constant $\\gamma$, the constants cancel and the sum tends to $\\log4-\\tfrac12\\log2=\\tfrac32\\log2$. The terms tend to $0$, so the other partial sums converge to the same value.\n\nWatch out: This is not a miscalculation. The series is conditionally convergent, so the order of its terms is part of its value.",
+      "searchQuery": "alternating harmonic series rearrangement 3/2 ln 2",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-cauchy-product-definition",
+      "unit": "series-of-real-numbers",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define the **Cauchy product** of $\\sum_{n\\ge0}a_n$ and $\\sum_{n\\ge0}b_n$, and say when it converges to the product of the sums.",
+      "body": "It is $\\sum_{n\\ge0}c_n$ with $c_n=\\sum_{k=0}^n a_kb_{n-k}$; if $\\sum a_n=A$ converges absolutely and $\\sum b_n=B$ converges, then $\\sum c_n$ converges to $AB$.\n\nThe definition mimics multiplying two power series, collecting all products $a_ib_j$ with $i+j=n$ into $c_n$. The convergence statement is Mertens' theorem.\n\nExample: for $a_n=b_n=x^n$ with $|x|<1$, $c_n=(n+1)x^n$ and $\\sum(n+1)x^n=\\dfrac1{(1-x)^2}$.\n\nWatch out: If neither series converges absolutely, the product can diverge (see the problem on $\\sum\\frac{(-1)^k}{\\sqrt{k+1}}$).",
+      "searchQuery": "Cauchy product of series Mertens theorem definition",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2",
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-problem-cauchy-product-diverges",
+      "unit": "series-of-real-numbers",
+      "kind": "problem",
+      "difficulty": 5,
+      "title": "The series $\\sum_{k\\ge0}\\dfrac{(-1)^k}{\\sqrt{k+1}}$ converges (alternating series test). Show that its Cauchy product with itself diverges.",
+      "body": "Key move: the terms $c_n$ of the product do not tend to $0$, since $|c_n|\\ge1$ for every $n$.\n\nHere $a_k=\\dfrac{(-1)^k}{\\sqrt{k+1}}$, so\n$$c_n=\\sum_{k=0}^n a_ka_{n-k}=(-1)^n\\sum_{k=0}^n\\frac{1}{\\sqrt{(k+1)(n-k+1)}}.$$\n\nAll terms in the sum share the sign $(-1)^n$. Since $\\sqrt{uv}\\le\\dfrac{u+v}2$ for $u,v\\ge0$, $\\sqrt{(k+1)(n-k+1)}\\le\\dfrac{(k+1)+(n-k+1)}2=\\dfrac{n+2}2$. So each of the $n+1$ summands is at least $\\dfrac2{n+2}$, and\n$$|c_n|\\ge\\frac{2(n+1)}{n+2}\\ge1.$$\n\nHence $c_n\\not\\to0$ and $\\sum c_n$ diverges by the divergence test.\n\nWhy it matters: the series converges only conditionally, so Mertens' theorem does not apply. Absolute convergence of at least one factor is a real hypothesis.",
+      "searchQuery": "Cauchy product divergent conditionally convergent series 1/sqrt(k+1)",
+      "refs": [
+        "Rudin, PMA 3e, ch. 3"
+      ]
+    },
+    {
+      "id": "real-fubini-for-double-series",
+      "unit": "series-of-real-numbers",
+      "kind": "theorem",
+      "difficulty": 5,
+      "title": "State **Fubini's theorem for double series**: when can $\\sum_m\\sum_n a_{mn}$ be computed in either order? (A double series sums an array $a_{mn}$ indexed by two positive integers.)",
+      "body": "If $\\sum_{m=1}^\\infty\\sum_{n=1}^\\infty|a_{mn}|<\\infty$, then $\\sum_m\\sum_n a_{mn}$ and $\\sum_n\\sum_m a_{mn}$ both converge and are equal.\n\nKey idea: absolute convergence lets you add the entries of the array in any order, row by row, column by column, or in any arrangement; this is the rearrangement theorem for arrays.\n\nTip: for entries $a_{mn}\\ge0$ you can always swap the two orders, and the two sums are equal (possibly both $+\\infty$), so the hypothesis is automatic.\n\nWatch out: For entries of mixed sign the hypothesis is essential. With $a_{nn}=1$, $a_{n,n+1}=-1$ and all other entries $0$, the row sums are all $0$ but the column sums are $1,0,0,\\dots$.",
+      "searchQuery": "Fubini theorem double series interchange order of summation",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2 (section 2.8, double summations)"
+      ]
+    },
+    {
+      "id": "real-problem-zeta-minus-one-sum",
+      "unit": "series-of-real-numbers",
+      "kind": "problem",
+      "difficulty": 5,
+      "title": "Let $\\zeta(n)=\\sum_{k=1}^\\infty k^{-n}$ for $n\\ge2$. Evaluate $\\sum_{n=2}^\\infty\\bigl(\\zeta(n)-1\\bigr)$.",
+      "body": "$1$\n\nWrite the sum as a double series of nonnegative entries: $\\sum_{n\\ge2}\\sum_{k\\ge2}k^{-n}$. Since entries are nonnegative, the order may be swapped (Fubini).\n\nFor fixed $k\\ge2$ the inner sum is geometric: $\\sum_{n\\ge2}k^{-n}=\\dfrac{k^{-2}}{1-k^{-1}}=\\dfrac1{k(k-1)}$.\n\nThen the total is $\\sum_{k\\ge2}\\dfrac1{k(k-1)}=\\sum_{k\\ge2}\\left(\\dfrac1{k-1}-\\dfrac1k\\right)=1$, a telescoping sum.\n\nKey idea: the original order (sum over $n$ of zeta values) has no closed form, but swapping makes every inner sum geometric.",
+      "searchQuery": "sum of zeta(n) minus 1 equals 1 double series",
+      "answer": "1",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 2 (section 2.8, double summations)"
+      ]
+    },
+    {
+      "id": "real-open-set-definition",
+      "unit": "topology-of-the-real-line",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define an **open set** $U\\subseteq\\mathbb{R}$.",
+      "body": "$U$ is open if for every $x\\in U$ there is $\\varepsilon>0$ with $(x-\\varepsilon,x+\\varepsilon)\\subseteq U$.\n\nEvery point of an open set has room to move in both directions without leaving the set.\n\nExample: $(a,b)$, $\\mathbb{R}$ and $\\emptyset$ are open. $[0,1)$ is not, because no interval around $0$ stays inside it. Any union of open sets is open, since a point of the union lies in one of the sets and uses its interval.\n\nWatch out: \"not open\" does not mean \"the complement is open\". Both $[0,1)$ and its complement $(-\\infty,0)\\cup[1,\\infty)$ fail to be open, since neither contains an interval around $0$ or around $1$ respectively. Meanwhile $\\mathbb{R}$ and $\\emptyset$ are open and have open complements.",
+      "searchQuery": "open set definition real line epsilon interval",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-closed-set-definition",
+      "unit": "topology-of-the-real-line",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "A point $x$ is a **limit point** of $A\\subseteq\\mathbb{R}$ if every interval $(x-\\varepsilon,x+\\varepsilon)$ contains a point of $A$ other than $x$. Define a **closed set**.",
+      "body": "$F\\subseteq\\mathbb{R}$ is closed if it contains all of its limit points; equivalently, its complement $F^c$ is open.\n\nExample: $[0,1]$ is closed. $(0,1)$ is not, since $0$ is a limit point outside it. $\\{1/n:n\\in\\mathbb{Z}_{>0}\\}$ is not closed, since $0$ is a limit point outside it, but adding $0$ makes it closed.\n\nWhy the two descriptions agree: if $x\\notin F$ and $x$ is not a limit point, some interval around $x$ misses $F$, so $F^c$ is open. If $F^c$ is open, no point of $F^c$ can be a limit point of $F$.\n\nWatch out: A limit point of $A$ need not belong to $A$, and a point of $A$ need not be a limit point of $A$: an isolated point of $A$ has an interval around it containing no other point of $A$.",
+      "searchQuery": "closed set definition limit point real line",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-closure-sequence-characterization",
+      "unit": "topology-of-the-real-line",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "The **closure** $\\overline{A}$ of $A\\subseteq\\mathbb{R}$ is $A$ together with all its limit points. Characterize $\\overline{A}$ using sequences.",
+      "body": "$x\\in\\overline{A}$ if and only if $x=\\lim a_n$ for some sequence $(a_n)$ of points of $A$.\n\n($\\Rightarrow$) If $x\\in A$, use the constant sequence. If $x$ is a limit point not in $A$, pick $a_n\\in A\\cap(x-\\tfrac1n,x+\\tfrac1n)$.\n\n($\\Leftarrow$) If $a_n\\to x$ with all $a_n\\in A$ and $x\\notin A$, then every interval around $x$ contains terms $a_n\\ne x$, so $x$ is a limit point.\n\nWhy it matters: a set is closed exactly when the limit of every convergent sequence of its points stays in the set. Also $\\overline{A}$ is the smallest closed set containing $A$.\n\nTip: Use this to test closedness: if you can find a convergent sequence in $A$ whose limit is outside $A$, then $A$ is not closed.",
+      "searchQuery": "closure of a set limit of sequence characterization real line",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-compact-set-definition",
+      "unit": "topology-of-the-real-line",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "An **open cover** of $K\\subseteq\\mathbb{R}$ is a family of open sets whose union contains $K$. Define a **compact set**.",
+      "body": "$K$ is compact if every open cover of $K$ has a finite subcover: finitely many of its sets already cover $K$.\n\nWhy it matters: finiteness lets you take a minimum or a maximum. If each point has a \"good\" neighborhood, compactness lets you pick finitely many and combine their sizes into one uniform size. This is how local properties become global ones.\n\nExample: every finite set is compact: choose one member of the cover for each point.\n\nTip: To show a set is not compact, find one open cover with no finite subcover. To show it is compact in $\\mathbb{R}$, usually use the Heine–Borel theorem rather than the definition.",
+      "searchQuery": "compact set definition open cover finite subcover",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-open-cover-no-finite-subcover",
+      "unit": "topology-of-the-real-line",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Give an open cover of $(0,1)$ that has no finite subcover.",
+      "body": "$\\{(\\tfrac1n,1):n\\ge2\\}$\n\nIt covers $(0,1)$: for $x\\in(0,1)$ choose $n>1/x$, so $\\tfrac1n<x<1$. But finitely many of these intervals are nested, so their union is the single largest one, $(\\tfrac1N,1)$, which misses the points of $(0,\\tfrac1N]$.\n\nSo $(0,1)$ is not compact. The failure comes from the missing endpoint $0$: the intervals pile up there.\n\nWatch out: Bounded is not enough. $[0,\\infty)$ fails differently, being closed but unbounded: the cover $\\{(-1,n):n\\in\\mathbb{Z}_{>0}\\}$ has no finite subcover.",
+      "searchQuery": "open cover no finite subcover (0,1) not compact",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-heine-borel-theorem",
+      "unit": "topology-of-the-real-line",
+      "kind": "theorem",
+      "difficulty": 5,
+      "title": "State the **Heine–Borel theorem** for subsets of $\\mathbb{R}$.",
+      "body": "For $K\\subseteq\\mathbb{R}$ the following are equivalent: (a) $K$ is closed and bounded; (b) every sequence in $K$ has a subsequence converging to a point of $K$; (c) every open cover of $K$ has a finite subcover.\n\nWhy it matters: it turns the abstract property (c) into the checkable property (a), and (b) is the form used in practice. The extreme value theorem and uniform continuity on $[a,b]$ both come from it.\n\nKey idea: (a)$\\Rightarrow$(b) is Bolzano–Weierstrass plus closedness of $K$ (limits stay in $K$). (b)$\\Rightarrow$(a) uses the closure characterization: a sequence escaping to infinity, or converging to a point outside $K$, has no good subsequence. (a)$\\Rightarrow$(c) is the proof outlined on the next card. (c)$\\Rightarrow$(a): the cover $\\{(-n,n)\\}$ forces boundedness, and for a limit point $p\\notin K$ the cover by complements of $[p-\\tfrac1n,p+\\tfrac1n]$ has no finite subcover.\n\nWatch out: Each half of \"closed and bounded\" is needed. $(0,1]$ is bounded and not closed, and $[0,\\infty)$ is closed and not bounded; neither is compact.",
+      "searchQuery": "Heine-Borel theorem closed and bounded compact real line",
+      "checkpoint": true,
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2 (Theorem 2.41)"
+      ]
+    },
+    {
+      "id": "real-heine-borel-proof-idea",
+      "unit": "topology-of-the-real-line",
+      "kind": "proof-idea",
+      "difficulty": 5,
+      "title": "Outline why every closed bounded $K\\subseteq\\mathbb{R}$ has the open-cover property.",
+      "body": "First show $[a,b]$ has it by a supremum argument, then handle a closed $K\\subseteq[a,b]$ by adding the open set $K^c$ to the cover.\n\n1. Let $\\mathcal{U}$ be an open cover of $[a,b]$ and $S=\\{x\\in[a,b] : [a,x]$ is covered by finitely many members of $\\mathcal{U}\\}$. Then $a\\in S$; let $s=\\sup S$.\n2. Some $U\\in\\mathcal{U}$ contains $s$, hence an interval $(s-\\delta,s+\\delta)$. Pick $x\\in S$ with $x>s-\\delta$. A finite subfamily covering $[a,x]$, together with $U$, covers $[a,\\min(s+\\delta/2,b)]$.\n3. So $s\\in S$, and if $s<b$ some larger number is in $S$, a contradiction. Thus $s=b\\in S$.\n4. For closed $K\\subseteq[a,b]$ and an open cover $\\mathcal{V}$ of $K$, the family $\\mathcal{V}\\cup\\{K^c\\}$ covers $[a,b]$. Take a finite subcover and drop $K^c$.\n\nKey idea: the set of points reachable with finitely many sets has a supremum, and the supremum cannot be an obstacle.",
+      "searchQuery": "Heine-Borel proof supremum argument closed bounded interval finite subcover",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-connected-sets-are-intervals",
+      "unit": "topology-of-the-real-line",
+      "kind": "theorem",
+      "difficulty": 5,
+      "title": "Call $A\\subseteq\\mathbb{R}$ **connected** if there are no open sets $U,V$ with $A\\subseteq U\\cup V$, $A\\cap U\\ne\\emptyset$, $A\\cap V\\ne\\emptyset$ and $A\\cap U\\cap V=\\emptyset$. Characterize the connected subsets of $\\mathbb{R}$.",
+      "body": "$A$ is connected if and only if it is an interval: whenever $a<c<b$ and $a,b\\in A$, also $c\\in A$.\n\n($\\Rightarrow$) If some $c\\notin A$ lies between $a,b\\in A$, then $U=(-\\infty,c)$ and $V=(c,\\infty)$ split $A$ into two nonempty separated pieces.\n\n($\\Leftarrow$) If an interval $A$ were split by $U,V$, pick $a\\in A\\cap U$, $b\\in A\\cap V$ with $a<b$ (the other case is symmetric). Let $s=\\sup\\{x\\in[a,b]:[a,x]\\subseteq U\\}$. Then $s\\in A$, so $s$ is in $U$ or $V$. If $s\\in U$, openness lets us push past $s$ unless $s=b$; but $b\\in A\\cap V$, so $b\\notin U$. If $s\\in V$, a small interval around $s$ inside $V$ contains some $x\\le s$ with $[a,x]\\subseteq U$, so $x\\in A\\cap U\\cap V$, a contradiction.\n\nWhy it matters: this is the heart of the intermediate value theorem, since a continuous function sends intervals to intervals.",
+      "searchQuery": "connected subsets of real line are intervals theorem proof",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-cantor-set-construction",
+      "unit": "topology-of-the-real-line",
+      "kind": "example",
+      "difficulty": 5,
+      "title": "Construct the **Cantor set** $C$ and show it has length zero.",
+      "body": "$C=\\bigcap_{n\\ge0}C_n$, where $C_0=[0,1]$ and $C_{n+1}$ is $C_n$ with the open middle third of each of its intervals removed; $C_n$ has total length $(2/3)^n\\to0$.\n\n$C_n$ is a union of $2^n$ disjoint closed intervals, each of length $3^{-n}$. So $C_1=[0,\\tfrac13]\\cup[\\tfrac23,1]$ and $C_2=[0,\\tfrac19]\\cup[\\tfrac29,\\tfrac13]\\cup[\\tfrac23,\\tfrac79]\\cup[\\tfrac89,1]$.\n\nLength zero: for every $\\varepsilon>0$, pick $n$ with $(2/3)^n<\\varepsilon$. Then $C\\subseteq C_n$ is covered by finitely many intervals of total length $<\\varepsilon$. In particular $C$ contains no interval.\n\nOther properties: $C$ is closed (an intersection of closed sets) and bounded, hence compact. It is nonempty, containing all interval endpoints such as $0,\\tfrac13,\\tfrac23,1$. Every $x\\in C$ is a limit point of $C$: it lies in an interval of $C_n$ whose endpoints are in $C$, within $3^{-n}$ of $x$, and at least one endpoint differs from $x$.\n\nWatch out: Having no length does not mean being small in the sense of counting: the next card shows $C$ is uncountable.",
+      "searchQuery": "Cantor set construction middle thirds length zero compact",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-cantor-set-uncountable",
+      "unit": "topology-of-the-real-line",
+      "kind": "proof-idea",
+      "difficulty": 5,
+      "title": "Why is the Cantor set uncountable?",
+      "body": "$C$ consists of the numbers in $[0,1]$ with a base-$3$ expansion using only the digits $0$ and $2$, and these expansions correspond to infinite $0$-$1$ strings, which are uncountable by the diagonal argument.\n\n1. Removing the open middle third at stage $n$ removes the numbers whose $n$-th ternary digit must be $1$. So $x\\in C$ exactly when $x$ has an expansion $\\sum_{k\\ge1}d_k3^{-k}$ with every $d_k\\in\\{0,2\\}$.\n2. Map a string $(e_k)\\in\\{0,1\\}^{\\mathbb{Z}_{>0}}$ to $x=\\sum_{k\\ge1}2e_k3^{-k}\\in C$.\n3. The map is injective: if two strings first differ at $k$, the points differ by at least $2\\cdot3^{-k}-\\sum_{j>k}2\\cdot3^{-j}=3^{-k}>0$.\n4. By the diagonal argument, $\\{0,1\\}^{\\mathbb{Z}_{>0}}$ is uncountable, so $C$ is uncountable.\n\nKey idea: the Cantor set is a copy of the set of infinite binary strings, the same as the set of all subsets of $\\mathbb{Z}_{>0}$.",
+      "searchQuery": "Cantor set uncountable ternary expansion digits 0 and 2",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-problem-intersection-of-open-sets",
+      "unit": "topology-of-the-real-line",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Prove that the intersection of two open subsets of $\\mathbb{R}$ is open. Why can this fail for infinitely many open sets?",
+      "body": "Take $\\varepsilon=\\min(\\varepsilon_1,\\varepsilon_2)$; for infinitely many sets, $\\bigcap_{n\\ge1}(-\\tfrac1n,\\tfrac1n)=\\{0\\}$ is not open.\n\nProof: let $x\\in U\\cap V$ with $U,V$ open. There are $\\varepsilon_1,\\varepsilon_2>0$ with $(x-\\varepsilon_1,x+\\varepsilon_1)\\subseteq U$ and $(x-\\varepsilon_2,x+\\varepsilon_2)\\subseteq V$. With $\\varepsilon=\\min(\\varepsilon_1,\\varepsilon_2)>0$, the interval $(x-\\varepsilon,x+\\varepsilon)$ lies in both. By induction, any finite intersection of open sets is open.\n\nFailure: $x=0$ lies in every $(-\\tfrac1n,\\tfrac1n)$, but a point $y>0$ is excluded once $\\tfrac1n\\le y$. So the intersection is $\\{0\\}$, and no interval around $0$ fits inside it.\n\nKey idea: a minimum of finitely many positive numbers is positive; an infimum of infinitely many can be $0$.",
+      "searchQuery": "intersection of open sets open finite not infinite proof",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-problem-compact-set-contains-sup",
+      "unit": "topology-of-the-real-line",
+      "kind": "problem",
+      "difficulty": 5,
+      "title": "Let $K\\subseteq\\mathbb{R}$ be nonempty and compact. Show that $\\sup K$ exists and belongs to $K$.",
+      "body": "Key move: $K$ is bounded, so $\\sup K$ exists; it is a limit of points of $K$, and $K$ is closed, so it contains the limit.\n\n1. By the Heine–Borel theorem $K$ is bounded and closed. It is nonempty and bounded above, so $s=\\sup K$ exists.\n2. For each $n\\ge1$, $s-\\tfrac1n$ is not an upper bound of $K$, so there is $a_n\\in K$ with $s-\\tfrac1n<a_n\\le s$.\n3. Then $a_n\\to s$ by squeezing, so $s\\in\\overline{K}$ by the closure characterization.\n4. Since $K$ is closed, $\\overline{K}=K$, so $s\\in K$.\n\nWhy it matters: this is the extreme value theorem in miniature. Compact sets always contain their maximum and minimum, which is false for $(0,1)$.",
+      "searchQuery": "compact set contains its supremum maximum proof",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 3",
+        "Rudin, PMA 3e, ch. 2"
+      ]
+    },
+    {
+      "id": "real-metric-space-definition",
+      "unit": "metric-spaces",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "State the axioms of a **metric space** and define the **open ball** $B(x,r)$.",
+      "body": "A set $X$ with $d:X\\times X\\to[0,\\infty)$ such that $d(x,y)=0\\iff x=y$, $d(x,y)=d(y,x)$ and $d(x,z)\\le d(x,y)+d(y,z)$; $B(x,r)=\\{y\\in X:d(x,y)<r\\}$.\n\nExamples: $\\mathbb{R}$ with $d(x,y)=|x-y|$. On $\\mathbb{R}^n$: $d_2$ (Euclidean distance), $d_1(x,y)=\\sum|x_i-y_i|$ and $d_\\infty(x,y)=\\max_i|x_i-y_i|$. The discrete metric on any set: $d(x,y)=1$ if $x\\ne y$, and $0$ if $x=y$.\n\nEverything from the real line carries over by replacing intervals with balls: a set is open if each point has a ball inside it, closed if its complement is open; $x_n\\to x$ means $d(x_n,x)\\to0$; Cauchy and limit points are defined the same way.\n\nWatch out: In the discrete metric $B(x,1)=\\{x\\}$ and $B(x,2)=X$, so balls need not look round. Open balls are open sets, by the triangle inequality.",
+      "searchQuery": "metric space axioms definition open ball examples",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3",
+        "Abbott, Understanding Analysis 2e, ch. 8"
+      ]
+    },
+    {
+      "id": "real-sup-metric-on-continuous-functions",
+      "unit": "metric-spaces",
+      "kind": "example",
+      "difficulty": 4,
+      "title": "Let $C[a,b]$ be the set of continuous functions $[a,b]\\to\\mathbb{R}$. Verify that $d(f,g)=\\max_{x\\in[a,b]}|f(x)-g(x)|$ is a metric.",
+      "body": "The maximum exists by the extreme value theorem, $d(f,g)=0$ only for $f=g$, and the triangle inequality holds pointwise before taking the maximum.\n\n1. Well defined: $|f-g|$ is continuous on the closed interval $[a,b]$, so it attains a maximum, a finite number $\\ge0$.\n2. Positivity and symmetry: $d(f,g)=0$ forces $|f(x)-g(x)|=0$ for every $x$. Symmetry is clear.\n3. Triangle inequality: for every $x$, $|f(x)-h(x)|\\le|f(x)-g(x)|+|g(x)-h(x)|\\le d(f,g)+d(g,h)$. Take the maximum over $x$ on the left.\n\nKey idea: a ball $B(f,r)$ is the set of continuous functions whose graph stays inside a tube of half-width $r$ around the graph of $f$. Points of this space are whole functions.\n\nWatch out: This is called the sup metric. It uses the maximum only because $[a,b]$ is compact; on non-compact domains one needs a supremum, which may be infinite.",
+      "searchQuery": "sup metric C[a,b] verify metric axioms max norm",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3",
+        "Abbott, Understanding Analysis 2e, ch. 8"
+      ]
+    },
+    {
+      "id": "real-complete-metric-space-definition",
+      "unit": "metric-spaces",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define a **complete metric space**.",
+      "body": "A metric space $(X,d)$ in which every Cauchy sequence converges to a point of $X$ (Cauchy: for every $\\varepsilon>0$, $d(x_m,x_n)<\\varepsilon$ for all $m,n\\ge N$).\n\nExample: $\\mathbb{R}$ and $\\mathbb{R}^n$ are complete; $\\mathbb{Q}$ is not (truncations of $\\sqrt2$). The interval $(0,1)$ with $|x-y|$ is not complete, since $\\tfrac1n$ is Cauchy with no limit in $(0,1)$. The interval $[0,1]$ is complete.\n\nKey idea: a closed subset of a complete space is complete, and a complete subspace of any metric space is closed. So completeness is the property of having no missing limits, like missing points at a deleted boundary.\n\nWatch out: Completeness is not a property of the sets of points alone. $(0,1)$ becomes complete under another metric (e.g. via $\\tan$), so check the metric as well as the set.",
+      "searchQuery": "complete metric space definition Cauchy sequences converge",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3",
+        "Abbott, Understanding Analysis 2e, ch. 8"
+      ]
+    },
+    {
+      "id": "real-problem-arctan-metric-incomplete",
+      "unit": "metric-spaces",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Show that $d(x,y)=|\\arctan x-\\arctan y|$ is a metric on $\\mathbb{R}$, and that $(\\mathbb{R},d)$ is not complete.",
+      "body": "Metric: yes, because $\\arctan$ is one-to-one; not complete: the sequence $a_n=n$ is Cauchy with no limit.\n\nMetric: symmetry and the triangle inequality are inherited from $|\\cdot|$ on $\\mathbb{R}$. And $d(x,y)=0$ iff $\\arctan x=\\arctan y$ iff $x=y$, since $\\arctan$ is injective.\n\nIncomplete: $\\arctan n\\to\\pi/2$, so $(\\arctan n)$ is Cauchy in $\\mathbb{R}$, so $d(m,n)=|\\arctan m-\\arctan n|<\\varepsilon$ for large $m,n$. If $n\\to x$ in this metric for some real $x$, then $\\arctan n\\to\\arctan x<\\pi/2$, a contradiction.\n\nWatch out: The usual metric $|x-y|$ on $\\mathbb{R}$ is complete, but this one is not, although the set of points is the same. Completeness depends on the metric.",
+      "searchQuery": "arctan metric on real numbers not complete example",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3"
+      ]
+    },
+    {
+      "id": "real-nowhere-dense-definition",
+      "unit": "metric-spaces",
+      "kind": "definition",
+      "difficulty": 5,
+      "title": "Define a **nowhere dense** subset $A$ of a metric space $X$.",
+      "body": "$A$ is nowhere dense if its closure $\\overline{A}$ contains no open ball; equivalently, every open ball in $X$ contains a smaller open ball disjoint from $A$.\n\nExample: finite sets, $\\mathbb{Z}\\subseteq\\mathbb{R}$ and the Cantor set are nowhere dense in $\\mathbb{R}$. A single point is nowhere dense in $\\mathbb{R}$.\n\nWatch out: $\\mathbb{Q}$ is the opposite extreme: its closure is all of $\\mathbb{R}$. A finite union of nowhere dense sets is nowhere dense, but a countable union can fill the space: $\\mathbb{Q}$ is a countable union of single points.\n\nWhy it matters: nowhere dense sets are \"thin\". The Baire category theorem says a complete space cannot be built from countably many thin sets.",
+      "searchQuery": "nowhere dense set definition closure contains no open ball",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3",
+        "Abbott, Understanding Analysis 2e, ch. 8"
+      ]
+    },
+    {
+      "id": "real-baire-category-theorem",
+      "unit": "metric-spaces",
+      "kind": "theorem",
+      "difficulty": 5,
+      "title": "State the **Baire category theorem**.",
+      "body": "If $X$ is a nonempty complete metric space and $X=\\bigcup_{n\\ge1}A_n$, then some $A_n$ is not nowhere dense, so its closure contains an open ball.\n\nKey idea: Using that $A_1$ is nowhere dense, find a closed ball $\\bar B_1$ missing $A_1$. Inside it, find a closed ball $\\bar B_2$ of radius under $\\tfrac12$ missing $A_2$, and so on. The centers form a Cauchy sequence, which converges by completeness to a point lying in every $\\bar B_n$, hence in no $A_n$. That point is not covered, a contradiction.\n\nConsequence: $\\mathbb{R}$ is not a countable union of nowhere dense sets, so, since each point is nowhere dense, $\\mathbb{R}$ is uncountable.\n\nWatch out: Completeness is essential: $\\mathbb{Q}$ is a countable union of single points, each nowhere dense.",
+      "searchQuery": "Baire category theorem complete metric space nowhere dense",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3",
+        "Abbott, Understanding Analysis 2e, ch. 8"
+      ]
+    },
+    {
+      "id": "real-problem-q-not-intersection-open-dense",
+      "unit": "metric-spaces",
+      "kind": "problem",
+      "difficulty": 5,
+      "title": "Show there are no open sets $U_1,U_2,\\dots\\subseteq\\mathbb{R}$, each meeting every open interval, with $\\bigcap_nU_n=\\mathbb{Q}$.",
+      "body": "Key move: the complements $\\mathbb{R}\\setminus U_n$ and the singletons $\\{q\\}$ would be countably many nowhere dense sets covering $\\mathbb{R}$, contradicting Baire.\n\n1. Suppose such $U_n$ exist. Let $F_n=\\mathbb{R}\\setminus U_n$, a closed set. If $F_n$ contained an interval, that interval would miss $U_n$. So $F_n$ contains no interval, and $F_n=\\overline{F_n}$ is nowhere dense.\n2. List $\\mathbb{Q}=\\{q_1,q_2,\\dots\\}$. Each singleton $\\{q_k\\}$ is nowhere dense.\n3. Every $x\\in\\mathbb{R}$ is covered: if $x\\notin\\mathbb{Q}$ then $x\\notin\\bigcap U_n$, so $x\\in F_n$ for some $n$; if $x\\in\\mathbb{Q}$ then $x=q_k$.\n4. So $\\mathbb{R}$ is a countable union of nowhere dense sets, contradicting the Baire category theorem for the complete space $\\mathbb{R}$.\n\nWhy it matters: the rationals are countable but cannot be written as such an intersection, so countable and \"intersection of open sets\" are genuinely different notions of smallness.",
+      "searchQuery": "rationals not countable intersection of dense open sets Baire",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3",
+        "Abbott, Understanding Analysis 2e, ch. 8"
+      ]
+    },
+    {
+      "id": "real-compact-iff-complete-totally-bounded",
+      "unit": "metric-spaces",
+      "kind": "theorem",
+      "difficulty": 5,
+      "title": "A metric space is **totally bounded** if, for every $\\varepsilon>0$, finitely many open balls of radius $\\varepsilon$ cover it; it is **sequentially compact** if every sequence has a subsequence converging in the space. Characterize sequentially compact metric spaces.",
+      "body": "A metric space is sequentially compact if and only if it is complete and totally bounded.\n\n($\\Rightarrow$) A Cauchy sequence with a convergent subsequence converges, so the space is complete. If it were not totally bounded, for some $\\varepsilon$ no finite set of $\\varepsilon$-balls covers it, so one can pick $x_1,x_2,\\dots$ with $d(x_m,x_n)\\ge\\varepsilon$ for all $m\\ne n$. That sequence has no convergent subsequence.\n\n($\\Leftarrow$) This is the diagonal argument on the next card.\n\nWhy it matters: in metric spaces, sequential compactness is also equivalent to the open-cover property, so \"compact\" means all of these. For $\\mathbb{R}$ it recovers Heine–Borel, since totally bounded means bounded there.\n\nWatch out: Neither condition alone suffices. $\\mathbb{R}$ is complete, not totally bounded; $(0,1)$ is totally bounded, not complete.",
+      "searchQuery": "compact metric space iff complete and totally bounded theorem",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3",
+        "Abbott, Understanding Analysis 2e, ch. 8"
+      ]
+    },
+    {
+      "id": "real-complete-totally-bounded-diagonal-idea",
+      "unit": "metric-spaces",
+      "kind": "proof-idea",
+      "difficulty": 5,
+      "title": "Sketch why a complete, totally bounded metric space is sequentially compact.",
+      "body": "Use total boundedness to extract nested subsequences that cluster in smaller and smaller balls, then take the diagonal to get a Cauchy subsequence, which converges by completeness.\n\n1. Given a sequence, cover the space by finitely many balls of radius $1$. One ball contains infinitely many terms; keep those terms as subsequence $S_1$.\n2. Cover by finitely many balls of radius $\\tfrac12$. One contains infinitely many terms of $S_1$; call that $S_2\\subseteq S_1$. Continue, so $S_k$ lies in a ball of radius $\\tfrac1k$.\n3. Choose $n_1<n_2<\\cdots$ with $a_{n_k}$ a term of $S_k$. For $j\\ge k$, both $a_{n_j}$ and $a_{n_k}$ lie in $S_k$, so $d(a_{n_j},a_{n_k})<\\tfrac2k$. The subsequence is Cauchy.\n4. By completeness it converges.\n\nKey idea: \"infinitely many terms in a small ball\" is the metric-space version of bisecting an interval in the Bolzano–Weierstrass theorem.",
+      "searchQuery": "complete totally bounded implies sequentially compact diagonal subsequence",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3"
+      ]
+    },
+    {
+      "id": "real-contraction-mapping-theorem",
+      "unit": "metric-spaces",
+      "kind": "theorem",
+      "difficulty": 5,
+      "title": "State the **contraction mapping theorem** (Banach fixed point theorem).",
+      "body": "If $(X,d)$ is a nonempty complete metric space and $T:X\\to X$ satisfies $d(Tx,Ty)\\le c\\,d(x,y)$ for all $x,y$ with a constant $c<1$, then $T$ has exactly one fixed point $x^*$, and $T^n(x_0)\\to x^*$ for every $x_0$.\n\nKey idea: set $x_{n+1}=Tx_n$. Then $d(x_{n+1},x_n)\\le c^nd(x_1,x_0)$, so for $m>n$, $d(x_m,x_n)\\le\\dfrac{c^n}{1-c}d(x_1,x_0)$ by a geometric series. The sequence is Cauchy, converges to some $x^*$, and $Tx^*=x^*$ since $T$ is continuous. Two fixed points satisfy $d(x^*,y^*)\\le c\\,d(x^*,y^*)$, forcing $d(x^*,y^*)=0$. The same estimate gives $d(x_n,x^*)\\le\\dfrac{c^n}{1-c}d(x_1,x_0)$.\n\nWatch out: One constant $c<1$ must work for all pairs. The map $T(x)=x+\\tfrac1x$ on $[1,\\infty)$ satisfies $|Tx-Ty|<|x-y|$ for $x\\ne y$, yet has no fixed point.",
+      "searchQuery": "contraction mapping theorem Banach fixed point statement proof",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3",
+        "Abbott, Understanding Analysis 2e, ch. 8"
+      ]
+    },
+    {
+      "id": "real-newton-sqrt2-contraction",
+      "unit": "metric-spaces",
+      "kind": "example",
+      "difficulty": 5,
+      "title": "Use the contraction mapping theorem to show that $x_{n+1}=\\dfrac{x_n}{2}+\\dfrac1{x_n}$ converges to $\\sqrt2$ from any start $x_0\\in[1,2]$.",
+      "body": "$g(x)=\\frac x2+\\frac1x$ maps $[1,2]$ into itself with $|g'|\\le\\tfrac12$, so it is a contraction on the complete space $[1,2]$ and its fixed point $\\sqrt2$ is the limit.\n\nThis is Newton's method for $x^2-2$, since $x-\\dfrac{x^2-2}{2x}=\\dfrac x2+\\dfrac1x$.\n\n1. Self-map: $g$ decreases on $[1,\\sqrt2]$ from $g(1)=\\tfrac32$ to $g(\\sqrt2)=\\sqrt2$, then increases to $g(2)=\\tfrac32$. So $g([1,2])=[\\sqrt2,\\tfrac32]\\subseteq[1,2]$.\n2. Contraction: $g'(x)=\\tfrac12-\\tfrac1{x^2}$ increases from $-\\tfrac12$ at $x=1$ to $\\tfrac14$ at $x=2$, so $|g'|\\le\\tfrac12$. By the mean value theorem, $|g(x)-g(y)|\\le\\tfrac12|x-y|$.\n3. $[1,2]$ is closed in $\\mathbb{R}$, hence complete. The theorem gives a unique fixed point; $g(x)=x$ means $x^2=2$, so it is $\\sqrt2$.\n\nTip: The true convergence is far faster, since $g'(\\sqrt2)=0$, but the contraction argument already proves convergence and gives an error bound.",
+      "searchQuery": "Newton method sqrt 2 contraction mapping theorem example",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3"
+      ]
+    },
+    {
+      "id": "real-hoelder-via-young-idea",
+      "unit": "metric-spaces",
+      "kind": "proof-idea",
+      "difficulty": 5,
+      "title": "Sketch the proof of **Hölder's inequality** $\\sum_{i=1}^n|x_iy_i|\\le\\|x\\|_p\\|y\\|_q$, for $p,q>1$ with $\\tfrac1p+\\tfrac1q=1$, where $\\|x\\|_p=\\left(\\sum_{i=1}^n|x_i|^p\\right)^{1/p}$.",
+      "body": "Scale so that $\\|x\\|_p=\\|y\\|_q=1$, then apply Young's inequality $ab\\le\\frac{a^p}p+\\frac{b^q}q$ to each product $|x_i||y_i|$ and add.\n\n1. Young's inequality, for $a,b\\ge0$ (trivial if $ab=0$; for $a,b>0$): by concavity of $\\log$, $\\log\\!\\left(\\tfrac1pa^p+\\tfrac1qb^q\\right)\\ge\\tfrac1p\\log a^p+\\tfrac1q\\log b^q=\\log(ab)$.\n2. If $x=0$ or $y=0$ there is nothing to prove. Otherwise replace $x$ by $x/\\|x\\|_p$ and $y$ by $y/\\|y\\|_q$; both sides of Hölder scale by the same factor.\n3. Then $\\sum|x_iy_i|\\le\\sum\\left(\\tfrac{|x_i|^p}p+\\tfrac{|y_i|^q}q\\right)=\\tfrac1p+\\tfrac1q=1=\\|x\\|_p\\|y\\|_q$.\n\nKey idea: with $p=q=2$ this is the Cauchy–Schwarz inequality, so Hölder is its generalization.",
+      "searchQuery": "Holder inequality proof Young inequality normalization",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3"
+      ]
+    },
+    {
+      "id": "real-problem-minkowski-from-hoelder",
+      "unit": "metric-spaces",
+      "kind": "problem",
+      "difficulty": 5,
+      "title": "For $x\\in\\mathbb{R}^n$ and $1<p<\\infty$ let $\\|x\\|_p=\\left(\\sum|x_i|^p\\right)^{1/p}$. Assuming Hölder's inequality $\\sum|x_iy_i|\\le\\|x\\|_p\\|y\\|_q$ for $\\tfrac1p+\\tfrac1q=1$, prove **Minkowski's inequality** $\\|x+y\\|_p\\le\\|x\\|_p+\\|y\\|_p$, and say why $d_p(x,y)=\\|x-y\\|_p$ is a metric.",
+      "body": "Split $|x_i+y_i|^p\\le|x_i||x_i+y_i|^{p-1}+|y_i||x_i+y_i|^{p-1}$, apply Hölder to each part, and divide by $\\|x+y\\|_p^{p-1}$.\n\n1. Let $q=\\tfrac p{p-1}$, so $(p-1)q=p$. By the triangle inequality for absolute values, $\\sum|x_i+y_i|^p\\le\\sum|x_i||x_i+y_i|^{p-1}+\\sum|y_i||x_i+y_i|^{p-1}$.\n2. Hölder on the first sum: $\\le\\|x\\|_p\\left(\\sum|x_i+y_i|^{(p-1)q}\\right)^{1/q}=\\|x\\|_p\\|x+y\\|_p^{p/q}=\\|x\\|_p\\|x+y\\|_p^{p-1}$. Likewise for $y$.\n3. So $\\|x+y\\|_p^p\\le(\\|x\\|_p+\\|y\\|_p)\\|x+y\\|_p^{p-1}$. If $\\|x+y\\|_p=0$ there is nothing to prove; otherwise divide.\n\nThe other properties of a length function hold directly: $\\|x\\|_p=0$ only for $x=0$, and $\\|cx\\|_p=|c|\\|x\\|_p$. With Minkowski, $d_p(x,z)\\le d_p(x,y)+d_p(y,z)$ (apply it to $x-y$ and $y-z$), so $d_p$ is a metric. The cases $p=1$ and $p=\\infty$ follow directly from the triangle inequality for numbers.\n\nTip: Minkowski is the triangle inequality for $\\|\\cdot\\|_p$: the nontrivial piece of showing $\\|\\cdot\\|_p$ is a norm, meaning a length function with these three properties.",
+      "searchQuery": "Minkowski inequality proof from Holder p-norm triangle inequality",
+      "refs": [
+        "Rudin, PMA 3e, ch. 2, 3"
+      ]
+    },
+    {
+      "id": "real-continuity-metric-definition",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define what it means for $f:X\\to Y$ between metric spaces $(X,d)$ and $(Y,\\rho)$ to be **continuous** at $p\\in X$.",
+      "body": "For every $\\varepsilon>0$ there is $\\delta>0$ such that $d(x,p)<\\delta$ implies $\\rho(f(x),f(p))<\\varepsilon$; $f$ is continuous if it is continuous at every point of $X$.\n\nIn words: $f(x)$ can be kept within any prescribed distance of $f(p)$ by keeping $x$ close enough to $p$. It is the same definition as for functions of a real variable, with $|\\cdot|$ replaced by the metrics.\n\nEquivalent: $f$ is continuous exactly when the preimage of every open set is open.\n\nWatch out: $\\delta$ may depend on both $\\varepsilon$ and the point $p$. When one $\\delta$ works for every point, we have uniform continuity, a stronger property.",
+      "searchQuery": "continuous function metric spaces epsilon delta definition",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4",
+        "Rudin, PMA 3e, ch. 4"
+      ]
+    },
+    {
+      "id": "real-sequential-criterion-for-continuity",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "theorem",
+      "difficulty": 4,
+      "title": "State the **sequential criterion for continuity** of $f:X\\to Y$ at $p$, for metric spaces.",
+      "body": "$f$ is continuous at $p$ if and only if $f(x_n)\\to f(p)$ for every sequence $x_n\\to p$ in $X$.\n\n($\\Rightarrow$) Given $\\varepsilon$, take the $\\delta$ from continuity; once $d(x_n,p)<\\delta$, also $\\rho(f(x_n),f(p))<\\varepsilon$.\n\n($\\Leftarrow$) Prove the contrapositive. If $f$ is not continuous at $p$, there is an $\\varepsilon>0$ such that for every $n$ some $x_n$ has $d(x_n,p)<\\tfrac1n$ but $\\rho(f(x_n),f(p))\\ge\\varepsilon$. Then $x_n\\to p$ while $f(x_n)\\not\\to f(p)$.\n\nWhy it matters: it replaces $\\varepsilon$–$\\delta$ bookkeeping with sequences, where the algebra of limits and Bolzano–Weierstrass are available. It is the main tool for the theorems on compact sets.\n\nTip: To show a function is discontinuous at $p$, exhibit one sequence $x_n\\to p$ with $f(x_n)\\not\\to f(p)$.",
+      "searchQuery": "sequential criterion for continuity metric spaces proof",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4",
+        "Rudin, PMA 3e, ch. 4"
+      ]
+    },
+    {
+      "id": "real-problem-epsilon-delta-square",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "problem",
+      "difficulty": 4,
+      "title": "Show $f(x)=x^2$ is continuous at every $a\\in\\mathbb{R}$ by finding $\\delta$ in terms of $\\varepsilon$ and $a$.",
+      "body": "$\\delta=\\min\\!\\left(1,\\dfrac{\\varepsilon}{2|a|+1}\\right)$ works.\n\nScratch work: $|x^2-a^2|=|x-a|\\,|x+a|$. If $|x-a|<1$ then $|x+a|\\le|x-a|+2|a|<2|a|+1$.\n\nProof: let $\\delta$ be as above and $|x-a|<\\delta$. Then $|x^2-a^2|<\\delta\\,(2|a|+1)\\le\\varepsilon$.\n\nWhy the minimum with $1$: it caps $|x+a|$ so the factor $|x+a|$ can be bounded by a constant depending only on $a$.\n\nWatch out: this $\\delta$ shrinks as $|a|$ grows, and it must: $x^2$ is not uniformly continuous on $\\mathbb{R}$ (take $x_n=n$ and $y_n=n+\\tfrac1n$: they are $\\tfrac1n$ apart but their squares differ by more than $2$).",
+      "searchQuery": "epsilon delta proof x squared continuous at a",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4"
+      ]
+    },
+    {
+      "id": "real-uniform-continuity-definition",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define **uniform continuity** of $f:X\\to Y$ and say what it adds to continuity.",
+      "body": "For every $\\varepsilon>0$ there is $\\delta>0$ such that $d(x,y)<\\delta$ implies $\\rho(f(x),f(y))<\\varepsilon$, for all $x,y\\in X$.\n\nThe difference from continuity is the order of quantifiers. Continuity: for each $p$ and each $\\varepsilon$ there is a $\\delta$. Uniform continuity: for each $\\varepsilon$ there is one $\\delta$ that works for all points at once.\n\nWhy it matters: a single $\\delta$ means the function cannot become steeper and steeper as you move through the domain. It is what controls errors in approximating or integrating a function.\n\nTip: Uniformly continuous functions send Cauchy sequences to Cauchy sequences, while merely continuous ones may not.",
+      "searchQuery": "uniform continuity definition quantifiers difference from continuity",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4",
+        "Rudin, PMA 3e, ch. 4"
+      ]
+    },
+    {
+      "id": "real-one-over-x-not-uniformly-continuous",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "counterexample",
+      "difficulty": 4,
+      "title": "Show that $f(x)=\\dfrac1x$ is continuous on $(0,1)$ but not uniformly continuous there.",
+      "body": "Take $x_n=\\tfrac1n$ and $y_n=\\tfrac1{n+1}$: then $|x_n-y_n|\\to0$ but $|f(x_n)-f(y_n)|=1$ for every $n\\ge2$.\n\n$f$ is continuous at every point of $(0,1)$ (a quotient of continuous functions with nonvanishing denominator). For uniform continuity, take $\\varepsilon=\\tfrac12$. Whatever $\\delta>0$ is proposed, pick $n$ with $\\tfrac1{n(n+1)}<\\delta$. Then $|x_n-y_n|<\\delta$ yet $|f(x_n)-f(y_n)|=(n+1)-n=1>\\tfrac12$.\n\nKey idea: the graph climbs without bound toward $x=0$, so the allowed $\\delta$ must shrink as the point approaches $0$.\n\nWatch out: This does not contradict the Heine–Cantor theorem, because $(0,1)$ is not compact. On $[c,1]$ for any $c>0$, the same function is uniformly continuous.",
+      "searchQuery": "1/x not uniformly continuous on (0,1) proof",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4",
+        "Rudin, PMA 3e, ch. 4"
+      ]
+    },
+    {
+      "id": "real-lipschitz-function-definition",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "definition",
+      "difficulty": 4,
+      "title": "Define a **Lipschitz function** $f:X\\to Y$ and say how it relates to uniform continuity.",
+      "body": "$f$ is Lipschitz if there is a constant $L\\ge0$ with $\\rho(f(x),f(y))\\le L\\,d(x,y)$ for all $x,y\\in X$; Lipschitz implies uniformly continuous, with $\\delta=\\varepsilon/L$.\n\nWhy $\\delta=\\varepsilon/L$ works: $d(x,y)<\\varepsilon/L$ gives $\\rho(f(x),f(y))\\le L\\,d(x,y)<\\varepsilon$ (if $L=0$, $f$ is constant).\n\nExample: $f(x)=|x|$ is Lipschitz with $L=1$. If $f$ is differentiable on an interval with $|f'|\\le L$, then the mean value theorem gives $|f(x)-f(y)|\\le L|x-y|$. A contraction is a Lipschitz map with $L<1$.\n\nWatch out: A Lipschitz constant is a bound on slopes of chords. A function with unbounded slope is not Lipschitz even when it is uniformly continuous.",
+      "searchQuery": "Lipschitz function definition implies uniform continuity",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4",
+        "Rudin, PMA 3e, ch. 4"
+      ]
+    },
+    {
+      "id": "real-sqrt-uniformly-continuous-not-lipschitz",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "example",
+      "difficulty": 5,
+      "title": "Show that $f(x)=\\sqrt x$ on $[0,1]$ is uniformly continuous but not Lipschitz.",
+      "body": "$|\\sqrt x-\\sqrt y|\\le\\sqrt{|x-y|}$ gives uniform continuity with $\\delta=\\varepsilon^2$, but $|f(x)-f(0)|=\\sqrt x$ is not bounded by $Lx$ for any $L$.\n\nUniform continuity: for $x\\ge y\\ge0$, $\\sqrt x\\le\\sqrt y+\\sqrt{x-y}$, since squaring the right side gives $x+2\\sqrt{y(x-y)}\\ge x$. So $|\\sqrt x-\\sqrt y|\\le\\sqrt{|x-y|}<\\varepsilon$ whenever $|x-y|<\\varepsilon^2$.\n\nNot Lipschitz: if $\\sqrt x\\le Lx$ for all $x\\in(0,1]$, then $1\\le L\\sqrt x$, which fails for $x<1/L^2$. The chord slopes $\\tfrac{\\sqrt x-0}{x-0}=\\tfrac1{\\sqrt x}$ are unbounded.\n\nKey idea: this shows that Lipschitz $\\Rightarrow$ uniformly continuous cannot be reversed (and $1/x$ on $(0,1)$ shows the same for uniformly continuous $\\Rightarrow$ continuous). The function is uniformly continuous because the compact interval controls it, but its slope is infinite at $0$.",
+      "searchQuery": "sqrt x uniformly continuous not Lipschitz on [0,1]",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4",
+        "Rudin, PMA 3e, ch. 4"
+      ]
+    },
+    {
+      "id": "real-continuous-image-of-compact-is-compact",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "theorem",
+      "difficulty": 5,
+      "title": "State what a continuous function does to a compact set, and the extreme value theorem it implies.",
+      "body": "If $K$ is a compact metric space and $f:K\\to Y$ is continuous, then $f(K)$ is compact; hence a continuous $f:K\\to\\mathbb{R}$ attains a maximum and a minimum.\n\nKey idea: take any sequence $y_n=f(x_n)$ in $f(K)$. By sequential compactness some $x_{n_k}\\to x\\in K$, and by the sequential criterion $y_{n_k}=f(x_{n_k})\\to f(x)\\in f(K)$. So every sequence in $f(K)$ has a subsequence converging in $f(K)$.\n\nExtreme values: $f(K)\\subseteq\\mathbb{R}$ is compact, hence closed and bounded (Heine–Borel), so it contains its supremum and infimum: these are the maximum and minimum values.\n\nWatch out: Only the image of a compact set is guaranteed compact. The continuous image of $(0,1)$ under $x\\mapsto x$ is not, and $f(x)=\\tfrac1x$ on $(0,1)$ has no maximum.",
+      "searchQuery": "continuous image of compact set is compact extreme value theorem",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4",
+        "Rudin, PMA 3e, ch. 4"
+      ]
+    },
+    {
+      "id": "real-ivt-from-connectedness-idea",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "proof-idea",
+      "difficulty": 5,
+      "title": "Sketch a proof of the intermediate value theorem for continuous $f:[a,b]\\to\\mathbb{R}$ using the fact that intervals are connected.",
+      "body": "If a value $y$ between $f(a)$ and $f(b)$ were missed, continuity would split $[a,b]$ into two open pieces, contradicting connectedness of $[a,b]$.\n\n1. Suppose $f(a)<y<f(b)$ and $f(x)\\ne y$ for all $x\\in[a,b]$. Let $P=\\{x:f(x)<y\\}$ and $Q=\\{x:f(x)>y\\}$. They cover $[a,b]$, with $a\\in P$ and $b\\in Q$.\n2. By continuity, each $x\\in P$ has $\\delta_x>0$ with $f<y$ on $(x-\\delta_x,x+\\delta_x)\\cap[a,b]$. Let $U=\\bigcup_{x\\in P}(x-\\delta_x,x+\\delta_x)$, an open set. Define $V$ the same way from $Q$.\n3. $U$ and $V$ cover $[a,b]$ and both meet it. No point of $[a,b]$ lies in both, because there $f$ would be $<y$ and $>y$.\n4. This contradicts the connectedness of the interval $[a,b]$. So $y=f(x)$ for some $x$.\n\nKey idea: the continuous image of a connected set is connected, and connected subsets of $\\mathbb{R}$ are intervals.",
+      "searchQuery": "intermediate value theorem proof connectedness continuous image of interval",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4",
+        "Rudin, PMA 3e, ch. 4"
+      ]
+    },
+    {
+      "id": "real-heine-cantor-theorem",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "theorem",
+      "difficulty": 5,
+      "title": "State the **Heine–Cantor theorem**.",
+      "body": "If $X$ is a compact metric space and $f:X\\to Y$ is continuous, then $f$ is uniformly continuous.\n\nIn particular, every continuous function on a closed bounded interval $[a,b]$ is uniformly continuous.\n\nWhy it matters: compactness upgrades pointwise control to uniform control, which is what makes the integral of a continuous function on $[a,b]$ exist and what makes approximation arguments work on $[a,b]$.\n\nWatch out: Compactness of the domain is essential: $\\tfrac1x$ on $(0,1)$ and $x^2$ on $\\mathbb{R}$ are continuous but not uniformly continuous. The theorem concerns the domain, not the range.",
+      "searchQuery": "Heine-Cantor theorem continuous on compact is uniformly continuous",
+      "checkpoint": true,
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4",
+        "Rudin, PMA 3e, ch. 4 (Theorem 4.19)"
+      ]
+    },
+    {
+      "id": "real-heine-cantor-proof-idea",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "proof-idea",
+      "difficulty": 5,
+      "title": "Sketch why a continuous function on a compact metric space is uniformly continuous.",
+      "body": "Argue by contradiction: failure of uniform continuity gives two sequences that get arbitrarily close but whose images stay apart; compactness forces both to converge to the same point, which continuity forbids.\n\n1. Suppose $f$ is not uniformly continuous. Then there is $\\varepsilon>0$ such that for each $n$ there are $x_n,y_n$ with $d(x_n,y_n)<\\tfrac1n$ but $\\rho(f(x_n),f(y_n))\\ge\\varepsilon$.\n2. By compactness, some subsequence $x_{n_k}\\to x\\in X$.\n3. Then $d(y_{n_k},x)\\le d(y_{n_k},x_{n_k})+d(x_{n_k},x)\\to0$, so also $y_{n_k}\\to x$.\n4. By the sequential criterion, $f(x_{n_k})\\to f(x)$ and $f(y_{n_k})\\to f(x)$. So $\\rho(f(x_{n_k}),f(y_{n_k}))\\to0$, contradicting $\\ge\\varepsilon$.\n\nKey idea: compactness gives one limit point, so the two \"bad\" sequences collide there.",
+      "searchQuery": "Heine-Cantor proof contradiction subsequence uniformly continuous",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4",
+        "Rudin, PMA 3e, ch. 4"
+      ]
+    },
+    {
+      "id": "real-problem-thomae-function",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "problem",
+      "difficulty": 5,
+      "title": "Thomae's function is $f(x)=\\tfrac1q$ if $x=\\tfrac pq$ in lowest terms with $q\\ge1$ (so $f(0)=1$), and $f(x)=0$ if $x$ is irrational. Show $f$ is discontinuous at every rational and continuous at every irrational.",
+      "body": "At a rational $\\tfrac pq$, $f=\\tfrac1q>0$ but irrationals nearby have $f=0$; at an irrational $x$, only finitely many fractions near $x$ have small enough denominators to make $f$ large.\n\nRationals: take $x_n$ irrational with $x_n\\to\\tfrac pq$ (density of irrationals). Then $f(x_n)=0\\not\\to\\tfrac1q=f(\\tfrac pq)$, so $f$ is discontinuous there by the sequential criterion.\n\nIrrationals: let $x$ be irrational and $\\varepsilon>0$. Choose $N$ with $\\tfrac1N<\\varepsilon$. In $(x-1,x+1)$, only finitely many rationals have denominator $\\le N$ (for each denominator $q$ there are finitely many numerators), and $x$ is not one of them. Choose $\\delta<1$ so that $(x-\\delta,x+\\delta)$ avoids all of them. For $y$ in this interval, either $y$ is irrational and $f(y)=0$, or $y=\\tfrac pq$ with $q>N$ and $f(y)<\\tfrac1N<\\varepsilon$. So $|f(y)-f(x)|<\\varepsilon$.\n\nWhy it matters: it is a function continuous on a dense set of points and discontinuous on another dense set. Its discontinuities form a countable set, as for monotone functions.",
+      "searchQuery": "Thomae function continuous at irrationals discontinuous at rationals proof",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4"
+      ]
+    },
+    {
+      "id": "real-problem-monotone-countable-discontinuities",
+      "unit": "continuity-and-uniform-continuity",
+      "kind": "problem",
+      "difficulty": 5,
+      "title": "Show that a monotone increasing function $f:\\mathbb{R}\\to\\mathbb{R}$ has at most countably many points of discontinuity.",
+      "body": "Key move: each discontinuity is a jump, and the jump intervals $(f(x-),f(x+))$ are pairwise disjoint, so each can be assigned its own rational number.\n\n1. One-sided limits exist. Because $f$ is increasing, $f(x-)=\\sup\\{f(t):t<x\\}$ and $f(x+)=\\inf\\{f(t):t>x\\}$, with $f(x-)\\le f(x)\\le f(x+)$.\n2. $f$ is continuous at $x$ exactly when $f(x-)=f(x+)$ (then both equal $f(x)$). At a discontinuity $f(x-)<f(x+)$.\n3. If $x<x'$, pick $z$ between them: $f(x+)\\le f(z)\\le f(x'-)$. So the intervals $J_x=(f(x-),f(x+))$ at distinct discontinuities are disjoint.\n4. Choose a rational $q_x\\in J_x$ by density. The map $x\\mapsto q_x$ is injective into $\\mathbb{Q}$, so the set of discontinuities is countable.\n\nWatch out: The discontinuities of a monotone function can be dense (put a jump at each rational using a weighted sum), but they are still only countably many.",
+      "searchQuery": "monotone function countably many discontinuities proof jump",
+      "refs": [
+        "Abbott, Understanding Analysis 2e, ch. 4",
+        "Rudin, PMA 3e, ch. 4"
+      ]
+    }
+  ]
+}

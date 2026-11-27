@@ -1,0 +1,921 @@
+{
+  "profession": "embedded-ai",
+  "module": "number-formats",
+  "tier": 1,
+  "cards": [
+    {
+      "id": "number-fixed-point-definition",
+      "unit": "fixed-point-q-format",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "What is **fixed point**: how does a program store a non-whole number such as 0.75 using only an integer?",
+      "body": "It stores the number as an integer scaled by a fixed factor that the programmer knows but the hardware never stores.\n\nThe program keeps a plain integer $q$ and agrees that the real value is $q \\times s$, where $s$ is the **scaling factor** (for example $s = 0.01$). The hardware adds, shifts and multiplies $q$ as an ordinary integer; only the programmer's convention gives it a fractional meaning.\n\nExample: Prices in cents are fixed point with $s = 0.01$. The price 12.34 is stored as the integer 1234.\n\nKey idea: The binary point sits at a fixed place chosen at design time. A floating-point number instead carries its own scale in an exponent field.",
+      "searchQuery": "fixed point representation integer scaling factor embedded",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: number systems)",
+        "White, Making Embedded Systems 2e, ch. 12 (Math)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "number-why-fixed-point-on-mcu",
+      "unit": "fixed-point-q-format",
+      "kind": "concept",
+      "difficulty": 2,
+      "title": "Why is fixed point attractive on a microcontroller that has no floating-point unit (FPU)?",
+      "body": "Integer instructions run in hardware, but floating-point operations without an FPU must be emulated by a software library.\n\nOn a 32-bit Arm Cortex-M3 or M4, an integer add takes 1 cycle and a 32-bit multiply typically takes 1 cycle. A software float add or multiply is a function call that unpacks the exponent and fraction, shifts, adds, rounds and repacks, which typically costs tens of cycles or more. That means more time, more energy and more flash for the library.\n\nFixed point turns a real-number calculation into the same integer instructions the core already runs fast.\n\nWatch out: The price is bookkeeping. You must track the scale of every value yourself, and you give up the automatic wide range of floating point.",
+      "searchQuery": "fixed point vs floating point microcontroller no FPU software emulation",
+      "refs": [
+        "White, Making Embedded Systems 2e, ch. 12 (Math)",
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: number systems)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "number-q-format-definition",
+      "unit": "fixed-point-q-format",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "In this course, what does **Q format** $Qm.n$ mean, and which formats are **Q15**, **Q7** and **Q31**?",
+      "body": "$Qm.n$ is a signed two's complement integer with a sign bit, $m$ integer bits and $n$ fraction bits, whose value is the stored integer times $2^{-n}$.\n\nThe word has $1 + m + n$ bits. Q15 means $Q0.15$ in an `int16_t`, Q7 means $Q0.7$ in an `int8_t`, and Q31 means $Q0.31$ in an `int32_t`: each covers values from $-1$ up to just below $+1$.\n\nExample: In Q15 the stored integer 16384 ($\\texttt{0x4000}$) means $16384 \\times 2^{-15} = 0.5$.\n\nWatch out: Some vendors count the sign bit inside $m$, so the same name can mean a different layout. Here $m$ never includes the sign bit. CMSIS types `q7_t`, `q15_t` and `q31_t` follow the Q0.n meaning.",
+      "searchQuery": "Q format Qm.n Q15 Q31 fixed point sign bit fraction bits",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: number systems)",
+        "Arm CMSIS-DSP documentation (q7_t, q15_t and q31_t fixed-point types)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "number-resolution-and-range",
+      "unit": "fixed-point-q-format",
+      "kind": "definition",
+      "difficulty": 2,
+      "title": "For a signed $Qm.n$ number, what are its **resolution** (spacing between neighboring values) and its range?",
+      "body": "Resolution is $2^{-n}$, and the range is $-2^{m}$ up to $2^{m} - 2^{-n}$.\n\nAdjacent stored integers differ by 1, so adjacent values differ by $2^{-n}$. That spacing is the same everywhere in the range, unlike floating point. More fraction bits give finer steps; more integer bits give a wider range.\n\nExample: Q15 ($m=0$, $n=15$) has resolution $2^{-15} \\approx 3.05 \\times 10^{-5}$ and range $-1$ to $1 - 2^{-15} \\approx 0.99997$. Q7 has resolution $2^{-7} = 0.0078125$.\n\nWatch out: The range is asymmetric: the most negative value is $-2^m$ but the largest positive value falls one step short of $+2^m$. Q15 can store $-1$ but not exactly $+1$.",
+      "searchQuery": "Q15 resolution range fixed point 2^-15 largest value",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: number systems)",
+        "Arm CMSIS-DSP documentation (q7_t, q15_t and q31_t fixed-point types)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "number-q-conversion-formula",
+      "unit": "fixed-point-q-format",
+      "kind": "formula",
+      "difficulty": 2,
+      "title": "Give the formulas that convert a real number $x$ to its stored integer $q$ in $Qm.n$ and back.",
+      "body": "$q = \\mathrm{round}(x \\cdot 2^{n})$ and $x \\approx q \\cdot 2^{-n}$\n\nScaling by $2^n$ moves the binary point $n$ places right, and rounding to the nearest integer discards what is left. Converting back gives only an approximation: the error is at most half the resolution, $2^{-n-1}$, as long as $x$ is inside the range.\n\nExample: In Q15, $x = 0.25$ gives $q = 0.25 \\times 32768 = 8192$, and 8192 converts back to exactly 0.25.\n\nWatch out: If $x$ lies outside the range, the stored integer does not fit and the conversion overflows. Check the range first.\n\nTip: Because $2^n$ is a power of two, hardware does the scaling with a shift, not a multiply.",
+      "searchQuery": "convert real number to Q15 round x times 2^15 formula",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: number systems)",
+        "White, Making Embedded Systems 2e, ch. 12 (Math)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "number-problem-0-3-to-q15",
+      "unit": "fixed-point-q-format",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Convert $0.3$ to Q15 with rounding to nearest. What decimal integer is stored? (Number only.)",
+      "answer": "9830",
+      "body": "9830\n\n$0.3 \\times 2^{15} = 0.3 \\times 32768 = 9830.4$, and rounding to the nearest integer gives 9830 ($\\texttt{0x2666}$).\n\nConverting back, $9830 / 32768 = 0.29998\\ldots$, so the stored value is slightly below 0.3. The error is $0.4 \\times 2^{-15} \\approx 1.2 \\times 10^{-5}$, under half the resolution ($\\approx 1.5 \\times 10^{-5}$).\n\nWatch out: Truncating a scaled value such as 9830.9 would give 9830 instead of 9831. Always round: truncation can be off by a whole step, twice the half-step worst case of rounding.",
+      "searchQuery": "convert 0.3 to Q15 9830 hex 0x2666",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: number systems)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "number-problem-q7-round-trip",
+      "unit": "fixed-point-q-format",
+      "kind": "problem",
+      "difficulty": 2,
+      "title": "Convert $-0.7$ to Q7 with rounding to nearest, then convert the stored integer back to a real number. What integer is stored, and what real value does it represent?",
+      "body": "Stored integer $-90$, representing $-0.703125$.\n\n$-0.7 \\times 2^{7} = -0.7 \\times 128 = -89.6$, which rounds to $-90$. Converting back, $-90 / 128 = -0.703125$. The error is $0.003125$, below half the resolution ($2^{-8} = 0.00390625$).\n\nIn an `int8_t` the stored byte is $\\texttt{0xA6}$, since $256 - 90 = 166 = \\texttt{0xA6}$.\n\nWhy: Seven fraction bits give only 128 steps per unit, so Q7 is coarse. Errors of a fraction of a percent are normal.\n\nWatch out: Rounding $-89.6$ toward zero would give $-89$ and a larger error.",
+      "searchQuery": "convert negative number to Q7 round trip fixed point -0.7",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: number systems)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "number-code-q15-multiply",
+      "unit": "fixed-point-q-format",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume a 32-bit `int` and that `int16_t` holds Q15 values. What does this print?\n\n```c\n#include <stdint.h>\n#include <stdio.h>\nint main(void)\n{\n    int16_t a = 0x4000;   /* 0.5  in Q15 */\n    int16_t b = 0x2000;   /* 0.25 in Q15 */\n    int16_t p = (int16_t)(((int32_t)a * b) >> 15);\n    printf(\"%d %d\\n\", p, (int)(((int32_t)a * b) >> 14));\n    return 0;\n}\n```",
+      "body": "`4096 8192`\n\nThe 32-bit product is $16384 \\times 8192 = 2^{27}$. Two Q15 factors give a **Q30** product (scale $2^{-30}$), so shifting right by 15 returns to scale $2^{-15}$: $2^{27} \\gg 15 = 4096$, which is $0.125$ in Q15 ($0.5 \\times 0.25$). The second value shifts by 14 and lands in the wrong scale: 8192 would read as $0.25$.\n\nKey idea: Multiply in a wider type first, then shift right by $n$ (the fraction bits of the result). The cast to `int32_t` keeps the code correct even on a target whose `int` is 16 bits, where the product would otherwise overflow.\n\nTip: Add $2^{14}$ before the shift to round to nearest instead of truncating.",
+      "searchQuery": "Q15 multiply 32-bit product shift right 15 C",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: number systems)",
+        "Arm CMSIS-DSP documentation (q7_t, q15_t and q31_t fixed-point types)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "number-code-q15-add-mismatch",
+      "unit": "fixed-point-q-format",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume a 32-bit `int`. `a` holds $0.5$ in Q15, and `b` holds $0.25$ in Q14 (that is, $Q1.14$, scale $2^{-14}$). What does this print, and which value is the correct Q15 sum $0.75$?\n\n```c\n#include <stdint.h>\n#include <stdio.h>\nint main(void)\n{\n    int16_t a = 16384;\n    int16_t b = 4096;\n    int16_t bad  = a + b;\n    int16_t good = a + (int16_t)(b << 1);\n    printf(\"%d %d\\n\", bad, good);\n    return 0;\n}\n```",
+      "body": "`20480 24576`: the second is the correct Q15 value of $0.75$.\n\nRaw integers can be added only when they share a scale. `bad` adds a Q15 integer to a Q14 integer; read as Q15, 20480 means $0.625$, which is wrong. Shifting `b` left by 1 converts Q14 to Q15 (8192), and $16384 + 8192 = 24576 = 0.75 \\times 32768$.\n\nWhy: A left shift by 1 doubles the stored integer while halving the scale $2^{-n}$, so the value is unchanged.\n\nWatch out: Shifting left to gain fraction bits can overflow the integer part, and shifting right to lose them discards low bits. The compiler cannot warn you: both are plain `int16_t`.",
+      "searchQuery": "fixed point addition same scale align Q format shift",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: number systems)",
+        "White, Making Embedded Systems 2e, ch. 12 (Math)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "number-problem-q3-12-range",
+      "unit": "fixed-point-q-format",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A sensor driver stores values as a signed 16-bit $Q3.12$ number. What are its range and its resolution?",
+      "body": "Range $-8$ to $8 - 2^{-12} \\approx 7.99976$; resolution $2^{-12} \\approx 0.000244$.\n\nCheck the width: $1 + 3 + 12 = 16$ bits. With $m = 3$ the range is $-2^3 = -8$ up to $2^3 - 2^{-12} = 7.999755859375$. With $n = 12$ each step is $1/4096 \\approx 0.000244$. Stored integers run from $-32768$ to $32767$, divided by 4096.\n\nWhy: Compared with Q15, three bits moved from the fraction to the integer part: the range grew by a factor of 8 and the steps grew by a factor of 8. The 16 bits give the same 65,536 distinct values either way.\n\nTip: Fix the range your data needs first, then give every remaining bit to the fraction.",
+      "searchQuery": "Q3.12 fixed point range resolution 16-bit signed",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: number systems)"
+      ],
+      "tags": [
+        "number-formats"
+      ]
+    },
+    {
+      "id": "number-float32-fields-definition",
+      "unit": "ieee754-encoding",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What are the three fields of an **IEEE 754** float32 word, and how many bits does each have?",
+      "body": "1 **sign bit**, 8 **biased exponent** bits and 23 fraction bits, from the most significant bit down.\n\n**IEEE 754** is the standard that almost every processor follows for floating point. The sign bit is 0 for positive and 1 for negative. The exponent field $e$ is stored with a bias of 127, so the true exponent is $e - 127$. The fraction field holds the digits after the binary point of the significand (also called the mantissa).\n\nExample: The word $\\texttt{0x3F800000}$ splits as sign 0, exponent $\\texttt{01111111} = 127$, fraction 0. The true exponent is 0, so the value is $1.0$.\n\nKey idea: Floating point is binary scientific notation: sign, exponent, digits. The bias lets the exponent field be an unsigned integer while still representing negative exponents.",
+      "searchQuery": "IEEE 754 float32 sign exponent fraction bits 1 8 23 bias 127",
+      "refs": [
+        "Goldberg 1991, section 'The IEEE Standard' (Formats and Operations; Special Quantities)",
+        "Bryant & O'Hallaron, CS:APP 3e, §2.4 Floating Point"
+      ],
+      "tags": [
+        "number-formats",
+        "ieee754"
+      ]
+    },
+    {
+      "id": "number-normal-number-definition",
+      "unit": "ieee754-encoding",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **normal number** in IEEE 754 float32, and what is its value in terms of the sign $s$, exponent field $e$ and fraction $f$?",
+      "body": "A normal number has $1 \\le e \\le 254$, and its value is $(-1)^s \\times 1.f \\times 2^{\\,e-127}$.\n\nFor a normal number the significand is $1.f$: a leading 1 that is assumed rather than stored (the hidden bit) followed by the 23 stored fraction bits. That gives 24 significant bits for the price of 23.\n\nExample: $s=0$, $e=130$, $f = 0.25$ (binary $.01$) gives $1.25 \\times 2^{3} = 10.0$.\n\nWhy: A normalized binary number always starts with 1, so storing that bit would waste space.\n\nWatch out: $f$ here is the fraction field read as a value in $[0,1)$, that is, the integer in the field divided by $2^{23}$.",
+      "searchQuery": "normal number IEEE 754 hidden bit 1.f times 2^(e-127)",
+      "refs": [
+        "Goldberg 1991, section 'The IEEE Standard' (Formats and Operations; Special Quantities)",
+        "Bryant & O'Hallaron, CS:APP 3e, §2.4 Floating Point"
+      ],
+      "tags": [
+        "number-formats",
+        "ieee754"
+      ]
+    },
+    {
+      "id": "number-subnormal-number-definition",
+      "unit": "ieee754-encoding",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **subnormal number** in float32, and what is its value?",
+      "body": "A subnormal number has exponent field $e = 0$ and fraction $f \\ne 0$, and its value is $(-1)^s \\times 0.f \\times 2^{-126}$.\n\nThe hidden bit becomes 0 and the exponent is fixed at $-126$, the same exponent as the smallest normal number. This fills the gap between 0 and the smallest normal value $2^{-126} \\approx 1.18 \\times 10^{-38}$ with evenly spaced values, called gradual underflow.\n\nExample: The smallest positive float32 is $\\texttt{0x00000001}$, equal to $2^{-23} \\times 2^{-126} = 2^{-149} \\approx 1.4 \\times 10^{-45}$.\n\nWatch out: Subnormals have fewer significant bits, so precision falls as they approach 0. Many processors also handle them slowly or flush them to 0.",
+      "searchQuery": "subnormal denormal number float32 gradual underflow 2^-149",
+      "refs": [
+        "Goldberg 1991, section 'The IEEE Standard' (Formats and Operations; Special Quantities)",
+        "Bryant & O'Hallaron, CS:APP 3e, §2.4 Floating Point"
+      ],
+      "tags": [
+        "number-formats",
+        "ieee754"
+      ]
+    },
+    {
+      "id": "number-special-exponent-codes",
+      "unit": "ieee754-encoding",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "In float32, what do the two reserved exponent fields $e = 0$ and $e = 255$ encode, depending on the fraction $f$?",
+      "body": "$e=0$: signed zero ($f=0$) or a subnormal ($f \\ne 0$). $e=255$: infinity ($f=0$) or NaN ($f \\ne 0$).\n\n- $e = 0,\\ f = 0$: **signed zero**, $+0$ or $-0$ by the sign bit. They compare equal, but $1/(+0) = +\\infty$ and $1/(-0) = -\\infty$.\n- $e = 255,\\ f = 0$: $+\\infty$ or $-\\infty$, produced by overflow or division of a nonzero number by zero.\n- $e = 255,\\ f \\ne 0$: **NaN** (not a number), the result of an invalid operation such as $0/0$ or $\\infty - \\infty$.\n\nKey idea: Only exponent fields 1 to 254 hold normal numbers. The two ends of the exponent range are spent on special values.",
+      "searchQuery": "IEEE 754 special values signed zero infinity NaN exponent all ones",
+      "refs": [
+        "Goldberg 1991, section 'The IEEE Standard' (Formats and Operations; Special Quantities)",
+        "Bryant & O'Hallaron, CS:APP 3e, §2.4 Floating Point"
+      ],
+      "tags": [
+        "number-formats",
+        "ieee754"
+      ]
+    },
+    {
+      "id": "number-problem-decode-float32",
+      "unit": "ieee754-encoding",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "Decode the float32 word $\\texttt{0xC1C80000}$. What decimal value does it hold?",
+      "body": "$-25.0$\n\nWrite the word in binary: $\\texttt{1100 0001 1100 1000 0000 ...}$.\n\n1. Sign bit $= 1$, so the number is negative.\n2. Exponent field $= \\texttt{10000011} = 131$, so the true exponent is $131 - 127 = 4$.\n3. Fraction field $= \\texttt{1001000...}$, which is $0.5 + 0.0625 = 0.5625$, so the significand is $1.5625$.\n4. Value $= -1.5625 \\times 2^{4} = -25.0$.\n\nTip: The 8 exponent bits start one bit below the top, so they do not line up with the hex digits. Write out all 32 bits before cutting them into fields.",
+      "searchQuery": "decode float32 hex 0xC1C80000 sign exponent fraction",
+      "refs": [
+        "Bryant & O'Hallaron, CS:APP 3e, §2.4 Floating Point",
+        "Goldberg 1991, section 'The IEEE Standard' (Formats and Operations; Special Quantities)"
+      ],
+      "tags": [
+        "number-formats",
+        "ieee754"
+      ]
+    },
+    {
+      "id": "number-problem-encode-minus-6-25",
+      "unit": "ieee754-encoding",
+      "kind": "problem",
+      "difficulty": 3,
+      "checkpoint": true,
+      "title": "Encode $-6.25$ as a float32. What is the hex word?",
+      "body": "$\\texttt{0xC0C80000}$\n\n1. $6.25 = 110.01_2$, since $4 + 2 + 0.25$.\n2. Normalize: $110.01_2 = 1.1001_2 \\times 2^{2}$.\n3. Sign bit $= 1$ (negative).\n4. Exponent field $= 2 + 127 = 129 = \\texttt{10000001}$.\n5. Fraction field $= \\texttt{1001}$ followed by 19 zeros (the leading 1 is hidden).\n\nThe bits are $\\texttt{1 10000001 1001 000...0}$, which regroups into nibbles as $\\texttt{1100 0000 1100 1000 0000 ...}$, or $\\texttt{0xC0C80000}$.\n\nTip: Work backwards to check: $\\texttt{0xC0C80000}$ has exponent field 129 and significand 1.5625, giving $-1.5625 \\times 4 = -6.25$.",
+      "searchQuery": "encode -6.25 as IEEE 754 float32 hex 0xC0C80000",
+      "refs": [
+        "Bryant & O'Hallaron, CS:APP 3e, §2.4 Floating Point",
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks: number systems)"
+      ],
+      "tags": [
+        "number-formats",
+        "ieee754"
+      ]
+    },
+    {
+      "id": "number-code-float32-bits",
+      "unit": "ieee754-encoding",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume `float` is IEEE 754 float32 and `unsigned` is 32 bits. What does this print?\n\n```c\n#include <stdio.h>\n#include <string.h>\nint main(void)\n{\n    float f = 0.15625f;   /* 5/32 */\n    unsigned u;\n    memcpy(&u, &f, sizeof u);\n    printf(\"%08x %u\\n\", u, (u >> 23) & 0xFFu);\n    return 0;\n}\n```",
+      "body": "`3e200000 124`\n\n$0.15625 = 5/32 = 0.00101_2 = 1.01_2 \\times 2^{-3}$. The exponent field is $-3 + 127 = 124 = \\texttt{01111100}$, the fraction field is $\\texttt{01}$ then zeros, and the sign is 0. The word is $\\texttt{0 01111100 0100...}$, which is $\\texttt{0x3E200000}$. The expression `(u >> 23) & 0xFFu` extracts the 8 exponent bits, giving 124.\n\nWhy: `memcpy` copies the bytes without conversion, so `u` holds the float's raw bit pattern. It is the safe way to read those bits; casting a pointer to a different type breaks the aliasing rules.\n\nTip: `(u >> 23) & 0xFF` is the usual field-extraction idiom: shift the field to the bottom, then mask.",
+      "searchQuery": "C print float bits memcpy uint32 exponent field 0.15625",
+      "refs": [
+        "Bryant & O'Hallaron, CS:APP 3e, §2.4 Floating Point"
+      ],
+      "tags": [
+        "number-formats",
+        "ieee754"
+      ]
+    },
+    {
+      "id": "number-nan-not-equal-misconception",
+      "unit": "ieee754-encoding",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that `x == x` is always true for a float `x`?",
+      "body": "If `x` is a NaN, `x == x` is false: a NaN compares unequal to every value, including itself.\n\nIEEE 754 defines every comparison with a NaN as false except `!=`, which is true. So `nan == nan` is false and `nan != nan` is true.\n\nExample: In C, `float x = 0.0f / 0.0f;` makes `x` a NaN, and `x == x` evaluates to 0.\n\nWhy it matters: This gives a portable test for NaN, `x != x`; C also provides `isnan(x)`. It also means a NaN in a sort or a `==`-based search silently breaks the logic.\n\nWatch out: A NaN spreads: almost any arithmetic with a NaN gives another NaN, so one bad sensor value can contaminate a whole filter.",
+      "searchQuery": "NaN not equal to itself x == x false IEEE 754 comparison",
+      "refs": [
+        "Goldberg 1991, section 'The IEEE Standard' (Formats and Operations; Special Quantities)",
+        "Bryant & O'Hallaron, CS:APP 3e, §2.4 Floating Point"
+      ],
+      "tags": [
+        "number-formats",
+        "ieee754"
+      ]
+    },
+    {
+      "id": "number-float32-float64-numbers",
+      "unit": "ieee754-encoding",
+      "kind": "numbers",
+      "difficulty": 3,
+      "title": "State the approximate decimal precision and the largest finite value of float32 and float64 (IEEE 754 binary32 and binary64).",
+      "body": "float32: about 7 significant decimal digits, largest finite value about $3.4 \\times 10^{38}$. float64: about 16 digits, about $1.8 \\times 10^{308}$.\n\nThe digits come from the significand: float32 has 24 significant bits ($24 \\log_{10} 2 \\approx 7.2$) and float64 has 53 ($53 \\log_{10} 2 \\approx 15.95$). The ranges come from the exponent: 8 bits give a largest value of about $2^{128}$, and 11 bits give about $2^{1024}$.\n\n- float32: smallest positive normal $\\approx 1.18 \\times 10^{-38}$, smallest subnormal $\\approx 1.4 \\times 10^{-45}$.\n- float64: smallest positive normal $\\approx 2.2 \\times 10^{-308}$, smallest subnormal $\\approx 4.9 \\times 10^{-324}$.\n\nWhy it matters: Integers above $2^{24} = 16{,}777{,}216$ are not all exact in float32; in float64 the limit is $2^{53}$.",
+      "searchQuery": "float32 float64 precision significant digits range 3.4e38 1.8e308",
+      "refs": [
+        "Goldberg 1991, section 'The IEEE Standard' (Formats and Operations; Special Quantities)",
+        "Bryant & O'Hallaron, CS:APP 3e, §2.4 Floating Point"
+      ],
+      "tags": [
+        "number-formats",
+        "ieee754"
+      ]
+    },
+    {
+      "id": "number-problem-subnormal-value",
+      "unit": "ieee754-encoding",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "What is the value of the float32 word $\\texttt{0x00400000}$?",
+      "body": "$2^{-127} \\approx 5.88 \\times 10^{-39}$\n\nThe word is $\\texttt{0 00000000 1000...0}$: sign 0, exponent field 0, fraction field $\\texttt{1000...}$. With $e = 0$ and $f \\ne 0$ this is a subnormal, so the formula is $0.f \\times 2^{-126}$.\n\nThe fraction is $0.1_2 = 0.5$, so the value is $0.5 \\times 2^{-126} = 2^{-127}$.\n\nWatch out: Using the normal formula $1.f \\times 2^{e-127}$ with $e = 0$ would give $1.5 \\times 2^{-127}$, which is wrong: the hidden bit is 0 for a subnormal.",
+      "searchQuery": "subnormal float32 0x00400000 value 2^-127 decode",
+      "refs": [
+        "Bryant & O'Hallaron, CS:APP 3e, §2.4 Floating Point",
+        "Goldberg 1991, section 'The IEEE Standard' (Formats and Operations; Special Quantities)"
+      ],
+      "tags": [
+        "number-formats",
+        "ieee754"
+      ]
+    },
+    {
+      "id": "number-ulp-definition",
+      "unit": "rounding-error-ulps",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is an **ulp** (unit in the last place) of a float, and how large is it for a float32 in $[2^{e}, 2^{e+1})$?",
+      "body": "The ulp is the gap between a float and the next float above it, which is $2^{e-23}$ for a float32 in $[2^e, 2^{e+1})$.\n\nThe last fraction bit of a float is worth $2^{e-23}$, because the significand $1.f$ is multiplied by $2^e$. All floats in the same power-of-two interval share one ulp, and the ulp doubles each time the exponent goes up by 1.\n\nExample: For float32, $\\mathrm{ulp}(1.0) = 2^{-23} \\approx 1.19 \\times 10^{-7}$, while $\\mathrm{ulp}(1024) = 2^{10-23} = 2^{-13} \\approx 1.22 \\times 10^{-4}$.\n\nKey idea: Floats are dense near 0 and sparse far away. Rounding any real number to the nearest float errs by at most half an ulp.",
+      "searchQuery": "ulp unit in the last place float32 spacing 2^(e-23)",
+      "refs": [
+        "Goldberg 1991, section 'Rounding Error' (Relative Error and Ulps; Cancellation; Exactly Rounded Operations)"
+      ],
+      "tags": [
+        "number-formats",
+        "rounding"
+      ]
+    },
+    {
+      "id": "number-machine-epsilon-definition",
+      "unit": "rounding-error-ulps",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **machine epsilon** $\\varepsilon$ for float32 and float64, and what bound does it give on **relative error** when rounding to nearest?",
+      "body": "$\\varepsilon$ is the gap from 1.0 to the next float: $2^{-23} \\approx 1.19 \\times 10^{-7}$ for float32 and $2^{-52} \\approx 2.22 \\times 10^{-16}$ for float64. Rounding to nearest gives relative error at most $\\varepsilon/2$.\n\n**Relative error** of an approximation $\\hat{x}$ of $x$ is $|\\hat{x} - x| / |x|$, the error as a fraction of the true value (percent error divided by 100). Because $\\varepsilon = \\mathrm{ulp}(1.0)$ and spacing scales with magnitude, every real number in the normal range is rounded with relative error at most $\\varepsilon/2 = 2^{-24}$ in float32.\n\nWatch out: Some libraries and textbooks define epsilon as $\\varepsilon/2$ instead. Check the definition before using a library constant.\n\nTip: Relative error, not absolute error, is the right yardstick for floats: absolute error grows with the value.",
+      "searchQuery": "machine epsilon float32 2^-23 relative error bound rounding",
+      "refs": [
+        "Goldberg 1991, section 'Rounding Error' (Relative Error and Ulps; Cancellation; Exactly Rounded Operations)"
+      ],
+      "tags": [
+        "number-formats",
+        "rounding"
+      ]
+    },
+    {
+      "id": "number-round-to-nearest-even-definition",
+      "unit": "rounding-error-ulps",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What does **round to nearest even** do, and what are the other three IEEE 754 **rounding modes**?",
+      "body": "It rounds to the nearest representable value and, on an exact tie, picks the neighbor whose last fraction bit is 0. The other modes round toward zero, toward $+\\infty$ and toward $-\\infty$.\n\nRound to nearest even is the default **rounding mode**. A tie happens when the exact result lies exactly halfway between two floats. Picking the even neighbor sends ties up half the time and down half the time, so errors do not drift in one direction over many operations.\n\nExample: In float64, $10^{16} + 1$ is exactly halfway between $10^{16}$ and $10^{16} + 2$ (the ulp there is 2). The even neighbor is $10^{16}$, so the sum rounds to $10^{16}$.\n\nWhy it matters: Round toward $+\\infty$ and $-\\infty$ let you compute guaranteed upper and lower bounds on a result (interval arithmetic).",
+      "searchQuery": "round to nearest even tie IEEE 754 rounding modes toward zero",
+      "refs": [
+        "Goldberg 1991, section 'The IEEE Standard' (Exceptions, Flags and Trap Handlers: Rounding Modes)",
+        "Goldberg 1991, section 'Rounding Error' (Relative Error and Ulps; Cancellation; Exactly Rounded Operations)"
+      ],
+      "tags": [
+        "number-formats",
+        "rounding"
+      ]
+    },
+    {
+      "id": "number-code-print-0-1-digits",
+      "unit": "rounding-error-ulps",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "What does this Python 3 program print, and why is it not `0.10000000000000000000`?\n\n```python\nprint(f\"{0.1:.20f}\")\n```",
+      "body": "`0.10000000000000000555`: the float stored for 0.1 is not exactly one tenth.\n\nPython's `float` is a float64. In binary, $0.1 = 0.0001\\overline{1001}_2$ repeats forever, like $1/3$ in decimal, so it must be cut after 53 significant bits and rounded. The nearest float64 is slightly above 0.1 by about $5.55 \\times 10^{-18}$.\n\nWhy: A fraction has a finite binary expansion only if its denominator is a power of two. $0.5$ and $0.75$ are exact; $0.1 = 1/10$ is not, because 10 has a factor of 5.\n\nTip: Printing with 20 decimals shows the stored value; the default `print(0.1)` shows the shortest text that reads back as the same float.",
+      "searchQuery": "python 0.1 not exact binary float 0.10000000000000000555",
+      "refs": [
+        "The Python Tutorial, ch. 15 (Floating-Point Arithmetic: Issues and Limitations)",
+        "Goldberg 1991, section 'Rounding Error' (Relative Error and Ulps; Cancellation; Exactly Rounded Operations)"
+      ],
+      "tags": [
+        "number-formats",
+        "rounding"
+      ]
+    },
+    {
+      "id": "number-float-addition-not-associative",
+      "unit": "rounding-error-ulps",
+      "kind": "misconception",
+      "difficulty": 3,
+      "title": "Why is it false that floating-point addition is **associative**, so $(a+b)+c$ always equals $a+(b+c)$?",
+      "body": "Each addition rounds its result, so changing the grouping changes which roundings happen and can change the answer.\n\nExample: In Python, `(0.1 + 0.2) + 0.3` gives `0.6000000000000001`, but `0.1 + (0.2 + 0.3)` gives `0.6`.\n\nA bigger effect appears when magnitudes differ. In float64, `(1e16 + 1) + 1` gives `1e16`: each lone 1 is half an ulp of $10^{16}$ and the tie rounds back down. But `1e16 + (1 + 1)` gives `1.0000000000000002e16`, because 2 is a full ulp and survives.\n\nWatch out: **Non-associativity** means a compiler or a parallel sum may not reorder float additions without changing results. Summing in a different order, as in a multi-threaded reduction, can give a different last digit.\n\nTip: To sum many values accurately, add the small ones first or use a compensated sum.",
+      "searchQuery": "floating point addition not associative rounding order of summation",
+      "refs": [
+        "Goldberg 1991, section 'Rounding Error' (Relative Error and Ulps; Cancellation; Exactly Rounded Operations)",
+        "The Python Tutorial, ch. 15 (Floating-Point Arithmetic: Issues and Limitations)"
+      ],
+      "tags": [
+        "number-formats",
+        "rounding"
+      ]
+    },
+    {
+      "id": "number-catastrophic-cancellation-concept",
+      "unit": "rounding-error-ulps",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "What is **catastrophic cancellation** when subtracting floats, and why is it a problem?",
+      "body": "Subtracting two nearly equal numbers cancels their matching leading digits, so the result is dominated by their earlier rounding errors.\n\nThe subtraction itself is usually exact. The damage is that the inputs were already rounded, and after the leading digits vanish, those small errors are no longer small compared with the result.\n\nExample: Keep 7 significant digits. The true values $1.2345678$ and $1.2345671$ are stored as $1.234568$ and $1.234567$. The stored difference is $0.000001$, but the true difference is $0.0000007$: an error of about 43 percent, from inputs that were each accurate to 7 digits.\n\nTip: Rewrite the formula algebraically so the subtraction is gone, for instance by multiplying by a conjugate or using a series for small inputs.",
+      "searchQuery": "catastrophic cancellation subtracting nearly equal floating point numbers",
+      "refs": [
+        "Goldberg 1991, section 'Rounding Error' (Relative Error and Ulps; Cancellation; Exactly Rounded Operations)"
+      ],
+      "tags": [
+        "number-formats",
+        "rounding"
+      ]
+    },
+    {
+      "id": "number-problem-float32-stops-counting",
+      "unit": "rounding-error-ulps",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "In float32 with round to nearest even, what is the smallest positive integer $n$ for which $n + 1$ evaluates to $n$? (Number only.)",
+      "answer": "16777216",
+      "acceptedAnswers": [
+        "2^24"
+      ],
+      "body": "16777216\n\nFor $2^{23} \\le n < 2^{24}$ the ulp is 1, so every integer is exact and $n + 1$ is exact. At $n = 2^{24} = 16{,}777{,}216$ the ulp becomes 2, so the next float above is $2^{24} + 2$.\n\nThe exact sum $2^{24} + 1$ lies halfway between $2^{24}$ and $2^{24} + 2$. Round to nearest even picks the neighbor with last fraction bit 0, which is $2^{24}$ (its fraction field is all zeros). So $2^{24} + 1$ evaluates to $2^{24}$.\n\nWatch out: A float32 loop counter or accumulator that counts by 1 gets stuck at 16,777,216 and never advances. Use an integer for counting.",
+      "searchQuery": "float32 16777216 plus 1 equals 16777216 integer precision limit",
+      "refs": [
+        "Goldberg 1991, section 'Rounding Error' (Relative Error and Ulps; Cancellation; Exactly Rounded Operations)",
+        "Bryant & O'Hallaron, CS:APP 3e, §2.4 Floating Point"
+      ],
+      "tags": [
+        "number-formats",
+        "rounding"
+      ]
+    },
+    {
+      "id": "number-problem-cancellation-rewrite",
+      "unit": "rounding-error-ulps",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "For small $x$ (say $x = 10^{-8}$ in float64), $f(x) = \\sqrt{x^2+1} - 1$ loses all accuracy. Rewrite it as an equivalent expression that avoids the cancellation.",
+      "body": "$f(x) = \\dfrac{x^2}{\\sqrt{x^2+1} + 1}$\n\nMultiply and divide by the conjugate $\\sqrt{x^2+1} + 1$. The numerator becomes $(x^2+1) - 1 = x^2$, which is computed directly, with no subtraction of nearby numbers. The denominator adds two positive numbers, so nothing cancels.\n\nCheck at $x = 10^{-8}$: $x^2 = 10^{-16}$ is smaller than half the ulp of 1.0 in float64 ($2^{-53} \\approx 1.1 \\times 10^{-16}$), so $x^2 + 1$ rounds to exactly 1 and the naive form returns 0. The rewritten form returns about $5 \\times 10^{-17}$, the correct value.\n\nKey idea: The cancellation was hidden: $x^2 + 1$ had already rounded away $x^2$ before the subtraction ran.",
+      "searchQuery": "avoid catastrophic cancellation sqrt(x^2+1)-1 conjugate rewrite",
+      "refs": [
+        "Goldberg 1991, section 'Rounding Error' (Relative Error and Ulps; Cancellation; Exactly Rounded Operations)"
+      ],
+      "tags": [
+        "number-formats",
+        "rounding"
+      ]
+    },
+    {
+      "id": "number-code-isclose-tolerance",
+      "unit": "rounding-error-ulps",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Python's `math.isclose(a, b)` defaults to `rel_tol=1e-09` and `abs_tol=0.0`. What does this print?\n\n```python\nimport math\nprint(math.isclose(0.1 + 0.2, 0.3),\n      math.isclose(1e-10, 0.0),\n      math.isclose(1e-10, 0.0, abs_tol=1e-9))\n```",
+      "body": "`True False True`\n\nThe first test passes: $0.1 + 0.2$ and $0.3$ differ by about $5.6 \\times 10^{-17}$, far below $10^{-9}$ times their size. Comparing with a tolerance replaces the unreliable `==`.\n\nThe second fails because a purely relative test measures the gap against the larger value: $10^{-10}$ vs 0 differs by 100 percent of $10^{-10}$. Nothing but 0 is relatively close to 0. The third adds an absolute tolerance, which is what you need near zero.\n\nWatch out: Choose the tolerance from the problem. For float32 data, a relative tolerance near $10^{-9}$ is smaller than $\\varepsilon \\approx 1.2 \\times 10^{-7}$ and would reject values that differ by one rounding.",
+      "searchQuery": "python math.isclose rel_tol abs_tol compare floats near zero",
+      "refs": [
+        "Python documentation, math.isclose (PEP 485)"
+      ],
+      "tags": [
+        "number-formats",
+        "rounding"
+      ]
+    },
+    {
+      "id": "number-fp16-definition",
+      "unit": "fp16-bf16",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **half precision (FP16)**: its bit layout, exponent bias and largest finite value?",
+      "body": "FP16 is IEEE 754 binary16: 1 sign bit, 5 exponent bits (bias 15) and 10 fraction bits, with a largest finite value of 65504.\n\nIt works exactly like float32 with narrower fields. A normal value is $(-1)^s \\times 1.f \\times 2^{e-15}$ for $1 \\le e \\le 30$, and $e = 31$ is reserved for infinity and NaN. The significand has 11 bits, so the relative spacing near 1.0 is $2^{-10} \\approx 9.8 \\times 10^{-4}$ (about 3 decimal digits).\n\nExample: The largest finite value has $e = 30$ and all fraction bits set: $(2 - 2^{-10}) \\times 2^{15} = 65504$.\n\nWatch out: FP32 means float32 in the notation used from here on. FP16 has far less range than FP32: values of 65520 and above round to infinity.",
+      "searchQuery": "FP16 half precision binary16 5 exponent 10 fraction bias 15 max 65504",
+      "refs": [
+        "IEEE Std 754-2019 (binary16 interchange format)"
+      ],
+      "tags": [
+        "number-formats",
+        "half-precision"
+      ]
+    },
+    {
+      "id": "number-bf16-definition",
+      "unit": "fp16-bf16",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **bfloat16 (BF16)**: its bit layout, and how does it differ from FP32 and FP16?",
+      "body": "BF16 has 1 sign bit, 8 exponent bits (bias 127) and 7 fraction bits: FP32's exponent with a much shorter fraction.\n\nThe exponent field is the same as FP32's, so BF16 covers the same **dynamic range**, up to about $3.4 \\times 10^{38}$. The cost is precision: the significand has 8 bits, so the relative spacing near 1.0 is $2^{-7} = 0.0078$ (about 2 to 3 decimal digits), eight times coarser than FP16's $2^{-10}$.\n\n- FP32: 1-8-23\n- FP16: 1-5-10\n- BF16: 1-8-7\n\nKey idea: With the same 16 bits, FP16 buys **precision** (the number of significant bits) and BF16 buys range. The exponent width sets the range; the fraction width sets the precision.",
+      "searchQuery": "bfloat16 BF16 1 8 7 bit layout same range as float32",
+      "refs": [
+        "Kalamkar et al. 2019, 'A Study of BFLOAT16 for Deep Learning Training' (arXiv:1905.12322)"
+      ],
+      "tags": [
+        "number-formats",
+        "half-precision"
+      ]
+    },
+    {
+      "id": "number-fp16-bf16-fp32-limits",
+      "unit": "fp16-bf16",
+      "kind": "numbers",
+      "difficulty": 3,
+      "title": "What are the largest finite value and the smallest positive normal value of FP16, BF16 and FP32?",
+      "body": "FP16: 65504 and $6.1 \\times 10^{-5}$. BF16: $3.39 \\times 10^{38}$ and $1.18 \\times 10^{-38}$. FP32: $3.40 \\times 10^{38}$ and $1.18 \\times 10^{-38}$.\n\nThese follow from the exponent widths. FP16's smallest normal is $2^{-14} \\approx 6.10 \\times 10^{-5}$ and its smallest subnormal is $2^{-24} \\approx 5.96 \\times 10^{-8}$. BF16 and FP32 share $2^{-126}$; BF16's largest value is $(2 - 2^{-7}) \\times 2^{127}$, just below FP32's $(2 - 2^{-23}) \\times 2^{127}$.\n\nWhy it matters: FP16 spans only about 12 orders of magnitude between its smallest subnormal and largest value. Neural network gradients and activations can span more, which is why FP16 training needs care.",
+      "searchQuery": "FP16 BF16 FP32 range max value smallest normal 65504 3.39e38",
+      "refs": [
+        "IEEE Std 754-2019 (binary16 interchange format)",
+        "Kalamkar et al. 2019, 'A Study of BFLOAT16 for Deep Learning Training' (arXiv:1905.12322)"
+      ],
+      "tags": [
+        "number-formats",
+        "half-precision"
+      ],
+      "asOf": "2026-11-26"
+    },
+    {
+      "id": "number-problem-16-bit-memory-bandwidth",
+      "unit": "fp16-bf16",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "A model has 25 million weights and reads all of them once per inference, 20 inferences/s. Compare the weight memory and weight-read bandwidth for FP32 and a 16-bit format. (Use MB = 1,000,000 bytes.)",
+      "body": "FP32: 100 MB and 2000 MB/s; a 16-bit format: 50 MB and 1000 MB/s. Halving the bits halves both.\n\nMemory: $25 \\times 10^6 \\times 4\\ \\mathrm{B} = 100\\ \\mathrm{MB}$ for FP32 and $25 \\times 10^6 \\times 2\\ \\mathrm{B} = 50\\ \\mathrm{MB}$ for FP16 or BF16.\n\nBandwidth: each inference reads every weight once, so FP32 needs $100\\ \\mathrm{MB} \\times 20 = 2000\\ \\mathrm{MB/s}$ and 16-bit needs $50\\ \\mathrm{MB} \\times 20 = 1000\\ \\mathrm{MB/s}$.\n\nWhy it matters: On many devices a model is limited by how fast weights can be fetched, not by arithmetic, so halving the bytes can nearly double the speed.\n\nWatch out: This counts weights only. Activations, and any FP32 copies kept for accuracy, add to the totals.",
+      "searchQuery": "16-bit weights halve memory bandwidth FP32 vs FP16 model size calculation",
+      "refs": [
+        "Micikevicius et al. 2018, 'Mixed Precision Training' (ICLR)"
+      ],
+      "tags": [
+        "number-formats",
+        "half-precision"
+      ]
+    },
+    {
+      "id": "number-code-bf16-truncate",
+      "unit": "fp16-bf16",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume `float` is float32. This code converts a float to BF16 by keeping the top 16 bits, then widens it back. What does it print?\n\n```c\n#include <stdint.h>\n#include <stdio.h>\n#include <string.h>\nint main(void)\n{\n    float f = 3.14159f;\n    uint32_t u;  memcpy(&u, &f, sizeof u);\n    uint16_t bf = (uint16_t)(u >> 16);\n    uint32_t back = (uint32_t)bf << 16;\n    float g;  memcpy(&g, &back, sizeof g);\n    printf(\"%04x %.6f\\n\", (unsigned)bf, (double)g);\n    return 0;\n}\n```",
+      "body": "`4049 3.140625`\n\nThe float32 bits of 3.14159 are $\\texttt{0x40490FD0}$. The top 16 bits, $\\texttt{0x4049}$, are the sign, the full 8-bit exponent and the first 7 fraction bits: exactly a BF16. Widening pads 16 zero bits, giving $\\texttt{0x40490000} = 3.140625$.\n\nWhy: BF16 has the same sign and exponent fields as FP32, so no exponent rescaling is needed and no overflow can occur. Conversion in either direction is a 16-bit shift.\n\nWatch out: Plain truncation always rounds toward zero. Real hardware and libraries usually round to nearest even before dropping the low 16 bits, which halves the average error.",
+      "searchQuery": "bfloat16 conversion from float32 keep top 16 bits truncate",
+      "refs": [
+        "Kalamkar et al. 2019, 'A Study of BFLOAT16 for Deep Learning Training' (arXiv:1905.12322)"
+      ],
+      "tags": [
+        "number-formats",
+        "half-precision"
+      ]
+    },
+    {
+      "id": "number-bf16-top-16-bits-concept",
+      "unit": "fp16-bf16",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why does BF16 keep FP32's range, and why is converting FP32 to BF16 so cheap?",
+      "body": "BF16 uses the same 8-bit exponent field as FP32, so the range is identical, and a BF16 is just the top 16 bits of an FP32 word.\n\nFP32 is 1-8-23 and BF16 is 1-8-7, so dropping the low 16 fraction bits of an FP32 word leaves a valid BF16 with the same sign and exponent. The reverse, BF16 to FP32, appends 16 zero bits and is always exact.\n\nExample: The FP32 value 1.0 is $\\texttt{0x3F800000}$, and its BF16 is $\\texttt{0x3F80}$. A value such as $10^{30}$ is a finite BF16, but converting it to FP16 would give infinity.\n\nWhy it matters: Hardware converts between BF16 and FP32 with almost no logic, so mixed-precision code can store BF16 and accumulate in FP32 cheaply.\n\nWatch out: Only the fraction is shortened. Each BF16 value carries about 5 fewer decimal digits than float32, so range is kept and precision is lost.",
+      "searchQuery": "why bfloat16 same exponent as float32 truncate top 16 bits conversion",
+      "refs": [
+        "Kalamkar et al. 2019, 'A Study of BFLOAT16 for Deep Learning Training' (arXiv:1905.12322)"
+      ],
+      "tags": [
+        "number-formats",
+        "half-precision"
+      ]
+    },
+    {
+      "id": "number-loss-scaling-concept",
+      "unit": "fp16-bf16",
+      "kind": "concept",
+      "difficulty": 3,
+      "title": "Why can FP16 training lose small gradients, and what is **loss scaling**?",
+      "body": "Gradients smaller than about $3 \\times 10^{-8}$ round to 0 in FP16; loss scaling multiplies the loss by a factor $S$ so gradients stay representable, then divides them by $S$ before the weight update.\n\nIn training, a **gradient** is the amount by which the loss (the model's error score) changes when a weight changes, and the weight update is built from it. FP16 underflows below its smallest subnormal ($2^{-24} \\approx 6 \\times 10^{-8}$). Backpropagation is linear, so scaling the loss by $S$ scales every gradient by $S$, moving small ones up into FP16's range.\n\nExample: A gradient of $10^{-8}$ becomes 0 in FP16. With $S = 2^{15} = 32768$ it is $3.3 \\times 10^{-4}$, a normal FP16 value. The gradients are divided by $S$ in FP32 before the update.\n\nWatch out: $S$ too large pushes gradients past 65504 into infinity. Practical systems adjust $S$ during training, lowering it and skipping the step when infinities or NaNs appear. BF16 has FP32's range and generally does not need loss scaling.",
+      "searchQuery": "loss scaling FP16 training gradient underflow mixed precision",
+      "refs": [
+        "Micikevicius et al. 2018, 'Mixed Precision Training' (ICLR)",
+        "Kalamkar et al. 2019, 'A Study of BFLOAT16 for Deep Learning Training' (arXiv:1905.12322)"
+      ],
+      "tags": [
+        "number-formats",
+        "half-precision"
+      ]
+    },
+    {
+      "id": "number-mixed-precision-trade-off",
+      "unit": "fp16-bf16",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "When training in 16 bits, should you keep all values in FP16, or use **mixed precision** (16-bit compute with an FP32 master copy of the weights)?",
+      "body": "Use mixed precision: keep an FP32 master copy of the weights and do the bulk of the arithmetic in 16 bits.\n\nMixed precision means using 16-bit formats for most storage and arithmetic while keeping sensitive values, such as the weights being updated, in FP32. A weight update is often much smaller than the weight itself. FP16 spacing near 1.0 is about $10^{-3}$, so adding an update of $2 \\times 10^{-4}$ to a weight of 1.0 rounds back to 1.0: the update is lost.\n\nThe other side: the master copy costs memory. Per weight you store 2 B for the 16-bit copy and 4 B for the master copy, 6 B in all, versus 2 B for pure FP16. If you only run a trained model (inference), pure 16-bit storage is fine and saves that memory.\n\nKey idea: Do the many cheap operations in 16 bits; accumulate small changes in 32.",
+      "searchQuery": "mixed precision training FP32 master weights FP16 trade-off",
+      "refs": [
+        "Micikevicius et al. 2018, 'Mixed Precision Training' (ICLR)"
+      ],
+      "tags": [
+        "number-formats",
+        "half-precision"
+      ]
+    },
+    {
+      "id": "number-fp16-vs-bf16-trade-off",
+      "unit": "fp16-bf16",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "On hardware that supports both, should you train a neural network in FP16 or BF16?",
+      "body": "BF16, because it has FP32's range and so avoids overflow and the need for loss scaling.\n\nWith 8 exponent bits, BF16 gradients and activations rarely overflow or underflow, so FP32 training settings usually carry over without extra tuning. Conversion to and from FP32 is trivial.\n\nThe other side: BF16 has only 8 significant bits against FP16's 11, so each value is about 8 times coarser. FP16 is the better choice when the values stay in a known bounded range and the extra precision matters, such as many inference workloads, or hardware that only supports FP16.\n\nWhy it matters: The choice is range against precision. Training is range-hungry because gradients span many orders of magnitude; inference with normalized data is often precision-hungry.",
+      "searchQuery": "BF16 vs FP16 training range precision loss scaling choice",
+      "refs": [
+        "Kalamkar et al. 2019, 'A Study of BFLOAT16 for Deep Learning Training' (arXiv:1905.12322)",
+        "Micikevicius et al. 2018, 'Mixed Precision Training' (ICLR)"
+      ],
+      "tags": [
+        "number-formats",
+        "half-precision"
+      ]
+    },
+    {
+      "id": "number-saturating-arithmetic-definition",
+      "unit": "saturation-overflow",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **saturating arithmetic**, and how does it differ from wrap-around arithmetic when a result overflows a signed 16-bit integer?",
+      "body": "Saturating arithmetic clamps an overflowing result to the nearest representable value ($32767$ or $-32768$ for `int16_t`), instead of wrapping around.\n\nClamping a result into the allowed range is called **clipping**. Wrap-around arithmetic keeps only the low 16 bits, so an overflow flips the sign.\n\nExample: $30000 + 10000 = 40000$ does not fit in 16 bits. Wrap-around gives $40000 - 65536 = -25536$. Saturating arithmetic gives $32767$. Similarly $-30000 + (-10000)$ saturates at $-32768$.\n\nKey idea: A saturated result is wrong, but it is as close to the true value as the format allows. A wrapped result can be wrong by almost the whole range, and with the wrong sign.",
+      "searchQuery": "saturating arithmetic vs wrap-around overflow clamp int16 32767",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)",
+        "Yiu, The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors 3e, §5.6.10 Saturation operations"
+      ],
+      "tags": [
+        "number-formats",
+        "saturation"
+      ]
+    },
+    {
+      "id": "number-ssat-usat-qadd-definition",
+      "unit": "saturation-overflow",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What do the Arm instructions **SSAT**, **USAT** and **QADD** do?",
+      "body": "SSAT clamps a signed value to an $n$-bit signed range, USAT clamps a signed value to an $n$-bit unsigned range, and QADD adds two signed 32-bit values with saturation.\n\n- `SSAT Rd, #n, Rm`: result in $[-2^{n-1},\\ 2^{n-1}-1]$, for example $[-32768, 32767]$ for $n = 16$.\n- `USAT Rd, #n, Rm`: the input is treated as signed and the result is in $[0,\\ 2^{n}-1]$, for example $[0, 255]$ for $n = 8$.\n- `QADD Rd, Rn, Rm`: $Rn + Rm$ clamped to the 32-bit signed range.\n\nEach takes one cycle on a Cortex-M4 and sets a sticky Q flag when it saturates. SSAT and USAT exist on Cortex-M3 and M4; QADD is among the DSP-style instructions added in the Cortex-M4.\n\nTip: SSAT and USAT take $n$ as a constant written into the instruction, so $n$ must be known at compile time.",
+      "searchQuery": "ARM SSAT USAT QADD saturate instruction Cortex-M4",
+      "refs": [
+        "Yiu, The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors 3e, §5.6.10 Saturation operations",
+        "Yiu, Cortex-M3/M4 3e, §5.7 Cortex-M4-specific instructions"
+      ],
+      "tags": [
+        "number-formats",
+        "saturation"
+      ]
+    },
+    {
+      "id": "number-code-sat-add16",
+      "unit": "saturation-overflow",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume 16-bit `int16_t` and 32-bit `int`. What does this program print?\n\n```c\n#include <stdint.h>\n#include <stdio.h>\nstatic int16_t sat_add16(int16_t a, int16_t b)\n{\n    int32_t s = (int32_t)a + b;\n    if (s > INT16_MAX) return INT16_MAX;\n    if (s < INT16_MIN) return INT16_MIN;\n    return (int16_t)s;\n}\nint main(void)\n{\n    printf(\"%d %d %d\\n\", sat_add16(30000, 10000),\n           sat_add16(-30000, -10000), sat_add16(100, -200));\n    return 0;\n}\n```",
+      "body": "`32767 -32768 -100`\n\nThe sum is computed in the wider `int32_t`, where it cannot overflow. Then it is compared with the 16-bit limits and clamped. The first two sums, $40000$ and $-40000$, are out of range and become $32767$ and $-32768$. The third, $-100$, is in range and is returned unchanged.\n\nWhy: The idea is to widen, compute, clamp, narrow. The cast back to `int16_t` is safe because the value is already known to fit.\n\nWatch out: Narrowing first, as in `(int16_t)(a + b)`, is too late: the cast throws away the high bits you need to detect the overflow. Always test the wide sum.",
+      "searchQuery": "C saturating add int16 clamp widen to int32 INT16_MAX",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)"
+      ],
+      "tags": [
+        "number-formats",
+        "saturation"
+      ]
+    },
+    {
+      "id": "number-saturation-not-correct-misconception",
+      "unit": "saturation-overflow",
+      "kind": "misconception",
+      "difficulty": 4,
+      "title": "Why is it false that saturating arithmetic makes an overflowing sum come out correct?",
+      "body": "Saturation only returns the nearest representable value, which is still wrong, and the lost amount cannot be recovered by later operations.\n\nExample, in `int16_t`: $30000 + 10000 - 10000$ should be $30000$. With saturating arithmetic the first step clamps to $32767$ and the result is $32767 - 10000 = 22767$. With wrap-around arithmetic the first step wraps to $-25536$, and subtracting 10000 wraps again, landing exactly on $30000$.\n\nWrap-around arithmetic is arithmetic modulo $2^{16}$, so intermediate overflows cancel as long as the final answer fits. Saturation breaks that identity: the order of operations now changes the result.\n\nWhy it matters: Saturation limits the damage of an overflow; it does not remove the need to size values so overflow is rare.",
+      "searchQuery": "saturating arithmetic not associative loses information versus wraparound modular",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)"
+      ],
+      "tags": [
+        "number-formats",
+        "saturation"
+      ]
+    },
+    {
+      "id": "number-saturate-vs-wrap-trade-off",
+      "unit": "saturation-overflow",
+      "kind": "trade-off",
+      "difficulty": 3,
+      "title": "A volume control multiplies 16-bit audio samples by a gain and may overflow. Should it use wrap-around or saturating arithmetic?",
+      "body": "Saturate: a clipped sample is a small distortion, while a wrapped sample jumps from near the maximum to near the minimum and produces a loud click.\n\nThe same logic applies to control and machine learning. A motor controller that wraps from full forward to full reverse is far worse than one that holds at full forward, and clipping a neural-network activation barely changes the output whereas a sign flip can change the answer.\n\nThe other side: saturation costs extra instructions on cores without it (a compare and branch or two per operation, and the Cortex-M0 has no saturating add), and wrap-around is the right behavior for quantities that are naturally modular, such as a phase accumulator for a sine generator or a ring-buffer index.\n\nKey idea: Saturate signal values, where being close is good enough. Wrap counters and phases, where wrapping is the meaning.",
+      "searchQuery": "saturation vs wraparound audio control clipping versus sign flip trade-off",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)",
+        "Yiu, The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors 3e, §5.6.10 Saturation operations"
+      ],
+      "tags": [
+        "number-formats",
+        "saturation"
+      ]
+    },
+    {
+      "id": "number-code-q15-minus-one-squared",
+      "unit": "saturation-overflow",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "On a GCC target (32-bit `int`; converting an out-of-range value to `int16_t` wraps), what does this print, and what is the fix for the first line?\n\n```c\n#include <stdint.h>\n#include <stdio.h>\nint main(void)\n{\n    int16_t a = -32768, b = -32768;   /* both -1.0 in Q15 */\n    int16_t p = (int16_t)(((int32_t)a * b) >> 15);\n    printf(\"%d\\n\", p);\n    int32_t full = ((int32_t)a * b) >> 15;\n    printf(\"%d\\n\", (int)full);\n    return 0;\n}\n```",
+      "body": "`-32768` then `32768`. Fix: saturate the 32-bit result to 32767 before narrowing.\n\n$(-1.0) \\times (-1.0) = +1.0$, but Q15 cannot store $+1.0$; its maximum is $32767/32768$. The product is $2^{30}$, and $2^{30} \\gg 15 = 32768$, one past `INT16_MAX`. Narrowing wraps it to $-32768$, which is $-1.0$: the sign has flipped.\n\nThe fix is to clamp: `if (full > INT16_MAX) full = INT16_MAX;` before the cast. The result is $32767$, about $0.99997$, off by one step instead of 2.0.\n\nWatch out: This is the one input pair where a Q15 multiply overflows, so it is easy to miss in testing. DSP libraries saturate precisely to handle it.",
+      "searchQuery": "Q15 multiply -1 times -1 overflow saturate 32768 fix",
+      "refs": [
+        "Harris & Harris, DDCA RISC-V ed., ch. 5 (Digital Building Blocks)",
+        "Arm CMSIS-DSP documentation (q7_t, q15_t and q31_t fixed-point types)"
+      ],
+      "tags": [
+        "number-formats",
+        "saturation"
+      ]
+    },
+    {
+      "id": "number-code-ssat-intrinsic",
+      "unit": "saturation-overflow",
+      "kind": "code",
+      "difficulty": 4,
+      "title": "Assume a Cortex-M4 project whose CMSIS device header provides the intrinsics `__SSAT` and `__USAT`. What do the four calls return, and which Arm instruction does `clip16` compile to?\n\n```c\n#include <stdint.h>\n/* device header included here */\nint16_t clip16(int32_t x) { return (int16_t)__SSAT(x, 16); }\nuint8_t clip8u(int32_t x) { return (uint8_t)__USAT(x, 8); }\n/* clip16(40000)  clip16(-40000)  clip8u(300)  clip8u(-5) */\n```",
+      "body": "`32767`, `-32768`, `255`, `0`; `clip16` compiles to `SSAT`.\n\nAn **intrinsic function** looks like a C function call but the compiler replaces it with a specific machine instruction. CMSIS defines `__SSAT(x, n)` and `__USAT(x, n)` this way, so one call becomes one instruction with no branch.\n\n`__SSAT(x, 16)` clamps to $[-32768, 32767]$, so $40000 \\to 32767$ and $-40000 \\to -32768$. `__USAT(x, 8)` treats $x$ as signed and clamps to $[0, 255]$, so $300 \\to 255$ and $-5 \\to 0$.\n\nWatch out: The second argument must be a compile-time constant, because it is encoded inside the instruction. Passing a variable fails to compile.\n\nTip: Look at the disassembly to confirm the intrinsic became `ssat`; a Cortex-M0 build of the same header has no such instruction.",
+      "searchQuery": "CMSIS __SSAT __USAT intrinsic saturate Cortex-M4 example",
+      "refs": [
+        "Yiu, The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors 3e, §5.6.10 Saturation operations",
+        "Yiu, Cortex-M3/M4 3e, §5.7 Cortex-M4-specific instructions"
+      ],
+      "tags": [
+        "number-formats",
+        "saturation"
+      ]
+    },
+    {
+      "id": "number-intrinsic-vs-c-clamp-trade-off",
+      "unit": "saturation-overflow",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "In a filter's inner loop on a Cortex-M4, should you saturate with CMSIS intrinsics (`__SSAT`, `__QADD`) or with a plain C clamp?",
+      "body": "Intrinsics, if the code will only ever run on cores that have those instructions: one instruction replaces a compare-and-branch sequence, which is faster and has a fixed cycle count.\n\nA plain C clamp (`if (s > MAX) s = MAX;` and so on) takes several instructions and adds branches, which can also disturb pipeline timing. In a loop that runs thousands of times per sample block, that is a measurable cost.\n\nThe other side: intrinsics tie the code to Arm cores with the right extension (for instance QADD needs the Cortex-M4's DSP instructions), and the code no longer builds or tests on a desktop without a stand-in. A plain clamp is portable and easy to unit-test.\n\nTip: Keep the portable C version as the reference implementation, and wrap the intrinsic behind a small inline function chosen by the build.",
+      "searchQuery": "intrinsics vs portable C clamp saturate Cortex-M4 inner loop",
+      "refs": [
+        "Yiu, The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors 3e, §5.6.10 Saturation operations",
+        "Yiu, Cortex-M3/M4 3e, §5.7 Cortex-M4-specific instructions"
+      ],
+      "tags": [
+        "number-formats",
+        "saturation"
+      ]
+    },
+    {
+      "id": "number-mac-accumulator-definition",
+      "unit": "accumulator-width",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is a **multiply-accumulate (MAC)**, what is the **accumulator**, and what is **accumulator width**?",
+      "body": "A MAC computes $\\mathrm{acc} \\leftarrow \\mathrm{acc} + a \\times b$; the accumulator is the register holding the running sum, and its accumulator width is the number of bits it has.\n\nDot products, FIR filters (each output a weighted sum of recent samples), matrix multiplies and convolutions are all long chains of MACs. One MAC counts as 2 operations (a multiply and an add). Many processors have a single instruction for it, so the loop body is one instruction per tap.\n\nExample: The dot product $x_0 w_0 + x_1 w_1 + x_2 w_2$ is three MACs, starting from $\\mathrm{acc} = 0$.\n\nKey idea: The inputs may be narrow, but the sum keeps growing. If the accumulator is too narrow, the running sum overflows even when every input fits comfortably.",
+      "searchQuery": "multiply-accumulate MAC accumulator width dot product definition",
+      "refs": [
+        "Arm CMSIS-DSP documentation (fixed-point dot product and FIR functions)",
+        "Jacob et al. 2018, 'Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference' (CVPR)"
+      ],
+      "tags": [
+        "number-formats",
+        "accumulator"
+      ]
+    },
+    {
+      "id": "number-accumulator-bits-formula",
+      "unit": "accumulator-width",
+      "kind": "formula",
+      "difficulty": 3,
+      "title": "How many bits does an accumulator need to sum $N$ products of two signed $b$-bit values without any overflow, and what are **guard bits**?",
+      "body": "About $2b + \\lceil \\log_2 N \\rceil$ bits: $2b$ for each product, plus $\\lceil \\log_2 N \\rceil$ guard bits for the growth of the sum.\n\nThe product of two signed $b$-bit numbers has magnitude up to $2^{2b-2}$, which needs $2b$ bits as a signed value. Adding $N$ of them gives a magnitude up to $N \\cdot 2^{2b-2}$, which needs $\\lceil \\log_2 N \\rceil$ more bits. Those extra bits above the product width are the **guard bits**.\n\nExample: For $b = 8$ and $N = 576$: $16 + \\lceil \\log_2 576 \\rceil = 16 + 10 = 26$ bits, so an `int32_t` accumulator has plenty of room.\n\nWatch out: This is the worst case: every product at its maximum with the same sign. Real data may need fewer bits, but then the guarantee is gone.",
+      "searchQuery": "accumulator bits needed 2b plus log2 N guard bits dot product",
+      "refs": [
+        "Arm CMSIS-DSP documentation (fixed-point dot product and FIR functions)",
+        "Goldberg 1991, section 'Rounding Error' (Exactly Rounded Operations)"
+      ],
+      "tags": [
+        "number-formats",
+        "accumulator"
+      ]
+    },
+    {
+      "id": "number-code-int8-dot-int16-vs-int32",
+      "unit": "accumulator-width",
+      "kind": "code",
+      "difficulty": 3,
+      "title": "Assume 32-bit `int` and that converting an out-of-range value to `int16_t` wraps (as GCC does). What does this print, and why do int8 dot products use an `int32_t` accumulator?\n\n```c\n#include <stdint.h>\n#include <stdio.h>\nint main(void)\n{\n    int8_t x[4] = {-128, -128, -128, -128};\n    int8_t w[4] = {-128, -128, -128, -128};\n    int16_t s16 = 0;\n    int32_t s32 = 0;\n    for (int i = 0; i < 4; i++) {\n        s16 = (int16_t)(s16 + x[i] * w[i]);\n        s32 += x[i] * w[i];\n    }\n    printf(\"%d %d\\n\", s16, (int)s32);\n    return 0;\n}\n```",
+      "body": "`0 65536`: the 16-bit accumulator wraps, the 32-bit one does not.\n\nEach product is $(-128)^2 = 16384 = 2^{14}$. The `int16_t` running sum goes $16384,\\ 32768 \\to -32768,\\ -16384,\\ 0$: after just two worst-case products it has overflowed. The `int32_t` sum reaches $65536$ correctly.\n\nWhy: An int8 × int8 product needs 16 bits, which leaves no room for the sum to grow. Int8 inference (running a neural network with 8-bit weights and activations) therefore accumulates in 32 bits: the 16 extra guard bits allow 131,071 worst-case products.\n\nTip: Widening the accumulator is nearly free: most cores add 32-bit values in one cycle, and the narrow inputs still save memory and bandwidth.",
+      "searchQuery": "int8 dot product accumulate int32 overflow int16 accumulator",
+      "refs": [
+        "Jacob et al. 2018, 'Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference' (CVPR)",
+        "Arm CMSIS-DSP documentation (fixed-point dot product and FIR functions)"
+      ],
+      "tags": [
+        "number-formats",
+        "accumulator"
+      ]
+    },
+    {
+      "id": "number-problem-max-int8-products-int32",
+      "unit": "accumulator-width",
+      "kind": "problem",
+      "difficulty": 3,
+      "title": "What is the largest number of int8 × int8 products that can be summed in an `int32_t` accumulator with no possible overflow? (Number only.)",
+      "answer": "131071",
+      "acceptedAnswers": [
+        "2^17 - 1"
+      ],
+      "body": "131071\n\nThe largest product magnitude is $(-128) \\times (-128) = 2^{14} = 16384$, and every product could have that value with the same sign. The sum of $N$ of them is $N \\cdot 2^{14}$ and must not exceed $2^{31} - 1$.\n\n$N \\le (2^{31} - 1) / 2^{14} = 131071.99\\ldots$, so $N_{\\max} = 131071 = 2^{17} - 1$. At $N = 2^{17}$ the all-worst-case sum is exactly $2^{31}$, one more than `INT32_MAX`.\n\nWhy it matters: Real layers sum far fewer products. A $3 \\times 3$ convolution over 64 channels sums only 576, so int32 is safe with a huge margin.\n\nTip: The shortcut is $31 - 14 = 17$ guard bits, so $N < 2^{17}$.",
+      "searchQuery": "max number of int8 products summed int32 accumulator 131071 overflow",
+      "refs": [
+        "Jacob et al. 2018, 'Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference' (CVPR)"
+      ],
+      "tags": [
+        "number-formats",
+        "accumulator"
+      ]
+    },
+    {
+      "id": "number-requantization-definition",
+      "unit": "accumulator-width",
+      "kind": "definition",
+      "difficulty": 3,
+      "title": "What is **requantization**: how is an int32 accumulator rescaled back to an int8 output?",
+      "body": "Requantization multiplies the int32 accumulator by the real factor $M = S_x S_w / S_{\\text{out}}$, rounds, adds the output zero-point $Z_{\\text{out}}$ and clamps to $[-128, 127]$.\n\nQuantized values follow $r = S(q - Z)$: $r$ is the real value, $q$ the stored integer, $S$ the scale and $Z$ the zero-point. An int32 accumulator of products carries scale $S_x S_w$ (the input scale times the weight scale). The next layer wants an int8 value with scale $S_{\\text{out}}$, so the accumulator must be multiplied by $S_x S_w / S_{\\text{out}}$.\n\nExample: With $S_x S_w = 0.002$, $S_{\\text{out}} = 0.05$ and $Z_{\\text{out}} = 0$, an accumulator of $1000$ gives $1000 \\times 0.04 = 40$.\n\nWhy it matters: Requantization is where the wide int32 sum is narrowed to int8 again. $M$ is typically applied with an integer multiply and shift rather than a floating-point multiply.",
+      "searchQuery": "requantization int32 accumulator to int8 scale multiplier zero-point clamp",
+      "refs": [
+        "Jacob et al. 2018, 'Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference' (CVPR)"
+      ],
+      "tags": [
+        "number-formats",
+        "accumulator"
+      ]
+    },
+    {
+      "id": "number-fma-single-rounding-concept",
+      "unit": "accumulator-width",
+      "kind": "concept",
+      "difficulty": 4,
+      "title": "What is a **fused multiply-add (FMA)**, and why can it be more accurate than a separate multiply and add?",
+      "body": "FMA computes $a \\times b + c$ with a single rounding at the end, while a separate multiply and add rounds twice.\n\nWithout fusing, the product $a \\times b$ is rounded to a float first, and then the sum is rounded again. FMA keeps the exact product internally and rounds only the final result.\n\nExample: In float32 take $a = b = 1 + 2^{-12}$ and $c = -(1 + 2^{-11})$. The exact product is $1 + 2^{-11} + 2^{-24}$. A separate multiply rounds it to $1 + 2^{-11}$ (a tie, resolved to the even neighbor), and the add then returns 0. FMA returns the exact answer, $2^{-24} \\approx 6 \\times 10^{-8}$.\n\nWatch out: Because FMA changes rounding, the same C code can give slightly different results with and without it. A compiler may fuse `a*b + c` on its own, depending on settings such as `-ffp-contract`.",
+      "searchQuery": "fused multiply-add FMA single rounding accuracy example",
+      "refs": [
+        "Goldberg 1991, section 'Rounding Error' (Exactly Rounded Operations)"
+      ],
+      "tags": [
+        "number-formats",
+        "accumulator"
+      ]
+    },
+    {
+      "id": "number-problem-1024-tap-q15-fir",
+      "unit": "accumulator-width",
+      "kind": "problem",
+      "difficulty": 4,
+      "checkpoint": true,
+      "title": "A 1024-tap FIR filter (each output is the sum of 1024 products of the latest input samples and 1024 fixed coefficients, its taps) multiplies Q15 samples by Q15 coefficients and sums the 1024 products. What accumulator width guarantees no overflow, and how many guard bits does that need?",
+      "body": "At least 42 bits, so use a 64-bit accumulator; the sum needs 10 guard bits above the 32-bit products.\n\nEach Q15 × Q15 product is a 32-bit Q30 number ($b = 16$, so $2b = 32$). Summing $N = 1024 = 2^{10}$ of them needs $\\lceil \\log_2 1024 \\rceil = 10$ guard bits, for $32 + 10 = 42$ bits. That does not fit in `int32_t`, and the next standard width is 64 bits.\n\nAlternatives: A 32-bit accumulator is enough only if you know more about the data, for example that the coefficients' absolute values sum to at most 1, so the true sum can never exceed full scale. Otherwise you must shift each product down first, losing precision.\n\nWhy it matters: This is why CMSIS-DSP's standard q15 FIR accumulates in 64 bits, while a \"fast\" variant uses 32 bits and warns that it can overflow.",
+      "searchQuery": "1024 tap Q15 FIR accumulator width 42 bits 64-bit guard bits",
+      "refs": [
+        "Arm CMSIS-DSP documentation (fixed-point dot product and FIR functions)"
+      ],
+      "tags": [
+        "number-formats",
+        "accumulator"
+      ]
+    },
+    {
+      "id": "number-accumulator-64-vs-32-trade-off",
+      "unit": "accumulator-width",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "For a Q15 FIR filter on a 32-bit Cortex-M, should the accumulator be 64 bits or 32 bits?",
+      "body": "Use 64 bits when the input and coefficients are not bounded, since it guarantees no overflow and keeps every product's full precision.\n\nOn a Cortex-M3 or M4 a 64-bit accumulator costs little: the SMLAL instruction multiplies two 32-bit registers and adds into a register pair, and the Cortex-M4's SMLALD does two 16-bit products per instruction into a 64-bit sum. You pay with a second register and, on some cores, a few extra cycles per tap.\n\nThe other side: on a core without a 64-bit multiply-accumulate, such as the Cortex-M0, a 64-bit sum takes several instructions per tap, so a 32-bit accumulator is much faster there. It is safe if the coefficients are scaled so that their absolute values sum to at most 1 and the inputs are within range, because wrap-around in the middle of the sum cancels as long as the final sum fits. If the data can break that bound, the output is garbage.\n\nKey idea: Prove the 32-bit bound or pay for 64 bits.",
+      "searchQuery": "32-bit vs 64-bit accumulator FIR filter Q15 Cortex-M trade-off overflow",
+      "refs": [
+        "Arm CMSIS-DSP documentation (fixed-point dot product and FIR functions)"
+      ],
+      "tags": [
+        "number-formats",
+        "accumulator"
+      ]
+    },
+    {
+      "id": "number-int32-vs-float32-accumulator-trade-off",
+      "unit": "accumulator-width",
+      "kind": "trade-off",
+      "difficulty": 4,
+      "title": "When summing int8 × int8 products for a neural-network layer, should the accumulator be `int32_t` or float32?",
+      "body": "An `int32_t` accumulator: its sum is exact, and integer adds are cheaper than float adds.\n\nInt32 holds any sum of up to 131071 worst-case products exactly. Float32 has a 24-bit significand, so once a partial sum passes $2^{24} = 16{,}777{,}216$, adding an odd amount can be rounded away, and the result depends on the order of the additions. In Horowitz's 45 nm figures (ISSCC 2014), a 32-bit integer add costs about 0.1 pJ against about 0.9 pJ for a float add.\n\nThe other side: on a core with a float unit but no fast integer multiply-accumulate path for 8-bit data, converting to float32 can be simpler and not much slower. Short dot products, whose sums stay far below $2^{24}$, are also exact in float32.\n\nWhy it matters: Integer-only inference (Jacob et al.) is built on int32 accumulation, which is why each layer's output then needs requantization.",
+      "searchQuery": "int32 vs float32 accumulator int8 inference exact sum energy trade-off",
+      "refs": [
+        "Jacob et al. 2018, 'Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference' (CVPR)"
+      ],
+      "tags": [
+        "number-formats",
+        "accumulator"
+      ]
+    }
+  ]
+}

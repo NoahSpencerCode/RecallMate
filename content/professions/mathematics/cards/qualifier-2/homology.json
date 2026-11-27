@@ -1,0 +1,852 @@
+{
+  "profession": "mathematics",
+  "module": "homology",
+  "tier": 6,
+  "partial": true,
+  "cards": [
+    {
+      "id": "homology-cell-attachment",
+      "unit": "cw-complexes",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "What does it mean to **attach an $n$-cell** to a space $A$ along a map $\\varphi : S^{n-1} \\to A$?",
+      "body": "Form the quotient $A \\sqcup_\\varphi D^n = (A \\sqcup D^n)/(x \\sim \\varphi(x) \\text{ for } x \\in \\partial D^n)$, where $\\partial D^n = S^{n-1}$.\n\nThe map $\\varphi$ is the **attaching map**, and the interior of $D^n$ becomes the new open $n$-cell. Several cells can be attached at once, each with its own map $\\varphi_\\alpha$.\n\nExample: attaching a 1-cell to a single point (so $\\varphi : S^0 \\to \\{pt\\}$) gives a circle. Attaching a 2-cell to a circle by $z \\mapsto z^k$ wraps the boundary of the disk $k$ times around it.\n\nKey idea: up to homotopy equivalence, $A \\sqcup_\\varphi D^n$ depends only on the homotopy class of $\\varphi$.\n\nWatch out: the cell is the open disk; its closure in the new space need not be a closed disk, because the boundary can be glued down non-injectively.",
+      "searchQuery": "attaching an n-cell attaching map quotient disk",
+      "refs": [
+        "Hatcher, Algebraic Topology ch. 0",
+        "Bredon, Topology and Geometry ch. IV"
+      ]
+    },
+    {
+      "id": "homology-cw-complex",
+      "unit": "cw-complexes",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define a **CW complex**, including its **$n$-skeleton** and the **characteristic map** of a cell, and state the topology it carries.",
+      "body": "A space $X = \\bigcup_n X^n$ where $X^0$ is a discrete set and each $n$-skeleton $X^n$ arises from $X^{n-1}$ by attaching $n$-cells; $A \\subseteq X$ is closed iff $A \\cap X^n$ is closed in $X^n$ for all $n$.\n\nEach cell $e^n_\\alpha$ comes with a **characteristic map** $\\Phi_\\alpha : D^n \\to X$: it maps $\\operatorname{int} D^n$ homeomorphically onto the open cell and restricts on $\\partial D^n$ to the attaching map $\\varphi_\\alpha$ (followed by inclusion). A **subcomplex** is a closed union of cells.\n\nExample: $S^n = e^0 \\cup e^n$. Take $X^0$ a point and attach $D^n$ along the constant map; the result is $D^n/\\partial D^n \\cong S^n$.\n\nWatch out: $X^n$ consists of all cells of dimension at most $n$, not just the $n$-cells. The weak topology only matters when there are infinitely many cells; a finite CW complex is compact Hausdorff with its usual topology.",
+      "searchQuery": "CW complex definition skeleton characteristic map weak topology",
+      "refs": [
+        "Hatcher, Algebraic Topology ch. 0"
+      ]
+    },
+    {
+      "id": "homology-projective-space-cells",
+      "unit": "cw-complexes",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "Give the CW structures on $\\mathbb{RP}^n$ and $\\mathbb{CP}^n$ with the fewest cells, and say how the top cell is attached.",
+      "body": "$\\mathbb{RP}^n$ has one cell in each dimension $0,1,\\dots,n$; $\\mathbb{CP}^n$ has one cell in each even dimension $0,2,\\dots,2n$. The top cell is attached by the quotient map from the sphere.\n\nPrecisely, $\\mathbb{RP}^n = \\mathbb{RP}^{n-1} \\cup_p D^n$ with $p : S^{n-1} \\to \\mathbb{RP}^{n-1}$ the 2-to-1 quotient, and $\\mathbb{CP}^n = \\mathbb{CP}^{n-1} \\cup_p D^{2n}$ with $p : S^{2n-1} \\to \\mathbb{CP}^{n-1}$ the quotient by the circle action.\n\nWhy: a point $[z_0 : \\dots : z_n] \\in \\mathbb{CP}^n$ with $z_n \\neq 0$ has exactly one representative that is a unit vector with $z_n > 0$ real. That representative is determined by $w = (z_0,\\dots,z_{n-1})$ with $|w| < 1$, since $z_n = \\sqrt{1 - |w|^2}$, so these points form an open disk of real dimension $2n$. As $|w| \\to 1$ the point tends to $[w : 0]$, so the boundary sphere is glued on by the quotient $S^{2n-1} \\to \\mathbb{CP}^{n-1}$. Points with $z_n = 0$ form $\\mathbb{CP}^{n-1}$. The real case is identical, with the scalars $\\pm 1$ in place of the unit circle.\n\nExample: $\\mathbb{RP}^1 = e^0 \\cup e^1 \\cong S^1$ and $\\mathbb{CP}^1 = e^0 \\cup e^2 \\cong S^2$.",
+      "searchQuery": "cell structure real projective space complex projective space one cell each dimension",
+      "refs": [
+        "Hatcher, Algebraic Topology ch. 0"
+      ]
+    },
+    {
+      "id": "homology-surface-cell-structures",
+      "unit": "cw-complexes",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "Describe the CW structure of the closed orientable surface $\\Sigma_g$ of genus $g \\ge 1$ with the fewest cells, and the attaching word of its 2-cell.",
+      "body": "One 0-cell, $2g$ 1-cells $a_1,b_1,\\dots,a_g,b_g$, and one 2-cell attached along $a_1b_1a_1^{-1}b_1^{-1}\\cdots a_gb_ga_g^{-1}b_g^{-1}$.\n\nThe 1-skeleton is a wedge of $2g$ circles, and the 2-cell is a $4g$-gon whose sides are glued in this pattern. For $g=1$ this is the torus: a square with word $aba^{-1}b^{-1}$.\n\nExample: the Klein bottle also has one 0-cell, two 1-cells $a,b$ and one 2-cell, but the word is $aba^{-1}b$. Only the word, not the cell counts, distinguishes it from the torus.\n\nTip: the word gives $\\pi_1(\\Sigma_g) = \\langle a_i, b_i \\mid \\prod [a_i,b_i] \\rangle$ by the Seifert-van Kampen theorem.",
+      "searchQuery": "minimal CW structure genus g surface attaching word 2-cell Klein bottle",
+      "refs": [
+        "Hatcher, Algebraic Topology ch. 0"
+      ]
+    },
+    {
+      "id": "homology-cellular-map",
+      "unit": "cw-complexes",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define a **cellular map** $f : X \\to Y$ between CW complexes.",
+      "body": "A continuous map with $f(X^n) \\subseteq Y^n$ for every $n$, that is, $f$ carries the $n$-skeleton into the $n$-skeleton.\n\nCellular maps are the maps that respect the filtration by skeleta. They will induce maps on the cellular chain complexes. Inclusions of subcomplexes, constant maps at a 0-cell and composites of cellular maps are cellular.\n\nExample: give $S^2$ the structure $e^0 \\cup e^2$ and $S^1$ the structure $e^0 \\cup e^1$. A map $S^1 \\to S^2$ is cellular iff its image lies in $(S^2)^1 = \\{pt\\}$, so it must be constant.\n\nWatch out: most maps are not cellular, for instance a non-constant loop in $S^2$. The cellular approximation theorem says each is nevertheless homotopic to one that is.",
+      "searchQuery": "cellular map CW complexes skeleton definition",
+      "refs": [
+        "Hatcher, Algebraic Topology ch. 0"
+      ]
+    },
+    {
+      "id": "homology-suspension-mapping-cylinder",
+      "unit": "cw-complexes",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "For a cellular map $f : X \\to Y$ of CW complexes, the **mapping cylinder** is $M_f = \\big((X \\times [0,1]) \\sqcup Y\\big)/\\big((x,1) \\sim f(x)\\big)$. Which cells does $M_f$ have, and what does it deformation retract onto?",
+      "body": "$M_f$ has the cells of $Y$ together with, for each $k$-cell $e$ of $X$, a $k$-cell $e \\times \\{0\\}$ and a $(k+1)$-cell $e \\times (0,1)$; it deformation retracts onto $Y$.\n\nThe cell $e \\times (0,1)$ is attached along $\\partial e \\times [0,1] \\cup e \\times \\{0\\} \\cup e \\times \\{1\\}$. The last piece lands in $f(e) \\subseteq Y^k$ because $f$ is cellular, so every attaching map lands in the lower skeleton.\n\nOther constructions: the **suspension** $SX$ collapses $X \\times \\{0\\}$ and $X \\times \\{1\\}$ to two separate points. It has the two new 0-cells plus a $(k+1)$-cell $e \\times (0,1)$ for each $k$-cell $e$ of $X$, so $S(S^{n-1}) = S^n$.\n\nA wedge $X \\vee Y$ at 0-cells has all cells of both, minus one 0-cell. A product $X \\times Y$ has cells $e_\\alpha \\times e_\\beta$ of dimension $\\dim e_\\alpha + \\dim e_\\beta$ (a CW complex for the product topology when, for example, $X$ is finite).\n\nWatch out: if $f$ is not cellular, $f(e)$ need not lie in $Y^k$ and this cell structure can fail; one first replaces $f$ by a homotopic cellular map, which the cellular approximation theorem (later in this unit) provides.",
+      "searchQuery": "mapping cylinder suspension CW structure cells product wedge",
+      "refs": [
+        "Hatcher, Algebraic Topology ch. 0"
+      ]
+    },
+    {
+      "id": "homology-homotopy-extension-property",
+      "unit": "cw-complexes",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define the **homotopy extension property** (HEP) for a pair $(X, A)$ with $A \\subseteq X$.",
+      "body": "For every space $Z$, every map $X \\times \\{0\\} \\cup A \\times [0,1] \\to Z$ extends to a map $X \\times [0,1] \\to Z$.\n\nIn words (for closed $A$): if a homotopy $f_t : A \\to Z$ starts at the restriction of a map $F_0 : X \\to Z$, then it extends to a homotopy $F_t : X \\to Z$ that starts at that same $F_0$.\n\nThe HEP is equivalent to $X \\times \\{0\\} \\cup A \\times [0,1]$ being a retract of $X \\times [0,1]$. Take $Z$ to be that subspace and extend its identity map to get the retraction; conversely, compose any map on the subspace with a retraction.\n\nKey idea: every CW pair $(X,A)$ with $A$ a subcomplex has the HEP, because $X \\times \\{0\\} \\cup A \\times [0,1]$ is even a deformation retract of $X \\times [0,1]$ (Hatcher, Prop. 0.16).\n\nWatch out: the HEP is not automatic. For $X = [0,1]$ and $A = \\{0\\} \\cup \\{1/k : k \\ge 1\\}$ the pair fails it: a retraction would have to carry each top segment $[1/(k+1), 1/k] \\times \\{1\\}$ down through height $0$, which breaks continuity at $(0,1)$.",
+      "searchQuery": "homotopy extension property definition CW pair retract X times I",
+      "refs": [
+        "Hatcher, Algebraic Topology ch. 0"
+      ]
+    },
+    {
+      "id": "homology-contractible-subcomplex-quotient",
+      "unit": "cw-complexes",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State the theorem on collapsing a contractible subcomplex: what can be said about the quotient map $q : X \\to X/A$?",
+      "body": "If $(X,A)$ is a CW pair and $A$ is contractible, then $q : X \\to X/A$ is a homotopy equivalence (more generally, this holds whenever $(X,A)$ has the HEP and $A$ is contractible).\n\nCorollary: for a CW pair $(X, A)$ let $CA = A \\times [0,1]/A \\times \\{1\\}$ be the cone on $A$. Then $X \\cup CA \\simeq X/A$, where $CA$ is glued to $X$ along $A \\times \\{0\\}$.\n\nWhy: $CA$ is a contractible subcomplex of $X \\cup CA$ and $(X \\cup CA)/CA = X/A$, so the theorem applies.\n\nExample: collapsing a contractible subcomplex such as a tree in a graph does not change the homotopy type.\n\nWatch out: contractibility of $A$ alone is not what drives the proof; the HEP is used to extend the contraction over $X$.",
+      "searchQuery": "collapse contractible subcomplex homotopy equivalence quotient X/A cone",
+      "refs": [
+        "Hatcher, Algebraic Topology ch. 0"
+      ]
+    },
+    {
+      "id": "homology-contractible-subcomplex-proof",
+      "unit": "cw-complexes",
+      "kind": "proof-idea",
+      "difficulty": 7,
+      "title": "Outline the proof that $q : X \\to X/A$ is a homotopy equivalence when $(X,A)$ has the HEP and $A$ is contractible.",
+      "body": "Extend a contraction of $A$ to a homotopy $F_t : X \\to X$ starting at the identity; then $F_1$ factors through $X/A$ and gives a homotopy inverse of $q$.\n\n1. Since $A$ is contractible there is $f_t : A \\to A$ with $f_0 = \\mathrm{id}_A$ and $f_1$ constant.\n2. By the HEP, extend $f_t$ (with $F_0 = \\mathrm{id}_X$) to $F_t : X \\to X$ with $F_t|_A = f_t$.\n3. Because $F_t(A) \\subseteq A$, each $F_t$ induces $\\bar F_t : X/A \\to X/A$, and $\\bar F_0 = \\mathrm{id}$. (Continuity of the induced homotopy holds because $q \\times \\mathrm{id}_{[0,1]}$ is a quotient map.)\n4. $F_1(A)$ is a point, so $F_1 = g \\circ q$ for a continuous $g : X/A \\to X$.\n5. Then $g q = F_1 \\simeq F_0 = \\mathrm{id}_X$, and $q g q = q F_1 = \\bar F_1 q$, so $q g = \\bar F_1 \\simeq \\mathrm{id}_{X/A}$.\n\nWatch out: the extension must keep $A$ inside $A$ at all times; that is why we extend a contraction taking place within $A$.",
+      "searchQuery": "proof quotient by contractible subcomplex homotopy equivalence HEP",
+      "refs": [
+        "Hatcher, Algebraic Topology ch. 0"
+      ]
+    },
+    {
+      "id": "homology-hawaiian-earring-not-cw",
+      "unit": "cw-complexes",
+      "kind": "counterexample",
+      "difficulty": 7,
+      "title": "Give a compact subspace of $\\mathbb{R}^2$ that is a union of countably many circles through one common point, with radii tending to $0$, yet is not a CW complex.",
+      "body": "The Hawaiian earring $H = \\bigcup_{n \\ge 1} C_n$, where $C_n$ is the circle of radius $1/n$ centered at $(1/n, 0)$; all circles pass through the origin $O$.\n\nWhy it is not CW: a CW complex is locally contractible, so $O$ would have arbitrarily small contractible neighborhoods. Every neighborhood of $O$ contains some whole circle $C_m$. The map $r_m : H \\to C_m$ collapsing all other circles to $O$ is a retraction, so the inclusion $C_m \\hookrightarrow H$ is not null-homotopic. A contractible neighborhood $U \\subseteq H$ containing $C_m$ would make it null-homotopic.\n\nWatch out: the infinite wedge of circles with the weak topology is a CW complex, but it is not homeomorphic to $H$. It is not compact, and it is not first countable at the wedge point.",
+      "searchQuery": "Hawaiian earring not CW complex locally contractible",
+      "refs": [
+        "Hatcher, Algebraic Topology, Appendix (topology of cell complexes)"
+      ]
+    },
+    {
+      "id": "homology-cellular-approximation",
+      "unit": "cw-complexes",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State the **cellular approximation theorem**.",
+      "body": "Every map $f : X \\to Y$ between CW complexes is homotopic to a cellular map; if $f$ is already cellular on a subcomplex $A \\subseteq X$, the homotopy can be chosen stationary on $A$ (a homotopy rel $A$).\n\nWhy it matters: homotopy questions can be pushed into skeleta. For example, any map $S^k \\to S^n$ with $k<n$ is homotopic to a cellular one, which lands in $(S^n)^k = \\{pt\\}$ for the structure $e^0 \\cup e^n$, so it is null-homotopic.\n\nKey idea: the proof moves the map off the interior of cells one dimension at a time.\n\nWatch out: both spaces must be CW complexes, but they need not be finite.",
+      "searchQuery": "cellular approximation theorem every map homotopic cellular map",
+      "refs": [
+        "Hatcher §4.1"
+      ]
+    },
+    {
+      "id": "homology-sphere-poles-identified",
+      "unit": "cw-complexes",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Let $X$ be the space obtained from $S^2$ by identifying the north pole $N$ with the south pole $S$, so $X = S^2/\\{N,S\\}$. Show that $X \\simeq S^2 \\vee S^1$.",
+      "body": "Add an arc $A$ joining $N$ and $S$ outside the sphere to get $Y$; collapsing $A$ gives $X$, collapsing a meridian arc $B \\subset S^2$ gives $S^2 \\vee S^1$, and both quotient maps are homotopy equivalences.\n\n1. Give $S^2$ a CW structure with $N, S$ as 0-cells and the meridian $B$ from $N$ to $S$ as a 1-cell. Then $Y = S^2 \\cup A$ is a CW complex and $A$, $B$ are contractible subcomplexes.\n2. By the theorem on contractible subcomplexes, $Y \\to Y/A$ is a homotopy equivalence, and $Y/A = S^2/\\{N \\sim S\\} = X$.\n3. Likewise $Y \\to Y/B$ is a homotopy equivalence. Collapsing $B$ turns $S^2$ into another $S^2$, and the arc $A$ becomes a loop attached at the collapsed point. So $Y/B \\cong S^2 \\vee S^1$.\n4. Hence $X \\simeq Y \\simeq S^2 \\vee S^1$.\n\nTip: sanity check with $\\pi_1$: identifying two points of a simply connected nice space creates one free loop, so $\\pi_1(X) \\cong \\mathbb{Z}$, as for $S^2 \\vee S^1$.",
+      "searchQuery": "sphere north south pole identified homotopy equivalent S2 wedge S1",
+      "refs": [
+        "Hatcher, Algebraic Topology ch. 0"
+      ]
+    },
+    {
+      "id": "homology-delta-complex",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "What is a **$\\Delta$-complex** structure on a space $X$?",
+      "body": "A family of maps $\\sigma_\\alpha : \\Delta^{n_\\alpha} \\to X$ (vertices ordered), injective on open simplices, covering $X$ by disjoint open simplices, whose restrictions to faces are again maps $\\sigma_\\beta$, with $A$ open iff every $\\sigma_\\alpha^{-1}(A)$ is open.\n\nHere $\\Delta^n = [v_0,\\dots,v_n]$ is the standard simplex with its vertices in a fixed order, and a face keeps the induced order.\n\nExample: the circle has a $\\Delta$-complex structure with one vertex and one edge (a loop). The torus has one vertex, three edges and two triangles.\n\nWatch out: unlike the triangles of a triangulation of a surface, simplices here may be glued to themselves and to each other along several faces: edges may share both endpoints and may be loops. The vertex orders must agree on shared faces. Every $\\Delta$-complex is a CW complex whose cells are the open simplices.",
+      "searchQuery": "Delta complex definition simplices ordered vertices face maps",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-simplicial-homology",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define the **simplicial homology** groups $H_n^\\Delta(X)$ of a $\\Delta$-complex $X$.",
+      "body": "$H_n^\\Delta(X) = \\ker \\partial_n / \\operatorname{im} \\partial_{n+1}$, where $\\Delta_n(X)$ is the free abelian group on the $n$-simplices $\\sigma_\\alpha$ and $\\partial_n \\sigma_\\alpha = \\sum_{i=0}^n (-1)^i \\sigma_\\alpha|_{[v_0,\\dots,\\widehat{v_i},\\dots,v_n]}$.\n\nThe groups $\\Delta_n(X)$ with the maps $\\partial_n$ form a **chain complex**: $\\partial_{n}\\partial_{n+1} = 0$. Elements of $\\ker\\partial_n$ are **cycles**, elements of $\\operatorname{im}\\partial_{n+1}$ are **boundaries**, and $H_n$ measures cycles that are not boundaries.\n\nExample: the circle with one vertex $v$ and one edge $e$ has $\\partial e = v - v = 0$, so $H_0 \\cong \\mathbb{Z}$ and $H_1 \\cong \\mathbb{Z}$.\n\nWatch out: it is not yet clear that the answer is independent of the chosen $\\Delta$-complex structure; that follows once simplicial homology is compared with singular homology.",
+      "searchQuery": "simplicial homology definition chain complex boundary Delta complex",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-torus-simplicial",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "Compute the simplicial homology of the torus from this $\\Delta$-complex structure. Take a square with the bottom and top sides both an edge $a$ (read left to right), the left and right sides both an edge $b$ (read upward), and the diagonal $c$ from lower-left (BL) to upper-right (TR). All corners are one vertex $v$. The triangles are $L = [\\mathrm{BL},\\mathrm{BR},\\mathrm{TR}]$ and $U = [\\mathrm{BL},\\mathrm{TL},\\mathrm{TR}]$.",
+      "body": "$H_0 \\cong \\mathbb{Z}$, $H_1 \\cong \\mathbb{Z}^2$, $H_2 \\cong \\mathbb{Z}$.\n\nBoundaries: $\\partial L = [\\mathrm{BR},\\mathrm{TR}] - [\\mathrm{BL},\\mathrm{TR}] + [\\mathrm{BL},\\mathrm{BR}] = b - c + a$, and $\\partial U = [\\mathrm{TL},\\mathrm{TR}] - [\\mathrm{BL},\\mathrm{TR}] + [\\mathrm{BL},\\mathrm{TL}] = a - c + b$. So both equal $a + b - c$.\n\n- $\\partial_1 = 0$, since every edge is a loop at $v$. Hence $H_0 = \\mathbb{Z}$, and $\\ker \\partial_1 = \\mathbb{Z}^3$.\n- $\\ker \\partial_2 = \\{mU + nL : m + n = 0\\} = \\mathbb{Z}(U - L)$, so $H_2 \\cong \\mathbb{Z}$.\n- $H_1 = \\mathbb{Z}^3/\\mathbb{Z}(a + b - c) \\cong \\mathbb{Z}^2$, with basis the classes of $a$ and $b$.\n\nKey idea: $U - L$ is the fundamental class, the whole surface as a cycle.",
+      "searchQuery": "torus simplicial homology Delta complex compute H1 Z2 H2 Z",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-klein-bottle-simplicial",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "Compute the simplicial homology of the Klein bottle from this $\\Delta$-complex structure. Take a square whose bottom and top sides are both an edge $a$ (read left to right), whose left side is an edge $b$ (read upward) and whose right side is $b$ read downward. Let $c$ be the diagonal from lower-left (BL) to upper-right (TR). All corners are one vertex. The triangles are $L = [\\mathrm{BL},\\mathrm{TR},\\mathrm{BR}]$ and $U = [\\mathrm{BL},\\mathrm{TL},\\mathrm{TR}]$ (vertices in this order).",
+      "body": "$H_0 \\cong \\mathbb{Z}$, $H_1 \\cong \\mathbb{Z} \\oplus \\mathbb{Z}/2$, $H_2 = 0$.\n\nFaces of $L$: $[\\mathrm{BL},\\mathrm{TR}] = c$, $[\\mathrm{TR},\\mathrm{BR}] = b$ (the right side read downward), $[\\mathrm{BL},\\mathrm{BR}] = a$. So $\\partial L = b - a + c$. For $U$: $[\\mathrm{BL},\\mathrm{TL}] = b$, $[\\mathrm{TL},\\mathrm{TR}] = a$, $[\\mathrm{BL},\\mathrm{TR}] = c$, so $\\partial U = a - c + b$.\n\n- $\\partial_1 = 0$, so the cycles in degree 1 are $\\mathbb{Z}^3$ with basis $a,b,c$.\n- $\\partial(mU + nL) = (m-n)a + (m+n)b + (n-m)c$ vanishes only for $m = n = 0$, so $H_2 = 0$.\n- $H_1 = \\langle a,b,c \\mid a + b - c = 0,\\ -a + b + c = 0 \\rangle$. Adding the relations gives $2b = 0$, and the first gives $c = a + b$. So $H_1 = \\langle a, b \\mid 2b = 0 \\rangle$.\n\nWatch out: the torsion $\\mathbb{Z}/2$ and $H_2 = 0$ are what separate the Klein bottle from the torus; both have Euler characteristic 0.",
+      "searchQuery": "Klein bottle simplicial homology Delta complex H1 Z plus Z/2",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-rp2-simplicial",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Let $\\mathbb{RP}^2$ be a square with corners BL, BR, TR, TL and a center point $m$, where the bottom side (BL to BR) is identified with the top side read from TR to TL (call it $a$), and the right side (BR to TR) is identified with the left side read from TL to BL (call it $b$). Coning from $m$ gives a $\\Delta$-complex with vertices $m$, $p = [\\mathrm{BL}] = [\\mathrm{TR}]$, $q = [\\mathrm{BR}] = [\\mathrm{TL}]$; edges $a$ ($p \\to q$), $b$ ($q \\to p$) and spokes $e_1,e_2,e_3,e_4$ from $m$ to BL, BR, TR, TL; and triangles $B = [m,\\mathrm{BL},\\mathrm{BR}]$, $R = [m,\\mathrm{BR},\\mathrm{TR}]$, $T = [m,\\mathrm{TR},\\mathrm{TL}]$, $L = [m,\\mathrm{TL},\\mathrm{BL}]$. Compute $H_*^\\Delta(\\mathbb{RP}^2)$.",
+      "body": "$H_0 \\cong \\mathbb{Z}$, $H_1 \\cong \\mathbb{Z}/2$ (generated by the class of $a + b$), $H_2 = 0$.\n\nBoundaries: $\\partial B = a - e_2 + e_1$, $\\partial R = b - e_3 + e_2$, $\\partial T = a - e_4 + e_3$, $\\partial L = b - e_1 + e_4$. For $\\partial_1$: $a \\mapsto q - p$, $b \\mapsto p - q$, $e_1, e_3 \\mapsto p - m$, $e_2, e_4 \\mapsto q - m$.\n\n1. $H_2 = 0$: a cycle $x_BB + x_RR + x_TT + x_LL$ has $x_B = x_L = x_R = x_T =: x$ from the coefficients of $e_1,\\dots,e_4$, and the coefficient of $a$ gives $2x = 0$.\n2. In $C_1/\\operatorname{im}\\partial_2$ we have $a = e_2 - e_1 = e_4 - e_3$ and $b = e_3 - e_2 = e_1 - e_4$. Put $u = e_2 - e_4$. These relations say $e_3 - e_1 = u$ and $2u = 0$. So $C_1/\\operatorname{im}\\partial_2 \\cong \\mathbb{Z}e_1 \\oplus \\mathbb{Z}e_4 \\oplus \\mathbb{Z}/2\\,u$.\n3. $\\partial_1$ is injective on $\\mathbb{Z}e_1 \\oplus \\mathbb{Z}e_4$ (images $p - m$, $q - m$) and kills $u$. So $H_1 = \\ker\\partial_1/\\operatorname{im}\\partial_2 = \\mathbb{Z}/2\\,u$, and $u = a + b$.\n\nWhy $H_0 = \\mathbb{Z}$: the images $q - p$, $p - m$, $q - m$ of $\\partial_1$ span exactly the 0-chains whose coefficients sum to $0$.",
+      "searchQuery": "real projective plane simplicial homology Delta complex Z/2",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-singular-homology-definition",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define singular $n$-chains, the boundary map $\\partial_n$, and the singular homology group $H_n(X)$ of a space $X$.",
+      "body": "$H_n(X) = \\ker\\partial_n/\\operatorname{im}\\partial_{n+1}$, where $C_n(X)$ is the free abelian group on singular simplices $\\sigma : \\Delta^n \\to X$ (continuous maps) and $\\partial\\sigma = \\sum_{i=0}^n (-1)^i\\, \\sigma|_{[v_0,\\dots,\\widehat{v_i},\\dots,v_n]}$.\n\nElements of $C_n(X)$ are **singular chains**. Why $\\partial\\partial = 0$: expanding $\\partial\\partial\\sigma$ gives each face $\\sigma|_{[\\dots\\widehat{v_j}\\dots\\widehat{v_i}\\dots]}$ with $j<i$ twice, with signs $(-1)^{i+j}$ and $(-1)^{i+j-1}$, so everything cancels.\n\nKey idea: no structure on $X$ is needed, and a map $f : X \\to Y$ gives $f_\\#\\sigma = f \\circ \\sigma$ with $\\partial f_\\# = f_\\#\\partial$. So $f$ induces $f_* : H_n(X) \\to H_n(Y)$, functorially.\n\nWatch out: $C_n(X)$ is gigantic (free of uncountable rank already for $X = [0,1]$, although $C_n(\\mathrm{pt}) \\cong \\mathbb{Z}$), yet $H_n$ is often tiny.",
+      "searchQuery": "singular homology definition singular chains boundary map",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-reduced-homology",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define the **reduced homology** $\\tilde H_n(X)$ of a nonempty space $X$ and compare it with $H_n(X)$.",
+      "body": "$\\tilde H_n(X)$ is the homology of the augmented complex $\\cdots \\to C_1 \\to C_0 \\xrightarrow{\\varepsilon} \\mathbb{Z} \\to 0$ with $\\varepsilon(\\sum n_i\\sigma_i) = \\sum n_i$; so $\\tilde H_n = H_n$ for $n > 0$ and $H_0(X) \\cong \\tilde H_0(X) \\oplus \\mathbb{Z}$.\n\nThe augmentation is a chain map because $\\partial\\sigma = \\sigma(1) - \\sigma(0)$ for a 1-simplex has coefficient sum $0$. The splitting holds because $\\mathbb{Z}$ is free.\n\nWhy: it makes a point have no homology at all: $\\tilde H_n(\\mathrm{pt}) = 0$ for all $n$. Then $\\tilde H_*(X) = 0$ for contractible $X$, and the long exact sequences later read more cleanly.\n\nTip: $\\tilde H_0(X) = 0$ exactly when $X$ is path-connected.",
+      "searchQuery": "reduced homology definition augmentation H0 plus Z",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-h0-path-components",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "What is $H_0(X)$ in terms of the topology of $X$?",
+      "body": "$H_0(X)$ is the free abelian group with one basis element for each path component of $X$.\n\nProof idea: every 0-chain is a cycle, so $H_0 = C_0/\\operatorname{im}\\partial_1$ and $\\partial\\sigma = \\sigma(1) - \\sigma(0)$. If $x,y$ lie in the same path component, a path $\\sigma$ from $x$ to $y$ gives $[y] = [x]$. Conversely, the map sending a point to its path component kills every $\\partial\\sigma$, so it induces the inverse isomorphism.\n\nSince each $\\Delta^n$ is path-connected, the same argument shows $C_n(X)$ splits over the path components, so $H_n(X) \\cong \\bigoplus_\\alpha H_n(X_\\alpha)$.\n\nWatch out: path components, not components. The closed topologist's sine curve is connected, but has two path components, so $H_0 \\cong \\mathbb{Z}^2$.",
+      "searchQuery": "H0 free abelian path components singular homology",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-point-homology",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Compute $H_n(\\mathrm{pt})$ for all $n \\ge 0$ directly from the singular chain complex.",
+      "body": "$H_0(\\mathrm{pt}) = \\mathbb{Z}$ and $H_n(\\mathrm{pt}) = 0$ for $n > 0$.\n\nFor each $n$ there is exactly one singular simplex $\\sigma_n : \\Delta^n \\to \\mathrm{pt}$, so $C_n \\cong \\mathbb{Z}$. Every face of $\\sigma_n$ is $\\sigma_{n-1}$, hence $\\partial\\sigma_n = \\sum_{i=0}^n (-1)^i\\sigma_{n-1}$.\n\nThis sum is $0$ for $n$ odd and $\\sigma_{n-1}$ for $n \\ge 2$ even. So the complex is $\\cdots \\xrightarrow{1} \\mathbb{Z} \\xrightarrow{0} \\mathbb{Z} \\xrightarrow{1} \\mathbb{Z} \\xrightarrow{0} \\mathbb{Z} \\to 0$, with $\\partial_1 = 0$, $\\partial_2 = 1$, $\\partial_3 = 0$, $\\partial_4 = 1$, and so on.\n\n- $H_0 = \\mathbb{Z}/\\operatorname{im}\\partial_1 = \\mathbb{Z}$.\n- $n$ odd: $\\ker\\partial_n = \\mathbb{Z} = \\operatorname{im}\\partial_{n+1}$, so $H_n = 0$.\n- $n \\ge 2$ even: $\\partial_n$ is an isomorphism, so $\\ker\\partial_n = 0$ and $H_n = 0$.\n\nTip: with homotopy invariance this gives $\\tilde H_*(X) = 0$ for every contractible $X$.",
+      "searchQuery": "homology of a point singular chain complex compute",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-homotopy-invariance",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State **homotopy invariance** of singular homology.",
+      "body": "If $f \\simeq g : X \\to Y$ then $f_* = g_* : H_n(X) \\to H_n(Y)$ for all $n$; hence a homotopy equivalence induces isomorphisms on all $H_n$.\n\nWhy it matters: homology depends only on the homotopy type, so it can be computed on any convenient model. A contractible space has the homology of a point.\n\nExample: $\\mathbb{R}^n \\setminus \\{0\\} \\simeq S^{n-1}$, so $H_k(\\mathbb{R}^n \\setminus \\{0\\}) \\cong H_k(S^{n-1})$ for all $k$.\n\nTip: to show that a map induces isomorphisms in homology, it is enough to produce a homotopy inverse.",
+      "searchQuery": "homotopy invariance singular homology homotopic maps induce same map",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-prism-operator-proof",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "proof-idea",
+      "difficulty": 7,
+      "title": "Outline the prism-operator proof that homotopic maps induce the same map on singular homology.",
+      "body": "Build a chain homotopy $P : C_n(X) \\to C_{n+1}(Y)$ from a homotopy $F : X \\times [0,1] \\to Y$ with $\\partial P + P\\partial = g_\\# - f_\\#$, using a subdivision of $\\Delta^n \\times [0,1]$ into $(n+1)$-simplices.\n\nA **chain homotopy** between chain maps $f_\\#, g_\\#$ is a family $P$ with $\\partial P + P\\partial = g_\\# - f_\\#$ (here $F$ runs from $f$ to $g$).\n\n1. Label the vertices of $\\Delta^n \\times \\{0\\}$ as $v_0,\\dots,v_n$ and those of $\\Delta^n \\times \\{1\\}$ as $w_0,\\dots,w_n$.\n2. $\\Delta^n \\times [0,1]$ is the union of the $(n+1)$-simplices $[v_0,\\dots,v_i,w_i,\\dots,w_n]$ for $i = 0,\\dots,n$.\n3. Set $P(\\sigma) = \\sum_i (-1)^i\\, F \\circ (\\sigma \\times \\mathrm{id})|_{[v_0,\\dots,v_i,w_i,\\dots,w_n]}$.\n4. Expand $\\partial P(\\sigma)$. A face shared by two consecutive simplices ($v_i$ dropped from the $i$-th, or $w_{i-1}$ from the $(i-1)$-th) appears twice with opposite signs and cancels. Of the faces dropping $v_i$ or $w_i$ from the $i$-th simplex, only $[w_0,\\dots,w_n]$ and $[v_0,\\dots,v_n]$ survive, giving $g\\sigma - f\\sigma$. The faces dropping $v_j$ with $j<i$ or $w_j$ with $j>i$ lie over $\\partial\\Delta^n$ and add up to $-P\\partial\\sigma$. So $\\partial P = g_\\# - f_\\# - P\\partial$.\n5. If $z$ is a cycle, $g_\\# z - f_\\# z = \\partial P z$ is a boundary, so $f_*[z] = g_*[z]$.\n\nKey idea: the same argument shows that any two chain-homotopic chain maps induce equal maps on homology.",
+      "searchQuery": "prism operator chain homotopy proof homotopy invariance singular homology",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-hurewicz-degree-one",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State the **Hurewicz theorem in degree 1**: what is the map $h : \\pi_1(X, x_0) \\to H_1(X)$ and what do we know about it?",
+      "body": "For path-connected $X$, the map $h$ sending a loop $f : [0,1] \\to X$ to the class of $f$ viewed as a singular 1-cycle is a surjective homomorphism with kernel the commutator subgroup, so $H_1(X) \\cong \\pi_1(X,x_0)^{\\mathrm{ab}}$.\n\nThe map $h$ is the **Hurewicz map**. A loop is a cycle because $\\partial f = f(1) - f(0) = 0$.\n\nExample: $H_1(T^2) \\cong \\mathbb{Z}^2$, $H_1(\\Sigma_g) \\cong \\mathbb{Z}^{2g}$ (the relation $\\prod[a_i,b_i]$ dies in the abelianization), $H_1(\\mathbb{RP}^2) \\cong \\mathbb{Z}/2$, and $H_1$ of a wedge of $r$ circles is $\\mathbb{Z}^r$.\n\nWatch out: $H_1$ forgets non-abelian information. A path-connected space with a nontrivial perfect group as $\\pi_1$ has $H_1 = 0$.",
+      "searchQuery": "Hurewicz theorem degree one pi1 abelianization H1",
+      "refs": [
+        "Hatcher §2.A"
+      ]
+    },
+    {
+      "id": "homology-hurewicz-proof",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "proof-idea",
+      "difficulty": 7,
+      "title": "Outline the proof that $h : \\pi_1(X,x_0) \\to H_1(X)$ is surjective with kernel the commutator subgroup when $X$ is path-connected.",
+      "body": "Show $h$ is a well-defined homomorphism using 2-simplices, lift 1-cycles to loops using paths to $x_0$, and build a left inverse $H_1(X) \\to \\pi_1^{\\mathrm{ab}}$ to identify the kernel.\n\n1. Well defined and multiplicative: the constant 1-simplex is $\\partial$ of the constant 2-simplex; if $f \\simeq g$ rel endpoints, a 2-simplex gives $f - g \\in \\operatorname{im}\\partial$; a 2-simplex $\\tau$ with edges $f$, $g$, $f\\cdot g$ has $\\partial\\tau = g - f\\cdot g + f$. Hence $h(fg) = h(f) + h(g)$.\n2. Surjective: for each point $p$ pick a path $\\gamma_p$ from $x_0$ to $p$ ($\\gamma_{x_0}$ constant). For a cycle $z = \\sum n_i\\sigma_i$, replace each $\\sigma_i$ by the loop $\\gamma_{\\sigma_i(0)}\\sigma_i\\bar\\gamma_{\\sigma_i(1)}$. The correction terms sum to zero because $\\partial z = 0$, so $z$ is homologous to a sum of loops.\n3. Define $\\varphi : C_1(X) \\to \\pi_1^{\\mathrm{ab}}$ by $\\varphi(\\sigma) = [\\gamma_{\\sigma(0)}\\sigma\\bar\\gamma_{\\sigma(1)}]$. For a 2-simplex $\\tau$, the three loops multiply to the trivial class, so $\\varphi(\\partial\\tau) = 0$ and $\\varphi$ descends to $H_1(X)$.\n4. $\\varphi \\circ h$ is the quotient map $\\pi_1 \\to \\pi_1^{\\mathrm{ab}}$. So $h(f) = 0$ forces $[f]$ into the commutator subgroup, while commutators die in $H_1$ because it is abelian.\n\nWatch out: the loops $\\gamma_{\\sigma(0)}\\sigma\\bar\\gamma_{\\sigma(1)}$ are loops for every 1-simplex, not just cycles; that is what makes $\\varphi$ defined on all chains.",
+      "searchQuery": "proof Hurewicz map pi1 to H1 surjective kernel commutator subgroup",
+      "refs": [
+        "Hatcher §2.A"
+      ]
+    },
+    {
+      "id": "homology-pseudo-projective-plane-h1",
+      "unit": "simplicial-and-singular-homology",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Let $X = S^1 \\cup_\\varphi D^2$, where $\\varphi : S^1 \\to S^1$ is $z \\mapsto z^n$ for an integer $n \\ge 1$. Compute $H_1(X)$.",
+      "body": "$H_1(X) \\cong \\mathbb{Z}/n$.\n\n1. $X$ is path-connected, with $S^1$ as a subcomplex and a single 2-cell.\n2. Attaching a 2-cell along a loop $w$ kills $w$ in the fundamental group (Seifert-van Kampen). The attaching loop is the generator $a$ of $\\pi_1(S^1) = \\mathbb{Z}$ traversed $n$ times, so $\\pi_1(X) = \\langle a \\mid a^n \\rangle \\cong \\mathbb{Z}/n$.\n3. This group is abelian, so by the Hurewicz theorem $H_1(X) \\cong \\pi_1(X)^{\\mathrm{ab}} = \\mathbb{Z}/n$.\n\nExample: $n = 1$ gives a disk, so $H_1 = 0$; $n = 2$ gives $\\mathbb{RP}^2$ with $H_1 = \\mathbb{Z}/2$.\n\nTip: more generally, if $X$ is a wedge of $k$ circles with 2-cells attached along words $w_1,\\dots,w_r$, then $\\pi_1(X) = \\langle g_1,\\dots,g_k \\mid w_1,\\dots,w_r \\rangle$, and $H_1(X)$ is $\\mathbb{Z}^k$ modulo the span of the exponent-sum vectors of the $w_j$.",
+      "searchQuery": "H1 circle with 2-cell attached degree n Z/n Hurewicz",
+      "refs": [
+        "Hatcher §1.2",
+        "Hatcher §2.A"
+      ]
+    },
+    {
+      "id": "homology-relative-homology",
+      "unit": "exact-sequences-excision",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define the **relative homology** groups $H_n(X,A)$ of a pair of spaces $A \\subseteq X$.",
+      "body": "$H_n(X,A)$ is the homology of the quotient chain complex $C_n(X,A) = C_n(X)/C_n(A)$, with the induced boundary map.\n\nA **relative cycle** is a chain $z$ in $X$ with $\\partial z \\in C_{n-1}(A)$; it is a relative boundary if $z = \\partial w + (\\text{chain in } A)$.\n\nExample: $H_1(I, \\partial I) \\cong \\mathbb{Z}$, generated by the identity path $[0,1]$, since its boundary $[1] - [0]$ lies in $C_0(\\partial I)$ and the path is not a boundary modulo $\\partial I$. For $A = \\varnothing$ we get back $H_n(X)$.\n\nWatch out: this is the homology of a quotient of chain complexes, not of the quotient space $X/A$. For well-behaved pairs, such as a CW complex and a nonempty subcomplex, they are related by $H_n(X,A) \\cong \\tilde H_n(X/A)$ (reduced homology on the right), as shown later in this unit.",
+      "searchQuery": "relative homology definition H_n(X,A) quotient chain complex",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-long-exact-sequence-pair",
+      "unit": "exact-sequences-excision",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State the **long exact sequence of a pair** $(X,A)$ in singular homology and give the connecting homomorphism explicitly.",
+      "body": "$\\cdots \\to H_n(A) \\xrightarrow{i_*} H_n(X) \\xrightarrow{j_*} H_n(X,A) \\xrightarrow{\\partial} H_{n-1}(A) \\to \\cdots$ is exact, where $\\partial[z] = [\\partial z]$ for a relative cycle $z$.\n\nThe class $[\\partial z]$ makes sense because $\\partial z \\in C_{n-1}(A)$ is a cycle: $\\partial\\partial z = 0$. The sequence comes from the short exact sequence of chain complexes $0 \\to C(A) \\to C(X) \\to C(X,A) \\to 0$. The map $\\partial$ is the **connecting homomorphism**.\n\nThe sequence ends with $H_0(A) \\to H_0(X) \\to H_0(X,A) \\to 0$. For $A \\ne \\varnothing$ the same sequence holds in reduced homology.\n\nExample: for a point $x_0 \\in X$, the reduced sequence of $(X, x_0)$ gives $H_n(X, x_0) \\cong \\tilde H_n(X)$ for all $n$, because $\\tilde H_*(x_0) = 0$.",
+      "searchQuery": "long exact sequence of a pair singular homology connecting homomorphism",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-connecting-homomorphism-construction",
+      "unit": "exact-sequences-excision",
+      "kind": "proof-idea",
+      "difficulty": 7,
+      "title": "Outline why a short exact sequence of chain complexes $0 \\to A_\\bullet \\xrightarrow{f} B_\\bullet \\xrightarrow{g} C_\\bullet \\to 0$ gives a long exact sequence in homology. How is the connecting map built?",
+      "body": "Lift a cycle $c \\in C_n$ to $b \\in B_n$; then $\\partial b$ lies in $A_{n-1}$ and is a cycle; define $\\delta[c] = [\\partial b]$.\n\n1. $g$ is onto, so pick $b$ with $g(b) = c$.\n2. $g(\\partial b) = \\partial c = 0$, so $\\partial b = f(a)$ for a unique $a \\in A_{n-1}$.\n3. $f(\\partial a) = \\partial\\partial b = 0$ and $f$ is injective, so $a$ is a cycle.\n4. Independence of choices: two lifts differ by $f(a'')$ and change $a$ by $\\partial a''$; changing $c$ by $\\partial c''$ lets us change $b$ by $\\partial b''$ without changing $\\partial b$.\n5. Exactness by three chases. At $H_n(C)$: if $\\delta[c] = 0$ then $a = \\partial a'$ and $b - f(a')$ is a cycle lifting $c$. At $H_{n-1}(A)$: if $f_*[a] = 0$ then $f(a) = \\partial b$ and $\\delta[g(b)] = [a]$. At $H_n(B)$: if $g(b) = \\partial c'$, lift $c'$ to $b'$, so $b - \\partial b' = f(a)$ with $a$ a cycle.\n\nWatch out: $\\delta$ lowers degree by one, and it is natural: a map between two short exact sequences of chain complexes gives a map between their long exact sequences, and the squares containing $\\delta$ commute.",
+      "searchQuery": "connecting homomorphism snake lemma short exact sequence chain complexes long exact homology",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-long-exact-sequence-triple",
+      "unit": "exact-sequences-excision",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Let $B \\subseteq A \\subseteq X$. Show that there is a long exact sequence $\\cdots \\to H_n(A,B) \\to H_n(X,B) \\to H_n(X,A) \\xrightarrow{\\partial} H_{n-1}(A,B) \\to \\cdots$ and identify the connecting map $\\partial$.",
+      "body": "Apply the long exact sequence of a short exact sequence of chain complexes to $0 \\to C(A,B) \\to C(X,B) \\to C(X,A) \\to 0$; the connecting map is $H_n(X,A) \\xrightarrow{\\partial} H_{n-1}(A) \\to H_{n-1}(A,B)$.\n\n1. $C(A)/C(B) \\to C(X)/C(B)$ is injective because $C(B) \\subseteq C(A)$, and its cokernel is $C(X)/C(A)$. So the sequence is exact.\n2. The long exact sequence in homology of a short exact sequence of chain complexes gives the stated sequence.\n3. For $\\partial$: a relative cycle $z \\in C_n(X)$ modulo $C(A)$ lifts to the class of $z$ in $C_n(X)/C_n(B)$. Its boundary $\\partial z$ lies in $C_{n-1}(A)$, and the connecting map takes its class in $C_{n-1}(A)/C_{n-1}(B)$. That is the pair connecting map $[z] \\mapsto [\\partial z] \\in H_{n-1}(A)$ followed by $H_{n-1}(A) \\to H_{n-1}(A,B)$.\n\nTip: with $B$ a point this recovers the reduced long exact sequence of the pair $(X,A)$.",
+      "searchQuery": "long exact sequence of a triple relative homology B A X",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-disk-sphere-pair",
+      "unit": "exact-sequences-excision",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "Relate $H_k(D^n, S^{n-1})$ to the homology of a sphere ($n \\ge 1$).",
+      "body": "$H_k(D^n, S^{n-1}) \\cong \\tilde H_{k-1}(S^{n-1})$ for all $k$, the isomorphism being the connecting map $\\partial$.\n\nWhy: use the long exact sequence of the pair in reduced homology. Since $D^n$ is contractible, $\\tilde H_*(D^n) = 0$, so $\\partial : H_k(D^n,S^{n-1}) \\to \\tilde H_{k-1}(S^{n-1})$ is injective (its kernel is the image of $\\tilde H_k(D^n) = 0$) and surjective (its cokernel injects into $\\tilde H_{k-1}(D^n) = 0$).\n\nExample: for $n=1$, $H_1(D^1, S^0) \\cong \\tilde H_0(S^0) \\cong \\mathbb{Z}$, generated by the path from one endpoint to the other.\n\nKey idea: together with the computation of $\\tilde H_*(S^n)$ this shows $H_n(D^n,S^{n-1}) \\cong \\mathbb{Z}$ and the other groups vanish, which is the local model that the cells of a CW complex contribute.",
+      "searchQuery": "homology of pair disk and sphere connecting map isomorphism reduced",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-excision-theorem",
+      "unit": "exact-sequences-excision",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State the **excision theorem** for singular homology.",
+      "body": "If $Z \\subseteq A \\subseteq X$ and the closure of $Z$ lies in the interior of $A$, then the inclusion $(X \\setminus Z, A \\setminus Z) \\hookrightarrow (X,A)$ induces isomorphisms $H_n(X \\setminus Z, A \\setminus Z) \\to H_n(X,A)$ for all $n$.\n\nEquivalent form: if $A, B \\subseteq X$ with $X = \\operatorname{int}A \\cup \\operatorname{int}B$, then $(B, A \\cap B) \\hookrightarrow (X, A)$ induces isomorphisms on $H_n$.\n\nWhy it matters: $H_n(X,A)$ cannot see what lies deep inside $A$, so one may cut away any set whose closure sits in the interior of $A$ and work with the smaller pair.\n\nWatch out: the hypothesis on closures is needed. For $X = [0,1]$ and $A = \\{0,1\\}$, excising $Z = A$ would give $H_1(X \\setminus A,\\varnothing) = 0$, while $H_1(X,A) \\cong \\mathbb{Z}$.",
+      "searchQuery": "excision theorem singular homology closure interior",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-excision-proof-barycentric",
+      "unit": "exact-sequences-excision",
+      "kind": "proof-idea",
+      "difficulty": 7,
+      "title": "Outline the proof of excision via **barycentric subdivision**.",
+      "body": "Subdivision gives a chain map $S : C_n(X) \\to C_n(X)$, chain homotopic to the identity, that replaces each simplex by smaller ones; after enough subdivisions each simplex lies in $A$ or in $B$.\n\nSetup: $X = \\operatorname{int}A \\cup \\operatorname{int}B$. Let $C_n^{\\mathcal U}(X) = C_n(A) + C_n(B)$ be the chains made of simplices lying in $A$ or in $B$.\n\n1. Barycentric subdivision cuts $\\Delta^n$ into simplices of diameter at most $\\tfrac{n}{n+1}$ times the original diameter, so iterating makes them arbitrarily small.\n2. Define the subdivision operator $S$ on singular chains, with $\\partial S = S\\partial$ and a chain homotopy $T$ with $\\partial T + T\\partial = \\mathrm{id} - S$.\n3. For a singular simplex $\\sigma$, the sets $\\sigma^{-1}(\\operatorname{int}A)$, $\\sigma^{-1}(\\operatorname{int}B)$ cover the compact $\\Delta^n$ and have a Lebesgue number, so $S^m\\sigma \\in C^{\\mathcal U}$ for large $m$.\n4. Hence the inclusion $C^{\\mathcal U}(X) \\hookrightarrow C(X)$ induces an isomorphism on homology, and by the five lemma so does $C^{\\mathcal U}(X)/C(A) \\hookrightarrow C(X)/C(A)$.\n5. The chain map $C(B)/C(A \\cap B) \\to C^{\\mathcal U}(X)/C(A)$ is an isomorphism of complexes, since $C(A) \\cap C(B) = C(A \\cap B)$.\n\nWatch out: the interiors must cover $X$; covering by $A$ and $B$ alone is not enough for the Lebesgue-number step.",
+      "searchQuery": "excision proof barycentric subdivision Lebesgue number chain homotopy",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-good-pair-quotient",
+      "unit": "exact-sequences-excision",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "For a **good pair** $(X,A)$, how is $H_n(X,A)$ related to the quotient space $X/A$?",
+      "body": "$H_n(X,A) \\cong \\tilde H_n(X/A)$ for all $n$, induced by the quotient map, where a good pair means $A$ is nonempty, closed, and a deformation retract of some neighborhood in $X$.\n\nExamples of good pairs: any CW pair $(X, A)$ with $A$ a nonempty subcomplex, and $(D^n, S^{n-1})$ with $D^n/S^{n-1} \\cong S^n$.\n\nWhy it matters: it lets us read relative homology as the reduced homology of a quotient space, and in particular identifies $H_n(X^k, X^{k-1})$ with the reduced homology of a wedge of spheres.\n\nIt also computes wedges: if each $(X_\\alpha, x_\\alpha)$ is a good pair, then $\\tilde H_n(\\bigvee_\\alpha X_\\alpha) \\cong \\bigoplus_\\alpha \\tilde H_n(X_\\alpha)$. Apply the theorem to $(\\bigsqcup_\\alpha X_\\alpha, \\bigsqcup_\\alpha x_\\alpha)$, whose relative chains split as a direct sum over $\\alpha$. So a wedge of $k$-spheres has $\\tilde H_k$ free abelian with one generator per sphere, and no other reduced homology.\n\nWatch out: without the good-pair hypothesis the relative groups and the quotient can differ.",
+      "searchQuery": "good pair relative homology reduced homology quotient X/A",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-good-pair-quotient-proof",
+      "unit": "exact-sequences-excision",
+      "kind": "proof-idea",
+      "difficulty": 7,
+      "title": "Outline the proof that $H_n(X,A) \\cong \\tilde H_n(X/A)$ for a good pair.",
+      "body": "Choose a neighborhood $V$ of $A$ that deformation retracts onto $A$ and compare the pairs $(X,A)$, $(X,V)$ and $(X \\setminus A, V \\setminus A)$ with their images in $X/A$, using the long exact sequence of a triple and excision.\n\n1. Because $V$ deformation retracts onto $A$, $H_n(V,A) = 0$. The long exact sequence of the triple $(X,V,A)$ then shows $H_n(X,A) \\to H_n(X,V)$ is an isomorphism.\n2. The same holds in $X/A$: $H_n(X/A, A/A) \\to H_n(X/A, V/A)$ is an isomorphism.\n3. Excision removes $A$ (resp. $A/A$): $H_n(X \\setminus A, V \\setminus A) \\to H_n(X,V)$ and $H_n(X/A \\setminus A/A, V/A \\setminus A/A) \\to H_n(X/A, V/A)$ are isomorphisms.\n4. The quotient map is a homeomorphism $(X \\setminus A, V \\setminus A) \\to (X/A \\setminus A/A, V/A \\setminus A/A)$, so it induces isomorphisms; by step 3 and naturality, so does $q_* : H_n(X,V) \\to H_n(X/A, V/A)$.\n5. $q_*$ commutes with the isomorphisms of steps 1 and 2, so $q_* : H_n(X,A) \\to H_n(X/A, A/A)$ is an isomorphism, and $H_n(X/A, A/A) = \\tilde H_n(X/A)$ since $A/A$ is a point.\n\nWatch out: the deformation retraction of $V$ onto $A$ is what makes step 1 work, and closedness of $A$ is what makes the excisions of step 3 legal (the closure of the excised set $A$ must lie in the interior of $V$).",
+      "searchQuery": "proof relative homology equals reduced homology of quotient good pair five lemma",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-sphere-homology",
+      "unit": "exact-sequences-excision",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "Compute $\\tilde H_k(S^n)$ for all $k \\ge 0$ and $n \\ge 0$.",
+      "body": "$\\tilde H_k(S^n) \\cong \\mathbb{Z}$ if $k = n$ and $0$ otherwise.\n\nInduct on $n$. For $S^0$ (two points), $\\tilde H_0 \\cong \\mathbb{Z}$ and all other groups vanish. For $n \\ge 1$, $(D^n, S^{n-1})$ is a good pair with $D^n/S^{n-1} \\cong S^n$, so\n$$\\tilde H_k(S^n) \\cong H_k(D^n, S^{n-1}) \\cong \\tilde H_{k-1}(S^{n-1}),$$\nthe second step from the long exact sequence with $D^n$ contractible.\n\nExample: $H_1(S^1) \\cong \\mathbb{Z}$ and $H_2(S^2) \\cong \\mathbb{Z}$; $H_0(S^n) \\cong \\mathbb{Z}$ for $n \\ge 1$ but $H_0(S^0) \\cong \\mathbb{Z}^2$ in unreduced homology.\n\nTip: each step shifts degree and dimension by one, which is the shape of the suspension isomorphism.",
+      "searchQuery": "reduced homology of spheres H_k(S^n) Z in degree n",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-brouwer-fixed-point",
+      "unit": "exact-sequences-excision",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Prove the **Brouwer fixed point theorem** with homology: every continuous map $f : D^n \\to D^n$ ($n \\ge 1$) has a fixed point.",
+      "body": "A fixed-point-free $f$ would give a retraction $r : D^n \\to S^{n-1}$, impossible because the identity of $\\tilde H_{n-1}(S^{n-1}) \\cong \\mathbb{Z}$ cannot factor through $\\tilde H_{n-1}(D^n) = 0$.\n\n1. Suppose $f(x) \\ne x$ for all $x$. Define $r(x)$ as the point where the ray starting at $f(x)$ and passing through $x$ leaves the disk: $r(x) = x + t(x)(x - f(x))$, where $t(x) \\ge 0$ solves $|x + t(x - f(x))| = 1$. By the quadratic formula (the discriminant is nonnegative) $t$ is continuous.\n2. For $x \\in S^{n-1}$ we have $t(x) = 0$, so $r|_{S^{n-1}} = \\mathrm{id}$, i.e. $r \\circ i = \\mathrm{id}_{S^{n-1}}$.\n3. Apply $\\tilde H_{n-1}$: $\\mathrm{id}_{\\mathbb{Z}} = r_* i_*$ factors through $\\tilde H_{n-1}(D^n) = 0$, a contradiction.\n\nTip: this is the same argument as the fundamental-group proof for $n=2$, with $\\tilde H_{n-1}$ replacing $\\pi_1$ so that it works in every dimension.",
+      "searchQuery": "Brouwer fixed point theorem proof homology retraction disk sphere",
+      "checkpoint": true,
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-invariance-of-dimension",
+      "unit": "exact-sequences-excision",
+      "kind": "proof-idea",
+      "difficulty": 7,
+      "title": "Outline the proof, using **local homology**, that $\\mathbb{R}^m \\not\\cong \\mathbb{R}^n$ for $m \\ne n$. (The local homology of $X$ at $x$ is $H_k(X, X \\setminus \\{x\\})$.)",
+      "body": "The local homology $H_k(\\mathbb{R}^n, \\mathbb{R}^n \\setminus \\{x\\})$ is $\\mathbb{Z}$ exactly for $k = n$ and is preserved by homeomorphisms, so a homeomorphism $\\mathbb{R}^m \\to \\mathbb{R}^n$ forces $m = n$.\n\n1. Excision: if points are closed in $X$ (as in $\\mathbb{R}^n$), then for an open $U \\ni x$, $H_k(X, X \\setminus x) \\cong H_k(U, U \\setminus x)$, so local homology depends only on a neighborhood of $x$.\n2. For $\\mathbb{R}^n$: $\\mathbb{R}^n$ is contractible and $\\mathbb{R}^n \\setminus x \\simeq S^{n-1}$, so the long exact sequence gives $H_k(\\mathbb{R}^n, \\mathbb{R}^n \\setminus x) \\cong \\tilde H_{k-1}(S^{n-1})$, which is $\\mathbb{Z}$ iff $k = n$.\n3. A homeomorphism $h : \\mathbb{R}^m \\to \\mathbb{R}^n$ restricts to a homeomorphism of pairs $(\\mathbb{R}^m, \\mathbb{R}^m \\setminus x) \\to (\\mathbb{R}^n, \\mathbb{R}^n \\setminus h(x))$, hence an isomorphism on all relative groups. So $m = n$.\n\nWatch out: the proof uses only continuity of $h$ and $h^{-1}$; for diffeomorphisms the derivative gives an easy argument, but here no smoothness is assumed.",
+      "searchQuery": "invariance of dimension local homology R^m not homeomorphic R^n",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-isomorphism-iff-relative-vanishes",
+      "unit": "exact-sequences-excision",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "For a subspace $A \\subseteq X$, show that the inclusion induces isomorphisms $H_n(A) \\to H_n(X)$ for all $n$ if and only if $H_n(X,A) = 0$ for all $n$.",
+      "body": "Both directions follow from exactness of the long exact sequence of the pair.\n\n($\\Leftarrow$) If all $H_n(X,A) = 0$, then in $H_{n+1}(X,A) \\to H_n(A) \\xrightarrow{i_*} H_n(X) \\to H_n(X,A)$ the outer groups vanish, so $i_*$ is an isomorphism.\n\n($\\Rightarrow$) If every $i_*$ is an isomorphism:\n- $i_*$ onto gives $\\ker j_* = \\operatorname{im} i_* = H_n(X)$, so $j_* = 0$.\n- $i_*$ injective gives $\\operatorname{im}\\partial = \\ker i_* = 0$, so $\\partial = 0$.\n- Exactness at $H_n(X,A)$ says $\\ker\\partial = \\operatorname{im} j_*$, so $H_n(X,A) = \\ker\\partial = \\operatorname{im}j_* = 0$.\n\nExample: if $A$ is a deformation retract of $X$, then $H_n(X,A) = 0$ for all $n$.\n\nWatch out: the condition must hold for all $n$; one vanishing relative group does not make the inclusion an isomorphism.",
+      "searchQuery": "inclusion induces isomorphism homology iff relative homology vanishes",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-retract-splitting",
+      "unit": "exact-sequences-excision",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Let $A \\subseteq X$ be a retract of $X$ (there is $r : X \\to A$ with $r|_A = \\mathrm{id}_A$). Show that $H_n(X) \\cong H_n(A) \\oplus H_n(X,A)$ for all $n$.",
+      "body": "Since $r_*i_* = \\mathrm{id}$, the long exact sequence breaks into short exact sequences $0 \\to H_n(A) \\to H_n(X) \\to H_n(X,A) \\to 0$ that split.\n\n1. $r \\circ i = \\mathrm{id}_A$ gives $r_* i_* = \\mathrm{id}$, so $i_*$ is injective.\n2. Then $\\operatorname{im}\\partial = \\ker i_* = 0$, so $\\partial = 0$ and $j_*$ is onto (exactness at $H_n(X,A)$).\n3. So $0 \\to H_n(A) \\xrightarrow{i_*} H_n(X) \\xrightarrow{j_*} H_n(X,A) \\to 0$ is exact, and $r_*$ is a left inverse of $i_*$.\n4. A short exact sequence with a left inverse splits: $H_n(X) \\cong H_n(A) \\oplus \\ker r_* \\cong H_n(A) \\oplus H_n(X,A)$.\n\nExample: $A = S^1 \\times \\{pt\\} \\subset T^2$ is a retract via projection, so $H_1(T^2)$ contains a copy of $H_1(S^1) = \\mathbb{Z}$ as a direct summand.\n\nWatch out: without a retraction the splitting can fail. For $S^1 \\subset D^2$, $H_1(D^2) = 0$ but $H_1(S^1) \\oplus H_1(D^2, S^1) \\cong \\mathbb{Z}$; indeed $S^1$ is not a retract of $D^2$, since $H_1(S^1) = \\mathbb{Z}$ would inject into $H_1(D^2) = 0$.",
+      "searchQuery": "retract homology splits direct sum H_n(X) H_n(A) H_n(X,A)",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-eilenberg-steenrod-axioms",
+      "unit": "exact-sequences-excision",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "State the **Eilenberg-Steenrod axioms** for a homology theory on pairs of spaces.",
+      "body": "Functors $h_n(X,A)$ to abelian groups, with natural maps $\\partial : h_n(X,A) \\to h_{n-1}(A)$, such that: homotopy invariance, exactness of the long sequence of a pair, excision, additivity over disjoint unions, and the dimension axiom $h_n(\\mathrm{pt}) = 0$ for $n \\ne 0$.\n\nNotes on each axiom:\n- Homotopy invariance: homotopic maps of pairs induce the same map.\n- Exactness: $\\cdots \\to h_n(A) \\to h_n(X) \\to h_n(X,A) \\to h_{n-1}(A) \\to \\cdots$ is exact.\n- Excision: $h_n(X \\setminus Z, A \\setminus Z) \\cong h_n(X,A)$ when $\\overline Z \\subseteq \\operatorname{int}A$.\n- Additivity: $h_n$ of a disjoint union is the direct sum.\n- Dimension: only $h_0(\\mathrm{pt})$ can be nonzero; it is the coefficient group.\n\nKey idea: on CW pairs, any two theories satisfying all the axioms with the same coefficient group $h_0(\\mathrm{pt})$ are isomorphic. Singular homology satisfies them, by the results of this unit and the previous one; dropping the dimension axiom gives other (extraordinary) homology theories.",
+      "searchQuery": "Eilenberg Steenrod axioms homology theory dimension axiom excision",
+      "refs": [
+        "Hatcher §2.3"
+      ]
+    },
+    {
+      "id": "homology-simplicial-equals-singular",
+      "unit": "exact-sequences-excision",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "How does the simplicial homology of a $\\Delta$-complex compare with its singular homology?",
+      "body": "For every $\\Delta$-complex $X$, the natural map $H_n^\\Delta(X) \\to H_n(X)$ sending a simplex to the singular simplex it defines is an isomorphism for all $n$.\n\nWhy: compare the long exact sequences of the pairs $(X^k, X^{k-1})$ in the two theories. In both, the relative group is $\\mathbb{Z}^{(\\#k\\text{-simplices})}$ in degree $k$ and $0$ otherwise (singular: a good pair with quotient a wedge of $k$-spheres). The five lemma and induction on $k$ give the isomorphism for finite-dimensional $X$; infinite-dimensional ones follow because a singular chain has compact image, which lies in a finite skeleton.\n\nConsequence: simplicial homology is independent of the $\\Delta$-complex structure, and the torus, Klein bottle and $\\mathbb{RP}^2$ computations are computations of singular homology.\n\nTip: the same skeleton-by-skeleton induction with the five lemma drives the Eilenberg-Steenrod uniqueness theorem: theories satisfying the axioms with the same coefficient group agree on CW pairs.",
+      "searchQuery": "simplicial homology isomorphic singular homology Delta complex theorem",
+      "refs": [
+        "Hatcher §2.1"
+      ]
+    },
+    {
+      "id": "homology-degree-of-sphere-map",
+      "unit": "degree-and-applications",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define the **degree** of a map $f : S^n \\to S^n$ for $n \\ge 1$.",
+      "body": "$\\deg f$ is the integer $d$ such that $f_*(\\alpha) = d\\,\\alpha$ for all $\\alpha \\in H_n(S^n) \\cong \\mathbb{Z}$.\n\nIt is well defined because every homomorphism $\\mathbb{Z} \\to \\mathbb{Z}$ is multiplication by one integer, and that integer does not depend on the choice of generator.\n\nProperties: $\\deg(\\mathrm{id}) = 1$, $\\deg(fg) = \\deg f \\cdot \\deg g$, $\\deg f = \\deg g$ if $f \\simeq g$, a constant map has degree $0$, and a homeomorphism has degree $\\pm 1$.\n\nExample: for $n=1$ the degree is the winding number, by the Hurewicz isomorphism $\\pi_1(S^1) \\cong H_1(S^1)$.",
+      "searchQuery": "degree of a map between spheres definition H_n(S^n) multiplication",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-reflection-degree",
+      "unit": "degree-and-applications",
+      "kind": "proof-idea",
+      "difficulty": 7,
+      "title": "Outline why the reflection $\\rho : S^n \\to S^n$, $\\rho(x_1,\\dots,x_n,x_{n+1}) = (x_1,\\dots,x_n,-x_{n+1})$, has degree $-1$.",
+      "body": "$\\rho$ swaps the two hemispheres, and $H_n(S^n)$ sits inside $H_n(S^n, S^{n-1}) \\cong \\mathbb{Z}^2$ as the class $(1,-1)$, which $\\rho_*$ sends to its negative.\n\nLet $E = S^{n-1} = \\{x_{n+1} = 0\\}$ and let $D_\\pm$ be the closed hemispheres.\n\n1. In the long exact sequence of $(S^n, E)$, $H_n(E) = 0$, so $j_* : H_n(S^n) \\to H_n(S^n,E)$ is injective with image $\\ker\\partial$.\n2. $(S^n,E)$ is a good pair with quotient $S^n \\vee S^n$, so $H_n(S^n,E) \\cong \\tilde H_n(S^n \\vee S^n) \\cong \\mathbb{Z}^2$ (reduced homology of a wedge is the direct sum), with one summand for each hemisphere.\n3. Identify both $D_\\pm$ with $D^n$ by vertical projection, and let $g_\\pm$ be the resulting generators. Both identifications restrict to the same map on $E$, so $\\partial g_+ = \\partial g_-$ is a generator of $\\tilde H_{n-1}(E)$. Hence $\\ker\\partial = \\mathbb{Z}(g_+ - g_-)$.\n4. $\\rho$ fixes $E$ and swaps $D_\\pm$ compatibly with these identifications, so $\\rho_* g_\\pm = g_\\mp$. By naturality of $j_*$, $\\rho_*$ sends $g_+ - g_-$ to $-(g_+ - g_-)$.\n\nTip: the generator is the \"upper hemisphere minus lower hemisphere\" cycle; swapping the hemispheres flips its sign.",
+      "searchQuery": "reflection sphere degree minus one hemispheres swap homology",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-antipodal-map-degree",
+      "unit": "degree-and-applications",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "What is the degree of the antipodal map $a : S^n \\to S^n$, $a(x) = -x$?",
+      "body": "$\\deg a = (-1)^{n+1}$.\n\nWhy: $a$ is the composite of the $n+1$ coordinate reflections $\\rho_i$ (negate $x_i$). Each $\\rho_i$ is conjugate, by a permutation $\\sigma$ of the coordinates, to the reflection $\\rho$ in the last coordinate, which has degree $-1$. Since $\\deg(\\sigma\\rho\\sigma^{-1}) = \\deg\\sigma \\cdot \\deg\\rho \\cdot \\deg\\sigma^{-1} = \\deg\\rho$, each $\\rho_i$ has degree $-1$, and multiplicativity gives $(-1)^{n+1}$.\n\nExample: for $n=1$, $a$ is rotation by $\\pi$, homotopic to the identity, with degree $+1 = (-1)^2$. For $n=2$, $\\deg a = -1$.\n\nTip: for even $n$ the antipodal map reverses orientation, so it is not homotopic to the identity.",
+      "searchQuery": "antipodal map degree (-1)^(n+1) sphere reflections",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-fixed-point-free-sphere-map",
+      "unit": "degree-and-applications",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "If $f : S^n \\to S^n$ has no fixed point, what is $f$ up to homotopy, and what is $\\deg f$?",
+      "body": "$f$ is homotopic to the antipodal map, so $\\deg f = (-1)^{n+1}$.\n\nWhy: if $f(x) \\ne x$ for all $x$, the segment from $f(x)$ to $-x$ never passes through the origin. If $(1-t)f(x) - tx = 0$, then taking norms forces $t = 1/2$ and $f(x) = x$. So $\\dfrac{(1-t)f(x) - tx}{\\|(1-t)f(x) - tx\\|}$ is a homotopy from $f$ to the antipodal map.\n\nConsequence: any $f$ with $\\deg f \\ne (-1)^{n+1}$ has a fixed point.\n\nWatch out: the converse fails. For even $n$ the reflection $\\rho$ has degree $-1 = (-1)^{n+1}$ but fixes the whole equator.",
+      "searchQuery": "map without fixed points homotopic to antipodal map degree sphere",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-even-sphere-fixed-or-antipodal",
+      "unit": "degree-and-applications",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Show that every continuous $f : S^{2k} \\to S^{2k}$ ($k \\ge 1$) has a fixed point or a point $x$ with $f(x) = -x$.",
+      "body": "Otherwise $f$ would be homotopic both to the antipodal map and to the identity, forcing $\\deg f = -1$ and $\\deg f = +1$.\n\n1. Suppose $f(x) \\ne x$ for all $x$. By the previous theorem $f \\simeq a$ and $\\deg f = (-1)^{2k+1} = -1$.\n2. Suppose also $f(x) \\ne -x$ for all $x$. Then $(1-t)f(x) + tx \\ne 0$ (norms force $t = 1/2$ and $f(x) = -x$), so normalizing gives a homotopy $f \\simeq \\mathrm{id}$ and $\\deg f = 1$.\n3. $-1 \\ne 1$, a contradiction.\n\nWatch out: this is false for odd spheres. Rotation of $S^1$ by $\\pi/2$ has no fixed point and never sends $x$ to $-x$; there is no contradiction because for odd $n$, $\\deg a = (-1)^{n+1} = 1 = \\deg\\mathrm{id}$.",
+      "searchQuery": "every map even sphere fixed point or antipodal point degree argument",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-hairy-ball-theorem",
+      "unit": "degree-and-applications",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State the **hairy ball theorem**: for which $n \\ge 1$ does $S^n$ admit a continuous nowhere-zero tangent vector field?",
+      "body": "$S^n$ has a continuous nowhere-zero tangent vector field if and only if $n$ is odd.\n\nOdd $n$: view $S^n \\subset \\mathbb{R}^{n+1}$ with $n+1$ even and set $v(x) = (-x_2, x_1, -x_4, x_3, \\dots, -x_{n+1}, x_n)$, which is orthogonal to $x$ and has length $1$.\n\nEven $n$: suppose $v$ is a nowhere-zero tangent field; rescale it to unit length. Then $F_t(x) = \\cos(\\pi t)\\,x + \\sin(\\pi t)\\,v(x)$ stays on $S^n$ (since $v(x) \\perp x$) and is a homotopy from $\\mathrm{id}$ to the antipodal map. So $1 = \\deg a = (-1)^{n+1} = -1$, a contradiction.\n\nWatch out: \"tangent\" means $v(x) \\perp x$ for every $x$ and $v$ is continuous; a field with isolated zeros always exists.",
+      "searchQuery": "hairy ball theorem sphere nowhere vanishing vector field odd n degree",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-free-action-even-sphere",
+      "unit": "degree-and-applications",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "Which groups $G$ can act freely on $S^n$ for even $n$? (An action is **free** if no non-identity element has a fixed point; assume $G$ acts by homeomorphisms.)",
+      "body": "Only the trivial group and $\\mathbb{Z}/2$: if $G$ acts freely on $S^{2k}$, then $|G| \\le 2$.\n\nWhy: $g \\mapsto \\deg g$ is a homomorphism $G \\to \\{\\pm 1\\}$ because degree is multiplicative and each homeomorphism has degree $\\pm 1$. A non-identity $g$ has no fixed point, so $\\deg g = (-1)^{2k+1} = -1$. Hence the kernel is trivial and $G$ embeds in $\\{\\pm 1\\}$.\n\nExample: $\\mathbb{Z}/2$ acts freely on $S^{2k}$ by the antipodal map, with quotient $\\mathbb{RP}^{2k}$.\n\nWatch out: evenness is essential. For $S^{2k-1} \\subset \\mathbb{C}^k$ the group $\\mu_m$ of $m$-th roots of unity acts freely by scalar multiplication, so odd spheres admit free actions of every finite cyclic group.",
+      "searchQuery": "free action on even sphere only Z/2 degree argument",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-suspension-preserves-degree",
+      "unit": "degree-and-applications",
+      "kind": "proof-idea",
+      "difficulty": 7,
+      "title": "Outline why the suspension $Sf : S^{n+1} \\to S^{n+1}$ of $f : S^n \\to S^n$, defined by $Sf[x,t] = [f(x),t]$, has the same degree as $f$.",
+      "body": "The natural isomorphisms $\\tilde H_{n+1}(SX) \\cong H_{n+1}(CX, X) \\cong \\tilde H_n(X)$ commute with the maps induced by $Sf$ and $f$, so $(Sf)_*$ corresponds to $f_*$.\n\nWrite $SX = C_+X \\cup C_-X$, two cones glued along $X$.\n\n1. $C_-X$ is contractible, so the long exact sequence of $(SX, C_-X)$ gives $\\tilde H_k(SX) \\cong H_k(SX, C_-X)$.\n2. Both pairs are good (for $X = S^n$) and $SX/C_-X = C_+X/X$, so the good-pair isomorphism gives $H_k(SX, C_-X) \\cong \\tilde H_k(C_+X/X) \\cong H_k(C_+X, X)$.\n3. The long exact sequence of $(C_+X, X)$ with $C_+X$ contractible gives $H_k(C_+X,X) \\cong \\tilde H_{k-1}(X)$.\n4. $Sf$ maps $C_\\pm X$ to $C_\\pm Y$ and $X$ to $Y$, so all three isomorphisms are natural. With $X = S^n$ the isomorphism $\\tilde H_{n+1}(S^{n+1}) \\cong \\tilde H_n(S^n)$ intertwines $(Sf)_*$ and $f_*$.\n\nKey idea: $SX$ is two contractible cones glued along $X$, so its reduced homology is that of $X$ shifted up one degree, and the shift is natural in $X$.",
+      "searchQuery": "suspension preserves degree sphere map proof natural isomorphism",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-power-map-degree",
+      "unit": "degree-and-applications",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "Show that $p_d : S^1 \\to S^1$, $z \\mapsto z^d$, has degree $d$, and explain how to get maps $S^n \\to S^n$ of every degree $d \\in \\mathbb{Z}$.",
+      "body": "$\\deg p_d = d$ via the Hurewicz isomorphism, and the $(n-1)$-fold suspension of $p_d$ is a map $S^n \\to S^n$ of degree $d$.\n\n1. $\\pi_1(S^1) \\cong \\mathbb{Z}$ is generated by the loop $\\omega(t) = e^{2\\pi i t}$, and $p_d \\circ \\omega$ winds $d$ times, so $(p_d)_*[\\omega] = d[\\omega]$.\n2. The Hurewicz map $h : \\pi_1(S^1) \\to H_1(S^1)$ is an isomorphism ($\\pi_1$ is abelian) and is natural: $(p_d)_* h = h (p_d)_*$. So $(p_d)_*$ on $H_1(S^1)$ is multiplication by $d$.\n3. Suspension preserves degree, so iterating gives degree $d$ on $S^n$ for all $n \\ge 1$. Negative $d$ is included: $z^{-1}$ is complex conjugation.\n\nTip: $d = 0$ gives a constant map, $d = 1$ the identity, $d = -1$ a reflection.",
+      "searchQuery": "degree of z^d map circle winding number every degree sphere",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-nonsurjective-degree-zero",
+      "unit": "degree-and-applications",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Show that a continuous map $f : S^n \\to S^n$ ($n \\ge 1$) that is not surjective has degree $0$.",
+      "body": "A missed point $p$ makes $f$ factor through $S^n \\setminus \\{p\\} \\cong \\mathbb{R}^n$, which is contractible, so $f$ is null-homotopic and $\\deg f = 0$.\n\n1. Choose $p \\notin f(S^n)$. Stereographic projection from $p$ gives $S^n \\setminus \\{p\\} \\cong \\mathbb{R}^n$.\n2. Write $f = i \\circ f'$ with $f' : S^n \\to S^n \\setminus \\{p\\}$ and $i$ the inclusion. Then $f_* = i_* f'_*$ factors through $H_n(\\mathbb{R}^n) = 0$ (as $n \\ge 1$).\n3. So $f_* = 0$, that is, $\\deg f = 0$.\n\nWatch out: the converse is false. The loop $e^{2\\pi i t} \\mapsto e^{2\\pi i (1 - |2t-1|)}$ on $S^1$ goes once around and then back; it is surjective but its lift to $\\mathbb{R}$ has equal endpoints, so its degree is $0$. Its suspensions give surjective degree-$0$ maps on every sphere.",
+      "searchQuery": "non-surjective map sphere has degree zero",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-local-degree-formula",
+      "unit": "degree-and-applications",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State the **local degree** formula: how is $\\deg f$ computed from the preimages of one point of $S^n$?",
+      "body": "If $f^{-1}(y) = \\{x_1,\\dots,x_m\\}$ is finite, then $\\deg f = \\sum_i \\deg f|_{x_i}$, where the local degree $\\deg f|_{x_i}$ is the integer by which $f_* : H_n(U_i, U_i \\setminus x_i) \\to H_n(V, V \\setminus y)$ acts once both groups are identified with $H_n(S^n)$.\n\nHere $n \\ge 1$, and the $U_i$ are disjoint open neighborhoods of the $x_i$ with $f(U_i) \\subseteq V$ for an open neighborhood $V$ of $y$. The identifications are $H_n(U_i,U_i \\setminus x_i) \\cong H_n(S^n, S^n \\setminus x_i) \\cong H_n(S^n) \\cong \\mathbb{Z}$, by excision and then the long exact sequence of the pair ($S^n \\setminus x_i$ is contractible), and likewise at $y$. Using one fixed generator of $H_n(S^n)$ on both sides is what makes the sign of the local degree well defined.\n\nKey idea: $H_n(S^n)$ maps into $\\bigoplus_i H_n(U_i,U_i\\setminus x_i)$ and then, summing, into $H_n(S^n,S^n \\setminus y)$.\n\nWatch out: local degrees can be negative, so the number of preimages is not the degree. The surjective loop that runs once around $S^1$ and back has generic points with two preimages, local degrees $+1$ and $-1$, and degree $0$.",
+      "searchQuery": "local degree formula sphere map sum over preimages",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-polynomial-sphere-degree",
+      "unit": "degree-and-applications",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "A complex polynomial $p$ of degree $d \\ge 1$ extends to a map $\\hat p : \\hat{\\mathbb{C}} \\to \\hat{\\mathbb{C}}$ of the Riemann sphere with $\\hat p(\\infty) = \\infty$. Compute $\\deg\\hat p$, identifying $\\hat{\\mathbb{C}} \\cong S^2$ by stereographic projection.",
+      "body": "$\\deg \\hat p = d$.\n\n1. $p'$ has finitely many zeros, so $p$ has finitely many critical values. Pick $y \\in \\mathbb{C}$ that is not one of them.\n2. The equation $p(z) = y$ has exactly $d$ solutions $z_1,\\dots,z_d$ (the fundamental theorem of algebra), all simple since $p'(z_i) \\ne 0$. Also $\\infty \\notin \\hat p^{-1}(y)$.\n3. The local degree at each $z_i$ is $+1$. Write $p(z) = y + c(z - z_i) + R(z)$ with $c = p'(z_i) \\neq 0$ and $|R(z)| \\le C|z - z_i|^2$ for $|z - z_i| \\le 1$. On a disk $U_i$ around $z_i$ of radius less than $\\min(1, |c|/C)$, the straight-line homotopy from $p$ to $z \\mapsto y + c(z - z_i)$ takes the value $y$ only at $z_i$. So does $z \\mapsto y + c_t(z - z_i)$ for a path $c_t$ from $c$ to $1$ in $\\mathbb{C} \\setminus \\{0\\}$. Such homotopies of maps $(U_i, U_i \\setminus z_i) \\to (\\mathbb{C}, \\mathbb{C} \\setminus y)$ do not change the local degree. The end map is the translation $z \\mapsto z + (y - z_i)$, which is homotopic to the identity of $\\hat{\\mathbb{C}}$ and has $z_i$ as the only preimage of $y$, so its local degree there is its degree, $1$. (This is the topological form of the fact that holomorphic maps preserve orientation: the real Jacobian determinant is $|p'|^2 > 0$.)\n4. By the local degree formula, $\\deg\\hat p = d \\cdot (+1) = d$.\n\nTip: the same count shows that a rational map $P/Q$ with $P$ and $Q$ coprime has degree $\\max(\\deg P, \\deg Q)$ on the Riemann sphere.",
+      "searchQuery": "degree of polynomial map Riemann sphere local degree d",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-cellular-chain-complex",
+      "unit": "cellular-homology",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define the **cellular chain complex** of a CW complex $X$.",
+      "body": "$C_n^{CW}(X) = H_n(X^n, X^{n-1})$, free abelian with one generator per $n$-cell, with $d_n = j_{n-1} \\circ \\partial_n$, where $\\partial_n : H_n(X^n,X^{n-1}) \\to H_{n-1}(X^{n-1})$ and $j_{n-1} : H_{n-1}(X^{n-1}) \\to H_{n-1}(X^{n-1},X^{n-2})$.\n\nWhy free: $(X^n, X^{n-1})$ is a good pair whose quotient is a wedge of $n$-spheres, one per $n$-cell, so $H_n(X^n, X^{n-1})$ is free abelian on the $n$-cells and the other relative groups vanish.\n\nWhy $d_{n-1}d_n = 0$: it contains $\\partial_{n-1} j_{n-1}$, two consecutive maps in the long exact sequence of $(X^{n-1}, X^{n-2})$.\n\nThe homology of this complex is $H_n^{CW}(X) = \\ker d_n/\\operatorname{im} d_{n+1}$. A generator for a cell is the image of a generator of $H_n(D^n,S^{n-1})$ under its characteristic map, so signs depend on a choice of orientation of each cell.\n\nExample: if $X$ has cells only in even dimensions, all $d_n = 0$.",
+      "searchQuery": "cellular chain complex definition H_n(X^n,X^{n-1}) cellular homology",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-attaching-degree",
+      "unit": "cellular-homology",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define the **attaching degree** $d_{\\alpha\\beta}$ of an $n$-cell $e^n_\\alpha$ on an $(n-1)$-cell $e^{n-1}_\\beta$ of a CW complex.",
+      "body": "$d_{\\alpha\\beta}$ is the degree of the composite $S^{n-1} \\xrightarrow{\\varphi_\\alpha} X^{n-1} \\to X^{n-1}/(X^{n-1} \\setminus e^{n-1}_\\beta) \\cong S^{n-1}$, where the second map collapses everything except the cell $e^{n-1}_\\beta$ to a point.\n\nFor $n = 1$ the \"degree\" is interpreted on $S^0$: $d_{\\alpha\\beta}$ is $+1$ if the end of the 1-cell is the vertex $\\beta$, minus $1$ if the start is, and the two contributions add.\n\nExample: the 2-cell of $\\mathbb{RP}^2$ is attached to the circle $\\mathbb{RP}^1$ by the 2-to-1 quotient map $S^1 \\to \\mathbb{RP}^1$, so its attaching degree on the 1-cell is $2$. For a 2-cell attached to a wedge of circles along a word, the attaching degree on a letter is that letter's exponent sum in the word: the Klein bottle word $aba^{-1}b$ gives $0$ on $a$ and $2$ on $b$.\n\nWatch out: the sign of $d_{\\alpha\\beta}$ depends on the orientations chosen for the two cells, and most of the $d_{\\alpha\\beta}$ are $0$.",
+      "searchQuery": "attaching degree cellular boundary cell degree collapse composite",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-cellular-boundary-formula",
+      "unit": "cellular-homology",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State the **cellular boundary formula**.",
+      "body": "$d_n(e^n_\\alpha) = \\sum_\\beta d_{\\alpha\\beta}\\, e^{n-1}_\\beta$, the sum over the $(n-1)$-cells, where $d_{\\alpha\\beta}$ is the attaching degree of $e^n_\\alpha$ on $e^{n-1}_\\beta$.\n\nKey idea: $e^n_\\alpha$ is the image of a generator $g$ of $H_n(D^n,S^{n-1})$ under the characteristic map. By naturality, $d_n(e^n_\\alpha) = j_{n-1}(\\varphi_\\alpha)_*(\\partial g)$, and $\\partial g$ generates $\\tilde H_{n-1}(S^{n-1})$. Projecting $H_{n-1}(X^{n-1},X^{n-2}) = \\bigoplus_\\beta \\mathbb{Z}e_\\beta$ to the $\\beta$ coordinate is the collapse map of the definition, so the coefficient is its degree.\n\nExample: for the torus, the 2-cell is attached along $aba^{-1}b^{-1}$; the coefficient on $a$ is $1 - 1 = 0$ and the same for $b$, so $d_2 = 0$.\n\nWatch out: the sum is finite even for infinite complexes, because $\\varphi_\\alpha(S^{n-1})$ is compact and meets only finitely many cells.",
+      "searchQuery": "cellular boundary formula degree attaching map cells",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-cellular-homology-theorem",
+      "unit": "cellular-homology",
+      "kind": "theorem",
+      "difficulty": 7,
+      "title": "State the **cellular homology theorem**: how does the homology of the cellular chain complex relate to singular homology?",
+      "body": "For every CW complex $X$, $H_n(X) \\cong H_n^{CW}(X) = \\ker d_n/\\operatorname{im} d_{n+1}$ for all $n$.\n\nConsequences: $H_n(X) = 0$ if $X$ has no $n$-cells and for $n > \\dim X$; the top group $H_{\\dim X}(X) = \\ker d$ is free abelian; and $H_n^{CW}(X)$ does not depend on the chosen cell structure. Torsion in $H_n$ can only come from the cokernel of $d_{n+1}$.\n\nExample: $S^n = e^0 \\cup e^n$ ($n \\ge 1$) has all $d_k = 0$ (for $n = 1$ because the 1-cell is a loop), so $H_k(S^n) \\cong \\mathbb{Z}$ for $k = 0, n$ and $0$ otherwise, in one line.\n\nWatch out: cell counts give only upper bounds on the ranks of $H_n$; a wasteful cell structure has differentials that cancel cells.",
+      "searchQuery": "cellular homology theorem H_n(X) isomorphic CW homology",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-cellular-homology-proof",
+      "unit": "cellular-homology",
+      "kind": "proof-idea",
+      "difficulty": 8,
+      "title": "Outline the proof that $H_n(X) \\cong \\ker d_n/\\operatorname{im} d_{n+1}$.",
+      "body": "Show $H_n(X) \\cong H_n(X^{n+1}) \\cong H_n(X^n)/\\operatorname{im}\\partial_{n+1}$ and $H_n(X^n) \\cong \\ker d_n$, using the long exact sequences of the pairs $(X^k, X^{k-1})$.\n\n1. $H_k(X^m, X^{m-1}) = 0$ for $k \\ne m$ (good pair, wedge of spheres).\n2. By induction with the long exact sequences, $H_k(X^n) = 0$ for $k > n$. Since $H_j(X^{m+1},X^m) = 0$ for $j \\ne m+1$, the long exact sequence gives $H_n(X^m) \\cong H_n(X^{m+1})$ for every $m \\ge n+1$, hence $H_n(X^{n+1}) \\cong H_n(X)$ (infinite complexes use compactness of singular simplices).\n3. The sequence of $(X^{n+1},X^n)$ gives $H_{n+1}(X^{n+1},X^n) \\xrightarrow{\\partial_{n+1}} H_n(X^n) \\to H_n(X^{n+1}) \\to 0$, so $H_n(X^{n+1}) = H_n(X^n)/\\operatorname{im}\\partial_{n+1}$.\n4. In the sequence of $(X^n,X^{n-1})$, $H_n(X^{n-1}) = 0$, so $j_n$ is injective with image $\\ker\\partial_n$. Also $j_{n-1}$ is injective because $H_{n-1}(X^{n-2}) = 0$, so $\\ker\\partial_n = \\ker d_n$.\n5. Under $j_n$, $\\operatorname{im}\\partial_{n+1}$ becomes $\\operatorname{im}d_{n+1}$, so $H_n(X) \\cong \\ker d_n/\\operatorname{im}d_{n+1}$.\n\nWatch out: injectivity of $j_{n-1}$ is what lets $d_n = j_{n-1}\\partial_n$ have the same kernel as $\\partial_n$.",
+      "searchQuery": "proof cellular homology isomorphic singular homology skeleton long exact sequence",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-euler-characteristic-theorem",
+      "unit": "cellular-homology",
+      "kind": "proof-idea",
+      "difficulty": 8,
+      "title": "For a finite CW complex $X$ with $c_n$ cells of dimension $n$, why does $\\sum_n (-1)^n c_n = \\sum_n (-1)^n \\operatorname{rank} H_n(X)$? (Their common value is the **Euler characteristic** $\\chi(X)$.)",
+      "body": "Rank-nullity in each $C_n^{CW}$ makes the alternating sums telescope, so $\\sum(-1)^n c_n = \\sum(-1)^n\\operatorname{rank}H_n(X) =: \\chi(X)$; in particular $\\chi$ does not depend on the cell structure.\n\nHere the rank of a finitely generated abelian group $G$ is $\\dim_{\\mathbb{Q}}(G \\otimes \\mathbb{Q})$.\n\n1. Let $Z_n = \\ker d_n$ and $B_n = \\operatorname{im} d_{n+1}$. From $C_n/Z_n \\cong B_{n-1}$ we get $c_n = \\operatorname{rank}Z_n + \\operatorname{rank}B_{n-1}$.\n2. By the cellular homology theorem, $\\operatorname{rank}H_n(X) = \\operatorname{rank}Z_n - \\operatorname{rank}B_n$.\n3. So $\\sum(-1)^n c_n = \\sum(-1)^n \\operatorname{rank}Z_n - \\sum(-1)^n \\operatorname{rank}B_n$, after re-indexing $n-1 \\to n$ in the second sum, which is $\\sum(-1)^n \\operatorname{rank}H_n(X)$.\n\nExample: $\\chi(S^n) = 1 + (-1)^n$ and $\\chi(\\Sigma_g) = 1 - 2g + 1 = 2 - 2g$.\n\nWatch out: $\\chi$ ignores torsion. $\\mathbb{RP}^2$ has $\\chi = 1 - 1 + 1 = 1$, the same as a point, though its $H_1 = \\mathbb{Z}/2$.",
+      "searchQuery": "Euler characteristic equals alternating sum Betti numbers cells rank nullity",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-cpn-cellular",
+      "unit": "cellular-homology",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "Compute $H_k(\\mathbb{CP}^n)$ for all $k$.",
+      "body": "$H_k(\\mathbb{CP}^n) \\cong \\mathbb{Z}$ for $k = 0,2,4,\\dots,2n$ and $0$ otherwise.\n\n$\\mathbb{CP}^n$ has one cell in each even dimension $0,2,\\dots,2n$ and none in odd dimensions. The cellular chain groups in adjacent degrees are never both nonzero, so every differential is $0$ and $H_k = C_k^{CW}$.\n\nWatch out: this \"no room for differentials\" argument works because no two cells lie in adjacent dimensions. Compare $\\mathbb{RP}^n$, which has a cell in every dimension and torsion.\n\nTip: the same argument applies to $\\mathbb{CP}^\\infty = \\bigcup_n \\mathbb{CP}^n$, which has one cell in each even dimension: $H_k(\\mathbb{CP}^\\infty) \\cong \\mathbb{Z}$ for every even $k \\ge 0$ and $0$ for odd $k$.",
+      "searchQuery": "homology of complex projective space CP^n cellular Z even degrees",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-surface-homology-cellular",
+      "unit": "cellular-homology",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Compute $H_*(\\Sigma_g)$ for $g \\ge 1$ from the cell structure with one 0-cell, $2g$ 1-cells and one 2-cell attached along $\\prod_{i=1}^g a_ib_ia_i^{-1}b_i^{-1}$.",
+      "body": "$H_0 = \\mathbb{Z}$, $H_1 = \\mathbb{Z}^{2g}$, $H_2 = \\mathbb{Z}$.\n\n1. $d_1 = 0$, because every 1-cell is a loop at the single 0-cell (its end minus its start).\n2. By the cellular boundary formula, the 2-cell's boundary has coefficient on $a_i$ equal to the exponent sum of $a_i$ in the word, which is $1 - 1 = 0$; likewise for $b_i$. So $d_2 = 0$.\n3. All differentials vanish, so $H_k = C_k$: ranks $1, 2g, 1$.\n\nCheck: $\\chi(\\Sigma_g) = 1 - 2g + 1 = 2 - 2g$, matching the known value.\n\nWatch out: a word of the form $\\prod [a_i,b_i]$ always has exponent sum zero in every letter; for a non-orientable surface some letters appear with the same sign twice, which creates torsion.",
+      "searchQuery": "homology of genus g surface cellular chain complex H1 Z^{2g}",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-torus-cellular",
+      "unit": "cellular-homology",
+      "kind": "problem",
+      "difficulty": 7,
+      "title": "Compute $H_k(T^n)$, where $T^n = (S^1)^n$ has the product cell structure with one cell $e_I$ of dimension $|I|$ for each subset $I \\subseteq \\{1,\\dots,n\\}$.",
+      "body": "$H_k(T^n) \\cong \\mathbb{Z}^{\\binom{n}{k}}$.\n\nThe number of $k$-cells is the number of $k$-element subsets, $\\binom nk$. It remains to show every $d_k = 0$.\n\nThe cell $e_I$ is a cube $[0,1]^k$ mapping to $T^n$. For each $i \\in I$, the two opposite faces $x_i = 0$ and $x_i = 1$ map identically to the same $(k-1)$-cell $e_{I \\setminus i}$, with opposite orientations, so their attaching degrees on it are $+1$ and $-1$. The remaining faces map into other $(k-1)$-cells, so they collapse to a point under the quotient onto $e_{I \\setminus i}$ and contribute $0$.\n\nHence $d_k(e_I) = \\sum_i \\pm(1 - 1)\\,e_{I \\setminus i} = 0$, and $H_k = C_k = \\mathbb{Z}^{\\binom nk}$.\n\nCheck: $\\chi(T^n) = \\sum(-1)^k\\binom nk = 0$ for $n \\ge 1$.",
+      "searchQuery": "homology of n-torus cellular product structure Z binomial n k",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-moore-space-cyclic",
+      "unit": "cellular-homology",
+      "kind": "example",
+      "difficulty": 7,
+      "title": "Construct a space $M(\\mathbb{Z}/m, n)$ for $n \\ge 1$, $m \\ge 2$, with $H_n \\cong \\mathbb{Z}/m$ and all other reduced homology groups zero.",
+      "body": "$M(\\mathbb{Z}/m, n) = S^n \\cup_\\varphi e^{n+1}$, where $\\varphi : S^n \\to S^n$ has degree $m$.\n\nA **Moore space** $M(G,n)$ is a CW complex whose only nonzero reduced homology group is $H_n \\cong G$.\n\nCellular chain complex: cells in dimension $0, n, n+1$, with $d_{n+1} = m$ by the cellular boundary formula (the attaching degree of the $(n+1)$-cell on the $n$-cell is $\\deg\\varphi = m$). So $H_n = \\mathbb{Z}/m\\mathbb{Z}$ and $H_{n+1} = \\ker(m) = 0$.\n\nA map of degree $m$ exists: $z \\mapsto z^m$ on $S^1$, suspended $n-1$ times.\n\nExample: $n = 1$, $m = 2$ is $\\mathbb{RP}^2$.",
+      "searchQuery": "Moore space M(Z/m,n) sphere with cell attached degree m homology",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-moore-space-construction",
+      "unit": "cellular-homology",
+      "kind": "example",
+      "difficulty": 8,
+      "title": "Given an abelian group $G$ and $n \\ge 1$, how do you build a CW complex $M(G,n)$ with $H_n \\cong G$ and all other reduced homology zero?",
+      "body": "Choose $0 \\to F_1 \\to F_0 \\to G \\to 0$ with $F_0, F_1$ free abelian; wedge together one $S^n$ for each basis element of $F_0$, then attach an $(n+1)$-cell for each basis element of $F_1$ by a map with the prescribed degrees on the spheres.\n\nWhy it works: the cellular chain complex is $0 \\to F_1 \\to F_0 \\to 0$ in degrees $n+1$ and $n$ (plus a 0-cell), with $d_{n+1}$ the inclusion. So $H_n = F_0/F_1 \\cong G$ and $H_{n+1} = \\ker d_{n+1} = 0$.\n\nIngredients: a subgroup of a free abelian group is free, so $F_1$ can be taken free. Maps $S^n \\to \\bigvee_{i=1}^k S^n$ with any prescribed degrees $d_1,\\dots,d_k$ exist: collapsing the complement of $k$ disjoint open balls in $S^n$ gives a map $S^n \\to \\bigvee_k S^n$ of degree $1$ on each sphere (for suitable orientations), and composing with a degree-$d_i$ map on the $i$-th sphere does the rest. For $n=1$ this is a loop given by a word with that abelianization. Only finitely many spheres are involved per cell, since each basis element of $F_1$ has finitely many nonzero coordinates.\n\nExample: $G = \\mathbb{Z}^2 \\oplus \\mathbb{Z}/2$ is built as $S^n \\vee S^n \\vee M(\\mathbb{Z}/2,n)$.",
+      "searchQuery": "Moore space construction abelian group free resolution wedge spheres attach cells",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-lens-space-definition",
+      "unit": "cellular-homology",
+      "kind": "definition",
+      "difficulty": 7,
+      "title": "Define the **lens space** $L(m;l)$ for integers $m \\ge 2$ and $l$ coprime to $m$.",
+      "body": "$L(m;l) = S^3/(\\mathbb{Z}/m)$, where $S^3 \\subset \\mathbb{C}^2$ and a generator acts by $(z_1,z_2) \\mapsto (\\zeta z_1, \\zeta^l z_2)$ with $\\zeta = e^{2\\pi i/m}$.\n\nThe action is free: if $(\\zeta^k z_1, \\zeta^{kl}z_2) = (z_1,z_2)$ with $z_1 \\ne 0$ then $\\zeta^k = 1$; if $z_1 = 0$ then $z_2 \\ne 0$ and $\\zeta^{kl} = 1$, which gives $m \\mid kl$, hence $m \\mid k$ since $\\gcd(l,m) = 1$.\n\nSo $S^3 \\to L(m;l)$ is a covering with deck group $\\mathbb{Z}/m$, and as $S^3$ is simply connected, $\\pi_1(L(m;l)) \\cong \\mathbb{Z}/m$.\n\nExample: $L(2;1) = \\mathbb{RP}^3$.\n\nWatch out: $\\pi_1$ and the homology groups do not depend on $l$, so they cannot see it.",
+      "searchQuery": "lens space L(m;l) definition quotient S3 cyclic group action",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-nonorientable-surface-homology",
+      "unit": "cellular-homology",
+      "kind": "problem",
+      "difficulty": 8,
+      "title": "Let $N_g$ be the connected sum of $g \\ge 1$ copies of $\\mathbb{RP}^2$, with the cell structure having one 0-cell, $g$ 1-cells $a_1,\\dots,a_g$ and one 2-cell attached along $a_1a_1a_2a_2\\cdots a_ga_g$. Compute $H_*(N_g)$.",
+      "body": "$H_0 = \\mathbb{Z}$, $H_1 = \\mathbb{Z}^{g-1} \\oplus \\mathbb{Z}/2$, $H_2 = 0$.\n\n1. $d_1 = 0$ since all 1-cells are loops.\n2. Each $a_i$ occurs twice with the same sign, so $d_2(e^2) = 2(a_1 + \\cdots + a_g)$, a nonzero element of $\\mathbb{Z}^g$. Hence $d_2$ is injective and $H_2 = 0$.\n3. $H_1 = \\mathbb{Z}^g/\\mathbb{Z}\\cdot 2(1,\\dots,1)$. Take the basis $a_1,\\dots,a_{g-1}, c = a_1 + \\cdots + a_g$ of $\\mathbb{Z}^g$. The relation becomes $2c = 0$, so $H_1 \\cong \\mathbb{Z}^{g-1} \\oplus \\mathbb{Z}/2$.\n\nExample: $g = 1$ gives $\\mathbb{RP}^2$ with $H_1 = \\mathbb{Z}/2$; $g = 2$ is the Klein bottle, with $H_1 = \\mathbb{Z} \\oplus \\mathbb{Z}/2$.\n\nWatch out: $H_2 = 0$ for every non-orientable closed surface, while $H_2 = \\mathbb{Z}$ for every orientable one.",
+      "searchQuery": "homology non-orientable surface connected sum projective planes cellular H1",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-sphere-product-cellular",
+      "unit": "cellular-homology",
+      "kind": "problem",
+      "difficulty": 8,
+      "title": "Compute $H_k(S^n \\times S^m)$ for $n, m \\ge 1$ using the product of the cell structures $e^0 \\cup e^n$ on each factor.",
+      "body": "$\\mathbb{Z}$ in degrees $0$ and $n+m$ and $\\mathbb{Z}$ in each of the degrees $n$ and $m$ (so $\\mathbb{Z}^2$ in degree $n$ when $n = m$); all other $H_k = 0$.\n\nThe cells are $e^0$, $e^n \\times e^0$, $e^0 \\times e^m$ and $e^n \\times e^m$. All differentials vanish:\n\n1. $e^n \\times e^0$ lies in the subcomplex $S^n \\times \\mathrm{pt}$, whose cellular chain complex is that of $S^n$ and has all differentials $0$. So $d(e^n \\times e^0) = 0$, and likewise $d(e^0 \\times e^m) = 0$.\n2. $d(e^n \\times e^m)$ can only be nonzero on $e^n \\times e^0$ (when $m = 1$) or on $e^0 \\times e^m$ (when $n = 1$). The coefficient on $e^n \\times e^0$ is the degree of the boundary map composed with the projection $p_1 : S^n \\times S^m \\to S^n$. This is the restriction of $p_1 \\circ \\Phi$, where $\\Phi$ is the characteristic map of the top cell. It extends over the disk $D^{n+1}$, so it is null-homotopic and has degree $0$. The case of $e^0 \\times e^m$ is the same with $p_2$.\n\nCheck: for $n=m=1$ this is $T^2$ with $H_1 = \\mathbb{Z}^2$.\n\nTip: a second check of step 2. A nonzero coefficient $c$ on $e^n \\times e^0$ would give its class order dividing $c$ in $H_n(S^n \\times S^m)$. But that class is the image of a generator of $H_n(S^n)$ under the cellular inclusion $S^n \\times \\mathrm{pt} \\hookrightarrow S^n \\times S^m$, and $p_1$ maps it back to that generator, which has infinite order.",
+      "searchQuery": "homology of product of spheres S^n x S^m cellular",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-rpn-cellular",
+      "unit": "cellular-homology",
+      "kind": "problem",
+      "difficulty": 8,
+      "title": "Compute $H_k(\\mathbb{RP}^n)$ for all $k$ with the cellular chain complex of the structure with one cell $e^k$ in each dimension $0 \\le k \\le n$; in particular find the boundary maps $d_k$.",
+      "body": "$d_k = 1 + (-1)^k$, so $H_0 = \\mathbb{Z}$, $H_k = \\mathbb{Z}/2$ for odd $k < n$, $H_n = \\mathbb{Z}$ if $n$ is odd, and all other $H_k = 0$.\n\n1. The cell $e^k$ is attached by the 2-to-1 quotient $S^{k-1} \\to \\mathbb{RP}^{k-1}$. Composing with $\\mathbb{RP}^{k-1} \\to \\mathbb{RP}^{k-1}/\\mathbb{RP}^{k-2} \\cong S^{k-1}$ gives a map that is a homeomorphism on each of the two open hemispheres of $S^{k-1}$.\n2. The two homeomorphisms differ by the antipodal map of $S^{k-1}$, of degree $(-1)^k$. So the attaching degree is $1 + (-1)^k$, i.e. $d_k = 0$ for odd $k$ and $d_k = 2$ for even $k$.\n3. The complex is $\\mathbb{Z} \\xleftarrow{0} \\mathbb{Z} \\xleftarrow{2} \\mathbb{Z} \\xleftarrow{0} \\mathbb{Z} \\xleftarrow{2} \\cdots$, ending at degree $n$.\n4. Odd $k < n$: $\\ker d_k = \\mathbb{Z}$ and $\\operatorname{im}d_{k+1} = 2\\mathbb{Z}$, giving $\\mathbb{Z}/2$. Even $k>0$: $d_k = 2$ is injective, giving $0$. $k = n$ odd: $d_n = 0$ and nothing hits it, giving $\\mathbb{Z}$.\n\nWatch out: for $n$ even, the top $d_n = 2$ is injective, so $H_n = 0$; this reflects that $\\mathbb{RP}^{2m}$ is non-orientable.",
+      "searchQuery": "homology of real projective space RP^n cellular boundary 1+(-1)^k",
+      "checkpoint": true,
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    },
+    {
+      "id": "homology-lens-space-homology",
+      "unit": "cellular-homology",
+      "kind": "problem",
+      "difficulty": 8,
+      "title": "Compute $H_k(L(m;l))$ for all $k$, using the CW structure with one cell in each dimension $0,1,2,3$ in which the 1-skeleton is the circle $C = \\{z_2 = 0\\}/(\\mathbb{Z}/m)$ and the 2-cell is attached to it by a map of degree $m$.",
+      "body": "$H_0 = \\mathbb{Z}$, $H_1 = \\mathbb{Z}/m$, $H_2 = 0$, $H_3 = \\mathbb{Z}$.\n\nCell structure on $S^3$: the circle $C_0 = \\{z_2 = 0\\}$ is cut into $m$ arcs by the $m$ points $\\zeta^j$; the $m$ discs $D_k = \\{z_2 \\in e^{2\\pi ik/m}\\mathbb{R}_{\\ge 0}\\}$ have boundary $C_0$ and cut $S^3$ into $m$ 3-balls. The $\\mathbb{Z}/m$ action permutes the cells of each dimension simply transitively (using $\\gcd(l,m)=1$), so the quotient has one cell in each dimension.\n\n1. $d_1 = 0$: the 1-cell is a loop at the single 0-cell.\n2. $d_2 = m$: the boundary of the 2-cell maps onto the circle $C_0/(\\mathbb{Z}/m)$ by the $m$-fold quotient map.\n3. $d_3 = 0$: the boundary of the 3-cell consists of two discs that both map onto the 2-cell, with opposite orientations, contributing $+1 - 1$.\n\nThe complex is $\\mathbb{Z} \\xrightarrow{0} \\mathbb{Z} \\xrightarrow{m} \\mathbb{Z} \\xrightarrow{0} \\mathbb{Z}$, so $H_3 = \\mathbb{Z}$, $H_2 = \\ker m = 0$, $H_1 = \\mathbb{Z}/m$, $H_0 = \\mathbb{Z}$.\n\nCheck: $H_1 = \\pi_1^{ab} = \\mathbb{Z}/m$ agrees with $\\pi_1(L(m;l)) = \\mathbb{Z}/m$.",
+      "searchQuery": "homology of lens space L(m;l) Z Z/m 0 Z cellular",
+      "refs": [
+        "Hatcher §2.2"
+      ]
+    }
+  ]
+}
